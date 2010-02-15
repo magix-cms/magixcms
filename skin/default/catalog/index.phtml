@@ -1,0 +1,17 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content="{rewrite_metas_catalog type='description' param='' level='0'}"}
+    <title>{rewrite_metas_catalog type='title' param='' level='0'}</title>
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+{include file="common/sidebar.phtml"}
+	<div id="principal" class="principal">
+		{block_category_catalog title="Bien à vendre" size="mini" tposition="top" ui=true}
+	</div>
+</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

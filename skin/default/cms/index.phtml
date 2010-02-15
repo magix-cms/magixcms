@@ -1,0 +1,18 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content="{cms_seo config='description' default=$subjectpage}"}
+    <title>{cms_seo config='title' default="{$subjectpage}"}</title>
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+	{include file="common/sidebar.phtml"}
+	<div id="principal" class="principal">
+		<h1>{$subjectpage}</h1>
+		{$contentpage}
+	</div>
+</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

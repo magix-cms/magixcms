@@ -1,0 +1,53 @@
+{magixmin}
+{literal}
+<script type="text/javascript">
+$(function() {
+	/*var getcat = $('#idcatalog').val();
+	$.get("/admin/index.php?dashboard",
+		{ plugin: "sold", getcatalog: + getcat },
+		function(data){
+			if(data === "checked"){
+				$(":checkbox#sold").attr('checked','checked');
+				alert("Ini checked: " +   data);
+			}else{
+				$(":checkbox#sold").attr('checked','unchecked');
+				alert("delete checked: " +   data);
+			}
+		}
+	);*/
+	$("#sold").bind("click",function() {
+		var soldcheck = $(this).is(':checked');
+		var soldname = $(this).attr("name");
+		if (soldcheck == true){
+			$('#forms-catalog-sold').ajaxSubmit({
+				url:"/admin/index.php?dashboard&plugin=immoSoldState",
+				type:"post"
+			});
+			$.post("/admin/index.php?dashboard",
+					{ plugin: "sold", getcatalog: + getcat },
+					function(data){
+						if(data === "checked"){
+							$(":checkbox#sold").attr('checked','checked');
+							alert("Ini checked: " +   data);
+						}else{
+							$(":checkbox#sold").attr('checked','unchecked');
+							alert("delete checked: " +   data);
+						}
+					}
+				);
+		}else {
+			$(function(){ 	
+				var idcatalog = $('#idcatalog').val();		 
+				$.ajax({
+					type:'get',
+					url: "/admin/index.php?dashboard&plugin=immoSoldState&delcatalog="+idcatalog,
+					async: false
+			    });
+				return false;
+			});
+		}
+	});
+});
+</script>
+{/literal}
+{/magixmin}

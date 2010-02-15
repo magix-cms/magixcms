@@ -1,0 +1,217 @@
+@CHARSET "UTF-8";
+* {
+	margin: 0;
+	padding: 0;
+	border:0 none;
+}
+html{
+	width: 100%;
+}
+body{
+	background-color:#666;
+	margin: 0;
+	padding: 0;
+} 
+h1 { font-size: 180%; }
+h2 { font-size: 140%; }
+h3 { font-size: 120%; }
+h4 { font-size: 100%; }
+h5 { font-size: 90%; }
+h6 { font-size: 80%; }
+p {
+	margin: 0.2em 0 0.8em 0;
+	line-height: 1.3em;
+	font-size:12px;
+}
+h1,h2,h3,h4,h5, h6 {
+	margin: 0 0 0.2em 0;
+	font-weight: bold;
+}
+ul { list-style: none; }
+ul li { 
+	list-style: none;
+}
+ol li{}
+a {
+	text-decoration: none;
+}
+a:link { }
+a:visited { }
+a:hover {}
+a:focus { }
+a[hreflang]:after { }
+a img { border:none;}
+/*##########################Les autres pages#########################*/
+#page {
+	/*background:transparent url(/public/default/img/body.png) repeat-y scroll left top;*/
+	background-color:#fff;
+	margin:0 auto;
+	position:relative;
+	width:1024px;
+}
+/*#### Entete #####*/
+#entete{}
+#entete .top{
+	background:#FFF url(/public/default/img/head.png) no-repeat;
+	width:1024px;
+	height:146px;
+	margin: 0;
+	padding: 0;
+}
+#entete #prelude{
+	color: #ccc;
+	float: right;
+	margin-right:15px;
+	margin-top:0px;
+}
+#entete #prelude a{
+	color: #666;
+	font-size: 11px;
+	font-style: italic;
+}
+#entete #prelude a:hover{
+	color: black;
+	font-style: italic;
+}
+/*################### menu top ############################*/
+#topmenu{margin:0;padding:0;width:100%;height:30px;background-color:#000;}
+#topmenu ul{margin:0;padding:0;}
+#topmenu ul li{float:left;margin:0 0 0 0;}
+#topmenu ul li div{background-color:#666;border:1px solid #fff;}
+/*Content global*/
+#content{
+	margin:0;padding:0;
+	width:auto;
+	height:auto 0;
+}
+/****************** position du contenu *********************/
+#extra {
+	margin: 0;
+	padding:0;
+	width: 200px;
+	font-size:13px;
+	float:left;
+}
+#principal {
+	/*background-color:#CCC;*/
+	margin:0 10px 0 210px !important;
+	margin:0 10px 0 210px;
+	padding:5px;
+	font-size:100%;
+	width:auto;
+}
+#principal ol li{margin: 0.2em 0 0.8em 3em;font-size:10px;}
+#principal ul li{font-size:10px;}
+#principal .decoList li{margin: 0.2em 0 0.8em 3em;font-size:10px;list-style:url(/public/default/img/bullet_red.png);}
+#principal a{font-size:12px;}
+#extra a{color: #696969; font-size: 100%;}
+#extra a:hover{}
+#extra h2{}
+#extra ul{background:none;margin:0;}
+#extra ul li{background:none;font-size:12px;}
+#extra .sidebar{
+	margin: 10px 0 0 5px;
+	width:190px;
+}
+#extra .sidebar .block{margin:3px;}
+#extra .sidebar ul{
+	padding:0;
+	margin: 0 0 0 10px;
+}
+#extra .sidebar ul li{
+	line-height:0.7em;
+	padding:4px 0 3px 0;
+}
+#extra .sidebar ul li a:hover{color:#191970;}
+#extra .sidebar h4.subtitle{
+	color:#4d4d4d;
+	margin:0 0 0 0;
+	padding:0;
+	text-align:left;
+	font-size:10px;
+	font-weight:900;
+	text-decoration:underline;
+}
+#extra .img{margin: 5px 0 0 100px;}
+/*************************** Footer ***********************/
+#pieddepage{background-color:#000;clear:both;}
+#pieddepage {
+	/*background:transparent url(/public/default/img/footer.png) no-repeat scroll left bottom;*/
+	margin:0;
+	height:50px;
+	padding:0;
+	width:1024px;
+}
+#pieddepage p {
+	font-size:10px;
+	color:black;
+	margin:0 auto 0;
+	padding:0;
+	text-align:center;
+	width:900px;
+}
+#pieddepage a {
+	color:#696969;
+}
+#pieddepage a:hover {}
+/*####################### Widget ##########################*/
+.widget-news{margin:5px;width:60%;padding:5px;}
+.widget-news-header{padding:0 5px 0 5px;}
+.widget-news-content{padding:5px;}
+/*############## Catalog ##################*/
+#catalog-list-category{
+	margin-left:10px;
+}
+.list-img-category{
+	margin:5px;
+	float:left;
+	width:150px;
+	height:150px;
+}
+.img-product{padding:5px;text-align:center;}
+#catalog-list-category .title-product{padding:0 5px 0 5px;}
+.catalog-product-content{padding:5px;}
+.bg-soldout{float:right;margin-right:10px;width:50px;height:50px;}
+#catalog-list-category .title-product{padding:0 5px 0 5px;}
+#catalog-list-category .title-product a{}
+.list-img-category p{padding-left:5px;}
+.catalog-product-content{padding:5px;}
+.title-category{}
+.title-category p{padding-left:2px;}
+.title-category a{}
+/*############## Micro galery ##################*/
+#list-image-galery{
+	margin-left:10px;
+	width:500px;
+}
+.list-img{
+	margin:3px;
+	float:left;
+	width:130px;
+	height:auto;
+}
+.img-galery{padding:2px;text-align:center;}
+.title-galery-image{padding:0 5px 0 5px;}
+/*#################### menu fixe Fil d'ariane ###########################*/
+#barfixed {
+   position:fixed;
+   left:0;
+   bottom:0;
+   height:25px;
+   width:100%;
+   z-index:100;
+   background-color:#FFF;
+}
+#barfixed #breadcrum{
+	position:relative;
+	margin:0 auto;
+	width:1024px;
+}
+#barfixed #breadcrum ul li{
+	float:left;
+	margin-left:5px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+}
+#barfixed #breadcrum ul li a{font-size:11px;color:#0A8ECC;text-decoration:underline;}

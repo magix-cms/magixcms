@@ -1,0 +1,125 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Modifier un produit</div>
+					<div class="dashboard-content">
+					{if $configcatalog eq 1}
+					<form id="forms-catalog-product" method="post" action="{geturl}/admin/dashboard/catalog/product/edit/{$smarty.get.editproduct}/update/" style="margin-left:10px;">
+					<div class="request">{$msg}</div>
+						<fieldset>
+							<table>
+								<tr>
+									<td class="label"><label for="titlecatalog" class="inlinelabel">Titre :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="titlecatalog" name="titlecatalog" class="inputtext ui-corner-all" value="{$titlecatalog}" size="50" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{if $idlang != 0}
+								<tr>
+									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{/if}
+								<tr>
+									<td class="label"><label for="price" class="inlinelabel">Prix :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="price" name="price" class="inputtext ui-corner-all" value="{$price}" size="15" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="desccatalog" class="inlinelabel">Contenu :</label></td>
+								</tr>
+								<tr>
+									<td><textarea name="desccatalog" id="desccatalog" class="fulltext mceEditor ui-corner-all" cols="" rows="">{$desccatalog}</textarea></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+							</table>			
+						</fieldset>
+						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+					</form>
+					{else}
+					<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+						Vous n'avez pas la permission d'administrer ce module
+					</div>
+					{/if}
+					</div>
+				</div>
+				{include file="catalog/extends.phtml"}
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+<script type="text/javascript" src="/min/?g=editor"></script>
+{include file="catalog/jsextends.phtml"}
+{*
+{magixmin}
+{literal}
+<script type="text/javascript">
+$(function() {
+	var formsproduct = $("#forms-catalog-product").validate({
+		onsubmit: true,
+		event: 'submit',
+		rules: {
+			titlecatalog: {
+				required: true,
+				minlength: 2
+			}
+		},
+		messages: {
+			titlecatalog: {
+				required: "Enter a title"
+			}
+		},
+		submitHandler: function(form) {
+			$(form).ajaxSubmit({url:"{/literal}{geturl}/admin/dashboard/catalog/product/edit/{$smarty.get.editproduct}/update/{literal}",
+				type:"post",
+				success:function(e) {
+					$("div.request").html(e);
+					setTimeout(function(){
+						location.reload();
+					},3000);
+				}
+			});
+		}
+	});
+	$("#forms-catalog-product").formsproduct;
+	});
+</script>
+{/literal}
+{/magixmin}
+*}
+</body>
+</html>

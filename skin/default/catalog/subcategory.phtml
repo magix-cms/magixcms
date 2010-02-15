@@ -1,0 +1,18 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content="{rewrite_metas_catalog type='description' param=$slibelle level='2'}"}
+    <title>{rewrite_metas_catalog type='title' param=$slibelle level='2'}</title>
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+{include file="common/sidebar.phtml"}
+	<div id="principal" class="principal">
+		<h1>{$slibelle}</h1>
+		{load_catalog_subcategory size="mini" tposition="top" description=false}
+	</div>
+</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

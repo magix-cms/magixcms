@@ -1,0 +1,35 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content="{rewrite_metas_catalog type='description' param=$titlecatalog level='3'}"}
+    <title>{rewrite_metas_catalog type='title' param=$titlecatalog level='3'}</title>
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+{include file="common/sidebar.phtml"}
+	<div id="principal" class="principal">
+		<div id="catalog-product">
+		<div class="ui-widget-header ui-corner-all"><h1>{$titlecatalog}</h1></div>
+			<table>
+				<tr>
+					<td>{$imgcatalog}</td>
+					<td style="width:100%;"></td>
+					<td>
+					<form action="{geturl}{getlang}/contact/produit/renseignement.html" method="post">
+				      <div><input type="hidden" name="moreinfo" value="{$titlecatalog}"/></div>
+				      <div><input type="image" src="{geturl}/public/{template}/img/catalog/more-product.png" /></div>
+			      	</form>
+					</td>
+				</tr>
+			</table>
+			{microgalery type="imagebox" ui=true}
+			<div class="catalog-product-content ui-widget-content ui-corner-all">
+				{$desccatalog}
+			</div>
+		</div>
+	</div>
+</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

@@ -1,0 +1,65 @@
+{include file="cplugin/layout_up.phtml"}
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
+					<div class="dashboard-content">
+					<form id="forms-plugin-{$pluginName}" method="post" action="{geturl}/admin/dashboard/plugin/{$pluginName}/edit/{$smarty.get.edit}" style="margin-left:10px;">
+					{$msg}
+					{if $smarty.post.subject}
+					<div style="margin:5px;float:right;">
+						<a class="post-preview fg-button ui-state-default fg-button-icon-left ui-corner-all" href="{$view}">Preview</a>
+					</div>
+					{/if}
+						<fieldset>
+							<table>
+								<tr>
+									<td class="label"><label for="subject" class="inlinelabel">Url :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" disabled="disabled" readonly="readonly" id="url" name="url" class="inputdisabled ui-corner-all" value="{$url}" size="50" /></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{if $idlang != 0}
+								<tr>
+									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
+									<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{/if}
+								<tr>
+									<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
+								</tr>
+								<tr>
+									<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows="">{$content}</textarea></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+							</table>			
+						</fieldset>
+						<div style="margin:5px;"><input type="submit" name="snom" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+					</form>
+					</div>
+				</div>
+{include file="cplugin/layout_down.phtml"}

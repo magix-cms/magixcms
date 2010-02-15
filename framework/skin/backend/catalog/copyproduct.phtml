@@ -1,0 +1,198 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Copier un produit</div>
+					<div class="dashboard-content">
+					{if $configcatalog eq 1}
+					<form id="copy-catalog-product" method="post" action="" style="margin-left:10px;">
+					<div class="request">{$msg}</div>
+						<fieldset>
+							<table>
+								<tr>
+									<td class="label"><label for="idproduct" class="inlinelabel">Identifiant :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" disabled="disabled" readonly="readonly" id="idproduct" name="idproduct" class="inputtext ui-corner-all" value="{$idproduct}" size="50" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="titlecatalog" class="inlinelabel">Titre :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" disabled="disabled" readonly="readonly" id="titlecatalog" name="titlecatalog" class="inputtext ui-corner-all" value="{$titlecatalog}" size="50" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{if $idlang != 0}
+								<tr>
+									<td class="label"><label for="codelang" class="inlinelabel">Langue :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{/if}
+								{if $idclc != 0}
+								<tr>
+									<td class="label"><label for="category" class="inlinelabel">Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<input type="text" disabled="disabled" readonly="readonly" id="category" name="category" class="inputtext ui-corner-all" value="{$clibelle}" size="50" />
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{/if}
+								{if $idcls != 0}
+								<tr>
+									<td class="label"><label for="subcategory" class="inlinelabel">Sous Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<input type="text" disabled="disabled" readonly="readonly" id="subcategory" name="subcategory" class="inputtext ui-corner-all" value="{$slibelle}" size="50" />
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{else}
+								<tr>
+									<td class="label"><label for="subcategory" class="inlinelabel">Sous Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<input type="text" disabled="disabled" readonly="readonly" id="subcategory" name="subcategory" class="inputtext ui-corner-all" value="Aucune sous catégorie" size="50" />
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{/if}
+								<tr>
+									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+								</tr>
+								<tr>
+									<td>
+										{$selectlang}
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="idclc" class="inlinelabel">Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>{$selectcategory}</td>
+								<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="idcls" class="inlinelabel">Sous catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>
+										<select id="idcls" name="idcls">
+										<option value="">Sélectionner une catégorie</option>
+										</select>
+									</td>
+								<td style="width:150px;" class="errorInput"></td>
+								</tr>
+							</table>			
+						</fieldset>
+						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+					</form>
+					{else}
+					<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+						Vous n'avez pas la permission d'administrer ce module
+					</div>
+					{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+<script type="text/javascript" src="/min/f=framework/js/ad-product-1.0.js"></script>
+{magixmin}
+{literal}
+<script type="text/javascript">
+$(function() {
+	var formsproduct = $("#copy-catalog-product").validate({
+		onsubmit: true,
+		event: 'submit',
+		rules: {
+			titlecatalog: {
+				required: true,
+				minlength: 2
+			},
+			desccatalog: {
+				required: true
+			},
+			idclc:{
+				required: true,
+				number: true
+			}
+		},
+		messages: {
+			titlecatalog: {
+				required: "Enter a title"
+			},
+			desccatalog: {
+				required: "Enter a content"
+			},
+			idclc: {
+				required: "Select category"
+			}
+		},
+		submitHandler: function(form) {
+			$(form).ajaxSubmit({url:"{/literal}{geturl}/admin/dashboard/catalog/product/copy/{$smarty.get.copyproduct}/postcopyproduct/{literal}",
+				type:"post",
+				success:function(e) {
+					$("div.request").html(e);
+					/*setTimeout(function(){
+						location.reload();
+					},3000);*/
+				}
+			});
+		}
+	});
+	$("#copy-catalog-product").formsproduct;
+	});
+</script>
+{/literal}
+{/magixmin}
+</body>
+</html>

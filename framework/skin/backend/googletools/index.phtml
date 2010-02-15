@@ -1,0 +1,60 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Google Tools</div>
+					<div class="dashboard-content">
+						{widget_googletools}
+					</div>
+				</div>
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter ou modifier</div>
+					<div class="dashboard-content">
+					<form id="forms-google-tools" method="post" action="{geturl}/admin/dashboard/googletools/" style="margin-left:10px;">
+					{$msg}
+						<fieldset>
+							<table>
+								<tr>
+									<td class="label"><label for="webmaster" class="inlinelabel">Webmaster :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="webmaster" name="webmaster" class="inputtext ui-corner-all" value="{$webmaster}" size="50" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="analytics" class="inlinelabel">Analytics :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="analytics" name="analytics" class="inputtext ui-corner-all" value="{$analytics}" size="50" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+							</table>			
+						</fieldset>
+						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+</body>
+</html>

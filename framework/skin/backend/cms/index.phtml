@@ -1,0 +1,34 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>CMS</div>
+						<div class="dashboard-content">
+						{if $configcms eq 1}
+						{widget_cms limit="true" max=20 getpage=true}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+</body>
+</html>

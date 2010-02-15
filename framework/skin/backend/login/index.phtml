@@ -1,0 +1,50 @@
+{include file="common/head.phtml"}
+{literal}
+<style type="text/css">
+table tr td{border:none;}
+</style>
+{/literal}
+<meta name="description" content="" />
+    <title>Login</title>
+</head>
+<body>
+<div id="page">
+	<div id="log-board">
+			<div id="login">
+				<div id="loginforms" class="text ui-widget-content ui-corner-all">
+				<div class="dashboard-header ui-widget-header ui-corner-all"><h2>Magix CMS</h2></div>
+				{$msg}
+				<form id="forms-log" method="post" action="">
+					<table>
+						 <tr>
+							<td class="label"><label for="acmail" class="inlinelabel">Email :</label></td>
+						</tr>
+						<tr>
+							<td><input type="text" id="acmail" name="acmail" class="text ui-widget-content ui-corner-all" value="" size="20" /></td>
+							<td class="errorInput"></td>
+						</tr>
+						<tr>
+							<td class="status"></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="acpass" class="inlinelabel">Password :</label></td>
+						</tr>
+						<tr>
+							<td><input type="password" id="acpass" name="acpass" class="text ui-widget-content ui-corner-all" value="" size="20" /></td>
+							<td><input type="hidden" id="achpass" name="achpass" value="{$hashpass}" /></td>
+							<td class="errorInput"></td>
+						</tr>
+						<tr>
+							<td class="status"></td>
+						</tr>
+						<tr>
+							<td><input type="submit" name="slogin" class="fg-button ui-state-default ui-corner-all" value="Connexion" /></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

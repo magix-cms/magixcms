@@ -1,0 +1,129 @@
+<div id="sidebar" class="ui-corner-all">
+	<div id="bdashboard" class="fg-button ui-state-default fg-button-icon-left ui-corner-all" style="margin-left:5px;width:135px;">
+	<a href="{geturl}/admin/dashboard/">
+		<span class="ui-icon ui-icon-home"></span>Dashboard
+	</a>
+	</div>
+	<h2>Management</h2>
+	<div class="management">
+		<h3><a href="#" id="menu_users"><span style="float:left;" class="ui-icon ui-icon-person"></span>Utilisateurs</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/utilisateurs/"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
+			</ul>
+		</div>
+		{if $configlang eq 1 AND $perms <= 2}
+		<h3><a href="#" id="menu_langue"><span style="float:left;" class="ui-icon ui-icon-flag"></span>Langue</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/language/"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+			</ul>
+		</div>
+		{/if}
+		{if $perms eq 1}
+		<h3><a href="#" id="menu_config"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Configuration</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/configuration/"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Global</a></li>
+				<li><a href="{geturl}/admin/dashboard/configuration/metasrewrite/"><span style="float:left;" class="ui-icon ui-icon-gear"></span>Metas rewrite</a></li>
+			</ul>
+		</div>
+		{/if}
+		{if $perms <= 3}
+		<h3><a href="#" id="menu_templates"><span style="float:left;" class="ui-icon ui-icon-image"></span>Thèmes</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/templates/"><span style="float:left;" class="ui-icon ui-icon-triangle-2-e-w"></span>Choisir</a></li>
+			</ul>
+		</div>
+		{/if}
+	</div>
+	{if $confignews eq 1}
+	<h2>News</h2>
+	<div class="articles">
+		<h3><a href="#" id="menu_news"><span style="float:left;" class="ui-icon ui-icon-star"></span>Articles</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/news/"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
+				<li><a href="{geturl}/admin/dashboard/news/add/"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+				{if $rewritenews eq 1 AND $perms eq 1}
+				<li><a href="{geturl}/admin/dashboard/news/metas-rewrite/"><span style="float:left;" class="ui-icon ui-icon-gear"></span>Metas rewrite</a></li>
+				{/if}
+			</ul>
+		</div>
+	</div>
+	{/if}
+	{if $configcms eq 1}
+	<h2>CMS</h2>
+	<div class="cms">
+		<h3><a href="#" id="menu_home"><span style="float:left;" class="ui-icon ui-icon-home"></span>Home</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/home/"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
+			</ul>
+		</div>
+		<h3><a href="#" id="menu_cms"><span style="float:left;" class="ui-icon ui-icon-document-b"></span>Pages</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/cms/"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
+				<li><a href="{geturl}/admin/dashboard/cms/ajouter/"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+				<li><a href="{geturl}/admin/dashboard/cms/categorie/"><span style="float:left;" class="ui-icon ui-icon-folder-open"></span>Catégorie</a></li>
+				<li><a href="{geturl}/admin/dashboard/cms/navigation/"><span style="float:left;" class="ui-icon ui-icon-link"></span>Menu</a></li>
+			</ul>
+		</div>
+	</div>
+	{/if}
+	{if $configcatalog eq 1}
+	<h2>Catalogue</h2>
+	<div class="catalog">
+		<h3><a href="#" id="menu_catalog_category"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Catégories</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/catalogue/categorie/"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
+			</ul>
+		</div>
+		<h3><a href="#" id="menu_catalog_pages"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Produits</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/catalogue/"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
+				<li><a href="{geturl}/admin/dashboard/catalogue/produit/"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+			</ul>
+		</div>
+	</div>
+	{/if}
+	<h2>Les extensions</h2>
+	<div class="extensions">
+		{*<h3><a href="#" id="menu_extends_widget"><span style="float:left;" class="ui-icon ui-icon-script"></span>Les widgets</a></h3>
+		<div>
+			<ul>
+				<li><span style="float:left;" class="ui-icon ui-icon-newwin"></span>Voir</li>
+			</ul>
+		</div>*}
+		{if $configforms eq 1}
+		<h3><a href="#" id="menu_extends_forms"><span style="float:left;" class="ui-icon ui-icon-script"></span>Les formulaires</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/formulaires/"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+			</ul>
+		</div>
+		{/if}
+		<h3><a href="#" id="menu_extends_sitemap"><span style="float:left;" class="ui-icon ui-icon-bookmark"></span>Les sitemaps</a></h3>
+		<div>
+			<ul>
+				<li><a href="{geturl}/admin/dashboard/sitemap/"><span style="float:left;" class="ui-icon ui-icon-refresh"></span>Créer</a></li>
+			</ul>
+		</div>
+		{*<h3><a href="#" id="menu_extends_galery"><span style="float:left;" class="ui-icon ui-icon-image"></span>Les galeries</a></h3>
+		<div>
+			<ul>
+				<li><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</li>
+				<li><span style="float:left;" class="ui-icon ui-icon-pencil"></span>Editer</li>
+				<li><span style="float:left;" class="ui-icon ui-icon-trash"></span>Supprimer</li>
+			</ul>
+		</div>*}
+		<h3><a href="#" id="menu_extends_plugins"><span style="float:left;" class="ui-icon ui-icon-gear"></span>Les plugins</a></h3>
+		<div>
+			{sidebar_plugins}
+		</div>
+	</div>
+</div>

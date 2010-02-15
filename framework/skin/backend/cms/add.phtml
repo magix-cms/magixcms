@@ -1,0 +1,147 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
+					<div class="dashboard-content">
+					{if $configcms eq 1}
+					<form id="forms-cms" method="post" action="{geturl}/admin/dashboard/cms/ajouter/post/" style="margin-left:10px;">
+					<div class="request">{$msg}</div>
+						<fieldset>
+							<table>
+								<tr>
+									<td class="label"><label for="subjectpage" class="inlinelabel">Titre :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="subjectpage" name="subjectpage" class="inputtext ui-corner-all" value="" size="50" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+								</tr>
+								<tr>
+									<td>
+										{$selectlang}
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="idcategory" class="inlinelabel">Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>{$selectcategory}</td>
+								<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="contentpage" class="inlinelabel">Contenu :</label></td>
+								</tr>
+								<tr>
+									<td><textarea name="contentpage" id="contentpage" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+							</table>			
+						</fieldset>
+						<div id="showmetas" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span style="float:left;"></span> Voir les métas</div>
+							<div id="metas">
+							<table>
+								<tr>
+									<td class="label"><label for="metatitle" class="inlinelabel">Title :</label></td>
+								</tr>
+								<tr>
+									<td><textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
+								</tr>
+								<tr>
+									<td><textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+							</table>
+							</div>
+						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+					</form>
+					{else}
+					<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+						Vous n'avez pas la permission d'administrer ce module
+					</div>
+					{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+<script type="text/javascript" src="/min/?g=editor"></script>
+{*
+{magixmin}
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+	var formscms = $("#forms-cms").validate({
+		onsubmit: true,
+		event: 'submit',
+		rules: {
+		subjectpage: {
+				required: true,
+				minlength: 2
+			}
+		},
+		messages: {
+			subjectpage: {
+				required: "Enter a subject"
+			}
+		},
+		submitHandler: function(form) {
+			$(form).ajaxSubmit({url:"{/literal}{geturl}/admin/dashboard/cms/ajouter/post/{literal}",
+				type:"post",
+				success:function(e) {
+					$("div.request").html(e);
+					setTimeout(function(){
+						location.reload();
+					},3000);
+				},
+				resetForm: true
+			});
+		}
+	});
+	$("#forms-cms").formscms;
+});
+</script>
+{/literal}
+{/magixmin}
+*}
+</body>
+</html>

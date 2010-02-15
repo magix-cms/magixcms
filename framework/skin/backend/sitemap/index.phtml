@@ -1,0 +1,66 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="dashboard ui-widget-content ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Sitemap</div>
+					<div class="dashboard-content">
+						<div id="reponse">{$msg}</div>
+						<table class="clear">
+							<thead>
+							<tr>
+							<th><span style="float:left;" class="ui-icon ui-icon-gear"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-document"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-info"></span></th>
+							</tr>
+						</thead>
+						<tbody>
+							{if $confignews eq 1}
+							<tr class="line">
+								<td class="maximal">News</td>
+								<td class="nowrap">{$statnews}</td>
+								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
+							</tr>
+							{/if}
+							{if $configcms eq 1}
+							<tr class="line">
+								<td class="maximal">CMS</td>
+								<td class="nowrap">{$statcms}</td>
+								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
+							</tr>
+							{/if}
+							{if $configcatalog eq 1}
+							<tr class="line">
+								<td class="maximal">Catalogue</td>
+								<td class="nowrap">{$statcatalog}</td>
+								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
+							</tr>
+							{/if}
+							{$statplugins}
+							</tbody>
+						</table>
+						<table>
+							<tr>
+								<td><div class="fg-button ui-state-default ui-corner-all" style="margin:5px;width:80px;"><a class="createxml" href="#">Créer sitemap</a></div></td>
+								<td><div class="fg-button ui-state-default ui-corner-all" style="margin:5px;width:100px;"><a class="pinggoogle" href="#">Pinguer google</a></div></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+</body>
+</html>

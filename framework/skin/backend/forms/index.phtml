@@ -1,0 +1,166 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter un formulaire</div>
+						<div class="dashboard-widget-content">
+						<form id="forms-formsconstruct" method="post" action="" style="margin-left:10px;">
+						{$msg}
+							<fieldset>
+								<table>
+									<tr>
+										<td class="label"><label for="titleforms" class="inlinelabel">Titre :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="titleforms" name="titleforms" class="inputtext ui-corner-all" value="" size="20" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+									</tr>
+									<tr>
+										<td>
+										{$selectlang}
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>			
+							</fieldset>
+							<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+						</form>
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-script"></span>Formulaires</div>
+						<div class="dashboard-widget-content">
+							{widget_forms}
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter un champ rapide</div>
+						<div class="dashboard-widget-content">
+						<form id="forms-formsconstruct-input" method="post" action="" style="margin-left:10px;">
+						{$msg}
+							<fieldset>
+								<table>
+									<tr>
+										<td class="label"><label for="label" class="inlinelabel">label :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="label" name="label" class="inputtext ui-corner-all" value="" size="20" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="nameinput" class="inlinelabel">Identifiant :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="nameinput" name="nameinput" class="inputtext ui-corner-all" value="" size="20" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="type" class="inlinelabel">Type :</label></td>
+									</tr>
+									<tr>
+										<td>
+											<select name="type" id="type" class="select">
+												<option value="1">Field</option>
+												<option value="2">Textearea</option>
+											</select>
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="type" class="inlinelabel">Champ obligatoire :</label></td>
+									</tr>
+									<tr>
+									<td>
+										<table>
+											<tr>
+												<td style="width:50px;">
+													Oui <input type="radio" name="required" value="1" />
+												</td>
+												<td>
+													Non <input type="radio" name="required" value="0" />
+												</td>
+											</tr>
+										</table>
+									</td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="type" class="inlinelabel">Formulaire :</label></td>
+									</tr>
+									<tr>
+										<td>
+										{$selectforms}
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="size" class="inlinelabel">Taille du champ ou colonnes :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="size" name="size" class="inputtext ui-corner-all" value="" size="10" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="maxlength" class="inlinelabel">Caractères maximum ou lignes :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="maxlength" name="maxlength" class="inputtext ui-corner-all" value="" size="20" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>			
+							</fieldset>
+							<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+</body>
+</html>

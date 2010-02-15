@@ -1,0 +1,30 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content="$description"}
+    <title>{rewrite_metas_catalog type='title' param=$title}</title>
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+{include file="common/sidebar.phtml"}
+	<div id="principal" class="principal">
+		<h1>{$titleforms}</h1>
+		<form id="{$urlforms}" method="post" action="" style="margin-left:10px;" class="ui-widget-content ui-corner-all">
+		{$inputforms}
+		<div style="margin:5px;"><input type="submit" class="fg-button ui-state-default ui-corner-all" value="envoyer" /></div>
+		</form>
+	</div>
+</div>
+{include file="common/footer.phtml"}
+{magixmin}
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+    {/literal}{$j_validate}{literal}
+});
+</script>
+{/literal}
+{/magixmin}
+</body>
+</html>

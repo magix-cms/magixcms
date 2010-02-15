@@ -1,0 +1,12 @@
+{config_load file="local`$smarty.get.strLangue`.conf"}{doctype type="XHTML1_STRICT"}
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{sessionlang}" xml:lang="mis">
+  <head>
+    {headmeta meta="contentType" content="html" charset="utf8"}
+    {headmeta meta="contentStyleType" content="css"}
+    {headmeta meta="contentLanguage" content="fr,en,nl"}
+    <meta name="DC.Language" content="{$smarty.session.strLangue}" />
+    <meta name="DC.Creator" content="web-solution-way.be" />
+    {headmeta meta="keywords" content=""}
+    {headmeta meta="robots" content="index,follow,all"}
+    {headmeta meta="revisitAfter" int="3" delay="days"}
+{if {module type="news"} eq true}{headlink rel="rss" href="{geturl}/rss.xml"}{/if}

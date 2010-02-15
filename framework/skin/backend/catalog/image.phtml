@@ -1,0 +1,296 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Informations du produit</div>
+						<div class="dashboard-widget-content">
+					{if $configcatalog eq 1}
+					{$msg}
+						<table>
+								<tr>
+									<td>Identifiant :</td>
+									<td>{$idproduct}</td>
+								</tr>
+								<tr>
+									<td>Titre :</td>
+									<td>{$titlecatalog}</td>
+								</tr>
+								{if $idlang != 0}
+								<tr>
+									<td>Langue :</td>
+									<td>{$codelang}</td>
+								</tr>
+								{/if}
+								{if $idclc != 0}
+								<tr>
+									<td>Catégorie :</td>
+									<td>{$clibelle}</td>
+								</tr>
+								{/if}
+								{if $idcls != 0}
+								<tr>
+									<td>Sous Catégorie :</td>
+									<td>{$slibelle}</td>
+								</tr>
+								{else}
+								<tr>
+									<td>Sous Catégorie :</td>
+									<td>Aucune sous catégorie</td>
+								</tr>
+								{/if}
+							</table>
+							{else}
+							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+								Vous n'avez pas la permission d'administrer ce module
+							</div>
+							{/if}
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter ou modifer une image d'accueil</div>
+						<div class="dashboard-widget-content">
+					<form method="post" action="" enctype="multipart/form-data" id="forms-catalog-image">
+						<fieldset>
+							<table>
+							<tr>
+								<td class="label"><label for="imgcatalog">Image :</label></td>
+							</tr>
+							<tr>
+								<td>
+								<table>
+									<tr>
+										<td style="width:400px;">
+											<div id="progressbar"></div>
+										 	<div id="progressText"></div>
+										 </td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td style="width:250px;">
+											<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+									 		<input type="file" id="imgcatalog" name="imgcatalog" value="" />
+									 	</td>
+									 	<td>&nbsp;</td>
+									 	<td style="width:250px;" class="errorInput"></td>
+								 	</tr>
+								 	<tr>
+								 	<td><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></td>
+								 	</tr>
+							 	</table>
+								</td>
+							</tr>
+							<tr>
+								<td class="status"></td>
+							</tr>
+						</table>
+						</fieldset>
+						</form>
+						</div>
+						</div>
+						{if $configmicrogalery eq 1}
+						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter ou modifer une image dans la galerie</div>
+						<div class="dashboard-widget-content">
+						<form method="post" action="" enctype="multipart/form-data" id="forms-catalog-galery">
+						<fieldset>
+							<table>
+							<tr>
+								<td class="label"><label for="imggalery">Image :</label></td>
+							</tr>
+							<tr>
+								<td>
+								<table>
+									<tr>
+										<td style="width:400px;">
+											<div id="progressbar2"></div>
+										 	<div id="progressText2"></div>
+										 </td>
+									</tr>
+								</table>
+								<table>
+									<tr>
+										<td style="width:250px;">
+											<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+									 		<input type="file" id="imggalery" name="imggalery" value="" />
+									 	</td>
+									 	<td>&nbsp;</td>
+									 	<td style="width:250px;" class="errorInput"></td>
+								 	</tr>
+								 	<tr>
+								 	<td><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></td>
+								 	</tr>
+							 	</table>
+								</td>
+							</tr>
+							<tr>
+								<td class="status"></td>
+							</tr>
+						</table>
+						</fieldset>
+						</form>
+						</div>
+						</div>
+						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter une image dans la galerie</div>
+							<div class="dashboard-widget-content">
+								{$galery}
+							</div>
+						</div>
+						{else}
+						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Module supplémentaire</div>
+							<div class="dashboard-widget-content">
+							<p>Commandez notre module de micro galerie pour votre catalogue</p>
+							</div>
+						</div>
+						{/if}
+					</div>
+					<div class="column">
+						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+							<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-image"></span>Image du produit</div>
+							<div class="dashboard-widget-content">
+							{if $imgcatalog != null}
+							<table>
+								<tr>
+									<td><img src="{geturl}/upload/catalogimg/product/{$imgcatalog}" width="{$gwidth}" height="{$gheight}" alt="" /></td>
+								</tr>
+								<tr>
+									<td>Largeur: {$gwidth}</td>
+								</tr>
+								<tr>
+									<td>Hauteur: {$gheight}</td>
+								</tr>
+							</table>
+							<table>
+								<tr>
+									<td><img src="{geturl}/upload/catalogimg/medium/{$imgcatalog}" width="{$pwidth}" height="{$pheight}" alt="" /></td>
+								</tr>
+								<tr>
+									<td>Largeur: {$pwidth}</td>
+								</tr>
+								<tr>
+									<td>Hauteur: {$pheight}</td>
+								</tr>
+							</table>
+							<table>
+								<tr>
+									<td><img src="{geturl}/upload/catalogimg/mini/{$imgcatalog}" width="{$swidth}" height="{$sheight}" alt="" /></td>
+								</tr>
+								<tr>
+									<td>Largeur: {$swidth}</td>
+								</tr>
+								<tr>
+									<td>Hauteur: {$sheight}</td>
+								</tr>
+							</table>
+							{else}
+							<div><div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-close"></span></div>Aucune image pour ce produit</div>
+							{/if}
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+<script type="text/javascript" src="/min/?g=editor"></script>
+{magixmin}
+{literal}
+<script type="text/javascript"> 
+$(function(){
+	var valphoto = $("#forms-catalog-image").validate({
+	 	rules: {
+		imgcatalog: {
+	 			required: true,
+	 			minlength: 1,
+	 			accept: "(jpe?g|gif|png)"
+	 		}
+	 	},
+	 	submitHandler: function(form) {
+		 	$(form).ajaxSubmit({
+			 	url:"/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}&postimgproduct",
+			 	type:"post",
+			 	beforeSubmit:function(){
+		 			$("#progressbar").progressbar({ value: 0 });
+			 		setTimeout(updateProgress, 100);
+			 	}
+			});
+	 	}
+	 });
+	var valgalery = $("#forms-catalog-galery").validate({
+	 	rules: {
+		imgcatalog: {
+	 			required: true,
+	 			minlength: 1,
+	 			accept: "(jpe?g|gif|png)"
+	 		}
+	 	},
+	 	submitHandler: function(form) {
+		 	$(form).ajaxSubmit({
+			 	url:"/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}&postimggalery",
+			 	type:"post",
+			 	beforeSubmit:function(){
+		 			$("#progressbar2").progressbar({ value: 0 });
+			 		setTimeout(updateProgress2, 100);
+			 	}
+			});
+	 	}
+	 });
+	$('.delmicro').click(function (){
+		var lg = $(this).attr("title");
+		$("#dialog").dialog({
+			bgiframe: true,
+			resizable: false,
+			height:180,
+			modal: true,
+			title: 'Supprimé cette image de la galerie',
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'Delete item': function() {
+					//$(this).dialog('close');
+					$.ajax({
+						type:'get',
+						url: "/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}&delmicro="+lg,
+						async: false,
+						success:function(e) {
+						$(".reqdialog").html(e);
+						setTimeout(function(){
+							//location.reload();
+							window.location.href = '/admin/dashboard/catalog/product/image/{/literal}{$smarty.get.getimg}{literal}/'; 
+							},3000);
+						}
+				     });
+				},
+				Cancel: function() {
+					$(this).dialog('close');
+					success: location.reload()
+				}
+			}
+		});
+	 });
+	$("#forms-catalog-image").valphoto;
+	$("#forms-catalog-galery").valgalery;
+});
+</script>
+{/literal}
+{/magixmin}
+</body>
+</html>

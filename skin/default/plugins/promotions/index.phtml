@@ -1,0 +1,18 @@
+{include file="common/header.phtml" section="prepend"}
+<meta name="description" content="" />
+    <title></title>
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+{include file="common/sidebar.phtml"}
+	<div id="principal" class="principal">
+		<h1>{$subject}</h1>
+		{$content}
+	</div>
+</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

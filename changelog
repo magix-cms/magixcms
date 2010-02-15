@@ -1,0 +1,35 @@
+2.2.1 RC3
+	* Correction modification ou changement de thème (ajax request)
+	* Ajout du plugin immoSoldState (Produit vendu)
+	* Correction du chargement ajax des menus déroulant (catalogue)
+	* Correction de l'affichage des plugins dans l'administration (conditions supplémentaires)
+	* Correction de l'affichage des thèmes dans l'administration (conditions supplémentaires)
+	
+2.2.1 RC2
+	* Modification de la minification (gain de pourcentage)
+	* Création du système micro galerie dans le catalogue
+	* Modification de la création des minatures (hierarchie analyser)
+	* Refonte de la hierarchie global ainsi que le système de plugin
+	* Ajout des widgets public
+	* Correction du système de sitemap + création RSS (écriture incorrect dans les fichiers XML)
+	* Mise à jour de smarty 3 beta 7
+	* Mise à jour de phpthumb (correction mineure)
+	
+Beta 2.1.9
+	* Création du système de plugins
+	* Création du système de skin
+	* Correction majeure dans le système de version (lecture XML incorrect)
+	* Création du systéme RSS pour les news
+	* Ajout du balisage dynamique (header)
+	* Mise à jour de smarty 3 beta 6
+	* Ajout de la mise à jour des utilisateurs + Changement de permissions
+	
+Beta 2.1.8
+	* Correction bug majeure dans la création des miniatures (catalogue)
+	* Installation de imagemanager dans tinymce
+	* Ajout des métas statique
+	* Correction de la réécriture des métas (nouveaux paramètres)
+
+Beta 2.1.7
+	* Initialisation de la réécriture des métas 
+	* Système dynamique de balisage pour les métas

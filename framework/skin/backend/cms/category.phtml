@@ -1,0 +1,157 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Dashboard</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Les dernières pages</div>
+						<div class="dashboard-widget-content">
+						{if $configcms eq 1}
+						{widget_cms limit="true" max=10}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Statistique</div>
+						<div class="dashboard-widget-content">
+						<div class="column">
+							<div class="dashboard ui-widget-content ui-corner-all">
+								<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Nombre de catégories</div>
+								<div class="dashboard-content">
+								{if $configcms eq 1}
+									{$states_category}
+								{else}
+								<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+								<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+									Vous n'avez pas la permission d'administrer ce module
+								</div>
+								{/if}
+								</div>
+							</div>
+						</div>
+						<div class="column">
+							<div class="dashboard ui-widget-content ui-corner-all">
+								<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Nombre de pages</div>
+								<div class="dashboard-content">
+								{if $configcms eq 1}
+								{$block_cms_statistic}
+								{else}
+								<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+								<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+									Vous n'avez pas la permission d'administrer ce module
+								</div>
+								{/if}
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Ajouter une catégorie</div>
+						<div class="dashboard-widget-content">
+						{if $configcms eq 1}
+						<form id="forms-home" method="post" action="" style="margin-left:10px;">
+						{$msg}
+						<fieldset>
+							<table>
+								<tr>
+									<td class="label"><label for="category" class="inlinelabel">Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="category" name="category" class="inputtext ui-corner-all" value="" size="20" /></td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+								</tr>
+								<tr>
+									<td>
+									{$selectlang}
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+							</table>			
+						</fieldset>
+						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+						</form>
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Catégorie</div>
+						<div class="dashboard-widget-content">
+						{if $configcms eq 1}
+						<ul id="sortable">
+							{$block_category}
+						</ul>
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{include file="common/javascript.phtml"}
+{magixmin}
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#sortable li').hover(
+			function() { $(this).addClass('ui-state-hover'); },
+			function() { $(this).removeClass('ui-state-hover'); }
+	);
+	$("#sortable").sortable({
+		axis: "y",
+		cursor: "move",
+		update : function () {
+			serial = $('#sortable').sortable('serialize');
+			$.ajax({
+				url: "{/literal}{geturl}{literal}/admin/dashboard/cms/",
+				type: "post",
+				data: serial,
+				error: function(){
+					alert("theres an error with AJAX");
+				}
+			});
+		}
+	});
+});
+</script>
+{/literal}
+{/magixmin}
+</body>
+</html>

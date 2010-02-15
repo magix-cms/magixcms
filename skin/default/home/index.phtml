@@ -1,0 +1,21 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="googleSiteVerification" content="{google_tools tools='webmaster'}"}
+{headmeta meta="description" content="{static_metas param='' dynamic=$description}"}
+    <title>{static_metas param='' dynamic=$title}</title>
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+{include file="common/sidebar.phtml"}
+	<div id="principal" class="principal">
+		<h1>{$subject}</h1>
+		{$content}
+		{widget_lastnews contentlength="250" delimiter="..." ui=true}
+		{widget_promotions contentlength="250" delimiter="..."}
+	</div>
+</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

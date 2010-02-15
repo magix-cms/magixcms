@@ -1,0 +1,196 @@
+@CHARSET "UTF-8";
+/*div.checker {
+	height: 18px;
+	width: 18px;
+	overflow: hidden;
+	border: solid 1px #ddd;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: #fff url(/framework/img/forms/bg.png) repeat-x left 10px;
+	float: left;
+	display: inline;
+	margin-right: 10px;
+	position: relative;
+}
+
+div.checker.focus {
+	border-color: #999;
+}
+
+div.checker.focus span {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+div.checker span {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+
+div.checker span.checked {
+	background: url(/framework/img/forms/check.gif) no-repeat center center;
+}
+
+div.checker span input {
+	position: absolute;
+	opacity: 0;
+}
+*/
+/* Radio box */
+/*
+div.radio {
+	height: 19px;
+	width: 19px;
+	overflow: hidden;
+	background: #fff url(/framework/img/forms/bg.png) repeat-x left 10px;
+	float: left;
+	display: inline;
+	margin-right: 10px;
+	position: relative;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+	border: solid 1px #ddd;
+}
+
+div.radio.focus {
+	border-color: #999;
+}
+
+div.radio.focus span {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-position: center center;
+}
+
+div.radio span {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+
+div.radio span.checked {
+	background: url(/framework/img/forms/radio.gif) no-repeat center center;
+}
+
+div.radio span input {
+	position: absolute;
+	opacity: 0;
+}
+*/
+/* Select Box */
+/*
+div.selector {
+	display: block;
+	width: 200px;
+	border: solid 1px #ddd;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	position: relative;
+	background: url(/framework/img/forms/bg.png) repeat-x left 0;
+	line-height: 22px;
+	margin-top: 0;
+	text-shadow: 0 1px 0 #fff;
+	height: 22px;
+	color: #444;
+}
+
+div.selector select {
+	width: 200px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.selector.focus {
+	border-color: #999;
+}
+
+div.selector span {
+	position: absolute;
+	left: 6px;
+	top: 0;
+	font-size: 1.1em;
+	padding: 0;
+	display: block;
+	padding-right: 20px;
+	background: url(/framework/img/forms/select.gif) no-repeat right 60%;
+	right: 0;
+}
+
+div.selector.focus span {
+	left: 5px;
+}
+
+div.selector select {
+	position: relative;
+	font-size: 1.1em;
+	padding: 0;
+	line-height: 23px;
+	border: 0;
+	margin: 0;
+	padding-right: 40px;
+}*/
+form,fieldset{border:none;border-width:0;}
+label,select,.ui-select-menu { float: left; margin-right: 10px; }
+select { width: 200px; }
+/*############## plugin password metter ######################*/
+.password-meter {
+	position:relative;
+	width: 180px;
+}
+.password-meter-message {
+	text-align: right;
+	font-weight: bold;
+	color: #676767;
+}
+.password-meter-bg, .password-meter-bar {
+	height: 4px;
+}
+.password-meter-bg {
+	top: 8px;
+	background: #e0e0e0;
+}
+
+.password-meter-message-very-weak {
+	color: #aa0033;
+}
+.password-meter-message-weak {
+	color: #f5ac00;
+}
+.password-meter-message-good {
+	color: #6699cc;
+}
+.password-meter-message-strong {
+	color: #008000;
+}
+
+.password-meter-bg .password-meter-very-weak {
+	background: #aa0033;
+	width: 30px;
+}
+.password-meter-bg .password-meter-weak {
+	background: #f5ac00;
+	width: 60px;
+}
+.password-meter-bg .password-meter-good {
+	background: #6699cc;
+	width: 135px;
+}
+.password-meter-bg .password-meter-strong {
+	background: #008000;
+	width: 180px;
+}
