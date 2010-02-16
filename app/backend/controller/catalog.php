@@ -688,13 +688,13 @@ class backend_controller_catalog{
 				$thumb->resize(500)->save(self::dir_micro_galery().'maxi/'.$getimg['imgcatalog']);
 				$thumb->resize(120)->save(self::dir_micro_galery().'mini/'.$getimg['imgcatalog']);
 			}
-			//Supprime le fichier original pour gagner en espace
+			//Supprime le fichier original pour gagner en espace (si existe)
 			$makeFiles = new magixcjquery_files_makefiles();
 			if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
 				$makeFiles->removeFile(self::dir_micro_galery(),$getimg['imgcatalog']);
-			}else{
+			}/*else{
 				throw new Exception('file: '.$getimg['imgcatalog'].' is not found');
-			}
+			}*/
 		}
 	}
 	/**
@@ -709,9 +709,9 @@ class backend_controller_catalog{
 				if(file_exists(self::dir_micro_galery().'maxi/'.$dfile['imgcatalog'])){
 					$makeFiles->removeFile(self::dir_micro_galery().'maxi/',$dfile['imgcatalog']);
 					$makeFiles->removeFile(self::dir_micro_galery().'mini/',$dfile['imgcatalog']);
-				}else{
+				}/*else{
 					throw new Exception('file: '.$dfile['imgcatalog'].' is not found');
-				}
+				}*/
 				backend_db_catalog::adminDbCatalog()->d_galery_image_catalog($this->delmicro);
 				backend_config_smarty::getInstance()->display('catalog/request/success-delete-mg.phtml');
 			}catch (Exception $e){

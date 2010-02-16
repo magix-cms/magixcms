@@ -22,7 +22,7 @@
  */
 function smarty_function_block_category_catalog($params, &$smarty){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
-	$title = $params['title'];
+	$title = !empty($params['title'])?$params['title']:'';
 	$ui = $params['ui'];
 	$size = $params['size']?$params['size']:'mini';
 	$tposition = $params['tposition']? $params['tposition'] : 'top';
@@ -58,7 +58,7 @@ function smarty_function_block_category_catalog($params, &$smarty){
 	switch($lang){
 		case null:
 			if(frontend_db_catalog::publicDbCatalog()->s_category_withimg_nolang() != null){
-				$block .= '<div id="catalog-list-category'.$wcontent.'">';
+				$block .= '<div id="catalog-list-category">';
 				foreach(frontend_db_catalog::publicDbCatalog()->s_category_withimg_nolang() as $cat){
 					$block .= '<div class="list-img-category'.$wheader.'">';
 					if($tposition == 'top'){

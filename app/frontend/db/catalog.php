@@ -189,6 +189,17 @@ class frontend_db_catalog{
 		));
 	}
 	/**
+	 * construction menu des sous categories (avec langue) + catégories
+	 */
+	function s_sub_category_menu_all_no_lang(){
+		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.codelang
+				FROM mc_catalog_c AS c
+				LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
+				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE c.idlang =0 ORDER BY corder';
+		return $this->layer->select($sql);
+	}
+	/**
 	 * construction menu des sous catégories (avec langue)
 	 * @param idclc
 	 * @param codelang
