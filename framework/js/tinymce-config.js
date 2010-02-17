@@ -5,11 +5,13 @@ $(function() {
 	document_base_url : "{geturl}",
 	apply_source_formatting : true,
 	theme : "advanced",
-	plugins : "safari,xhtmlxtras,emotions,advimage,insertdatetime,style,layer,table,contextmenu,paste,imagemanager,filemanager,preview",
+	/*tableextras,*/
+	plugins : "safari,xhtmlxtras,emotions,advimage,insertdatetime,style,layer,tableextras,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview",
 	// Theme options
 	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
 	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,insertimage,insertfile,image,cleanup,code,|,forecolor,backcolor,|,insertdate,inserttime,preview",
-	theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid",
+	/*tabledraw,convertcelltype,*/
+	theme_advanced_buttons3 : "tabledraw,convertcelltype,tablecontrols,|,hr,removeformat,visualaid,|,fullscreen",
 	theme_advanced_buttons4 : "",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
@@ -29,6 +31,6 @@ $(function() {
 	skin_variant : "silver",
 	width:'800px',
 	height:'300px',
-	language : 'fr'
+	language : 'en'
 	});
 });

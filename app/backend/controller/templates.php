@@ -11,10 +11,17 @@
  *
  */
 class backend_controller_templates{
+	/**
+	 * ptheme
+	 * @var string
+	 */
 	public $ptheme;
+	/**
+	 * function construct
+	 */
 	function __construct(){
 		if(isset($_POST['theme'])){
-			$this->ptheme = $_POST['theme'];
+			$this->ptheme = magixcjquery_filter_isVar::isPostAlphaNumeric($_POST['theme']);
 		}
 	}
 	/**

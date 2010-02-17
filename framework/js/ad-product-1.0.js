@@ -32,6 +32,7 @@ $(function() {
 				var subcat = $('#idcls');
 				subcat.empty();
 				if(j !== null){
+					$('<option value="0">Aucune sous-catégorie</option>').appendTo("#idcls");
 					$.each(j, function(i,item) {
 						$('<option value="' +item.optionValue + '">' + item.optionDisplay + '</option>').appendTo("#idcls");
 						//$("<option>élément[" + i + "] = " + item.optionValue + ", " + item.optionDisplay + "</option>").appendTo("#idcls");
