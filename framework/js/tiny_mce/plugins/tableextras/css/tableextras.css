@@ -1,0 +1,8 @@
+#te-panel, #te-wrapper, #te-table, #te-info { margin: 0; padding: 0 }
+#te-panel { position:absolute; background-color:#fff; padding: 0; }
+#te-table-border-color { background-color:#a9a9a9; }
+#te-table { }
+#te-table td { font-size:1px; width:14px; height:14px; cursor:pointer }
+#te-table td.blank { background-color: #fff;  }
+#te-table td.fill { background-color: #0072bb; }
+#te-info { font:11px Tahoma; text-align:center; border-right:1px solid #a9a9a9; border-bottom:1px solid #a9a9a9; border-left:1px solid #a9a9a9; cursor:pointer }
