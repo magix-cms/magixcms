@@ -146,7 +146,7 @@ class backend_controller_admin{
 		if (isset($this->acsclose)) {
 			if (isset($_SESSION['useradmin'])){	
 				$session = new backend_model_sessions();
-				$session->closeSession();	
+				$session->closeSession();
 				session_unset();
 				$_SESSION = array();
 				session_destroy();

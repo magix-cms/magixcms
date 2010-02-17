@@ -12,6 +12,11 @@
  */
 class backend_controller_templates{
 	/**
+	 * Cosntante
+	 * @var string
+	 */
+	const skin = '/skin/';
+	/**
 	 * ptheme
 	 * @var string
 	 */
@@ -24,6 +29,9 @@ class backend_controller_templates{
 			$this->ptheme = magixcjquery_filter_isVar::isPostAlphaNumeric($_POST['theme']);
 		}
 	}
+	private function directory_skin(){
+		return $_SERVER['DOCUMENT_ROOT'].self::skin;
+	}
 	/**
 	 * @see backend_model_template
 	 * Theme selectionné dans la base de donnée
@@ -35,15 +43,15 @@ class backend_controller_templates{
 	 * Scanne le dossier skin (public) et retourne les images ou capture des thèmes
 	 */
 	private function scanTemplateDir(){
-		$skin = $_SERVER['DOCUMENT_ROOT'].'/skin/';
+		$skin = self::directory_skin();
 		if(!is_readable($skin)){
 			throw new exception('skin is not minimal permission');
 		}
-		$t = new magixcjquery_files_makefiles();
+		$makefiles = new magixcjquery_files_makefiles();
 		//print_r($t->sizeDirectory($_SERVER['DOCUMENT_ROOT']));
 		//print_r($t->scanDir($skin.'default/'));
 		//print_r($t->recursiveDirectoryFile($skin));
-		$dir = $t->scanRecursiveDir($skin);
+		$dir = $makefiles->scanRecursiveDir($skin,'.svn');
 		$count = count($dir);
 		if($count == 0){
 			throw new exception('skin is not found');
@@ -58,9 +66,8 @@ class backend_controller_templates{
 			}else{
 				$selected = ' ui-state-disabled';
 			}
-			$f = new magixcjquery_files_makefiles;
-			$themePath = $_SERVER['DOCUMENT_ROOT'].'/skin/'.$d;
-			if($f->scanDir($themePath) != null){
+			$themePath = self::directory_skin().$d;
+			if($makefiles->scanDir($themePath) != null){
 				if(file_exists($themePath.'/screenshot.png')){
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
 					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all">'.$d.'</div>';

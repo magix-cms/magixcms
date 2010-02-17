@@ -13,7 +13,7 @@ class backend_model_sessions extends session_register{
 	 * 
 	 * @var instance dbsession
 	 */
-	public $dbsessions;
+	protected $dbsessions;
 	/**
 	 * 
 	 * class construct
@@ -26,8 +26,9 @@ class backend_model_sessions extends session_register{
 	 * @param $userid
 	 * @return true
 	 */
-	function openSession($userid,$session_id){
+	public function openSession($userid,$session_id){
 		$this->dbsessions->delCurrent($userid);
+		$this->dbClean();
 		// Re-génération du sid
 		$session_id;
 		//On ajoute un nouvel identifiant de session dans la table
@@ -38,7 +39,7 @@ class backend_model_sessions extends session_register{
 	 * clean old register 2 days
 	 * @return void
 	 */
-	function dbClean() {
+	protected function dbClean() {
 		//On supprime les enregistrements de plus de deux jours
 		$limit = date('Y-m-d H-i-s', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
 		$this->dbsessions->delLast_modified($limit);
@@ -47,7 +48,7 @@ class backend_model_sessions extends session_register{
 	 * close session
 	 * @return void
 	 */
-	function closeSession() {
+	public function closeSession() {
 		$this->dbsessions->delete_session_sid(session_id());
 	}
 	/**
