@@ -41,21 +41,21 @@ class backend_db_lang{
     /**
      * retourne la liste des langues disponible
      */
-    function s_full_lang(){
+    public function s_full_lang(){
     	$sql = 'SELECT lang.codelang,lang.idlang FROM mc_lang AS lang';
 		return $this->layer->select($sql);
     }
 	/**
      * retourne la liste des langues disponible
      */
-    function s_full_lang_data(){
+    public function s_full_lang_data(){
     	$sql = 'SELECT lang.codelang,lang.idlang,lang.desclang FROM mc_lang AS lang';
 		return $this->layer->select($sql);
     }
 	/**
      * Vérifie si la langue existe
      */
-    function s_verif_lang($codelang){
+    public function s_verif_lang($codelang){
     	$sql = 'SELECT lang.idlang FROM mc_lang AS lang WHERE codelang = :codelang';
 		return $this->layer->selectOne($sql,array(
 			':codelang'			=>	$codelang
@@ -66,7 +66,7 @@ class backend_db_lang{
      * @param $codelang
      * @param $desclang
      */
-	function i_new_lang($codelang,$desclang){
+	public function i_new_lang($codelang,$desclang){
 		$sql = 'INSERT INTO mc_lang (codelang,desclang) VALUE(:codelang,:desclang)';
 		$this->layer->insert($sql,
 		array(
@@ -77,7 +77,7 @@ class backend_db_lang{
 	/*
 	 * Compte et retourne le nombre d'enregistrement dans la table home par langue
 	 */
-	function count_lang_home(){
+	public function count_lang_home(){
 		$sql ='SELECT count(h.idhome) as countlang,lang.codelang,lang.desclang
 				FROM mc_page_home AS h
 				LEFT JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
@@ -87,7 +87,7 @@ class backend_db_lang{
 	/*
 	 * Compte et retourne le nombre d'enregistrement dans la table page (cms) par langue
 	 */
-	function count_lang_pages(){
+	public function count_lang_pages(){
 		$sql ='SELECT count(cms.idpage) as countlang,lang.codelang,lang.desclang
 				FROM mc_cms_page AS cms
 				LEFT JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
@@ -97,11 +97,38 @@ class backend_db_lang{
 	/**
 	 * Compte le nombre de langues dans le module news
 	 */
-	function count_lang_news(){
+	public function count_lang_news(){
 		$sql = 'SELECT count( news.idnews ) AS countlang, lang.codelang, lang.desclang
 				FROM mc_news AS news
 				LEFT JOIN mc_lang AS lang ON ( news.idlang = lang.idlang )
 				GROUP BY news.idlang';
 		return $this->layer->select($sql);
+	}
+	/**
+	 * Compte et additionne le nombre de pages,news,home
+	 * @param $idlang
+	 */
+	public function global_count($idlang){
+		$sql = 'SELECT (count( news.idnews ) + count( cms.idpage )+ count( h.idhome )) as ctotal
+				FROM mc_lang as lang
+				LEFT JOIN mc_news AS news ON ( news.idlang = lang.idlang )
+				LEFT JOIN mc_cms_page AS cms ON ( cms.idlang = lang.idlang )
+				LEFT JOIN mc_page_home AS h ON ( h.idlang = lang.idlang )
+				WHERE lang.idlang = :idlang';
+		return $this->layer->selectOne($sql,
+		array(
+			':idlang'	=>	$idlang
+		));
+	}
+	/**
+	 * Suppression de la langue 
+	 * @param void $dellang
+	 */
+	public function d_lang($dellang){
+		$sql = 'DELETE FROM mc_lang WHERE idlang = :dellang';
+		$this->layer->delete($sql,
+		array(
+				':dellang'	=>	$dellang
+		)); 
 	}
 }

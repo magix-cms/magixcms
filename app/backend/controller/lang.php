@@ -11,8 +11,24 @@
  *
  */
 class backend_controller_lang{
+	/**
+	 * string
+	 * @var codelang
+	 */
 	public $codelang;
+	/**
+	 * string
+	 * @var codelang
+	 */
 	public $desclang;
+	/**
+	 * 
+	 * @var intéger
+	 */
+	public $dellang;
+	/**
+	 * Constructor
+	 */
 	function __construct(){
 		if(isset($_POST['codelang'])){
 			$this->codelang = magixcjquery_form_helpersforms::inputCleanStrolower($_POST['codelang']);
@@ -20,11 +36,14 @@ class backend_controller_lang{
 		if(isset($_POST['desclang'])){
 			$this->desclang = magixcjquery_form_helpersforms::inputClean($_POST['codelang']);
 		}
+		if(isset($_GET['dellang'])){
+			$this->dellang = $_GET['dellang'];
+		}
 	}
 	/**
 	 * retourne les langues ajouté
 	 */
-	function full_language(){
+	private function full_language(){
 		$lang = null;
 		$lang .= '<table class="clear">
 						<thead>
@@ -32,6 +51,7 @@ class backend_controller_lang{
 							<th>code Langue</th>
 							<th>Langue</th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 							</tr>
 						</thead>
 						<tbody>';
@@ -39,7 +59,8 @@ class backend_controller_lang{
 			 $lang .= '<tr class="line">';
 			 $lang .=	'<td class="maximal">'.$slang['codelang'].'</td>';
 			 $lang .=	'<td class="nowrap">'.$slang['desclang'].'</td>';
-			 $lang .= 	'<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/lang/edit/'.$slang['idlang'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 $lang .= 	'<td class="nowrap"><a href="'./*magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/lang/edit/'.$slang['idlang'].*/'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 $lang .= 	'<td class="nowrap"><a class="dellang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $lang .= '</tr>';
 		}
 		$lang .= '</tbody></table>';
@@ -47,8 +68,9 @@ class backend_controller_lang{
 	}
 	/**
 	 * insertion d'une nouvelle langue avec système de controle
+	 * @access private
 	 */
-	function insert_new_lang(){
+	private function insert_new_lang(){
 		if(isset($this->codelang) AND isset($this->desclang)){
 			if(empty($this->codelang) OR empty($this->desclang)){
 				backend_config_smarty::getInstance()->assign(
@@ -67,7 +89,13 @@ class backend_controller_lang{
 			}
 		}
 	}
-	function count_lang(){
+	/**
+	 * Compte le nombre d'utilisation d'une langue
+	 * @access private
+	 * @name count_lang
+	 * @return string
+	 */
+	private function count_lang(){
 		$lang = null;
 		$lang .= '<table class="clear">
 						<thead>
@@ -108,6 +136,17 @@ class backend_controller_lang{
 		}
 		$lang .= '</tbody></table>';
 		return $lang;
+	}
+	public function delete_lang_record(){
+		if(isset($this->dellang)){
+			$count = backend_db_lang::dblang()->global_count($this->dellang);
+			if($count['ctotal'] != 0){
+				backend_config_smarty::getInstance()->display('lang/element-exist.phtml');
+			}else{
+				backend_db_lang::dblang()->d_lang($this->dellang);
+				backend_config_smarty::getInstance()->display('lang/delete.phtml');
+			}
+		}
 	}
 	/**
 	 * Affiche la page des langues

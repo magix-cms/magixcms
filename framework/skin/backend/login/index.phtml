@@ -11,8 +11,10 @@ table tr td{border:none;}
 <div id="page">
 	<div id="log-board">
 			<div id="login">
-				<div id="loginforms" class="text ui-widget-content ui-corner-all">
-				<div class="dashboard-header ui-widget-header ui-corner-all"><h2>Magix CMS</h2></div>
+				<div id="loginforms" style="border-width:3px;" class="ui-widget-content ui-corner-all">
+				<div style="background:none;border:none;" class="dashboard-header ui-widget-header">
+					<img src="/framework/img/logo-login.png" width="200" height="45" alt="Admin magixCMS" />
+				</div>
 				{$msg}
 				<form id="forms-log" method="post" action="">
 					<table>
@@ -20,28 +22,23 @@ table tr td{border:none;}
 							<td class="label"><label for="acmail" class="inlinelabel">Email :</label></td>
 						</tr>
 						<tr>
-							<td><input type="text" id="acmail" name="acmail" class="text ui-widget-content ui-corner-all" value="" size="20" /></td>
-							<td class="errorInput"></td>
-						</tr>
-						<tr>
-							<td class="status"></td>
+							<td><input type="text" id="acmail" name="acmail" class="text ui-widget-content ui-corner-all" value="" size="30" /></td>
 						</tr>
 						<tr>
 							<td class="label"><label for="acpass" class="inlinelabel">Password :</label></td>
 						</tr>
 						<tr>
-							<td><input type="password" id="acpass" name="acpass" class="text ui-widget-content ui-corner-all" value="" size="20" /></td>
+							<td><input type="password" id="acpass" name="acpass" class="text ui-widget-content ui-corner-all" value="" size="30" /></td>
 							<td><input type="hidden" id="achpass" name="achpass" value="{$hashpass}" /></td>
-							<td class="errorInput"></td>
 						</tr>
 						<tr>
-							<td class="status"></td>
-						</tr>
-						<tr>
-							<td><input type="submit" name="slogin" class="fg-button ui-state-default ui-corner-all" value="Connexion" /></td>
+							<td><div style="margin-top:5px;"><input type="submit" name="slogin" class="ui-state-default ui-corner-all" value="Connexion" /></div></td>
 						</tr>
 					</table>
 				</form>
+				<div class="dashboard-header ui-widget-header ui-priority-secondary ui-corner-all" style="padding:5px;margin-top:3px;">
+					&copy; <a href="http://www.magix-cms.com" class="targetblank strong">Magix CMS</a> 2009 - 2010
+				</div>
 			</div>
 		</div>
 	</div>

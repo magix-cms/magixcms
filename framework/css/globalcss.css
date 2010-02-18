@@ -14,7 +14,8 @@ html{
 body{
 	margin: 0;
 	padding: 0;
-	font-family: Helvetica, Arial, sans-serif;
+	/*font-family: Helvetica, Arial, sans-serif;*/
+	font-family: Helvetica,sans-serif;
 	font-size:12px;
 } 
 h1 { font-size: 180%; }
@@ -63,11 +64,15 @@ body,
 	position:relative;
 }
 #main {
-	margin:0 0 0 185px;
+	margin:0 0 0 178px;
 }
-#login{position:relative;margin:0 auto;width:500px;}
-#loginforms{margin:30% 0 0 100px;width:320px;}
-#loginforms input[type=text],#loginforms input[type=password]{font-size:21px;color:#696969;}
+#login{position:relative;margin:0 auto;width:330px;}
+#loginforms{margin:30% 0 0 0;width:330px;}
+#loginforms input[type=text],#loginforms input[type=password]{
+	font-size:18px;
+	color:#696969;
+	font-weight:normal;
+}
 /*HEADER*/
 #achead {
 	background:#042139 url(/framework/img/logo.jpg) no-repeat;
@@ -79,6 +84,9 @@ body,
 #mainbar .fariane{margin: 7px 0 0 120px;}
 #mainbar .fariane ul li{list-style:none;float:left;padding-left:5px;}
 #mainbar .username{margin:0;padding:5px;width:100px;float:left;}
+#topmicrobar{float:right;margin-right:20px;padding-top:2px;}
+.topbar-tools{margin:0;padding:0;}
+.topbar-tools li{float:left;margin-left:5px;padding:2px;}
 #footer{
 	padding: 15px;
 	margin: 0;
@@ -89,7 +97,7 @@ body,
 }
 /*SIDEBAR*/
 #sidebar{
-	margin:0 0 5px 0;
+	margin:0 0 0 0;
 	padding:5px 0 5px 0;
 	width:170px;
 	background:#000;
@@ -109,7 +117,7 @@ body,
 /*@media screen, projection, tv {
 	#sidebar ul li{margin:0;padding:0;}
 }*/
-/*dashboard wuidget UI*/
+/*######################### dashboard wuidget UI ########################*/
 .dashboard-widget-h2{padding:0;color:#696969;}
 .column { width:50%;/*width: 170px;*/ float: left; padding:0; }
 .dashboard-widget { margin: 0 0.4em 0.4em 0; }
@@ -148,8 +156,8 @@ div.fg-button { width:auto; overflow:visible; }
    cursor:pointer; 
    position: relative; 
    text-align: center; 
-   zoom: 1; 
-   }
+   zoom: 1;
+}
    .activeicon{background:transparent url(/framework/img/green_button.png) no-repeat;width:16px;height:16px;}
    .nonactiveicon{background:transparent url(/framework/img/red_button.png) no-repeat;width:16px;height:16px;}
    #showmetas{width:150px;}
@@ -298,8 +306,14 @@ div.fg-button { width:auto; overflow:visible; }
 	.ui-accordion .ui-accordion-content {padding:0;}
 html[xmlns*=""] body:last-child ... { ... }
 }*/
-.ui-accordion .ui-accordion-header{height:22px;}
-/*########### Sortable##########*/
+/*######### UI Accordion ###########*/
+/* hack Chrome / Safari */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ .ui-accordion .ui-accordion-content { padding:0;margin-left:0;position:relative;border-top: 0; margin-top: -2px; top: 1px; margin-bottom: 2px; overflow: auto; display: none; }
+}
+.ui-accordion .ui-accordion-header{}
+.ui-accordion .ui-accordion-header a{display: block; font-size: 1em; padding: .2em .2em .2em 2.0em;}
+/*########### UI Sortable##########*/
 #sortable,#sortcat,#sortsubcat{ list-style-type: none; margin: 10px 0 10px 10px; padding: 0; width: 97%; }
 #sortable li,#sortcat li,#sortsubcat li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }
 #sortable li span,#sortcat li span,#sortsubcat li span { position: absolute; margin-left: -1.3em; }
@@ -316,6 +330,16 @@ html[xmlns*=""] body:last-child ... { ... }
 .magix-icon-perms     { background-position: -66px 0; }
 .magix-icon-webmaster { background-position: -80px 0; }
 .magix-icon-analytics { background-position: -96px 0; }
+.magix-icon-youtube   { background-position: -112px 0; }
+.magix-icon-shutdown  { background-position: -128px 0;}
+.magix-icon-help	  { background-position: -144px 0;}
+.magix-icon-info	  { background-position: -160px 0;}
+.magix-icon-lightbulb { background-position: -176px 0;}
+.magix-icon-tools	  { background-position: -192px 0;}
+.magix-icon-home      { background-position: -208px 0; }
+/*
+.magix-icon- { background-position: -224px 0; }
+.magix-icon- { background-position: -240px 0; }*/
 /*############## Catalog ##################*/
 #list-image-galery{
 	margin-left:10px;

@@ -64,6 +64,8 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			$ini = new backend_controller_lang();
 			if(magixcjquery_filter_request::isGet('edit')){
 				$ini->edit();
+			}if(magixcjquery_filter_request::isGet('dellang')){
+				$ini->delete_lang_record();
 			}else{
 				$ini->display();
 			}
@@ -207,6 +209,11 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 		}else{
 			$ini = new backend_controller_dashboard();
 			$ini->display();
+		}
+	}else{
+		if (!headers_sent()) {
+			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/');
+			exit();
 		}
 	}
 }

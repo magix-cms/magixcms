@@ -8,6 +8,17 @@ $(function() {
 	var ie6 = ($.browser.msie && $.browser.version < 7);
 	var ie7 = ($.browser.msie && $.browser.version > 6);
 	var ie = ($.browser.msie);
+	/**
+	 * Effet de survol sur les boutons dans le top sidebar
+	 */
+		$(".topbutton:not(.ui-state-active)").hover(
+			function(){ 
+				$(this).addClass("ui-state-hover"); 
+			},
+			function(){ 
+				$(this).removeClass("ui-state-hover"); 
+			}
+		);
 		//all hover and click logic for buttons
 		$(".fg-button:not(.ui-state-disabled)").hover(
 			function(){ 
@@ -218,6 +229,40 @@ $(function() {
 			 return false;
 		});
 	    $(".post-preview").colorbox({width:"90%", height:"90%", iframe:true});
+	    $('.dellang').click(function (){
+			var lg = $(this).attr("title");
+			$("#dialog").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:200,
+				modal: true,
+				title: 'Supprimé cette langue',
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: {
+					'Delete item': function() {
+						//$(this).dialog('close');
+						$.ajax({
+							type:'get',
+							url: "/admin/index.php?dashboard&lang&dellang="+lg,
+							async: false,
+							success:function(e) {
+							$(".reqdialog").html(e);
+								setTimeout(function(){
+									location.reload();
+								},3000);
+							}
+					     });
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+						success: location.reload()
+					}
+				}
+			});
+		 });
 		$('.deletecms').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
