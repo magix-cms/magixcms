@@ -1,7 +1,11 @@
+Beta 2.2.18
+	* Modification de l'interface de login (ajout du logo + changement de taille)
+	* Modification de l'interface d'administration (nouvelles icônes)
+	* Suppression des langues  dans l'administration avec structure de contrôle des pages présente
+	
 Beta 2.2.17
 	##### Framework ####
 	* Upgrade tinyMCE version 3.3b2 + plugins basic + plugins supplémentaire (imagemanager,filemanager,tableextra)
-	
 	
 2.2.1 RC3
 	* Correction modification ou changement de thème (ajax request)
