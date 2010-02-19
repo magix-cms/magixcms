@@ -40,11 +40,14 @@ function smarty_function_block_sub_category_catalog($params, &$smarty){
 			$langsession = 'catalogue';	
 	}
 	$tcat = frontend_db_catalog::publicDbCatalog()->s_current_name_category($_GET['idclc']);
-	if(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_no_lang($_GET['idclc']) != null){
+	foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_no_lang($_GET['idclc']) as $cat) $vcat .= $cat['idcls'];
+	if($vcat!= null){
 		$block = '<p>'.$title.'</p>';
 		$block .= '<ul>';
 		foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_no_lang($_GET['idclc']) as $cat){
-				$block .= '<li><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().'s'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['slibelle']).'</a></li>';
+				if($cat['idcls'] != null){
+					$block .= '<li><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().'s'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['slibelle']).'</a></li>';
+				}
 			}
 		$block .= '</ul>';
 	}

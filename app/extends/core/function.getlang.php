@@ -14,7 +14,7 @@
  * @subpackage plugins
  */
 /**
- * Smarty {getLang} function plugin
+ * Smarty {getlang} function plugin
  *
  * Type:     function
  * Name:     getUrl
@@ -30,5 +30,5 @@
  * @return string
  */
 function smarty_function_getlang($params, &$smarty){
-	return !empty($_GET['strLangue']) ? magixcjquery_html_helpersHtml::unixSeparator().magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3) : '';
+	return !empty($_GET['strLangue']) ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3).'/' : '';
 }
