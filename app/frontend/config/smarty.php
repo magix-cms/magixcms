@@ -53,7 +53,7 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = self::$server_root."/app/frontend/local/";
+		$this->config_dir = self::$server_root."/locali18n/";
 		/**
 		 * Path -> templates
 		 */
