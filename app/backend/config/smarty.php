@@ -78,6 +78,12 @@ class backend_config_smarty extends Smarty{
 		 */
 		$this->compile_check = true;
 		/**
+		 * Force compile
+		 * @var void
+		 * (true/false)
+		 */
+		$this->force_compile = false;
+		/**
 		 * caching (true/false)
 		 */
 		$this->caching = false;

@@ -26,7 +26,15 @@ function smarty_function_google_tools($params, &$smarty){
 	$type = $params['tools'];
 	switch ($type){
 		case 'analytics':
-			$tools = $data['analytics'];
+		$tools = '<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));
+		</script>'.
+		'<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("'.$data['analytics'].'");
+		pageTracker._trackPageview();
+		} catch(err) {}</script>';
 			break;
 		case 'webmaster':
 			$tools = $data['webmaster'];
