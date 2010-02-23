@@ -31,10 +31,19 @@ class backend_Autoloader
   {
     // vérifie que 'frontend_' est bien le prefix demandé
     if (strpos($class, self::$prefix) === 0) {
-      include self::$path
+    	if(file_exists(self::$path.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php')){
+      		include self::$path
              .str_replace('_', DIRECTORY_SEPARATOR, $class)
              .'.php';
+    	}
     }
+  }
+/**
+   * Supprime un fichier de l'autoload
+   * @param $class
+   */
+  public static function unregister($class){
+  	spl_autoload_unregister(array($class, 'autoload'));
   }
 }
 ?>

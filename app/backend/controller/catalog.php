@@ -629,8 +629,8 @@ class backend_controller_catalog{
 				 * 3 tailles !!!
 				 */
 				$thumb->resize(500)->save(self::dir_img_product().'product/'.$getimg['imgcatalog']);
-				$thumb->resize(350)->save(self::dir_img_product().'medium/'.$getimg['imgcatalog']);
-				$thumb->resize(120)->save(self::dir_img_product().'mini/'.$getimg['imgcatalog']);
+				$thumb->resize(350,250)->save(self::dir_img_product().'medium/'.$getimg['imgcatalog']);
+				$thumb->resize(120,100)->save(self::dir_img_product().'mini/'.$getimg['imgcatalog']);
 			}
 			//Supprime le fichier original pour gagner en espace
 			$makeFiles = new magixcjquery_files_makefiles();
