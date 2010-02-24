@@ -51,7 +51,7 @@ class frontend_db_catalog{
      * @param $idclc
      */
 	function s_category_page_no_language($idclc){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog,p.price, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
@@ -68,7 +68,7 @@ class frontend_db_catalog{
      * @param $codelang
      */
 	function s_category_page_with_language($idclc,$codelang){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog,p.price, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
@@ -93,7 +93,7 @@ class frontend_db_catalog{
      * @param $idclc
      */
 	function s_sub_category_page_no_language($idclc,$idcls){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog,p.price, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
@@ -112,7 +112,7 @@ class frontend_db_catalog{
      * @param $codelang
      */
 	function s_sub_category_page_with_language($idclc,$idcls,$codelang){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.idlang, p.idclc, p.idcls,p.desccatalog,p.price, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
