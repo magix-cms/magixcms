@@ -47,7 +47,7 @@ class frontend_db_catalog{
 		));
     }
     /**
-     * Charge les articles de la catégorie (sans langue)
+     * Charge les articles de la catégorie (sans langue) (root catégorie)
      * @param $idclc
      */
 	function s_category_page_no_language($idclc){

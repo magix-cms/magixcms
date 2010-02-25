@@ -22,7 +22,7 @@ class backend_model_blockDom{
 			}
 			$lang .='</select>';
 		}else{
-			$lang = '<input type="text" disabled="disabled" readonly="readonly" class="inputdisabled ui-corner-all" size="5" id="idlang" name="idlang" value="0">';
+			$lang = '<input type="text" readonly="readonly" class="inputdisabled ui-corner-all" size="5" id="idlang" name="idlang" value="0">';
 		}
 		return $lang;
 	}

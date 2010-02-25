@@ -35,6 +35,8 @@ function smarty_function_load_catalog_category($params, &$smarty){
 	$tposition = $params['tposition']? $params['tposition'] : 'top';
 	//Affiche si le bien est vendu
 	$soldout = $params['soldout'];
+	// Affiche le prix de l'article
+	$price = $params['price']?true:false;
 	// Parametre pour la description du produit
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 100 ;
 	// Le délimiteur pour tronqué le texte
@@ -96,6 +98,9 @@ function smarty_function_load_catalog_category($params, &$smarty){
 					if($description != false){
 						$product .= '<p>'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</p>';
 					}
+					if($price != false){
+						$product .= '<div class="bg-price">€ '.number_format($cat['price'], 2, '.', ',').'</div>';
+					}
 					$product .= '</div>';
 				}
 				$product .= '</div><div style="clear:left;"></div>';
@@ -129,7 +134,9 @@ function smarty_function_load_catalog_category($params, &$smarty){
 					if($description != false){
 						$product .= '<p>'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</p>';
 					}
-					$product .= '<div class="bg-price">€ '.$cat['price'].'</div>';
+					if($price != false){
+						$product .= '<div class="bg-price">€ '.number_format($cat['price'], 2, '.', ',').'</div>';
+					}
 					$product .= '</div>';
 				}
 				$product .= '</div><div style="clear:left;"></div>';
