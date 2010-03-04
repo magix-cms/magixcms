@@ -111,8 +111,20 @@ class frontend_db_cms{
 				ORDER BY p.orderpage';
 		return $this->layer->select($sql);
 	}
+	/**
+	 * Selectionne les pages suivant l'identifiant de la catégorie
+	 * @param $idcategory
+	 */
+	function block_plugin_cms_by_category($idcategory){
+		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory,c.category, p.pathpage,c.pathcategory
+				FROM mc_cms_page AS p
+				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
+				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+				WHERE viewpage = 1 AND p.idlang =0 AND p.idcategory = :idcategory';
+		return $this->layer->select($sql,array(':idcategory'=>$idcategory));
+	}
 	function s_all_category_cms(){
-		$sql = 'SELECT c.idcategory,c.category
+		$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder
 				FROM mc_cms_category AS c
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				ORDER BY c.idorder';
