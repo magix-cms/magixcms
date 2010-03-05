@@ -686,7 +686,7 @@ class backend_controller_catalog{
 				 * 2 tailles !!!
 				 */
 				$thumb->resize(500)->save(self::dir_micro_galery().'maxi/'.$getimg['imgcatalog']);
-				$thumb->resize(120)->save(self::dir_micro_galery().'mini/'.$getimg['imgcatalog']);
+				$thumb->resize(120,100)->save(self::dir_micro_galery().'mini/'.$getimg['imgcatalog']);
 			}
 			//Supprime le fichier original pour gagner en espace (si existe)
 			$makeFiles = new magixcjquery_files_makefiles();

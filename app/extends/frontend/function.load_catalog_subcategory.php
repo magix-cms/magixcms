@@ -25,7 +25,7 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	//Test si lidentifiant de la catégorie existe
 	if(isset($_GET['idclc'])){
-		$idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idcls']);
+		$idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
 	}
 	//Test si lidentifiant de la sous catégorie existe
 	if(isset($_GET['idcls'])){
@@ -102,7 +102,7 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 					}
 					$product .= '</div>';
 				}
-				$product .= '</div><div style="clear:left;"></div>';
+				$product .= '<div style="clear:left;"></div></div>';
 			}
 		}else{
 			$product = null;
@@ -133,7 +133,7 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 				}
 				$product .= '</div>';
 				}
-			$product .= '</div><div style="clear:left;"></div>';
+			$product .= '<div style="clear:left;"></div></div>';
 			}
 		}
 		return $product;
