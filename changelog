@@ -1,3 +1,11 @@
+Beta 2.2.19
+	* Mise à jour TinyMCE imagemanager plugin 3.1.2
+	* Modification dans la configuration de tinyMCE
+	* Fix bug compilation après lecture fichier .conf (langues)
+	* Correction et ajout de nouvelles icônes dans le sprite magix	
+	* Fix bug requete public auto construction de menu dynamique (modification en cours)
+	* Séparation intelligente de la minification (admin, public)
+	
 Beta 2.2.18
 	* Modification de l'interface de login (ajout du logo + changement de taille)
 	* Modification de l'interface d'administration (nouvelles icônes)

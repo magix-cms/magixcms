@@ -94,13 +94,12 @@
 	$mcImageManagerConfig['edit.format'] = "";
 
 	// Authenication
-	//$mcImageManagerConfig['authenticator'] = "SessionAuthenticator";
-	//$mcImageManagerConfig['authenticator.login_page'] = "login_session_auth.php";
-	//$mcImageManagerConfig['authenticator.allow_override'] = "*";
+	/*$mcImageManagerConfig['authenticator'] = "SessionAuthenticator";
+	$mcImageManagerConfig['authenticator.login_page'] = "login_session_auth.php";
+	$mcImageManagerConfig['authenticator.allow_override'] = "*";
 
 	// SessionAuthenticator
-	//$mcImageManagerConfig['SessionAuthenticator.logged_in_key'] = "isLoggedIn";
-	$mcImageManagerConfig['SessionAuthenticator.logged_in_key'] = "imageManagerAccess";
+	$mcImageManagerConfig['SessionAuthenticator.logged_in_key'] = "isLoggedIn";*/
 	$mcImageManagerConfig['SessionAuthenticator.groups_key'] = "groups";
 	$mcImageManagerConfig['SessionAuthenticator.user_key'] = "user";
 	$mcImageManagerConfig['SessionAuthenticator.path_key'] = "mc_path";

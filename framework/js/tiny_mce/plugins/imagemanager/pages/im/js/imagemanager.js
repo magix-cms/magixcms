@@ -30,6 +30,9 @@
 			t.exclude_directory_pattern = args.exclude_directory_pattern;
 			t.remember_last_path = args.remember_last_path;
 			t.urlSuffix = '';
+			t.loadViewConfig();
+			$('#setPages').val('' + t.pageSize);
+			$('#selectView').val('' + t.viewMode);
 
 			if (document.domain != document.location.hostname)
 				t.urlSuffix = '?domain=' + document.domain;
@@ -149,12 +152,14 @@
 
 			$('#selectView').change(function(e) {
 				t.viewMode = $(e.target).val();
+				t.saveViewConfig();
 				t.updateFileList();
 			});
 
 			$('#setPages').change(function(e) {
 				t.page = 0;
 				t.pageSize = $(e.target).val();
+				t.saveViewConfig();
 				t.listFiles();
 			});
 
@@ -528,6 +533,35 @@
 				suf = this.urlSuffix.replace(/\?/, '&');
 
 			document.location = this.fileManagerURL + suf;
+		},
+
+		loadViewConfig : function() {
+			var cookieValue = $.readCookie('mcim_view'), cookieObj = {};
+
+			if (cookieValue) {
+				$.each(cookieValue.split(/&/), function(i, item) {
+					var opts = item.split(/=/);
+
+					cookieObj[unescape(opts[0])] = unescape(opts[1]);
+				});
+
+				this.pageSize = cookieObj.pagesize,
+				this.viewMode = cookieObj.viewmode;
+			}
+		},
+
+		saveViewConfig : function() {
+			var cookieValue = '';
+
+			// Convert object to string
+			$.each({
+				pagesize : this.pageSize,
+				viewmode : this.viewMode
+			}, function(name, value) {
+				cookieValue += (cookieValue ? '&' : '') + escape(name) + '=' + escape('' + value);
+			});
+
+			$.setCookie('mcim_view', cookieValue, {duration : 30});
 		},
 
 		listRoots : function() {

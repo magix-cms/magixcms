@@ -4,9 +4,12 @@ $(function() {
 	script_url : '/framework/js/tiny_mce/tiny_mce.js',
 	//document_base_url : "{geturl}",
 	apply_source_formatting : true,
+	mode : "exact",
+	relative_urls : false,
+	remove_script_host : false,
 	theme : "advanced",
 	/*tableextras,*/
-	plugins : "safari,xhtmlxtras,emotions,advimage,insertdatetime,style,layer,tableextras,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview",
+	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,tableextras,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview",
 	// Theme options
 	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
 	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,insertimage,insertfile,image,cleanup,code,|,forecolor,backcolor,|,insertdate,inserttime,preview",
@@ -25,8 +28,6 @@ $(function() {
 	external_link_list_url : "lists/link_list.js",
 	external_image_list_url : "lists/image_list.js",
 	media_external_list_url : "lists/media_list.js",
-	relative_urls : false,
-	convert_urls : false,
 	cleanup : true,
 	valid_elements : "*[*]",
 	skin : "o2k7",

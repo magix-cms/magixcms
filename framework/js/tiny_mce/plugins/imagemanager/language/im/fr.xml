@@ -134,7 +134,7 @@
       <item name="upload_to_server">Télécharger au serveur</item>
       <item name="cancelled">Envoi a été annulé</item>
       <item name="choose_files">Choisir les fichiers</item>
-      <item name="basic_upload">Si vous rencontrez des problèmes lors du téléchargement, vous pouvez toujours utiliser {a} l'uploader de base {/ a}.</item>
+      <item name="basic_upload">Si vous rencontrez des problèmes lors du téléchargement, vous pouvez toujours utiliser {a} l'uploader de base {/a}.</item>
       <item name="remove">Supprimer</item>
       <item name="file">Fichier</item>
       <item name="size">Taille</item>

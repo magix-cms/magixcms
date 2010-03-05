@@ -1,3 +1,12 @@
+Version 3.1.2 (2010-03-03)
+	Added a plugin called "Uploaded" where its possible to view your own latest uploaded files.
+	Added plupload as the upload runtime. Plupload has more runtimes such as BrowserPlus and Google Gears.
+	Added support for dynamic image resizing, the upload.formats can now have * as witdh/height.
+	Fixed so the current view mode is saved in a cookie.
+	Fixed bug where focus wasn't properly handled on IE 8.
+Version 3.1.1.5 (2010-01-10)
+	Fixed scale bug where scaling was done even if the width/height was the same size as the configured one.
+	Fixed bug where Flash wasn't transparent in WebKit again.
 Version 3.1.1.4 (2009-11-26)
 	Fixed issues with PHP 5.3.0 it will now set default time zone and check for set_magic_quotes_runtime support.
 	Fixed strict runtime issues it's now compatible with strict mode.

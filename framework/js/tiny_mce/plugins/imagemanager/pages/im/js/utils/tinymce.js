@@ -27,6 +27,12 @@
 /*	} catch (ex) {
 	}*/
 
+	$.restoreTinySelection = function() {
+		// Restore selection but only when the window is opened in an iframe
+		if (ed && wm.bookmark && top != window)
+			ed.selection.moveToBookmark(wm.bookmark);
+	};
+
 	if (!$.CurrentWindowManager) {
 		// Add default window and add some methods to it
 		$.WindowManager.defaultWin = {
@@ -35,9 +41,7 @@
 			},
 
 			close : function() {
-				// Restore selection but only when the window is opened in an iframe
-				if (ed && wm.bookmark && top != window)
-					ed.selection.moveToBookmark(wm.bookmark);
+				$.restoreTinySelection();
 
 				if (wm)
 					wm.close(window);

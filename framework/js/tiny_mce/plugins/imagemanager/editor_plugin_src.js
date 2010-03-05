@@ -322,7 +322,7 @@
 				author : 'Moxiecode Systems AB',
 				authorurl : 'http://tinymce.moxiecode.com',
 				infourl : 'http://tinymce.moxiecode.com/plugins_filemanager.php',
-				version : "3.1.1.4"
+				version : "3.1.2"
 			};
 		},
 

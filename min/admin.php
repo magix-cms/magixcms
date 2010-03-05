@@ -4,7 +4,7 @@
  * minify dans admin
  */
 return array(
-	'admincss'=>array('//framework/css/ui/vader/jquery-ui-1.7.2.custom.css','//framework/css/ui/ui.checkbox.css',
+	'admincss'=>array('//framework/css/ui/vader-1-7-2/jquery-ui-1.7.2.custom.css','//framework/css/ui/ui.checkbox.css',
 	'//framework/css/globalcss.css','//framework/css/colorbox-simple/colorbox.css','//framework/css/ui.selectmenu.css',
 	'//framework/css/globalforms.css','//framework/css/ui.spinner.css'),
 	'adminjs'=> array('//framework/js/jquery-1.4.2.min.js','//framework/js/jquery-ui-1.7.2.min.js',

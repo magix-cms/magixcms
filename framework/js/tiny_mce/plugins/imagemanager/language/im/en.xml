@@ -204,5 +204,9 @@
 		<group target="history">
 			<item name="special_folder_title">History</item>
 		</group>
+		
+		<group target="uploaded">
+			<item name="special_folder_title">Uploaded</item>
+		</group>
 	</language>
 </language-pack>

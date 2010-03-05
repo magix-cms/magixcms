@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ImageManagerPlugin.php 751 2009-10-20 12:05:36Z spocke $
+ * $Id: ImageManagerPlugin.php 758 2009-12-02 12:22:14Z spocke $
  *
  * @package MCImageManager
  * @author Moxiecode
@@ -247,7 +247,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 					$imageutils = new $config['thumbnail'];
 					$percentage = min($config['upload.max_width'] / $fileWidth, $config['upload.max_height'] / $fileHeight);
 
-					if ($percentage <= 1)
+					if ($percentage < 1)
 						$result = $imageutils->resizeImage($file1->getAbsolutePath(), $file1->getAbsolutePath(), round($fileWidth * $percentage), round($fileHeight * $percentage), $ext, $config['upload.autoresize_jpeg_quality']);
 				}
 				break;
@@ -316,7 +316,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 			if ($config['thumbnail.scale_mode'] == "percentage") {
 				$percentage = min($config['thumbnail.width'] / $fileWidth, $config['thumbnail.height'] / $fileHeight);
 
-				if ($percentage <= 1) {
+				if ($percentage < 1) {
 					$targetWidth = round($fileWidth * $percentage);
 					$targetHeight = round($fileHeight * $percentage);
 				} else {
@@ -898,7 +898,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 		if ($config['thumbnail.scale_mode'] == "percentage") {
 			$percentage = min($config['thumbnail.width'] / $fileWidth, $config['thumbnail.height'] / $fileHeight);
 
-			if ($percentage <= 1) {
+			if ($percentage < 1) {
 				$targetWidth = round($fileWidth * $percentage);
 				$targetHeight = round($fileHeight * $percentage);
 			} else {

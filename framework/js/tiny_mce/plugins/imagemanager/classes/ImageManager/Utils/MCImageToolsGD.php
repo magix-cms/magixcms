@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: MCImageToolsGD.php 654 2009-01-23 13:00:39Z spocke $
+ * $Id: MCImageToolsGD.php 779 2010-03-02 15:29:28Z spocke $
  *
  * @package MCImageManager.utils
  * @author Moxiecode
@@ -743,11 +743,21 @@ class ImageToolsGD {
 					default:
 						$matches = array();
 
-						if (preg_match('/\s?([0-9]+)\s?x([0-9]+)\s?/', $item, $matches)) {
-							$actions[] = "resize";
+						if (preg_match('/\s?([0-9|\*]+)\s?x([0-9|\*]+)\s?/', $item, $matches)) {
+                            $actions[] = "resize";
 							$targetWidth = $matches[1];
 							$targetHeight = $matches[2];
-						}
+
+							if ($matches[1] == '*') {
+								// Width is omitted
+								$targetWidth = floor($width / ($height / $targetHeight));
+							}
+
+							if ($matches[2] == '*') {
+								// Height is omitted
+								$targetHeight = floor($height / ($width / $targetWidth));
+							}
+                        }
 				}
 			}
 
@@ -831,9 +841,19 @@ class ImageToolsGD {
 					default:
 						$matches = array();
 
-						if (preg_match('/\s?([0-9]+)\s?x([0-9]+)\s?/', $item, $matches)) {
+						if (preg_match('/\s?([0-9|\*]+)\s?x([0-9|\*]+)\s?/', $item, $matches)) {
 							$targetWidth = $matches[1];
 							$targetHeight = $matches[2];
+
+							if ($matches[1] == '*') {
+								// Width is omitted
+								$targetWidth = floor($width / ($height / $targetHeight));
+							}
+
+							if ($matches[2] == '*') {
+								// Height is omitted
+								$targetHeight = floor($height / ($width / $targetWidth));
+							}
 						}
 				}
 			}

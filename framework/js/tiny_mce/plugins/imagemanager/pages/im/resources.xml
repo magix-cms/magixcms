@@ -13,6 +13,7 @@
 		<file path="js/jquery/jquery.template.ext.js" />
 		<file path="js/jquery/jquery.uri.js" />
 		<file path="js/jquery/jquery.cleanname.js" />
+		<file path="js/jquery/jquery.cooquery.js" />
 		<file path="js/utils/rpc.js" />
 		<file path="js/utils/tinymce.js" />
 	</package>
@@ -39,13 +40,10 @@
 	</package>
 
 	<package id="upload">
-		<file path="js/utils/gears_init.js" />
 		<file path="js/utils/swfobject.js" />
 		<file path="js/jquery/jquery.scrollto.js" />
-		<file path="js/jquery/jquery.multiupload.js" />
-		<file path="js/jquery/jquery.multiupload.gears.js" />
-		<file path="js/jquery/jquery.multiupload.flash.js" />
-		<file path="js/jquery/jquery.multiupload.silverlight.js" />
+		<file path="js/plupload/gears_init.js" />
+		<file path="js/plupload/plupload.full.min.js" />
 		<file path="js/upload.js" />
 	</package>
 
@@ -69,6 +67,6 @@
 	</package>
 
 	<package id="static_files">
-		<file id="multiupload_xap" path="js/jquery/jquery.multiupload.silverlight.xap" type="application/x-silverlight-app" />
+		<file id="multiupload_xap" path="js/plupload/plupload.silverlight.xap" type="application/x-silverlight-app" />
 	</package>
 </resources>

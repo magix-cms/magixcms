@@ -172,7 +172,8 @@ body {
 #files .done {color:gray}
 #files .failed {color:red}
 
-#multiupload_view {display:none}
+#multiupload_view {display:none; position:relative}
 #singleupload_view {display:none}
 #multiupload_view #selectview {position:relative}
 #files input.text {width:290px; margin:0; padding:0}
+#addshim {display:block; position:absolute; width: 10px; height: 10px; z-index:1000; outline:0; background: transparent url('../img/transparent.gif')}

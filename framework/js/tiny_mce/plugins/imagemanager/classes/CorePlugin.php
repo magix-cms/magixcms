@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: CorePlugin.php 751 2009-10-20 12:05:36Z spocke $
+ * $Id: CorePlugin.php 780 2010-03-02 16:03:10Z spocke $
  *
  * @package MCManagerCore
  * @author Moxiecode
@@ -343,7 +343,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 					// Only peform IO when not in demo mode
 					if (!checkBool($config['general.demo'])) {
-						if ($chunk == 0 && $file->exists() && (!isset($config["upload.overwrite"]) || $config["upload.overwrite"] == false)) {
+						if ($file->exists() && (!isset($config["upload.overwrite"]) || $config["upload.overwrite"] == false)) {
 							$result->add("OVERWRITE_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.file_exists}");
 							return $result;
 						}
@@ -351,16 +351,33 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 						if ($chunk == 0 && $file->exists() && $config["upload.overwrite"] == true)
 							$file->delete();
 
-						// Write file
-						$stream =& $file->open($chunk == 0 ? 'wb' : 'ab');
-						if ($stream) {
-							$in = fopen("php://input", "rb");
-							if ($in) {
-								while ($buff = fread($in, 4096))
-									$stream->write($buff);
+						// Handle multipart upload
+						if (isset($_FILES['file']['tmp_name'])) {
+							// Write file
+							$stream =& $file->open($chunk == 0 ? 'wb' : 'ab');
+							if ($stream) {
+								$in = fopen($_FILES['file']['tmp_name'], "rb");
+								if ($in) {
+									while ($buff = fread($in, 4096))
+										$stream->write($buff);
+								}
+
+								$stream->close();
 							}
 
-							$stream->close();
+							@unlink($_FILES['file']['tmp_name']);
+						} else {
+							// Write file
+							$stream =& $file->open($chunk == 0 ? 'wb' : 'ab');
+							if ($stream) {
+								$in = fopen("php://input", "rb");
+								if ($in) {
+									while ($buff = fread($in, 4096))
+										$stream->write($buff);
+								}
+
+								$stream->close();
+							}
 						}
 
 						// Check file size

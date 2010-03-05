@@ -142,7 +142,7 @@ RewriteRule ^(fr|en|nl){1,3}[/](catalogue|catalog)[/]([-_0-9a-zA-Z]+)[-]([/0-9]+
 ############################ Plugins ###############################
 #RewriteRule ^contact/bien-immobilier/achatvente.html/{0,1}$     								/plugins.php?contact&achatvente					[QSA,L]
 #RewriteRule ^(fr|en|nl){1,3}[/]contact/(voyage)/sur-mesure.html/{0,1}$     					/plugins.php?strLangue=$1&voyage					[QSA,L]
-RewriteRule ^contact/(produit|product)/renseignement.html/{0,1}$     								/plugins.php?contact								[QSA,L]
+RewriteRule ^contact/(produit|product)/renseignement.html/{0,1}$     							/plugins.php?contact								[QSA,L]
 RewriteRule ^(fr|en|nl){1,3}[/]contact/(produit|product)/renseignement.html/{0,1}$     			/plugins.php?strLangue=$1&contact					[QSA,L]
 RewriteRule ^([/0-9]+)/(voyages-promotions)/([-_0-9a-zA-Z]+)-([/0-9]+).html/{0,1}$      		/plugins.php?datevoyage=$1&static&getlink=$3&getpromo=$4 			[QSA,L]
 #################### ADMIN ########################
