@@ -65,7 +65,7 @@ class frontend_controller_news{
 		return '<div class="pagination"><div class="middle">'.self::news_pager($max).'</div></div>';
 	}
 	function s_all_linknews(){
-		$max = 1;
+		$max = 5;
 		$news = '';
 		$offset = self::news_offset_pager($max);
 		foreach(frontend_db_news::publicDbNews()->s_news_plugins(true,$max,$offset) as $pnews){
@@ -81,7 +81,12 @@ class frontend_controller_news{
 			$news .= '</div>';
 		}
 		frontend_config_smarty::getInstance()->assign('listnews',$news);
-		frontend_config_smarty::getInstance()->assign('npagination',self::news_pagination($max));
+		$cnews = frontend_db_news::publicDbNews()->s_count_news_publish_max();
+		if($cnews['total'] >= $max){
+			frontend_config_smarty::getInstance()->assign('npagination',self::news_pagination($max));
+		}else{
+			frontend_config_smarty::getInstance()->assign('npagination',null);
+		}
 	}
 	function load_news_content(){
 		$news = frontend_db_news::publicDbNews()->s_news_page($this->getdate,$this->getnews);
