@@ -131,7 +131,7 @@ class backend_controller_cms{
 	/**
 	 * Voir les catégories disponible
 	 */
-	function view_category(){
+	private function view_category(){
 		$category = null;
 		foreach(backend_db_cms::adminDbCms()->s_block_category() as $block){
 			$category .= '<li class="ui-state-default" id="ordercategory_'.$block['idcategory'].'"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$block['category'].'<div style="float:right;"><span class="ui-icon ui-icon-flag"></span>'.$block['codelang'].'</div>'.'</li>';
@@ -139,17 +139,24 @@ class backend_controller_cms{
 		return $category;
 	}
 	/**
-	 * Inerer une nouvelle catégorie
+	 * Insérer une nouvelle catégorie
 	 */
-	function insertion_category(){
+	private function insertion_category(){
 		if(isset($this->category)){
-			backend_db_cms::adminDbCms()->i_category($this->category,$this->pathcategory,$this->idlang);
+			if(empty($this->category)){
+				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
+				backend_config_smarty::getInstance()->assign('msg',$fetch);
+			}else{
+				backend_db_cms::adminDbCms()->i_category($this->category,$this->pathcategory,$this->idlang);
+				$fetch = backend_config_smarty::getInstance()->fetch('request/scategory.phtml');
+				backend_config_smarty::getInstance()->assign('msg',$fetch);
+			}
 		}
 	}
 	/**
 	 * Affiche les statistique des catégories
 	 */
-	function statistic_category(){
+	private function statistic_category(){
 		$states = '<table class="clear">
 						<thead>
 							<tr>
