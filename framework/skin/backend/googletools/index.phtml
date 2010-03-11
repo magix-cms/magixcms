@@ -20,10 +20,10 @@
 					</div>
 				</div>
 				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter ou modifier</div>
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Les outils Google</div>
 					<div class="dashboard-content">
-					<form id="forms-google-tools" method="post" action="{geturl}/admin/dashboard/googletools/" style="margin-left:10px;">
-					{$msg}
+					<div id="resultgdata"></div>
+					<form id="forms-webmaster-tools" method="post" action="/admin/index.php?dashboard&amp;googletools&amp;pgdata" style="margin-left:10px;">
 						<fieldset>
 							<table>
 								<tr>
@@ -31,24 +31,23 @@
 								</tr>
 								<tr>
 									<td><input type="text" id="webmaster" name="webmaster" class="inputtext ui-corner-all" value="{$webmaster}" size="50" /></td>
-									<td style="width:150px;" class="errorInput"></td>
+									<td><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></td>
 								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
+							</table>			
+						</fieldset>
+					</form>
+					<form id="forms-analytics-tools" method="post" action="/admin/index.php?dashboard&amp;googletools&amp;pgdata" style="margin-left:10px;">
+						<fieldset>
+							<table>
 								<tr>
 									<td class="label"><label for="analytics" class="inlinelabel">Analytics :</label></td>
 								</tr>
 								<tr>
 									<td><input type="text" id="analytics" name="analytics" class="inputtext ui-corner-all" value="{$analytics}" size="50" /></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
+									<td><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></td>
 								</tr>
 							</table>			
 						</fieldset>
-						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
 					</form>
 					</div>
 				</div>

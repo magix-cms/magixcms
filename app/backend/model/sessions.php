@@ -10,16 +10,14 @@
  */
 class backend_model_sessions extends session_register{
 	/**
-	 * 
-	 * @var instance dbsession
+	 * clean old register 2 days
+	 * @access private 
+	 * @return void
 	 */
-	protected $dbsessions;
-	/**
-	 * 
-	 * class construct
-	 */
-	function __construct(){
-		$this->dbsessions = new backend_db_sessions();
+	private function dbClean() {
+		//On supprime les enregistrements de plus de deux jours
+		$limit = date('Y-m-d H-i-s', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
+		backend_db_sessions::adminDbSession()->delLast_modified($limit);
 	}
 	/**
 	 * Open session
@@ -27,36 +25,27 @@ class backend_model_sessions extends session_register{
 	 * @return true
 	 */
 	public function openSession($userid,$session_id){
-		$this->dbsessions->delCurrent($userid);
-		$this->dbClean();
+		backend_db_sessions::adminDbSession()->delCurrent($userid);
+		self::dbClean();
 		// Re-génération du sid
 		$session_id;
 		//On ajoute un nouvel identifiant de session dans la table
-		$this->dbsessions->insertNewSessionId($userid,parent::getIp(),parent::getBrowser());
+		backend_db_sessions::adminDbSession()->insertNewSessionId($userid,parent::getIp(),parent::getBrowser());
 		return true;
-	}
-	/**
-	 * clean old register 2 days
-	 * @return void
-	 */
-	protected function dbClean() {
-		//On supprime les enregistrements de plus de deux jours
-		$limit = date('Y-m-d H-i-s', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
-		$this->dbsessions->delLast_modified($limit);
 	}
 	/**
 	 * close session
 	 * @return void
 	 */
 	public function closeSession() {
-		$this->dbsessions->delete_session_sid(session_id());
+		backend_db_sessions::adminDbSession()->delete_session_sid(session_id());
 	}
 	/**
 	 * Compare la session avec une entrée session mysql
 	 * @return void
 	 */
-	function compareSessionId(){
-		return $this->dbsessions->getsid();
+	public function compareSessionId(){
+		return backend_db_sessions::adminDbSession()->getsid();
 	}
 }
 /**

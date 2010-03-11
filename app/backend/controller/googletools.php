@@ -34,39 +34,56 @@ class backend_controller_googletools{
 		}
 	}
 	/**
-	 * Charge les données dans le formulaire
-	 * @access public
+	 * Charge les données de google webmaster tools
+	 * @access private
 	 */
-	public function load_gdata_field(){
-		$gdata = backend_db_googletools::adminDbGtools()->s_google_tools_widget();
-		backend_config_smarty::getInstance()->assign('webmaster',$gdata['webmaster']);
-		backend_config_smarty::getInstance()->assign('analytics',$gdata['analytics']);
+	private function load_webmaster_gdata(){
+		$gdata = backend_model_setting::select_uniq_setting('webmaster');
+		backend_config_smarty::getInstance()->assign('webmaster',$gdata['setting_value']);
 	}
 	/**
-	 * Insert le code webmaster tools et analytics dans la base de donnée.
+	 * Charge les données de google analytics
+	 * @access private
+	 */
+	private function load_analytics_gdata(){
+		$gdata = backend_model_setting::select_uniq_setting('analytics');
+		backend_config_smarty::getInstance()->assign('analytics',$gdata['setting_value']);
+	}
+	/**
+	 * Insert le code webmaster tools dans la base de donnée.
 	 * @access protected
 	 */
-	protected function u_gdata(){
-		if(isset($this->webmaster) AND isset($this->analytics)){
-			/*if(empty($this->webmaster) OR empty($this->analytics)){
-				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
-			}else{*/
-				backend_db_googletools::adminDbGtools()->u_google_tools(
-						$this->webmaster,
-						$this->analytics
-					);
-				$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
-			//}
+	private function update_webmastertools(){
+		if(isset($this->webmaster)){
+			backend_model_setting::update_setting_value('webmaster',$this->webmaster);
+			backend_config_smarty::getInstance()->assign('googletools','Webmaster Tools');
+			backend_config_smarty::getInstance()->display('googletools/request/success.phtml');
+		}
+	}
+	/**
+	 * Insert le code analytics dans la base de donnée.
+	 * @access protected
+	 */
+	private function update_analytics(){
+		if(isset($this->analytics)){
+			backend_model_setting::update_setting_value('analytics',$this->analytics);
+			backend_config_smarty::getInstance()->assign('googletools','Analytics');
+			backend_config_smarty::getInstance()->display('googletools/request/success.phtml');
 		}
 	}
 	/**
 	 * affiche la page du formulaire pour l'insertion.
 	 */
 	public function display_gdata(){
-		self::u_gdata();
-		self::load_gdata_field();
+		$this->load_webmaster_gdata();
+		$this->load_analytics_gdata();
 		backend_config_smarty::getInstance()->display('googletools/index.phtml');
+	}
+	/**
+	 * Envoi les données des outils Google
+	 */
+	public function post_gdata(){
+		$this->update_webmastertools();
+		$this->update_analytics();
 	}
 }

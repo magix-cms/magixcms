@@ -1,3 +1,17 @@
+Beta 2.2.20
+	* Suppression de backend/controller/googletools.php
+	* Ajout du setting global (backend/controller/setting.php) + paramètres google tools
+	* Ajout manipulation table setting (backend/db/setting.php)
+	* Correction du widget widget_googletools
+	* Modification du formulaire des outils google dans l'administration
+	     - Envoi via requête ajax (voir globaljs)
+	     - Séparation des deux champs dans différents formulaire
+	* Mise à jour de jquery form 2.33 => 2.40
+	* Correction du fichier public, admin dans minify
+	* Fix bug nettoyage des sessions dans la base de donnée
+	* Fix Bug critique session permanente avec risque de vol de session
+	    - Correctif appliqué avec condition supplémentaire de style différentiel session => db
+
 Beta 2.2.19
 	* Mise à jour TinyMCE imagemanager plugin 3.1.2
 	* Modification dans la configuration de tinyMCE

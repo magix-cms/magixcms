@@ -30,6 +30,8 @@
  * @return string
  */
 function smarty_function_widget_googletools($params, &$smarty){
+	$webmasterdata = backend_model_setting::select_uniq_setting('webmaster');
+	$analyticsdata = backend_model_setting::select_uniq_setting('analytics');
 	$plugin = '<table class="clear">
 					<thead>
 					<tr>
@@ -40,16 +42,15 @@ function smarty_function_widget_googletools($params, &$smarty){
 					</thead>
 					<tbody>
 					<tr>';
-	$gdata = backend_db_googletools::adminDbGtools()->s_google_tools_widget();
-	if($gdata['webmaster'] == null){
+	if($webmasterdata['setting_value'] == null){
 		$webtools = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-alert"></span></div>';
 	}else{
 		$webtools = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
 	}
-	if($gdata['analytics'] == null){
+	if($analyticsdata['setting_value'] == null){
 		$analytics = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-alert"></span></div>';
 	}else{
-		$analytics = $gdata['analytics'];
+		$analytics = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
 	}
 	$plugin .= '<td class="maximal">'.$webtools.'</td>
 				<td class="medium">'.$analytics.'</td>

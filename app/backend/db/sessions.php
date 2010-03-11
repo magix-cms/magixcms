@@ -16,12 +16,27 @@ class backend_db_sessions{
 	 */
 	protected $layer;
 	/**
+	 * singleton dbconfig
+	 * @access public
+	 * @var void
+	 */
+	static public $admindbsession;
+	/**
 	 * Function construct class
 	 *
 	 */
 	function __construct(){
 		$this->layer = new magixcjquery_magixdb_layer();
 	}
+	/**
+	 * instance backend_db_config with singleton
+	 */
+	public static function adminDbSession(){
+        if (!isset(self::$admindbsession)){
+         	self::$admindbsession = new backend_db_sessions();
+        }
+    	return self::$admindbsession;
+    }
 	/**
 	 * deletes the current session id
 	 * @param $userid

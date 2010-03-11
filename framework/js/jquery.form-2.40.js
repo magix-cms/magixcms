@@ -1,7 +1,7 @@
 /*
  * jQuery Form Plugin
- * version: 2.33 (22-SEP-2009)
- * @requires jQuery v1.2.6 or later
+ * version: 2.40 (26-FEB-2010)
+ * @requires jQuery v1.3.2 or later
  *
  * Examples and documentation at: http://malsup.com/jquery/form/
  * Dual licensed under the MIT and GPL licenses:
@@ -62,7 +62,8 @@ $.fn.ajaxSubmit = function(options) {
 
 	options = $.extend({
 		url:  url,
-		type: this.attr('method') || 'GET'
+		type: this.attr('method') || 'GET',
+		iframeSrc: /^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank'
 	}, options || {});
 
 	// hook for manipulating the form data before it is extracted;
@@ -129,9 +130,9 @@ $.fn.ajaxSubmit = function(options) {
 	else if (options.success)
 		callbacks.push(options.success);
 
-	options.success = function(data, status) {
+	options.success = function(data, status, xhr) { // jQuery 1.4+ passes xhr as 3rd arg
 		for (var i=0, max=callbacks.length; i < max; i++)
-			callbacks[i].apply(options, [data, status, $form]);
+			callbacks[i].apply(options, [data, status, xhr || $form, $form]);
 	};
 
 	// are there files to upload?
@@ -146,7 +147,8 @@ $.fn.ajaxSubmit = function(options) {
 //	multipart = ($form.attr('enctype') == mp || $form.attr('encoding') == mp);
 
 	// options.iframe allows user to force iframe mode
-   if (options.iframe || found || multipart) {
+	// 06-NOV-09: now defaulting to iframe mode if file input is detected
+   if ((files.length && options.iframe !== false) || options.iframe || found || multipart) {
 	   // hack to fix Safari hang (thanks to Tim Molendijk for this)
 	   // see:  http://groups.google.com/group/jquery-dev/browse_thread/thread/36395b7ab510dd5d
 	   if (options.closeKeepAlive)
@@ -175,7 +177,7 @@ $.fn.ajaxSubmit = function(options) {
 		var s = $.extend(true, {}, $.extend(true, {}, $.ajaxSettings), opts);
 
 		var id = 'jqFormIO' + (new Date().getTime());
-		var $io = $('<iframe id="' + id + '" name="' + id + '" src="about:blank" />');
+		var $io = $('<iframe id="' + id + '" name="' + id + '" src="'+ opts.iframeSrc +'" onload="(jQuery(this).data(\'form-plugin-onload\'))()" />');
 		var io = $io[0];
 
 		$io.css({ position: 'absolute', top: '-1000px', left: '-1000px' });
@@ -191,7 +193,7 @@ $.fn.ajaxSubmit = function(options) {
 			setRequestHeader: function() {},
 			abort: function() {
 				this.aborted = 1;
-				$io.attr('src','about:blank'); // abort op in progress
+				$io.attr('src', opts.iframeSrc); // abort op in progress
 			}
 		};
 
@@ -207,7 +209,7 @@ $.fn.ajaxSubmit = function(options) {
 		if (xhr.aborted)
 			return;
 
-		var cbInvoked = 0;
+		var cbInvoked = false;
 		var timedOut = 0;
 
 		// add submitting element to data if we know it
@@ -215,17 +217,17 @@ $.fn.ajaxSubmit = function(options) {
 		if (sub) {
 			var n = sub.name;
 			if (n && !sub.disabled) {
-				options.extraData = options.extraData || {};
-				options.extraData[n] = sub.value;
+				opts.extraData = opts.extraData || {};
+				opts.extraData[n] = sub.value;
 				if (sub.type == "image") {
-					options.extraData[name+'.x'] = form.clk_x;
-					options.extraData[name+'.y'] = form.clk_y;
+					opts.extraData[name+'.x'] = form.clk_x;
+					opts.extraData[name+'.y'] = form.clk_y;
 				}
 			}
 		}
 
 		// take a breath so that pending repaints get some cpu time before the upload starts
-		setTimeout(function() {
+		function doSubmit() {
 			// make sure form attrs are set
 			var t = $form.attr('target'), a = $form.attr('action');
 
@@ -237,7 +239,7 @@ $.fn.ajaxSubmit = function(options) {
 				form.setAttribute('action', opts.url);
 
 			// ie borks in some cases when setting encoding
-			if (! options.skipEncodingOverride) {
+			if (! opts.skipEncodingOverride) {
 				$form.attr({
 					encoding: 'multipart/form-data',
 					enctype:  'multipart/form-data'
@@ -251,15 +253,15 @@ $.fn.ajaxSubmit = function(options) {
 			// add "extra" data to form if provided in options
 			var extraInputs = [];
 			try {
-				if (options.extraData)
-					for (var n in options.extraData)
+				if (opts.extraData)
+					for (var n in opts.extraData)
 						extraInputs.push(
-							$('<input type="hidden" name="'+n+'" value="'+options.extraData[n]+'" />')
+							$('<input type="hidden" name="'+n+'" value="'+opts.extraData[n]+'" />')
 								.appendTo(form)[0]);
 
 				// add iframe to doc and submit the form
 				$io.appendTo('body');
-				io.attachEvent ? io.attachEvent('onload', cb) : io.addEventListener('load', cb, false);
+				$io.data('form-plugin-onload', cb);
 				form.submit();
 			}
 			finally {
@@ -268,14 +270,18 @@ $.fn.ajaxSubmit = function(options) {
 				t ? form.setAttribute('target', t) : $form.removeAttr('target');
 				$(extraInputs).remove();
 			}
-		}, 10);
+		};
 
-		var domCheckCount = 50;
+		if (opts.forceSync)
+			doSubmit();
+		else
+			setTimeout(doSubmit, 10); // this lets dom updates render
+	
+		var domCheckCount = 100;
 
 		function cb() {
-			if (cbInvoked++) return;
-
-			io.detachEvent ? io.detachEvent('onload', cb) : io.removeEventListener('load', cb, false);
+			if (cbInvoked) 
+				return;
 
 			var ok = true;
 			try {
@@ -291,14 +297,14 @@ $.fn.ajaxSubmit = function(options) {
 				 	if (--domCheckCount) {
 						// in some browsers (Opera) the iframe DOM is not always traversable when
 						// the onload callback fires, so we loop a bit to accommodate
-						cbInvoked = 0;
-						setTimeout(cb, 100);
+						setTimeout(cb, 250);
 						return;
 					}
-					log('Could not access iframe DOM after 50 tries.');
+					log('Could not access iframe DOM after 100 tries.');
 					return;
 				}
 
+				cbInvoked = true;
 				xhr.responseText = doc.body ? doc.body.innerHTML : null;
 				xhr.responseXML = doc.XMLDocument ? doc.XMLDocument : doc;
 				xhr.getResponseHeader = function(header){
@@ -339,6 +345,7 @@ $.fn.ajaxSubmit = function(options) {
 
 			// clean up
 			setTimeout(function() {
+				$io.removeData('form-plugin-onload');
 				$io.remove();
 				xhr.responseXML = null;
 			}, 100);
@@ -373,17 +380,22 @@ $.fn.ajaxSubmit = function(options) {
  * the form itself.
  */
 $.fn.ajaxForm = function(options) {
-	return this.ajaxFormUnbind().bind('submit.form-plugin', function() {
+	return this.ajaxFormUnbind().bind('submit.form-plugin', function(e) {
+		e.preventDefault();
 		$(this).ajaxSubmit(options);
-		return false;
 	}).bind('click.form-plugin', function(e) {
-		var $el = $(e.target);
+		var target = e.target;
+		var $el = $(target);
 		if (!($el.is(":submit,input:image"))) {
-			return;
+			// is this a child element of the submit el?  (ex: a span within a button)
+			var t = $el.closest(':submit');
+			if (t.length == 0)
+				return;
+			target = t[0];
 		}
 		var form = this;
-		form.clk = e.target;
-		if (e.target.type == 'image') {
+		form.clk = target;
+		if (target.type == 'image') {
 			if (e.offsetX != undefined) {
 				form.clk_x = e.offsetX;
 				form.clk_y = e.offsetY;
@@ -392,12 +404,12 @@ $.fn.ajaxForm = function(options) {
 				form.clk_x = e.pageX - offset.left;
 				form.clk_y = e.pageY - offset.top;
 			} else {
-				form.clk_x = e.pageX - e.target.offsetLeft;
-				form.clk_y = e.pageY - e.target.offsetTop;
+				form.clk_x = e.pageX - target.offsetLeft;
+				form.clk_y = e.pageY - target.offsetTop;
 			}
 		}
 		// clear form vars
-		setTimeout(function() { form.clk = form.clk_x = form.clk_y = null; }, 10);
+		setTimeout(function() { form.clk = form.clk_x = form.clk_y = null; }, 100);
 	});
 };
 

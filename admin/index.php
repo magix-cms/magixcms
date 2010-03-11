@@ -196,7 +196,11 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			$plugin->display_plugins();
 		}elseif(magixcjquery_filter_request::isGet('googletools')){
 			$googletools = new backend_controller_googletools();
-			$googletools->display_gdata();
+			if(magixcjquery_filter_request::isGet('pgdata')){
+				$googletools->post_gdata();
+			}else{
+				$googletools->display_gdata();
+			}
 		}elseif(magixcjquery_filter_request::isGet('sitemap')){
 			$sitemap = new backend_controller_sitemap();
 			if(magixcjquery_filter_request::isGet('createxml')){

@@ -131,11 +131,13 @@ class backend_controller_admin{
 		//ini_set("session.cookie_lifetime",1800);
 		session_name('adminlang');
 		ini_set('session.hash_function',1);
-		  session_start();
+		session_start();
 		if (!isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
 			if (!isset($this->acmail)) {
 				header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login/');	
 			}
+		}elseif(!backend_model_sessions::compareSessionId()){
+			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login/');	
 		}
 	}
 	/**

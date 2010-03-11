@@ -584,9 +584,9 @@ $(function() {
 					url: "/admin/index.php?dashboard&sitemap&createxml",
 					async: false,
 					success:function(e) {
-					$("#reponse").html(e);
-				}
-			});
+						$("#reponse").html(e);
+					}
+				});
 		 });
 		$('.pinggoogle').click(function (){
 			$.ajax({
@@ -594,8 +594,29 @@ $(function() {
 				url: "/admin/index.php?dashboard&sitemap&googleping",
 				async: false,
 				success:function(e) {
-				$("#reponse").html(e);
-			}
+					$("#reponse").html(e);
+				}
+			});
 		});
-	 });
+		/**
+		 * Soumission de codes Google webmaster et/ou analytics
+		 */
+		$("#forms-webmaster-tools").submit(function(){
+			$(this).ajaxSubmit({
+				type:"post",
+				success:function(e) {
+					$("#resultgdata").html(e);
+				}
+			});
+			return false; 
+		});
+		$("#forms-analytics-tools").submit(function(){
+			$(this).ajaxSubmit({
+				type:"post",
+				success:function(e) {
+					$("#resultgdata").html(e);
+				}
+			});
+			return false; 
+		});
 	});
