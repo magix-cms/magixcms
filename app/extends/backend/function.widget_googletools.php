@@ -4,7 +4,7 @@
  * @package    Magix CMS
  * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cmsa.com)
  * @license    Proprietary software
- * @version    1.0 2009-10-30
+ * @version    1.1 2010-03-11
  * @author Gérits Aurélien <aurelien@web-solution-way.be>
  *
  */
@@ -18,7 +18,8 @@
  *
  * Type:     function
  * Name:     widget_googletools
- * Date:    
+ * Date:     Décember 18, 2009
+ * Update:   Mars 12, 2010  
  * Purpose:  
  * Examples: {widget_googletools}
  * Output:   

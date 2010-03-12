@@ -8,7 +8,7 @@
  * @author Gérits Aurélien <aurelien@web-solution-way.be>
  *
  */
-class backend_db_setting{
+class frontend_db_setting{
 	/**
 	 * protected var ini class magixLayer
 	 *
@@ -21,7 +21,7 @@ class backend_db_setting{
 	 * @access public
 	 * @var void
 	 */
-	static public $admindbsetting;
+	static public $publicdbsetting;
 	/**
 	 * Function construct class
 	 *
@@ -32,11 +32,11 @@ class backend_db_setting{
 	/**
 	 * instance frontend_db_home with singleton
 	 */
-	public static function adminDbSetting(){
-        if (!isset(self::$admindbsetting)){
-         	self::$admindbsetting = new backend_db_setting();
+	public static function publicDbSetting(){
+        if (!isset(self::$publicdbsetting)){
+         	self::$publicdbsetting = new frontend_db_setting();
         }
-    	return self::$admindbsetting;
+    	return self::$publicdbsetting;
     }
     /**
      * Retourne le setting selectionner
@@ -45,18 +45,5 @@ class backend_db_setting{
     public function s_uniq_setting_value($setting_id){
     	$sql = 'SELECT setting_value FROM mc_setting WHERE setting_id = :setting_id';
 		return $this->layer->selectOne($sql,array(':setting_id'	=>	$setting_id));
-    }
-    /**
-     * Mise à jour du setting selectionner
-     * @param $setting_id
-     * @param $setting_value
-     */
-	function u_uniq_setting_value($setting_id,$setting_value){
-    	$sql = 'UPDATE mc_setting SET setting_value = :setting_value WHERE setting_id = :setting_id';
-		$this->layer->update($sql,
-			array(
-				':setting_id'	=>	$setting_id,
-				':setting_value'=>	$setting_value
-			));
     }
 }

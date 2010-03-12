@@ -38,6 +38,9 @@ class frontend_db_cms{
         }
     	return self::$publicdbcms;
     }
+    /**
+     * ################################ Pages ###############################
+     */
 	/**
 	 * Affiche les données d'une page CMS
 	 * @param $getpurl
@@ -65,10 +68,13 @@ class frontend_db_cms{
 		));
 	}
 	/**
+	 * ######################### Menu ou sidebar #########################
+	 */
+	/**
 	 * sélectionne les pages classique (catégorie + langue)
 	 * @param $codelang
 	 */
-	function block_plugin_cms($codelang){
+	/*function s_page_cms($codelang){
 		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory,c.category, p.pathpage,c.pathcategory, lang.codelang
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
@@ -76,11 +82,11 @@ class frontend_db_cms{
 				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory != 0
 				ORDER BY p.orderpage,c.idorder';
 		return $this->layer->select($sql,array('codelang'=>$codelang));
-	}
+	}*/
 	/**
 	 * sélectionne les pages sans la langue
 	 */
-	function block_plugin_cms_nolang(){
+	/*function s_page_cms_without_lang(){
 		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory,c.category, p.pathpage,c.pathcategory
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
@@ -88,11 +94,11 @@ class frontend_db_cms{
 				WHERE viewpage = 1 AND p.idlang =0 AND p.idcategory != 0
 				ORDER BY p.orderpage,c.idorder';
 		return $this->layer->select($sql);
-	}
+	}*/
 	/**
-	 * sélectionne les pages sans la catégorie
+	 * sélectionne les pages avec une langue et sans catégorie
 	 */
-	function block_plugin_cms_nocat($codelang){
+	function s_root_page_cms($codelang){
 		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang, p.pathpage,p.idcategory,lang.codelang
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
@@ -101,9 +107,9 @@ class frontend_db_cms{
 		return $this->layer->select($sql,array('codelang'=>$codelang));
 	}
 	/**
-	 * sélectionne les pages sans la langue et la catégorie
+	 * sélectionne les pages sans la langue et sans la catégorie
 	 */
-	function block_plugin_cms_nolang_nocat(){
+	function s_root_page_cms_without_lang(){
 		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage, p.pathpage,p.idcategory
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
@@ -115,19 +121,60 @@ class frontend_db_cms{
 	 * Selectionne les pages suivant l'identifiant de la catégorie
 	 * @param $idcategory
 	 */
-	function block_plugin_cms_by_category($idcategory){
+	function s_page_cms_join_category_without_lang($idcategory){
 		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory,c.category, p.pathpage,c.pathcategory
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-				WHERE viewpage = 1 AND p.idlang =0 AND p.idcategory = :idcategory';
+				WHERE viewpage = 1 AND p.idlang =0 AND p.idcategory = :idcategory
+				ORDER BY p.orderpage';
 		return $this->layer->select($sql,array(':idcategory'=>$idcategory));
 	}
-	function s_all_category_cms(){
+	/**
+	 * Selectionne les pages suivant l'identifiant de la catégorie avec la langue
+	 * @param $codelang
+	 * @param $idcategory
+	 */
+	function s_page_cms_join_category($idcategory,$codelang){
+		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory,c.category, p.pathpage,c.pathcategory
+				FROM mc_cms_page AS p
+				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
+				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory = :idcategory
+				ORDER BY p.orderpage';
+		return $this->layer->select($sql,array(':idcategory'=>$idcategory,'codelang'=>$codelang));
+	}
+	/*function s_all_category_cms(){
 		$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder
 				FROM mc_cms_category AS c
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				ORDER BY c.idorder';
 		return $this->layer->select($sql);
+	}*/
+	/**
+	 * ################## Sélection des Catégories ##########
+	 */
+	/**
+	 * Selectionne les catégories sans langue
+	 */
+	public function s_category_cms_without_lang(){
+		$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder
+				FROM mc_cms_category AS c
+				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE c.idlang = 0
+				ORDER BY c.idorder';
+		return $this->layer->select($sql);
+	}
+	/**
+	 * Selectionne les catégories avec une langue
+	 * @param $codelang
+	 */
+	public function s_category_cms($codelang){
+		$sql = 'SELECT c.idcategory,c.category,c.pathcategory,lang.codelang,c.idorder
+				FROM mc_cms_category AS c
+				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE lang.codelang = :codelang
+				ORDER BY c.idorder';
+		return $this->layer->select($sql,array('codelang'=>$codelang));
 	}
 }
