@@ -37,7 +37,7 @@ function smarty_function_widget_catalog($params, &$smarty){
 	}
 	$viewuser = empty($params['viewuser']) ? true : false;
 	if($viewuser){
-		$thuser = '<th>Users</th>';
+		$thuser = '<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>';
 	}else{
 		$thuser = '';
 	}
@@ -63,12 +63,12 @@ function smarty_function_widget_catalog($params, &$smarty){
 	$plugin .= '<table class="clear">
 						<thead>
 							<tr>
-							'.$thuser.'
 							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
 							<th><span class="ui-icon ui-icon-folder-collapsed"></span></th>
 							<th><span class="ui-icon ui-icon-folder-open"></span></th>
 							<th><span class="ui-icon ui-icon-image"></span></th>
 							<th><span class="ui-icon ui-icon-flag"></span></th>
+							'.$thuser.'
 							<th><span class="ui-icon ui-icon-zoomin"></span></th>
 							<th><span class="ui-icon ui-icon-pencil"></span></th>
 							<th><span class="ui-icon ui-icon-transferthick-e-w"></span></th>
@@ -109,12 +109,12 @@ function smarty_function_widget_catalog($params, &$smarty){
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal">'.$pcms['pseudo'].'</td>':'';
-			 $plugin .=	$viewuser?'<td class="nowrap">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</td>':'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</td>';
+			 $plugin .=	$viewuser?'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</td>':'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</td>';
 			 $plugin .= '<td class="nowrap"><a class="widget-links post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'index.php?'.$lang.'catalog&amp;'.$pcms['pathclibelle'].'&amp;idclc='.$pcms['idclc'].'">'.$pcms['clibelle'].'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$subcategory.'</td>';
 			 $plugin .= '<td class="nowrap">'.$imgcatalog.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
+			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'index.php?'.$lang.'catalog&amp;'.$pcms['pathclibelle'].'&amp;idclc='.$pcms['idclc'].$subcatpath.'&amp;'.$pcms['urlcatalog'].'&amp;idcatalog='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/catalog/product/edit/'.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/catalog/product/move/'.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';

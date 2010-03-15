@@ -58,12 +58,12 @@ function smarty_function_widget_cms($params, &$smarty){
 	$plugin .= '<table class="clear">
 						<thead>
 							<tr>
-							'.$thuser.'
 							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
 							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-t"></span></th>
 							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-d"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
+							'.$thuser.'
 							<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
@@ -102,13 +102,13 @@ function smarty_function_widget_cms($params, &$smarty){
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal">'.$pcms['pseudo'].'</td>':'';
-			 $plugin .=	$viewuser?'<td class="nowrap">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</td>':'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</td>';
+			 $plugin .=	$viewuser?'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],40,'').'</td>':'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</td>';
 			 $plugin .=	'<td class="nowrap">'.$category.'</td>';
 			 //$plugin .=	'<td class="nowrap">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pcms['contentpage'],20,"...")).'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_t.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_d.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
+			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().$catpath.$pcms['pathpage'].'.html'.'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/cms/editpage/'.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deletecms" title="'.$pcms['idpage'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
