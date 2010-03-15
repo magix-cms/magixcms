@@ -36,6 +36,9 @@ $(function() {
 				$(this).removeClass("ui-state-active");
 			}
 		});
+		/**
+		 * Ajout d'une classe spécifique au survol d'un thème
+		 */
 		$(".list-screen:not(.ui-state-active)").hover(
 				function(){
 					if($(this).find('ui-state-disabled')){
@@ -50,6 +53,9 @@ $(function() {
 					}
 				}
 		);
+		/**
+		 * Ajout d'une class spécifique si le thème est actif
+		 */
 		$(".list-screen").live("click",function (){
 			$('.list-screen').removeClass("ui-state-active");
 			$('.list-screen').addClass("ui-state-disabled");
@@ -63,44 +69,9 @@ $(function() {
 				$(this).addClass("ui-state-active");
 			}
 		});
-		/*$(".list-screen a").bind({
-			click: function() {
-			var hreftitle = $(this).attr("title");
-				if(hreftitle != null){
-					if(ie){
-					$.post('/admin/index.php?dashboard&templates&post', 
-							{ theme: hreftitle}
-						, function(e) {
-							$(".reqdialog").html(e);
-							setTimeout(function(){
-								location.reload();
-							},2000);
-						});
-					}else{
-						$.ajax({
-							type:'post',
-							data: "theme="+hreftitle,
-							url: "/admin/index.php?dashboard&templates&post",
-							timeout:5000,
-							error: function(request,error) {
-								  if (error == "timeout") {
-									  $("#error").append("The request timed out, please resubmit");
-								  }
-								  else {
-									  $("#error").append("ERROR: " + error);
-								  }
-							},
-							success:function(e) {
-								$(".reqdialog").html(e);
-								setTimeout(function(){
-									location.reload();
-								},2000);
-							}
-						});
-					}
-				}
-			}
-		});*/
+		/**
+		 * Requête ajax pour le changement de thème
+		 */
 		$(".list-screen a").bind("click", function(){
 			var hreftitle = $(this).attr("title");
 				if(hreftitle != null){
@@ -138,7 +109,7 @@ $(function() {
 				}
 		});
 		//menu accordeon
-		$("#sidebar .management,#sidebar .articles,#sidebar .catalog,#sidebar .cms,#sidebar .extensions").accordion({
+		/*$("#sidebar .management,#sidebar .articles,#sidebar .catalog,#sidebar .cms,#sidebar .extensions").accordion({
 			header: "h3",
 			icons: {
 				header: false,
@@ -170,7 +141,39 @@ $(function() {
 		  /* $("#bdashboard").click(function(){
 			   $.cookie('menustate', null, { path: '/', expires: 2 });
 		   });*/
+		/*}*/
+		var accordion = $("#sidebar .management-menu");
+		var index = $.cookie("magixadmin");
+		var active;
+		if (index !== null) {
+			active = accordion.find("h3:eq(" + index + ")");
+		} else {
+			active = 0;
 		}
+		accordion.accordion({
+			header: "h3",
+			//event: "click hoverintent",
+			/*icons: {
+				header: false,
+				headerSelected: false
+			},*/
+			navigation: false,
+			active: active,
+			selectedClass: '.current',
+			autoHeight: false,
+			clearStyle: true,
+			collapsibe: true,
+			alwaysOpen: false,
+			animated: 'slide',
+			change: function(event, ui) {
+				var index = $(this).find("h3").index ( ui.newHeader[0] );
+				$.cookie("magixadmin", index, {path: "/",expires: 1});
+			},
+			autoHeight: false
+		});
+		/**
+		 * Affiche ou non le module d'ajout des métas dans une div
+		 */
 		$("#showmetas span").addClass("ui-icon ui-icon-circle-plus");
 		 $("#showmetas").click(function(){
 		 	 var answer = $('#metas');
@@ -228,7 +231,13 @@ $(function() {
 			 window.open($(this).attr('href'));
 			 return false;
 		});
+	    /**
+	     * Initialisation de colorbox dans l'administration pour la prévisualisation
+	     */
 	    $(".post-preview").colorbox({width:"90%", height:"90%", iframe:true});
+	    /**
+	     * Requête ajax pour la suppression des langues
+	     */
 	    $('.dellang').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -263,6 +272,9 @@ $(function() {
 				}
 			});
 		 });
+	    /**
+	     * Requête ajax pour la suppression des pages CMS
+	     */
 		$('.deletecms').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -292,6 +304,9 @@ $(function() {
 				}
 			});
 		 });
+		/**
+	     * Requête ajax pour la suppression des formulaires
+	     */
 	    $('.deleteinput').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -321,6 +336,9 @@ $(function() {
 				}
 			});
 		 });
+	    /**
+	     * Requête ajax pour la suppression des utilisateurs
+	     */
 	    $('.deleteuser').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -350,6 +368,9 @@ $(function() {
 				}
 			});
 		 });
+	    /**
+	     * Requête ajax pour la suppression des articles ou news
+	     */
 	    $('.deletenews').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -379,6 +400,9 @@ $(function() {
 				}
 			});
 		 });
+	    /**
+	     * Requête ajax pour la suppression des pages d'accueil
+	     */
 	    $('.deletehome').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -408,10 +432,17 @@ $(function() {
 				}
 			});
 		 });
+	    /**
+	     * Ajout d'une class au survol d'une catégorie
+	     */
 	    $('#sortcat li,#sortsubcat li').hover(
 				function() { $(this).addClass('ui-state-hover'); },
 				function() { $(this).removeClass('ui-state-hover'); }
 		);
+	    /**
+	     * Initialisation du drag and drop pour les catégories (catalogue ou cms)
+	     * Requête ajax pour l'enregistrement du déplacement
+	     */
 		$("#sortcat").sortable({
 			axis: "y",
 			cursor: "move",
@@ -427,6 +458,10 @@ $(function() {
 				});
 			}
 		});
+		/**
+	     * Initialisation du drag and drop pour les sous catégories (catalogue uniquement)
+	     * Requête ajax pour l'enregistrement du déplacement
+	     */
 		$("#sortsubcat").sortable({
 			axis: "y",
 			cursor: "move",
@@ -442,6 +477,9 @@ $(function() {
 				});
 			}
 		});
+		/**
+	     * Requête ajax pour la suppression des produits
+	     */
 		$('.deleteproduct').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -476,6 +514,9 @@ $(function() {
 				}
 			});
 		 });
+		/**
+	     * Requête ajax pour la suppression des catégories
+	     */
 		$('.delc').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -514,6 +555,9 @@ $(function() {
 				}
 			});
 		 });
+		/**
+	     * Requête ajax pour la suppression des sous catégories dans le catalogue
+	     */
 		$('.dels').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -549,6 +593,9 @@ $(function() {
 				}
 			});
 		 });
+		/**
+	     * Requête ajax pour la suppression des réécriture de métas (news)
+	     */
 		$('.d-news-rmetas').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -578,6 +625,9 @@ $(function() {
 				}
 			});
 		 });
+		/**
+	     * Requête ajax pour la création, modification de fichier sitemap xml
+	     */
 		$('.createxml').click(function (){
 				$.ajax({
 					type:'get',
@@ -588,6 +638,9 @@ $(function() {
 					}
 				});
 		 });
+		/**
+	     * Requête ajax pour la création de la soumission vers google
+	     */
 		$('.pinggoogle').click(function (){
 			$.ajax({
 				type:'get',

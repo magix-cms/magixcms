@@ -15,14 +15,29 @@ class backend_model_blockDom{
 	 */
 	public static function select_language(){
 		if(backend_db_lang::dblang()->s_full_lang() != null){
-			$lang = '<select id="idlang" name="idlang" class="select">';
+			$lang = '<tr>
+						<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+					</tr>
+					<tr>
+						<td>';
+			$lang .= '<select id="idlang" name="idlang" class="select">';
 			$lang .= '<option value="0">Aucune langue</option>';
 			foreach(backend_db_lang::dblang()->s_full_lang() as $slang){
 				$lang .= '<option value="'.$slang['idlang'].'">'.$slang['codelang'].'</option>';
 			}
 			$lang .='</select>';
+			$lang .= '</td>
+							<td style="width:150px;" class="errorInput"></td>
+					</tr>
+					<tr>
+						<td class="status"></td>
+					</tr>';
 		}else{
-			$lang = '<input type="text" readonly="readonly" class="inputdisabled ui-corner-all" size="5" id="idlang" name="idlang" value="0">';
+			$lang = '<tr>
+						<td>';
+			$lang .= '<input type="hidden" size="5" id="idlang" name="idlang" value="0" />';
+			$lang .= '</td>
+					</tr>';
 		}
 		return $lang;
 	}

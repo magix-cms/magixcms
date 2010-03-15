@@ -144,7 +144,7 @@ div.selector select {
 	margin: 0;
 	padding-right: 40px;
 }*/
-form,fieldset{border:none;border-width:0;}
+form fieldset{border:none;border-width:0;}
 label,select,.ui-select-menu { float: left; margin-right: 10px; }
 select { width: 200px; }
 /*############## plugin password metter ######################*/

@@ -122,7 +122,6 @@ $(document).ready(function(){
 		$("#cryptpass").keyup(function() {
 			  $(this).valid();
 		});
-	//$(".select").uniform();
 	$('.select').selectmenu({width: 200,maxWidth: 200});
 	$("form input").filter(":checkbox,:radio").checkbox();
 });

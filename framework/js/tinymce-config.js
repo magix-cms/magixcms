@@ -22,7 +22,7 @@ $(function() {
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_statusbar_location : "bottom",
 	theme_advanced_resizing : true,
-	theme_advanced_styles : "Gras=bold;Italic=italic;Italic Gras=italicbold;Souligné=underline;",
+	theme_advanced_styles : "Gras=bold;Italic=italic;Italic Gras=italicbold;Souligné=underline;imagebox=imagebox",
 	// Drop lists for link/image/media/template dialogs
 	template_external_list_url : "lists/template_list.js",
 	external_link_list_url : "lists/link_list.js",

@@ -105,7 +105,7 @@ body,
 	border:1px solid;
 	font-size:12px;
 }
-#sidebar .management,#sidebar .articles,#sidebar .cms, #sidebar .catalog,#sidebar .extensions{
+#sidebar .management-menu{
 	width:160px;
 	margin-left:5px;
 }
