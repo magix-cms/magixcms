@@ -124,6 +124,10 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 				}else{
 					$catalog->display_category();
 				}
+			}elseif(magixcjquery_filter_request::isGet('upcat')){
+					$catalog->display_edit_category();
+			}elseif(magixcjquery_filter_request::isGet('upsubcat')){
+					//$catalog->display_edit_subcategory();
 			}elseif(magixcjquery_filter_request::isGet('product')){
 				if(magixcjquery_filter_request::isGet('addproduct')){
 					$catalog->insert_new_product();

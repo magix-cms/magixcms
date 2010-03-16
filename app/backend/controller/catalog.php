@@ -259,7 +259,12 @@ class backend_controller_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
 			$category = '<ul id="sortcat">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $cat){
-				$category .= '<li class="ui-state-default ui-corner-all" id="corder_'.$cat['idclc'].'"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$cat['clibelle'].'<div style="float:right;"><a class="aspanfloat delc" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-close"></span></a></div>'.'</li>';
+				$category .= '<li class="ui-state-default ui-corner-all" id="corder_'.$cat['idclc'].'">';
+				$category .= '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>';
+				$category .= '<a class="ucategory" href="#" title="'.$cat['idclc'].'">'.$cat['clibelle'].'</a>';
+				$category .= '<div style="float:right;"><a class="aspanfloat delc" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-close"></span></a>';
+				$category .= '</div>';
+				$category .= '</li>';
 			}
 			$category .= '</ul>';
 		}
@@ -308,7 +313,13 @@ class backend_controller_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() != null){
 			$category = '<ul id="sortsubcat">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() as $cat){
-				$category .= '<li class="ui-state-default ui-corner-all" id="sorder_'.$cat['idcls'].'"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><div class="sortdivfloat">'.$cat['slibelle'].'</div><div style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></div>'.$cat['clibelle'].'<div style="float:right;"><a style="float:left;" href="#"><span class="ui-icon ui-icon-pencil"></span></a><a class="aspanfloat dels" href="#" title="'.$cat['idcls'].'"><span class="ui-icon ui-icon-close"></span></a></div></li>';
+				$category .= '<li class="ui-state-default ui-corner-all" id="sorder_'.$cat['idcls'].'">';
+				$category .= '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>';
+				$category .= '<div class="sortdivfloat">'.$cat['slibelle'].'</div>';
+				$category .= '<div style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></div>';
+				$category .= $cat['clibelle'].'<div style="float:right;"><a style="float:left;" href="#"><span class="ui-icon ui-icon-pencil"></span></a>';
+				$category .= '<a class="aspanfloat dels" href="#" title="'.$cat['idcls'].'"><span class="ui-icon ui-icon-close"></span></a>';
+				$category .= '</div></li>';
 			}
 			$category .= '</ul>';
 		}
@@ -782,6 +793,9 @@ class backend_controller_catalog{
 		backend_config_smarty::getInstance()->assign('subcategory_order',self::catalog_sub_category_order());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/category.phtml');
+	}
+	function display_edit_category(){
+		backend_config_smarty::getInstance()->display('catalog/editcategory.phtml');
 	}
 	/**
 	 * Affiche la page des produits ou insertion d'un produit

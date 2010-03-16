@@ -672,4 +672,29 @@ $(function() {
 			});
 			return false; 
 		});
+		$('.ucategory').click(function(){
+			$("#update-category").dialog({
+				bgiframe: true,
+				autoOpen: false,
+				height: 300,
+				width:320,
+				modal: true,
+				buttons: {
+					'Save': function() {
+						$.ajax({
+							type: "post",
+						    url : "",
+						    global: false,
+						    timeout : 5000,
+						    success : function(e){
+						    	$(".msg").html(e).show();
+						    }
+						})
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+					}
+				}
+			});
+		});
 	});
