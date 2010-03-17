@@ -672,6 +672,9 @@ $(function() {
 			});
 			return false; 
 		});
+		/**
+		 * Soumission d'une nouvelle catégorie dans le catalogue
+		 */
 		$("#forms-catalog-category").submit(function(){
 			$(this).ajaxSubmit({
 				type:"post",
@@ -681,6 +684,9 @@ $(function() {
 			});
 			return false; 
 		});
+		/**
+		 * Soumission d'une nouvelle sous catégorie dans le catalogue
+		 */
 		$("#forms-catalog-subcategory").submit(function(){
 			$(this).ajaxSubmit({
 				type:"post",

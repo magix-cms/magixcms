@@ -1,3 +1,23 @@
+Beta 2.2.21
+	* Fix bug sidebar accordéon dans l'administration (prise en charge cookie) 
+	* Fix bug affichage sidebar
+	* Correction multiple + ajout dans le javascript global de l'administration
+	* Fix bug bordure pour les checkbox (administration)
+	* Modification choix des langues dans l'administration(menu select/champs texte)
+	* Suppression du dossier de tinymce avant upgrade
+	* Upgrade tinyMCE 3.3b2 vers la version 3.3 stable (Fix bug table et cellule IE8,Fix bug crash chrome 4) 
+		- Suppression de tinyMCE 3.3b2 
+		- Ajout de tinyMCE 3.3 stable 
+	* Correction (mineur) dans le fichier min/admin pour tinyMCE 3.3
+	* Correction (mineur) des widgets pour un affichage plus complet 
+		- Déplacement de l'utilisateur 
+		- Caractères supplémentaires pour le titre du catalogue, titre de la page CMS, titre page d'acceuil.
+	* Création de l'édition des catégories et sous catégories dans l'administration du catalogue 
+	* Correction des liens CSS dans les thèmes colorbox 
+	* Ajout d'un nouveaux thème dans colorbox(colorbox-lightbox) 
+	* Correction du type de soumission d'une nouvelle catégorie, sous catégorie (remplacement par post ajax) 
+	* Suppression de de la requête de contrôle de version (suppression comparatif)
+	
 Beta 2.2.20
 	* Suppression de backend/controller/googletools.php
 	* Ajout du setting global (backend/controller/setting.php) + paramètres google tools
