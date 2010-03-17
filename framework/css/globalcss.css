@@ -318,8 +318,8 @@ html[xmlns*=""] body:last-child ... { ... }
 #sortable li,#sortcat li,#sortsubcat li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }
 #sortable li span,#sortcat li span,#sortsubcat li span { position: absolute; margin-left: -1.3em; }
 #sortable li:hover,#sortcat li:hover,#sortsubcat li:hover{cursor: move;}
-#sortsubcat .sortdivfloat{float:left;width:18%;}
-#sortsubcat .aspanfloat{float:left;margin-left:20px;}
+.sortdivfloat{float:left;width:18%;}
+.aspanfloat{float:left;margin-left:20px;}
 /*#################### magixicon ######################*/
 .magix-icon { width: 16px; height: 16px; background-image: url(/framework/img/magixicon_256x240.png); }
 /* positioning */

@@ -18,8 +18,8 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Ajouter une catégorie</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
-						<form id="forms-catalog-category" method="post" action="" style="margin-left:10px;">
-						{$msgcat}
+						<form id="forms-catalog-category" method="post" action="/admin/index.php?dashboard&amp;catalog&amp;category&amp;post" style="margin-left:10px;">
+						<div id="resultcategory"></div>
 						<fieldset>
 							<table>
 								<tr>
@@ -57,8 +57,8 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span><span style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></span><span style="float:left;" class="ui-icon ui-icon-folder-open"></span>Ajouter une sous-catégorie</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
-						<form id="forms-catalog-subcategory" method="post" action="" style="margin-left:10px;">
-						{$msgsubcat}
+						<form id="forms-catalog-subcategory" method="post" action="/admin/index.php?dashboard&amp;catalog&amp;category&amp;post" style="margin-left:10px;">
+						<div id="resultsubcategory"></div>
 						<fieldset>
 							<table>
 								<tr>
@@ -106,6 +106,8 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+<div id="update-category" title="Modifier une catégorie"></div>
+<div id="update-subcategory" title="Modifier une sous catégorie"></div>
 {include file="common/javascript.phtml"}
 </body>
 </html>

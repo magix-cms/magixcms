@@ -672,29 +672,94 @@ $(function() {
 			});
 			return false; 
 		});
-		$('.ucategory').click(function(){
-			$("#update-category").dialog({
-				bgiframe: true,
-				autoOpen: false,
-				height: 300,
-				width:320,
-				modal: true,
-				buttons: {
-					'Save': function() {
-						$.ajax({
-							type: "post",
-						    url : "",
-						    global: false,
-						    timeout : 5000,
-						    success : function(e){
-						    	$(".msg").html(e).show();
-						    }
-						})
-					},
-					Cancel: function() {
-						$(this).dialog('close');
-					}
+		$("#forms-catalog-category").submit(function(){
+			$(this).ajaxSubmit({
+				type:"post",
+				success:function(e) {
+					$("#resultcategory").html(e);
 				}
+			});
+			return false; 
+		});
+		$("#forms-catalog-subcategory").submit(function(){
+			$(this).ajaxSubmit({
+				type:"post",
+				success:function(e) {
+					$("#resultsubcategory").html(e);
+				}
+			});
+			return false; 
+		});
+		/**
+		 * Mise à jour d'une catégorie
+		 */
+		$('.ucategory').live("click",function(){
+			var idcategory = $(this).attr('title');
+			var url = '/admin/index.php?dashboard&catalog&upcat='+idcategory;
+			$("#update-category").load(url, function() {
+				$(this).dialog({
+					bgiframe: true,
+					height: 200,
+					width:320,
+					modal: true,
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: {
+						'Save': function() {
+						$.ajax({
+								type: "post",
+							    url : url,
+							    data: "update_category="+$('#update_category').val(),
+							    success : function(){
+									$(this).dialog('close');
+									location.reload()
+							    }
+							})
+						},
+						Cancel: function() {
+							$(this).dialog('close');
+							success: location.reload()
+						}
+					}
+				});
+			});
+		});
+		/**
+		 * Mise à jour d'une sous catégorie
+		 */
+		$('.usubcategory').live("click",function(){
+			var idsubcategory = $(this).attr('title');
+			var url = '/admin/index.php?dashboard&catalog&upsubcat='+idsubcategory;
+			$("#update-subcategory").load(url, function() {
+				$(this).dialog({
+					bgiframe: true,
+					height: 200,
+					width:320,
+					modal: true,
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: {
+						'Save': function() {
+						$.ajax({
+								type: "post",
+							    url : url,
+							    data: "update_subcategory="+$('#update_subcategory').val(),
+							    success : function(){
+									$(this).dialog('close');
+									location.reload()
+							    }
+							})
+						},
+						Cancel: function() {
+							$(this).dialog('close');
+							success: location.reload()
+						}
+					}
+				});
 			});
 		});
 	});

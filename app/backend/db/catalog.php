@@ -43,17 +43,33 @@ class backend_db_catalog{
     /**
      * ############ Categorie ############
      */
+    /**
+     * Selectionne les catégories suivant l'ordre défini dans l'administration
+     */
 	function s_catalog_category_corder(){
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.corder';
 		return $this->layer->select($sql);
     }
+    /**
+     * Requête de construction du menu select
+     */
 	function s_catalog_category_select_construct(){
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.idlang';
 		return $this->layer->select($sql);
+    }
+    /**
+     * Requête pour récupérer le contenu d'une catégorie
+     * @param $upcat
+     */
+	function s_catalog_category_id($upcat){
+    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
+    	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	WHERE c.idclc = :upcat';
+		return $this->layer->selectOne($sql,array(':upcat'=>$upcat));
     }
     /**
     * Selectionne le maximum des identifiants "order" pour les catégories
@@ -97,6 +113,22 @@ class backend_db_catalog{
 		);
 	}
 	/**
+	 * Mise à jour d'une catégorie
+	 * @param $clibelle
+	 * @param $pathclibelle
+	 * @param $upcat
+	 */
+	function u_catalog_category($clibelle,$pathclibelle,$upcat){
+		$sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle,pathclibelle = :pathclibelle WHERE idclc = :upcat';
+		$this->layer->update($sql,
+			array(
+			':clibelle'		=>	$clibelle,
+			':pathclibelle'	=>	$pathclibelle,
+			':upcat'		=>	$upcat
+			)
+		);
+	}
+	/**
      * Suppression d'une sous catégorie
      * @param $delc
      */
@@ -107,12 +139,26 @@ class backend_db_catalog{
 	/*
 	 * ########### Sous categorie #############
 	 */
+	/**
+     * Selectionne les sous catégories suivant l'ordre défini dans l'administration
+     */
 	function s_catalog_subcategory_sorder(){
     	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
 		ORDER BY s.sorder';
 		return $this->layer->select($sql);
+    }
+	/**
+     * Requête pour récupérer le contenu d'une sous catégorie
+     * @param $upcat
+     */
+	function s_catalog_subcategory_id($upsubcat){
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
+		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
+		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	WHERE s.idcls = :upsubcat';
+		return $this->layer->selectOne($sql,array(':upsubcat'=>$upsubcat));
     }
     /**
      * Suppression d'une sous catégorie
@@ -171,6 +217,22 @@ class backend_db_catalog{
 			array(
 			':i'=>$i,
 			':id'=>$id
+			)
+		);
+	}
+	/**
+	 * Mise à jour d'une sous catégorie
+	 * @param $clibelle
+	 * @param $pathclibelle
+	 * @param $upcat
+	 */
+	function u_catalog_subcategory($slibelle,$pathslibelle,$upsubcat){
+		$sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle WHERE idcls = :upsubcat';
+		$this->layer->update($sql,
+			array(
+			':slibelle'		=>	$slibelle,
+			':pathslibelle'	=>	$pathslibelle,
+			':upsubcat'		=>	$upsubcat
 			)
 		);
 	}

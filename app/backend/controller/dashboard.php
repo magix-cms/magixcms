@@ -115,7 +115,7 @@ class backend_controller_dashboard{
 			/*backend_config_smarty::getInstance()->cache_lifetime = 3600 * 4;
 			backend_config_smarty::getInstance()->caching = 1;*/
 			$version = '<strong>'.self::read_local_version().'</strong> ('.self::read_local_phase().')';
-			$version .= self::check_version();
+			//$version .= self::check_version();
 			/*if(!backend_config_smarty::getInstance()->is_cached('dashboard/version.phtml')) {
 		      // suppression du phtml du cache
 		      backend_config_smarty::getInstance()->clear_cache('dashboard/version.phtml');

@@ -14,33 +14,30 @@
 #cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
 
 /* 
-    Example user style
+    ColorBox example user style
     The following rules are ordered and tabbed in a way that represents the
     order/nesting of the generated HTML, so that the structure easier to understand.
 */
-#cboxOverlay{background:url(images/overlay.png) 0 0 repeat;}
-#colorbox{}
-    #cboxTopLeft{width:21px; height:21px; background:url(/framework/css/colorbox-white/images/controls.png) -100px 0 no-repeat;}
-    #cboxTopRight{width:21px; height:21px; background:url(/framework/css/colorbox-white/images/controls.png) -129px 0 no-repeat;}
-    #cboxBottomLeft{width:21px; height:21px; background:url(/framework/css/colorbox-white/images/controls.png) -100px -29px no-repeat;}
-    #cboxBottomRight{width:21px; height:21px; background:url(/framework/css/colorbox-white/images/controls.png) -129px -29px no-repeat;}
-    #cboxMiddleLeft{width:21px; background:url(/framework/css/colorbox-white/images/controls.png) left top repeat-y;}
-    #cboxMiddleRight{width:21px; background:url(/framework/css/colorbox-white/images/controls.png) right top repeat-y;}
-    #cboxTopCenter{height:21px; background:url(/framework/css/colorbox-white/images/border.png) 0 0 repeat-x;}
-    #cboxBottomCenter{height:21px; background:url(/framework/css/colorbox-white/images/border.png) 0 -29px repeat-x;}
+#cboxOverlay{background:#fff;}
+
+#colorBox{}
+    #cboxTopLeft{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) 0 0 no-repeat;}
+    #cboxTopCenter{height:25px; background:url(/framework/css/colorbox-white/images/border1.png) 0 -50px repeat-x;}
+    #cboxTopRight{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) -25px 0 no-repeat;}
+    #cboxBottomLeft{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) 0 -25px no-repeat;}
+    #cboxBottomCenter{height:25px; background:url(/framework/css/colorbox-white/images/border1.png) 0 -75px repeat-x;}
+    #cboxBottomRight{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) -25px -25px no-repeat;}
+    #cboxMiddleLeft{width:25px; background:url(/framework/css/colorbox-white/images/border2.png) 0 0 repeat-y;}
+    #cboxMiddleRight{width:25px; background:url(/framework/css/colorbox-white/images/border2.png) -25px 0 repeat-y;}
     #cboxContent{background:#fff;}
-        #cboxLoadedContent{margin-bottom:28px;}
-        #cboxTitle{position:absolute; bottom:3px; left:0; text-align:center; width:100%; color:#949494;}
-        #cboxCurrent{position:absolute; bottom:3px; left:58px; color:#949494;}
-        #cboxSlideshow{position:absolute; bottom:3px; right:30px; color:#0092ef;}
-        #cboxPrevious{position:absolute; bottom:0; left:0px; background:url(/framework/css/colorbox-white/images/controls.png) -75px 0px no-repeat; width:25px; height:25px; text-indent:-9999px;}
-        #cboxPrevious.hover{background-position:-75px -25px;}
-        #cboxNext{position:absolute; bottom:0; left:27px; background:url(/framework/css/colorbox-white/images/controls.png) -50px 0px no-repeat; width:25px; height:25px; text-indent:-9999px;}
-        #cboxNext.hover{background-position:-50px -25px;}
-        #cboxLoadingOverlay{background:url(/framework/css/colorbox-white/images/loading_background.png) center center no-repeat;}
-        #cboxLoadingGraphic{background:url(/framework/css/colorbox-white/images/loading.gif) center center no-repeat;}
-        #cboxClose{position:absolute; bottom:0; right:0; background:url(/framework/css/colorbox-white/images/controls.png) -25px 0px no-repeat; width:25px; height:25px; text-indent:-9999px;}
-        #cboxClose.hover{background-position:-25px -25px;}
+        #cboxLoadedContent{margin-bottom:20px;}
+        #cboxTitle{position:absolute; bottom:0px; left:0; text-align:center; width:100%; color:#999;}
+        #cboxCurrent{position:absolute; bottom:0px; left:100px; color:#999;}
+        #cboxSlideshow{position:absolute; bottom:0px; right:42px; color:#444;}
+        #cboxPrevious{position:absolute; bottom:0px; left:0; color:#444;}
+        #cboxNext{position:absolute; bottom:0px; left:63px; color:#444;}
+        #cboxLoadingOverlay{background:url(images/loading.gif) 5px 5px no-repeat #fff;}
+        #cboxClose{position:absolute; bottom:0; right:0; display:block; color:#444;}
 
 /*
     The following fixes png-transparency for IE6.  
