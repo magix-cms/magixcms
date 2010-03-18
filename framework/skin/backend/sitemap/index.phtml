@@ -22,7 +22,7 @@
 							<tr>
 							<th><span style="float:left;" class="ui-icon ui-icon-gear"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-document"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-info"></span></th>
+							<th><div class="ui-state-highlight" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-info"></span></div></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -30,21 +30,33 @@
 							<tr class="line">
 								<td class="maximal">News</td>
 								<td class="nowrap">{$statnews}</td>
-								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
+								<td class="nowrap">
+									<div class="ui-state-highlight" style="border:none;">
+										<span style="float:left;" class="ui-icon ui-icon-check"></span>
+									</div>
+								</td>
 							</tr>
 							{/if}
 							{if $configcms eq 1}
 							<tr class="line">
 								<td class="maximal">CMS</td>
 								<td class="nowrap">{$statcms}</td>
-								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
+								<td class="nowrap">
+									<div class="ui-state-highlight" style="border:none;">
+										<span style="float:left;" class="ui-icon ui-icon-check"></span>
+									</div>
+								</td>
 							</tr>
 							{/if}
 							{if $configcatalog eq 1}
 							<tr class="line">
 								<td class="maximal">Catalogue</td>
 								<td class="nowrap">{$statcatalog}</td>
-								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
+								<td class="nowrap">
+									<div class="ui-state-highlight" style="border:none;">
+										<span style="float:left;" class="ui-icon ui-icon-check"></span>
+									</div>
+								</td>
 							</tr>
 							{/if}
 							{$statplugins}
