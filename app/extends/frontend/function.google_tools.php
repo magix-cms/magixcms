@@ -38,13 +38,13 @@ function smarty_function_google_tools($params, &$smarty){
 		</script>'.
 		'<script type="text/javascript">
 		try {
-		var pageTracker = _gat._getTracker("'.$analyticsdata['analytics'].'");
+		var pageTracker = _gat._getTracker("'.$analyticsdata['setting_value'].'");
 		pageTracker._trackPageview();
 		} catch(err) {}</script>';
 			break;
 		case 'webmaster':
 			$webmasterdata = frontend_model_setting::select_uniq_setting('webmaster');
-			$tools = $webmasterdata['webmaster'];
+			$tools = $webmasterdata['setting_value'];
 			break;
 	}
 	return $tools;
