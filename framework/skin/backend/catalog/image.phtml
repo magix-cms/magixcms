@@ -272,8 +272,8 @@ $(function(){
 						url: "/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}&delmicro="+lg,
 						async: false,
 						success:function(e) {
-						$(".reqdialog").html(e);
-						setTimeout(function(){
+							$(".reqdialog").html(e);
+							setTimeout(function(){
 							//location.reload();
 							window.location.href = '/admin/dashboard/catalog/product/image/{/literal}{$smarty.get.getimg}{literal}/'; 
 							},3000);

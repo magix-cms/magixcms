@@ -17,6 +17,8 @@ Beta 2.2.21
 	* Ajout d'un nouveaux thème dans colorbox(colorbox-lightbox) 
 	* Correction du type de soumission d'une nouvelle catégorie, sous catégorie (remplacement par post ajax) 
 	* Suppression de de la requête de contrôle de version (suppression comparatif)
+	* Création de la mise à jour des catégories dans la partie CMS
+	* Création de la suppression des catégories dans la partie CMS
 	
 Beta 2.2.20
 	* Suppression de backend/controller/googletools.php

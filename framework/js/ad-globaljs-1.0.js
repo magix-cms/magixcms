@@ -274,6 +274,28 @@ $(function() {
 		 });
 /*################## CMS ##############*/
 	    /**
+	     * ID pour le déplacement des pages CMS
+	     */
+	    $('#sortable li').hover(
+				function() { $(this).addClass('ui-state-hover'); },
+				function() { $(this).removeClass('ui-state-hover'); }
+		);
+		$("#sortable").sortable({
+			axis: "y",
+			cursor: "move",
+			update : function () {
+				serial = $('#sortable').sortable('serialize');
+				$.ajax({
+					url: "/admin/index.php?dashboard&cms",
+					type: "post",
+					data: serial,
+					error: function(){
+						alert("theres an error with AJAX");
+					}
+				});
+			}
+		});
+	    /**
 		 * Soumission d'une nouvelle catégorie dans le CMS
 		 */
 		$("#forms-cms-category").submit(function(){

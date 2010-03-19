@@ -117,32 +117,5 @@
 </div>
 <div id="update-category" title="Modifier une catégorie"></div>
 {include file="common/javascript.phtml"}
-{magixmin}
-{literal}
-<script type="text/javascript">
-$(document).ready(function(){
-	$('#sortable li').hover(
-			function() { $(this).addClass('ui-state-hover'); },
-			function() { $(this).removeClass('ui-state-hover'); }
-	);
-	$("#sortable").sortable({
-		axis: "y",
-		cursor: "move",
-		update : function () {
-			serial = $('#sortable').sortable('serialize');
-			$.ajax({
-				url: "{/literal}{geturl}{literal}/admin/dashboard/cms/",
-				type: "post",
-				data: serial,
-				error: function(){
-					alert("theres an error with AJAX");
-				}
-			});
-		}
-	});
-});
-</script>
-{/literal}
-{/magixmin}
 </body>
 </html>
