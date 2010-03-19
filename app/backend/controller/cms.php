@@ -65,9 +65,46 @@ class backend_controller_cms{
 	 * @var integer
 	 */
 	public $viewpage;
+	/**
+	 * modifie l'ordre des pages
+	 * @var orderpage
+	 * integer
+	 */
 	public $orderpage;
+	/**
+	 * 
+	 * @var getcms
+	 * integer
+	 */
 	public $getcms;
+	/**
+	* @var delpage
+	 * integer
+	 */
 	public $delpage;
+	/**
+	 * ucategory
+	 * @var intéger
+	 */
+	public $ucategory;
+	/**
+	 * Mise à jour d'une catégorie (cms)
+	 * @var update_category
+	 * string
+	 */
+	public $update_category;
+	/**
+	 * Mise à jour du lien d'une catégorie (cms)
+	 * @var update_pathcategory
+	 * string
+	 */
+	public $update_pathcategory;
+	/**
+	 * Suppression d'une catégorie dans le CMS
+	 * string
+	 * @var dcmscat
+	 */
+	public $dcmscat;
 	/**
 	 * function construct class
 	 */
@@ -78,6 +115,10 @@ class backend_controller_cms{
 		if(isset($_POST['category'])){
 			$this->category = magixcjquery_form_helpersforms::inputClean($_POST['category']);
 			$this->pathcategory = magixcjquery_url_clean::rplMagixString($_POST['category'],true);
+		}
+		if(isset($_POST['update_category'])){
+			$this->update_category = magixcjquery_form_helpersforms::inputClean($_POST['update_category']);
+			$this->update_pathcategory = magixcjquery_url_clean::rplMagixString($_POST['update_category'],true);
 		}
 		if(isset($_POST['subjectpage'])){
 			$this->subjectpage = magixcjquery_form_helpersforms::inputClean($_POST['subjectpage']);
@@ -127,6 +168,18 @@ class backend_controller_cms{
 		if(isset($_GET['delpage'])){
 			$this->delpage = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delpage']);
 		}
+		/**
+		 * Requête get pour la modification d'une catégorie
+		 */
+		if(isset($_GET['ucategory'])){
+			$this->ucategory = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['ucategory']);
+		}
+		/**
+		 * Requête get pour la suppression d'une catégorie
+		 */
+		if(isset($_GET['dcmscat'])){
+			$this->dcmscat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dcmscat']);
+		}
 	}
 	/**
 	 * Voir les catégories disponible
@@ -134,22 +187,26 @@ class backend_controller_cms{
 	private function view_category(){
 		$category = null;
 		foreach(backend_db_cms::adminDbCms()->s_block_category() as $block){
-			$category .= '<li class="ui-state-default" id="ordercategory_'.$block['idcategory'].'"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$block['category'].'<div style="float:right;"><span class="ui-icon ui-icon-flag"></span>'.$block['codelang'].'</div>'.'</li>';
+			$category .= '<li class="ui-state-default" id="ordercategory_'.$block['idcategory'].'">';
+			$category .= '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>';
+			$category .= '<div class="sortdivfloat">'.$block['category'].'</div>';
+			$category .= '<div style="float:right;"><a style="float:left;" class="ucms-category" href="#" title="'.$block['idcategory'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
+			$category .= '<a class="aspanfloat dcmscat" href="#" title="'.$block['idcategory'].'"><span class="ui-icon ui-icon-close"></span></a>';
+			$category .= '</div>';
+			$category .= '</li>';
 		}
 		return $category;
 	}
 	/**
 	 * Insérer une nouvelle catégorie
 	 */
-	private function insertion_category(){
+	public function insertion_category(){
 		if(isset($this->category)){
 			if(empty($this->category)){
-				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}else{
 				backend_db_cms::adminDbCms()->i_category($this->category,$this->pathcategory,$this->idlang);
-				$fetch = backend_config_smarty::getInstance()->fetch('request/scategory.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/scategory.phtml');
 			}
 		}
 	}
@@ -177,7 +234,7 @@ class backend_controller_cms{
 	/**
 	 * Affiche les statistiques des pages par catégorie
 	 */
-	function block_statistique(){
+	private function block_statistique(){
 		$states = '<table class="clear">
 						<thead>
 							<tr>
@@ -199,7 +256,7 @@ class backend_controller_cms{
 	 * offset for pager in pagination
 	 * @param $max
 	 */
-	function cms_offset_pager($max){
+	public function cms_offset_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		return $pagination->pageOffset($max,$this->getpage);
 	}
@@ -207,7 +264,7 @@ class backend_controller_cms{
 	 * pagination for CMS
 	 * @param $max
 	 */
-	function cms_pager($max){
+	public function cms_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = backend_db_cms::adminDbCms()->s_count_cms_pager_max();
 		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/dashboard/cms/',false,true,'page');
@@ -215,7 +272,7 @@ class backend_controller_cms{
 	/**
 	 * Construction du select pour les catégories
 	 */
-	function select_category(){
+	private function select_category(){
 		//SELECT ordonnées pour detecter le changement de section
 		$admindb = backend_db_cms::adminDbCms()->s_block_category();
 		$lang = '';
@@ -236,8 +293,9 @@ class backend_controller_cms{
 	}
 	/**
 	 * insertion d'une nouvelle page
+	 * @access private
 	 */
-	function insert_new_page(){
+	public function insert_new_page(){
 		// Verifier que le module exist
 		$modexist = backend_db_config::adminDbConfig()->s_limited_module_exist();
 		// Sélectionne le nombre de limitation de page par module
@@ -289,8 +347,9 @@ class backend_controller_cms{
 	}
 	/**
 	 * Construction du menu avec les éléments choisi
+	 * @access private
 	 */
-	function navigation_construct(){
+	private function navigation_construct(){
 		$form = '';
 		foreach(backend_db_cms::adminDbCms()->s_cms_navigation() as $nav){
 			$active = $nav['viewpage'] == 1 ? 'checked="checked"': null;
@@ -316,8 +375,9 @@ class backend_controller_cms{
 	}
 	/**
 	 * Affiche le menu "sortable" avec les éléments de pages
+	 * @access private
 	 */
-	function navigation_order(){
+	private function navigation_order(){
 		$page = null;
 		foreach(backend_db_cms::adminDbCms()->s_cms_navigation() as $nav){
 			$page .= '<li class="ui-state-default" id="orderpage_'.$nav['idpage'].'"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$nav['subjectpage'].'<div style="float:right;"><span class="ui-icon ui-icon-flag"></span>'.$nav['codelang'].'</div>'.'</li>';
@@ -326,17 +386,19 @@ class backend_controller_cms{
 	}
 	/**
 	 * Mise à jour de l'élément afficher/cacher une page du menu
+	 * @access private
 	 */
-	function update_viewpage(){
+	private function update_viewpage(){
 		if(isset($this->viewpage)){
 			backend_db_cms::adminDbCms()->u_viewpage($this->viewpage,$this->idpage);
 		}
 	}
 	/**
 	 * Execute Update AJAX FOR order category
+	 * @access private
 	 *
 	 */
-	function executeOrderCategory(){
+	private function executeOrderCategory(){
 		if(isset($_POST['ordercategory'])){
 			$p = $_POST['ordercategory'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -346,9 +408,11 @@ class backend_controller_cms{
 	}
 	/**
 	 * Execute Update AJAX FOR order page
+	 * Modifie l'ordre des pages
+	 * @access private
 	 *
 	 */
-	function executeOrderPage(){
+	private function executeOrderPage(){
 		if(isset($_POST['orderpage'])){
 			$p = $_POST['orderpage'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -356,6 +420,10 @@ class backend_controller_cms{
 			}
 		}
 	}
+	/**
+	 * Charge les données à mettre à jour dans le formulaire
+	 * @access private
+	 */
 	private function load_data_cms_forms(){
 	$data = backend_db_cms::adminDbCms()->s_data_forms($this->getcms);
 		backend_config_smarty::getInstance()->assign('subjectpage',$data['subjectpage']);
@@ -379,8 +447,9 @@ class backend_controller_cms{
 	}
 /**
 	 * mise à jour d'une page
+	 * @access private
 	 */
-	function update_page(){
+	public function update_page(){
 		if(isset($this->subjectpage) AND isset($this->contentpage)){
 			if(empty($this->subjectpage) OR empty($this->contentpage)){
 				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
@@ -403,25 +472,51 @@ class backend_controller_cms{
 		}
 	}
 	/**
-	 * Suppression d'une page CMS
+	 * Affiche la pop-pup pour l'édition d'une catégorie cms
+	 * @access public
 	 */
-	function delete_page_cms(){
+	public function edit_category_cms(){
+		if(isset($this->ucategory)){
+			$category = backend_db_cms::adminDbCms()->s_cms_category_id($this->ucategory);
+			backend_config_smarty::getInstance()->assign('category',$category['category']);
+			if(isset($this->update_category)){
+				backend_db_cms::adminDbCms()->u_cms_category($this->update_category,$this->update_pathcategory,$this->ucategory);
+			}
+		}
+		backend_config_smarty::getInstance()->display('cms/editcategory.phtml');
+	}
+	/**
+	 * Supprime une catégorie CMS
+	 * @access public
+	 */
+	public function delete_category_cms(){
+		if(isset($this->dcmscat)){
+			backend_db_cms::adminDbCms()->d_cms_category($this->dcmscat);
+		}
+	}
+	/**
+	 * Suppression d'une page CMS
+	 * @access public
+	 */
+	public function delete_page_cms(){
 		if(isset($this->delpage)){
 			backend_db_cms::adminDbCms()->d_cms_page($this->delpage);
 		}
 	}
 	/**
 	 * Affiche l'edition d'une page CMS
+	 * @access public
 	 */
-	function display_edit_page(){
+	public function display_edit_page(){
 		self::load_data_cms_forms();
 		//self::update_page();
 		backend_config_smarty::getInstance()->display('cms/editpage.phtml');
 	}
 	/**
 	 * Affiche la page de modification de menu
+	 * @access public
 	 */
-	function display_navigation(){
+	public function display_navigation(){
 		self::update_viewpage();
 		self::executeOrderPage();
 		backend_config_smarty::getInstance()->assign('navorder',self::navigation_order());
@@ -430,17 +525,18 @@ class backend_controller_cms{
 	}
 	/**
 	 * Affiche la page d'insertion d'une page
+	 * @access public
 	 */
-	function display_page(){
+	public function display_page(){
 		backend_config_smarty::getInstance()->assign('selectcategory',self::select_category());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('cms/add.phtml');
 	}
 	/**
 	 * Affiche la page des catégories et statistiques
+	 * @access public
 	 */
-	function display_category(){
-		self::insertion_category();
+	public function display_category(){
 		self::executeOrderCategory();
 		backend_config_smarty::getInstance()->assign('states_category',self::statistic_category());
 		backend_config_smarty::getInstance()->assign('block_cms_statistic',self::block_statistique());
@@ -450,6 +546,7 @@ class backend_controller_cms{
 	}
 	/**
 	 * Affiche la page de vue global
+	 * @access public
 	 */
 	function display_view(){
 		backend_config_smarty::getInstance()->display('cms/index.phtml');

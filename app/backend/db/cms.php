@@ -56,6 +56,7 @@ class backend_db_cms{
     }
     /**
      * compte le nombre de catégorie par langue
+     * @return
      */
 	function s_count_category(){
     	$sql = 'SELECT count(c.idcategory) as countcat,lang.codelang
@@ -65,10 +66,21 @@ class backend_db_cms{
 		return $this->layer->select($sql);
     }
     /**
+     * Sélection de la catégorie suivant l'identifiant
+     * @param $ucategory
+     */
+	public function s_cms_category_id($ucategory){
+    	$sql = 'SELECT c.idcategory,c.category
+    	FROM mc_cms_category AS c WHERE idcategory = :ucategory';
+		return $this->layer->selectOne($sql,array(
+			'ucategory' => $ucategory
+		));
+    }
+    /**
      * insertion d'une nouvel catégorie
-     * @param $category
-     * @param $pathcategory
-     * @param $idlang
+     * @param $category (string)
+     * @param $pathcategory (string)
+     * @param $idlang (integer)
      */
 	function i_category($category,$pathcategory,$idlang){
 		// récupère le nombre maximum de la colonne order
@@ -82,6 +94,33 @@ class backend_db_cms{
 			':idlang'			=>	$idlang,
 			':idorder'			=>	$maxorder['catorder'] + 1
 		));
+	}
+	/**
+	 * Mise à jour d'une catégorie dans le cms
+	 * @param $category (string)
+	 * @param $pathcategory (string)
+	 * @param $ucategory (integer)
+	 */
+	function u_cms_category($category,$pathcategory,$ucategory){
+		$sql = 'UPDATE mc_cms_category SET category = :category,pathcategory = :pathcategory WHERE idcategory = :ucategory';
+		$this->layer->update($sql,
+			array(
+			':category'		=>	$category,
+			':pathcategory'	=>	$pathcategory,
+			':ucategory'	=>	$ucategory
+			)
+		);
+	}
+	/**
+	 * Supprime une catégorie dans le CMS
+	 * @param $dcmscat
+	 */
+	function d_cms_category($dcmscat){
+		$sql = 'DELETE FROM mc_cms_category WHERE idcategory = :dcmscat';
+			$this->layer->delete($sql,
+			array(
+				':dcmscat'	=>	$dcmscat
+			)); 
 	}
 	/**
 	 * Compte le nombre de page par catégorie groupé par langue

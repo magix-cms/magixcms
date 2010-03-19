@@ -147,6 +147,7 @@ div.selector select {
 fieldset{border:none;}
 label,select,.ui-select-menu { float: left; margin-right: 10px; }
 select { width: 220px; }
+.table-tinymce{width:100%;}
 /*############## plugin password metter ######################*/
 .password-meter {
 	position:relative;

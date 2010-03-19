@@ -109,7 +109,15 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			}elseif(magixcjquery_filter_request::isGet('delpage')){
 				$ini->delete_page_cms();
 			}elseif(magixcjquery_filter_request::isGet('category')){
-				$ini->display_category();
+				if(magixcjquery_filter_request::isGet('post')){
+					$ini->insertion_category();
+				}else{
+					$ini->display_category();
+				}
+			}elseif(magixcjquery_filter_request::isGet('ucategory')){
+				$ini->edit_category_cms();
+			}elseif(magixcjquery_filter_request::isGet('dcmscat')){
+				$ini->delete_category_cms();
 			}
 			else{
 				$ini->display_view();

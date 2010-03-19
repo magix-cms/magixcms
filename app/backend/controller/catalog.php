@@ -297,8 +297,9 @@ class backend_controller_catalog{
 	}
 	/**
 	 * Affiche le menu "sortable" avec les éléments de catégorie
+	 * @
 	 */
-	function catalog_category_order(){
+	private function catalog_category_order(){
 		$category = null;
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
 			$category = '<ul id="sortcat">';
@@ -306,8 +307,8 @@ class backend_controller_catalog{
 				$category .= '<li class="ui-state-default ui-corner-all" id="corder_'.$cat['idclc'].'">';
 				$category .= '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>';
 				$category .= '<div class="sortdivfloat">'.$cat['clibelle'].'</div>';
-				$category .= '<div style="float:right;"><a style="float:left;" class="ucategory" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-pencil"></span></a>
-				<a class="aspanfloat delc" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-close"></span></a>';
+				$category .= '<div style="float:right;"><a style="float:left;" class="ucategory" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
+				$category .= '<a class="aspanfloat delc" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-close"></span></a>';
 				$category .= '</div>';
 				$category .= '</li>';
 			}
@@ -318,7 +319,7 @@ class backend_controller_catalog{
 	/**
 	 * Construction du select pour les catégories
 	 */
-	function catalog_select_category(){
+	private function catalog_select_category(){
 		//SELECT ordonnées pour detecter le changement de section
 		$admindb = backend_db_catalog::adminDbCatalog()->s_catalog_category_select_construct();
 		$lang = '';
@@ -342,7 +343,7 @@ class backend_controller_catalog{
 	 * Post la requête ajax pour la modification de l'ordre des catégories
 	 *
 	 */
-	function executeOrderCategory(){
+	public function executeOrderCategory(){
 		if(isset($_POST['corder'])){
 			$p = $_POST['corder'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -353,7 +354,7 @@ class backend_controller_catalog{
 	/**
 	 * Affiche le menu "sortable" avec les éléments des sous catégorie
 	 */
-	function catalog_sub_category_order(){
+	private function catalog_sub_category_order(){
 		$category = null;
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() != null){
 			$category = '<ul id="sortsubcat">';
@@ -375,7 +376,7 @@ class backend_controller_catalog{
 	 * Post la requête ajax pour la modification de l'ordre des sous catégories
 	 *
 	 */
-	function executeOrderSubCategory(){
+	public function executeOrderSubCategory(){
 		if(isset($_POST['sorder'])){
 			$p = $_POST['sorder'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -386,7 +387,7 @@ class backend_controller_catalog{
 	/**
 	 * insert une nouvelle catégorie dans le catalogue
 	 */
-	function insert_new_category(){
+	public function insert_new_category(){
 		if(isset($this->clibelle)){
 			try{
 				if(empty($this->clibelle)){
@@ -403,9 +404,10 @@ class backend_controller_catalog{
 		}
 	}
 	/**
-	 * Suppression d'une categroie
+	 * Suppression d'une categorie
+	 * @access public
 	 */
-	function delete_catalog_category(){
+	public function delete_catalog_category(){
 		if(isset($this->delc)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_category($this->delc);
 			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
@@ -414,7 +416,7 @@ class backend_controller_catalog{
 	/**
 	 * insert une nouvelle sous catégorie dans le catalogue
 	 */
-	function insert_new_subcategory(){
+	public function insert_new_subcategory(){
 		if(isset($this->slibelle)){
 			try{
 				if(empty($this->slibelle)){
@@ -435,7 +437,7 @@ class backend_controller_catalog{
 	/**
 	 * Suppression d'une sous categroie
 	 */
-	function delete_catalog_subcategory(){
+	public function delete_catalog_subcategory(){
 		if(isset($this->dels)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_subcategory($this->dels);
 			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
@@ -444,7 +446,7 @@ class backend_controller_catalog{
 	/**
 	 * Requete ajax json pour le chargement du menu select des sous-catégories correspondante à une catégorie
 	 */
-	function get_select_json_construct(){
+	public function get_select_json_construct(){
 		if($this->getidclc){
 			try {
 				$select = '';
@@ -468,7 +470,7 @@ class backend_controller_catalog{
 	 * offset for pager in pagination
 	 * @param $max
 	 */
-	function catalog_offset_pager($max){
+	public function catalog_offset_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		return $pagination->pageOffset($max,$this->getpage);
 	}
@@ -476,7 +478,7 @@ class backend_controller_catalog{
 	 * pagination for Catalog
 	 * @param $max
 	 */
-	function catalog_pager($max){
+	public function catalog_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = backend_db_catalog::adminDbCatalog()->s_count_catalog_pager_max();
 		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/dashboard/catalog/',false,true,'page');
@@ -484,7 +486,7 @@ class backend_controller_catalog{
 	/**
 	 * Insertion d'un nouveau produit dans la table mc_catalog
 	 */
-	function insert_new_product(){
+	public function insert_new_product(){
 		if(isset($this->titlecatalog) AND isset($this->desccatalog)){
 			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
 				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/empty.phtml');
@@ -511,7 +513,7 @@ class backend_controller_catalog{
 	/**
 	 * chargement des données d'un produit pour le formulaire
 	 */
-	protected function load_data_product_forms(){
+	private function load_data_product_forms(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->editproduct);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
 		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
@@ -523,7 +525,7 @@ class backend_controller_catalog{
 	/**
 	 * chargement des données d'un produit pour le déplacement de catégorie
 	 */
-	protected function load_data_move_product(){
+	private function load_data_move_product(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->moveproduct);
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
@@ -538,7 +540,7 @@ class backend_controller_catalog{
 	/**
 	 * chargement des données d'un produit pour la copie d'un produit dans plusieurs catégorie
 	 */
-	protected function load_data_copy_product(){
+	private function load_data_copy_product(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->copyproduct);
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
@@ -555,7 +557,7 @@ class backend_controller_catalog{
 	/**
 	 * Chargement des données d'un produit pour l'insertion d'une image
 	 */
-	protected function load_data_image_product(){
+	private function load_data_image_product(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->getimg);
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
@@ -571,7 +573,7 @@ class backend_controller_catalog{
 	/**
 	 * Mise à jour d'un produit
 	 */
-	function update_specific_product(){
+	public function update_specific_product(){
 		if(isset($this->titlecatalog) AND isset($this->desccatalog)){
 			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
 				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/empty.phtml');
@@ -593,7 +595,7 @@ class backend_controller_catalog{
 	/**
 	 * Déplace un produit
 	 */
-	function move_specific_product(){
+	public function move_specific_product(){
 		if(isset($this->idclc)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_product_move(
 					$this->idclc,
@@ -607,7 +609,7 @@ class backend_controller_catalog{
 	/**
 	 * Suppression d'un produit
 	 */
-	function delete_catalog_product(){
+	public function delete_catalog_product(){
 		if(isset($this->delproduct)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_product($this->delproduct);
 			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
@@ -616,7 +618,7 @@ class backend_controller_catalog{
 	/**
 	 * Copie un produit dans la table mc_catalog
 	 */
-	function copy_product(){
+	public function copy_product(){
 		if(isset($this->idclc)){
 			if(empty($this->idclc)){
 				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
@@ -645,7 +647,7 @@ class backend_controller_catalog{
 	/**
 	 * Insertion d'une image à un produit spécifique
 	 */
-	function insert_image_product(){
+	public function insert_image_product(){
 		if(isset($this->imgcatalog)){
 			try{
 				/**
@@ -708,7 +710,7 @@ class backend_controller_catalog{
 	/**
 	 * Insertion d'une image dans la galerie spéifique à un produit
 	 */
-	function insert_image_galery(){
+	public function insert_image_galery(){
 		if(isset($this->imggalery)){
 			try{
 				/**
@@ -830,6 +832,9 @@ class backend_controller_catalog{
 		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
 		backend_config_smarty::getInstance()->display('catalog/copyproduct.phtml');
 	}
+	/**
+	 * Ajoute une catégorie (method post)
+	 */
 	public function post_category(){
 		self::insert_new_category();
 		self::insert_new_subcategory();
@@ -886,7 +891,7 @@ class backend_controller_catalog{
 	 * affiche la page d'insertion d'une image
 	 * @access public
 	 */
-	function display_product_image(){
+	public function display_product_image(){
 		self::load_data_image_product();
 		$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
 		if($getimg['imgcatalog'] != null){

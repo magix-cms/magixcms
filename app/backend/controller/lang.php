@@ -55,13 +55,22 @@ class backend_controller_lang{
 							</tr>
 						</thead>
 						<tbody>';
-		foreach(backend_db_lang::dblang()->s_full_lang_data() as $slang){
-			 $lang .= '<tr class="line">';
-			 $lang .=	'<td class="maximal">'.$slang['codelang'].'</td>';
-			 $lang .=	'<td class="nowrap">'.$slang['desclang'].'</td>';
-			 $lang .= 	'<td class="nowrap"><a href="'./*magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/lang/edit/'.$slang['idlang'].*/'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
-			 $lang .= 	'<td class="nowrap"><a class="dellang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
-			 $lang .= '</tr>';
+		if(backend_db_lang::dblang()->s_full_lang_data() == null){
+			$lang .= '<tr class="line">';
+			$lang .='<td class="maximal"></td>';
+			$lang .='<td class="nowrap"></td>';
+			$lang .='<td class="nowrap"></td>';
+			$lang .='<td class="nowrap"></td>';
+			$lang .= '</tr>';
+		}else{
+			foreach(backend_db_lang::dblang()->s_full_lang_data() as $slang){
+				 $lang .= '<tr class="line">';
+				 $lang .=	'<td class="maximal">'.$slang['codelang'].'</td>';
+				 $lang .=	'<td class="nowrap">'.$slang['desclang'].'</td>';
+				 $lang .= 	'<td class="nowrap"><a href="'./*magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/lang/edit/'.$slang['idlang'].*/'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+				 $lang .= 	'<td class="nowrap"><a class="dellang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
+				 $lang .= '</tr>';
+			}
 		}
 		$lang .= '</tbody></table>';
 		return $lang;
@@ -137,6 +146,10 @@ class backend_controller_lang{
 		$lang .= '</tbody></table>';
 		return $lang;
 	}
+	/**
+	 * Suppression d'une lang via une requête ajax
+	 * @access public
+	 */
 	public function delete_lang_record(){
 		if(isset($this->dellang)){
 			$count = backend_db_lang::dblang()->global_count($this->dellang);

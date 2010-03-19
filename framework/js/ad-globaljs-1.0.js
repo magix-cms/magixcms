@@ -272,6 +272,58 @@ $(function() {
 				}
 			});
 		 });
+/*################## CMS ##############*/
+	    /**
+		 * Soumission d'une nouvelle catégorie dans le CMS
+		 */
+		$("#forms-cms-category").submit(function(){
+			$(this).ajaxSubmit({
+				type:"post",
+				success:function(e) {
+					$("#resultcategory").html(e);
+					setTimeout(function(){
+						location.reload();
+					},1000);
+				}
+			});
+			return false; 
+		});
+		/**
+		 * Affiche la pop-up pour la modification 
+		 */
+		$('.ucms-category').live("click",function(){
+			var idcategory = $(this).attr('title');
+			var url = '/admin/index.php?dashboard&cms&ucategory='+idcategory;
+			$("#update-category").load(url, function() {
+				$(this).dialog({
+					bgiframe: true,
+					height: 100,
+					width:320,
+					modal: true,
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: {
+						'Save': function() {
+							$.ajax({
+								type: "post",
+							    url : url,
+							    data: "update_category="+$('#update_category').val(),
+							    success : function(){
+									$(this).dialog('close');
+									location.reload()
+						    	}
+							})
+						},
+						Cancel: function() {
+							$(this).dialog('close');
+							success: location.reload()
+						}
+					}
+				});
+			});
+		});
 	    /**
 	     * Requête ajax pour la suppression des pages CMS
 	     */
@@ -305,6 +357,42 @@ $(function() {
 			});
 		 });
 		/**
+		 * Requête ajax pour la mise à jour d'une catégorie CMS
+		 */
+		$('.dcmscat').click(function (){
+			var lg = $(this).attr("title");
+			$("#dialog").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:140,
+				modal: true,
+				title: 'Supprimé cette catégorie',
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: {
+					'Delete item': function() {
+						$(this).dialog('close');
+						$.ajax({
+							type:'get',
+							url: "/admin/index.php?dashboard&cms&dcmscat="+lg,
+							async: false,
+							success : function(){
+								$(this).dialog('close');
+								location.reload()
+				    		}
+					     });
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+						success: location.reload()
+					}
+				}
+			});
+		 });
+/*################## formulaire ##############*/
+		/**
 	     * Requête ajax pour la suppression des formulaires
 	     */
 	    $('.deleteinput').click(function (){
@@ -326,7 +414,10 @@ $(function() {
 							type:'get',
 							url: "/admin/index.php?dashboard&forms&delinput="+lg,
 							async: false,
-							success: location.reload()
+							success : function(){
+								$(this).dialog('close');
+								location.reload()
+				    		}
 					     });
 					},
 					Cancel: function() {
@@ -336,6 +427,7 @@ $(function() {
 				}
 			});
 		 });
+/*################## USER ##############*/
 	    /**
 	     * Requête ajax pour la suppression des utilisateurs
 	     */
@@ -358,7 +450,10 @@ $(function() {
 							type:'get',
 							url: "/admin/index.php?dashboard&user&deluser="+lg,
 							async: false,
-							success: location.reload()
+							success : function(){
+								$(this).dialog('close');
+								location.reload()
+					    	}
 					     });
 					},
 					Cancel: function() {
@@ -368,6 +463,7 @@ $(function() {
 				}
 			});
 		 });
+/*################## article / news #################*/
 	    /**
 	     * Requête ajax pour la suppression des articles ou news
 	     */
@@ -400,6 +496,7 @@ $(function() {
 				}
 			});
 		 });
+/*################## Home ##############*/
 	    /**
 	     * Requête ajax pour la suppression des pages d'accueil
 	     */
@@ -432,6 +529,109 @@ $(function() {
 				}
 			});
 		 });
+/*################## Catalog ##############*/
+	    /**
+		 * Soumission d'une nouvelle catégorie dans le catalogue
+		 */
+		$("#forms-catalog-category").submit(function(){
+			$(this).ajaxSubmit({
+				type:"post",
+				success:function(e) {
+					$("#resultcategory").html(e);
+					setTimeout(function(){
+						location.reload();
+					},1000);
+				}
+			});
+			return false; 
+		});
+		/**
+		 * Soumission d'une nouvelle sous catégorie dans le catalogue
+		 */
+		$("#forms-catalog-subcategory").submit(function(){
+			$(this).ajaxSubmit({
+				type:"post",
+				success:function(e) {
+					$("#resultsubcategory").html(e);
+					setTimeout(function(){
+						location.reload();
+					},1000);
+				}
+			});
+			return false; 
+		});
+		/**
+		 * Mise à jour d'une catégorie
+		 */
+		$('.ucategory').live("click",function(){
+			var idcategory = $(this).attr('title');
+			var url = '/admin/index.php?dashboard&catalog&upcat='+idcategory;
+			$("#update-category").load(url, function() {
+				$(this).dialog({
+					bgiframe: true,
+					height: 100,
+					width:320,
+					modal: true,
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: {
+						'Save': function() {
+							$.ajax({
+								type: "post",
+							    url : url,
+							    data: "update_category="+$('#update_category').val(),
+							    success : function(){
+									$(this).dialog('close');
+									location.reload()
+							    }
+							})
+						},
+						Cancel: function() {
+							$(this).dialog('close');
+							success: location.reload()
+						}
+					}
+				});
+			});
+		});
+		/**
+		 * Mise à jour d'une sous catégorie
+		 */
+		$('.usubcategory').live("click",function(){
+			var idsubcategory = $(this).attr('title');
+			var url = '/admin/index.php?dashboard&catalog&upsubcat='+idsubcategory;
+			$("#update-subcategory").load(url, function() {
+				$(this).dialog({
+					bgiframe: true,
+					height: 100,
+					width:320,
+					modal: true,
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: {
+						'Save': function() {
+							$.ajax({
+								type: "post",
+							    url : url,
+							    data: "update_subcategory="+$('#update_subcategory').val(),
+							    success : function(){
+									$(this).dialog('close');
+									location.reload()
+							    }
+							})
+						},
+						Cancel: function() {
+							$(this).dialog('close');
+							success: location.reload()
+						}
+					}
+				});
+			});
+		});
 	    /**
 	     * Ajout d'une class au survol d'une catégorie
 	     */
@@ -500,7 +700,7 @@ $(function() {
 							url: "/admin/index.php?dashboard&catalog&product&delproduct="+lg,
 							async: false,
 							success:function(e) {
-							$(".reqdialog").html(e);
+								$(".reqdialog").html(e);
 								setTimeout(function(){
 									location.reload();
 								},3000);
@@ -593,6 +793,7 @@ $(function() {
 				}
 			});
 		 });
+/*################## Config Metas ##############*/
 		/**
 	     * Requête ajax pour la suppression des réécriture de métas (news)
 	     */
@@ -625,6 +826,7 @@ $(function() {
 				}
 			});
 		 });
+/*################## Sitemap ##############*/
 		/**
 	     * Requête ajax pour la création, modification de fichier sitemap xml
 	     */
@@ -638,6 +840,7 @@ $(function() {
 					}
 				});
 		 });
+/*################## Google Tools ##############*/
 		/**
 	     * Requête ajax pour la création de la soumission vers google
 	     */
@@ -671,101 +874,5 @@ $(function() {
 				}
 			});
 			return false; 
-		});
-		/**
-		 * Soumission d'une nouvelle catégorie dans le catalogue
-		 */
-		$("#forms-catalog-category").submit(function(){
-			$(this).ajaxSubmit({
-				type:"post",
-				success:function(e) {
-					$("#resultcategory").html(e);
-				}
-			});
-			return false; 
-		});
-		/**
-		 * Soumission d'une nouvelle sous catégorie dans le catalogue
-		 */
-		$("#forms-catalog-subcategory").submit(function(){
-			$(this).ajaxSubmit({
-				type:"post",
-				success:function(e) {
-					$("#resultsubcategory").html(e);
-				}
-			});
-			return false; 
-		});
-		/**
-		 * Mise à jour d'une catégorie
-		 */
-		$('.ucategory').live("click",function(){
-			var idcategory = $(this).attr('title');
-			var url = '/admin/index.php?dashboard&catalog&upcat='+idcategory;
-			$("#update-category").load(url, function() {
-				$(this).dialog({
-					bgiframe: true,
-					height: 200,
-					width:320,
-					modal: true,
-					overlay: {
-						backgroundColor: '#000',
-						opacity: 0.5
-					},
-					buttons: {
-						'Save': function() {
-						$.ajax({
-								type: "post",
-							    url : url,
-							    data: "update_category="+$('#update_category').val(),
-							    success : function(){
-									$(this).dialog('close');
-									location.reload()
-							    }
-							})
-						},
-						Cancel: function() {
-							$(this).dialog('close');
-							success: location.reload()
-						}
-					}
-				});
-			});
-		});
-		/**
-		 * Mise à jour d'une sous catégorie
-		 */
-		$('.usubcategory').live("click",function(){
-			var idsubcategory = $(this).attr('title');
-			var url = '/admin/index.php?dashboard&catalog&upsubcat='+idsubcategory;
-			$("#update-subcategory").load(url, function() {
-				$(this).dialog({
-					bgiframe: true,
-					height: 200,
-					width:320,
-					modal: true,
-					overlay: {
-						backgroundColor: '#000',
-						opacity: 0.5
-					},
-					buttons: {
-						'Save': function() {
-						$.ajax({
-								type: "post",
-							    url : url,
-							    data: "update_subcategory="+$('#update_subcategory').val(),
-							    success : function(){
-									$(this).dialog('close');
-									location.reload()
-							    }
-							})
-						},
-						Cancel: function() {
-							$(this).dialog('close');
-							success: location.reload()
-						}
-					}
-				});
-			});
 		});
 	});
