@@ -1,3 +1,11 @@
+beta 2.2.22
+	* Upgrade imagemanager 3.1.2.2 (tinymce)
+	* Upgrade tinymce 3.3 => 3.3.1 
+	* Changement dans la configuration de tinymce (config-tinymce.js)
+	* Upgrade jquery form 2.40 => 2.43 
+	* Modification dans la minification admin et public pour chargé jquery form 2.43
+	* Correction dans block_cms pour être compatible avec les nouvelles requête SQL CMS (sans prise en charge des langues)
+	
 Beta 2.2.21
 	* Fix bug sidebar accordéon dans l'administration (prise en charge cookie) 
 	* Fix bug affichage sidebar
