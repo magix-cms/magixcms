@@ -1,3 +1,10 @@
+Version 3.1.2.2 (2010-03-08)
+	Fixed bug where Silverlight uploader failed to upload chunked contents.
+Version 3.1.2.1 (2010-03-05)
+	Fixed bug where tools where not disabled in the Uploaded plugin.
+	Fixed bug where you could not remove an item from Uploaded plugin.
+	Fixed bug where uploads would fail if there was chunking in Flash/Silverlight.
+	Fixed bug where Plupload was leaking memory in Flash and Silverlight.
 Version 3.1.2 (2010-03-03)
 	Added a plugin called "Uploaded" where its possible to view your own latest uploaded files.
 	Added plupload as the upload runtime. Plupload has more runtimes such as BrowserPlus and Google Gears.

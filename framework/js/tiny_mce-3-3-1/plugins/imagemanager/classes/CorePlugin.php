@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: CorePlugin.php 780 2010-03-02 16:03:10Z spocke $
+ * $Id: CorePlugin.php 794 2010-03-05 16:40:04Z spocke $
  *
  * @package MCManagerCore
  * @author Moxiecode
@@ -343,7 +343,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 					// Only peform IO when not in demo mode
 					if (!checkBool($config['general.demo'])) {
-						if ($file->exists() && (!isset($config["upload.overwrite"]) || $config["upload.overwrite"] == false)) {
+						if ($chunk == 0 && $file->exists() && (!isset($config["upload.overwrite"]) || $config["upload.overwrite"] == false)) {
 							$result->add("OVERWRITE_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.file_exists}");
 							return $result;
 						}

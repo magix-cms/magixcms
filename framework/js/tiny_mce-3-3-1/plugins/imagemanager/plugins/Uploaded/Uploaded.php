@@ -166,7 +166,7 @@ class Moxiecode_UploadedFile extends Moxiecode_BaseFileImpl {
 			$file = $man->getFile($path);
 
 			if (!$file->exists()) {
-				$this->_removeFavorite($man, $path);
+				$this->_removeUploaded($man, $path);
 				continue;
 			}
 

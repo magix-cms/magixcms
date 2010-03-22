@@ -4,7 +4,7 @@
 	man.addSpecialFolder({title : '{#uploaded.special_folder_title}', path : 'uploaded:///', type : 'uploaded'});
 
 	$().bind('filelist:changed', function() {
-		if (man.path.indexOf('history://') != -1) {
+		if (man.path.indexOf('uploaded://') != -1) {
 			$(man.tools).each(function(i, v) {
 				man.setDisabled(v, 1);
 			});

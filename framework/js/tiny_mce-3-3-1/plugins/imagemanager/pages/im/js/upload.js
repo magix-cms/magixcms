@@ -115,7 +115,7 @@
 			var initialDone, uploader, self = this, startTime;
 
 			uploader = new plupload.Uploader({
-				runtimes : 'gears,browserplus,silverlight,flash',
+				runtimes : 'gears,silverlight,flash',
 				url : '../../stream/index.php?cmd=im.upload&path=' + escape(self.path),
 				browse_button : 'addshim',
 				container : 'multiupload_view',
@@ -179,6 +179,10 @@
 			});
 
 			uploader.init();
+
+			$('#abortupload').click(function() {
+				uploader.stop();
+			});
 
 			uploader.bind('StateChanged', function() {
 				var fileList = [];
@@ -297,13 +301,15 @@
 			});
 
 			uploader.bind('UploadProgress', function(uploader, file) {
-				if (!file.scroll) {
-					$('#filelist').scrollTo($('#' + file.id), 50);
-					file.scroll = 1;
-				}
+				if (file.status != plupload.FAILED) {
+					if (!file.scroll) {
+						$('#filelist').scrollTo($('#' + file.id), 50);
+						file.scroll = 1;
+					}
 
-				$('#' + file.id + ' td.status').html(Math.round(file.loaded / file.size * 100.0) + '%');
-				calc();
+					$('#' + file.id + ' td.status').html(Math.round(file.loaded / file.size * 100.0) + '%');
+					calc();
+				}
 			});
 
 			uploader.bind('Error', function(uploader, err) {
@@ -311,6 +317,18 @@
 					calc(uploader);
 					$('#' + err.file.id).addClass('failed');
 					$('#' + err.file.id + ' td.status').html(err.message);
+				}
+			});
+
+			uploader.bind('ChunkUploaded', function(uploader, file, res) {
+				var res = $.parseJSON(res.response), data = RPC.toArray(res.result);
+
+				if (data[0]["status"] != 'OK') {
+					uploader.trigger('Error', {
+						code : 100,
+						message : $.translate(data[0]["message"]),
+						file : file
+					});
 				}
 			});
 
