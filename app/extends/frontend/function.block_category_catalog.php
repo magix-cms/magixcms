@@ -60,9 +60,9 @@ function smarty_function_block_category_catalog($params, &$smarty){
 			if(frontend_db_catalog::publicDbCatalog()->s_category_withimg_nolang() != null){
 				$block .= '<div id="catalog-list-category">';
 				foreach(frontend_db_catalog::publicDbCatalog()->s_category_withimg_nolang() as $cat){
-					$block .= '<div class="list-img-category'.$wheader.'">';
+					$block .= '<div class="list-img-category'.$wcontent.'">';
 					if($tposition == 'top'){
-						$block .= '<div class="title-product"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
 					if($cat['imgcatalog'] != null){
 						$block .= '<div class="img-product">';
@@ -74,7 +74,7 @@ function smarty_function_block_category_catalog($params, &$smarty){
 						$block .= '</div>';
 					}
 					if($tposition == 'bottom'){
-						$block .= '<div class="title-category"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-category'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
 					$block .= '</div>';
 				}
