@@ -36,73 +36,9 @@ $(function() {
 	if(!$.browser.msie){
 		$("form input").filter(":checkbox,:radio").checkbox();
 	}
-	//menu accordeon
-	/*$("#extra .sidebar #page-menu-home,#extra .sidebar #page-menu-home-lang").accordion({
-		header: "h3",
-		icons: {
-			header: false,
-			headerSelected: false
-		},
-		alwaysOpen: true,
-		active: 0,
-		autoHeight: false
+	$('.personnal-side-list a:not(.active-page)').hover(function() {
+		$(this).stop().animate({ opacity: '0.7',left: 10,backgroundColor: "#696969",color: "#FFFFFF" }, 'fast');
+	  }, function() {
+	    $(this).stop().animate({ opacity: '1',left: 0,backgroundColor: "#dcdcdc",color: "#000000" }, 'fast');
 	});
-	$("#extra .sidebar #page-menu-nolang,#extra .sidebar #page-cat-lang").accordion({
-		header: "h3",
-		icons: {
-			header: false,
-			headerSelected: false
-		},
-		navigation: true,
-		active: '.selected',
-		autoHeight: false,
-		clearStyle: true,
-		collapsibe: true,
-		alwaysOpen: false,
-		animated: 'slide',
-		//change state for menu accordion
-		change: function(event,ui) {
-			var hid = ui.newHeader.children('a').attr('id');
-			if (hid === undefined) {
-				$.cookie('pagestate', null);
-			} else {
-				$.cookie('pagestate', hid, { expires: 2 });
-			}
-		}
-	});
-	// check cookie for accordion state
-	if($.cookie('pagestate')) {
-	   $('#extra .sidebar #page-menu-nolang,#extra .sidebar #page-cat-lang').accordion('option', 'animated', false);
-	   $('#extra .sidebar #page-menu-nolang,#extra .sidebar #page-cat-lang').accordion('activate', $('#' + $.cookie('pagestate')).parent('h3'));
-	   $('#extra .sidebar #page-menu-nolang,#extra .sidebar #page-cat-lang').accordion('option', 'animated', 'slide');
-	}
-	$("#extra .sidebar #catalog-menu").accordion({
-		header: "h3",
-		icons: {
-			header: false,
-			headerSelected: false
-		},
-		navigation: true,
-		active: '.selected',
-		autoHeight: false,
-		clearStyle: true,
-		collapsibe: true,
-		alwaysOpen: false,
-		animated: 'slide',
-		//change state for menu accordion
-		change: function(event,ui) {
-			var hid = ui.newHeader.children('a').attr('id');
-			if (hid === undefined) {
-				$.cookie('catalogstate', null);
-			} else {
-				$.cookie('catalogstate', hid, { expires: 2 });
-			}
-		}
-	});
-	// check cookie for accordion state
-	if($.cookie('catalogstate')) {
-	   $('#extra .sidebar #catalog-menu').accordion('option', 'animated', false);
-	   $('#extra .sidebar #catalog-menu').accordion('activate', $('#' + $.cookie('catalogstate')).parent('h3'));
-	   $('#extra .sidebar #catalog-menu').accordion('option', 'animated', 'slide');
-	}*/
 });

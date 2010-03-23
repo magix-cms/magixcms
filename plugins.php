@@ -39,8 +39,8 @@ if(isset($_GET['static'])){
 		$contact = new frontend_plugins_contact();
 		$contact->display();
 	//*}
-}elseif(isset($_GET['voyage'])){
+}/*elseif(isset($_GET['voyage'])){
 	$voyage = new frontend_plugins_voyagesurmesure();
 	$voyage->display();
-}
+}*/
 ?>

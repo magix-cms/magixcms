@@ -8,9 +8,10 @@ html{
 	width: 100%;
 }
 body{
-	background-color:#666;
+	background-color:#58585a;
 	margin: 0;
 	padding: 0;
+	font-family: Helvetica, sans-serif;
 } 
 h1 { font-size: 180%; }
 h2 { font-size: 140%; }
@@ -21,11 +22,10 @@ h6 { font-size: 80%; }
 p {
 	margin: 0.2em 0 0.8em 0;
 	line-height: 1.3em;
-	font-size:12px;
+	font-size:15px;
 }
 h1,h2,h3,h4,h5, h6 {
 	margin: 0 0 0.2em 0;
-	font-weight: bold;
 }
 ul { list-style: none; }
 ul li { 
@@ -43,20 +43,38 @@ a[hreflang]:after { }
 a img { border:none;}
 /*##########################Les autres pages#########################*/
 #page {
-	/*background:transparent url(/public/default/img/body.png) repeat-y scroll left top;*/
-	background-color:#fff;
+	background-color:#dcdcdc;
 	margin:0 auto;
 	position:relative;
-	width:1024px;
+	width:984px;
+	padding:20px;
 }
+#headmenu{
+	background-color:#BFBFBF;
+	height:40px;
+	margin:0 auto 0 auto;
+	position:relative;
+	width:984px;
+	font-size:12px;
+}
+#headmenu ul{margin:0;padding:5px 0 0 0;}
+#headmenu ul li{margin-left:10px;padding:5px;float:left;border:1px dashed white;background-color:#dcdcdc;height:20px;}
+#headmenu ul li:hover{border:1px dashed #dcdcdc;background-color:white;}
+#headmenu ul li a{color:#333;}
+#headmenu ul li a:hover{color:#333333;}
 /*#### Entete #####*/
-#entete{}
+#entete{
+	width:984px;
+	height:142px;
+	background:#FFF;
+}
 #entete .top{
-	background:#FFF url(/public/default/img/head.png) no-repeat;
-	width:1024px;
-	height:146px;
-	margin: 0;
+	float:left;
+	background:#FFF url(/public/default/img/logo-magixcms.png) no-repeat;
+	margin: 20px 0 0 20px;
 	padding: 0;
+	width:394px;
+	height:89px;
 }
 #entete #prelude{
 	color: #ccc;
@@ -73,6 +91,9 @@ a img { border:none;}
 	color: black;
 	font-style: italic;
 }
+h1{
+	font-weight: 500;
+}
 /*################### menu top ############################*/
 #topmenu{margin:0;padding:0;width:100%;height:30px;background-color:#000;}
 #topmenu ul{margin:0;padding:0;}
@@ -86,74 +107,100 @@ a img { border:none;}
 }
 /****************** position du contenu *********************/
 #extra {
-	margin: 0;
-	padding:0;
-	width: 200px;
-	font-size:13px;
+	margin: 0;padding:0;
+	width: 195px;
 	float:left;
 }
 #principal {
-	/*background-color:#CCC;*/
-	margin:0 10px 0 210px !important;
-	margin:0 10px 0 210px;
+	margin:3px 0 0 210px !important;
+	margin:3px 0 0 210px;
 	padding:5px;
 	font-size:100%;
 	width:auto;
+	color:#58585a;
+	background:white;
 }
-#principal ol li{margin: 0.2em 0 0.8em 3em;font-size:10px;}
-#principal ul li{font-size:10px;}
-#principal .decoList li{margin: 0.2em 0 0.8em 3em;font-size:10px;list-style:url(/public/default/img/bullet_red.png);}
-#principal a{font-size:12px;}
-#extra a{color: #696969; font-size: 100%;}
+#principal ul{}
+#principal ol li{}
+#principal ul li{
+	font-size:15px;
+	list-style:square;
+	margin: 0.2em 0 0.2em 3em;
+}
+#principal a{font-size:15px;color:#560b4b;}
+#principal a:hover{color:#6f0d61;}
+/*#extra a{color: #696969; font-size: 100%;}*/
 #extra a:hover{}
 #extra h2{}
-#extra ul{background:none;margin:0;}
-#extra ul li{background:none;font-size:12px;}
 #extra .sidebar{
-	margin: 10px 0 0 5px;
+	margin: 0;padding: 0;
 	width:190px;
 }
-#extra .sidebar .block{margin:3px;}
-#extra .sidebar ul{
-	padding:0;
-	margin: 0 0 0 10px;
+.sidebar ul{}
+.sidebar ul li{
+	font-size:11px;
+	/*list-style:square;
+	margin: 0.1em 0 0.1em 1.1em;*/
 }
-#extra .sidebar ul li{
-	line-height:0.7em;
-	padding:4px 0 3px 0;
+/* menu example :simple cms */
+.personnal-side-list {
+	list-style: none;
+	margin: 0px;
+	margin-right: 25px;
+	padding: 0px;
+	padding-left: 5px;
+	padding-top: 2%;
+	width: 175px;
+	float: left;
 }
-#extra .sidebar ul li a:hover{color:#191970;}
-#extra .sidebar h4.subtitle{
-	color:#4d4d4d;
-	margin:0 0 0 0;
-	padding:0;
-	text-align:left;
-	font-size:10px;
-	font-weight:900;
-	text-decoration:underline;
+.personnal-side-list li {
+	margin: 0px;
+	font-size: 13px;
 }
-#extra .img{margin: 5px 0 0 100px;}
+.personnal-side-list li a {
+	padding: 6px 0 6px 0;
+	text-align: left;
+	text-decoration: none;
+	position: relative;
+	display: block;
+}
+.personnal-side-list li a.active-page,.personnal-side-list li a.active-page:hover {
+	color:#fff;
+	background:#696969;
+	padding-left:5px;
+	left:10px;
+}
+.personnal-side-list li a:hover {
+	background:#696969;
+	color:#fff;
+	padding-left:5px;
+}
+.personnal-side-list li div:hover{}
 /*************************** Footer ***********************/
-#pieddepage{background-color:#000;clear:both;}
+#pieddepage{clear:both;}
 #pieddepage {
-	/*background:transparent url(/public/default/img/footer.png) no-repeat scroll left bottom;*/
-	margin:0;
+	background-color:white;
+	border:1px dashed #ccc;
+	margin-top:22px;
 	height:50px;
 	padding:0;
-	width:1024px;
+	width:984px;
 }
 #pieddepage p {
-	font-size:10px;
-	color:black;
-	margin:0 auto 0;
+	font-size:12px;
+	color:#696969;
+	margin:10px auto 0 auto;
 	padding:0;
 	text-align:center;
 	width:900px;
 }
 #pieddepage a {
 	color:#696969;
+	text-decoration:underline;
 }
 #pieddepage a:hover {}
+.micro-footer{font-size:11px;text-align:right;}
+.micro-footer a{font-size:11px;color:#0A8ECC;text-decoration:underline;}
 /*####################### Widget ##########################*/
 .widget-news{margin:5px;width:60%;padding:5px;}
 .widget-news-header{padding:0 5px 0 5px;}
@@ -181,26 +228,27 @@ a img { border:none;}
 .title-category a{}
 /*############## Micro galery ##################*/
 #list-image-galery{
-	margin-left:10px;
-	width:500px;
+	margin-left:30px;
+	width:700px;
 }
 .list-img{
 	margin:3px;
 	float:left;
 	width:130px;
-	height:auto;
+	height:130px;
 }
 .img-galery{padding:2px;text-align:center;}
 .title-galery-image{padding:0 5px 0 5px;}
 /*#################### menu fixe Fil d'ariane ###########################*/
 #barfixed {
+   margin-top:25px;
    position:fixed;
    left:0;
    bottom:0;
    height:25px;
    width:100%;
    z-index:100;
-   background-color:#FFF;
+   background-color:#58585a;
 }
 #barfixed #breadcrum{
 	position:relative;
@@ -214,4 +262,4 @@ a img { border:none;}
 	list-style-position:outside;
 	list-style-type:none;
 }
-#barfixed #breadcrum ul li a{font-size:11px;color:#0A8ECC;text-decoration:underline;}
+#barfixed #breadcrum ul li a{font-size:11px;color:#222222/*#0A8ECC*/;text-decoration:underline;}
