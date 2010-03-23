@@ -39,6 +39,6 @@ $(function() {
 	$('.personnal-side-list a:not(.active-page)').hover(function() {
 		$(this).stop().animate({ opacity: '0.7',left: 10,backgroundColor: "#696969",color: "#FFFFFF" }, 'fast');
 	  }, function() {
-	    $(this).stop().animate({ opacity: '1',left: 0,backgroundColor: "#dcdcdc",color: "#000000" }, 'fast');
+	    $(this).stop().animate({ opacity: '1',left: 0,backgroundColor: "#BFBFBF",color: "#333333" }, 'fast');
 	});
 });

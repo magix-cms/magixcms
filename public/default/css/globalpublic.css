@@ -135,6 +135,7 @@ h1{
 #extra .sidebar{
 	margin: 0;padding: 0;
 	width:190px;
+	background:#BFBFBF;
 }
 .sidebar ul{}
 .sidebar ul li{
@@ -176,6 +177,7 @@ h1{
 	padding-left:5px;
 }
 .personnal-side-list li div:hover{}
+#page-menu-nolang h3{background:white;}
 /*************************** Footer ***********************/
 #pieddepage{clear:both;}
 #pieddepage {
