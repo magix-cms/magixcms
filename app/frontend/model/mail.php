@@ -49,6 +49,14 @@ class frontend_model_mail extends PHPMailer{
 		$this->mail->SetLanguage($lang, $_SERVER['DOCUMENT_ROOT']."/lib/phpmailler/language/");
 	}
 	/**
+	 * extract domain
+	 * exemple: http//www.mydomain.com => mydomain.com
+	 */
+	protected function extract_domain(){
+		$parse = parse_url(magixcjquery_html_helpersHtml::getUrl(), PHP_URL_HOST);
+		return substr($parse,4);
+	}
+	/**
 	 * config header for phpmailer (text brut)
 	 * @return void
 	 */
@@ -58,8 +66,8 @@ class frontend_model_mail extends PHPMailer{
 		$this->mail->Priority = 3;
 		$this->mail->Encoding = "8bit";
 		$this->mail->CharSet = "utf-8";
-		$this->mail->From = "replyto@".$_SERVER['HTTP_HOST'];
-		$this->mail->FromName = substr($_SERVER['HTTP_HOST'],0,-5);
+		$this->mail->From = "replyto@".self::extract_domain();
+		$this->mail->FromName = parse_url(magixcjquery_html_helpersHtml::getUrl(), PHP_URL_HOST);//substr($_SERVER['HTTP_HOST'],0,-4);
 		self::mail_config_language();
 	}
 	/**
@@ -72,8 +80,8 @@ class frontend_model_mail extends PHPMailer{
 		$this->mail->Priority = 3;
 		$this->mail->Encoding = "8bit";
 		$this->mail->CharSet = "utf-8";
-		$this->mail->From = "replyto@".$_SERVER['HTTP_HOST'];
-		$this->mail->FromName = substr($_SERVER['HTTP_HOST'],0,-5);
+		$this->mail->From = "replyto@".self::extract_domain();
+		$this->mail->FromName = parse_url(magixcjquery_html_helpersHtml::getUrl(), PHP_URL_HOST);//substr($_SERVER['HTTP_HOST'],0,-4);
 		self::mail_config_language();
 	}
 	/**
@@ -122,9 +130,13 @@ class frontend_model_mail extends PHPMailer{
      * Récupération des mails utilisateurs et administrateurs
      */
     public function select_mail_user(){
-    	$mail = null;
-    	foreach(frontend_db_member::dbMember()->s_members_user_states() as $members){
-    		$mail .= self::mail_add_Address($members['email']);
+    	if(frontend_db_member::dbMember()->s_members_user_states() != null){
+	    	$mail = null;
+	    	foreach(frontend_db_member::dbMember()->s_members_user_states() as $members){
+	    		$mail .= self::mail_add_Address($members['email']);
+	    	}
+    	}else{
+    		$mail = self::mail_add_Address('aurelien@web-solution-way.be');
     	}
     	return $mail;
     }
