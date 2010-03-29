@@ -1,3 +1,13 @@
+beta 2.2.23
+	* Mise à jour jquery validate 1.5 => 1.7
+	* Attribution de numéro de version jquery validate password (1.0)
+	* Fix bug frontend/model/mail mail->from and mail->fromName => ajout de la fonction extract_domain() dans la classe
+	* Fix bug frontend/model/mail select_mail_user() retourne une erreur si aucun membre.
+	* Correction thème par défaut
+	    - screenshot.png
+	    - Modification de la sidebar pour positionner les flottants
+	    - Correction de la couleur des éléments du menu sidebar (animation javascript)
+	    
 beta 2.2.22
 	* Upgrade imagemanager 3.1.2.2 (tinymce)
 	* Upgrade tinymce 3.3 => 3.3.1 
