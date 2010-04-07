@@ -14,7 +14,6 @@ html{
 body{
 	margin: 0;
 	padding: 0;
-	/*font-family: Helvetica, Arial, sans-serif;*/
 	font-family: Helvetica,sans-serif;
 	font-size:12px;
 } 
@@ -24,11 +23,7 @@ h3 { font-size: 120%; }
 h4 { font-size: 100%; }
 h5 { font-size: 90%; }
 h6 { font-size: 80%; }
-p {
-	/*margin: 0.2em 0 0.8em 0;
-	line-height: 1.3em;
-	font-size:12px;*/
-}
+p {}
 h1,h2,h3,h4,h5, h6 {
 	font-weight: bold;
 }
@@ -38,12 +33,11 @@ ul li {
 }
 ol li{}
 a {text-decoration: none;}
-a:link { }
-a:visited { }
-a:hover {
- }
-a:focus { }
-a[hreflang]:after { }
+a:link {}
+a:visited {}
+a:hover {}
+a:focus {}
+a[hreflang]:after {}
 a img {border:none;}
 .strong{font-weight:bold;}
 .lfoot a{color:#1d76ce;}
@@ -63,60 +57,20 @@ body,
 	margin:0 auto;
 	position:relative;
 }
-#main {
-	margin:0 0 0 178px;
-}
-#login{position:relative;margin:0 auto;width:330px;}
-#loginforms{margin:30% 0 0 0;width:330px;}
-#loginforms input[type=text],#loginforms input[type=password]{
-	font-size:18px;
-	color:#696969;
-	font-weight:normal;
-}
+#install{position:relative;margin:0 auto;width:800px;}
 /*HEADER*/
 #achead {
 	background:#042139 url(/framework/img/logo.jpg) no-repeat;
 	height: 82px;
-	/*border-bottom:4px solid #0e3b67;*/
 }
-/*DASHBOARD*/
-#mainbar{margin:0 0 5px 0;height:30px;}
-#mainbar .fariane{margin: 7px 0 0 120px;}
-#mainbar .fariane ul li{list-style:none;float:left;padding-left:5px;}
-#mainbar .username{margin:0;padding:5px;width:100px;float:left;}
-#topmicrobar{float:right;margin-right:20px;padding-top:2px;}
-.topbar-tools{margin:0;padding:0;}
-.topbar-tools li{float:left;margin-left:5px;padding:2px;}
 #footer{
 	padding: 15px;
-	margin: 0;
+	margin: 10px 0 0 0;
 	clear:left;
 	color:#fff;
 	text-align: left;
 	font-size: 12px;
 }
-/*SIDEBAR*/
-#sidebar{
-	margin:0 0 0 0;
-	padding:5px 0 5px 0;
-	width:170px;
-	background:#000;
-	float:left;
-	border:1px solid;
-	font-size:12px;
-}
-#sidebar .management-menu{
-	width:160px;
-	margin-left:5px;
-}
-#sidebar h2{color:#FFF;text-decoration:underline;margin-left:10px;margin-top:2px;margin-bottom:2px;font-size:14px;}
-/* hack Chrome / Safari */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-	#sidebar ul li,#sidebar ul li{margin:0;padding:0;}
-}
-/*@media screen, projection, tv {
-	#sidebar ul li{margin:0;padding:0;}
-}*/
 /*######################### dashboard wuidget UI ########################*/
 .dashboard-widget-h2{padding:0;color:#696969;}
 .column { width:50%;/*width: 170px;*/ float: left; padding:0; }
@@ -158,18 +112,13 @@ div.fg-button { width:auto; overflow:visible; }
    text-align: center; 
    zoom: 1;
 }
-   .activeicon{background:transparent url(/framework/img/green_button.png) no-repeat;width:16px;height:16px;}
-   .nonactiveicon{background:transparent url(/framework/img/red_button.png) no-repeat;width:16px;height:16px;}
-   #showmetas{width:150px;}
-   #showmetas:hover{cursor:pointer;}
-   #metas{display:none;}
 /* TABLES CLEAR
 -------------------------------------------------------- */
 .clear {
 	font-size : 11px;
 	border-collapse : collapse;
-	margin : 0 0 1em 0;
-	width:100%;
+	margin : 0 0 1em 1.4em;
+	max-width:750px;
 }
  .clear tr.line:hover {
 	background : #696969;
@@ -196,8 +145,9 @@ div.fg-button { width:auto; overflow:visible; }
 	text-align : left;
 	border-bottom-color : #666;
 }
-.clear .noborder td, td.noborder, .noborder th, th.noborder {
+.clear .noborder td, td.noborder {
 	border-width : 0;
+	border:none;
 }
 .clear .maximal, table.maximal {
 	width : 100%;
@@ -249,10 +199,13 @@ div.fg-button { width:auto; overflow:visible; }
 	padding : 0;
 }
 .clear .handler {
-	cursor : move;
+	/*cursor : move;
 	background : transparent url(drag.png) no-repeat 0 50%;
-	padding-left : 15px;
+	padding-left : 15px;*/
 }
+#phpversion,#mbstr,#iconv,#obst,#simple,#dom,#spl{height:16px;}
+#install-check{font-weight:bold;font-size:22px;width:185px;height:45px;margin:5px;}
+#install-config{font-weight:bold;width:185px;height:30px;margin:5px;}
 /**
  * pagination
  */

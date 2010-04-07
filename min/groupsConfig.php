@@ -29,5 +29,6 @@
 );*/
  return array_merge(
     (require 'public.php'),
-    (require 'admin.php')
+    (require 'admin.php'),
+    (require 'install.php')
 ); 
