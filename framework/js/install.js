@@ -8,6 +8,11 @@ $(function() {
 	var ie6 = ($.browser.msie && $.browser.version < 7);
 	var ie7 = ($.browser.msie && $.browser.version > 6);
 	var ie = ($.browser.msie);
+	//function replace targetblank for valid w3c
+    $('a.targetblank').click( function() {
+		 window.open($(this).attr('href'));
+		 return false;
+	});
 	/**
 	 * Effet de survol sur les boutons
 	 */
@@ -121,5 +126,21 @@ $(function() {
 					window.location = "/install/install.php";
 				});
 			},1400);
+		});
+		$("#i-config").live("click",function(){
+			$('#forms-install-config').ajaxSubmit({
+				type:'post',
+				/*timeout: 1000,
+			    error: function(){
+			        alert('Error create file config');
+			    },*/
+				url: "/install/install.php?cfile",
+				beforeSubmit:function() {
+					$("#reqconfig").append('<img src="/framework/img/small_loading.gif" />');
+				},
+				success:function(e) {
+					$("#reqconfig").html(e);
+				}
+		    });
 		});
 });

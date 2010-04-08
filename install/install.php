@@ -24,4 +24,8 @@ if (!file_exists($loaderFilename)) {
  */
 install_Autoloader::register();
 $install = new install_controller_install();
-$install->display_install_page();
+if(magixcjquery_filter_request::isGet('cfile')){
+	$install->createConfig();
+}else{
+	$install->display_install_page();
+}

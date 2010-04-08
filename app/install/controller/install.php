@@ -16,6 +16,11 @@ class install_controller_install{
 	 */
 	public static $config_in;
 	/**
+	 * chemin vers le fichier de base config.php
+	 * @var void
+	 */
+	public static $configfile;
+	/**
 	 * variable pour la constante du fichier de configuration
 	 * @var string
 	 */
@@ -59,7 +64,8 @@ class install_controller_install{
 	 * Constructor
 	 */
 	function __construct(){
-		self::$config_in = $_SERVER['DOCUMENT_ROOT'].'/app/conf/config.php.in';
+		self::$config_in = $_SERVER['DOCUMENT_ROOT'].'/app/config/config.php.in';
+		self::$configfile = $_SERVER['DOCUMENT_ROOT'].'/app/config/testconfig.php';
 		self::$M_DBDRIVER = !empty($_POST['M_DBDRIVER']) ? $_POST['M_DBDRIVER'] : 'mysql';
 		self::$M_DBHOST = !empty($_POST['M_DBHOST']) ? $_POST['M_DBHOST'] : '';
 		self::$M_DBUSER = !empty($_POST['M_DBUSER']) ? $_POST['M_DBUSER'] : '';
@@ -77,6 +83,45 @@ class install_controller_install{
 			throw new Exception(sprintf('File %s does not exist.',self::$config_in));
 		}
 		return true;
+	}
+	private function writeConfigFile(){
+		if(isset($_POST['M_DBHOST']) && isset($_POST['M_DBUSER']) && isset($_POST['M_DBPASSWORD'])){
+			//echo dirname(self::$configfile);
+			/*if (!is_writable(dirname(self::$configfile))) {
+				throw new Exception(sprintf('Cannot write %s file.',self::$configfile));
+			}*/
+			self::config_in_exist();
+			try{
+				# Creates config.php file
+				$full_conf = file_get_contents(self::$config_in);
+				$writeconst = new magixcjquery_files_makefiles();
+				$writeconst->writeConstValue('M_DBDRIVER',self::$M_DBDRIVER,$full_conf);
+				$writeconst->writeConstValue('M_DBHOST',self::$M_DBHOST,$full_conf);
+				$writeconst->writeConstValue('M_DBUSER',self::$M_DBUSER,$full_conf);
+				$writeconst->writeConstValue('M_DBPASSWORD',self::$M_DBPASSWORD,$full_conf);
+				$writeconst->writeConstValue('M_DBNAME',self::$M_DBNAME,$full_conf);
+				$writeconst->writeConstValue('M_LOG',self::$M_LOG,$full_conf);
+				$writeconst->writeConstValue('M_TMP_DIR',self::$M_TMP_DIR,$full_conf);
+				$writeconst->writeConstValue('M_FIREPHP',self::$M_FIREPHP,$full_conf);
+				
+				$fp = fopen(self::$configfile,'wb');
+				if ($fp === false) {
+					throw new Exception(sprintf('Cannot write %s file.',self::$configfile));
+				}
+				fwrite($fp,$full_conf);
+				fclose($fp);
+				//chmod(self::$configfile, 0666);
+				install_config_smarty::getInstance()->display('request/success-config.phtml');
+			} catch(Exception $e) {
+				$log = magixcjquery_error_log::getLog();
+	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
+	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
+	        	magixcjquery_debug_magixfire::magixFireError($e);
+			}
+		}
+	}
+	public function createConfig(){
+		self::writeConfigFile();
 	}
 	public function display_install_page(){
 		install_config_smarty::getInstance()->display('install.phtml');

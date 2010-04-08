@@ -9,7 +9,90 @@
 		{include file="common/top.phtml"}
 		<div class="dashboard ui-widget-content ui-corner-all">
 				<div class="dashboard-content">
-					
+					<div class="ui-widget-header ui-corner-all" style="float:right;width:220px;height:250px;padding:5px;margin-right:20px;margin-top:20px;">
+						<div style="margin-top:10px;margin-left:10px;">
+						<p>Créer votre configuration avant d'installer la base de donnée</p>
+						<p style="margin-left:25px;"><img src="/framework/img/database-install.png" alt="" /></p>
+						<p><button id="install-database" class="fg-button ui-state-default ui-corner-all">Installer la base de donnée</button></p>
+						</div>
+					</div>
+					<form id="forms-install-config" action="" method="post">
+						<div id="reqconfig"></div>
+						<fieldset>
+							<table style="margin-left:10px;width:500px;">
+								<tr>
+									<td class="label"><label for="M_DBHOST" class="inlinelabel">Host :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="M_DBHOST" name="M_DBHOST" class="inputtext ui-corner-all" value="localhost" size="50" /></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="M_DBDRIVER" class="inlinelabel">Driver :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<select name="M_DBDRIVER" id="M_DBDRIVER" class="select">
+										<option value="mysql">MYSQL</option>
+									</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="label"><label for="M_DBUSER" class="inlinelabel">Utilisateur db :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="M_DBUSER" name="M_DBUSER" class="inputtext ui-corner-all" value="" size="50" /></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="M_DBPASSWORD" class="inlinelabel">Password db :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="M_DBPASSWORD" name="M_DBPASSWORD" class="inputtext ui-corner-all" value="" size="50" /></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="M_DBNAME" class="inlinelabel">Nom de la db :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="M_DBNAME" name="M_DBNAME" class="inputtext ui-corner-all" value="" size="50" /></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="M_LOG" class="inlinelabel">Log :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<select name="M_LOG" id="M_LOG" class="select">
+										<option value="log">LOG</option>
+										<option value="debug">DEBUG</option>
+										<option value="false" selected="selected">OFF</option>
+									</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="label"><label for="M_TMP_DIR" class="inlinelabel">Dossier temporaire :</label></td>
+								</tr>
+								<tr>
+									<td><input type="text" id="M_TMP_DIR" name="M_TMP_DIR" class="inputtext ui-corner-all" value="/var/tmp/errors.log" size="50" /></td>
+								</tr>
+								<tr>
+									<td class="label"><label for="M_FIREPHP" class="inlinelabel">Firephp :</label></td>
+								</tr>
+								<tr>
+									<td>
+										<select name="M_FIREPHP" id="M_FIREPHP" class="select">
+											<option value="true">ON</option>
+											<option value="false" selected="selected">OFF</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div style="margin:5px;">
+											<input type="button" id="i-config" class="ud-button ui-state-default ui-corner-all" value="Enregistrer" />
+										</div>
+									</td>
+								</tr>
+							</table>	
+					</fieldset>
+					</form>
 				</div>
 				{include file="common/footer.phtml"}
 			</div>
