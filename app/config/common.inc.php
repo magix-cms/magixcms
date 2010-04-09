@@ -14,10 +14,10 @@
 $config = dirname(__FILE__).'/config.php';
 if (file_exists($config)) {
 	require $config;
-}else{
+}/*else{
 	print 'Error config Files';
 	exit;
-}
+}*/
 setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
 if(M_LOG == 'debug'){
 	$dis_errors = 1;

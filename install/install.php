@@ -11,7 +11,7 @@
 /**
  * Charge toutes les Classes de l'application
  */
-require($_SERVER['DOCUMENT_ROOT'].'/app/install/autoload.php');
+require($_SERVER['DOCUMENT_ROOT'].'/install/exec/autoload.php');
 $loaderFilename = $_SERVER['DOCUMENT_ROOT'].'/lib/loaderIniclass.php';
 if (!file_exists($loaderFilename)) {
 	print "<p>Loader is not found<br />Contact Webmestre: aurelien@web-solution-way.be</p>";
@@ -22,8 +22,8 @@ if (!file_exists($loaderFilename)) {
 /**
  * Autoload Frontend
  */
-install_Autoloader::register();
-$install = new install_controller_install();
+exec_Autoloader::register();
+$install = new exec_controller_install();
 if(magixcjquery_filter_request::isGet('cfile')){
 	$install->createConfig();
 }else{

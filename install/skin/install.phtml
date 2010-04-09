@@ -9,11 +9,11 @@
 		{include file="common/top.phtml"}
 		<div class="dashboard ui-widget-content ui-corner-all">
 				<div class="dashboard-content">
-					<div class="ui-widget-header ui-corner-all" style="float:right;width:220px;height:250px;padding:5px;margin-right:20px;margin-top:20px;">
+					<div class="ui-widget-header ui-corner-all" style="float:right;width:220px;height:250px;padding:5px;margin-right:20px;margin-top:40px;">
 						<div style="margin-top:10px;margin-left:10px;">
-						<p>Créer votre configuration avant d'installer la base de donnée</p>
-						<p style="margin-left:25px;"><img src="/framework/img/database-install.png" alt="" /></p>
-						<p><button id="install-database" class="fg-button ui-state-default ui-corner-all">Installer la base de donnée</button></p>
+						<p style="text-align:center;">Créer votre configuration avant d'installer la base de donnée</p>
+						<p style="text-align:center;"><img src="/framework/img/database-install.png" alt="" /></p>
+						<p style="text-align:center;"><button id="install-database" class="fg-button ui-state-disabled ui-corner-all">Continuer</button></p>
 						</div>
 					</div>
 					<form id="forms-install-config" action="" method="post">
@@ -86,7 +86,7 @@
 								<tr>
 									<td>
 										<div style="margin:5px;">
-											<input type="button" id="i-config" class="ud-button ui-state-default ui-corner-all" value="Enregistrer" />
+											<input type="submit" id="i-config" class="ud-button ui-state-default ui-corner-all" value="Enregistrer" />
 										</div>
 									</td>
 								</tr>

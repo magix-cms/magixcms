@@ -204,6 +204,7 @@ div.fg-button { width:auto; overflow:visible; }
 	padding-left : 15px;*/
 }
 #phpversion,#mbstr,#iconv,#obst,#simple,#dom,#spl{height:16px;}
+.tdrequest{height:16px;}
 #install-check{font-weight:bold;font-size:22px;width:185px;height:45px;margin:5px;}
 #install-config{font-weight:bold;width:185px;height:30px;margin:5px;}
 /**

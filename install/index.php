@@ -11,7 +11,7 @@
 /**
  * Charge toutes les Classes de l'application
  */
-require($_SERVER['DOCUMENT_ROOT'].'/app/install/autoload.php');
+require($_SERVER['DOCUMENT_ROOT'].'/install/exec/autoload.php');
 $loaderFilename = $_SERVER['DOCUMENT_ROOT'].'/lib/loaderIniclass.php';
 if (!file_exists($loaderFilename)) {
 	print "<p>Loader is not found<br />Contact Webmestre: aurelien@web-solution-way.be</p>";
@@ -30,7 +30,7 @@ if (is_file($config_in)) {
 /**
  * Autoload Frontend
  */
-install_Autoloader::register();
-$home = new install_controller_home();
+exec_Autoloader::register();
+$home = new exec_controller_home();
 $home->display_home_page();
 ?>

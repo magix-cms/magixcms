@@ -1,0 +1,83 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Install database</title>
+</head>
+<body>
+<div id="page">
+	<div id="content">
+		<div id="install">
+		{include file="common/top.phtml"}
+		<div class="dashboard ui-widget-content ui-corner-all">
+			<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-organ"></span>&nbsp;Installation des tables</div>
+				<div class="dashboard-content">
+					<div class="ui-widget-header ui-corner-all" style="float:right;width:200px;padding:5px;margin-right:20px;">
+						<p style="text-align:center;">Une fois les tables installé, un utilisateur doit être configuré</p>
+						<p style="text-align:center;"><button id="install-database" class="fg-button ui-state-disabled ui-corner-all">Continuer</button></p>
+					</div>
+					<table class="clear" style="width:500px;">
+						<thead>
+							<tr>
+								<th>Table</th>
+								<th>Result</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="maximal">Utilisateurs</td>
+								<td class="nowrap"><div id="dbuser" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Permissions</td>
+								<td class="nowrap"><div id="dbperms" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Sessions</td>
+								<td class="nowrap"><div id="dbsessions" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Produits du catalogue</td>
+								<td class="nowrap"><div id="dbcatalogprod" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Catégories du catalogue</td>
+								<td class="nowrap"><div id="dbcatalogcat" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Sous catégories du catalogue</td>
+								<td class="nowrap"><div id="dbcatalogsubcat" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Des images produits du catalogue</td>
+								<td class="nowrap"><div id="dbcatalogimg" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Des micro galerie produits du catalogue</td>
+								<td class="nowrap"><div id="dbcataloggalery" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Catégorie CMS</td>
+								<td class="nowrap"><div id="dbcmscategory" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Pages CMS</td>
+								<td class="nowrap"><div id="dbcmspage" class="tdrequest"></div></td>
+							</tr>
+							<tr>
+								<td class="maximal">Supplémentaires</td>
+								<td class="nowrap"><div id="dbadditionnal" class="tdrequest"></div></td>
+							</tr>
+						</tbody>
+					</table>
+					<form id="forms-install-database" method="post" action="" style="margin-left:10px;">
+						<p><input type="hidden" name="ctable" value="true" /></p>
+						<div style="margin:5px;"><input type="button" id="i-database" class="ud-button ui-state-default ui-corner-all" value="Installer" /></div>
+					</form>
+				</div>
+				{include file="common/footer.phtml"}
+			</div>
+		</div>
+	</div>
+</div>
+{include file="common/javascript.phtml"}
+</body>
+</html>
