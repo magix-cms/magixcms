@@ -12,10 +12,10 @@
  */
 
 class backend_controller_user extends statesUserAdmin{
-	protected $pseudo;
-	protected $email;
-	protected $cryptpass;
-	protected $perms;
+	public $pseudo;
+	public $email;
+	public $cryptpass;
+	public $perms;
 	public $deluser;
 	public $edit;
 	function __construct(){

@@ -245,18 +245,7 @@ class exec_controller_database extends create_database{
 	public function c_database_home(){
 		if (isset($this->ctable)){
 			if(parent::cdatabase()->c_table_home()){
-				exec_config_smarty::getInstance()->display('request/success-table.phtml');
-			}else{
-				exec_config_smarty::getInstance()->display('request/error-table.phtml');
-			}
-		}
-	}
-	/**
-	 * Envoi la création de la table de configuration des pages d'accueil
-	 */
-	public function c_database_home_config(){
-		if (isset($this->ctable)){
-			if(parent::cdatabase()->c_table_home_config()){
+				parent::cdatabase()->c_table_home_config();
 				exec_config_smarty::getInstance()->display('request/success-table.phtml');
 			}else{
 				exec_config_smarty::getInstance()->display('request/error-table.phtml');
@@ -307,7 +296,7 @@ class exec_controller_database extends create_database{
 	}
 }
 class create_database{
-/**
+	/**
 	 * protected var ini class magixLayer
 	 *
 	 * @var layer

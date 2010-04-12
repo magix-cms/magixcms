@@ -229,7 +229,7 @@ $(function() {
 						$("#dbperms").html(e);
 					}
 			    });
-			},200);
+			},300);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -241,7 +241,7 @@ $(function() {
 						$("#dbsessions").html(e);
 					}
 			    });
-			},400);
+			},600);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -253,7 +253,7 @@ $(function() {
 						$("#dbcatalogprod").html(e);
 					}
 			    });
-			},600);
+			},900);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -265,7 +265,7 @@ $(function() {
 						$("#dbcatalogcat").html(e);
 					}
 			    });
-			},800);
+			},1200);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -277,7 +277,7 @@ $(function() {
 						$("#dbcatalogsubcat").html(e);
 					}
 			    });
-			},1000);
+			},1500);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -289,7 +289,7 @@ $(function() {
 						$("#dbcatalogimg").html(e);
 					}
 			    });
-			},1200);
+			},1800);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -301,7 +301,7 @@ $(function() {
 						$("#dbcataloggalery").html(e);
 					}
 			    });
-			},1400);
+			},2100);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -313,7 +313,7 @@ $(function() {
 						$("#dbcmscategory").html(e);
 					}
 			    });
-			},1600);
+			},2400);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
@@ -325,18 +325,198 @@ $(function() {
 						$("#dbcmspage").html(e);
 					}
 			    });
-			},1800);
+			},2700);
 			setTimeout(function(){
 				$('#forms-install-database').ajaxSubmit({
 					type:'post',
-					url: "/install/database.php?climitedmodule",
+					url: "/install/database.php?clang",
 					beforeSubmit:function() {
-						$("#dblimitedmodule").append('<img src="/framework/img/small_loading.gif" />');
+						$("#dblang").append('<img src="/framework/img/small_loading.gif" />');
 					},
 					success:function(e) {
-						$("#dblimitedmodule").html(e);
+						$("#dblang").html(e);
 					}
 			    });
-			},2000);
+			},3000);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?chome",
+					beforeSubmit:function() {
+						$("#dbhome").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbhome").html(e);
+					}
+			    });
+			},3300);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?cnews",
+					beforeSubmit:function() {
+						$("#dbnews").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbnews").html(e);
+					}
+			    });
+			},3600);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?cnewspublication",
+					beforeSubmit:function() {
+						$("#dbnewspub").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbnewspub").html(e);
+					}
+			    });
+			},3900);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?crewrite",
+					beforeSubmit:function() {
+						$("#dbrewrite").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbrewrite").html(e);
+					}
+			    });
+			},4200);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?cglobalconf",
+					beforeSubmit:function() {
+						$("#dbglobalconf").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbglobalconf").html(e);
+					}
+			    });
+			},4500);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?cforms",
+					beforeSubmit:function() {
+						$("#dbforms").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbforms").html(e);
+					}
+			    });
+			},4800);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?cformsinput",
+					beforeSubmit:function() {
+						$("#dbformsinput").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbformsinput").html(e);
+					}
+			    });
+			},5100);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?cconfiglimited",
+					beforeSubmit:function() {
+						$("#dbconfiglimited").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbconfiglimited").html(e);
+					}
+			    });
+			},5400);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?cplugins",
+					beforeSubmit:function() {
+						$("#dbplugins").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbplugins").html(e);
+					}
+			    });
+			},5700);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?csettingconf",
+					beforeSubmit:function() {
+						$("#dbsettingconf").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbsettingconf").html(e);
+					}
+			    });
+			},6000);
+			setTimeout(function(){
+				$('#forms-install-database').ajaxSubmit({
+					type:'post',
+					url: "/install/database.php?csitemap",
+					beforeSubmit:function() {
+						$("#dbsitemap").append('<img src="/framework/img/small_loading.gif" />');
+					},
+					success:function(e) {
+						$("#dbsitemap").html(e);
+						$('#install-user').removeClass("ui-state-disabled");
+						$('#install-user').addClass("ui-state-active");
+						$('#install-user').live('click',function(){
+							window.location = "/install/adminuser.php";
+						});
+					}
+			    });
+			},6300);
 		});
+		var formsusers = $("#forms-install-users").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				pseudo: {
+					required: true,
+					minlength: 2
+				},
+				email: {
+					required: true,
+					email: true
+				},
+				cryptpass: {
+					password: "#pseudo",
+					required: true,
+					minlength: 4
+				},
+				cryptpass_confirm: {
+					required: true,
+					equalTo: "#cryptpass"
+				}
+			},
+			messages: {
+				pseudo: {
+					required: "Enter a username"
+				},
+				email: {
+					required: "Enter a email",
+					email: "Enter a valid mail"
+				},
+				cryptpass: {
+					password: "the password is weak",
+					required: "Enter a password",
+					minlength: "Enter a min length"
+				},
+				cryptpass_confirm: {
+					required: "Repeat your password",
+					minlength: "",
+					equalTo: "Enter the same password as above"
+				}
+			}
+		});
+		$("#forms-install-users").formsusers;
 });

@@ -45,8 +45,30 @@ if(magixcjquery_filter_request::isGet('cusers')){
 	$database->c_database_cms_category();
 }elseif(magixcjquery_filter_request::isGet('ccmspage')){
 	$database->c_database_cms_page();
-}elseif(magixcjquery_filter_request::isGet('climitedmodule')){
+}elseif(magixcjquery_filter_request::isGet('clang')){
+	$database->c_database_lang();
+}elseif(magixcjquery_filter_request::isGet('chome')){
+	$database->c_database_home();
+}elseif(magixcjquery_filter_request::isGet('cnews')){
+	$database->c_database_news();
+}elseif(magixcjquery_filter_request::isGet('cnewspublication')){
+	$database->c_database_news_publication();
+}elseif(magixcjquery_filter_request::isGet('crewrite')){
+	$database->c_database_metas_rewrite();
+}elseif(magixcjquery_filter_request::isGet('cconfiglimited')){
 	$database->c_database_config_limited_module();
+}elseif(magixcjquery_filter_request::isGet('cforms')){
+	$database->c_database_forms();
+}elseif(magixcjquery_filter_request::isGet('cformsinput')){
+	$database->c_database_forms_input();
+}elseif(magixcjquery_filter_request::isGet('cglobalconf')){
+	$database->c_database_global_config();
+}elseif(magixcjquery_filter_request::isGet('cplugins')){
+	$database->c_database_plugins_module();
+}elseif(magixcjquery_filter_request::isGet('csettingconf')){
+	$database->c_database_settings();
+}elseif(magixcjquery_filter_request::isGet('csitemap')){
+	$database->c_database_sitemaps_config();
 }else{
 	$database->display_database_page();
 }
