@@ -1,3 +1,18 @@
+beta 2.2.25
+	* Installation des tables (install suite)
+	* Modification des requêtes SQL pour la création des tables SQL
+	* Ajout de la création de l'utilisateur final (super admin)
+	
+beta 2.2.24
+	* Début de l'écriture du module d'installation
+    	- Implémentation des tests sur la configuration système
+    	- Début de l'écriture du fichier de configuration (config.php)
+    * Ajout de la création * Création de exec(controller,db,config) dans le dossier installation
+	* Création des fichiers css, images, js pour l'auto installation
+	* Ajout processus d'analyse de la configuration
+	* Ajout création fichier de configuration global
+	* Début de la création automatique des tables SQL
+	
 beta 2.2.23
 	* Mise à jour jquery validate 1.5 => 1.7
 	* Attribution de numéro de version jquery validate password (1.0)
