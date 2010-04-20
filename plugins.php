@@ -34,5 +34,8 @@ if(isset($_GET['static'])){
 }elseif(isset($_GET['contact'])){
 	$contact = new frontend_plugins_contact();
 	$contact->display();
-}
+}/*elseif(isset($_GET['mix'])){
+	$gp = new frontend_plugins_gpageRegional();
+	$gp->display();
+}*/
 ?>
