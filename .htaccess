@@ -36,21 +36,14 @@
 </IfModule>
 	FileETag None
 # END Turn ETags Off
-# BEGIN Remove Last-Modified Header
 <IfModule mod_headers.c>
+# BEGIN Remove Last-Modified Header
   Header unset Last-Modified
 </IfModule>
 # END Remove Last-Modified Header
-# Properly handle old browsers that do not support compression
-<IfModule mod_deflate.c>
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4\.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-# Explicitly exclude binary files from compression just in case
-SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|pdf|swf|ico|zip)$ no-gzip
-</IfModule>
 # BEGIN Compress text files
 <IfModule mod_deflate.c>
+	#DeflateCompressionLevel 1
   <FilesMatch "\.(css|js|x?html?|php)$">
     SetOutputFilter DEFLATE
   </FilesMatch>
@@ -64,6 +57,12 @@ SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|pdf|swf|ico|zip)$ no-gzip
     AddOutputFilterByType DEFLATE application/rss+xml
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/x-javascript
+	# Properly handle old browsers that do not support compression
+	BrowserMatch ^Mozilla/4 gzip-only-text/html
+	BrowserMatch ^Mozilla/4\.0[678] no-gzip
+	BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+	# Explicitly exclude binary files from compression just in case
+	SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|pdf|swf|ico|zip)$ no-gzip
   # Below uses mod_deflate to compress text files. Never compress binary files.
 	<IfModule mod_headers.c>
 	# Make sure proxies don't deliver the wrong content
@@ -82,7 +81,6 @@ SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|pdf|swf|ico|zip)$ no-gzip
 ############################################
 ## default index file
     DirectoryIndex index.php
-    
 <IfModule mod_php5.c>
 ############################################
 ## send error if no index file
@@ -108,7 +106,6 @@ SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|pdf|swf|ico|zip)$ no-gzip
 <IfModule mod_rewrite.c>
 ############################################
 ## enable rewrites
-
     Options +FollowSymLinks
     RewriteEngine on
 ############################################
