@@ -9,13 +9,12 @@ $(function() {
 	remove_script_host : false,
 	theme : "advanced",
 	/*tableextras,*/
-	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,tableextras,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview",
+	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,tableextras,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview,rj_insertcode",
 	// Theme options
 	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,insertimage,insertfile,image,code,|,forecolor,backcolor,|,insertdate,inserttime,preview",
+	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,insertimage,insertfile,image,|,forecolor,backcolor,|,insertdate,inserttime,preview",
 	/*tabledraw,convertcelltype,*/
-	theme_advanced_buttons3 : "tabledraw,convertcelltype,tablecontrols,|,hr,removeformat,visualaid,|,fullscreen",
-	theme_advanced_buttons4 : "",
+	theme_advanced_buttons3 : "tabledraw,convertcelltype,tablecontrols,|,hr,removeformat,visualaid,|,fullscreen,|,rj_insertcode,code,",
 	//tableextras_col_size: 10, // Optional
 	//tableextras_row_size: 10, // Optional
 	theme_advanced_toolbar_location : "top",
@@ -29,6 +28,7 @@ $(function() {
 	external_image_list_url : "lists/image_list.js",
 	media_external_list_url : "lists/media_list.js",
 	cleanup : true,
+	cleanup_on_startup : true,
 	valid_elements : "*[*]",
 	skin : "o2k7",
 	skin_variant : "silver",

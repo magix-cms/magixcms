@@ -1,3 +1,10 @@
+beta 2.2.26
+	* Ajout de la colorisation syntaxique dans tinyMCE (rj_insert_code)
+	* Correction de l'entête des pages du système de plugins
+	* Correction du paramètre pour la page contact
+	* Correction du chargement des fichiers javascript des plugins dans l'administration.
+	* Ajout de la règle pour un système d'importation dans les plugins
+	
 beta 2.2.25
 	* Installation des tables (install suite)
 	* Modification des requêtes SQL pour la création des tables SQL
