@@ -72,7 +72,7 @@ class frontend_db_news{
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
-				WHERE pub.publish = 1 ORDER BY n.date_sent'.$limit.$offset;
+				WHERE pub.publish = 1 ORDER BY n.date_sent DESC'.$limit.$offset;
 		return $this->layer->select($sql);
 	}
 	/**
