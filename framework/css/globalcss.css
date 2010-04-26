@@ -301,16 +301,17 @@ div.fg-button { width:auto; overflow:visible; }
 	color:#222222;
 }
 /*############## Accordion ###########*/
-/*
-@media screen, projection, tv {
-	.ui-accordion .ui-accordion-content {padding:0;}
-html[xmlns*=""] body:last-child ... { ... }
+/*@media screen, projection, tv {
+	.ui-accordion .ui-accordion-content {margin:0;padding:0;}
+	html[xmlns*=""] body:last-child ... { ... }
 }*/
 /*######### UI Accordion ###########*/
 /* hack Chrome / Safari */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
- .ui-accordion .ui-accordion-content { padding:0;margin-left:0;position:relative;border-top: 0; margin-top: -2px; top: 1px; margin-bottom: 2px; overflow: auto; display: none; }
+ .ui-accordion .ui-accordion-content { padding:0;left:0;margin-left:0;position:relative;border-top: 0; margin-top: -2px; top: 1px; margin-bottom: 2px; overflow: auto; display: none; }
+ .ui-accordion .ui-accordion-content ul{margin:5px 0 5px 10px;padding:0;}
 }
+.ui-accordion .ui-accordion-content {left:0;}
 .ui-accordion .ui-accordion-header{}
 .ui-accordion .ui-accordion-header a{display: block; font-size: 1em; padding: .2em .2em .2em 2.0em;}
 /*########### UI Sortable##########*/

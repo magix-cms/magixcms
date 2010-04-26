@@ -45,16 +45,16 @@ function smarty_function_widget_users($params, &$smarty){
 		$userperm = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
 		foreach(backend_db_admin::adminDbMember()->view_list_members() as $members){
 			switch($members['perms']){
-				case 1:
+				case "1":
 					$perms = 'Seo Agency';
 					break;
-				case 2:
+				case "2":
 					$perms = 'Web Agency';
 					break;
-				case 3:
+				case "3":
 					$perms = 'User admin';
 					break;
-				case 4:
+				case "4":
 					$perms = 'User';
 					break;
 			}
@@ -62,32 +62,32 @@ function smarty_function_widget_users($params, &$smarty){
 			 $plugin .=	'<td class="maximal">'.$members['pseudo'].'</td>';
 			 $plugin .=	'<td class="nowrap">'.$members['email'].'</td>';
 			 $plugin .=	'<td class="nowrap">'.$perms.'</td>';
-			 if($userperm['perms'] <= 1){
-			 	if($members['perms'] >= 1){
+			 if($userperm['perms'] <= "1"){
+			 	if($members['perms'] >= "1"){
 			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/users/edit/'.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
 			 	}
-			 }elseif($userperm['perms'] <= 2){
-			 	if($members['perms'] >= 2){
+			 }elseif($userperm['perms'] <= "2"){
+			 	if($members['perms'] >= "2"){
 			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/users/edit/'.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
 			 	}
-			 }elseif($userperm['perms'] <= 3){
-			 	if($members['perms'] >= 3){
+			 }elseif($userperm['perms'] <= "3"){
+			 	if($members['perms'] >= "3"){
 			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/users/edit/'.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
 			 	}
-			 }elseif($userperm['perms'] <= 4){
-			 	if($members['perms'] >= 4){
+			 }elseif($userperm['perms'] <= "4"){
+			 	if($members['perms'] >= "4"){
 			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/users/edit/'.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{

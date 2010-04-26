@@ -1,3 +1,9 @@
+beta 2.2.27
+	* Upgrade tinymce 3.3.1 => 3.3.3
+	* Fix bug affichage du menu déroulant sous Google Chrome
+	* Fix bug affichage formulaire (fieldset) sous Google Chrome
+	* Renforcement des sessions utilisateurs (sécurité)
+	
 beta 2.2.26
 	* Ajout de la colorisation syntaxique dans tinyMCE (rj_insert_code)
 	* Correction de l'entête des pages du système de plugins
