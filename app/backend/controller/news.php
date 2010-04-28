@@ -138,7 +138,7 @@ class backend_controller_news{
 	/**
 	 * insertion d'une nouvelle news
 	 */
-	protected function insert_data_forms(){
+	private function insert_data_forms(){
 		if(isset($this->subject) AND isset($this->content)){
 			if(empty($this->subject) OR empty($this->content)){
 				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
@@ -161,7 +161,7 @@ class backend_controller_news{
 	 * offset for pager in pagination
 	 * @param $max
 	 */
-	function offset_pager($max){
+	public function offset_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		return $pagination->pageOffset($max,$this->getpage);
 	}
@@ -169,7 +169,7 @@ class backend_controller_news{
 	 * pagination for news
 	 * @param $max
 	 */
-	function news_pager($max){
+	public function news_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = backend_db_news::adminDbNews()->s_count_news_pager_max();
 		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/dashboard/news/',false,true,'page');
@@ -180,7 +180,7 @@ class backend_controller_news{
 	 */
 	private function load_data_forms(){
 		/**
-		 * 
+		 * Retourne un tableau des données
 		 * @var 
 		 */
 		$data = backend_db_news::adminDbNews()->s_news_record($this->getnews);
@@ -198,7 +198,7 @@ class backend_controller_news{
 	/**
 	 * POST le formulaire de mise à jour des données
 	 */
-	protected function update_data_forms(){
+	private function update_data_forms(){
 		if(isset($this->subject) AND isset($this->content)){
 			if(empty($this->subject) OR empty($this->content)){
 				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
@@ -231,7 +231,7 @@ class backend_controller_news{
 	/**
 	 * Supprime une news
 	 */
-	function del_news(){
+	public function del_news(){
 		if(isset($this->delnews)){
 			backend_db_news::adminDbNews()->d_news($this->delnews);
 		}
@@ -281,7 +281,7 @@ class backend_controller_news{
 	/**
 	 * insertion de la réécriture des métas
 	 */
-	function insertion_rewrite(){
+	private function insertion_rewrite(){
 		if(isset($this->phrase1)){
 			if(backend_db_config::adminDbConfig()->s_rewrite_v_lang(5,$this->idlang,$this->idmetas) == null){
 				backend_db_config::adminDbConfig()->i_rewrite_metas(5,$this->idlang,$this->phrase1,$this->phrase2,null,$this->idmetas,0);
@@ -294,7 +294,7 @@ class backend_controller_news{
 	/**
 	 * Mise à jour de la réécriture des métas
 	 */
-	function update_rewrite(){
+	private function update_rewrite(){
 		if(isset($this->phrase1)){
 			backend_db_config::adminDbConfig()->u_rewrite_metas(5,$this->idlang,$this->phrase1,$this->phrase2,'',$this->idmetas,0,$this->getrewrite);
 		}
@@ -302,7 +302,7 @@ class backend_controller_news{
 	/**
 	 * Supprime une réécriture des métas
 	 */
-	function del_rewrite_metas(){
+	public function del_rewrite_metas(){
 		if(isset($this->drmetas)){
 			backend_db_config::adminDbConfig()->d_rewrite_metas($this->drmetas);
 		}
@@ -310,7 +310,7 @@ class backend_controller_news{
 	/**
 	 * La page d'edition d'une news
 	 */
-	function edit(){
+	public function edit(){
 		self::update_data_forms();
 		self::load_data_forms();
 		backend_config_smarty::getInstance()->display('news/edit.phtml');
@@ -323,6 +323,9 @@ class backend_controller_news{
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('news/addnews.phtml');
 	}
+	/**
+	 * 
+	 */
 	function rewrite_display(){
 		self::insertion_rewrite();
 		backend_config_smarty::getInstance()->assign('ptitle',self::view_metas());

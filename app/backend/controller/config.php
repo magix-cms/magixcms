@@ -135,47 +135,47 @@ class backend_controller_config{
 		}
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load configuration lang
 	 * @string
 	 */
-	protected function load_config_lang(){
+	private function load_config_lang(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('lang');
 		backend_config_smarty::getInstance()->assign('configlang',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load configuration cms
 	 * @string
 	 */
-	protected function load_config_cms(){
+	private function load_config_cms(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('cms');
 		backend_config_smarty::getInstance()->assign('configcms',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load configuration news
 	 * @string
 	 */
-	protected function load_config_news(){
+	private function load_config_news(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('news');
 		backend_config_smarty::getInstance()->assign('confignews',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load configuration catalog
 	 * @string
 	 */
-	protected function load_config_catalog(){
+	private function load_config_catalog(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('catalog');
 		backend_config_smarty::getInstance()->assign('configcatalog',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load configuration forms
 	 * @string
 	 */
-	protected function load_config_forms(){
+	private function load_config_forms(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('forms');
 		backend_config_smarty::getInstance()->assign('configforms',$config['status']);
 	}
@@ -184,52 +184,52 @@ class backend_controller_config{
 	 * function load configuration microgalery
 	 * @string
 	 */
-	protected function load_config_microgalery(){
+	private function load_config_microgalery(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('microgalery');
 		backend_config_smarty::getInstance()->assign('configmicrogalery',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load rewrite news
 	 * @string
 	 */
-	protected function load_rewrite_news(){
+	private function load_rewrite_news(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('rewritenews');
 		backend_config_smarty::getInstance()->assign('rewritenews',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load rewrite cms
 	 * @string
 	 */
-	protected function load_rewrite_cms(){
+	private function load_rewrite_cms(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('rewritecms');
 		backend_config_smarty::getInstance()->assign('rewritecms',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load rewrite catalog
 	 * @string
 	 */
-	protected function load_rewrite_catalog(){
+	private function load_rewrite_catalog(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('rewritecatalog');
 		backend_config_smarty::getInstance()->assign('rewritecatalog',$config['status']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function admin configuration
 	 * @string
 	 */
-	protected function admin_config(){
+	private function admin_config(){
 		$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
 		backend_config_smarty::getInstance()->assign('perms',$perms['perms']);
 	}
 	/**
-	 * @access protected
+	 * @access private
 	 * function load limited_cms_number
 	 * @intégrer
 	 */
-	protected function load_limited_cms_number(){
+	private function load_limited_cms_number(){
 		$config = backend_db_config::adminDbConfig()->s_config_number_module();
 		backend_config_smarty::getInstance()->assign('idconfig',$config['idconfig']);
 		backend_config_smarty::getInstance()->assign('numbcmspage',$config['number']);
@@ -289,13 +289,14 @@ class backend_controller_config{
 		}
 	}
 	/**
+	 * Affiche la page de configuration
 	 * function display configuration
 	 */
-	function display(){
+	public function display(){
 		self::update_states();
 		backend_config_smarty::getInstance()->display('config/index.phtml');
 	}
-	protected function select_construct_config(){
+	private function select_construct_config(){
 		$config = '<select id="idconfig" name="idconfig" class="select">';
 		$config .= '<option value="">Aucune sélection</option>';
 		foreach(backend_db_config::adminDbConfig()->s_config_named_all() as $c){
@@ -304,10 +305,10 @@ class backend_controller_config{
 		$config .='</select>';
 		return $config;
 	}
-/**
-	 * Affiche la reecriture des métas trié par langue
+	/**
+	 * Affiche la réécriture des métas trié par langue
 	 */
-	function view_metas(){
+	private function view_metas(){
 		$title = '<table class="clear">
 						<thead>
 							<tr>
@@ -345,7 +346,7 @@ class backend_controller_config{
 			 	$title .= '<td class="nowrap">'.$seo['phrase3'].'</td>';
 			 	$title .= '<td class="nowrap">'.$seo['level'].'</td>';
 			 	$title .= '<td class="nowrap">'.$seo['codelang'].'</td>';
-			 	$title .= '<td class="nowrap">'.'<a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/configuration/metasrewrite/edit/'.$seo['idrewrite'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 	$title .= '<td class="nowrap">'.'<a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;config&amp;metasrewrite&amp;edit='.$seo['idrewrite'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 	$title .= '<td class="nowrap">'.'<a class="d-config-rmetas" title="'.$seo['idrewrite'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	$title .= '</tr>';
 			}
@@ -369,7 +370,7 @@ class backend_controller_config{
 	/**
 	 * insertion de la réécriture des métas
 	 */
-	function insertion_rewrite(){
+	private function insertion_rewrite(){
 		if(isset($this->phrase1)){
 			if(empty($this->idconfig) OR empty($this->idmetas)){
 				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
@@ -382,7 +383,10 @@ class backend_controller_config{
 			}
 		}
 	}
-	function edit_rewrite(){
+	/**
+	 * Edite la réécriture suivant l'identifiant
+	 */
+	private function edit_rewrite(){
 		if(isset($this->edit)){
 			if(isset($this->phrase1)){
 				if(empty($this->idconfig) OR empty($this->idmetas)){
@@ -396,7 +400,10 @@ class backend_controller_config{
 			}
 		}
 	}
-	function load_rewrite_for_edit(){
+	/**
+	 * Charge les données dans le formulaire d'édition
+	 */
+	private function load_rewrite_for_edit(){
 		if(isset($this->edit)){
 			$load = backend_db_config::adminDbConfig()->s_rewrite_for_edit($this->edit);
 			backend_config_smarty::getInstance()->assign('phrase',$load['phrase1']);
@@ -410,14 +417,20 @@ class backend_controller_config{
 			backend_config_smarty::getInstance()->assign('idmetas',$load['idmetas']);
 		}
 	}
-	function display_seo(){
+	/**
+	 * Affiche le formulaire et une liste des réécritures disponible
+	 */
+	public function display_seo(){
 		self::insertion_rewrite();
 		backend_config_smarty::getInstance()->assign('viewmetas',self::view_metas());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->assign('selectseoconfig',self::select_construct_config());
 		backend_config_smarty::getInstance()->display('config/seo.phtml');
 	}
-	function display_seo_edit(){
+	/**
+	 * Affiche le fomulaire de modification ainsi que la liste des réécritures disponible
+	 */
+	public function display_seo_edit(){
 		self::edit_rewrite();
 		self::load_rewrite_for_edit();
 		backend_config_smarty::getInstance()->assign('viewmetas',self::view_metas());

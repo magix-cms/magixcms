@@ -81,7 +81,7 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 				}else{
 					$news->rewrite_display();
 				}
-			}elseif(magixcjquery_filter_request::isGet('addnews')){
+			}elseif(magixcjquery_filter_request::isGet('add')){
 				$news->display_addnews();
 			}elseif(magixcjquery_filter_request::isGet('delnews')){
 				$news->del_news();
@@ -97,7 +97,7 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 				}else{
 					$ini->display_page();
 				}
-			}elseif(magixcjquery_filter_request::isGet('getcms')){
+			}elseif(magixcjquery_filter_request::isGet('editcms')){
 				if(magixcjquery_filter_request::isGet('post')){
 					$ini->update_page();
 					$ini->display_edit_page();

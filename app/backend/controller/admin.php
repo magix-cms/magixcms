@@ -103,11 +103,11 @@ class backend_controller_admin{
 						$session->openSession($const_url['idadmin'],session_regenerate_id(true));
 						//session_regenerate_id(true);
 		    			$_SESSION['useradmin'] = $this->acmail;
-		    			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/');	
+		    			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard');	
 					}else{
 						$session->openSession($const_url['idadmin'],null);
 						$_SESSION['useradmin'] = $this->acmail;
-						header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/');	
+						header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard');	
 					}
 				}else{
 					backend_config_smarty::getInstance()->assign('msg',
@@ -134,10 +134,10 @@ class backend_controller_admin{
 		session_start();
 		if (!isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
 			if (!isset($this->acmail)) {
-				header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login/');	
+				header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login.php');	
 			}
 		}elseif(!backend_model_sessions::compareSessionId()){
-			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login/');	
+			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login.php');	
 		}
 	}
 	/**
@@ -153,7 +153,7 @@ class backend_controller_admin{
 				$_SESSION = array();
 				session_destroy();
 				session_start();
-				header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login/');	
+				header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login.php');	
 			}
 		}
 	}

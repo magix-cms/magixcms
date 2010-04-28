@@ -73,10 +73,10 @@ class backend_controller_cms{
 	public $orderpage;
 	/**
 	 * 
-	 * @var getcms
+	 * @var editcms
 	 * integer
 	 */
-	public $getcms;
+	public $editcms;
 	/**
 	* @var delpage
 	 * integer
@@ -162,8 +162,8 @@ class backend_controller_cms{
 		if(isset($_POST['idpage'])){
 			$this->idpage = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idpage']);
 		}
-		if(isset($_GET['getcms'])){
-			$this->getcms = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getcms']);
+		if(isset($_GET['editcms'])){
+			$this->editcms = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['editcms']);
 		}
 		if(isset($_GET['delpage'])){
 			$this->delpage = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delpage']);
@@ -267,7 +267,15 @@ class backend_controller_cms{
 	public function cms_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = backend_db_cms::adminDbCms()->s_count_cms_pager_max();
-		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/dashboard/cms/',false,true,'page');
+		return $pagination->pagerData(
+			$request,'total',
+			$max,
+			$this->getpage,
+			'/admin/index.php?dashboard&amp;cms&amp;',
+			false,
+			false,
+			'page'
+		);
 	}
 	/**
 	 * Construction du select pour les catégories
@@ -425,7 +433,7 @@ class backend_controller_cms{
 	 * @access private
 	 */
 	private function load_data_cms_forms(){
-	$data = backend_db_cms::adminDbCms()->s_data_forms($this->getcms);
+	$data = backend_db_cms::adminDbCms()->s_data_forms($this->editcms);
 		backend_config_smarty::getInstance()->assign('subjectpage',$data['subjectpage']);
 		backend_config_smarty::getInstance()->assign('contentpage',$data['contentpage']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
@@ -464,7 +472,7 @@ class backend_controller_cms{
 						backend_model_member::s_idadmin(),
 						$this->metatitle,
 						$this->metadescription,
-						$this->getcms
+						$this->editcms
 					);
 					$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
 					backend_config_smarty::getInstance()->assign('msg',$fetch);

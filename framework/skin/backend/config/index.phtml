@@ -1,6 +1,6 @@
 {include file="common/head.phtml"}
 <meta name="description" content="" />
-    <title>Dashboard</title>
+    <title>{widget_titlepage}</title>
 </head>
 <body>
 <div id="page">
@@ -24,7 +24,7 @@
 							<li><a href="#tabs-3">Limitation</a></li>
 						</ul>
 						<div id="tabs-1">
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-config-lang">
+						<form class="forms-config" method="post" action="" id="global-config-lang">
 							<fieldset>
 								<table>
 									<tr>
@@ -39,7 +39,7 @@
 								</table>
 							</fieldset>
 						</form>
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-config-news">
+						<form class="forms-config" method="post" action="" id="global-config-news">
 							<fieldset>
 								<table>
 									<tr>
@@ -54,7 +54,7 @@
 								</table>
 							</fieldset>
 						</form>
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-config-cms">
+						<form class="forms-config" method="post" action="" id="global-config-cms">
 							<fieldset>
 								<table>
 									<tr>
@@ -69,7 +69,7 @@
 								</table>
 							</fieldset>
 						</form>
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-config-catalog">
+						<form class="forms-config" method="post" action="" id="global-config-catalog">
 							<fieldset>
 								<table>
 									<tr>
@@ -84,7 +84,7 @@
 								</table>
 							</fieldset>
 						</form>
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-config-microgalery">
+						<form class="forms-config" method="post" action="" id="global-config-microgalery">
 							<fieldset>
 								<table>
 									<tr>
@@ -99,7 +99,7 @@
 								</table>
 							</fieldset>
 						</form>
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-config-forms">
+						<form class="forms-config" method="post" action="" id="global-config-forms">
 							<fieldset>
 								<table>
 									<tr>
@@ -116,7 +116,7 @@
 						</form>
 						</div>
 						<div id="tabs-2">
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-rewritenews">
+						<form class="forms-config" method="post" action="" id="global-rewritenews">
 							<fieldset>
 								<table>
 									<tr>
@@ -131,7 +131,7 @@
 								</table>
 							</fieldset>
 						</form>
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-rewritecms">
+						<form class="forms-config" method="post" action="" id="global-rewritecms">
 							<fieldset>
 								<table>
 									<tr>
@@ -146,7 +146,7 @@
 								</table>
 							</fieldset>
 						</form>
-						<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="global-rewritecatalog">
+						<form class="forms-config" method="post" action="" id="global-rewritecatalog">
 							<fieldset>
 								<table>
 									<tr>
@@ -163,7 +163,7 @@
 						</form>
 						</div>
 						<div id="tabs-3">
-							<form class="forms-config" method="post" action="{geturl}/admin/dashboard/configuration/" id="limited-cms-module">
+							<form class="forms-config" method="post" action="" id="limited-cms-module">
 								<fieldset>
 									<table>
 										<tr>
@@ -192,85 +192,5 @@
 	{include file="common/footer.phtml"}
 </div>
 {include file="common/javascript.phtml"}
-{magixmin}
-{literal}
-<script type="text/javascript"> 
-$(function(){
-	$("#tabsFormsConfig").tabs();
-	$("#global-config-lang :radio").click(function(){
-		$("#global-config-lang").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-config-news :radio").click(function(){
-		$("#global-config-news").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-config-cms :radio").click(function(){
-		$("#global-config-cms").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-config-catalog :radio").click(function(){
-		$("#global-config-catalog").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-config-microgalery :radio").click(function(){
-		$("#global-config-microgalery").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-config-forms :radio").click(function(){
-		$("#global-config-forms").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-rewritenews :radio").click(function(){
-		$("#global-rewritenews").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-rewritecms :radio").click(function(){
-		$("#global-rewritecms").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#global-rewritecatalog :radio").click(function(){
-		$("#global-rewritecatalog").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:location.reload()
-		});
-	});
-	$("#snumbCms").click(function(){
-		$("#limited-cms-module").ajaxSubmit({
-			url:"{/literal}{geturl}/admin/dashboard/configuration/{literal}",
-			type:"post",
-			success:function(e) {$(".configupdate").html(e);}
-		});
-	});
-	$('.spin').spinner({ min: 0, max: 200 });
-});
-</script>
-{/literal}
-{/magixmin}
 </body>
 </html>

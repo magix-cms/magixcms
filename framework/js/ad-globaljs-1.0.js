@@ -235,6 +235,7 @@ $(function() {
 	     * Initialisation de colorbox dans l'administration pour la prévisualisation
 	     */
 	    $(".post-preview").colorbox({width:"90%", height:"90%", iframe:true});
+/*################## Langue ##############*/
 	    /**
 	     * Requête ajax pour la suppression des langues
 	     */
@@ -272,11 +273,81 @@ $(function() {
 				}
 			});
 		 });
+/*################## Configuration ##############*/
+	    $("#tabsFormsConfig").tabs();
+		$("#global-config-lang :radio").click(function(){
+			$("#global-config-lang").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post",
+				success:location.reload()
+			});
+		});
+		$("#global-config-news :radio").click(function(){
+			$("#global-config-news").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post",
+				success:location.reload()
+			});
+		});
+		$("#global-config-cms :radio").click(function(){
+			$("#global-config-cms").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post",
+				success:location.reload()
+			});
+		});
+		$("#global-config-catalog :radio").click(function(){
+			$("#global-config-catalog").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post",
+				success:location.reload()
+			});
+		});
+		$("#global-config-microgalery :radio").click(function(){
+			$("#global-config-microgalery").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post",
+				success:location.reload()
+			});
+		});
+		$("#global-config-forms :radio").click(function(){
+			$("#global-config-forms").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post",
+				success:location.reload()
+			});
+		});
+		$("#global-rewritenews :radio").click(function(){
+			$("#global-rewritenews").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post"
+			});
+		});
+		$("#global-rewritecms :radio").click(function(){
+			$("#global-rewritecms").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post"
+			});
+		});
+		$("#global-rewritecatalog :radio").click(function(){
+			$("#global-rewritecatalog").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post"
+			});
+		});
+		$("#snumbCms").click(function(){
+			$("#limited-cms-module").ajaxSubmit({
+				url:"/admin/index.php?dashboard&config",
+				type:"post",
+				success:function(e) {$(".configupdate").html(e);}
+			});
+		});
+		$('.spin').spinner({ min: 0, max: 200 });
 /*################## CMS ##############*/
 	    /**
 	     * ID pour le déplacement des pages CMS
 	     */
-	    $('#sortable li').hover(
+	    /*$('#sortable li').hover(
 				function() { $(this).addClass('ui-state-hover'); },
 				function() { $(this).removeClass('ui-state-hover'); }
 		);
@@ -294,6 +365,35 @@ $(function() {
 					}
 				});
 			}
+		});*/
+		$('#sortable li').hover(
+				function() { $(this).addClass('ui-state-hover'); },
+				function() { $(this).removeClass('ui-state-hover'); }
+		);
+		$("#sortable").sortable({
+			axis: "y",
+			cursor: "move",
+			update : function () {
+				serial = $('#sortable').sortable('serialize');
+				$.ajax({
+					url: "/admin/index.php?dashboard&cms&navigation",
+					type: "post",
+					data: serial,
+					error: function(){
+						alert("theres an error with AJAX");
+					}
+				});
+			}
+		});
+		$("#sortable").disableSelection();
+		$(".forms-cms-navigation").each(function(el){
+			var id = $(this).attr("id");
+			$("#"+id+" :radio").click(function(){
+				$("#"+id).ajaxSubmit({
+					url:"/admin/index.php?dashboard&cms&navigation",
+					type:"post"
+				});
+			});
 		});
 	    /**
 		 * Soumission d'une nouvelle catégorie dans le CMS
@@ -450,6 +550,110 @@ $(function() {
 			});
 		 });
 /*################## USER ##############*/
+	    /**
+	     * Ajout d'un utilisateur
+	     */
+	    var formsusers = $("#forms-users").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				pseudo: {
+					required: true,
+					minlength: 2
+				},
+				email: {
+					required: true,
+					email: true
+				},
+				cryptpass: {
+					password: "#pseudo",
+					required: true,
+					minlength: 4
+				},
+				cryptpass_confirm: {
+					required: true,
+					equalTo: "#cryptpass"
+				}
+			},
+			messages: {
+				pseudo: {
+					required: "Enter a username"
+				},
+				email: {
+					required: "Enter a email",
+					email: "Enter a valid mail"
+				},
+				cryptpass: {
+					password: "the password is weak",
+					required: "Enter a password",
+					minlength: "Enter a min length"
+				},
+				cryptpass_confirm: {
+					required: "Repeat your password",
+					minlength: "",
+					equalTo: "Enter the same password as above"
+				}
+			},
+			submitHandler: function(form) {
+				$(form).ajaxSubmit({url:"/admin/index.php?dashboard&user&post",
+					type:"post",
+					success:function(e) {
+						$("div.request").html(e);
+						setTimeout(function(){
+							location.reload();
+						},3000);
+					},
+					resetForm: true
+				});
+			}
+		});
+		$("#forms-users").formsusers;
+		/**
+		 * Mise à jour d'un utilisateur
+		 */
+		var updateformsusers = $("#forms-users-update").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				pseudo: {
+					required: true,
+					minlength: 2
+				},
+				email: {
+					required: true,
+					email: true
+				},
+				cryptpass: {
+					password: "#pseudo",
+					required: true,
+					minlength: 4
+				},
+				cryptpass_confirm: {
+					required: true,
+					equalTo: "#cryptpass"
+				}
+			},
+			messages: {
+				pseudo: {
+					required: "Enter a username"
+				},
+				email: {
+					required: "Enter a email",
+					email: "Enter a valid mail"
+				},
+				cryptpass: {
+					password: "the password is weak",
+					required: "Enter a password",
+					minlength: "Enter a min length"
+				},
+				cryptpass_confirm: {
+					required: "Repeat your password",
+					minlength: "",
+					equalTo: "Enter the same password as above"
+				}
+			}
+		});
+		$("#forms-users-update").updateformsusers;
 	    /**
 	     * Requête ajax pour la suppression des utilisateurs
 	     */
@@ -671,7 +875,7 @@ $(function() {
 			update : function () {
 				serial = $('#sortcat').sortable('serialize');
 				$.ajax({
-					url: "/admin/dashboard/catalog/order/",
+					url: "/admin/index.php?dashboard&catalog&order",
 					type: "post",
 					data: serial,
 					error: function(){
@@ -690,7 +894,7 @@ $(function() {
 			update : function () {
 				serial = $('#sortsubcat').sortable('serialize');
 				$.ajax({
-					url: "/admin/dashboard/catalog/order/",
+					url: "/admin/index.php?dashboard&catalog&order",
 					type: "post",
 					data: serial,
 					error: function(){
@@ -765,14 +969,14 @@ $(function() {
 							$(".reqdialog").html(e);
 								setTimeout(function(){
 									//location.reload();
-									window.location.href = '/admin/dashboard/catalog/category/'; 
+									window.location.href = '/admin/index.php?dashboard&catalog&category'; 
 								},3000);
 							}
 					     });
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success : window.location.href = '/admin/dashboard/catalog/category/';//window.location.pathname;
+						success : window.location.href = '/admin/index.php?dashboard&catalog&category';//window.location.pathname;
 					}
 				}
 			});
@@ -803,7 +1007,7 @@ $(function() {
 							$(".reqdialog").html(e);
 							setTimeout(function(){
 								//location.reload();
-								window.location.href = '/admin/dashboard/catalog/category/'; 
+								window.location.href = '/admin/index.php?dashboard&catalog&category'; 
 								},3000);
 							}
 					     });

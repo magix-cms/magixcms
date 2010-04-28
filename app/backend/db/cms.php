@@ -44,7 +44,7 @@ class backend_db_cms{
     function s_block_category(){
     	$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder,lang.codelang,c.idlang FROM mc_cms_category AS c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
-    	ORDER BY c.idlang,c.idorder';
+    	ORDER BY c.idorder';
 		return $this->layer->select($sql);
     }
     /**

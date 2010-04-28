@@ -12,12 +12,39 @@
  */
 
 class backend_controller_user extends statesUserAdmin{
+	/**
+	 * Pseudo
+	 * @var string
+	 */
 	public $pseudo;
+	/**
+	 * Email
+	 * @var string
+	 */
 	public $email;
+	/**
+	 * Cryptpass
+	 * @var string
+	 */
 	public $cryptpass;
+	/**
+	 * perms (permission)
+	 * @var string
+	 */
 	public $perms;
+	/**
+	 * deluser
+	 * @var string
+	 */
 	public $deluser;
+	/**
+	 * edit
+	 * @var string
+	 */
 	public $edit;
+	/**
+	 * Constructor
+	 */
 	function __construct(){
 		if(isset($_POST['pseudo'])){
 			$this->pseudo = magixcjquery_form_helpersforms::inputClean($_POST['pseudo']);
@@ -38,12 +65,18 @@ class backend_controller_user extends statesUserAdmin{
 			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
 	}
+	/**
+	 * Insert un nouvel utilisateur
+	 */
 	protected function insert_members(){
 		if(isset($this->pseudo) AND isset($this->cryptpass)){
 			backend_db_admin::adminDbMember()->i_n_members($this->pseudo,$this->email,$this->cryptpass,$this->perms);
 			backend_config_smarty::getInstance()->display('user/request/success.phtml');
 		}
 	}
+	/**
+	 * Update un utilisateur
+	 */
 	protected function update_members(){
 		if(isset($this->edit)){
 			if(isset($this->pseudo) AND isset($this->cryptpass)){
@@ -89,9 +122,15 @@ class backend_controller_user extends statesUserAdmin{
 		$states .=  parent::count_cms_by_members();
 		return $states;
 	}
+	/**
+	 * Requête POST pour l'insertion des membres
+	 */
 	function post(){
 		self::insert_members();
 	}
+	/**
+	 * Requête POST pour la mise à jour des membres
+	 */
 	function update_post(){
 		self::update_members();
 	}
@@ -129,6 +168,9 @@ class backend_controller_user extends statesUserAdmin{
  *
  */
 class statesUserAdmin{
+	/**
+	 * Compte le nombre de membres
+	 */
 	protected static function count_maximum_members(){
 		$dbmembers = backend_db_admin::adminDbMember()->c_max_members();
 		$states = '<table class="clear">
@@ -146,6 +188,9 @@ class statesUserAdmin{
 		$states .= '</tbody></table>';
 		return $states;
 	}
+	/**
+	 * Compte 
+	 */
 	protected static function count_members_in_perms(){
 		$perms = null;
 		$states = '<table class="clear">
@@ -179,6 +224,9 @@ class statesUserAdmin{
 		$states .= '</tbody></table>';
 		return $states;
 	}
+	/**
+	 * Compte le nombre de news inserer par membre
+	 */
 	protected static function count_news_by_members(){
 		$states = '<table class="clear">
 						<thead>
@@ -197,6 +245,9 @@ class statesUserAdmin{
 		$states .= '</tbody></table>';
 		return $states;
 	}
+	/**
+	 * Compte le nombre de page par membre
+	 */
 	protected static function count_cms_by_members(){
 		$states = '<table class="clear">
 						<thead>

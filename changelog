@@ -1,3 +1,17 @@
+beta 2.2.28
+	* Modification requête SQL pour l'ordre des catégories CMS
+	* Suppression de la réécriture des URLS dans l'administration (Changement important!!!!)
+	      - Modification du fil d'Ariane dans l'administration
+	      - Correction des URLS pour les requête ajax dans le fichier JS global
+	      - Changement des liens dans le footer de l'administration.
+	      - Ajout d'un favicon.ico et favicon.png dans l'administration
+		Note : Les modules modifiés
+			     - utilisateurs
+			     - Langues
+			     - Configuration
+			     - Thémes
+			     - CMS
+	
 beta 2.2.27
 	* Upgrade tinymce 3.3.1 => 3.3.3
 	* Fix bug affichage du menu déroulant sous Google Chrome
