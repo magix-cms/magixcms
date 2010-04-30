@@ -66,3 +66,11 @@
 30/04/2010, 10:30:47 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
 30/04/2010, 10:47:13 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
 30/04/2010, 11:40:50 - An error has occured :Class gpageRegional not found in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 130
+30/04/2010, 13:31:55 - An error has occured :Unable to load template file 'skin/admin//index.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169
+30/04/2010, 13:31:58 - An error has occured :Unable to load template file 'skin/admin//index.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169
+30/04/2010, 13:35:36 - An error has occured :Unable to load template file 'cplugin/layout_up.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169
+30/04/2010, 13:35:40 - An error has occured :Unable to load template file 'cplugin/layout_up.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169
+30/04/2010, 13:36:02 - An error has occured :Unable to load template file 'cplugin/layout_up.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169
+30/04/2010, 13:36:39 - An error has occured :Unable to load template file 'gpageRegional/js.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169
+30/04/2010, 13:38:10 - An error has occured :Unable to load template file 'gpageRegional/js.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169
+30/04/2010, 13:39:58 - An error has occured :Unable to load template file 'gpageRegional/js.phtml' in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 169

@@ -162,8 +162,8 @@ class backend_controller_plugins{
 	 * @param void $page
 	 */
 	public static function append_display($page){
-		$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
-		backend_config_smarty::getInstance()->display($plugin['pname'].$page);
+		backend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/');
+		backend_config_smarty::getInstance()->display('skin/admin/'.$page);
 	}
 	/**
 	 * @access public

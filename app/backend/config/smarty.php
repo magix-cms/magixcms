@@ -55,9 +55,7 @@ class backend_config_smarty extends Smarty{
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = array(
-			self::$server_root."/framework/skin/backend/",
-			self::$server_root."/framework/skin/plugins/");
+		$this->template_dir = array(self::$server_root."/framework/skin/backend/");
 		/**
 		 * path plugins
 		 * @var void
