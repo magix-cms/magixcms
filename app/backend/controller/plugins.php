@@ -2,12 +2,12 @@
 /**
  * @category   Controller 
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
+ * @copyright  Copyright (c) 2009 - 2010 (http://www.cms-site.com)
  * @license    Proprietary software
  * @version    1.0 2009-08-27
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
- * @name CMS
- * @version 4.0
+ * @name PLUGINS
+ * @version 1.3
  *
  */
 class backend_controller_plugins{
@@ -84,8 +84,10 @@ class backend_controller_plugins{
 	}
 	/**
 	 * Construction de la navigation pour les plugins utilisateurs
+	 * @access public
+	 * @return void
 	 */
-	function constructNavigation(){
+	public function constructNavigation(){
 		/*$sidebar = null;
 		if(backend_db_plugins::s_plugins_navigation_construct() != null){
 			$sidebar .= '<ul>';
@@ -102,7 +104,7 @@ class backend_controller_plugins{
 	 * execute ou instance la class du plugin
 	 * @param void $className
 	 */
-	protected function execute_plugins($className){
+	private function execute_plugins($className){
 		try{
 			$class =  new $className;
 		}catch(Exception $e) {
@@ -170,7 +172,7 @@ class backend_controller_plugins{
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
 	public function display_plugins(){
-		self::listing_plugin();
+		//self::listing_plugin();
 		if(isset($_GET['plugin'])){
 			try{
 			$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());

@@ -1,3 +1,10 @@
+beta 2.2.29
+	* Intégration du système de template dynamique pour la partie admin des plugins
+	* Ajout de la fonction addTemplates
+	* Déplacement des skins des plugins admin dans le dossier de son propre plugin
+	* Modification du système de plugin avec autochargement des classes du dossier "plugins"
+	* Suppression des règles de réécriture d'url dans l'administration (tous les fichiers)
+	
 beta 2.2.28
 	* Modification requête SQL pour l'ordre des catégories CMS
 	* Suppression de la réécriture des URLS dans l'administration (Changement important!!!!)
