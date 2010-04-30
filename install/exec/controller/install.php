@@ -91,7 +91,7 @@ class exec_controller_install{
 		return true;
 	}
 	private function writeConfigFile(){
-		if(isset($_POST['M_DBHOST']) && isset($_POST['M_DBUSER']) && isset($_POST['M_DBPASSWORD'])){
+		if(isset($_POST['M_DBHOST']) && isset($_POST['M_DBUSER']) && isset($_POST['M_DBPASSWORD']) && isset($_POST['M_DBNAME'])){
 			//echo dirname(self::$configfile);
 			if (!is_writable(dirname(self::$configfile))) {
 				throw new Exception(sprintf('Cannot write %s file.',self::$configfile));

@@ -23,6 +23,7 @@ if (!file_exists($loaderFilename)) {
  * Autoload Frontend
  */
 frontend_Autoloader::register();
+plugins_Autoloader::register();
 session_name('lang');
 ini_set('session.hash_function',1);
 session_start();
@@ -32,7 +33,7 @@ if(isset($_GET['static'])){
 	$plugin = new frontend_plugins_promotions();
 	$plugin->display();
 }elseif(isset($_GET['contact'])){
-	$contact = new frontend_plugins_contact();
+	$contact = new plugins_contact_public();
 	$contact->display();
 }/*elseif(isset($_GET['mix'])){
 	$gp = new frontend_plugins_gpageRegional();

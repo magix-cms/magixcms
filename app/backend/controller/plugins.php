@@ -12,36 +12,91 @@
  */
 class backend_controller_plugins{
 	/**
+	 * Cosntante
+	 * @var string
+	 */
+	const plugins = '/plugins/';
+	/**
 	 * 
 	 * @var string
 	 */
 	public $getplugin;
 	/**
-	 * 
+	 * Constructor
 	 */
 	function __construct(){
 		if(isset($_GET['plugin'])){
 			$this->getplugin = (string) magixcjquery_filter_isVar::isPostAlpha($_GET['plugin']);
 		}
 	}
-	protected function getplugin(){
+	/**
+	 * @access private
+	 * return void
+	 */
+	private function directory_plugins(){
+		return $_SERVER['DOCUMENT_ROOT'].self::plugins;
+	}
+	/**
+	 * @access protected
+	 * getplugin
+	 */
+	private function getplugin(){
 		if(isset($_GET['plugin'])){
 			return magixcjquery_filter_isVar::isPostAlpha($_GET['plugin']);
 		}
 	}
 	/**
+	 * @access private
+	 * listing plugin
+	 */
+	private function listing_plugin(){
+		/**
+		 * Si le dossier est accessible en lecture
+		 */
+		if(!is_readable(self::directory_plugins())){
+			throw new exception('Plugin is not minimal permission');
+		}
+		$makefiles = new magixcjquery_files_makefiles();
+		$dir = $makefiles->scanRecursiveDir(self::directory_plugins());
+		/*$count = count($dir);
+		if($count == 0){
+			throw new exception('Plugin is not found');
+		}*/
+		/*if(!is_array($dir)){
+			throw new exception('Plugin is not array');
+		}*/
+		if($dir != null){
+			$list = '<ul>';
+				foreach($dir as $d){
+					if(file_exists(self::directory_plugins().$d.'/'.'admin.php')){
+						$pluginPath = self::directory_plugins().$d;
+						//if($pluginPath) continue;
+						if($makefiles->scanDir($pluginPath) != null){
+							$list .= '<li><span style="float:left;" class="ui-icon ui-icon-wrench"></span>
+							<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$d.'">'
+							.magixcjquery_string_convert::ucFirst($d).'</a></li>';
+						}
+					}
+				}
+			$list .= '</ul>';
+		}
+		return $list;
+	}
+	/**
 	 * Construction de la navigation pour les plugins utilisateurs
 	 */
 	function constructNavigation(){
-		$sidebar = null;
+		/*$sidebar = null;
 		if(backend_db_plugins::s_plugins_navigation_construct() != null){
 			$sidebar .= '<ul>';
 			foreach(backend_db_plugins::s_plugins_navigation_construct() as $mconstruct){
-				$sidebar .= '<li><span style="float:left;" class="ui-icon ui-icon-wrench"></span><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'dashboard'.magixcjquery_html_helpersHtml::unixSeparator().'plugin'.magixcjquery_html_helpersHtml::unixSeparator().$mconstruct['pname'].magixcjquery_html_helpersHtml::unixSeparator().'">'.magixcjquery_string_convert::ucFirst($mconstruct['pname']).'</a></li>';
+				$sidebar .= '<li><span style="float:left;" class="ui-icon ui-icon-wrench"></span>
+				<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$mconstruct['pname'].'">'.magixcjquery_string_convert::ucFirst($mconstruct['pname']).'</a></li>';
 			}
 			$sidebar .= '</ul>';
 		}
-		return $sidebar;
+		return $sidebar;*/
+		return self::listing_plugin();
 	}
 	/**
 	 * execute ou instance la class du plugin
@@ -58,9 +113,49 @@ class backend_controller_plugins{
 		}
 		return $class;
 	}
+	/**
+	 * Chargement d'un plugin pour l'administration
+	 * @access private
+	 */
+	private function load_plugin(){
+		try{
+			plugins_Autoloader::register();
+			$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
+			if(file_exists($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/admin.php')){
+				if(class_exists('plugins_'.self::getplugin().'_admin')){
+					$load = self::execute_plugins('plugins_'.self::getplugin().'_admin');
+					if(method_exists($load,'run')){
+						$load->run();
+					}
+				}else{
+					throw new Exception ('Class '.self::getplugin().' not found');
+				}
+			}
+		}catch(Exception $e) {
+			$log = magixcjquery_error_log::getLog();
+		    $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
+		    $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
+		    magixcjquery_debug_magixfire::magixFireError($e);
+		}
+	}
+	/**
+	 * Retourne le nom du plugin
+	 * @access public
+	 * @static
+	 * pluginName
+	 */
 	public static function pluginName(){
 		$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
 		return $plugin['pname'];
+	}
+	/**
+	 * Retourne l'url du plugin
+	 * @access public
+	 * @static
+	 * pluginUrl
+	 */
+	public static function pluginUrl(){
+		return magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;plugin='.self::pluginName();
 	}
 	/**
 	 * Affiche les pages du plugin
@@ -71,22 +166,26 @@ class backend_controller_plugins{
 		backend_config_smarty::getInstance()->display($plugin['pname'].$page);
 	}
 	/**
+	 * @access public
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
-	function display_plugins(){
-		if(isset($this->getplugin)){
+	public function display_plugins(){
+		self::listing_plugin();
+		if(isset($_GET['plugin'])){
 			try{
-			$plugin = backend_db_plugins::s_plugins_page_index($this->getplugin);
+			$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
 			backend_config_smarty::getInstance()->assign('pluginName',$plugin['pname']);
+			backend_config_smarty::getInstance()->assign('pluginUrl',self::pluginUrl());
 			//backend_config_smarty::getInstance()->display($plugin['pname'].'/index.phtml');
-			if(file_exists($_SERVER['DOCUMENT_ROOT'].'/app/backend/plugins/'.$plugin['pname'].'.php')){
+			/*if(file_exists($_SERVER['DOCUMENT_ROOT'].'/app/backend/plugins/'.$plugin['pname'].'.php')){
 				if(class_exists('backend_plugins_'.$plugin['pname'])){
 					$create = self::execute_plugins('backend_plugins_'.$plugin['pname']);
 					$create->run();
 				}
 			}else{
 				throw new exception('Ce plugin est inexistant'); 
-			}
+			}*/
+			self::load_plugin();
 			}catch(Exception $e) {
 				$log = magixcjquery_error_log::getLog();
 		        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';

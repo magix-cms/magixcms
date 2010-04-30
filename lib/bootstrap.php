@@ -50,6 +50,13 @@ if (file_exists($phpthumb)) {
 	print 'Error thumbnail Config';
 	exit;
 }
+/*
+ * Chargement automatique des classes plugins
+ */
+$loadplugin = $_SERVER['DOCUMENT_ROOT'].'/plugins/autoload.php';
+if (file_exists($loadplugin)) {
+	require ($loadplugin);
+}
 if(M_FIREPHP){
 	magixcjquery_debug_magixfire::configErrorHandler();
 }

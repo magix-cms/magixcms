@@ -80,9 +80,13 @@ body,
 	/*border-bottom:4px solid #0e3b67;*/
 }
 /*DASHBOARD*/
-#mainbar{margin:0 0 5px 0;height:30px;}
-#mainbar .fariane{margin: 7px 0 0 120px;}
-#mainbar .fariane ul li{list-style:none;float:left;padding-left:5px;}
+#mainbar{margin:0 0 5px 0;padding:0;height:30px;}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	#mainbar .fariane ul{margin-top:0;}
+}
+#mainbar .fariane{margin: 0;height:25px;}
+#mainbar .fariane ul{margin-top:6px!important;}
+#mainbar .fariane ul li{margin:0;list-style:none;float:left;padding-left:5px;}
 #mainbar .username{margin:0;padding:5px;width:100px;float:left;}
 #topmicrobar{float:right;margin-right:20px;padding-top:2px;}
 .topbar-tools{margin:0;padding:0;}
@@ -109,7 +113,7 @@ body,
 	width:160px;
 	margin-left:5px;
 }
-#sidebar h2{color:#FFF;text-decoration:underline;margin-left:10px;margin-top:2px;margin-bottom:2px;font-size:14px;}
+#sidebar h2{color:#FFF;text-decoration:none;margin-left:10px;margin-top:2px;margin-bottom:2px;font-size:14px;}
 /* hack Chrome / Safari */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#sidebar ul li,#sidebar ul li{margin:0;padding:0;}
@@ -319,7 +323,7 @@ div.fg-button { width:auto; overflow:visible; }
 #sortable li,#sortcat li,#sortsubcat li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }
 #sortable li span,#sortcat li span,#sortsubcat li span { position: absolute; margin-left: -1.3em; }
 #sortable li:hover,#sortcat li:hover,#sortsubcat li:hover{cursor: move;}
-.sortdivfloat{float:left;width:18%;}
+.sortdivfloat{float:left;width:auto;}
 .aspanfloat{float:left;margin-left:20px;}
 /*#################### magixicon ######################*/
 .magix-icon { width: 16px; height: 16px; background-image: url(/framework/img/magixicon_256x240.png); }

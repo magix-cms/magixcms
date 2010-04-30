@@ -1,6 +1,6 @@
 {include file="common/head.phtml"}
 <meta name="description" content="" />
-    <title>Dashboard</title>
+    <title>{widget_titlepage}</title>
 </head>
 <body>
 <div id="page">
@@ -18,7 +18,7 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Ajouter une catégorie</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
-						<form id="forms-catalog-category" method="post" action="/admin/index.php?dashboard&amp;catalog&amp;category&amp;post" style="margin-left:10px;">
+						<form id="forms-catalog-category" method="post" action="" style="margin-left:10px;">
 						<div id="resultcategory"></div>
 						<fieldset>
 							<table>
@@ -57,7 +57,7 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span><span style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></span><span style="float:left;" class="ui-icon ui-icon-folder-open"></span>Ajouter une sous-catégorie</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
-						<form id="forms-catalog-subcategory" method="post" action="/admin/index.php?dashboard&amp;catalog&amp;category&amp;post" style="margin-left:10px;">
+						<form id="forms-catalog-subcategory" method="post" action="" style="margin-left:10px;">
 						<div id="resultsubcategory"></div>
 						<fieldset>
 							<table>

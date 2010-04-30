@@ -5,7 +5,7 @@
 	</a>
 	</div>
 	<div class="management-menu ui-accordion ui-widget ui-helper-reset">
-		<h2>Management</h2>
+		<h2><span style="float:left;" class="ui-icon ui-icon-gear"></span>Management</h2>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-person"></span>Utilisateurs</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
@@ -38,7 +38,7 @@
 		</div>
 		{/if}
 	{if $confignews eq 1}
-	<h2>News</h2>
+	<h2><span style="float:left;" class="ui-icon ui-icon-note"></span>News</h2>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-star"></span>Articles</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
@@ -51,7 +51,7 @@
 		</div>
 	{/if}
 	{if $configcms eq 1}
-	<h2>CMS</h2>
+	<h2><span style="float:left;" class="ui-icon ui-icon-document-b"></span>CMS</h2>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-home"></span>Home</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
@@ -69,22 +69,22 @@
 		</div>
 	{/if}
 	{if $configcatalog eq 1}
-	<h2>Catalogue</h2>
+	<h2><span style="float:left;" class="ui-icon ui-icon-cart"></span>Catalogue</h2>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Catégories</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/dashboard/catalogue/categorie/"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
+				<li><a href="{geturl}/admin/index.php?dashboard&amp;catalog&amp;category"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
 			</ul>
 		</div>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Produits</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/dashboard/catalogue/"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
-				<li><a href="{geturl}/admin/dashboard/catalogue/produit/"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+				<li><a href="{geturl}/admin/index.php?dashboard&amp;catalog"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
+				<li><a href="{geturl}/admin/index.php?dashboard&amp;catalog&amp;product"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
 			</ul>
 		</div>
 	{/if}
-	<h2>Les extensions</h2>
+	<h2><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Outils</h2>
 		{*<h3><a href="#"><span style="float:left;" class="ui-icon ui-icon-script"></span>Les widgets</a></h3>
 		<div>
 			<ul>
@@ -102,7 +102,7 @@
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-bookmark"></span>Les sitemaps</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/dashboard/sitemap/"><span style="float:left;" class="ui-icon ui-icon-refresh"></span>Créer</a></li>
+				<li><a href="{geturl}/admin/index.php?dashboard&amp;sitemap"><span style="float:left;" class="ui-icon ui-icon-refresh"></span>Créer</a></li>
 			</ul>
 		</div>
 		{*<h3><a href="#"><span style="float:left;" class="ui-icon ui-icon-image"></span>Les galeries</a></h3>

@@ -1,6 +1,6 @@
 {include file="common/head.phtml"}
 <meta name="description" content="" />
-    <title>Dashboard</title>
+    <title>{widget_titlepage}</title>
 </head>
 <body>
 <div id="page">
@@ -17,7 +17,7 @@
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Modifier un produit</div>
 					<div class="dashboard-content">
 					{if $configcatalog eq 1}
-					<form id="forms-catalog-product" method="post" action="{geturl}/admin/dashboard/catalog/product/edit/{$smarty.get.editproduct}/update/" style="margin-left:10px;">
+					<form id="forms-catalog-product" method="post" action="{geturl}/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct={$smarty.get.editproduct}&amp;updateproduct" style="margin-left:10px;">
 					<div class="request">{$msg}</div>
 						<fieldset>
 							<table class="table-tinymce">

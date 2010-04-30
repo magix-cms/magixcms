@@ -476,6 +476,9 @@ $(function() {
 			    });
 			},6300);
 		});
+		/**
+		 * Validation de l'utilisateur principal
+		 */
 		var formsusers = $("#forms-install-users").validate({
 			onsubmit: true,
 			event: 'submit',

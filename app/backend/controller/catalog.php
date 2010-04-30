@@ -481,7 +481,16 @@ class backend_controller_catalog{
 	public function catalog_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = backend_db_catalog::adminDbCatalog()->s_count_catalog_pager_max();
-		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/dashboard/catalog/',false,true,'page');
+		return $pagination->pagerData(
+			$request,
+			'total',
+			$max,
+			$this->getpage,
+			'/admin/index.php?dashboard&amp;catalog&amp;',
+			false,
+			false,
+			'page'
+		);
 	}
 	/**
 	 * Insertion d'un nouveau produit dans la table mc_catalog

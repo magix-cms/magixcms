@@ -26,6 +26,7 @@ function smarty_function_admin_ariane($params, &$smarty){
 	//print $_SERVER['QUERY_STRING'];
 	//print_r(parse_url($url,PHP_URL_PATH));
 	$segment =  explode('&',parse_url($url,PHP_URL_QUERY));
+	$segment = str_replace('=',' - ',$segment);
 	//print_r($equal = explode('=', $segment[2]));
 	$root = magixcjquery_html_helpersHtml::getUrl().parse_url($url,PHP_URL_PATH).'?';
 	$fil = null;

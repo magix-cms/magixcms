@@ -2,7 +2,7 @@
 /**
  * @category   Smarty Plugin
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cmsa.com)
+ * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
  * @license    Proprietary software
  * @version    1.0 2009-10-30
  * @author Gérits Aurélien <aurelien@web-solution-way.be>

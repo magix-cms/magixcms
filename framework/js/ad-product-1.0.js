@@ -25,7 +25,7 @@ $(function() {
 		}
 	  });*/
 	$("select#idclc").change(function(){
-		$.getJSON("/admin/dashboard/catalog/json/getidclc="+ $('#idclc').val(),function(j){
+		$.getJSON("/admin/index.php?dashboard&catalog&json&getidclc="+ $('#idclc').val(),function(j){
 			if(j == undefined){
 				console.log(j);
 			}else{

@@ -29,6 +29,10 @@ class backend_controller_templates{
 			$this->ptheme = magixcjquery_filter_isVar::isPostAlphaNumeric($_POST['theme']);
 		}
 	}
+	/**
+	 * @access private
+	 * return void
+	 */
 	private function directory_skin(){
 		return $_SERVER['DOCUMENT_ROOT'].self::skin;
 	}

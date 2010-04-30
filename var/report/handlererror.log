@@ -32,3 +32,37 @@
 08/02/2010, 00:10:33 - An error has occured :implode() [<a href='function.implode'>function.implode</a>]: Invalid arguments passed in /Applications/MAMP/htdocs/cms/app/backend/controller/catalog.php on line 399
 08/04/2010, 16:47:21 - An error has occured :file_get_contents(C:/wamp/www/magixcms/app/conf/config.php.in) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: No such file or directory in C:\wamp\www\magixcms\app\install\controller\install.php on line 95
 08/04/2010, 17:00:23 - An error has occured :file_get_contents(C:/wamp/www/magixcms/app/conf/config.php.in) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: No such file or directory in C:\wamp\www\magixcms\app\install\controller\install.php on line 96
+29/04/2010, 10:15:44 - An error has occured :Syntax Error in template "C:/wamp/www/magixcms/framework/skin/plugins/gpageRegional/index.phtml"  on line 10 "				&lt;div class=&quot;fg-button ui-state-default ui-corner-all&quot; style=&quot;margin:5px;width:135px;&quot;&gt;&lt;a href=&quot;{geturl}/admin/dashboard/plugin/{pluginName}/ajouter/&quot;&gt;Ajouter une catégorie&lt;/a&gt;&lt;/div&gt;" unknown tag "pluginName" in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 424
+29/04/2010, 10:53:47 - An error has occured :parse_url() expects parameter 1 to be string, array given in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 29
+29/04/2010, 10:53:48 - An error has occured :parse_url() expects parameter 1 to be string, array given in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 29
+29/04/2010, 10:54:13 - An error has occured :parse_url() expects parameter 1 to be string, array given in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 29
+29/04/2010, 10:54:19 - An error has occured :parse_url() expects parameter 1 to be string, array given in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 29
+30/04/2010, 09:20:50 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:23:20 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 129
+30/04/2010, 09:24:03 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 130
+30/04/2010, 09:44:01 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 130
+30/04/2010, 09:45:29 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 130
+30/04/2010, 09:45:52 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:45:53 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:49:30 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:49:41 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:50:06 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:50:21 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:51:30 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:51:49 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:52:28 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:52:53 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:53:49 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:54:16 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:55:25 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:55:26 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 09:56:48 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:28:45 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:29:33 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:30:10 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:30:11 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:30:30 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:30:46 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:30:47 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 10:47:13 - An error has occured :Pas de classe in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 128
+30/04/2010, 11:40:50 - An error has occured :Class gpageRegional not found in C:\wamp\www\magixcms\app\backend\controller\plugins.php on line 130

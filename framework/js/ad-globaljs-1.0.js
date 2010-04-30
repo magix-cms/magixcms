@@ -761,6 +761,7 @@ $(function() {
 		 */
 		$("#forms-catalog-category").submit(function(){
 			$(this).ajaxSubmit({
+				url:'/admin/index.php?dashboard&catalog&category&post',
 				type:"post",
 				success:function(e) {
 					$("#resultcategory").html(e);
@@ -776,6 +777,7 @@ $(function() {
 		 */
 		$("#forms-catalog-subcategory").submit(function(){
 			$(this).ajaxSubmit({
+				url:'/admin/index.php?dashboard&catalog&category&post',
 				type:"post",
 				success:function(e) {
 					$("#resultsubcategory").html(e);
@@ -1085,6 +1087,7 @@ $(function() {
 		 */
 		$("#forms-webmaster-tools").submit(function(){
 			$(this).ajaxSubmit({
+				url:'/admin/index.php?dashboard&googletools&pgdata',
 				type:"post",
 				success:function(e) {
 					$("#resultgdata").html(e);
@@ -1094,6 +1097,7 @@ $(function() {
 		});
 		$("#forms-analytics-tools").submit(function(){
 			$(this).ajaxSubmit({
+				url:'/admin/index.php?dashboard&googletools&pgdata',
 				type:"post",
 				success:function(e) {
 					$("#resultgdata").html(e);
