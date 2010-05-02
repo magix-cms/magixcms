@@ -17,7 +17,7 @@
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
 					<div class="dashboard-content">
 					{if $configcms eq 1}
-					<form id="forms-cms" method="post" action="{geturl}/admin/index.php?dashboard&amp;cms&amp;editcms={$smarty.get.editcms}/post/" style="margin-left:10px;">
+					<form id="forms-cms" method="post" action="{geturl}/admin/index.php?dashboard&amp;cms&amp;editcms={$smarty.get.editcms}&amp;post" style="margin-left:10px;">
 					<div class="request">{$msg}</div>
 					<div style="margin:5px;float:right;">
 						<a class="post-preview fg-button ui-state-default fg-button-icon-left ui-corner-all" href="{$view}">Preview</a>
