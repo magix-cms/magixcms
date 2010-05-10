@@ -37,7 +37,7 @@ class backend_controller_rss{
      * @access protected
      * 
      */
-    protected static function xmlRssInstance(){
+    private static function xmlRssInstance(){
     	if (!isset(self::$xmlRssInstance)){
          	self::$xmlRssInstance = new magixcjquery_xml_rss();
         }
@@ -46,7 +46,7 @@ class backend_controller_rss{
 	/*
 	 * Ouverture du fichier XML pour ecriture de l'entête
 	 */
-	function createXMLFile(){
+	private function createXMLFile(){
 		/*On demande de vérifier si le fichier existe et si pas on le crée*/
 		self::xmlRssInstance()->createRSS('rss.xml');
 		/*On ouvre le fichier*/
@@ -56,7 +56,10 @@ class backend_controller_rss{
 		/*On écrit l'entête avec l'encodage souhaité*/
 		self::xmlRssInstance()->startWriteAtom('utf-8','fr');
 	}
-	function CreateNodeXML(){
+	/**
+	 * Création d'un noeud dans le fichier XML
+	 */
+	private function CreateNodeXML(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('news');
 		if($config['status'] == 1){
 		   foreach(backend_db_sitemap::adminDbSitemap()->s_news_sitemap() as $data){
@@ -75,11 +78,14 @@ class backend_controller_rss{
 	/**
 	 * Fin de l'écriture du XML + fermeture balise
 	 */
-	function endNodeXML(){
+	private function endNodeXML(){
 		/*On ferme les noeuds*/
 		self::xmlRssInstance()->endWriteRSS();
 	}
-	function exec(){
+	/**
+	 * Exécution de la création du fichier RSS
+	 */
+	public function exec(){
 		self::createXMLFile();
 		self::CreateNodeXML();
 		self::endNodeXML();

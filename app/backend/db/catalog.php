@@ -256,6 +256,16 @@ class backend_db_catalog{
 		return $this->layer->select($sql);
 	}
 	/**
+	 * Retourne l'url du produit courant pour la génération d'image intelligente
+	 * @param $getimg
+	 */
+	function s_uniq_url_catalog($getimg){
+		$sql = 'SELECT urlcatalog FROM mc_catalog WHERE idcatalog = :getimg';
+		return $this->layer->selectOne($sql,array(
+			':getimg'=>$getimg
+		));
+	}
+	/**
      * selectionne les pages du catalog avec un paramètre optionnelle du nombre
      * @param $limit
      * @param $max
@@ -383,6 +393,10 @@ class backend_db_catalog{
 			':copyproduct'		=>	$copyproduct
 		));
 	}
+	/**
+	 * Retourne une liste contenant l'identifiant de chaque produit
+	 * @return array()
+	 */
 	function s_idcatalog_product(){
 		$sql = 'SELECT p.idcatalog,p.titlecatalog FROM mc_catalog as p';
 		return $this->layer->select($sql);

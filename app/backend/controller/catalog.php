@@ -664,14 +664,24 @@ class backend_controller_catalog{
 				 */
 				backend_model_image::upload_img('imgcatalog','upload'.magixcjquery_html_helpersHtml::unixSeparator().'catalogimg');
 				/**
+				 * Analyze l'extension du fichier en traitement
+				 * @var $fileextends
+				 */
+				$fileextends = backend_model_image::image_analyze(self::dir_img_product().$this->imgcatalog);
+				// Sélectionne et retourne le nom du produit
+				$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
+				// Charge la classe pour renommer le fichier
+				$makeFiles = new magixcjquery_files_makefiles();
+				$makeFiles->renameFiles(self::dir_img_product(),self::dir_img_product().$this->imgcatalog,self::dir_img_product().$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
+				/**
 				 * Vérifie si le produit contient déjà une image 
 				 * @var intéger
 				 */
 				$count = backend_db_catalog::adminDbCatalog()->count_image_product($this->getimg);
 				if($count['cimage'] == 0){
-					backend_db_catalog::adminDbCatalog()->i_image_catalog($this->getimg,$this->imgcatalog);
+					backend_db_catalog::adminDbCatalog()->i_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
 				}else{
-					backend_db_catalog::adminDbCatalog()->u_image_catalog($this->getimg,$this->imgcatalog);
+					backend_db_catalog::adminDbCatalog()->u_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
 				}
 				/**
 				 * Selectionne l'image et retourne le nom
@@ -727,9 +737,22 @@ class backend_controller_catalog{
 				 */
 				backend_model_image::upload_img('imggalery','upload/catalogimg/galery');
 				/**
+				 * Analyze l'extension du fichier en traitement
+				 * @var $fileextends
+				 */
+				$fileextends = backend_model_image::image_analyze(self::dir_micro_galery().$this->imggalery);
+				// Sélectionne et retourne le nom du produit
+				$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
+				// Compte le nombre d'image dans la galerie et incrémente de un
+				$numbimg = backend_db_catalog::adminDbCatalog()->count_image_in_galery_product($this->getimg);
+				$number = $numbimg['cimage']+1;
+				// Charge la classe pour renommer le fichier
+				$makeFiles = new magixcjquery_files_makefiles();
+				$makeFiles->renameFiles(self::dir_micro_galery(),self::dir_micro_galery().$this->imggalery,self::dir_micro_galery().$simg['urlcatalog'].'-'.$this->getimg.'-'.$number.$fileextends);
+				/**
 				 * Insére l'image dans la base de donnée
 				 */
-				backend_db_catalog::adminDbCatalog()->i_galery_image_catalog($this->getimg,$this->imggalery);
+				backend_db_catalog::adminDbCatalog()->i_galery_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.'-'.$number.$fileextends);
 				/**
 				 * Selectionne l'image et retourne le nom
 				 * @var string

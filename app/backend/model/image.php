@@ -10,7 +10,7 @@
  */
 class backend_model_image {
 	/**
-	 * 
+	 * Vérifie si le type est bien une image
 	 * @param $filename
 	 * @return size
 	 */
@@ -28,6 +28,28 @@ class backend_model_image {
 			}
 			return $size;
 		}
+	/**
+	 * Retourne l'extension du fichier image
+	 * @param $filename
+	 * @return size
+	 */	
+	public static function image_analyze($filename){
+		$size = getimagesize($filename);
+			switch ($size['mime']) {
+			    case "image/gif":
+			    	$imgtype = '.gif';
+			        break;
+			    case "image/jpeg":
+			    	$imgtype = '.jpg';
+			        break;
+			    case "image/png":
+			    	$imgtype = '.png';
+			        break;
+			    case false:
+			    	break;
+			}
+			return $imgtype;
+	}
 		/**
 		 * function fixe maxsize
 		 * @param $maxh hauteur maximum
