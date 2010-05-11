@@ -153,6 +153,8 @@ class backend_controller_dashboard{
 			)
 		);
 	    print $comp->jscompressor('packer',$test);*/ 
+		$licence = backend_model_setting::select_uniq_setting('licence');
+		backend_config_smarty::getInstance()->assign('licence', $licence['setting_value']);
 		backend_config_smarty::getInstance()->display('dashboard/index.phtml');
 	}
 }

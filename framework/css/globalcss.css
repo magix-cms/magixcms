@@ -344,6 +344,7 @@ div.fg-button { width:auto; overflow:visible; }
 .magix-icon-home      { background-position: -208px 0; }
 .magix-icon-organ 	  { background-position: -224px 0; }
 .magix-icon-process   { background-position: -240px 0; }
+.magix-icon-cart 	{ background-position: 0 -16px; }
 /*############## Catalog ##################*/
 #list-image-galery{
 	margin-left:10px;

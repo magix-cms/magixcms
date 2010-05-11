@@ -1,3 +1,12 @@
+Stable 2.3.0
+	* Ajout de la réécriture automatique des images dans le catalogue.
+	* Ajout de la réécriture automatique des images dans les galeries du catalogue.
+	* Mise à jour de tinyMCE 3.3.3 => 3.3.5.1
+	* Correction orthographique dans divers fichiers.
+	* Modification du dashboard (licence, boutons)
+	* Ajout icon cart dans sprite administration
+	* Ajout de la licence dans la configuration principale
+	
 beta 2.2.29
 	* Intégration du système de template dynamique pour la partie admin des plugins
 	* Ajout de la fonction addTemplates

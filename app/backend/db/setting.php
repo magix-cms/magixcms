@@ -21,7 +21,7 @@ class backend_db_setting{
 	 * @access public
 	 * @var void
 	 */
-	static public $admindbsetting;
+	static public $adminDbSetting;
 	/**
 	 * Function construct class
 	 *
@@ -33,10 +33,10 @@ class backend_db_setting{
 	 * instance frontend_db_home with singleton
 	 */
 	public static function adminDbSetting(){
-        if (!isset(self::$admindbsetting)){
-         	self::$admindbsetting = new backend_db_setting();
+        if (!isset(self::$adminDbSetting)){
+         	self::$adminDbSetting = new backend_db_setting();
         }
-    	return self::$admindbsetting;
+    	return self::$adminDbSetting;
     }
     /**
      * Retourne le setting selectionner

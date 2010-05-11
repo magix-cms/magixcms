@@ -1,6 +1,6 @@
 <?php
 /**
- * @category   Global Setting
+ * @category   Global Setting Model
  * @package    Magix CMS
  * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
  * @license    Proprietary software
@@ -8,22 +8,27 @@
  * @author Gérits Aurélien <aurelien@web-solution-way.be>
  *
  */
-class backend_model_setting extends backend_db_setting{
+class backend_model_setting{
 	/**
 	 * Constructor
 	 */
 	function __construct(){}
 	/**
-	 * Initialise la selection du setting avec l'identifiant
+	 * Retourne la valeur de la configuration suivant l'identifiant
 	 * @param (string) $setting_id
 	 */
-	public function select_uniq_setting($setting_id){
+	public static function select_uniq_setting($setting_id){
 		if(!is_null($setting_id));
-		return parent::adminDbSetting()->s_uniq_setting_value($setting_id);
+		return backend_db_setting::adminDbSetting()->s_uniq_setting_value($setting_id);
 	}
-	public function update_setting_value($setting_id,$setting_value){
+	/**
+	 * 
+	 * @param (string) $setting_id
+	 * @param (string) $setting_value
+	 */
+	public static function update_setting_value($setting_id,$setting_value){
 		if(isset($setting_id)){
-			parent::adminDbSetting()->u_uniq_setting_value($setting_id,$setting_value);
+			backend_db_setting::adminDbSetting()->u_uniq_setting_value($setting_id,$setting_value);
 		}
 	}
 }
