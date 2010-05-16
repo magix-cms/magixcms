@@ -88,16 +88,6 @@ class backend_controller_plugins{
 	 * @return void
 	 */
 	public function constructNavigation(){
-		/*$sidebar = null;
-		if(backend_db_plugins::s_plugins_navigation_construct() != null){
-			$sidebar .= '<ul>';
-			foreach(backend_db_plugins::s_plugins_navigation_construct() as $mconstruct){
-				$sidebar .= '<li><span style="float:left;" class="ui-icon ui-icon-wrench"></span>
-				<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$mconstruct['pname'].'">'.magixcjquery_string_convert::ucFirst($mconstruct['pname']).'</a></li>';
-			}
-			$sidebar .= '</ul>';
-		}
-		return $sidebar;*/
 		return self::listing_plugin();
 	}
 	/**
@@ -147,8 +137,8 @@ class backend_controller_plugins{
 	 * pluginName
 	 */
 	public static function pluginName(){
-		$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
-		return $plugin['pname'];
+		//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
+		return self::getplugin();//$plugin['pname'];
 	}
 	/**
 	 * Retourne l'url du plugin
@@ -164,29 +154,26 @@ class backend_controller_plugins{
 	 * @param void $page
 	 */
 	public static function append_display($page){
-		backend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/');
-		backend_config_smarty::getInstance()->display('skin/admin/'.$page);
+		backend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/skin/admin/');
+		backend_config_smarty::getInstance()->display($page);
+	}
+	/**
+	 * Assign une variable pour smarty
+	 * @param void $page
+	 */
+	public static function append_assign($assign,$fetch){
+		return backend_config_smarty::getInstance()->assign($assign,$fetch);
 	}
 	/**
 	 * @access public
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
 	public function display_plugins(){
-		//self::listing_plugin();
-		if(isset($_GET['plugin'])){
+		if(self::getplugin()){
 			try{
-			$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
-			backend_config_smarty::getInstance()->assign('pluginName',$plugin['pname']);
+			//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
+			backend_config_smarty::getInstance()->assign('pluginName',self::pluginName()/*$plugin['pname']*/);
 			backend_config_smarty::getInstance()->assign('pluginUrl',self::pluginUrl());
-			//backend_config_smarty::getInstance()->display($plugin['pname'].'/index.phtml');
-			/*if(file_exists($_SERVER['DOCUMENT_ROOT'].'/app/backend/plugins/'.$plugin['pname'].'.php')){
-				if(class_exists('backend_plugins_'.$plugin['pname'])){
-					$create = self::execute_plugins('backend_plugins_'.$plugin['pname']);
-					$create->run();
-				}
-			}else{
-				throw new exception('Ce plugin est inexistant'); 
-			}*/
 			self::load_plugin();
 			}catch(Exception $e) {
 				$log = magixcjquery_error_log::getLog();

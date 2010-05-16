@@ -7,6 +7,15 @@ Stable 2.3.1
 	* Modification du système de thèmes => suppression du dossier public et transfert vers le dossier du thème
 	* Modification du changelog pour la version stable 2.3.1
 	* Modification du fichier xml de la version courante 
+	* Modification du système de plugin partie administration
+		 - Prise en charge du nom suivant le paramètre get
+         - Suppression de la sélection DB pour le nom du plugin => remplacement par système de fichier
+	* Ajout du système de plugin pour la partie public
+	* Modification du renseignement des plugins dans l'auto enregistrement
+	     -  Instance automatique du plugin.
+		  - Enrichissement de la syntaxe et des fonctions utilisateurs pour la création de plugins.
+	* Correction dans le htaccess pour la prise en charge et réécriture automatique des plugins enregistré
+	* Correction de la prise en charge du javascript dans les plugins partie administration.
 	
 Stable 2.3.0
 	* Ajout de la réécriture automatique des images dans le catalogue.
