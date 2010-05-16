@@ -9,7 +9,7 @@ $(function() {
 	remove_script_host : false,
 	theme : "advanced",
 	/*tableextras,*/
-	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview,rj_insertcode",
+	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview,rj_insertcode,tableextras",
 	// Theme options
 	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
 	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,insertimage,insertfile,image,|,forecolor,backcolor,|,insertdate,inserttime,preview",
