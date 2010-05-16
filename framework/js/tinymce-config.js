@@ -9,12 +9,12 @@ $(function() {
 	remove_script_host : false,
 	theme : "advanced",
 	/*tableextras,*/
-	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview,rj_insertcode,tableextras",
+	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview,rj_insertcode,tableextras,loremipsum",
 	// Theme options
 	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
 	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,insertimage,insertfile,image,|,forecolor,backcolor,|,insertdate,inserttime,preview",
 	/*tabledraw,convertcelltype,*/
-	theme_advanced_buttons3 : "tabledraw,convertcelltype,tablecontrols,|,hr,removeformat,visualaid,|,fullscreen,|,rj_insertcode,code,",
+	theme_advanced_buttons3 : "tabledraw,convertcelltype,tablecontrols,|,hr,removeformat,visualaid,|,fullscreen,|,rj_insertcode,loremipsum,code",
 	//tableextras_col_size: 10, // Optional
 	//tableextras_row_size: 10, // Optional
 	theme_advanced_toolbar_location : "top",
