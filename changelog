@@ -16,6 +16,7 @@ Stable 2.3.1
 		  - Enrichissement de la syntaxe et des fonctions utilisateurs pour la création de plugins.
 	* Correction dans le htaccess pour la prise en charge et réécriture automatique des plugins enregistré
 	* Correction de la prise en charge du javascript dans les plugins partie administration.
+	* Ajout du système d'icônes pour les plugins (icons perso)
 	
 Stable 2.3.0
 	* Ajout de la réécriture automatique des images dans le catalogue.

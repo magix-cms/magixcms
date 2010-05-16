@@ -46,6 +46,19 @@ class backend_controller_plugins{
 		}
 	}
 	/**
+	 * Retourne l'icon du plugin si elle existe
+	 * @param $plugin (string)
+	 * @return string
+	 */
+	private function icon_plugin($plugin){
+		if(file_exists(self::directory_plugins().$plugin.'/icon.png')){
+			$icon = '<img src="/plugins/'.$plugin.'/icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
+		}else{
+			$icon = '<span style="float:left;" class="ui-icon ui-icon-wrench"></span>';
+		}
+		return $icon;
+	}
+	/**
 	 * @access private
 	 * listing plugin
 	 */
@@ -66,14 +79,13 @@ class backend_controller_plugins{
 			throw new exception('Plugin is not array');
 		}*/
 		if($dir != null){
-			$list = '<ul>';
+			$list = '<ul class="plugin-list">';
 				foreach($dir as $d){
 					if(file_exists(self::directory_plugins().$d.'/'.'admin.php')){
 						$pluginPath = self::directory_plugins().$d;
-						//if($pluginPath) continue;
 						if($makefiles->scanDir($pluginPath) != null){
-							$list .= '<li><span style="float:left;" class="ui-icon ui-icon-wrench"></span>
-							<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$d.'">'
+							$list .= '<li>'.self::icon_plugin($d).
+							'<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$d.'">'
 							.magixcjquery_string_convert::ucFirst($d).'</a></li>';
 						}
 					}
