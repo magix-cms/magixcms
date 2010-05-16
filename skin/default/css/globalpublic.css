@@ -70,7 +70,7 @@ a img { border:none;}
 }
 #entete .top{
 	float:left;
-	background:#FFF url(/public/default/img/logo-magixcms.png) no-repeat;
+	background:#FFF url(/skin/default/img/logo-magixcms.png) no-repeat;
 	margin: 20px 0 0 20px;
 	padding: 0;
 	width:394px;

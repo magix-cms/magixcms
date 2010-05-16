@@ -1,3 +1,13 @@
+Stable 2.3.1
+	* Suppression des langages de programmation inutilisé dans insertcode (tinyMCE)
+	* Ajout du plugin lorem ipsum dans tinyMCE
+	* Ajout de la langue française dans le plugin lorem ipsum (tinyMCE)
+	* Modification du fichier de configuration tinyMCE
+	* Réinsertion du plugin tablextras(tinyMCE)
+	* Modification du système de thèmes => suppression du dossier public et transfert vers le dossier du thème
+	* Modification du changelog pour la version stable 2.3.1
+	* Modification du fichier xml de la version courante 
+	
 Stable 2.3.0
 	* Ajout de la réécriture automatique des images dans le catalogue.
 	* Ajout de la réécriture automatique des images dans les galeries du catalogue.
