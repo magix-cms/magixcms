@@ -1,0 +1,31 @@
+.close-notify {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	text-decoration: none;
+	padding: 0px 4px 1px 5px;
+	cursor: pointer;
+	font-size: 12px;
+}
+.dont-notify {
+	position: absolute;
+	right: 10px;
+	text-decoration: none;
+	padding: 0px 4px 1px 5px;
+	display: block;
+	height: 14px;
+	width: 100px;
+	cursor: pointer;
+	z-index: 10;
+	top: 10px;
+	font-size:10px;
+}
+a.dont-notify:hover {}
+.pos-top{padding:20px 0;}
+.notify-install {
+	display: none;
+	font-size:18px;
+	border-bottom:2px solid #bbb;
+	text-align:center;
+	color:#f00;
+}

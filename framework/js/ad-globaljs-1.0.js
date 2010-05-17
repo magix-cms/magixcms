@@ -108,6 +108,23 @@ $(function() {
 					}
 				}
 		});
+		/**
+		 * Notification après installation pour le dossier "install"
+		 */
+		$('.notify-install').meerkat({
+			//background: 'url(\'../images/meerkat-top-bg.png\') repeat-x left bottom',
+			background:"#fdd",
+			width: '100%',
+			position: 'top',
+			close: '.close-notify',
+			dontShowAgain: '.dont-notify',
+			animationIn: 'fade',
+			animationOut: 'slide',
+			animationSpeed: '750',
+			//removeCookie: '.reset',
+			height: 'auto',
+			opacity: '0.90'
+		}).addClass('pos-top');
 		//menu accordeon
 		/*$("#sidebar .management,#sidebar .articles,#sidebar .catalog,#sidebar .cms,#sidebar .extensions").accordion({
 			header: "h3",
