@@ -36,6 +36,43 @@ $(function() {
 	if(!$.browser.msie){
 		$("form input").filter(":checkbox,:radio").checkbox();
 	}
+	/**
+	 * Notification après installation pour le dossier "install"
+	 */
+	if ($('#notify-install').length != 0){
+		$('#notify-install').destroyMeerkat();
+		$('#notify-install').meerkat({
+			//background: 'url(\'../images/meerkat-top-bg.png\') repeat-x left bottom',
+			background:"#fdd",
+			width: '100%',
+			position: 'top',
+			close: '.close-notify',
+			dontShowAgain: '.dont-notify',
+			animationIn: 'fade',
+			animationOut: 'slide',
+			animationSpeed: '750',
+			//removeCookie: '.reset',
+			height: '80px',
+			opacity: '0.90',
+			onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
+		}).addClass('pos-top');
+	}else if ($('#notify-folder').length != 0){
+		$('#notify-folder').destroyMeerkat();
+		$('#notify-folder').meerkat({
+			background:"#efefef",
+			width: '100%',
+			position: 'top',
+			close: '.close-notify',
+			dontShowAgain: '.dont-notify',
+			animationIn: 'fade',
+			animationOut: 'slide',
+			animationSpeed: '750',
+			//removeCookie: '.reset',
+			height: '80px',
+			opacity: '0.90',
+			onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
+		}).addClass('pos-top');
+	}
 	$('.personnal-side-list a:not(.active-page)').hover(function() {
 		$(this).stop().animate({ opacity: '0.7',left: 10,backgroundColor: "#696969",color: "#FFFFFF" }, 'fast');
 	  }, function() {

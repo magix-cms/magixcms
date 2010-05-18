@@ -33,6 +33,13 @@ a.dont-notify:hover {}
 	text-align:center;
 	color:#f00;
 }
+#notify-folder{
+	display: none;
+	font-size:18px;
+	border-bottom:2px solid #bbb;
+	text-align:center;
+	color:#f00;
+}
 #message-notification{padding-top:10px;}
 /**
  * HACK pour Safari
