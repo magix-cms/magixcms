@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{rewrite_metas_catalog type='description' param=$titlecatalog level='3'}"}
-    <title>{rewrite_metas_catalog type='title' param=$titlecatalog level='3'}</title>
+{headmeta meta="description" content="{rewrite_metas_catalog type='description' level='3'}"}
+    <title>{rewrite_metas_catalog type='title' product=$titlecatalog category=$category subcategory=$subcategory level='3'}</title>
 {include file="common/css.phtml"}
 </head>
 <body>

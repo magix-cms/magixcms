@@ -103,10 +103,12 @@ class frontend_controller_catalog{
 	/**
 	 * Charge le titre d'une fiche catalogue
 	 */
-	function load_titlecatalog_product_page(){
+	function load_product_page(){
 		if(isset($this->getlang)){
 			$products = frontend_db_catalog::publicDbCatalog()->s_product_page_with_language($this->idclc,$this->idcatalog,$this->getlang);
-			$page = magixcjquery_string_convert::ucFirst($products['titlecatalog']);
+			frontend_config_smarty::getInstance()->assign('titlecatalog',$products['titlecatalog']);
+			frontend_config_smarty::getInstance()->assign('category',$products['clibelle']);
+			frontend_config_smarty::getInstance()->assign('subcategory',$products['slibelle']);
 		}else{
 			$products = frontend_db_catalog::publicDbCatalog()->s_product_page_no_language($this->idclc,$this->idcatalog);
 			$page = magixcjquery_string_convert::ucFirst($products['titlecatalog']);
@@ -126,7 +128,12 @@ class frontend_controller_catalog{
 		}
 		return $page;
 	}
+	function load_params_metas(){
+		$products = frontend_db_catalog::publicDbCatalog()->s_product_page_no_language($this->idclc,$this->idcatalog);
+		
+	}
 	/**
+	 * 
 	 * 
 	 */
 	function display_category(){
@@ -143,7 +150,8 @@ class frontend_controller_catalog{
 	 * 
 	 */
 	function display_product(){
-		frontend_config_smarty::getInstance()->assign('titlecatalog',self::load_titlecatalog_product_page());
+		self::load_params_metas();
+		
 		frontend_config_smarty::getInstance()->assign('imgcatalog',self::load_imgcatalog_product_page());
 		frontend_config_smarty::getInstance()->assign('desccatalog',self::load_contentcatalog_product_page());
 		frontend_config_smarty::getInstance()->display('catalog/product.phtml');

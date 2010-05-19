@@ -23,7 +23,9 @@
  */
 function smarty_function_rewrite_metas_catalog($params, &$smarty){
 	$type = $params['type'];
-	$p = $params['param'];
+	$product = $params['product'];
+	$category = $params['category'];
+	$subcategory = $params['subcategory'];
 	$level = $params['level'];
 	if (!isset($type)) {
 	 	$smarty->trigger_error("type: missing 'type' parameter");
@@ -42,10 +44,15 @@ function smarty_function_rewrite_metas_catalog($params, &$smarty){
 					$db = frontend_db_config::frontendDCconfig()->s_plugin_rewrite_meta(7,1,$level,$lang);
 				}
 				if($db != null){
-					$phrase2 = $db['phrase2'] ? ' '.$db['phrase2'] : '';
-					$meta = $p.' '.$db['phrase1'].' '.$p.$phrase2;
+					$meta = $db['strrewrite'];
+					//Tableau des variables à rechercher
+					$search = array('[[product]]','[[category]]','[[subcategory]]');
+					//Tableau des variables à remplacer 
+					$replace = array(magixcjquery_string_convert::ucFirst($product),$category,$subcategory);
+					//texte générique à remplacer
+					$content = str_replace($search ,$replace,$db['strrewrite']);
 				}else{
-					$meta = $p;
+					//$meta = $p;
 				}
 				break;
 			case 'description':
@@ -55,12 +62,11 @@ function smarty_function_rewrite_metas_catalog($params, &$smarty){
 					$db = frontend_db_config::frontendDCconfig()->s_plugin_rewrite_meta(7,2,$level,$lang);
 				}
 				if($db != null){
-					$phrase2 = $db['phrase2'] ? ' '.$db['phrase2'] : '';
-					$meta = $p.' '.$db['phrase1'].' '.$p.$phrase2;
+					$meta = $db['strrewrite'];
 				}else{
 					$meta = $p;
 				}
 				break;
 		}
-	return $meta;
+	return $content;
 }

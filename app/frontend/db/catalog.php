@@ -127,7 +127,7 @@ class frontend_db_catalog{
 	}
 /*############### Product ##############*/
 	function s_product_page_no_language($idclc,$idcatalog){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.idclc, p.idcls, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.idclc, p.idcls,c.clibelle, c.pathclibelle, s.slibelle, s.pathslibelle, img.imgcatalog, lang.codelang
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
@@ -140,7 +140,7 @@ class frontend_db_catalog{
 		));
 	}
 	function s_product_page_with_language($idclc,$idcatalog,$codelang){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.idclc, p.idcls, c.pathclibelle, s.pathslibelle,img.imgcatalog, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.idclc, p.idcls, c.clibelle, c.pathclibelle, s.slibelle, s.pathslibelle,img.imgcatalog, lang.codelang
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )

@@ -230,7 +230,7 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 		}
 	}else{
 		if (!headers_sent()) {
-			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/');
+			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard');
 			exit();
 		}
 	}

@@ -77,7 +77,7 @@ class backend_db_config{
 		}else{
 			$id = null;
 		}
-		$sql = 'SELECT r.idrewrite,r.idmetas,lang.codelang,r.phrase1,r.phrase2,r.phrase3,r.level,conf.named FROM mc_metas_rewrite as r
+		$sql = 'SELECT r.idrewrite,r.idmetas,lang.codelang,r.strrewrite,r.level,conf.named FROM mc_metas_rewrite as r
 		LEFT JOIN mc_global_config AS conf ON(r.idconfig = conf.idconfig)
 		LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 		'.$id.'
@@ -104,7 +104,7 @@ class backend_db_config{
 	 * @param $idlang
 	 */
 	function s_rewrite_for_edit($idrewrite){
-		$sql ='SELECT lang.idlang,lang.codelang,r.idconfig,r.idrewrite,r.phrase1,r.phrase2,r.phrase3,r.idmetas,r.level,conf.named
+		$sql ='SELECT lang.idlang,lang.codelang,r.idconfig,r.idrewrite,r.strrewrite,r.idmetas,r.level,conf.named
 				FROM mc_metas_rewrite AS r
 				LEFT JOIN mc_global_config as conf ON(r.idconfig = conf.idconfig)
 				LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
@@ -117,22 +117,18 @@ class backend_db_config{
 	 * insertion d'une réecriture des métas
 	 * @param $idconfig
 	 * @param $idlang
-	 * @param $phrase1
-	 * @param $phrase2
-	 * @param $phrase3
+	 * @param $strrewrite
 	 * @param $idmetas
 	 * @param $level
 	 */
-	function i_rewrite_metas($idconfig,$idlang,$phrase1,$phrase2,$phrase3,$idmetas,$level){
-    	$sql = 'INSERT INTO mc_metas_rewrite (idconfig,idlang,phrase1,phrase2,phrase3,idmetas,level) 
-				VALUE(:idconfig,:idlang,:phrase1,:phrase2,:phrase3,:idmetas,:level)';
+	function i_rewrite_metas($idconfig,$idlang,$strrewrite,$idmetas,$level){
+    	$sql = 'INSERT INTO mc_metas_rewrite (idconfig,idlang,strrewrite,idmetas,level) 
+				VALUE(:idconfig,:idlang,:strrewrite,:idmetas,:level)';
 		$this->layer->insert($sql,
 		array(
 			':idconfig'			=>	$idconfig,
 			':idlang'			=>	$idlang,
-			':phrase1'			=>	$phrase1,
-			':phrase2'			=>	$phrase2,
-			':phrase3'			=>	$phrase3,
+			':strrewrite'		=>	$strrewrite,
 			':idmetas'			=>	$idmetas,
 			':level'			=>	$level
 		));
@@ -141,20 +137,16 @@ class backend_db_config{
      * mise à jour de la métas
      * @param $idconfig
      * @param $idlang
-     * @param $phrase1
-     * @param $phrase2
-     * @param $phrase3
+     * @param $strrewrite
      * @param $idmetas
      * @param $level
      * @param $idrewrite
      */
-	function u_rewrite_metas($idconfig,$idlang,$phrase1,$phrase2,$phrase3,$idmetas,$level,$idrewrite){
+	function u_rewrite_metas($idconfig,$idlang,$strrewrite,$idmetas,$level,$idrewrite){
     	$sql = 'UPDATE mc_metas_rewrite 
     	SET idconfig = :idconfig,
     	idlang  = :idlang,
-    	phrase1 = :phrase1,
-    	phrase2 = :phrase2,
-    	phrase3 = :phrase3,
+    	strrewrite = :strrewrite,
     	idmetas = :idmetas,
     	level = :level
     	WHERE idrewrite = :idrewrite';
@@ -162,9 +154,7 @@ class backend_db_config{
 		array(
 			':idconfig'			=>	$idconfig,
 			':idlang'			=>	$idlang,
-			':phrase1'			=>	$phrase1,
-			':phrase2'			=>	$phrase2,
-			':phrase3'			=>	$phrase3,
+			':strrewrite'		=>	$strrewrite,
 			':idmetas'			=>	$idmetas,
 			':level'			=>	$level,
 			':idrewrite'		=>	$idrewrite
