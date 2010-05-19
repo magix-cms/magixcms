@@ -36,6 +36,18 @@ $(function() {
 				$(this).removeClass("ui-state-active");
 			}
 		});
+		$("#add-category").live("click",function (){
+			$("#strrewrite").append("[[category]]");
+			return false;
+		});
+		$("#add-subcategory").live("click",function (){
+			$("#strrewrite").append("[[subcategory]]");
+			return false;
+		});
+		$("#add-product").live("click",function (){
+			$("#strrewrite").append("[[product]]");
+			return false;
+		});
 		/**
 		 * Ajout d'une classe spécifique au survol d'un thème
 		 */

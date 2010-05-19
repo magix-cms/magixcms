@@ -88,7 +88,7 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 						$product .= '</div>';
 					}else{
 						$product .= '<div class="img-product">';
-						$product .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$this->getlang.magixcjquery_html_helpersHtml::unixSeparator().'public/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" />';
+						$product .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$this->getlang.magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" />';
 						$product .= '</div>';
 					}
 					if($tposition == 'bottom'){
@@ -119,7 +119,7 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 					$product .= '</div>';
 				}else{
 					$product .= '<div class="img-product">';
-					$product .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'public/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" />';
+					$product .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" />';
 					$product .= '</div>';
 				}
 				if($tposition == 'bottom'){

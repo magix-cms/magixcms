@@ -44,7 +44,6 @@ function smarty_function_rewrite_metas_catalog($params, &$smarty){
 					$db = frontend_db_config::frontendDCconfig()->s_plugin_rewrite_meta(7,1,$level,$lang);
 				}
 				if($db != null){
-					$meta = $db['strrewrite'];
 					//Tableau des variables à rechercher
 					$search = array('[[product]]','[[category]]','[[subcategory]]');
 					//Tableau des variables à remplacer 
@@ -52,7 +51,20 @@ function smarty_function_rewrite_metas_catalog($params, &$smarty){
 					//texte générique à remplacer
 					$content = str_replace($search ,$replace,$db['strrewrite']);
 				}else{
-					//$meta = $p;
+					switch ($level){
+						case 0 :
+							$content = null;
+						break;
+						case 1 :
+							$content = $category;
+						break;
+						case 2 :
+							$content = $subcategory;
+						break;
+						case 3 :
+							$content = $product;
+						break;
+					}
 				}
 				break;
 			case 'description':
@@ -62,9 +74,27 @@ function smarty_function_rewrite_metas_catalog($params, &$smarty){
 					$db = frontend_db_config::frontendDCconfig()->s_plugin_rewrite_meta(7,2,$level,$lang);
 				}
 				if($db != null){
-					$meta = $db['strrewrite'];
+					//Tableau des variables à rechercher
+					$search = array('[[product]]','[[category]]','[[subcategory]]');
+					//Tableau des variables à remplacer 
+					$replace = array(magixcjquery_string_convert::ucFirst($product),$category,$subcategory);
+					//texte générique à remplacer
+					$content = str_replace($search ,$replace,$db['strrewrite']);
 				}else{
-					$meta = $p;
+				switch ($level){
+						case 0 :
+							$content = null;
+						break;
+						case 1 :
+							$content = $category;
+						break;
+						case 2 :
+							$content = $subcategory;
+						break;
+						case 3 :
+							$content = $product;
+						break;
+					}
 				}
 				break;
 		}

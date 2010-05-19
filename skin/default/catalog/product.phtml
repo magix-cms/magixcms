@@ -1,5 +1,5 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{rewrite_metas_catalog type='description' level='3'}"}
+{headmeta meta="description" content="{rewrite_metas_catalog type='description' product=$titlecatalog category=$category subcategory=$subcategory level='3'}"}
     <title>{rewrite_metas_catalog type='title' product=$titlecatalog category=$category subcategory=$subcategory level='3'}</title>
 {include file="common/css.phtml"}
 </head>
@@ -16,9 +16,9 @@
 					<td>{$imgcatalog}</td>
 					<td style="width:100%;"></td>
 					<td>
-					<form action="{geturl}{getlang}/contact/produit/renseignement.html" method="post">
+					<form action="{geturl}{getlang}/magixmod/contact/" method="post">
 				      <div><input type="hidden" name="moreinfo" value="{$titlecatalog}"/></div>
-				      <div><input type="image" src="{geturl}/public/{template}/img/catalog/more-product.png" /></div>
+				      <div><input type="image" src="{geturl}/skin/{template}/img/catalog/more-product.png" /></div>
 			      	</form>
 					</td>
 				</tr>
