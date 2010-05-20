@@ -1,3 +1,14 @@
+Stable 2.3.2
+	* Fix bug notification pour le dossier installation (CSS, positionnement) 
+	* Fix bug sitemap, validation des urls (en cours)
+	* Ajout de la notification de sécurité pour le dossier install (côté admin)
+	* Suppression de meerkat dans le chargement automatique (voir getScript)
+	* Ajout du slider dans l'installation *modification système réécriture url
+	* Modification du module réécriture des métas dans l'administration (suite) => Correction du formulaire pour l'édition. 
+	* Adaptation du plugin smarty de reecriture des métas du catalogue (public) 
+	* Fix bug url des images dynamique du catalogue (catégories, sous catégories, produits)
+	* Fix bug avec la fonction d'insertion de variable dans le module SEO.
+	
 Stable 2.3.1
 	* Suppression des langages de programmation inutilisé dans insertcode (tinyMCE)
 	* Ajout du plugin lorem ipsum dans tinyMCE
