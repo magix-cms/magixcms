@@ -37,16 +37,17 @@ $(function() {
 			}
 		});
 		$("#add-category").live("click",function (){
-			$("#strrewrite").append("[[category]]");
-			return false;
+			var myContent = $("#strrewrite").val();
+	        $("#strrewrite").val(myContent + "[[category]]").focus();
+	        return false;
 		});
 		$("#add-subcategory").live("click",function (){
-			$("#strrewrite").append("[[subcategory]]");
-			return false;
+			var myContent = $("#strrewrite").val();
+	        $("#strrewrite").val(myContent + "[[subcategory]]").focus();
 		});
 		$("#add-product").live("click",function (){
-			$("#strrewrite").append("[[product]]");
-			return false;
+			var myContent = $("#strrewrite").val();
+	        $("#strrewrite").val(myContent + "[[product]]").focus();
 		});
 		/**
 		 * Ajout d'une classe spécifique au survol d'un thème
