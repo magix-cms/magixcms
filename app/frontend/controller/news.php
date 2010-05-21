@@ -71,11 +71,11 @@ class frontend_controller_news{
 		foreach(frontend_db_news::publicDbNews()->s_news_plugins(true,$max,$offset) as $pnews){
 			$islang = $pnews['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$pnews['codelang']: '';
 			$curl = date_create($pnews['date_sent']);
-			$news .= '<div class="listnews ui-widget-content ui-corner-all">';
-			$news .='<div class="ui-widget-header ui-corner-all">';
-			$news .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
+			$news .= '<div class="listnews">';
+			$news .='<div class="listnews-header">';
+			$news .= '<a class="listnews-header-link" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
 			$news .='<div style="float:right;"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>'.$pnews['date_sent'].'</div></div>';
-			$news .= '<div class="content">';
+			$news .= '<div class="listnews-content">';
 			$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],240,''));
 			$news .= '</div>';
 			$news .= '</div>';

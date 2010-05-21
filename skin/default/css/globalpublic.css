@@ -49,6 +49,7 @@ a img { border:none;}
 	width:984px;
 	padding:20px;
 }
+/*########################## Menu horizontal #########################*/
 #headmenu{
 	background-color:#BFBFBF;
 	height:40px;
@@ -143,7 +144,7 @@ h1{
 	/*list-style:square;
 	margin: 0.1em 0 0.1em 1.1em;*/
 }
-/* menu example :simple cms */
+/* ########## menu example :simple cms et minimal catalog ################# */
 .personnal-side-list {
 	list-style: none;
 	margin: 0px;
@@ -203,9 +204,20 @@ h1{
 #pieddepage a:hover {}
 .micro-footer{font-size:11px;text-align:right;}
 .micro-footer a{font-size:11px;color:#0A8ECC;text-decoration:underline;}
+/**
+ * ####################### La liste des news ##########################
+ */
+.listnews{padding:5px;}
+.listnews .listnews-header{background-color:#CCC;padding:5px;}
+.listnews-header-link a{color:#58585A;text-decoration:underline;}
+.listnews .listnews-header a:hover{color:#white;}
+.listnews .listnews-content{padding:5px;}
+/*####################### La news ##########################*/
+.sdate{float:right;}
 /*####################### Widget ##########################*/
+/* #### Widget News ####*/
 .widget-news{margin:5px;width:60%;padding:5px;}
-.widget-news-header{padding:0 5px 0 5px;}
+.widget-news-header{padding:5px;}
 .widget-news-content{padding:5px;}
 /*############## Catalog ##################*/
 #catalog-list-category{
@@ -258,6 +270,8 @@ h1{
 	width:1024px;
 }
 #barfixed #breadcrum ul li{
+	font-size:11px;
+	color:#222222;
 	float:left;
 	margin-left:5px;
 	list-style-image:none;

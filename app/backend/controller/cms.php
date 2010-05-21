@@ -2,9 +2,9 @@
 /**
  * @category   Controller 
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
+ * @copyright  Copyright (c) 2009 - 2010 (http://www.cms-site.com)
  * @license    Proprietary software
- * @version    4.0
+ * @version    4.1
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @name CMS
  *
@@ -406,7 +406,7 @@ class backend_controller_cms{
 	 * @access private
 	 *
 	 */
-	private function executeOrderCategory(){
+	public function executeOrderCategory(){
 		if(isset($_POST['ordercategory'])){
 			$p = $_POST['ordercategory'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -420,7 +420,7 @@ class backend_controller_cms{
 	 * @access private
 	 *
 	 */
-	private function executeOrderPage(){
+	public function executeOrderPage(){
 		if(isset($_POST['orderpage'])){
 			$p = $_POST['orderpage'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -526,7 +526,6 @@ class backend_controller_cms{
 	 */
 	public function display_navigation(){
 		self::update_viewpage();
-		self::executeOrderPage();
 		backend_config_smarty::getInstance()->assign('navorder',self::navigation_order());
 		backend_config_smarty::getInstance()->assign('navconstruct',self::navigation_construct());
 		backend_config_smarty::getInstance()->display('cms/navigation.phtml');
@@ -545,7 +544,6 @@ class backend_controller_cms{
 	 * @access public
 	 */
 	public function display_category(){
-		self::executeOrderCategory();
 		backend_config_smarty::getInstance()->assign('states_category',self::statistic_category());
 		backend_config_smarty::getInstance()->assign('block_cms_statistic',self::block_statistique());
 		backend_config_smarty::getInstance()->assign('block_category',self::view_category());

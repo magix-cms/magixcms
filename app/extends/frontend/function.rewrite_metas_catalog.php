@@ -45,7 +45,7 @@ function smarty_function_rewrite_metas_catalog($params, &$smarty){
 				}
 				if($db != null){
 					//Tableau des variables à rechercher
-					$search = array('[[product]]','[[category]]','[[subcategory]]');
+					$search = array('[[record]]','[[category]]','[[subcategory]]');
 					//Tableau des variables à remplacer 
 					$replace = array(magixcjquery_string_convert::ucFirst($product),$category,$subcategory);
 					//texte générique à remplacer
@@ -75,7 +75,7 @@ function smarty_function_rewrite_metas_catalog($params, &$smarty){
 				}
 				if($db != null){
 					//Tableau des variables à rechercher
-					$search = array('[[product]]','[[category]]','[[subcategory]]');
+					$search = array('[[record]]','[[category]]','[[subcategory]]');
 					//Tableau des variables à remplacer 
 					$replace = array(magixcjquery_string_convert::ucFirst($product),$category,$subcategory);
 					//texte générique à remplacer

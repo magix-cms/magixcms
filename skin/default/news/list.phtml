@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{static_metas param=#seo_d_static_news# dynamic=false}"}
-    <title>{static_metas param=#seo_t_static_news# dynamic=false}</title>
+{headmeta meta="description" content="{rewrite_metas_news type='description' param=#seo_d_static_news# level='0'}"}
+    <title>{rewrite_metas_news type='title' param=#seo_t_static_news# level='0'}</title>
 {include file="common/css.phtml"}
 </head>
 <body>

@@ -64,14 +64,30 @@ class backend_controller_config{
 	 * @var intéger
 	 */
 	public $idlang;
+	/**
+	 * Identifiant de la configuration
+	 * @var integer
+	 */
 	public $idconfig;
+	/**
+	 * Phrase pour la réécriture des métas
+	 * @var string
+	 */
 	public $strrewrite;
+	/**
+	 * Niveau de la réécriture des métas
+	 * @var integer
+	 */
 	public $level;
 	/**
 	 * intéger number for limited configuration
 	 * @var number
 	 */
 	public $number;
+	/**
+	 * Edition d'une réécriture des métas
+	 * @var integer
+	 */
 	public $edit;
 	/**
 	 * function construct
@@ -300,9 +316,11 @@ class backend_controller_config{
 	private function select_construct_config(){
 		$config = '<select id="idconfig" name="idconfig" class="select">';
 		$config .= '<option value="">Aucune sélection</option>';
-		foreach(backend_db_config::adminDbConfig()->s_config_named_all() as $c){
+		/*foreach(backend_db_config::adminDbConfig()->s_config_named_all() as $c){
 			$config .= '<option value="'.$c['idconfig'].'">'.$c['named'].'</option>';
-		}
+		}*/
+		$config .= '<option value="5">News</option>';
+		$config .= '<option value="7">Catalogue</option>';
 		$config .='</select>';
 		return $config;
 	}
@@ -313,9 +331,9 @@ class backend_controller_config{
 		$title = '<table class="clear">
 						<thead>
 							<tr>
+							<th>Métas</th>
 							<th>Module</th>
-							<th>type</th>
-							<th>phrase</th>
+							<th>Phrase</th>
 							<th>Level</th>
 							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>

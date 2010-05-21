@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{rewritemetanews type='description' param=$subject}"}
-    <title>{rewritemetanews type="title" param=$subject}</title>
+{headmeta meta="description" content="{rewrite_metas_news type='description' param=$subject level='1'}"}
+    <title>{rewrite_metas_news type='title' param=$subject level='1'}</title>
 {include file="common/css.phtml"}
 </head>
 <body>
@@ -9,6 +9,7 @@
 <div id="content">
 {include file="common/sidebar.phtml"}
 	<div id="principal" class="principal">
+	<div class="sdate"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>{$date_sent}</div>
 		<h1>{$subject}</h1>
 		{$content}
 	</div>

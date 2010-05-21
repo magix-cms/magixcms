@@ -108,6 +108,9 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 				$ini->display_navigation();
 			}elseif(magixcjquery_filter_request::isGet('delpage')){
 				$ini->delete_page_cms();
+			}elseif(magixcjquery_filter_request::isGet('orderajax')){
+				$ini->executeOrderCategory();
+				$ini->executeOrderPage();
 			}elseif(magixcjquery_filter_request::isGet('category')){
 				if(magixcjquery_filter_request::isGet('post')){
 					$ini->insertion_category();

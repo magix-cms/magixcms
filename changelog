@@ -8,6 +8,9 @@ Stable 2.3.2
 	* Adaptation du plugin smarty de reecriture des métas du catalogue (public) 
 	* Fix bug url des images dynamique du catalogue (catégories, sous catégories, produits)
 	* Fix bug avec la fonction d'insertion de variable dans le module SEO.
+	* Fix Bug affichage de la liste des news (Ajout de style)
+	* Modification réécriture des métas côté public (catalog,news)
+	* Suppression du menu déroulant dynamique pour le choix de la réécriture des métas
 	
 Stable 2.3.1
 	* Suppression des langages de programmation inutilisé dans insertcode (tinyMCE)

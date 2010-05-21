@@ -26,6 +26,7 @@ function smarty_function_widget_lastnews($params, &$smarty){
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 250 ;
 	$delimiter = $params['delimiter']? $params['delimiter']: '...';
 	$ui = $params['ui'];
+	$newsall = $params['newsall'];
 	if (!isset($length)) {
 	 	$smarty->trigger_error("limit: missing 'Content length' parameter");
 		return;
@@ -50,6 +51,7 @@ function smarty_function_widget_lastnews($params, &$smarty){
 			$widget .='<div style="float:right;">'.$wicons.$pnews['date_sent'].'</div></div>';
 			$widget .= '<div class="widget-news-content">';
 			$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],$length,$delimiter));
+			$widget .= '<br /><a href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news.html>'.$newsall.'</a>';
 			$widget .= '</div>';
 			$widget .= '</div>';
 		}
@@ -64,6 +66,7 @@ function smarty_function_widget_lastnews($params, &$smarty){
 			$widget .='<div style="float:right;">'.$wicons.$pnews['date_sent'].'</div></div>';
 			$widget .= '<div class="widget-news-content">';
 			$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],$length,$delimiter));
+			$widget .= '<br /><a href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news.html">'.$newsall.'</a>';
 			$widget .= '</div>';
 			$widget .= '</div>';
 		}

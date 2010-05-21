@@ -47,7 +47,7 @@ $(function() {
 		});
 		$("#add-product").live("click",function (){
 			var myContent = $("#strrewrite").val();
-	        $("#strrewrite").val(myContent + "[[product]]").focus();
+	        $("#strrewrite").val(myContent + "[[record]]").focus();
 		});
 		/**
 		 * Ajout d'une classe spécifique au survol d'un thème
@@ -427,7 +427,7 @@ $(function() {
 			update : function () {
 				serial = $('#sortable').sortable('serialize');
 				$.ajax({
-					url: "/admin/index.php?dashboard&cms&navigation",
+					url: "/admin/index.php?dashboard&cms&orderajax",
 					type: "post",
 					data: serial,
 					error: function(){
