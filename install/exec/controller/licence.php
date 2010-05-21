@@ -21,13 +21,13 @@ class exec_controller_licence extends dblicence{
 	 */
 	function __construct(){
 		if(isset($_POST['licence'])){
-			$this->licence = magixcjquery_form_helpersforms::inputClean($_POST['pseudo']);
+			$this->licence = magixcjquery_form_helpersforms::inputClean($_POST['licence']);
 		}
 	}
 	protected function insert_licence(){
 		if(isset($this->licence)){
 			if(!empty($this->licence)){
-				parent::ilicence()->i_licence_config($this->licence);
+				parent::ilicence()->i_licence_config('licence',$this->licence);
 			}
 		}
 	}
