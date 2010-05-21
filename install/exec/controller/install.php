@@ -142,6 +142,17 @@ class exec_controller_install{
 		self::writeConfigFile();
 	}
 	public function display_install_page(){
+		$dom = null;
+		if(!is_writable($_SERVER['DOCUMENT_ROOT'].'/app/config')){
+			$dom = '<div id="notify-folder">
+					<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span> Close</a>
+					<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	
+					<div id="message-notification">
+						<p>You don\'t have permission to write in &laquo;/app/config&raquo; folder</p>
+					</div>
+			</div>';
+		}
+		exec_config_smarty::getInstance()->assign('notify',$dom);
 		exec_config_smarty::getInstance()->display('install.phtml');
 	}
 }

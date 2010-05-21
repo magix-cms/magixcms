@@ -36,6 +36,23 @@ $(function() {
 		$('#install-check').live('click',function(){
 			window.location = "/install/check.php";
 		});
+		if ($('#notify-folder').length != 0){
+			$('#notify-folder').destroyMeerkat();
+			$('#notify-folder').meerkat({
+				background:"#efefef",
+				width: '100%',
+				position: 'top',
+				close: '.close-notify',
+				dontShowAgain: '.dont-notify',
+				animationIn: 'fade',
+				animationOut: 'slide',
+				animationSpeed: '750',
+				//removeCookie: '.reset',
+				height: '80px',
+				opacity: '0.90',
+				onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
+			}).addClass('pos-top');
+		}
 		/**
 		 * Système d'analyse des fonctions disponible sur l'hébergement
 		 * Requête ajax tous les 200 micros S 
@@ -470,7 +487,7 @@ $(function() {
 						$('#install-user').removeClass("ui-state-disabled");
 						$('#install-user').addClass("ui-state-active");
 						$('#install-user').live('click',function(){
-							window.location = "/install/adminuser.php";
+							window.location = "/install/licence.php";
 						});
 					}
 			    });
@@ -522,4 +539,31 @@ $(function() {
 			}
 		});
 		$("#forms-install-users").formsusers;
+		/**
+		 * Validation de la licence
+		 */
+		var formslicence = $("#forms-install-licence").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				licence: {
+					required: true,
+					minlength: 10
+				}
+			},
+			messages: {
+				licence: {
+					required: "Enter a Licence"
+				}
+			}
+		});
+		$("#forms-install-licence").formslicence;
+});
+$(window).load(function() {
+	$('#slider').nivoSlider({
+		effect:'random',
+		pauseTime:5000, 
+		pauseOnHover:true,
+		captionOpacity:0.8 //Universal caption opacity
+	});
 });

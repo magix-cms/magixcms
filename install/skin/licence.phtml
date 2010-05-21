@@ -1,0 +1,40 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>Administrateur du site internet</title>
+</head>
+<body>
+<div id="page">
+	<div id="content">
+		<div id="install">
+		{include file="common/top.phtml"}
+		<div class="dashboard ui-widget-content ui-corner-all">
+		{include file="common/slider.phtml"}
+			<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-key"></span>&nbsp;Licence</div>
+				<div class="dashboard-content">
+					<form id="forms-install-licence" method="post" action="/install/licence.php?postlicence" style="margin-left:10px;">
+						<div class="request">{$msg}</div>
+							<fieldset>
+								<table>
+									<tr>
+										<td class="label"><label for="licence" class="inlinelabel">Licence :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="licence" name="licence" class="inputtext ui-corner-all" value="" size="50" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>			
+							</fieldset>
+							<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+						</form>
+				</div>
+				{include file="common/footer.phtml"}
+			</div>
+		</div>
+	</div>
+</div>
+{include file="common/javascript.phtml"}
+</body>
+</html>

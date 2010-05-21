@@ -1,6 +1,6 @@
 {include file="common/head.phtml"}
 <meta name="description" content="" />
-    <title>Install database</title>
+    <title>Fin de l'installation</title>
 </head>
 <body>
 <div id="page">
@@ -10,9 +10,13 @@
 		<div class="dashboard ui-widget-content ui-corner-all">
 		{include file="common/slider.phtml"}
 			<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span>&nbsp;Fin de l'installation</div>
-				<div class="dashboard-content">
-					L'installation est terminé.
-					Connectez-vous à l'<a href="{geturl}/admin/">administration</a> de votre site internet.
+				<div class="dashboard-content" style="font-size:18px;">
+					<p style="margin-left:10px;">L'installation est terminé.</p>
+					<p style="margin-left:10px;">Connectez-vous à l'administration de votre site internet.</p>
+					<ul style="margin-left:20px;">
+					<li style="list-style:square;"><a style="text-decoration:underline;" href="{geturl}/admin/">Administration</a></li>
+					<li style="list-style:square;"><a style="text-decoration:underline;" href="{geturl}">Site internet</a></li>
+					</ul>
 				</div>
 				{include file="common/footer.phtml"}
 			</div>
