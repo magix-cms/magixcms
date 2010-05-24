@@ -277,18 +277,6 @@ class exec_controller_database extends create_database{
 		}
 	}
 	/**
-	 * Envoi la création de la table sitemap config (configuration supplémentaire du sitemap)!!!
-	 */
-	public function c_database_sitemaps_config(){
-		if (isset($this->ctable)){
-			if(parent::cdatabase()->c_table_sitemaps_config()){
-				exec_config_smarty::getInstance()->display('request/success-table.phtml');
-			}else{
-				exec_config_smarty::getInstance()->display('request/error-table.phtml');
-			}
-		}
-	}
-	/**
 	 * Affiche la page de la construction des tables
 	 */
 	public function display_database_page(){
@@ -697,18 +685,6 @@ class create_database{
 				('sold', 'sold_product', 'string', 'Produit vendu'),
 				('webmaster', '', 'string', 'google webmasterTools'),
 				('analytics', '', 'string', 'google analytics');";
-		$this->layer->createTable($sql);
-		return true;
-	}
-	/**
-	 * requête sql pour la création de la table des settings
-	 */
-	public function c_table_sitemaps_config(){
-		$sql = "CREATE TABLE IF NOT EXISTS `mc_sitemaps_config` (
-				  `idsmap` tinyint(1) NOT NULL AUTO_INCREMENT,
-				  `idplugin` tinyint(1) NOT NULL,
-				  PRIMARY KEY (`idsmap`)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 		$this->layer->createTable($sql);
 		return true;
 	}

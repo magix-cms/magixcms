@@ -124,10 +124,12 @@ class backend_controller_plugins{
 	private function load_plugin(){
 		try{
 			plugins_Autoloader::register();
-			$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
-			if(file_exists($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/admin.php')){
+			//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
+			if(file_exists(self::directory_plugins().self::getplugin().'/admin.php')){
+				//Si la classe exist on recherche la fonction run()
 				if(class_exists('plugins_'.self::getplugin().'_admin')){
 					$load = self::execute_plugins('plugins_'.self::getplugin().'_admin');
+					//Si la méthode existe on ajoute le plugin dans le register et execute la fonction run()
 					if(method_exists($load,'run')){
 						$load->run();
 					}

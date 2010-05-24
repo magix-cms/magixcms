@@ -1134,6 +1134,19 @@ $(function() {
 			});
 		});
 		/**
+	     * Requête ajax pour la création du fichier xml compressé au format GZ + soumission du fichier vers google
+	     */
+		$('.compressping').click(function (){
+			$.ajax({
+				type:'get',
+				url: "/admin/index.php?dashboard&sitemap&compressionping",
+				async: false,
+				success:function(e) {
+					$("#reponse").html(e);
+				}
+			});
+		});
+		/**
 		 * Soumission de codes Google webmaster et/ou analytics
 		 */
 		$("#forms-webmaster-tools").submit(function(){

@@ -475,23 +475,6 @@ $(function() {
 					}
 			    });
 			},6000);
-			setTimeout(function(){
-				$('#forms-install-database').ajaxSubmit({
-					type:'post',
-					url: "/install/database.php?csitemap",
-					beforeSubmit:function() {
-						$("#dbsitemap").append('<img src="/framework/img/small_loading.gif" />');
-					},
-					success:function(e) {
-						$("#dbsitemap").html(e);
-						$('#install-user').removeClass("ui-state-disabled");
-						$('#install-user').addClass("ui-state-active");
-						$('#install-user').live('click',function(){
-							window.location = "/install/licence.php";
-						});
-					}
-			    });
-			},6300);
 		});
 		/**
 		 * Validation de l'utilisateur principal

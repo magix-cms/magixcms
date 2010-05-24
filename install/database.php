@@ -67,8 +67,6 @@ if(magixcjquery_filter_request::isGet('cusers')){
 	$database->c_database_plugins_module();
 }elseif(magixcjquery_filter_request::isGet('csettingconf')){
 	$database->c_database_settings();
-}elseif(magixcjquery_filter_request::isGet('csitemap')){
-	$database->c_database_sitemaps_config();
 }else{
 	$database->display_database_page();
 }

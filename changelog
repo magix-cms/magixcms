@@ -1,9 +1,31 @@
+Stable 2.3.3
+	* Modification des URLS pour les pages CMS
+		- Ajout de l'identifiant numérique de la page
+		- Ajout de l'identifiant numérique de la catégorie
+		- Correction du htaccess pour la nouvelle règle des pages CMS
+	* Ajout de la prévisualisation à partir des liens en plus de la loupe dans l'administration
+	* Ajout du système pour l'encodage de la licence (install)
+		- Ajout de la notification des chmods pour le dossier app/config (création du fichier config.php) 
+	* Correction du système de sitemap pour inclure les pages CMS avec la nouvelle règle de réécriture
+	* Ajout du système de ping du sitemap avec choix de la compression
+		- Aucune compression
+		- Compression GZ
+	* Patch valide url dans magix cjquery (utilisation regex à la place de filter_var bug php 5.2.13)
+	* Modification des widgets par défaut
+		- widget_simple_sidebar_cms => Correction des URL avec la nouvelle règle de réécriture.
+	* Correction du système de sitemap pour les plugins
+		- Suppression de la table des sitemaps supplémetaire 
+		- Remplacement par un scanne de dossier et analyse de la fonction createSitemap
+	* Fix bug de la portée des fonctions de la classe sitemap + plugins
+	* Suppression de la table sitemap dans l'installation de magix cms
+	
 Stable 2.3.2
 	* Fix bug notification pour le dossier installation (CSS, positionnement) 
 	* Fix bug sitemap, validation des urls (en cours)
 	* Ajout de la notification de sécurité pour le dossier install (côté admin)
 	* Suppression de meerkat dans le chargement automatique (voir getScript)
-	* Ajout du slider dans l'installation *modification système réécriture url
+	* Ajout du slider dans l'installation 
+	* modification système réécriture url
 	* Modification du module réécriture des métas dans l'administration (suite) => Correction du formulaire pour l'édition. 
 	* Adaptation du plugin smarty de reecriture des métas du catalogue (public) 
 	* Fix bug url des images dynamique du catalogue (catégories, sous catégories, produits)

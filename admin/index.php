@@ -224,6 +224,8 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 				$sitemap->exec();
 			}elseif(magixcjquery_filter_request::isGet('googleping')){
 				$sitemap->execPing();
+			}elseif(magixcjquery_filter_request::isGet('compressionping')){
+				$sitemap->execCompressionPing();
 			}else{
 				$sitemap->display();
 			}

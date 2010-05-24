@@ -378,3 +378,5 @@ ul.plugin-list li{}
 /*SEO MODULE*/
 .addseo{display:block;clear:left;cursor:pointer;}
 .addseo:hover{font-weight:700px;text-decoration:underline;}
+/*link preview*/
+.linkurl{text-decoration:underline;}
