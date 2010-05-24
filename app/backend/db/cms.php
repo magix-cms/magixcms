@@ -257,7 +257,7 @@ class backend_db_cms{
 	 * @param $getpage
 	 */
 	function s_data_forms($getpage){
-		$sql = 'SELECT p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription, lang.codelang,c.category,c.pathcategory
+		$sql = 'SELECT p.idpage,p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription, lang.codelang,c.category,c.pathcategory
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )

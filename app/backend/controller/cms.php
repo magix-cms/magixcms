@@ -448,10 +448,10 @@ class backend_controller_cms{
 					$catpath = null;
 				break;
 				default: 
-					$catpath = $data['pathcategory'].magixcjquery_html_helpersHtml::unixSeparator();
+					$catpath = 'getidcategory='.$data['idcategory'].'&amp;getcat='.$data['pathcategory'].'&amp;';
 				break;
 			}
-		backend_config_smarty::getInstance()->assign('view',magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().$catpath.$data['pathpage'].'.html');
+		backend_config_smarty::getInstance()->assign('view',magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$data['idpage'].'&amp;'.'getpurl='.$data['pathpage']);
 	}
 /**
 	 * mise à jour d'une page

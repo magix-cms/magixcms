@@ -27,7 +27,7 @@ function smarty_function_cms_seo($params, &$smarty){
 	 	$smarty->trigger_error("config: missing 'config' parameter");
 		return;
 	}
-	$seo = frontend_db_cms::publicDbCms()->s_cms_seo($_GET['getpurl']);
+	$seo = frontend_db_cms::publicDbCms()->s_cms_seo($_GET['getidpage']);
 	switch($config){
 		case 'title':
 			if($seo['metatitle'] != null){
