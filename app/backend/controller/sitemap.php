@@ -342,7 +342,7 @@ class backend_controller_sitemap{
 	/**
 	 * Pinguer Google
 	 */
-	private function execPing(){
+	public function execPing(){
 		$sitemap = new magixcjquery_xml_sitemap();
 		backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml');
 		$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml');
@@ -351,7 +351,7 @@ class backend_controller_sitemap{
 	/**
 	 * Compression GZ + ping Google
 	 */
-	private function execCompressionPing(){
+	public function execCompressionPing(){
 		$sitemap = new magixcjquery_xml_sitemap();
 		if(!extension_loaded('zlib')) {
 			backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml');

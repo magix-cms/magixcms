@@ -54,7 +54,7 @@ function smarty_function_block_category_catalog($params, &$smarty){
 		$wcontent = ' ui-widget-content ui-corner-all';
 		$wheader = ' ui-widget-header ui-corner-all';
 	}
-	$block = '<h1>'.$title.'</h1>';
+	$block = $title;
 	switch($lang){
 		case null:
 			if(frontend_db_catalog::publicDbCatalog()->s_category_withimg_nolang() != null){
