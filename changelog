@@ -1,3 +1,13 @@
+Stable 2.3.31
+	* Suppression du système de licence pour compatibilité encodeur.
+	* Ajout du plugin contact dans les plugins par défaut.
+	* Suppression des fichiers non utilisé 
+		- dossier js dans app/backend
+		- dossier js dans app/frontend
+		- dossier plugins dans app/backend
+		- dossier plugins dans app/frontend
+		- jquery tipsy
+	
 Stable 2.3.3
 	* Modification des URLS pour les pages CMS
 		- Ajout de l'identifiant numérique de la page

@@ -371,7 +371,7 @@ div.fg-button { width:auto; overflow:visible; }
 #viewskin .img-screen a{}
 #viewskin .img-screen a:hover{cursor:pointer;}
 #viewskin .title-skin{padding:2px 5px 2px 5px;}
-#version{width:60%;}
+#version{font-size:15px;margin-left:20px;}
 /*PLUGIN*/
 ul.plugin-list{}
 ul.plugin-list li{}

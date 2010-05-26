@@ -522,25 +522,6 @@ $(function() {
 			}
 		});
 		$("#forms-install-users").formsusers;
-		/**
-		 * Validation de la licence
-		 */
-		var formslicence = $("#forms-install-licence").validate({
-			onsubmit: true,
-			event: 'submit',
-			rules: {
-				licence: {
-					required: true,
-					minlength: 10
-				}
-			},
-			messages: {
-				licence: {
-					required: "Enter a Licence"
-				}
-			}
-		});
-		$("#forms-install-licence").formslicence;
 });
 $(window).load(function() {
 	$('#slider').nivoSlider({
