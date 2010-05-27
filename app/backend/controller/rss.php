@@ -62,7 +62,7 @@ class backend_controller_rss{
 	private function CreateNodeXML(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('news');
 		if($config['status'] == 1){
-		   foreach(backend_db_sitemap::adminDbSitemap()->s_news_sitemap() as $data){
+		   foreach(backend_db_sitemap::adminDbSitemap()->s_news_rss() as $data){
 		   		$islang = $data['codelang'] ? $data['codelang'].magixcjquery_html_helpersHtml::unixSeparator(): '';
 		        $curl = date_create($data['date_sent']);
 		        self::xmlRssInstance()->elementWriteAtom(

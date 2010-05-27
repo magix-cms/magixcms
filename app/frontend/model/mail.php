@@ -60,12 +60,15 @@ class frontend_model_mail extends PHPMailer{
 	 * config header for phpmailer (text brut)
 	 * @return void
 	 */
-	public function simple_mail_head(){
+	public function simple_mail_head($reply=''){
 		$this->mail->IsMail();
 		$this->mail->isHTML(false);
 		$this->mail->Priority = 3;
 		$this->mail->Encoding = "8bit";
 		$this->mail->CharSet = "utf-8";
+		if($reply != ''){
+			$this->mail->AddReplyTo = $reply;
+		}
 		$this->mail->From = "replyto@".self::extract_domain();
 		$this->mail->FromName = parse_url(magixcjquery_html_helpersHtml::getUrl(), PHP_URL_HOST);//substr($_SERVER['HTTP_HOST'],0,-4);
 		self::mail_config_language();
@@ -74,12 +77,15 @@ class frontend_model_mail extends PHPMailer{
 	 * config header for phpmailer (html)
 	 * @return void
 	 */
-	public function simple_mail_html_head(){
+	public function simple_mail_html_head($reply=''){
 		$this->mail->IsMail();
 		$this->mail->isHTML(true);
 		$this->mail->Priority = 3;
 		$this->mail->Encoding = "8bit";
 		$this->mail->CharSet = "utf-8";
+		if($reply != ''){
+			$this->mail->AddReplyTo = $reply;
+		}
 		$this->mail->From = "replyto@".self::extract_domain();
 		$this->mail->FromName = parse_url(magixcjquery_html_helpersHtml::getUrl(), PHP_URL_HOST);//substr($_SERVER['HTTP_HOST'],0,-4);
 		self::mail_config_language();

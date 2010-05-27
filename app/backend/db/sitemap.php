@@ -82,4 +82,15 @@ class backend_db_sitemap{
     			LEFT JOIN mc_plugins_module AS p ON ( s.idplugin = p.idplugin )';
 		return $this->layer->select($sql);
     }
+/**
+     * Sélections dans les news pour la construction du RSS
+     */
+    function s_news_rss(){
+    	$sql = 'SELECT n.idnews,n.subject,n.content,lang.codelang,n.idlang,n.date_sent,n.rewritelink,pub.date_publication,pub.publish
+				FROM mc_news AS n
+				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
+				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+				WHERE pub.publish = 1 ORDER BY lang.idlang, n.idnews DESC';
+		return $this->layer->select($sql);
+    }
 }
