@@ -472,6 +472,11 @@ $(function() {
 					},
 					success:function(e) {
 						$("#dbsettingconf").html(e);
+						$('#install-user').removeClass("ui-state-disabled");
+						$('#install-user').addClass("ui-state-active");
+						$('#install-user').live('click',function(){
+							window.location = "/install/adminuser.php";
+						});
 					}
 			    });
 			},6000);
