@@ -102,7 +102,7 @@ function smarty_function_widget_cms($params, &$smarty){
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal"><a class="post-preview linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$pcms['idpage'].'&amp;'.'getpurl='.$pcms['pathpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],45,'').'</a></td>':'<td class="maximal"><a class="post-preview linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$pcms['idpage'].'&amp;'.'getpurl='.$pcms['pathpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</a></td>';
+			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;cms&amp;editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],45,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;cms&amp;editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</a></td>';
 			 $plugin .=	'<td class="nowrap">'.$category.'</td>';
 			 //$plugin .=	'<td class="nowrap">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pcms['contentpage'],20,"...")).'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_t.'</td>';
