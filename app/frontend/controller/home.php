@@ -25,7 +25,11 @@ class frontend_controller_home{
 			$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
 		}
 	}
-	protected function load_home_content(){
+	/*
+	 * Charge contenu de la page d'accueil courante
+	 * @access public
+	 */
+	private function load_home_content(){
 		$home = frontend_db_home::getHome()->s_home_page_construct($this->getlang);
 		frontend_config_smarty::getInstance()->assign('subject',magixcjquery_string_convert::ucFirst($home['subject']));
 		frontend_config_smarty::getInstance()->assign('content',$home['content']);
@@ -33,7 +37,8 @@ class frontend_controller_home{
 		frontend_config_smarty::getInstance()->assign('description',$home['metadescription']);
 	}
 	/**
-	 * 
+	 * Retourne et affiche la page d'accueil courante
+	 * @access public
 	 */
 	function display(){
 		self::load_home_content();

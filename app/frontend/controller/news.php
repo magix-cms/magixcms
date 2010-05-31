@@ -9,13 +9,25 @@
  *
  */
 class frontend_controller_news{
+	/**
+	 * parametre GET de la langue
+	 * @var string
+	 */
 	public $getlang;
 	/**
 	 * variable de sessions deslangues
 	 * @var string
 	 */
 	public $slang;
+	/**
+	 * 
+	 * @var parametre identifiant la news
+	 */
 	public $getnews;
+	/**
+	 * Parametre de date dans url
+	 * @var string
+	 */
 	public $getdate;
 	/**
 	 * function construct
@@ -48,23 +60,33 @@ class frontend_controller_news{
 	 * offset for pager in pagination
 	 * @param $max
 	 */
-	function news_offset_pager($max){
+	public function news_offset_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		return $pagination->pageOffset($max,$this->getpage);
 	}
 	/**
-	 * pagination for CMS
+	 * Appel la pagination pour les articles (news)
 	 * @param $max
+	 * @access public
 	 */
-	function news_pager($max){
+	public function news_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = frontend_db_news::publicDbNews()->s_count_news_publish_max();
 		return $pagination->pagerData($request,'total',$max,$this->getpage,'/news/','.html',false,'page');
 	}
-	function news_pagination($max){
+	/**
+	 * Retourne la pagination des news
+	 * @param $max
+	 * @access public
+	 */
+	public function news_pagination($max){
 		return '<div class="pagination"><div class="middle">'.self::news_pager($max).'</div></div>';
 	}
-	function s_all_linknews(){
+	/**
+	 * Affiche la liste des news avec la pagination
+	 * @access public
+	 */
+	public function s_all_linknews(){
 		$max = 5;
 		$news = '';
 		$offset = self::news_offset_pager($max);
@@ -88,20 +110,29 @@ class frontend_controller_news{
 			frontend_config_smarty::getInstance()->assign('npagination',null);
 		}
 	}
-	function load_news_content(){
+	/**
+	 * Retourne le contenu de la news courante
+	 * @access public
+	 */
+	public function load_news_content(){
 		$news = frontend_db_news::publicDbNews()->s_news_page($this->getdate,$this->getnews);
 		frontend_config_smarty::getInstance()->assign('subject',magixcjquery_string_convert::ucFirst($news['subject']));
 		frontend_config_smarty::getInstance()->assign('content',$news['content']);
 		frontend_config_smarty::getInstance()->assign('date_sent',$news['date_sent']);
 	}
 	/**
-	 * 
+	 * Retourne la page de la news courante
+	 * @access public
 	 */
-	function display_getnews(){
+	public function display_getnews(){
 		self::load_news_content();
 		frontend_config_smarty::getInstance()->display('news/index.phtml');
 	}
-	function display_list(){
+	/**
+	 * Retourne la page qui liste les news avec pagination
+	 * @access public
+	 */
+	public function display_list(){
 		self::s_all_linknews();
 		frontend_config_smarty::getInstance()->display('news/list.phtml');
 	}

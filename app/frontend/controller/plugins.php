@@ -11,7 +11,7 @@
  */
 class frontend_controller_plugins{
 /**
-	 * Cosntante
+	 * Constante
 	 * @var string
 	 */
 	const plugins = '/plugins/';

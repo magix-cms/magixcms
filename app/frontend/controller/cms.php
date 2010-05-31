@@ -61,15 +61,20 @@ class frontend_controller_cms{
 			$this->getidpage = magixcjquery_filter_isVar::isPostNumeric($_GET['getidpage']);
 		}
 	}
-	function load_cms_content_page(){
+	/**
+	 * Charge le contenu de la page courante si existe
+	 * @access public
+	 */
+	public function load_cms_content_page(){
 		$cms = frontend_db_cms::publicDbCms()->s_cms_page($this->getidpage);
 		frontend_config_smarty::getInstance()->assign('subjectpage',magixcjquery_string_convert::ucFirst($cms['subjectpage']));
 		frontend_config_smarty::getInstance()->assign('contentpage',$cms['contentpage']);
 	}
 	/**
-	 * 
+	 * Retourne et affiche la page CMS avec le contenu dynamique
+	 * @access public
 	 */
-	function display(){
+	public function display(){
 		self::load_cms_content_page();
 		frontend_config_smarty::getInstance()->display('cms/index.phtml');
 	}

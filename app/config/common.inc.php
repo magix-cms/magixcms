@@ -19,13 +19,15 @@ if (file_exists($config)) {
 	exit;
 }*/
 setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
-if(M_LOG == 'debug'){
-	$dis_errors = 1;
-}elseif(M_LOG == 'log'){
-	$dis_errors = 1;
-}else{
-	$dis_errors = 0;
+if(defined('M_LOG')){
+	if(M_LOG == 'debug'){
+		$dis_errors = 1;
+	}elseif(M_LOG == 'log'){
+		$dis_errors = 1;
+	}else{
+		$dis_errors = 0;
+	}
+	ini_set('display_errors', $dis_errors);
 }
-ini_set('display_errors', $dis_errors);
 /*error_reporting(E_WARNING);*/ 
 ?>

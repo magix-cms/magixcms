@@ -45,7 +45,7 @@ class frontend_controller_catalog{
 	 * retourne une traduction pour la construction de l'url catalogue
 	 * @return string
 	 */
-	protected function session_language(){
+	private function session_language(){
 		switch($this->getlang){
 			case 'fr':
 			$langsession = 'catalogue';
@@ -67,7 +67,7 @@ class frontend_controller_catalog{
 	/**
 	 * Charge le titre d'une fiche catalogue
 	 */
-	function load_product_page(){
+	public function load_product_page(){
 		if(isset($this->getlang)){
 			$products = frontend_db_catalog::publicDbCatalog()->s_product_page_with_language($this->idclc,$this->idcatalog,$this->getlang);
 			switch($products['idcls']){
@@ -123,27 +123,36 @@ class frontend_controller_catalog{
 		return $page;
 	}
 	/**
-	 * 
-	 * 
+	 * Affiche la page des categories du catalogue
+	 * @access public
 	 */
-	function display_category(){
+	public function display_category(){
 		$catname = frontend_db_catalog::publicDbCatalog()->s_current_name_category($this->idclc);
 		frontend_config_smarty::getInstance()->assign('clibelle',magixcjquery_string_convert::ucFirst($catname['clibelle']));
 		frontend_config_smarty::getInstance()->display('catalog/category.phtml');
 	}
-	function display_sub_category(){
+	/**
+	 * Affiche la page des sous categories du catalogue
+	 * @access public
+	 */
+	public function display_sub_category(){
 		$catname = frontend_db_catalog::publicDbCatalog()->s_current_name_subcategory($this->idcls);
 		frontend_config_smarty::getInstance()->assign('slibelle',magixcjquery_string_convert::ucFirst($catname['slibelle']));
 		frontend_config_smarty::getInstance()->display('catalog/subcategory.phtml');
 	}
 	/**
-	 * 
+	 * Affiche la page du produit selectionner du catalogue
+	 * @access public
 	 */
-	function display_product(){
+	public function display_product(){
 		self::load_product_page();
 		frontend_config_smarty::getInstance()->display('catalog/product.phtml');
 	}
-	function display_catalog(){
+	/**
+	 * Affiche la page ROOT du catalogue
+	 * @access public
+	 */
+	public function display_catalog(){
 		frontend_config_smarty::getInstance()->display('catalog/index.phtml');
 	}
 }
