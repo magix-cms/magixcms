@@ -23,7 +23,7 @@
 function smarty_function_widget_simple_sidebar_catalog($params, &$smarty){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$ui = $params['ui'];
-	$title = !empty($params['title'])?$params['title']:'';
+	$title = !empty($params['title'])? $params['title']:'';
 	switch($lang){
 			case 'fr':
 			$langsession = 'catalogue';
@@ -41,7 +41,11 @@ function smarty_function_widget_simple_sidebar_catalog($params, &$smarty){
 			$langsession = 'catalogue';	
 	}
 	if(isset($_GET['catalog'])){
-	$wmenu = '<h2 class="t_catalog ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-cart" style="float: left;"></span>'.$title.'</h2>';
+		if(isset($params['title'])){
+			$wmenu = '<h2 class="t_catalog ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-cart" style="float: left;"></span>'.$title.'</h2>';
+		}else{
+			$wmenu = null;
+		}
 	$wmenu .= '<div class="sidebar ui-widget-header ui-corner-all">
 		<div id="catalog-menu" class="block">';
 	if(!isset($_GET['idclc'])){
