@@ -57,7 +57,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = 0 AND p.idlang = 0';
+		WHERE p.idclc = :idclc AND p.idcls = 0 AND p.idlang = 0 ORDER BY idcatalog DESC';
 		return $this->layer->select($sql,array(
 			':idclc'=>$idclc
 		));
@@ -74,7 +74,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.codelang = :codelang';
+		WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.codelang = :codelang ORDER BY idcatalog DESC';
 		return $this->layer->select($sql,array(
 			':idclc'=>$idclc,
 			':codelang'=>$codelang
@@ -99,7 +99,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = :idcls AND p.idlang = 0';
+		WHERE p.idclc = :idclc AND p.idcls = :idcls AND p.idlang = 0 ORDER BY idcatalog DESC';
 		return $this->layer->select($sql,array(
 			':idclc'=>$idclc,
 			':idcls'=>$idcls
@@ -118,7 +118,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = :idcls AND lang.codelang = :codelang';
+		WHERE p.idclc = :idclc AND p.idcls = :idcls AND lang.codelang = :codelang ORDER BY idcatalog DESC';
 		return $this->layer->select($sql,array(
 			':idclc'	=>$idclc,
 			':idcls'	=>$idcls,

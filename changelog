@@ -1,3 +1,9 @@
+Stable 2.3.32
+	* Fix bug chargement des images de catégorie dans le catalogue
+	* Modification de l'ordre d'affichage des produits dans la partie public
+	* Fix bug requête invalid après suppression d'une image dans la micro galerie
+	* Correction orthographique dans la validation du plugin contact
+	
 Stable 2.3.31
 	* Suppression du système de licence pour compatibilité encodeur.
 	* Ajout du plugin contact dans les plugins par défaut.
