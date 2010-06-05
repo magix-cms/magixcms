@@ -169,7 +169,15 @@ class backend_controller_plugins{
 	 */
 	public static function append_display($page){
 		backend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/skin/admin/');
-		backend_config_smarty::getInstance()->display($page);
+		return backend_config_smarty::getInstance()->display($page);
+	}
+	/**
+	 * Retourne les pages du plugin
+	 * @param void $page
+	 */
+	public static function append_fetch($page){
+		backend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/skin/admin/');
+		return backend_config_smarty::getInstance()->fetch($page);
 	}
 	/**
 	 * Assign une variable pour smarty
