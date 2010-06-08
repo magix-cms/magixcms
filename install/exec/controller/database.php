@@ -385,8 +385,8 @@ class create_database{
 	public function c_table_catalog_category(){
 		$sql = "CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
 			  `idclc` tinyint(3) NOT NULL AUTO_INCREMENT,
-			  `clibelle` varchar(50) NOT NULL,
-			  `pathclibelle` varchar(50) NOT NULL,
+			  `clibelle` varchar(100) NOT NULL,
+			  `pathclibelle` varchar(100) NOT NULL,
 			  `idlang` tinyint(1) NOT NULL DEFAULT '0',
 			  `corder` tinyint(3) NOT NULL,
 			  PRIMARY KEY (`idclc`),
@@ -401,8 +401,8 @@ class create_database{
 	public function c_table_catalog_subcategory(){
 		$sql = "CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
 			  `idcls` tinyint(3) NOT NULL AUTO_INCREMENT,
-			  `slibelle` varchar(50) NOT NULL,
-			  `pathslibelle` varchar(50) NOT NULL,
+			  `slibelle` varchar(100) NOT NULL,
+			  `pathslibelle` varchar(100) NOT NULL,
 			  `idclc` tinyint(3) NOT NULL,
 			  `sorder` tinyint(3) NOT NULL,
 			  PRIMARY KEY (`idcls`),
@@ -417,7 +417,7 @@ class create_database{
 	public function c_table_catalog_img(){
 		$sql = "CREATE TABLE IF NOT EXISTS `mc_catalog_img` (
 			  `idcatalog` int(6) NOT NULL,
-			  `imgcatalog` varchar(50) NOT NULL,
+			  `imgcatalog` varchar(120) NOT NULL,
 			  PRIMARY KEY (`idcatalog`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table des images du catalogue';
 			ALTER TABLE `mc_catalog_img`
@@ -432,7 +432,7 @@ class create_database{
 		$sql = "CREATE TABLE IF NOT EXISTS `mc_catalog_galery` (
 			  `idmicro` int(6) NOT NULL AUTO_INCREMENT,
 			  `idcatalog` int(6) NOT NULL,
-			  `imgcatalog` varchar(50) NOT NULL,
+			  `imgcatalog` varchar(120) NOT NULL,
 			  PRIMARY KEY (`idmicro`),
 			  KEY `idcatalog` (`idcatalog`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table pour la génération de micro galerie dans un catalogue' AUTO_INCREMENT=1 ;
