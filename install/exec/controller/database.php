@@ -323,7 +323,7 @@ class create_database{
 		  `email` varchar(40) NOT NULL,
 		  `cryptpass` varchar(50) NOT NULL,
 		  PRIMARY KEY (`idadmin`)
-		) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;';
+		) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;';
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -335,7 +335,7 @@ class create_database{
 		  `idadmin` tinyint(2) NOT NULL AUTO_INCREMENT,
 		  `perms` tinyint(1) NOT NULL,
 		  KEY `idadmin` (`idadmin`)
-		) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;';
+		) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;';
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -375,7 +375,7 @@ class create_database{
 			  PRIMARY KEY (`idcatalog`),
 			  KEY `idclc` (`idclc`,`idcls`,`idlang`),
 			  KEY `idadmin` (`idadmin`)
-			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='table du catalogue' AUTO_INCREMENT=1 ;";
+			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Produit du catalogue' ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -391,7 +391,7 @@ class create_database{
 			  `corder` tinyint(3) NOT NULL,
 			  PRIMARY KEY (`idclc`),
 			  KEY `idlang` (`idlang`)
-			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='table des catégories du catalogue' AUTO_INCREMENT=1 ;";
+			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catégories du catalogue' ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -407,7 +407,7 @@ class create_database{
 			  `sorder` tinyint(3) NOT NULL,
 			  PRIMARY KEY (`idcls`),
 			  KEY `idclc` (`idclc`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table des sous catégories du catalogue' AUTO_INCREMENT=1 ;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sous catégories du catalogue' ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -419,7 +419,7 @@ class create_database{
 			  `idcatalog` int(6) NOT NULL,
 			  `imgcatalog` varchar(120) NOT NULL,
 			  PRIMARY KEY (`idcatalog`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table des images du catalogue';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Images du catalogue';
 			ALTER TABLE `mc_catalog_img`
   			ADD CONSTRAINT `mc_catalog_img_ibfk_1` FOREIGN KEY (`idcatalog`) REFERENCES `mc_catalog` (`idcatalog`);";
 		$this->layer->createTable($sql);
@@ -435,7 +435,7 @@ class create_database{
 			  `imgcatalog` varchar(120) NOT NULL,
 			  PRIMARY KEY (`idmicro`),
 			  KEY `idcatalog` (`idcatalog`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table pour la génération de micro galerie dans un catalogue' AUTO_INCREMENT=1 ;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Micro galerie catalogue' ;
 		";
 		$this->layer->createTable($sql);
 		return true;
@@ -452,7 +452,7 @@ class create_database{
 			  `idorder` tinyint(2) NOT NULL,
 			  PRIMARY KEY (`idcategory`),
 			  KEY `idlang` (`idlang`)
-			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='les catégories du cms' AUTO_INCREMENT=1 ;";
+			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Catégories du cms' ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -475,7 +475,7 @@ class create_database{
 			  PRIMARY KEY (`idpage`),
 			  KEY `idcategory` (`idcategory`,`idlang`),
 			  KEY `idadmin` (`idadmin`)
-			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -487,7 +487,7 @@ class create_database{
 				  `idconfig` tinyint(1) NOT NULL,
 				  `number` tinyint(1) NOT NULL,
 				  PRIMARY KEY (`idconfig`)
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Table pour la configuration des modules à limiter';
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Configuration des modules à limiter';
 				INSERT INTO `mc_config_limited_module` (`idconfig`, `number`) VALUES
 				(1, 0),
 				(2, 0),
@@ -509,7 +509,7 @@ class create_database{
 			  `titleforms` varchar(50) NOT NULL,
 			  PRIMARY KEY (`idforms`),
 			  KEY `idlang` (`idlang`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table des formulaires dynamique' AUTO_INCREMENT=1 ;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Formulaires dynamique' ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -528,7 +528,7 @@ class create_database{
 			  `maxlength` decimal(10,0) DEFAULT NULL,
 			  `value` text,
 			  PRIMARY KEY (`idinput`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table des champs du formulaire dynamique' AUTO_INCREMENT=1 ;";
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Champs du formulaire dynamique' ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -564,7 +564,7 @@ class create_database{
 				  `codelang` varchar(2) NOT NULL,
 				  `desclang` varchar(20) NOT NULL,
 				  PRIMARY KEY (`idlang`)
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -582,7 +582,7 @@ class create_database{
 				  PRIMARY KEY (`idrewrite`),
 				  KEY `idlang` (`idlang`),
 				  KEY `idconfig` (`idconfig`)
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -602,7 +602,7 @@ class create_database{
 				  PRIMARY KEY (`idnews`),
 				  KEY `idlang` (`idlang`),
 				  KEY `idadmin` (`idadmin`)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 				ALTER TABLE `mc_news`
   				ADD CONSTRAINT `mc_news_ibfk_1` FOREIGN KEY (`idadmin`) REFERENCES `mc_admin_member` (`idadmin`);";
 		$this->layer->createTable($sql);
@@ -617,7 +617,7 @@ class create_database{
 				  `date_publication` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 				  `publish` tinyint(4) NOT NULL DEFAULT '0',
 				  KEY `idnews` (`idnews`)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 				ALTER TABLE `mc_news_publication`
   				ADD CONSTRAINT `mc_news_publication_ibfk_1` FOREIGN KEY (`idnews`) REFERENCES `mc_news` (`idnews`);";
 		$this->layer->createTable($sql);
@@ -638,7 +638,7 @@ class create_database{
 				  PRIMARY KEY (`idhome`),
 				  KEY `idlang` (`idlang`),
 				  KEY `idadmin` (`idadmin`)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='table pour la page home ou index' AUTO_INCREMENT=2 ;";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Page home ou index' ;";
 		$this->layer->createTable($sql);
 		return true;
 	}
@@ -648,8 +648,8 @@ class create_database{
 	public function c_table_home_config(){
 		$sql = "CREATE TABLE IF NOT EXISTS `mc_page_home_config` (
 				  `idhome` tinyint(4) NOT NULL COMMENT 'identifiant de la page home',
-				  `slideshow` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'configuration du slideshow sur la page home',
-				  `news` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'configuration du module de news sur la page home',
+				  `slideshow` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Configuration slideshow page home',
+				  `news` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Configuration News page home',
 				  KEY `idhome` (`idhome`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 		$this->layer->createTable($sql);
@@ -664,7 +664,7 @@ class create_database{
 				  `pname` varchar(20) NOT NULL,
 				  `pageadmin` tinyint(1) NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`idplugin`)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;";
 		$this->layer->createTable($sql);
 		return true;
 	}

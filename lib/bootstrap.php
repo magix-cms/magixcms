@@ -15,6 +15,10 @@ if (version_compare(phpversion(), '5.2.0', '<')) {
 	echo  'Votre version de PHP est incompatible';
 	exit;
 }
+if (version_compare(phpversion(), '5.3.0', '>=')) {
+	echo  'Votre version de PHP n\'est pas supporté';
+	exit;
+}
 # Does config.php.in exist?
 $config_in = dirname(__FILE__).'/../app/config/common.inc.php';
 if (file_exists($config_in)) {
@@ -57,7 +61,9 @@ $loadplugin = $_SERVER['DOCUMENT_ROOT'].'/plugins/autoload.php';
 if (file_exists($loadplugin)) {
 	require ($loadplugin);
 }
-if(M_FIREPHP){
-	magixcjquery_debug_magixfire::configErrorHandler();
+if(defined('M_FIREPHP')){
+	if(M_FIREPHP){
+		magixcjquery_debug_magixfire::configErrorHandler();
+	}
 }
 ?>
