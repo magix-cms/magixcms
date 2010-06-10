@@ -107,7 +107,7 @@ class plugins_contact_public{
 	/**
 	 * Construction du corps du message
 	 */
-	function body_message(){
+	protected function body_message(){
 		return
 		'<html><body>'.
 		'<table>'.
@@ -140,7 +140,7 @@ class plugins_contact_public{
 	 * Si return true retourne success.phtml
 	 * sinon retourne empty.phtml
 	 */
-	function send_email(){
+	protected function send_email(){
 		if(isset($this->email)){
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
 				$fetch = frontend_controller_plugins::append_fetch('empty.phtml');
