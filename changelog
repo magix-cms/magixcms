@@ -5,6 +5,8 @@ Stable 2.3.32
 	* Correction orthographique dans la validation du plugin contact
 	* Ajout du système pour afficher un template avec fetch dans les plugins
 	* Correction de la longueur des champs de base de données (varchar) lors de l'installation (catalogue et cms)
+	* Ajout du plugin jquery jfirebug
+	* Ajout du compteur style twitter pour les métas static
 	
 Stable 2.3.31
 	* Suppression du système de licence pour compatibilité encodeur.

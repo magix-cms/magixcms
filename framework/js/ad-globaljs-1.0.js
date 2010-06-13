@@ -9,6 +9,34 @@ $(function() {
 	var ie7 = ($.browser.msie && $.browser.version > 6);
 	var ie = ($.browser.msie);
 	/**
+	 * Textchange pour les champs avec une information de limitation de caractère
+	 */
+	$.event.special.textchange = {
+		setup: function (data, namespaces) {
+			$(this).bind('keyup', $.event.special.textchange.handler);
+			$(this).bind('cut paste input', $.event.special.textchange.delayedHandler);
+		},
+		teardown: function (namespaces) {
+			$(this).unbind('keyup', $.event.special.textchange.keyuphandler);
+			$(this).unbind('cut', $.event.special.textchange.cuthandler);
+		},
+		handler: function (event) {
+			$.event.special.textchange.triggerIfChanged($(this));
+		},
+		delayedHandler: function (event) {
+			var element = $(this);
+			setTimeout(function () {
+				$.event.special.textchange.triggerIfChanged(element);
+			}, 25);
+		},
+		triggerIfChanged: function (element) {
+			if (element.val() !== element.data('lastValue')) {
+				element.trigger('textchange',  element.data('lastValue'));
+				element.data('lastValue', element.val());
+			}
+		}
+	};
+	/**
 	 * Effet de survol sur les boutons dans le top sidebar
 	 */
 		$(".topbutton:not(.ui-state-active)").hover(
@@ -238,6 +266,15 @@ $(function() {
 					$('span',this).addClass("ui-icon ui-icon-circle-minus");
 		        }
 		 });
+		 /**
+		  * Utilisation de textchange pour le compteur informatif des métas
+		  */
+		$('#metatitle').bind('textchange', function (event, previousText) {
+			$('#charactersLeftT').html( 150 - parseInt($(this).val().length) );
+		});
+		$('#metadescription').bind('textchange', function (event, previousText) {
+			$('#charactersLeftD').html( 180 - parseInt($(this).val().length) );
+		});
 		// sortable portlets ou déplacement et loking des widgets
 		// les colonnes qui contiennet les widget déplaçable
 		/*$(".column").sortable({
@@ -1169,4 +1206,4 @@ $(function() {
 			});
 			return false; 
 		});
-	});
+})(jQuery);

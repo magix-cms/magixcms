@@ -164,9 +164,12 @@ div.fg-button { width:auto; overflow:visible; }
 }
    .activeicon{background:transparent url(/framework/img/green_button.png) no-repeat;width:16px;height:16px;}
    .nonactiveicon{background:transparent url(/framework/img/red_button.png) no-repeat;width:16px;height:16px;}
-   #showmetas{width:150px;}
-   #showmetas:hover{cursor:pointer;}
-   #metas{display:none;}
+/*Show meta et textearea meta*/
+#showmetas{width:150px;}
+#showmetas:hover{cursor:pointer;}
+#metas{display:none;}
+#charactersLeftT,#charactersLeftD { font-size: 18px; font-weight: bold; }
+div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding:6px 3px 3px 3px;line-height:1;-moz-border-radius:5px;-webkit-border-radius:5px}
 /* TABLES CLEAR
 -------------------------------------------------------- */
 .clear {
