@@ -270,7 +270,7 @@ $(function() {
 		  * Utilisation de textchange pour le compteur informatif des métas
 		  */
 		$('#metatitle').bind('textchange', function (event, previousText) {
-			$('#charactersLeftT').html( 150 - parseInt($(this).val().length) );
+			$('#charactersLeftT').html( 120 - parseInt($(this).val().length) );
 		});
 		$('#metadescription').bind('textchange', function (event, previousText) {
 			$('#charactersLeftD').html( 180 - parseInt($(this).val().length) );
@@ -1206,4 +1206,4 @@ $(function() {
 			});
 			return false; 
 		});
-})(jQuery);
+});
