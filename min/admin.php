@@ -12,7 +12,7 @@ return array(
 	'//framework/js/jquery.validate.password-1.0.js','//framework/js/jquery.cookie.js','//framework/js/jquery.colorbox-min-1.6.js',
 	'//framework/js/ui.checkbox.js','//framework/js/ui.spinner.js','//framework/js/ui.selectmenu.js','//framework/js/jquery.meerkat.1.3.js',
 	'//framework/js/jquery.jfirebug.js','//framework/js/ad-globalform-1.0.js','//framework/js/ad-globaljs-1.0.js'),
-	'editor'=>array('//framework/js/tiny_mce-3-3-6/jquery.tinymce.js','//framework/js/tinymce-config.js'),
+	'editor'=>array('//framework/js/tiny_mce-3-3-7/jquery.tinymce.js','//framework/js/tinymce-config.js'),
 	'maxAge' => 31536000,
 	'setExpires' => time() + 86400 * 365
 );

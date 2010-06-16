@@ -1,7 +1,18 @@
+/**
+ * @category   javascript
+ * @package    TinyMCE
+ * @copyright  Copyright (c) 2010 - 2011 (http://www.logiciel-referencement-professionnel.com)
+ * @license    Proprietary software
+ * @version    1.3 
+ * @Date       2010-05-12
+ * @update     2010-06-16
+ * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ *
+ */
 $(function() {
 	$('.mceEditor').tinymce({
 	// Location of TinyMCE script
-	script_url : '/framework/js/tiny_mce-3-3-6/tiny_mce.js',
+	script_url : '/framework/js/tiny_mce-3-3-7/tiny_mce.js',
 	//document_base_url : "{geturl}",
 	apply_source_formatting : true,
 	mode : "exact",

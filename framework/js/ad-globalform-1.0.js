@@ -1,3 +1,14 @@
+/**
+ * @category   javascript
+ * @package    global form
+ * @copyright  Copyright (c) 2010 - 2011 (http://www.logiciel-referencement-professionnel.com)
+ * @license    Proprietary software
+ * @version    1.8 
+ * @Date       2010-03-04
+ * @update     2010-06-16
+ * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ *
+ */
 function updateProgress() {
 	  var progress;
 	  progress = $("#progressbar")
