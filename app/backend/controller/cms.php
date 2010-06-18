@@ -366,12 +366,12 @@ class backend_controller_cms{
 				<fieldset>
 					<table>
 						<tr>
-							<td style="width:75%;">'.$nav['subjectpage'].'</td>
-							<td style="width:80px;">
+							<td style="width:60%;">'.$nav['subjectpage'].'</td>
+							<td style="width:100px;">
 								<input type="hidden" name="idpage" value="'.$nav['idpage'].'" />
 								Activer <input type="radio" name="viewpage" '.$active.' value="1" />
 							</td>
-							<td>
+							<td style="width:100px;">
 								Désactiver <input type="radio" name="viewpage" '.$noactive.' value="0" />
 							</td>
 						</tr>

@@ -134,5 +134,6 @@ $(document).ready(function(){
 			  $(this).valid();
 		});
 	$('.select').selectmenu({width: 200,maxWidth: 200});
-	$("form input").filter(":checkbox,:radio").checkbox();
+	$('input').checkBox();
+	//$("form input").filter(":checkbox,:radio").checkbox();
 });

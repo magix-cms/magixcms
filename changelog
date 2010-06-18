@@ -8,6 +8,12 @@ Stable 2.3.32
 	* Ajout du plugin jquery jfirebug
 	* Ajout du compteur style twitter pour les métas static
 	* Upgrade tinyMCE jQuery 3.3.6 => 3.3.7
+	* Upgrade jQuery UI 1.7.2 => 1.8.2 dans l'ensemble de l'installation
+		- Upgrade du thème de l'admin + Fix bug affichage menu accordion
+	* Upgrade jquery UI selectmenu (compatibilité jquery ui 1.8.2)
+	* Remplacement jQuery ui checkbox 0.1 (Jeremy Lea) => vers version alexander.farkas 1.4 (compatibilité jquery ui 1.8.2)
+	* Upgrade jquery ui spinner 1.0 => 1.2 (compatibilité jquery ui 1.8.2)
+	* Fix bug espacement bouton radio (controller cms) du système de construction de la sidebar
 	
 Stable 2.3.31
 	* Suppression du système de licence pour compatibilité encodeur.
