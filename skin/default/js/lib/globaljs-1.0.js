@@ -33,9 +33,7 @@ $(function() {
 	});
 	$(".imagebox").colorbox();
 	$(".select").selectmenu({width: 200,maxWidth: 200});
-	if(!$.browser.msie){
-		$("form input").filter(":checkbox,:radio").checkbox();
-	}
+	$('input').checkBox();
 	/**
 	 * Notification après installation pour le dossier "install"
 	 */
