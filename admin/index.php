@@ -43,6 +43,8 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			if(magixcjquery_filter_request::isGet('metasrewrite')){
 				if(magixcjquery_filter_request::isGet('edit')){
 					$config->display_seo_edit();
+				}elseif(magixcjquery_filter_request::isGet('drmetas')){
+					$config->d_rewrite();
 				}else{
 					$config->display_seo();
 				}
@@ -73,7 +75,7 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			$news = new backend_controller_news();
 			if(magixcjquery_filter_request::isGet('edit')){
 				$news->edit();
-			}elseif(magixcjquery_filter_request::isGet('rewrite')){
+			}/*elseif(magixcjquery_filter_request::isGet('rewrite')){
 				if(magixcjquery_filter_request::isGet('getrewrite')){
 					$news->edit_rewrite();
 				}elseif(magixcjquery_filter_request::isGet('drmetas')){
@@ -81,7 +83,7 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 				}else{
 					$news->rewrite_display();
 				}
-			}elseif(magixcjquery_filter_request::isGet('add')){
+			}*/elseif(magixcjquery_filter_request::isGet('add')){
 				$news->display_addnews();
 			}elseif(magixcjquery_filter_request::isGet('delnews')){
 				$news->del_news();

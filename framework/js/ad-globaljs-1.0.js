@@ -75,19 +75,10 @@ $(function() {
 				$(this).removeClass("ui-state-active");
 			}
 		});
-		$("#add-category").live("click",function (){
-			var myContent = $("#strrewrite").val();
-	        $("#strrewrite").val(myContent + "[[category]]").focus();
-	        return false;
-		});
-		$("#add-subcategory").live("click",function (){
-			var myContent = $("#strrewrite").val();
-	        $("#strrewrite").val(myContent + "[[subcategory]]").focus();
-		});
-		$("#add-product").live("click",function (){
-			var myContent = $("#strrewrite").val();
-	        $("#strrewrite").val(myContent + "[[record]]").focus();
-		});
+		/**
+		 * Support input button with jquery ui button
+		 */
+		$("input:submit").button();
 		/**
 		 * Ajout d'une classe spécifique au survol d'un thème
 		 */
@@ -198,40 +189,9 @@ $(function() {
 				onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
 			}).addClass('pos-top');
 		}
-		//menu accordeon
-		/*$("#sidebar .management,#sidebar .articles,#sidebar .catalog,#sidebar .cms,#sidebar .extensions").accordion({
-			header: "h3",
-			icons: {
-				header: false,
-				headerSelected: false
-			},
-			navigation: true,
-			active: '.selected',
-			autoHeight: false,
-			clearStyle: true,
-			collapsibe: true,
-			alwaysOpen: false,
-			animated: 'slide',
-			//change state for menu accordion
-			change: function(event,ui) {
-				var hid = ui.newHeader.children('a').attr('id');
-				if (hid === undefined) {
-					$.cookie('menustate', null);
-				} else {
-					$.cookie('menustate', hid, { expires: 2 });
-					//$.cookie('menustate', hid, { path: '/', expires: 2 });
-				}
-			}
-		});
-		// check cookie for accordion state
-		if($.cookie('menustate')) {
-		   $('#sidebar .management,#sidebar .articles,#sidebar .catalog,#sidebar .cms,#sidebar .extensions').accordion('option', 'animated', false);
-		   $('#sidebar .management,#sidebar .articles,#sidebar .catalog,#sidebar .cms,#sidebar .extensions').accordion('activate', $('#' + $.cookie('menustate')).parent('h3'));
-		   $('#sidebar .management,#sidebar .articles,#sidebar .catalog,#sidebar .cms,#sidebar .extensions').accordion('option', 'animated', 'slide');
-		  /* $("#bdashboard").click(function(){
-			   $.cookie('menustate', null, { path: '/', expires: 2 });
-		   });*/
-		/*}*/
+		/**
+		 * Initialisation du menu accordéon avec jquery cookies
+		 */
 		var accordion = $("#sidebar .management-menu");
 		var index = $.cookie("magixadmin");
 		var active;
@@ -242,11 +202,6 @@ $(function() {
 		}
 		accordion.accordion({
 			header: "h3",
-			//event: "click hoverintent",
-			/*icons: {
-				header: false,
-				headerSelected: false
-			},*/
 			navigation: false,
 			active: active,
 			selectedClass: '.current',
@@ -373,7 +328,64 @@ $(function() {
 			});
 		 });
 /*################## Configuration ##############*/
+	    /**
+		 * Ajoute les éléments pour la réécriture des métas
+		 */
+		$("#add-category").bind("click",function (){
+			var myContent = $("#strrewrite").val();
+	        $("#strrewrite").val(myContent + "[[category]]").focus();
+	        return false;
+		});
+		$("#add-subcategory").bind("click",function (){
+			var myContent = $("#strrewrite").val();
+	        $("#strrewrite").val(myContent + "[[subcategory]]").focus();
+	        return false;
+		});
+		$("#add-product").bind("click",function (){
+			var myContent = $("#strrewrite").val();
+	        $("#strrewrite").val(myContent + "[[record]]").focus();
+	        return false;
+		});
+		/*### Config Metas ###*/
+		/**
+	     * Requête ajax pour la suppression des réécriture de métas
+	     */
+		$('.d-config-rmetas').click(function (){
+			var lg = $(this).attr("title");
+			$("#dialog").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:140,
+				modal: true,
+				title: 'Supprimé cette réécriture ?',
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: {
+					'Delete item': function() {
+						$(this).dialog('close');
+						$.ajax({
+							type:'get',
+							url: "/admin/index.php?dashboard&config&metasrewrite&drmetas="+lg,
+							async: false,
+							success: location.reload()
+					     });
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+						success: location.reload()
+					}
+				}
+			});
+		 });
+		/**
+		 * Initialisation de jQuery UI tabs pour la configuration de Magix CMS
+		 */
 	    $("#tabsFormsConfig").tabs();
+	    /**
+	     * requête ajax par sélection du bouton radio
+	     */
 		$("#global-config-lang :radio").click(function(){
 			$("#global-config-lang").ajaxSubmit({
 				url:"/admin/index.php?dashboard&config",
@@ -1111,39 +1123,6 @@ $(function() {
 								window.location.href = '/admin/index.php?dashboard&catalog&category'; 
 								},3000);
 							}
-					     });
-					},
-					Cancel: function() {
-						$(this).dialog('close');
-						success: location.reload()
-					}
-				}
-			});
-		 });
-/*################## Config Metas ##############*/
-		/**
-	     * Requête ajax pour la suppression des réécriture de métas (news)
-	     */
-		$('.d-news-rmetas').click(function (){
-			var lg = $(this).attr("title");
-			$("#dialog").dialog({
-				bgiframe: true,
-				resizable: false,
-				height:140,
-				modal: true,
-				title: 'Supprimé cette phrase ?',
-				overlay: {
-					backgroundColor: '#000',
-					opacity: 0.5
-				},
-				buttons: {
-					'Delete item': function() {
-						$(this).dialog('close');
-						$.ajax({
-							type:'get',
-							url: "/admin/index.php?dashboard&news&rewrite&drmetas="+lg,
-							async: false,
-							success: location.reload()
 					     });
 					},
 					Cancel: function() {

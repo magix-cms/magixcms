@@ -2,9 +2,9 @@
 /**
  * @category   Controller 
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
+ * @copyright  Copyright (c) 2010 - 2011 (http://www.magix-cms.com)
  * @license    Proprietary software
- * @version    1.0
+ * @version    1.2
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  *
  */
@@ -90,6 +90,11 @@ class backend_controller_config{
 	 */
 	public $edit;
 	/**
+	 * Supprime une réécriture via l'identifiant
+	 * @var drmetas
+	 */
+	public $drmetas;
+	/**
 	 * function construct
 	 */
 	function __construct(){
@@ -149,6 +154,9 @@ class backend_controller_config{
 		}
 		if(isset($_GET['edit'])){
 			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+		}
+		if(isset($_GET['drmetas'])){
+			$this->drmetas = magixcjquery_filter_isVar::isPostNumeric($_GET['drmetas']);
 		}
 	}
 	/**
@@ -313,6 +321,10 @@ class backend_controller_config{
 		self::update_states();
 		backend_config_smarty::getInstance()->display('config/index.phtml');
 	}
+	/**
+	 * Menu de sélection pour la réécriture des métas
+	 * @access private
+	 */
 	private function select_construct_config(){
 		$config = '<select id="idconfig" name="idconfig" class="select">';
 		$config .= '<option value="">Aucune sélection</option>';
@@ -326,6 +338,7 @@ class backend_controller_config{
 	}
 	/**
 	 * Affiche la réécriture des métas trié par langue
+	 * @access private
 	 */
 	private function view_metas(){
 		$title = '<table class="clear">
@@ -378,6 +391,7 @@ class backend_controller_config{
 	}
 	/**
 	 * insertion de la réécriture des métas
+	 * @access private
 	 */
 	private function insertion_rewrite(){
 		if(isset($this->strrewrite)){
@@ -394,6 +408,7 @@ class backend_controller_config{
 	}
 	/**
 	 * Edite la réécriture suivant l'identifiant
+	 * @access private
 	 */
 	private function edit_rewrite(){
 		if(isset($this->edit)){
@@ -410,7 +425,17 @@ class backend_controller_config{
 		}
 	}
 	/**
+	 * Supprime la réécriture suivant l'identifiant
+	 * @access public
+	 */
+	public function d_rewrite(){
+		if(isset($this->drmetas)){
+			backend_db_config::adminDbConfig()->d_rewrite_metas($this->drmetas);
+		}
+	}
+	/**
 	 * Charge les données dans le formulaire d'édition
+	 * @access private
 	 */
 	private function load_rewrite_for_edit(){
 		if(isset($this->edit)){
@@ -426,6 +451,7 @@ class backend_controller_config{
 	}
 	/**
 	 * Affiche le formulaire et une liste des réécritures disponible
+	 * @access public
 	 */
 	public function display_seo(){
 		self::insertion_rewrite();
@@ -436,6 +462,7 @@ class backend_controller_config{
 	}
 	/**
 	 * Affiche le fomulaire de modification ainsi que la liste des réécritures disponible
+	 * @access public
 	 */
 	public function display_seo_edit(){
 		self::edit_rewrite();
