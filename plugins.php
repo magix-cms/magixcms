@@ -19,6 +19,12 @@ if (!file_exists($loaderFilename)) {
 }else{
 	require $loaderFilename;
 }
+$config = 'app/config/config.php';
+if (!file_exists($config)) {
+	//Header("Location: /install/index.php");
+	print '<p>La base de donnée n\'existe pas, veuillez suivre la procédure pour faire l\'<a href="/install/">installation</a> de Magix CMS</p>';
+	exit;
+}
 /**
  * Autoload Frontend
  */
