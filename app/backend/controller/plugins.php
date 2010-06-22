@@ -79,14 +79,20 @@ class backend_controller_plugins{
 			throw new exception('Plugin is not array');
 		}*/
 		if($dir != null){
+			plugins_Autoloader::register();
 			$list = '<ul class="plugin-list">';
 				foreach($dir as $d){
 					if(file_exists(self::directory_plugins().$d.'/'.'admin.php')){
 						$pluginPath = self::directory_plugins().$d;
 						if($makefiles->scanDir($pluginPath) != null){
-							$list .= '<li>'.self::icon_plugin($d).
-							'<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$d.'">'
-							.magixcjquery_string_convert::ucFirst($d).'</a></li>';
+							//Nom de la classe pour le test de la méthode
+							$class = 'plugins_'.$d.'_admin';
+							//Si la méthode run existe on ajoute le plugin dans le menu
+							if(method_exists($class,'run')){
+								$list .= '<li>'.self::icon_plugin($d).
+								'<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$d.'">'
+								.magixcjquery_string_convert::ucFirst($d).'</a></li>';
+							}
 						}
 					}
 				}
