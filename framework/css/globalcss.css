@@ -322,10 +322,10 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 .ui-accordion .ui-accordion-header{}
 .ui-accordion .ui-accordion-header a{display: block; font-size: 1em; padding: .2em .2em .2em 2.0em;}
 /*########### UI Sortable##########*/
-#sortable,#sortcat,#sortsubcat{ list-style-type: none; margin: 10px 0 10px 10px; padding: 0; width: 97%; }
-#sortable li,#sortcat li,#sortsubcat li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }
-#sortable li span,#sortcat li span,#sortsubcat li span { position: absolute; margin-left: -1.3em; }
-#sortable li:hover,#sortcat li:hover,#sortsubcat li:hover{cursor: move;}
+#sortable,#sortcat,#sortsubcat,.globalsort{ list-style-type: none; margin: 10px 0 10px 10px; padding: 0; width: 97%; }
+#sortable li,#sortcat li,#sortsubcat li,.globalsort li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }
+#sortable li span,#sortcat li span,#sortsubcat li span,.globalsort li span { position: absolute; margin-left: -1.3em; }
+#sortable li:hover,#sortcat li:hover,#sortsubcat li:hover,.globalsort li:hover{cursor: move;}
 .sortdivfloat{float:left;width:auto;}
 .aspanfloat{float:left;margin-left:20px;}
 /*#################### magixicon ######################*/
