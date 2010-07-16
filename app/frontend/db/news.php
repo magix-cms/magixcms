@@ -62,9 +62,6 @@ class frontend_db_news{
 		WHERE pub.publish = 1';
 		return $this->layer->selectOne($sql);
 	}
-	/**
-	 * Sélectionne toutes les news publié trié par date
-	 */
 	function s_news_plugins($limit=false,$max=null,$offset=null){
 		$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
@@ -72,8 +69,21 @@ class frontend_db_news{
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
-				WHERE pub.publish = 1 ORDER BY n.date_sent DESC'.$limit.$offset;
+				WHERE pub.publish = 1 AND n.idlang = 0 ORDER BY n.date_sent DESC'.$limit.$offset;
 		return $this->layer->select($sql);
+	}
+	/**
+	 * Sélectionne toutes les news publié trié par date
+	 */
+	function s_news_plugins_lang($codelang,$limit=false,$max=null,$offset=null){
+		$limit = $limit ? ' LIMIT '.$max : '';
+    	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
+		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,lang.codelang
+				FROM mc_news as n
+				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
+				WHERE pub.publish = 1 AND lang.codelang = :codelang ORDER BY n.date_sent DESC'.$limit.$offset;
+		return $this->layer->select($sql,array(':codelang' =>$codelang));
 	}
 	/**
 	 * Sélectionne la dernière news publié
