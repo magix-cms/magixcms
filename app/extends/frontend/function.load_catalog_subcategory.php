@@ -70,8 +70,19 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 			$langsession = 'catalogue';	
 	}
 	if(isset($ui)){
-		$wcontent = ' ui-widget-content ui-corner-all';
-		$wheader = ' ui-widget-header ui-corner-all';
+		switch($ui){
+			case "true":
+				$wcontent = ' ui-widget-content ui-corner-all';
+				$wheader = ' ui-widget-header ui-corner-all';
+			break;
+			case "false":
+				$wcontent = '';
+				$wheader = '';
+			break;
+		}
+	}else{
+		$wcontent = '';
+		$wheader = '';
 	}
 	if($lang){
 			$product = null;

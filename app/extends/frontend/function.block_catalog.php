@@ -41,8 +41,19 @@ function smarty_function_block_catalog($params, &$smarty){
 			$langsession = 'catalogue';	
 	}
 	if(isset($ui)){
-		$wcontent = 'ui-widget-content ui-corner-all';
-		$wheader = 'ui-widget-header ui-corner-all';
+		switch($ui){
+			case "true":
+				$wcontent = ' ui-widget-content ui-corner-all';
+				$wheader = ' ui-widget-header ui-corner-all';
+			break;
+			case "false":
+				$wcontent = '';
+				$wheader = '';
+			break;
+		}
+	}else{
+		$wcontent = '';
+		$wheader = '';
 	}
 	$wmenu = '<div class="sidebar">
 		<div id="catalog-menu" class="block">

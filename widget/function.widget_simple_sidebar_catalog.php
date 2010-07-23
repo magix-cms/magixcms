@@ -55,7 +55,7 @@ function smarty_function_widget_simple_sidebar_catalog($params, &$smarty){
 			}
 		}else{
 		foreach(frontend_db_catalog::publicDbCatalog()->s_category_menu_with_lang($lang) as $cat){
-				$wmenu .= '<ul class="personnal-side-list"><li><div><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$lang.magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</div></li></ul>';
+				$wmenu .= '<ul class="personnal-side-list"><li><div><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$lang.magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div></li></ul>';
 			}
 		}
 	}else{

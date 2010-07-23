@@ -51,8 +51,19 @@ function smarty_function_block_category_catalog($params, &$smarty){
 			$langsession = 'catalogue';	
 	}
 	if(isset($ui)){
-		$wcontent = ' ui-widget-content ui-corner-all';
-		$wheader = ' ui-widget-header ui-corner-all';
+		switch($ui){
+			case "true":
+				$wcontent = ' ui-widget-content ui-corner-all';
+				$wheader = ' ui-widget-header ui-corner-all';
+			break;
+			case "false":
+				$wcontent = '';
+				$wheader = '';
+			break;
+		}
+	}else{
+		$wcontent = '';
+		$wheader = '';
 	}
 	$block = $title;
 	switch($lang){
@@ -83,11 +94,11 @@ function smarty_function_block_category_catalog($params, &$smarty){
 		break;
 		case !null:
 			if(frontend_db_catalog::publicDbCatalog()->s_category_withimg_lang($lang) != null){
-				$block .= '<div id="catalog-list-category'.$wcontent.'">';
+				$block .= '<div id="catalog-list-category">';
 				foreach(frontend_db_catalog::publicDbCatalog()->s_category_withimg_lang($lang) as $cat){
-					$block .= '<div class="list-img-category'.$wheader.'">';
+					$block .= '<div class="list-img-category'.$wcontent.'">';
 					if($tposition == 'top'){
-						$block .= '<div class="title-product"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
 					if($cat['imgcatalog'] != null){
 						$block .= '<div class="img-product">';

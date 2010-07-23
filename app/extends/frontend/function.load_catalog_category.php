@@ -68,13 +68,24 @@ function smarty_function_load_catalog_category($params, &$smarty){
 			$langsession = 'catalogue';	
 	}
 	if(isset($ui)){
-		$wcontent = ' ui-widget-content ui-corner-all';
-		$wheader = ' ui-widget-header ui-corner-all';
+		switch($ui){
+			case "true":
+				$wcontent = ' ui-widget-content ui-corner-all';
+				$wheader = ' ui-widget-header ui-corner-all';
+			break;
+			case "false":
+				$wcontent = '';
+				$wheader = '';
+			break;
+		}
+	}else{
+		$wcontent = '';
+		$wheader = '';
 	}
 	if(class_exists('frontend_plugins_immoSoldState')){
 		$immostate = new frontend_plugins_immoSoldState();
 	}
-	if($lang){
+	if(isset($_GET['strLangue'])){
 			$product = null;
 			if(frontend_db_catalog::publicDbCatalog()->s_category_page_with_language($idclc,$lang) != null){
 				$product .= '<div id="catalog-list-category">';
