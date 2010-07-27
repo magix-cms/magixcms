@@ -1,3 +1,14 @@
+Stable 2.3.34
+	* Mise à jour tinyMCE 3.3.7 => 3.3.8
+	* Fix bug absolute url avec le domaine associer remplacer par / (tinyMCE)
+		- Suppression de document_base_url
+		- Suppression de remove_script_host
+		- Ajout de elements (absurls)
+	* Suppression de jQuery ui checkbox alexander.farkas pour les thèmes public
+		- Remplacement par jQuery UI checkbox officiel 1.8.1 avec adaptation à Magix CMS
+	* Correction du chemin des fichiers (js,css) dans le thème par défaut de Magix CMS
+	* Upgrade smarty 3 => RC3
+	
 Stable 2.3.33
 	* Upgrade jQuery UI 1.7.2 => 1.8.2 dans l'ensemble de l'installation
 		- Upgrade du thème de l'admin + Fix bug affichage menu accordion

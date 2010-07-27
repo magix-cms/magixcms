@@ -12,12 +12,13 @@
 $(function() {
 	$('.mceEditor').tinymce({
 	// Location of TinyMCE script
-	script_url : '/framework/js/tiny_mce-3-3-7/tiny_mce.js',
-	//document_base_url : "{geturl}",
+	script_url : '/framework/js/tiny_mce-3-3-8/tiny_mce.js',
+	//document_base_url :"/",
 	apply_source_formatting : true,
 	mode : "exact",
 	relative_urls : false,
-	remove_script_host : false,
+	elements : 'absurls',
+	//remove_script_host : false,
 	theme : "advanced",
 	/*tableextras,*/
 	plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview,rj_insertcode,tableextras,loremipsum",

@@ -33,7 +33,7 @@ $(function() {
 	});
 	$(".imagebox").colorbox();
 	$(".select").selectmenu({width: 200,maxWidth: 200});
-	$('input').checkBox();
+	$('.checkbox').checkbox();
 	/**
 	 * Notification après installation pour le dossier "install"
 	 */
