@@ -140,6 +140,7 @@ RewriteRule ^(fr|en|nl){1,3}[/](catalogue|catalog)[/]([-_0-9a-zA-Z]+)[-]([/0-9]+
 RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)/{0,1}$     						/plugins.php?magixmod=$1								[QSA,L]
 RewriteRule ^(fr|en|nl){1,3}[/]magixmod[/]([-_0-9a-zA-Z]+)/{0,1}$     		/plugins.php?strLangue=$1&magixmod=$2					[QSA,L]
 ##### Additionnal params #####
-RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+).html/{0,1}$     /plugins.php?magixmod=$1&uniqp=$2						[QSA,L]
+###RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+).html/{0,1}$     				/plugins.php?magixmod=$1&uniqp=$2						[QSA,L]
+RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)/{0,1}$     				/plugins.php?magixmod=$1&uniqp=$2				[QSA,L]
 RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_&0-9a-zA-Z]+).html/{0,1}$    	/plugins.php?magixmod=$1&pnum1=$2&pstring2=$3			[QSA,L]
 RewriteRule ^(fr|en|nl){1,3}[/]magixmod[/]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_&0-9a-zA-Z]+).html/{0,1}$    	/plugins.php?strLangue=$1&magixmod=$2&pnum1=$3&pstring2=$4			[QSA,L]
