@@ -312,7 +312,8 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 	.ui-accordion .ui-accordion-content {margin:0;padding:0;}
 	html[xmlns*=""] body:last-child ... { ... }
 }*/
-/*######### UI Accordion ###########*/
+/*-------------UI Accordion
+--------------------*/
 /* hack Chrome / Safari */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
  .ui-accordion .ui-accordion-content { padding:0;left:0;margin-left:0;position:relative;border-top: 0; margin-top: -2px; top: 1px; margin-bottom: 2px; overflow: auto; display: none; }
@@ -321,7 +322,20 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 .ui-accordion .ui-accordion-content {left:0;}
 .ui-accordion .ui-accordion-header{}
 .ui-accordion .ui-accordion-header a{display: block; font-size: 1em; padding: .2em .2em .2em 2.0em;}
-/*########### UI Sortable##########*/
+/* IE7-/Win - Fix extra vertical space in lists */
+.ui-accordion a { zoom: 1; }
+.ui-accordion-icons .ui-accordion-header a { padding-left: 2.2em; }
+.ui-accordion .ui-accordion-header .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
+.ui-accordion .ui-accordion-content { padding: 1em 0.2em; border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow: auto; display: none; zoom: 1; }
+.ui-accordion .ui-accordion-content-active { display: block; }/* Autocomplete
+/*--------------------
+UI BUTTON--------------*/
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: .4em; text-indent: -9999999px; }
+.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em 1em .2em 2.1em; }
+.ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em 1em .2em 2.1em; }
+input.ui-button { padding: .2em 1em; }
+/*----------------UI Sortable
+------------------*/
 #sortable,#sortcat,#sortsubcat,.globalsort{ list-style-type: none; margin: 10px 0 10px 10px; padding: 0; width: 97%; }
 #sortable li,#sortcat li,#sortsubcat li,.globalsort li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }
 #sortable li span,#sortcat li span,#sortsubcat li span,.globalsort li span { position: absolute; margin-left: -1.3em; }
@@ -383,3 +397,4 @@ ul.plugin-list li{}
 .addseo:hover{font-weight:700px;text-decoration:underline;}
 /*link preview*/
 .linkurl{text-decoration:underline;}
+/*POP UP*/

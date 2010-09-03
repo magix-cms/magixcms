@@ -530,7 +530,7 @@ $(function() {
 			$("#update-category").load(url, function() {
 				$(this).dialog({
 					bgiframe: true,
-					height: 100,
+					minHeight: 100,
 					width:320,
 					modal: true,
 					overlay: {
@@ -908,7 +908,7 @@ $(function() {
 			$("#update-category").load(url, function() {
 				$(this).dialog({
 					bgiframe: true,
-					height: 100,
+					minHeight: 100,
 					width:320,
 					modal: true,
 					overlay: {
@@ -944,7 +944,7 @@ $(function() {
 			$("#update-subcategory").load(url, function() {
 				$(this).dialog({
 					bgiframe: true,
-					height: 100,
+					minHeight: 100,
 					width:320,
 					modal: true,
 					overlay: {
@@ -959,13 +959,13 @@ $(function() {
 							    data: "update_subcategory="+$('#update_subcategory').val(),
 							    success : function(){
 									$(this).dialog('close');
-									location.reload()
+									location.reload();
 							    }
-							})
+							});
 						},
 						Cancel: function() {
 							$(this).dialog('close');
-							success: location.reload()
+							success: location.reload();
 						}
 					}
 				});
@@ -1048,7 +1048,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						success: location.reload();
 					}
 				}
 			});
@@ -1119,7 +1119,6 @@ $(function() {
 							success:function(e) {
 							$(".reqdialog").html(e);
 							setTimeout(function(){
-								//location.reload();
 								window.location.href = '/admin/index.php?dashboard&catalog&category'; 
 								},3000);
 							}
