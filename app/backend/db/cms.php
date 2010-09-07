@@ -10,25 +10,11 @@
  */
 class backend_db_cms{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
-	/**
 	 * singleton dbnews
 	 * @access public
 	 * @var void
 	 */
 	static public $admindbcms;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_home with singleton
 	 */
@@ -45,14 +31,15 @@ class backend_db_cms{
     	$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder,lang.codelang,c.idlang FROM mc_cms_category AS c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.idorder';
-		return $this->layer->select($sql);
+		//return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
      * Selectionne le maximum des identifiants "order" pour les catégories
      */
     function s_max_order_category(){
     	$sql = 'SELECT max(c.idorder) as catorder FROM mc_cms_category AS c';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
     /**
      * compte le nombre de catégorie par langue
@@ -63,7 +50,7 @@ class backend_db_cms{
     	FROM mc_cms_category AS c
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	GROUP BY c.idlang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
      * Sélection de la catégorie suivant l'identifiant
@@ -72,8 +59,19 @@ class backend_db_cms{
 	public function s_cms_category_id($ucategory){
     	$sql = 'SELECT c.idcategory,c.category
     	FROM mc_cms_category AS c WHERE idcategory = :ucategory';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			'ucategory' => $ucategory
+		));
+    }
+    /**
+     * @access public
+     * Recherche le ou les mots dans le titre des pages
+     * @param $searchpage
+     */
+    public function s_search_page($searchpage){
+    	$sql = 'SELECT * FROM mc_cms_page WHERE subjectpage LIKE "%:searchpage%"';
+    	return magixglobal_model_db::layerDB()->select($sql,array(
+			'searchpage' => $searchpage
 		));
     }
     /**
@@ -87,7 +85,7 @@ class backend_db_cms{
 		$maxorder = self::s_max_order_category();
 		$sql = 'INSERT INTO mc_cms_category (category,pathcategory,idlang,idorder) 
 		VALUE(:category,:pathcategory,:idlang,:idorder)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':category'			=>	$category,
 			':pathcategory'		=>	$pathcategory,
@@ -103,7 +101,7 @@ class backend_db_cms{
 	 */
 	function u_cms_category($category,$pathcategory,$ucategory){
 		$sql = 'UPDATE mc_cms_category SET category = :category,pathcategory = :pathcategory WHERE idcategory = :ucategory';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':category'		=>	$category,
 			':pathcategory'	=>	$pathcategory,
@@ -117,7 +115,7 @@ class backend_db_cms{
 	 */
 	function d_cms_category($dcmscat){
 		$sql = 'DELETE FROM mc_cms_category WHERE idcategory = :dcmscat';
-			$this->layer->delete($sql,
+			magixglobal_model_db::layerDB()->delete($sql,
 			array(
 				':dcmscat'	=>	$dcmscat
 			)); 
@@ -130,7 +128,7 @@ class backend_db_cms{
 				FROM mc_cms_page page
 				LEFT JOIN mc_lang AS lang ON(page.idlang = lang.idlang)
 				GROUP BY page.idlang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Retourne le nombre maximum de pages
@@ -139,7 +137,7 @@ class backend_db_cms{
 	function s_count_cms_max(){
 		$sql = 'SELECT count(p.idpage) as total
 		FROM mc_cms_page AS p';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * Retourne le nombre maximum de pages pour la pagination
@@ -148,7 +146,7 @@ class backend_db_cms{
 	function s_count_cms_pager_max(){
 		$sql = 'SELECT count(p.idpage) as total
 		FROM mc_cms_page AS p';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
      * selectionne les pages CMS avec un paramètre optionnelle du nombre
@@ -164,14 +162,14 @@ class backend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				LEFT JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin )
 				ORDER BY p.idpage DESC'.$limit.$offset;
-		return $this->layer->select($sql,false,'assoc');
+		return magixglobal_model_db::layerDB()->select($sql,false,'assoc');
     }
 	/**
      * Selectionne le maximum des identifiants "order" pour les catégories
      */
     function s_max_order_page(){
     	$sql = 'SELECT max(p.orderpage) porder FROM mc_cms_page AS p';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
     /**
      * insert une nouvelle page
@@ -189,7 +187,7 @@ class backend_db_cms{
 		$orderpage = self::s_max_order_page();
 		$sql = 'INSERT INTO mc_cms_page (subjectpage,pathpage,contentpage,idcategory,idlang,idadmin,metatitle,metadescription,orderpage) 
 		VALUE(:subjectpage,:pathpage,:contentpage,:idcategory,:idlang,:idadmin,:metatitle,:metadescription,:orderpage)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':subjectpage'		=>	$subjectpage,
 			':pathpage'			=>	$pathpage,
@@ -210,7 +208,7 @@ class backend_db_cms{
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				ORDER BY p.orderpage';
-		return $this->layer->select($sql,false,'assoc');
+		return magixglobal_model_db::layerDB()->select($sql,false,'assoc');
     }
     /**
      * mise à jour de la configuration d'une page dans le menu (view/hidden)
@@ -219,7 +217,7 @@ class backend_db_cms{
      */
 	function u_viewpage($viewpage,$idpage){
 		$sql = 'UPDATE mc_cms_page SET viewpage = :viewpage WHERE idpage = :idpage';
-		$this->layer->update($sql,array(
+		magixglobal_model_db::layerDB()->update($sql,array(
 			':viewpage'=>$viewpage,
 			':idpage'  =>$idpage
 		));
@@ -231,7 +229,7 @@ class backend_db_cms{
 	 */
 	function u_orderpage($i,$id){
 		$sql = 'UPDATE mc_cms_page SET orderpage = :i WHERE idpage = :id';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':i'=>$i,
 			':id'=>$id
@@ -245,7 +243,7 @@ class backend_db_cms{
 	 */
 	function u_ordercategory($i,$id){
 		$sql = 'UPDATE mc_cms_category SET idorder = :i WHERE idcategory = :id';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':i'=>$i,
 			':id'=>$id
@@ -262,7 +260,7 @@ class backend_db_cms{
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				WHERE idpage=:getpage';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getpage'=>$getpage
 		));
 	}
@@ -282,7 +280,7 @@ class backend_db_cms{
 		$sql = 'UPDATE mc_cms_page 
 		SET subjectpage=:subjectpage,pathpage=:pathpage,contentpage=:contentpage,idcategory=:idcategory,idlang=:idlang,idadmin=:idadmin,metatitle=:metatitle,metadescription=:metadescription
 		WHERE idpage=:getpage';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':subjectpage'		=>	$subjectpage,
 			':pathpage'			=>	$pathpage,
@@ -295,9 +293,14 @@ class backend_db_cms{
 			':getpage'			=>	$getpage
 		));
 	}
+	/**
+	 * @access public
+	 * Suppression d'une page CMS via son identifiant
+	 * @param $delpage
+	 */
 	function d_cms_page($delpage){
 		$sql = 'DELETE FROM mc_cms_page WHERE idpage = :delpage';
-			$this->layer->delete($sql,
+			magixglobal_model_db::layerDB()->delete($sql,
 			array(
 				':delpage'	=>	$delpage
 			)); 
@@ -312,6 +315,6 @@ class backend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( page.idlang = lang.idlang )
 				LEFT JOIN mc_admin_member AS m ON ( page.idadmin = m.idadmin )
 				GROUP BY page.idadmin';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 }

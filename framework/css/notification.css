@@ -1,15 +1,14 @@
 /**
- * Notifications Importante
+ * Module de notification
  */
 .close-notify {
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
 	text-decoration: none;
-	padding: 4px 4px 1px 5px;
+	padding: 3px 3px 1px 3px;
 	cursor: pointer;
 	font-size: 12px;
-	height:14px;
 }
 .dont-notify {
 	position: absolute;
@@ -26,21 +25,35 @@
 }
 a.dont-notify:hover {}
 .pos-top{padding:15px 0;height:50px;}
+#meerkat-container{border-bottom:2px solid #bbb;}
 #notify-install {
 	display: none;
 	font-size:18px;
-	border-bottom:2px solid #bbb;
-	text-align:center;
 	color:#f00;
+	font-weight:bold;
+	margin:0 auto;
+	position:relative;
+	width:1024px;
 }
 #notify-folder{
 	display: none;
 	font-size:18px;
-	border-bottom:2px solid #bbb;
-	text-align:center;
 	color:#f00;
+	font-weight:bold;
+	margin:0 auto;
+	position:relative;
+	width:1024px;
 }
-#message-notification{padding-top:10px;}
+#notify-header{
+	display: none;
+	font-size:18px;
+	color:#000;
+	font-weight:bold;
+	margin:0 auto;
+	position:relative;
+	width:1024px;
+}
+#message-notification{padding-top:5px;}
 /**
  * HACK pour Safari
  */
@@ -57,3 +70,19 @@ html[xmlns*=""] body:last-child #message-notification{padding-top:0;}
  * html>body #message-notification { padding-top:0; }
  * 
 */
+.mc-rep-request{margin:0;padding:0;top:0;}
+.mc-rep-request span{margin-right:5px;}
+/*######################### Sprites ##########################*/
+/*### notify-32-icon ###*/
+.notify-32-icon {width: 32px; height: 32px; background-image: url(/framework/img/notify/mc_icon_notify_32x32.png); background-repeat:none;}
+/* positioning */
+.notify-32-icon-check {background-position: 0 0;}
+.notify-32-icon-delete {background-position:-32px 0;}
+.notify-32-icon-help{background-position:-64px 0;}
+.notify-32-icon-info{background-position:-98px 0;}
+.notify-32-icon-light-bulb{ background-position:-130px 0;}
+.notify-32-icon-plugin-check{ background-position:-162px 0;}
+.notify-32-icon-plugin-delete{ background-position:-194px 0;}
+.notify-32-icon-folder-check {background-position: 0 -32px;}
+.notify-32-icon-folder-delete {background-position:-32px -32px;}
+.notify-32-icon-folder-conflict{background-position:-64px -32px;}

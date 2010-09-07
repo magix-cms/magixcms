@@ -2,7 +2,7 @@
 /**
  * @category   Smarty Plugin
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cmsa.com)
+ * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
  * @license    Proprietary software
  * @version    1.0 2009-10-30
  * @author Gérits Aurélien <aurelien@web-solution-way.be>
@@ -19,6 +19,7 @@
  * Type:     function
  * Name:     widget_catalog
  * Date:     Novembre 25, 2009
+ * Update:   Septembre 6, 2010
  * Purpose:  
  * Examples: {widget_catalog}
  * Output:   
@@ -109,7 +110,7 @@ function smarty_function_widget_catalog($params, &$smarty){
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</td>':'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</td>';
+			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</a></td>';
 			 $plugin .= '<td class="nowrap"><a class="widget-links post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'index.php?'.$lang.'catalog&amp;'.$pcms['pathclibelle'].'&amp;idclc='.$pcms['idclc'].'">'.$pcms['clibelle'].'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$subcategory.'</td>';
 			 $plugin .= '<td class="nowrap">'.$imgcatalog.'</td>';

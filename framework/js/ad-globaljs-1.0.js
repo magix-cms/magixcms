@@ -79,6 +79,12 @@ $(function() {
 		 * Support input button with jquery ui button
 		 */
 		$("input:submit").button();
+		$("button.search").button({
+            icons: {
+                primary: 'ui-icon-search'
+            },
+            text: false
+        });
 		/**
 		 * Ajout d'une classe spécifique au survol d'un thème
 		 */

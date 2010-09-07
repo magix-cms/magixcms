@@ -17,7 +17,8 @@
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>CMS</div>
 						<div class="dashboard-content">
 						{if $configcms eq 1}
-						{widget_cms limit="true" max=20 getpage=true}
+						{include file="cms/search.phtml"}
+							{widget_cms limit="true" max=20 getpage=true}
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
 						<span style="float:left;" class="ui-icon ui-icon-alert"></span>

@@ -72,7 +72,7 @@ function smarty_function_widget_cms($params, &$smarty){
 						<tbody>';
 	if(backend_db_cms::adminDbCms()->s_cms_plugin($limit,$max,$offset) != null){
 		foreach(backend_db_cms::adminDbCms()->s_cms_plugin($limit,$max,$offset) as $pcms){
-			$islang = $pcms['codelang'] ? 'strLangue='.$pcms['codelang'].'&amp;': '';
+			//$islang = $pcms['codelang'] ? 'strLangue='.$pcms['codelang'].'&amp;': '';
 			if($pcms['metatitle'] == null){
 				$icons_t = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-alert"></span></div>';
 			}else{
@@ -94,22 +94,21 @@ function smarty_function_widget_cms($params, &$smarty){
 			switch($pcms['idcategory']){
 				case 0:
 					$category = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-home"></span></div>';
-					$catpath = null;
+					//$catpath = null;
 				break;
 				default: 
 					$category = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
-					$catpath = 'getidcategory='.$pcms['idcategory'].'&amp;getcat='.$pcms['pathcategory'].'&amp;';
+					//$catpath = 'getidcategory='.$pcms['idcategory'].'&amp;getcat='.$pcms['pathcategory'].'&amp;';
 				break;
 			}
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;cms&amp;editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],45,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;cms&amp;editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</a></td>';
 			 $plugin .=	'<td class="nowrap">'.$category.'</td>';
-			 //$plugin .=	'<td class="nowrap">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pcms['contentpage'],20,"...")).'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_t.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_d.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$pcms['idpage'].'&amp;'.'getpurl='.$pcms['pathpage'].'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_cms_url($pcms['codelang'], $pcms['idcategory'], $pcms['pathcategory'], $pcms['idpage'], $pcms['pathpage'])./*magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$pcms['idpage'].'&amp;'.'getpurl='.$pcms['pathpage'].*/'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;cms&amp;editcms='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deletecms" title="'.$pcms['idpage'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
