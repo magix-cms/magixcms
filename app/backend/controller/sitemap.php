@@ -12,10 +12,10 @@
  */
 class backend_controller_sitemap{
 	/**
-	 * Cosntante
-	 * @var string
+	 * Constante
+	 * string
 	 */
-	const plugins = '/plugins/';
+	const plugins = 'plugins/';
 	/*
 	 * Creation du fichier (get)
 	 * @var void
@@ -26,6 +26,14 @@ class backend_controller_sitemap{
 	 * @var void
 	 */
 	public $googleping;
+	protected $system;
+	private $pathdir;
+	private $arraydir;
+	
+	/**
+	 * 
+	 * Constructor
+	 */
 	function  __construct(){
 		if(magixcjquery_filter_request::isGet('createxml')) {
 			$this->createxml = $_GET['createxml'];
@@ -33,6 +41,25 @@ class backend_controller_sitemap{
 		if(magixcjquery_filter_request::isGet('googleping')) {
 			$this->googleping = $_GET['googleping'];
 		}
+		$this->system = new magixglobal_model_system();
+		$this->pathdir = dirname(realpath( __FILE__ ));
+		$this->arraydir = array('app\backend\controller', 'app/backend/controller');
+	}
+	/*
+	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
+	 * @access private
+	 */
+	private function dir_XML_FILE(){
+//		$system = new magixglobal_model_system();
+		try {
+			return $this->system->root_path($this->arraydir,array("","") , $this->pathdir);
+		}catch (Exception $e){
+				//Systeme de log + firephp
+				$log = magixcjquery_error_log::getLog();
+	        	$log->logfile = $this->system->root_path($this->arraydir,array("var\report","var/report") , $this->pathdir).'/handlererror.log';
+	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
+	        	magixcjquery_debug_magixfire::magixFireError($e);
+			}
 	}
 	/*
 	 * Ouverture du fichier XML pour ecriture de l'entête
@@ -41,9 +68,9 @@ class backend_controller_sitemap{
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
 		/*Crée le fichier xml s'il n'existe pas*/
-        $sitemap->createXML('sitemap.xml');
+        $sitemap->createXML(self::dir_XML_FILE(),'sitemap.xml');
 		/*Ouvre le fichier xml s'il existe*/
-        $sitemap->openFile('sitemap.xml');
+        $sitemap->openFile(self::dir_XML_FILE(),'sitemap.xml');
 		/*indente les lignes (optionnel)*/
         $sitemap->indentXML(true);
 		/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
@@ -73,6 +100,7 @@ class backend_controller_sitemap{
 	}
 	/**
 	 * Si le CMS est activé, on inscrit les URLs dans le sitemap
+	 * @access private
 	 */
 	private function writeCms(){
 		/*instance la classe*/
@@ -107,6 +135,7 @@ class backend_controller_sitemap{
 	}
 	/**
 	 * Si le catalogue est activé, on inscrit les URLs dans le sitemap
+	 * @access private
 	 */
 	private function writeCatalog(){
 		/*instance la classe*/
@@ -165,7 +194,7 @@ class backend_controller_sitemap{
 			$class =  new $className;
 		}catch(Exception $e) {
 			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
+	        $log->logfile = $this->system->root_path($this->arraydir,array("var\report","var/report") , $this->pathdir).'/handlererror.log';
 	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
 	        magixcjquery_debug_magixfire::magixFireError($e);
 		}
@@ -176,30 +205,21 @@ class backend_controller_sitemap{
 	 * return void
 	 */
 	private function directory_plugins(){
-		return $_SERVER['DOCUMENT_ROOT'].self::plugins;
+		return self::dir_XML_FILE().self::plugins;
+		//return $_SERVER['DOCUMENT_ROOT'].self::plugins;
 	}
 	/**
-	 * Scanne les plugins et vérifie si la fonction createSitemap exist afin de l'intégrer dans le sitemap
+	 * Scanne les plugins et vérifie si la fonction createSitemap 
+	 * exist afin de l'intégrer dans le sitemap
+	 * @access private
 	 */
 	private function writeplugin(){
-		/*if(backend_db_sitemap::adminDbSitemap()->s_plugin_sitemap() != null){
-			foreach(backend_db_sitemap::adminDbSitemap()->s_plugin_sitemap() as $smap){
-				if(file_exists($_SERVER['DOCUMENT_ROOT'].'/app/backend/plugins/'.$smap['pname'].'.php')){
-					if(class_exists('backend_plugins_'.$smap['pname'])){
-						$create = self::execute_plugins('backend_plugins_'.$smap['pname']);
-						if(method_exists($create,'createSitemap')){
-							$create->createSitemap();
-						}
-					}
-				}
-			}
-		}*/
 		plugins_Autoloader::register();
 		/**
 		 * Si le dossier est accessible en lecture
 		 */
 		if(!is_readable(self::directory_plugins())){
-			throw new exception('Plugin is not minimal permission');
+			throw new exception('Error in writeplugin: Plugin is not minimal permission');
 		}
 		$makefiles = new magixcjquery_files_makefiles();
 		$dir = $makefiles->scanRecursiveDir(self::directory_plugins());
@@ -242,7 +262,7 @@ class backend_controller_sitemap{
 		 * Si le dossier est accessible en lecture
 		 */
 		if(!is_readable(self::directory_plugins())){
-			throw new exception('Plugin is not minimal permission');
+			throw new exception('Error in register plugin: Plugin is not minimal permission');
 		}
 		/**
 		 * Appel de la classe makeFiles dans magixcjquery
@@ -337,7 +357,7 @@ class backend_controller_sitemap{
 		/*Compression GZ souhaitée*/
         $sitemap->setGZCompressionLevel(9);
 		/*Création du fichier GZ à partir de l'XML*/
-        $sitemap->createGZ('sitemap.xml.gz','sitemap.xml');
+        $sitemap->createGZ(self::dir_XML_FILE(),'sitemap.xml.gz','sitemap.xml');
 	}
 	/**
 	 * Pinguer Google
@@ -359,7 +379,7 @@ class backend_controller_sitemap{
 		}else{
 			self::execute_compression();
 			backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml.gz');
-			$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
+			//$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
 		}
 		backend_config_smarty::getInstance()->display('sitemap/request/ping.phtml');
 	}

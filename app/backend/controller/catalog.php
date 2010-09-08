@@ -668,53 +668,59 @@ class backend_controller_catalog{
 				 * @var $fileextends
 				 */
 				$fileextends = backend_model_image::image_analyze(self::dir_img_product().$this->imgcatalog);
-				// Sélectionne et retourne le nom du produit
-				$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
-				// Charge la classe pour renommer le fichier
-				$makeFiles = new magixcjquery_files_makefiles();
-				$makeFiles->renameFiles(self::dir_img_product(),self::dir_img_product().$this->imgcatalog,self::dir_img_product().$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
-				/**
-				 * Vérifie si le produit contient déjà une image 
-				 * @var intéger
-				 */
-				$count = backend_db_catalog::adminDbCatalog()->count_image_product($this->getimg);
-				if($count['cimage'] == 0){
-					backend_db_catalog::adminDbCatalog()->i_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
+				if (backend_model_image::imgSizeMin(self::dir_img_product().$this->imgcatalog,100,100)){
+					// Sélectionne et retourne le nom du produit
+					$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
+					// Charge la classe pour renommer le fichier
+					$makeFiles = new magixcjquery_files_makefiles();
+					$makeFiles->renameFiles(self::dir_img_product(),self::dir_img_product().$this->imgcatalog,self::dir_img_product().$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
+					/**
+					 * Vérifie si le produit contient déjà une image 
+					 * @var intéger
+					 */
+					$count = backend_db_catalog::adminDbCatalog()->count_image_product($this->getimg);
+					if($count['cimage'] == 0){
+						backend_db_catalog::adminDbCatalog()->i_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
+					}else{
+						backend_db_catalog::adminDbCatalog()->u_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
+					}
+					/**
+					 * Selectionne l'image et retourne le nom
+					 * @var string
+					 */
+					$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
+					/**
+					 * Initialisation de la classe phpthumb 
+					 * @var void
+					 */
+					$thumb = PhpThumbFactory::create(self::dir_img_product().$getimg['imgcatalog']);
+					/**
+					 * Création des images et miniatures utile.
+					 * 3 tailles !!!
+					 */
+					$thumb->resize(500)->save(self::dir_img_product().'product/'.$getimg['imgcatalog']);
+					$thumb->resize(350,250)->save(self::dir_img_product().'medium/'.$getimg['imgcatalog']);
+					$thumb->resize(120,100)->save(self::dir_img_product().'mini/'.$getimg['imgcatalog']);
+					//Supprime le fichier original pour gagner en espace
+					$makeFiles = new magixcjquery_files_makefiles();
+					if(file_exists(self::dir_img_product().$getimg['imgcatalog'])){
+						$makeFiles->removeFile(self::dir_img_product(),$getimg['imgcatalog']);
+					}else{
+						throw new Exception('file: '.$getimg['imgcatalog'].' is not found');
+					}
 				}else{
-					backend_db_catalog::adminDbCatalog()->u_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.$fileextends);
+					if(file_exists(self::dir_img_product().$this->imgcatalog)){
+						$makeFiles->removeFile(self::dir_img_product(),$this->imgcatalog);
+					}else{
+						throw new Exception('file: '.$this->imgcatalog.' is not found');
+					}
 				}
-				/**
-				 * Selectionne l'image et retourne le nom
-				 * @var string
-				 */
-				$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
-				/**
-				 * Initialisation de la classe phpthumb 
-				 * @var void
-				 */
-				$thumb = PhpThumbFactory::create(self::dir_img_product().$getimg['imgcatalog']);
 			}catch (Exception $e){
 				//Systeme de log + firephp
 				$log = magixcjquery_error_log::getLog();
 	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
 	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
 	        	magixcjquery_debug_magixfire::magixFireError($e);
-			}
-			if (backend_model_image::imgSizeMin(self::dir_img_product().$getimg['imgcatalog'],100,100)){
-				/**
-				 * Création des images et miniatures utile.
-				 * 3 tailles !!!
-				 */
-				$thumb->resize(500)->save(self::dir_img_product().'product/'.$getimg['imgcatalog']);
-				$thumb->resize(350,250)->save(self::dir_img_product().'medium/'.$getimg['imgcatalog']);
-				$thumb->resize(120,100)->save(self::dir_img_product().'mini/'.$getimg['imgcatalog']);
-			}
-			//Supprime le fichier original pour gagner en espace
-			$makeFiles = new magixcjquery_files_makefiles();
-			if(file_exists(self::dir_img_product().$getimg['imgcatalog'])){
-				$makeFiles->removeFile(self::dir_img_product(),$getimg['imgcatalog']);
-			}else{
-				throw new Exception('file: '.$getimg['imgcatalog'].' is not found');
 			}
 		}
 	}
@@ -741,28 +747,44 @@ class backend_controller_catalog{
 				 * @var $fileextends
 				 */
 				$fileextends = backend_model_image::image_analyze(self::dir_micro_galery().$this->imggalery);
-				// Sélectionne et retourne le nom du produit
-				$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
-				// Compte le nombre d'image dans la galerie et incrémente de un
-				$numbimg = backend_db_catalog::adminDbCatalog()->count_image_in_galery_product($this->getimg);
-				$number = $numbimg['cimage']+1;
-				// Charge la classe pour renommer le fichier
-				$makeFiles = new magixcjquery_files_makefiles();
-				$makeFiles->renameFiles(self::dir_micro_galery(),self::dir_micro_galery().$this->imggalery,self::dir_micro_galery().$simg['urlcatalog'].'-'.$this->getimg.'-'.$number.$fileextends);
-				/**
-				 * Insére l'image dans la base de donnée
-				 */
-				backend_db_catalog::adminDbCatalog()->i_galery_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.'-'.$number.$fileextends);
-				/**
-				 * Selectionne l'image et retourne le nom
-				 * @var string
-				 */
-				$getimg = backend_db_catalog::adminDbCatalog()->s_galery_image_product();
-				/**
-				 * Initialisation de la classe phpthumb 
-				 * @var void
-				 */
-				$thumb = PhpThumbFactory::create(self::dir_micro_galery().$getimg['imgcatalog']);
+				if (backend_model_image::imgSizeMin(self::dir_micro_galery().$this->imggalery,100,100)){
+					// Sélectionne et retourne le nom du produit
+					$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
+					// Compte le nombre d'image dans la galerie et incrémente de un
+					$numbimg = backend_db_catalog::adminDbCatalog()->count_image_in_galery_product($this->getimg);
+					$number = $numbimg['cimage']+1;
+					// Charge la classe pour renommer le fichier
+					$makeFiles = new magixcjquery_files_makefiles();
+					$makeFiles->renameFiles(self::dir_micro_galery(),self::dir_micro_galery().$this->imggalery,self::dir_micro_galery().$simg['urlcatalog'].'-'.$this->getimg.'-'.$number.$fileextends);
+					/**
+					 * Insére l'image dans la base de donnée
+					 */
+					backend_db_catalog::adminDbCatalog()->i_galery_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.'-'.$number.$fileextends);
+					/**
+					 * Selectionne l'image et retourne le nom
+					 * @var string
+					 */
+					$getimg = backend_db_catalog::adminDbCatalog()->s_galery_image_product();
+					/**
+					 * Initialisation de la classe phpthumb 
+					 * @var void
+					 */
+					$thumb = PhpThumbFactory::create(self::dir_micro_galery().$getimg['imgcatalog']);
+					/**
+					 * Création des images et miniatures utile.
+					 * 2 tailles !!!
+					 */
+					$thumb->resize(500)->save(self::dir_micro_galery().'maxi/'.$getimg['imgcatalog']);
+					$thumb->resize(120,100)->save(self::dir_micro_galery().'mini/'.$getimg['imgcatalog']);
+					$makeFiles = new magixcjquery_files_makefiles();
+					if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
+						$makeFiles->removeFile(self::dir_micro_galery(),$getimg['imgcatalog']);
+					}
+				}else{
+					if(file_exists(self::dir_micro_galery().$this->getimg)){
+						$makeFiles->removeFile(self::dir_micro_galery(),$this->getimg);
+					}
+				}
 			}catch (Exception $e){
 				//Systeme de log + firephp
 				$log = magixcjquery_error_log::getLog();
@@ -770,21 +792,6 @@ class backend_controller_catalog{
 	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
 	        	magixcjquery_debug_magixfire::magixFireError($e);
 			}
-			if (backend_model_image::imgSizeMin(self::dir_micro_galery().$getimg['imgcatalog'],100,100)){
-				/**
-				 * Création des images et miniatures utile.
-				 * 2 tailles !!!
-				 */
-				$thumb->resize(500)->save(self::dir_micro_galery().'maxi/'.$getimg['imgcatalog']);
-				$thumb->resize(120,100)->save(self::dir_micro_galery().'mini/'.$getimg['imgcatalog']);
-			}
-			//Supprime le fichier original pour gagner en espace (si existe)
-			$makeFiles = new magixcjquery_files_makefiles();
-			if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
-				$makeFiles->removeFile(self::dir_micro_galery(),$getimg['imgcatalog']);
-			}/*else{
-				throw new Exception('file: '.$getimg['imgcatalog'].' is not found');
-			}*/
 		}
 	}
 	/**
