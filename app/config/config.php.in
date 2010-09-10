@@ -38,7 +38,7 @@ define('M_DBNAME','');
 define('M_LOG','log');
 
 // Path for error log
-define('M_TMP_DIR','/var/tmp/errors.log');
+define('M_TMP_DIR','../var/tmp/errors.log');
 
 // FirePHP (false or true)
 define('M_FIREPHP',false);

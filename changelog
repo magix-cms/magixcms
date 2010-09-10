@@ -1,3 +1,14 @@
+Stable 2.3.35
+	* Création du dossier pour les classes globales (magixglobal)
+	* Ajout de la classe system.php dans le dossier magixglobal pour les fonctions propre au système tel que la définition des chemins absolu
+	* Ajout de la classe rewrite.php dans le dossier magixglobal pour les fonctions propre à la réécriture des urls admin et public 
+	* Upgrade de colorbox de 1.3.6 => 1.3.9 avec modification des thèmes disponible
+	* Suppression du plugin smarty notify_header
+	* Ajout de la fonction smarty notify_dir_header en remplacement de notify_header
+	* Ajout de la fonction smarty header_notify pour les notifications utilisateurs (en cours de développement)
+	* Initialisation de magixglobal sur l'ensemble du logiciel
+	* Début de la suppression des variables globales $_SERVER['DOCUMENT_ROOT'] sur l'ensemble de l'installation pour permettre l'utilisation de localhost
+
 Stable 2.3.34
 	* Mise à jour tinyMCE 3.3.7 => 3.3.8
 	* Fix bug absolute url avec le domaine associer remplacer par / (tinyMCE)

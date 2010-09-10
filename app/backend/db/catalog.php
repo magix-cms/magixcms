@@ -273,11 +273,8 @@ class backend_db_catalog{
     function s_catalog_plugin($limit=false,$max=null,$offset=null,$sort){
     	$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-    	$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,p.idclc,p.idcls, c.clibelle, 
-    	s.slibelle,c.pathclibelle,s.pathslibelle,img.imgcatalog, lang.codelang, m.pseudo
+    	$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,img.imgcatalog, lang.codelang, m.pseudo
 		FROM mc_catalog AS p
-		LEFT JOIN mc_catalog_c as c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s as s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		LEFT JOIN mc_admin_member as m ON ( p.idadmin = m.idadmin )
@@ -287,15 +284,13 @@ class backend_db_catalog{
     /**
      * Insert un nouveau produit dans la table mc_catalog
      */
-	function i_catalog_product($idclc,$idcls,$idlang,$idadmin,$urlcatalog,$titlecatalog,$desccatalog,$price){
+	function i_catalog_product($idlang,$idadmin,$urlcatalog,$titlecatalog,$desccatalog,$price){
 		// récupère le nombre maximum de la colonne order
 		$maxorder = self::s_count_catalog_max();
-		$sql = 'INSERT INTO mc_catalog (idclc,idcls,idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
-		VALUE(:idclc,:idcls,:idlang,:idadmin,:urlcatalog,:titlecatalog,:desccatalog,:price,:ordercatalog)';
+		$sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
+		VALUE(:idlang,:idadmin,:urlcatalog,:titlecatalog,:desccatalog,:price,:ordercatalog)';
 		$this->layer->insert($sql,
 		array(
-			':idclc'			=>	$idclc,
-			':idcls'			=>	$idcls,
 			':idlang'			=>	$idlang,
 			':idadmin'			=>	$idadmin,
 			':urlcatalog'		=>	$urlcatalog,

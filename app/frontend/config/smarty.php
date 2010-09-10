@@ -8,7 +8,10 @@
  * @author Gérits Aurélien <aurelien@web-solution-way.be>
  *
  */
-$inc = $_SERVER['DOCUMENT_ROOT'].'/lib/smarty3/Smarty.class.php';
+$pathdir = dirname(realpath( __FILE__ ));
+$arraydir = array('app\frontend\config', 'app/frontend/config');
+$smartydir = magixglobal_model_system::root_path($arraydir,array('lib\smarty3', 'lib/smarty3') , $pathdir);
+$inc = $smartydir.'/Smarty.class.php';
 if (file_exists($inc)) {
 	require_once($inc);
 }else{
@@ -25,10 +28,6 @@ class frontend_config_smarty extends Smarty{
     */
     static protected $instance;
 	/**
-	 * @var protected server_root
-	 */
-	static protected $server_root;
-	/**
 	 * function construct class
 	 *
 	 */
@@ -36,7 +35,6 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * include parent var smarty
 		 */
-		self::$server_root = $_SERVER['DOCUMENT_ROOT'];
 		parent::__construct(); 
 		self::setParams();
 		/*
@@ -46,6 +44,11 @@ class frontend_config_smarty extends Smarty{
 		 $this->right_delimiter = '%>';
 		 */
 	}
+	private function setPath(){
+		$pathdir = dirname(realpath( __FILE__ ));
+		$arraydir = array('app\frontend\config', 'app/frontend/config');
+		return $smartydir = magixglobal_model_system::root_path($arraydir,array('', '') , $pathdir);
+	}
 	/**
 	 * Les paramètres pour la configuration de smarty 3
 	 */
@@ -53,25 +56,25 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = self::$server_root."/locali18n/";
+		$this->config_dir = self::setPath()."/locali18n/";
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = self::$server_root."/skin/".frontend_model_template::frontendTheme()->themeSelected().'/';
+		$this->template_dir = self::setPath()."/skin/".frontend_model_template::frontendTheme()->themeSelected().'/';
 		/**
 		 * path plugins
 		 * @var void
 		 */
 		$this->plugins_dir = array(
-			self::$server_root.'/lib/smarty3/plugins/'
-			,self::$server_root.'/app/extends/core/'
-			,self::$server_root.'/app/extends/frontend/'
-			,self::$server_root.'/widget/'
+			self::setPath().'/lib/smarty3/plugins/'
+			,self::setPath().'/app/extends/core/'
+			,self::setPath().'/app/extends/frontend/'
+			,self::setPath().'/widget/'
 		);
 		/**
 		 * Path -> compile
 		 */
-		$this->compile_dir = self::$server_root."/var/templates_c/";
+		$this->compile_dir = self::setPath()."/var/templates_c/";
 		/**
 		 * debugging (true/false)
 		 */
@@ -97,7 +100,7 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::$server_root.'/var/cache/';
+		$this->cache_dir = self::setPath().'/var/cache/';
 		/**
 		 * Security
 		 */

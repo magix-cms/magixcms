@@ -56,17 +56,13 @@ function smarty_function_widget_catalog($params, &$smarty){
 	}elseif($params['limit'] == "false"){
 		$limit = false;
 	}
-	if($params['sort'] == "category"){
-		$sort = 'idclc';
-	}elseif($params['sort'] == "product"){
+	if($params['sort'] == "product"){
 		$sort = 'idcatalog';
 	}
 	$plugin .= '<table class="clear">
 						<thead>
 							<tr>
 							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-							<th><span class="ui-icon ui-icon-folder-collapsed"></span></th>
-							<th><span class="ui-icon ui-icon-folder-open"></span></th>
 							<th><span class="ui-icon ui-icon-image"></span></th>
 							<th><span class="ui-icon ui-icon-flag"></span></th>
 							'.$thuser.'
@@ -99,20 +95,8 @@ function smarty_function_widget_catalog($params, &$smarty){
 					$imgcatalog = '<div class="ui-state-highlight" style="border:none;"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
 				break;
 			}
-			switch($pcms['idcls']){
-				case 0:
-					$subcategory = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-home"></span></div>';
-					$subcatpath = null;
-				break;
-				default: 
-					$subcategory = '<div class="ui-state-highlight" style="border:none;"><a class="widget-links post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'index.php?'.$lang.'catalog&amp;'.$pcms['pathclibelle'].'&amp;idclc='.$pcms['idclc'].'&amp;'.$pcms['pathslibelle'].'&amp;idcls='.$pcms['idcls'].'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
-					$subcatpath = '&amp;'.$pcms['pathslibelle'].'&amp;idcls='.$pcms['idcls'];
-				break;
-			}
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</a></td>';
-			 $plugin .= '<td class="nowrap"><a class="widget-links post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'index.php?'.$lang.'catalog&amp;'.$pcms['pathclibelle'].'&amp;idclc='.$pcms['idclc'].'">'.$pcms['clibelle'].'</a></td>';
-			 $plugin .= '<td class="nowrap">'.$subcategory.'</td>';
 			 $plugin .= '<td class="nowrap">'.$imgcatalog.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
@@ -126,8 +110,6 @@ function smarty_function_widget_catalog($params, &$smarty){
 	}else{
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	$viewuser?'<td class="maximal"></td>':'';
-			 $plugin .=	'<td class="nowrap"></td>';
-			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';

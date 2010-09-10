@@ -161,39 +161,11 @@ $(function() {
 		 * Notification après installation pour le dossier "install"
 		 */
 		if ($('#notify-install').length != 0){
-			//$.getScript('/min/?f=framework/js/jquery.meerkat.1.3.js', function() {
-			$('#notify-install').destroyMeerkat();
-			$('#notify-install').meerkat({
-				//background: 'url(\'../images/meerkat-top-bg.png\') repeat-x left bottom',
-				background:"#fdd",
-				width: '100%',
-				position: 'top',
-				close: '.close-notify',
-				dontShowAgain: '.dont-notify',
-				animationIn: 'fade',
-				animationOut: 'slide',
-				animationSpeed: '750',
-				//removeCookie: '.reset',
-				height: '80px',
-				opacity: '0.90',
-				onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
-			}).addClass('pos-top');
+			getDirNotify("install");
 		}else if ($('#notify-folder').length != 0){
-			$('#notify-folder').destroyMeerkat();
-			$('#notify-folder').meerkat({
-				background:"#efefef",
-				width: '100%',
-				position: 'top',
-				close: '.close-notify',
-				dontShowAgain: '.dont-notify',
-				animationIn: 'fade',
-				animationOut: 'slide',
-				animationSpeed: '750',
-				//removeCookie: '.reset',
-				height: '80px',
-				opacity: '0.90',
-				onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
-			}).addClass('pos-top');
+			getDirNotify("folder");
+		}else if($('#notify-header').length != 0){
+			getSimpleNotify(4);
 		}
 		/**
 		 * Initialisation du menu accordéon avec jquery cookies

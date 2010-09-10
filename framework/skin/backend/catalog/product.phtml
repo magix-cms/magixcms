@@ -18,7 +18,6 @@
 					<div class="dashboard-content">
 					{if $configcatalog eq 1}
 					<form id="forms-catalog-product" method="post" action="{geturl}/admin/index.php?dashboard&amp;catalog&amp;product&amp;addproduct" style="margin-left:10px;">
-					<div class="request">{$msg}</div>
 						<fieldset>
 							<table class="table-tinymce">
 								<tr>
@@ -32,30 +31,6 @@
 									<td class="status"></td>
 								</tr>
 								{$selectlang}
-								<tr>
-									<td class="label"><label for="idclc" class="inlinelabel">Catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>{$selectcategory}</td>
-								<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								<tr>
-									<td class="label"><label for="idcls" class="inlinelabel">Sous catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>
-										<select id="idcls" name="idcls">
-										<option value="">Sélectionner une catégorie</option>
-										</select>
-									</td>
-								<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
 								<tr>
 									<td class="label"><label for="price" class="inlinelabel">Prix :</label></td>
 								</tr>
@@ -92,8 +67,8 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{header_notify text=$msg}
 {include file="common/javascript.phtml"}
 <script type="text/javascript" src="/min/?g=editor"></script>
-<script type="text/javascript" src="/min/f=framework/js/ad-product-1.0.js"></script>
 </body>
 </html>

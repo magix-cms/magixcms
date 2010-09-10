@@ -18,12 +18,26 @@ class magixglobal_model_system{
 	 * @param array $dirname
 	 * @param string $pathdir
 	 */
-	public function root_path($arraydir=array(),$dirname=array(),$pathdir){
-		if (is_array($arraydir) AND is_array($dirname)) {
-			$search  = $arraydir;
-			$replace = $dirname;
-			return str_replace($search, $replace, $pathdir);
+	public static function root_path($arraydir=array(),$dirname=array(),$pathdir){
+		try {
+			if (is_array($arraydir) AND is_array($dirname)) {
+				$search  = $arraydir;
+				$replace = $dirname;
+				return str_replace($search, $replace, $pathdir);
+			}
+		}catch(Exception $e) {
+			$log = magixcjquery_error_log::getLog();
+	        $log->logfile = M_TMP_DIR;
+	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
+	        magixcjquery_debug_magixfire::magixFireError($e);
 		}
+	}
+	public static function magixlog($str,$e){
+		//Systeme de log + firephp
+		$log = magixcjquery_error_log::getLog();
+        $log->logfile = M_TMP_DIR;
+        $log->write($str. $e->getMessage(),__FILE__, $e->getLine());
+        return magixcjquery_debug_magixfire::magixFireError($e);
 	}
 }
 ?>

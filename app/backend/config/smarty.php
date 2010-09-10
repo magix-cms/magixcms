@@ -9,7 +9,10 @@
  * Configuration / extends smarty with class
  *
  */
-$inc = $_SERVER['DOCUMENT_ROOT'].'/lib/smarty3/Smarty.class.php';
+$pathdir = dirname(realpath( __FILE__ ));
+$arraydir = array('app\backend\config', 'app/backend/config');
+$smartydir = magixglobal_model_system::root_path($arraydir,array('lib\smarty3', 'lib/smarty3') , $pathdir);
+$inc = $smartydir.'/Smarty.class.php';
 if (file_exists($inc)) {
 	require_once($inc);
 }else{
@@ -26,10 +29,6 @@ class backend_config_smarty extends Smarty{
     */
     static protected $instance;
 	/**
-	 * @var protected server_root
-	 */
-	static protected $server_root;
-	/**
 	 * function construct class
 	 *
 	 */
@@ -37,7 +36,6 @@ class backend_config_smarty extends Smarty{
 		/**
 		 * include parent var smarty
 		 */
-		self::$server_root = $_SERVER['DOCUMENT_ROOT'];
 		parent::__construct(); 
 		self::setParams();
 		/*
@@ -47,28 +45,33 @@ class backend_config_smarty extends Smarty{
 		 $this->right_delimiter = '%>';
 		 */
 	}
+	private function setPath(){
+		$pathdir = dirname(realpath( __FILE__ ));
+		$arraydir = array('app\backend\config', 'app/backend/config');
+		return $smartydir = magixglobal_model_system::root_path($arraydir,array('', '') , $pathdir);
+	}
 	protected function setParams() {
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = self::$server_root."/app/backend/local/";
+		$this->config_dir = self::setPath()."/app/backend/local/";
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = array(self::$server_root."/framework/skin/backend/");
+		$this->template_dir = array(self::setPath()."/framework/skin/backend/");
 		/**
 		 * path plugins
 		 * @var void
 		 */
 		$this->plugins_dir = array(
-			self::$server_root.'/lib/smarty3/plugins/'
-			,self::$server_root.'/app/extends/core/'
-			,self::$server_root.'/app/extends/backend/'
+			self::setPath().'/lib/smarty3/plugins/'
+			,self::setPath().'/app/extends/core/'
+			,self::setPath().'/app/extends/backend/'
 		);
 		/**
 		 * Path -> compile
 		 */
-		$this->compile_dir = self::$server_root."/var/tpl_admin/";
+		$this->compile_dir = self::setPath()."/var/tpl_admin/";
 		/**
 		 * debugging (true/false)
 		 */
@@ -94,7 +97,7 @@ class backend_config_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::$server_root.'/var/tmp/';
+		$this->cache_dir = self::setPath().'/var/tmp/';
 		/**
 		 * Security
 		 */

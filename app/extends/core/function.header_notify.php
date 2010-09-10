@@ -31,13 +31,18 @@
  * @return string
  */
 function smarty_function_header_notify($params, &$smarty){
-	$dom = '<div id="notify-header">
-				<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>
-				<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	
-				<div id="message-notification">
-					<div class="mc-rep-request">
-						<span class="notify-32-icon notify-32-icon-folder-delete" style="float:left;"></span><div style="padding-top:10px;">Please delete the &laquo;install&raquo; folder after installation</div>
-					</div>
-				</div>
-		</div>';
+	$text = $params['text'];
+	if(!empty($text)){
+	return <<<EOT
+	<div id="notify-header">
+		<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>	
+		<div id="message-notification">
+			<div class="mc-rep-request">
+				$text
+			</div>
+		</div>
+	</div>
+EOT;
+	
+	}
 }

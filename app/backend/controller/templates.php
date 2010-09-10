@@ -15,7 +15,7 @@ class backend_controller_templates{
 	 * Cosntante
 	 * @var string
 	 */
-	const skin = '/skin/';
+	const skin = 'skin/';
 	/**
 	 * ptheme
 	 * @var string
@@ -34,7 +34,13 @@ class backend_controller_templates{
 	 * return void
 	 */
 	private function directory_skin(){
-		return $_SERVER['DOCUMENT_ROOT'].self::skin;
+		try{
+			$pathdir = dirname(realpath( __FILE__ ));
+			$arraydir = array('app\backend\controller', 'app/backend/controller');
+			return magixglobal_model_system::root_path($arraydir,array(self::skin,self::skin) , $pathdir);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 	}
 	/**
 	 * @see backend_model_template

@@ -52,16 +52,6 @@ class backend_controller_catalog{
 	 * ####### Fiche produit ########
 	 */
 	/**
-	 * identifiant de la catégorie
-	 * @var $idclc
-	 */
-	public $idclc;
-	/**
-	 * identifiant de la sous catégorie
-	 * @var $idclc
-	 */
-	public $idcls;
-	/**
 	 * identifiant de la langue
 	 * @var lang
 	 */
@@ -116,6 +106,17 @@ class backend_controller_catalog{
 	 * @var editcls
 	 */
 	public $editcls;
+	// Liaison de produit aux catégories
+	/**
+	 * identifiant de la catégorie
+	 * @var $idclc
+	 */
+	public $idclc;
+	/**
+	 * identifiant de la sous catégorie
+	 * @var $idclc
+	 */
+	public $idcls;
 	/**
 	 * ############## Envoi de l'image lié au produit #############
 	 */
@@ -295,6 +296,11 @@ class backend_controller_catalog{
 			$this->upsubcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upsubcat']);
 		}
 	}
+	private function def_dirimg_frontend($pathupload){
+		$pathdir = dirname(realpath( __FILE__ ));
+		$arraydir = array('app\backend\controller', 'app/backend/controller');
+		return magixglobal_model_system::root_path($arraydir,array($pathupload,$pathupload) , $pathdir);
+	}
 	/**
 	 * Affiche le menu "sortable" avec les éléments de catégorie
 	 * @
@@ -386,6 +392,7 @@ class backend_controller_catalog{
 	}
 	/**
 	 * insert une nouvelle catégorie dans le catalogue
+	 * @access public
 	 */
 	public function insert_new_category(){
 		if(isset($this->clibelle)){
@@ -395,11 +402,8 @@ class backend_controller_catalog{
 				}else{
 					backend_db_catalog::adminDbCatalog()->i_catalog_category($this->clibelle,$this->pathclibelle,$this->idlang);
 				}
-			} catch(Exception $e) {
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        	magixcjquery_debug_magixfire::magixFireError($e);
+			}catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
 	}
@@ -426,11 +430,8 @@ class backend_controller_catalog{
 				}else{
 					backend_db_catalog::adminDbCatalog()->i_catalog_subcategory($this->slibelle,$this->pathslibelle,$this->idclc);
 				}
-			} catch(Exception $e) {
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        	magixcjquery_debug_magixfire::magixFireError($e);
+			} catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
 	}
@@ -458,11 +459,8 @@ class backend_controller_catalog{
 				}else{
 					print '[{"optionValue":0 , "optionDisplay": "Aucune sous catégorie"}]';
 				}
-			} catch(Exception $e) {
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        	magixcjquery_debug_magixfire::magixFireError($e);
+			} catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
 	}
@@ -500,13 +498,8 @@ class backend_controller_catalog{
 			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
 				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/empty.phtml');
 				backend_config_smarty::getInstance()->assign('msg',$fetch);
-			}elseif($this->idclc == 0){
-				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/nocategory.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_product(
-					$this->idclc,
-					$this->idcls,
 					$this->idlang,
 					backend_model_member::s_idadmin(),
 					$this->urlcatalog,
@@ -651,7 +644,12 @@ class backend_controller_catalog{
 	 * @return string
 	 */
 	private function dir_img_product(){
-		return $_SERVER['DOCUMENT_ROOT'].'/upload/catalogimg/';
+		//return $_SERVER['DOCUMENT_ROOT'].'/upload/catalogimg/';
+		try{
+			return self::def_dirimg_frontend("upload/catalogimg/");
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 	}
 	/**
 	 * Insertion d'une image à un produit spécifique
@@ -716,11 +714,7 @@ class backend_controller_catalog{
 					}
 				}
 			}catch (Exception $e){
-				//Systeme de log + firephp
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        	magixcjquery_debug_magixfire::magixFireError($e);
+				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
 	}
@@ -730,7 +724,8 @@ class backend_controller_catalog{
 	 * @return string
 	 */
 	private function dir_micro_galery(){
-		return $_SERVER['DOCUMENT_ROOT'].'/upload/catalogimg/galery/';
+		//return $_SERVER['DOCUMENT_ROOT'].'/upload/catalogimg/galery/';
+		return self::def_dirimg_frontend("upload/catalogimg/galery/");
 	}
 	/**
 	 * Insertion d'une image dans la galerie spéifique à un produit
@@ -786,11 +781,7 @@ class backend_controller_catalog{
 					}
 				}
 			}catch (Exception $e){
-				//Systeme de log + firephp
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        	magixcjquery_debug_magixfire::magixFireError($e);
+				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
 	}
@@ -812,11 +803,7 @@ class backend_controller_catalog{
 				backend_db_catalog::adminDbCatalog()->d_galery_image_catalog($this->delmicro);
 				backend_config_smarty::getInstance()->display('catalog/request/success-delete-mg.phtml');
 			}catch (Exception $e){
-				//Systeme de log + firephp
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        	magixcjquery_debug_magixfire::magixFireError($e);
+				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
 	}
@@ -922,7 +909,7 @@ class backend_controller_catalog{
 	 * @access public
 	 */
 	public function display_product(){
-		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
+		//backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/product.phtml');
 	}
@@ -934,9 +921,9 @@ class backend_controller_catalog{
 		self::load_data_image_product();
 		$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
 		if($getimg['imgcatalog'] != null){
-			$gsize = getimagesize($_SERVER['DOCUMENT_ROOT'].magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg'.magixcjquery_html_helpersHtml::unixSeparator().'product'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
-			$psize = getimagesize($_SERVER['DOCUMENT_ROOT'].magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg'.magixcjquery_html_helpersHtml::unixSeparator().'medium'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
-			$ssize = getimagesize($_SERVER['DOCUMENT_ROOT'].magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg'.magixcjquery_html_helpersHtml::unixSeparator().'mini'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
+			$gsize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'product'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
+			$psize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'medium'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
+			$ssize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'mini'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
 			backend_config_smarty::getInstance()->assign('gwidth',$gsize[0]);
 			backend_config_smarty::getInstance()->assign('gheight',$gsize[1]);
 			backend_config_smarty::getInstance()->assign('pwidth',$psize[0]);
@@ -953,6 +940,7 @@ class backend_controller_catalog{
 	 * @access public
 	 */
 	public function display(){
+		magixcjquery_debug_magixfire::magixFireInfo("test");
 		backend_config_smarty::getInstance()->display('catalog/index.phtml');
 	}
 }

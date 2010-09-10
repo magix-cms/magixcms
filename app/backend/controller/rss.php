@@ -7,7 +7,7 @@
  * @version    1.0 2009-08-27
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @name RSS
- * @version 5.0
+ * @version 5.1
  *
  */
 class backend_controller_rss{
@@ -23,6 +23,19 @@ class backend_controller_rss{
 	 * @var void
 	 */
 	protected static $xmlRssInstance;
+	/**
+	* initialise la class system sur l'ensemble de la class
+	 */
+	private $pathdir;
+	private $arraydir;
+	/**
+	 * Constructeur de class
+	 * 
+	 */
+	function __construct(){
+		$this->pathdir = dirname(realpath( __FILE__ ));
+		$this->arraydir = array('app\backend\controller', 'app/backend/controller');
+	}
 	/**
 	 * 
 	 */
@@ -43,14 +56,25 @@ class backend_controller_rss{
         }
     	return self::$xmlRssInstance;
     }
-	/*
+	/**
+	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
+	 * @access private
+	 **/
+	private function dir_XML_FILE(){
+		try {
+			return magixglobal_model_system::root_path($this->arraydir,array("","") , $this->pathdir);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
+	}
+	/**
 	 * Ouverture du fichier XML pour ecriture de l'entête
-	 */
+	 **/
 	private function createXMLFile(){
 		/*On demande de vérifier si le fichier existe et si pas on le crée*/
-		self::xmlRssInstance()->createRSS('rss.xml');
+		self::xmlRssInstance()->createRSS(self::dir_XML_FILE(),'rss.xml');
 		/*On ouvre le fichier*/
-		self::xmlRssInstance()->openFileRSS('rss.xml');
+		self::xmlRssInstance()->openFileRSS(self::dir_XML_FILE(),'rss.xml');
 		/*On demande une indentation automatique (optionnelle)*/
 		self::xmlRssInstance()->indentRSS(true);
 		/*On écrit l'entête avec l'encodage souhaité*/

@@ -132,7 +132,7 @@ class exec_controller_install{
 				exec_config_smarty::getInstance()->display('request/success-config.phtml');
 			} catch(Exception $e) {
 				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
+	        	$log->logfile = M_TMP_DIR;
 	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
 	        	magixcjquery_debug_magixfire::magixFireError($e);
 			}
@@ -143,7 +143,7 @@ class exec_controller_install{
 	}
 	public function display_install_page(){
 		$dom = null;
-		if(!is_writable($_SERVER['DOCUMENT_ROOT'].'/app/config')){
+		if(!is_writable(dirname(__FILE__).'/../app/config')){
 			$dom = '<div id="notify-folder">
 					<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span> Close</a>
 					<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	

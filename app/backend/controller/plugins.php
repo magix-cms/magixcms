@@ -115,11 +115,8 @@ class backend_controller_plugins{
 	private function execute_plugins($className){
 		try{
 			$class =  new $className;
-		}catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        magixcjquery_debug_magixfire::magixFireError($e);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 		return $class;
 	}
@@ -143,11 +140,8 @@ class backend_controller_plugins{
 					throw new Exception ('Class '.self::getplugin().' not found');
 				}
 			}
-		}catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-		    $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-		    $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-		    magixcjquery_debug_magixfire::magixFireError($e);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
 	/**
@@ -199,16 +193,13 @@ class backend_controller_plugins{
 	public function display_plugins(){
 		if(self::getplugin()){
 			try{
-			//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
-			backend_config_smarty::getInstance()->assign('pluginName',self::pluginName()/*$plugin['pname']*/);
-			backend_config_smarty::getInstance()->assign('pluginUrl',self::pluginUrl());
-			self::load_plugin();
-			}catch(Exception $e) {
-				$log = magixcjquery_error_log::getLog();
-		        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-		        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-		        magixcjquery_debug_magixfire::magixFireError($e);
-			}
+				//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
+				backend_config_smarty::getInstance()->assign('pluginName',self::pluginName()/*$plugin['pname']*/);
+				backend_config_smarty::getInstance()->assign('pluginUrl',self::pluginUrl());
+				self::load_plugin();
+			}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 		}
 	}
 }

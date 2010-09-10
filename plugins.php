@@ -11,8 +11,8 @@
 /**
  * Charge toutes les Classes de l'application
  */
-require($_SERVER['DOCUMENT_ROOT'].'/app/frontend/autoload.php');
-$loaderFilename = $_SERVER['DOCUMENT_ROOT'].'/lib/loaderIniclass.php';
+require('app/frontend/autoload.php');
+$loaderFilename = 'lib/loaderIniclass.php';
 if (!file_exists($loaderFilename)) {
 	print "<p>Loader is not found<br />Contact Webmestre: aurelien@web-solution-way.be</p>";
 	exit;

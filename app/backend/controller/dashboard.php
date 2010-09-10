@@ -34,11 +34,8 @@ class backend_controller_dashboard{
 		try {
 			$xml = new SimpleXMLElement(self::load_local_file(),0, TRUE);
 			$v = $xml->number;
-		} catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        magixcjquery_debug_magixfire::magixFireError($e);
+		} catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 		return $v;
 	}
@@ -49,11 +46,8 @@ class backend_controller_dashboard{
 		try {
 			$xml = new SimpleXMLElement(self::load_local_file(),0, TRUE);
 			$v = $xml->phase;
-		} catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        magixcjquery_debug_magixfire::magixFireError($e);
+		} catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 		return $v;
 	}
@@ -94,11 +88,8 @@ class backend_controller_dashboard{
 				}
 			}
 			fclose($stream);
-		} catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        magixcjquery_debug_magixfire::magixFireError($e);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 		return $compare;
 	}

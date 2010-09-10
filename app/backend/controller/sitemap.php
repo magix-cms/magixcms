@@ -26,7 +26,6 @@ class backend_controller_sitemap{
 	 * @var void
 	 */
 	public $googleping;
-	protected $system;
 	private $pathdir;
 	private $arraydir;
 	
@@ -41,7 +40,6 @@ class backend_controller_sitemap{
 		if(magixcjquery_filter_request::isGet('googleping')) {
 			$this->googleping = $_GET['googleping'];
 		}
-		$this->system = new magixglobal_model_system();
 		$this->pathdir = dirname(realpath( __FILE__ ));
 		$this->arraydir = array('app\backend\controller', 'app/backend/controller');
 	}
@@ -50,16 +48,12 @@ class backend_controller_sitemap{
 	 * @access private
 	 */
 	private function dir_XML_FILE(){
-//		$system = new magixglobal_model_system();
+	//		$system = new magixglobal_model_system();
 		try {
-			return $this->system->root_path($this->arraydir,array("","") , $this->pathdir);
+			return magixglobal_model_system::root_path($this->arraydir,array("","") , $this->pathdir);
 		}catch (Exception $e){
-				//Systeme de log + firephp
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = $this->system->root_path($this->arraydir,array("var\report","var/report") , $this->pathdir).'/handlererror.log';
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        	magixcjquery_debug_magixfire::magixFireError($e);
-			}
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 	}
 	/*
 	 * Ouverture du fichier XML pour ecriture de l'entête
@@ -192,11 +186,8 @@ class backend_controller_sitemap{
 	private function execute_plugins($className){
 		try{
 			$class =  new $className;
-		}catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = $this->system->root_path($this->arraydir,array("var\report","var/report") , $this->pathdir).'/handlererror.log';
-	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        magixcjquery_debug_magixfire::magixFireError($e);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 		return $class;
 	}
