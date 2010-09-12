@@ -137,15 +137,6 @@ class backend_controller_config{
 		if(isset($_POST['idmetas'])){
 			$this->idmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['idmetas']);
 		}
-		/*if(isset($_POST['phrase1'])){
-			$this->phrase1 = magixcjquery_form_helpersforms::inputClean($_POST['phrase1']);
-		}
-		if(isset($_POST['phrase2'])){
-			$this->phrase2 = magixcjquery_form_helpersforms::inputClean($_POST['phrase2']);
-		}
-		if(isset($_POST['phrase3'])){
-			$this->phrase3 = magixcjquery_form_helpersforms::inputClean($_POST['phrase3']);
-		}*/
 		if(isset($_POST['strrewrite'])){
 			$this->strrewrite = magixcjquery_form_helpersforms::inputClean($_POST['strrewrite']);
 		}
@@ -320,7 +311,7 @@ class backend_controller_config{
 	 * Affiche la page de configuration
 	 * function display configuration
 	 */
-	public function display(){
+	private function display(){
 		self::update_states();
 		backend_config_smarty::getInstance()->display('config/index.phtml');
 	}
@@ -373,7 +364,7 @@ class backend_controller_config{
 			 	$title .= '<td class="nowrap">'.$seo['strrewrite'].'</td>';
 			 	$title .= '<td class="nowrap">'.$seo['level'].'</td>';
 			 	$title .= '<td class="nowrap">'.$seo['codelang'].'</td>';
-			 	$title .= '<td class="nowrap">'.'<a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;config&amp;metasrewrite&amp;edit='.$seo['idrewrite'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 	$title .= '<td class="nowrap">'.'<a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/config.php?metasrewrite&amp;edit='.$seo['idrewrite'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 	$title .= '<td class="nowrap">'.'<a class="d-config-rmetas" title="'.$seo['idrewrite'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	$title .= '</tr>';
 			}
@@ -399,30 +390,27 @@ class backend_controller_config{
 	private function insertion_rewrite(){
 		if(isset($this->strrewrite)){
 			if(empty($this->idconfig) OR empty($this->idmetas)){
-				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}elseif(backend_db_config::adminDbConfig()->s_rewrite_v_lang($this->idconfig,$this->idlang,$this->idmetas,$this->level) == null){
 				backend_db_config::adminDbConfig()->i_rewrite_metas($this->idconfig,$this->idlang,$this->strrewrite,$this->idmetas,$this->level);
+				backend_config_smarty::getInstance()->display('request/success.phtml');
 			}else{
-				$fetch = backend_config_smarty::getInstance()->fetch('request/element-exist.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/element-exist.phtml');
 			}
 		}
 	}
 	/**
-	 * Edite la réécriture suivant l'identifiant
+	 * Mise à jour de la réécriture suivant l'identifiant
 	 * @access private
 	 */
-	private function edit_rewrite(){
+	private function update_rewrite(){
 		if(isset($this->edit)){
 			if(isset($this->strrewrite)){
 				if(empty($this->idconfig) OR empty($this->idmetas)){
-					$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					backend_config_smarty::getInstance()->display('request/empty.phtml');
 				}else{
 					backend_db_config::adminDbConfig()->u_rewrite_metas($this->idconfig,$this->idlang,$this->strrewrite,$this->idmetas,$this->level,$this->edit);
-					$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					backend_config_smarty::getInstance()->display('request/success.phtml');
 				}
 			}
 		}
@@ -431,7 +419,7 @@ class backend_controller_config{
 	 * Supprime la réécriture suivant l'identifiant
 	 * @access public
 	 */
-	public function d_rewrite(){
+	private function d_rewrite(){
 		if(isset($this->drmetas)){
 			backend_db_config::adminDbConfig()->d_rewrite_metas($this->drmetas);
 		}
@@ -456,7 +444,7 @@ class backend_controller_config{
 	 * Affiche le formulaire et une liste des réécritures disponible
 	 * @access public
 	 */
-	public function display_seo(){
+	private function display_seo(){
 		self::insertion_rewrite();
 		backend_config_smarty::getInstance()->assign('viewmetas',self::view_metas());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
@@ -468,9 +456,27 @@ class backend_controller_config{
 	 * @access public
 	 */
 	public function display_seo_edit(){
-		self::edit_rewrite();
 		self::load_rewrite_for_edit();
 		backend_config_smarty::getInstance()->assign('viewmetas',self::view_metas());
 		backend_config_smarty::getInstance()->display('config/editseo.phtml');
+	}
+	public function run(){
+		if(magixcjquery_filter_request::isGet('metasrewrite')){
+			if(magixcjquery_filter_request::isGet('add')){
+				self::insertion_rewrite();
+			}elseif(magixcjquery_filter_request::isGet('edit')){
+				if(magixcjquery_filter_request::isGet('post')){
+					self::update_rewrite();
+				}else{
+					self::display_seo_edit();
+				}
+			}elseif(magixcjquery_filter_request::isGet('drmetas')){
+				self::d_rewrite();
+			}else{
+				self::display_seo();
+			}
+		}else{
+			self::display();
+		}
 	}
 }

@@ -16,7 +16,6 @@
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Thémes</div>
 					<div class="dashboard-content">
-					<div class="reqdialog"></div>
 						<div id="viewskin">
 						{$themes}
 						</div>
@@ -26,6 +25,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
 </body>
 </html>

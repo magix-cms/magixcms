@@ -92,6 +92,11 @@
         				}).addClass('pos-top');
         			});
         			$(".mc-head-request").html(request);
+        			if(options.reloadhtml == true){
+        				setTimeout(function(){
+        					location.reload();
+        				},options.delay);
+        			}
         		}
         	});
         }

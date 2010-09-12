@@ -22,7 +22,7 @@
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Modifier</div>
 					<div class="dashboard-content">
-					<form id="forms-home" method="post" action="" style="margin-left:10px;">
+					<form id="forms-home-update" method="post" action="" style="margin-left:10px;">
 					{$msg}
 						<fieldset>
 							<table>
@@ -30,7 +30,9 @@
 									<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
 								</tr>
 								<tr>
-									<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
+									<td>
+									<input type="hidden" id="idhome" value="{$smarty.get.edit}" />
+									<input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
 									<td style="width:150px;" class="errorInput"></td>
 								</tr>
 								<tr>
@@ -98,7 +100,7 @@
 								</tr>
 							</table>
 							</div>
-						<div style="margin:5px;"><input type="submit" name="snom" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+						<div style="margin:5px;"><input type="submit" /></div>
 					</form>
 					</div>
 				</div>
@@ -106,6 +108,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function() {

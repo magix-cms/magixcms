@@ -28,13 +28,13 @@ function smarty_function_admin_ariane($params, &$smarty){
 	$segment =  explode('&',parse_url($url,PHP_URL_QUERY));
 	$segment = str_replace('=',' - ',$segment);
 	//print_r($equal = explode('=', $segment[2]));
-	$root = magixcjquery_html_helpersHtml::getUrl().parse_url($url,PHP_URL_PATH).'?';
+	$root = magixcjquery_html_helpersHtml::getUrl().parse_url($url,PHP_URL_PATH);
 	$fil = null;
-	$fil .= empty($segment[0])? null: '<li><a href="'.$root.$segment[0].'"><span style="float:left;" class="magix-icon magix-icon-home"></span></a></li>';
+	$fil .= '<li><a href="'.$root.'"><span style="float:left;" class="magix-icon magix-icon-home"></span></a></li>';
+	$fil .= empty($segment[0])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[0]).'</li>';
 	$fil .= empty($segment[1])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[1]).'</li>';
 	$fil .= empty($segment[2])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[2]).'</li>';
 	$fil .= empty($segment[3])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[3]).'</li>';
-	$fil .= empty($segment[4])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[4]).'</li>';
 	return $fil;
 }
 ?>

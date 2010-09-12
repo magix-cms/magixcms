@@ -124,19 +124,23 @@ $(function() {
 			var hreftitle = $(this).attr("title");
 				if(hreftitle != null){
 					if(ie){
-					$.post('/admin/index.php?dashboard&templates&post', 
+						$.post('/admin/templates.php?post', 
 							{ theme: hreftitle}
-						, function(e) {
-							$(".reqdialog").html(e);
-							setTimeout(function(){
-								location.reload();
-							},2000);
+						, function(request) {
+							$.notice({
+								ntype: "simple",
+								time:2
+							});
+		        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
 						});
 					}else{
 						$.ajax({
 							type:'post',
 							data: "theme="+hreftitle,
-							url: "/admin/index.php?dashboard&templates&post",
+							url: "/admin/templates.php?post",
 							timeout:5000,
 							error: function(request,error) {
 								  if (error == "timeout") {
@@ -146,11 +150,15 @@ $(function() {
 									  $("#error").append("ERROR: " + error);
 								  }
 							},
-							success:function(e) {
-								$(".reqdialog").html(e);
-								setTimeout(function(){
-									location.reload();
-								},2000);
+							success:function(request) {
+								$.notice({
+									ntype: "simple",
+									time:2
+								});
+			        			$(".mc-head-request").html(request);
+		        				setTimeout(function(){
+		        					location.reload();
+		        				},2800);
 							}
 						});
 					}
@@ -328,6 +336,46 @@ $(function() {
 	        return false;
 		});
 		/*### Config Metas ###*/
+		$("#forms-config-rewrite").submit(function(){
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		delay: 2800,
+	    		dom: this,
+	    		uri: '/admin/config.php?metasrewrite&add',
+	    		typesend: 'post',
+	    		noticedata: null,
+	    		resetform:true,
+	    		time:2,
+	    		reloadhtml:true	
+			});
+			return false; 
+		});
+		/**
+		 * Soumission ajax d'une mise à jour d'une réécriture de métas dans la configuration
+		 */
+		$("#forms-config-rewrite-update").submit(function(){
+			var rewriteid = $('#idrewrite').val();
+			if(rewriteid != null){
+				$(this).ajaxSubmit({
+	        		url:'/admin/config.php?metasrewrite&edit='+rewriteid+'&post',
+	        		type:"post",
+	        		resetForm: false,
+	        		success:function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
+	        		}
+	        	});
+				return false; 
+			}else{
+				console.log("%s: %o","rewriteid is null",rewriteid);
+			}
+		});
 		/**
 	     * Requête ajax pour la suppression des réécriture de métas
 	     */
@@ -348,7 +396,7 @@ $(function() {
 						$(this).dialog('close');
 						$.ajax({
 							type:'get',
-							url: "/admin/index.php?dashboard&config&metasrewrite&drmetas="+lg,
+							url: "/admin/config.php?metasrewrite&drmetas="+lg,
 							async: false,
 							success: location.reload()
 					     });
@@ -369,67 +417,67 @@ $(function() {
 	     */
 		$("#global-config-lang :radio").click(function(){
 			$("#global-config-lang").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post",
 				success:location.reload()
 			});
 		});
 		$("#global-config-news :radio").click(function(){
 			$("#global-config-news").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post",
 				success:location.reload()
 			});
 		});
 		$("#global-config-cms :radio").click(function(){
 			$("#global-config-cms").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post",
 				success:location.reload()
 			});
 		});
 		$("#global-config-catalog :radio").click(function(){
 			$("#global-config-catalog").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post",
 				success:location.reload()
 			});
 		});
 		$("#global-config-microgalery :radio").click(function(){
 			$("#global-config-microgalery").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post",
 				success:location.reload()
 			});
 		});
 		$("#global-config-forms :radio").click(function(){
 			$("#global-config-forms").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post",
 				success:location.reload()
 			});
 		});
 		$("#global-rewritenews :radio").click(function(){
 			$("#global-rewritenews").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post"
 			});
 		});
 		$("#global-rewritecms :radio").click(function(){
 			$("#global-rewritecms").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post"
 			});
 		});
 		$("#global-rewritecatalog :radio").click(function(){
 			$("#global-rewritecatalog").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post"
 			});
 		});
 		$("#snumbCms").click(function(){
 			$("#limited-cms-module").ajaxSubmit({
-				url:"/admin/index.php?dashboard&config",
+				url:"/admin/config.php",
 				type:"post",
 				success:function(e) {$(".configupdate").html(e);}
 			});
@@ -468,7 +516,7 @@ $(function() {
 			update : function () {
 				serial = $('#sortable').sortable('serialize');
 				$.ajax({
-					url: "/admin/index.php?dashboard&cms&orderajax",
+					url: "/admin/cms.php?orderajax",
 					type: "post",
 					data: serial,
 					error: function(){
@@ -478,11 +526,14 @@ $(function() {
 			}
 		});
 		$("#sortable").disableSelection();
+		/**
+		 * Requête ajax pour activre/desactiver une page du menu sidebar
+		 */
 		$(".forms-cms-navigation").each(function(el){
 			var id = $(this).attr("id");
 			$("#"+id+" :radio").click(function(){
 				$("#"+id).ajaxSubmit({
-					url:"/admin/index.php?dashboard&cms&navigation",
+					url:"/admin/cms.php?navigation",
 					type:"post"
 				});
 			});
@@ -491,14 +542,16 @@ $(function() {
 		 * Soumission d'une nouvelle catégorie dans le CMS
 		 */
 		$("#forms-cms-category").submit(function(){
-			$(this).ajaxSubmit({
-				type:"post",
-				success:function(e) {
-					$("#resultcategory").html(e);
-					setTimeout(function(){
-						location.reload();
-					},1000);
-				}
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		delay: 2800,
+	    		dom: this,
+	    		uri: '/admin/cms.php?category&post',
+	    		typesend: 'post',
+	    		noticedata: null,
+	    		resetform:true,
+	    		time:2,
+	    		reloadhtml:true	
 			});
 			return false; 
 		});
@@ -508,7 +561,7 @@ $(function() {
 		$("#forms-cms-page").submit(function(){
 			tinyMCE.triggerSave(true,true);
 			$(this).ajaxSubmit({
-        		url:'/admin/index.php?dashboard&cms&add&post',
+        		url:'/admin/cms.php?add&post',
         		type:"post",
         		resetForm: true,
         		success:function(request) {
@@ -532,7 +585,7 @@ $(function() {
 			if(pageid != null){
 				tinyMCE.triggerSave(true,true);
 				$(this).ajaxSubmit({
-	        		url:'/admin/index.php?dashboard&cms&editcms='+pageid+'&post',
+	        		url:'/admin/cms.php?editcms='+pageid+'&post',
 	        		type:"post",
 	        		resetForm: false,
 	        		success:function(request) {
@@ -548,7 +601,7 @@ $(function() {
 	        	});
 				return false; 
 			}else{
-				console.log("%s: %o","productid is null",productid);
+				console.log("%s: %o","pageid is null",pageid);
 			}
 		});
 		/**
@@ -556,7 +609,7 @@ $(function() {
 		 */
 		$('.ucms-category').live("click",function(){
 			var idcategory = $(this).attr('title');
-			var url = '/admin/index.php?dashboard&cms&ucategory='+idcategory;
+			var url = '/admin/cms.php?ucategory='+idcategory;
 			$("#update-category").load(url, function() {
 				$(this).dialog({
 					bgiframe: true,
@@ -569,15 +622,30 @@ $(function() {
 					},
 					buttons: {
 						'Save': function() {
-							$.ajax({
+							$(this).dialog('close');
+							/*$.ajax({
 								type: "post",
-							    url : url,
+							    url : url+"&post",
 							    data: "update_category="+$('#update_category').val(),
-							    success : function(){
-									$(this).dialog('close');
-									location.reload()
+							    success : function(request){
+									$.notice({
+										ntype: "simple",
+										time:2
+									});
+				        			$(".mc-head-request").html(request);
+									setTimeout(function(){
+			        					location.reload();
+			        				},2800);
 						    	}
-							})
+							});*/
+							$.notice({
+								ntype: "ajax",
+					    		uri:  url+"&post",
+					    		typesend: 'post',
+					    		noticedata: "update_category="+$('#update_category').val(),
+					    		time:2,
+					    		reloadhtml:true
+							});
 						},
 						Cancel: function() {
 							$(this).dialog('close');
@@ -607,7 +675,7 @@ $(function() {
 						$(this).dialog('close');
 						$.ajax({
 							type:'get',
-							url: "/admin/index.php?dashboard&cms&delpage="+lg,
+							url: "/admin/cms.php?delpage="+lg,
 							async: false,
 							success: location.reload()
 					     });
@@ -639,7 +707,7 @@ $(function() {
 						$(this).dialog('close');
 						$.ajax({
 							type:'get',
-							url: "/admin/index.php?dashboard&cms&dcmscat="+lg,
+							url: "/admin/cms.php?dcmscat="+lg,
 							async: false,
 							success : function(){
 								$(this).dialog('close');
@@ -864,6 +932,49 @@ $(function() {
 			});
 		 });
 /*################## Home ##############*/
+	    $("#forms-home").submit(function(){
+			tinyMCE.triggerSave(true,true);
+			$(this).ajaxSubmit({
+        		url:'/admin/home.php?add',
+        		type:"post",
+        		resetForm: true,
+        		success:function(request) {
+					$.notice({
+						ntype: "simple",
+						time:2
+					});
+        			$(".mc-head-request").html(request);
+        				setTimeout(function(){
+        					location.reload();
+        				},2800);
+        		}
+        	});
+			return false; 
+		});
+	    $("#forms-home-update").submit(function(){
+			var homeid = $('#idhome').val();
+			if(homeid != null){
+				tinyMCE.triggerSave(true,true);
+				$(this).ajaxSubmit({
+	        		url:'/admin/home.php?edit='+homeid+'&post',
+	        		type:"post",
+	        		resetForm: false,
+	        		success:function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
+	        		}
+	        	});
+				return false; 
+			}else{
+				console.log("%s: %o","homeid is null",homeid);
+			}
+		});
 	    /**
 	     * Requête ajax pour la suppression des pages d'accueil
 	     */
@@ -884,7 +995,7 @@ $(function() {
 						$(this).dialog('close');
 						$.ajax({
 							type:'get',
-							url: "/admin/index.php?dashboard&home&delhome="+lg,
+							url: "/admin/home.php?delhome="+lg,
 							async: false,
 							success: location.reload()
 					     });
@@ -1008,7 +1119,8 @@ $(function() {
 					},
 					buttons: {
 						'Save': function() {
-							$.ajax({
+						$(this).dialog('close');
+							/*$.ajax({
 								type: "post",
 							    url : url,
 							    data: "update_category="+$('#update_category').val(),
@@ -1016,7 +1128,15 @@ $(function() {
 									$(this).dialog('close');
 									location.reload()
 							    }
-							})
+							})*/
+							$.notice({
+								ntype: "ajax",
+					    		uri:  url+"&post",
+					    		typesend: 'post',
+					    		noticedata: "update_category="+$('#update_category').val(),
+					    		time:2,
+					    		reloadhtml:true
+							});
 						},
 						Cancel: function() {
 							$(this).dialog('close');
@@ -1044,7 +1164,8 @@ $(function() {
 					},
 					buttons: {
 						'Save': function() {
-							$.ajax({
+							$(this).dialog('close');
+							/*$.ajax({
 								type: "post",
 							    url : url,
 							    data: "update_subcategory="+$('#update_subcategory').val(),
@@ -1052,6 +1173,14 @@ $(function() {
 									$(this).dialog('close');
 									location.reload();
 							    }
+							});*/
+							$.notice({
+								ntype: "ajax",
+					    		uri:  url+"&post",
+					    		typesend: 'post',
+					    		noticedata: "update_subcategory="+$('#update_subcategory').val(),
+					    		time:2,
+					    		reloadhtml:true
 							});
 						},
 						Cancel: function() {
@@ -1228,14 +1357,6 @@ $(function() {
 	     * Requête ajax pour la création, modification de fichier sitemap xml
 	     */
 		$('.createxml').click(function (){
-				/*$.ajax({
-					type:'get',
-					url: "/admin/index.php?dashboard&sitemap&createxml",
-					async: false,
-					success:function(e) {
-						$("#reponse").html(e);
-					}
-				});*/
 			$.notice({
 				ntype: "ajax",
 	    		uri: '/admin/index.php?dashboard&sitemap&createxml',
@@ -1243,7 +1364,6 @@ $(function() {
 	    		noticedata: null,
 	    		time:2
 			});
-			//noticehead("/admin/index.php?dashboard&sitemap&createxml","get",null,4);
 		 });
 /*################## Google Tools ##############*/
 		/**
@@ -1274,22 +1394,40 @@ $(function() {
 		 * Soumission de codes Google webmaster et/ou analytics
 		 */
 		$("#forms-webmaster-tools").submit(function(){
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 				url:'/admin/index.php?dashboard&googletools&pgdata',
 				type:"post",
 				success:function(e) {
 					$("#resultgdata").html(e);
 				}
+			});*/
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		dom: this,
+	    		uri: '/admin/index.php?dashboard&googletools&pgdata',
+	    		typesend: 'post',
+	    		delay: 2800,
+	    		time:2,
+	    		reloadhtml:true	
 			});
 			return false; 
 		});
 		$("#forms-analytics-tools").submit(function(){
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 				url:'/admin/index.php?dashboard&googletools&pgdata',
 				type:"post",
 				success:function(e) {
 					$("#resultgdata").html(e);
 				}
+			});*/
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		dom: this,
+	    		uri: '/admin/index.php?dashboard&googletools&pgdata',
+	    		typesend: 'post',
+	    		delay: 2800,
+	    		time:2,
+	    		reloadhtml:true	
 			});
 			return false; 
 		});

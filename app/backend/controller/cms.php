@@ -202,7 +202,7 @@ class backend_controller_cms{
 	/**
 	 * Insérer une nouvelle catégorie
 	 */
-	public function insertion_category(){
+	private function insertion_category(){
 		if(isset($this->category)){
 			if(empty($this->category)){
 				backend_config_smarty::getInstance()->display('request/empty.phtml');
@@ -305,7 +305,7 @@ class backend_controller_cms{
 	 * insertion d'une nouvelle page
 	 * @access private
 	 */
-	public function insert_new_page(){
+	private function insert_new_page(){
 		// Verifier que le module exist
 		$modexist = backend_db_config::adminDbConfig()->s_limited_module_exist();
 		// Sélectionne le nombre de limitation de page par module
@@ -404,7 +404,7 @@ class backend_controller_cms{
 	 * @access private
 	 *
 	 */
-	public function executeOrderCategory(){
+	private function executeOrderCategory(){
 		if(isset($_POST['ordercategory'])){
 			$p = $_POST['ordercategory'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -418,7 +418,7 @@ class backend_controller_cms{
 	 * @access private
 	 *
 	 */
-	public function executeOrderPage(){
+	private function executeOrderPage(){
 		if(isset($_POST['orderpage'])){
 			$p = $_POST['orderpage'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -457,7 +457,7 @@ class backend_controller_cms{
 	 * mise à jour d'une page
 	 * @access private
 	 */
-	public function update_page(){
+	private function update_page(){
 		if(isset($this->subjectpage) AND isset($this->contentpage)){
 			if(empty($this->subjectpage) OR empty($this->contentpage)){
 				backend_config_smarty::getInstance()->display('request/empty.phtml');
@@ -478,51 +478,60 @@ class backend_controller_cms{
 		}
 	}
 	/**
-	 * Affiche la pop-pup pour l'édition d'une catégorie cms
-	 * @access public
+	 * effectue la requête d'édition de la catégorie
+	 * @access private
 	 */
-	public function edit_category_cms(){
+	private function update_category_cms(){
+		if(isset($this->ucategory)){
+			if(isset($this->update_category)){
+				backend_db_cms::adminDbCms()->u_cms_category($this->update_category,$this->update_pathcategory,$this->ucategory);
+				backend_config_smarty::getInstance()->display('request/update-category.phtml');
+			}
+		}
+	}
+	/**
+	 * Affiche la pop-pup pour l'édition d'une catégorie cms
+	 * @access private
+	 */
+	private function edit_category_cms(){
 		if(isset($this->ucategory)){
 			$category = backend_db_cms::adminDbCms()->s_cms_category_id($this->ucategory);
 			backend_config_smarty::getInstance()->assign('category',$category['category']);
-			if(isset($this->update_category)){
-				backend_db_cms::adminDbCms()->u_cms_category($this->update_category,$this->update_pathcategory,$this->ucategory);
-			}
 		}
 		backend_config_smarty::getInstance()->display('cms/editcategory.phtml');
 	}
 	/**
 	 * Supprime une catégorie CMS
-	 * @access public
+	 * @access private
 	 */
-	public function delete_category_cms(){
+	private function delete_category_cms(){
 		if(isset($this->dcmscat)){
 			backend_db_cms::adminDbCms()->d_cms_category($this->dcmscat);
 		}
 	}
 	/**
 	 * Suppression d'une page CMS
-	 * @access public
+	 * @access private
 	 */
-	public function delete_page_cms(){
+	private function delete_page_cms(){
 		if(isset($this->delpage)){
 			backend_db_cms::adminDbCms()->d_cms_page($this->delpage);
 		}
 	}
 	/**
 	 * Affiche l'edition d'une page CMS
-	 * @access public
+	 * @access private
 	 */
-	public function display_edit_page(){
+	private function display_edit_page(){
 		self::load_data_cms_forms();
 		//self::update_page();
 		backend_config_smarty::getInstance()->display('cms/editpage.phtml');
 	}
 	/**
 	 * Affiche la page de modification de menu
-	 * @access public
+	 * @access private
 	 */
-	public function display_navigation(){
+	private function display_navigation(){
 		self::update_viewpage();
 		backend_config_smarty::getInstance()->assign('navorder',self::navigation_order());
 		backend_config_smarty::getInstance()->assign('navconstruct',self::navigation_construct());
@@ -530,18 +539,18 @@ class backend_controller_cms{
 	}
 	/**
 	 * Affiche la page d'insertion d'une page
-	 * @access public
+	 * @access private
 	 */
-	public function display_page(){
+	private function display_page(){
 		backend_config_smarty::getInstance()->assign('selectcategory',self::select_category());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('cms/add.phtml');
 	}
 	/**
 	 * Affiche la page des catégories et statistiques
-	 * @access public
+	 * @access private
 	 */
-	public function display_category(){
+	private function display_category(){
 		backend_config_smarty::getInstance()->assign('states_category',self::statistic_category());
 		backend_config_smarty::getInstance()->assign('block_cms_statistic',self::block_statistique());
 		backend_config_smarty::getInstance()->assign('block_category',self::view_category());
@@ -552,7 +561,50 @@ class backend_controller_cms{
 	 * Affiche la page de vue global
 	 * @access public
 	 */
-	function display_view(){
+	private function display_view(){
 		backend_config_smarty::getInstance()->display('cms/index.phtml');
+	}
+	/**
+	 * Execute le module dans l'administration
+	 * @access public
+	 */
+	public function run(){
+		if(magixcjquery_filter_request::isGet('add')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::insert_new_page();
+			}else{
+				self::display_page();
+			}
+		}elseif(magixcjquery_filter_request::isGet('editcms')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::update_page();
+			}else{
+				self::display_edit_page();
+			}
+		}elseif(magixcjquery_filter_request::isGet('navigation')){
+			self::display_navigation();
+		}elseif(magixcjquery_filter_request::isGet('delpage')){
+			self::delete_page_cms();
+		}elseif(magixcjquery_filter_request::isGet('orderajax')){
+			self::executeOrderCategory();
+			self::executeOrderPage();
+		}elseif(magixcjquery_filter_request::isGet('category')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::insertion_category();
+			}else{
+				self::display_category();
+			}
+		}elseif(magixcjquery_filter_request::isGet('ucategory')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::update_category_cms();
+			}else{
+				self::edit_category_cms();
+			}
+		}elseif(magixcjquery_filter_request::isGet('dcmscat')){
+			self::delete_category_cms();
+		}
+		else{
+			self::display_view();
+		}
 	}
 }

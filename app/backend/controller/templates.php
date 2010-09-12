@@ -47,7 +47,7 @@ class backend_controller_templates{
 	 * @see backend_model_template
 	 * Theme selectionné dans la base de donnée
 	 */
-	function tpl_identifier(){
+	private function tpl_identifier(){
 		return backend_model_template::backendTheme()->themeSelected();
 	}
 	/**
@@ -110,16 +110,22 @@ class backend_controller_templates{
 	/**
 	 * Post les données concernant le template
 	 */
-	public function send_post_template(){
+	private function send_post_template(){
 		self::change_tpl();
-		$fetch = backend_config_smarty::getInstance()->display('templates/success.phtml');
-		backend_config_smarty::getInstance()->assign('msg',$fetch);
+		backend_config_smarty::getInstance()->display('request/success-templates.phtml');
 	}
 	/**
 	 * Affiche la page pour la sélection ou le changement de template
 	 */
-	public function view_tpl_screen(){
+	private function view_tpl_screen(){
 		self::assign_screen();
 		backend_config_smarty::getInstance()->display('templates/index.phtml');
+	}
+	public function run(){
+		if(magixcjquery_filter_request::isGet('post')){
+			self::send_post_template();
+		}else{
+			self::view_tpl_screen();
+		}
 	}
 }

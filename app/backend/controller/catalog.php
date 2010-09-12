@@ -877,6 +877,15 @@ class backend_controller_catalog{
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/category.phtml');
 	}
+	public function update_category(){
+		if(isset($this->upcat)){
+			if(isset($this->update_category)){
+				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$this->upcat);
+				backend_config_smarty::getInstance()->display('request/update-category.phtml');
+			}
+		}
+		
+	}
 	/**
 	 * Affiche la pop-up pour l'édition de la catégorie
 	 * @access public
@@ -885,11 +894,16 @@ class backend_controller_catalog{
 		if(isset($this->upcat)){
 			$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
 			backend_config_smarty::getInstance()->assign('clibelle',$clibelle['clibelle']);
-			if(isset($this->update_category)){
-				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$this->upcat);
-			}
 		}
 		backend_config_smarty::getInstance()->display('catalog/editcategory.phtml');
+	}
+	public function update_subcategory(){
+		if(isset($this->upsubcat)){
+			if(isset($this->update_subcategory)){
+				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$this->upsubcat);
+				backend_config_smarty::getInstance()->display('request/update-subcategory.phtml');
+			}
+		}
 	}
 	/**
 	 * Affiche la pop-up pour l'édition de la sous catégorie
@@ -899,9 +913,6 @@ class backend_controller_catalog{
 		if(isset($this->upsubcat)){
 			$slibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
 			backend_config_smarty::getInstance()->assign('slibelle',$slibelle['slibelle']);
-			if(isset($this->update_subcategory)){
-				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$this->upsubcat);
-			}
 		}
 		backend_config_smarty::getInstance()->display('catalog/editsubcategory.phtml');
 	}

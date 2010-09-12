@@ -41,16 +41,22 @@ $members->closeSession();
 if(magixcjquery_filter_request::isSession('useradmin')){
 	if(magixcjquery_filter_request::isGet('dashboard')){
 		backend_controller_config::load_attribute_config();
-		if(magixcjquery_filter_request::isGet('home')){
+		/*if(magixcjquery_filter_request::isGet('home')){
 			$home = new backend_controller_home();
 			if(magixcjquery_filter_request::isGet('edit')){
-				$home->edit();
+				if(magixcjquery_filter_request::isGet('post')){
+					$home->update_data_forms();
+				}else{
+					$home->edit();
+				}
+			}elseif(magixcjquery_filter_request::isGet('add')){
+				$home->insert_data_forms();
 			}elseif(magixcjquery_filter_request::isGet('delhome')){
 				$home->del_home();
 			}else{
 				$home->display();
 			}
-		}elseif(magixcjquery_filter_request::isGet('config')){
+		}else*/if(magixcjquery_filter_request::isGet('config')){
 			$config = new backend_controller_config();
 			if(magixcjquery_filter_request::isGet('metasrewrite')){
 				if(magixcjquery_filter_request::isGet('edit')){
@@ -87,34 +93,24 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			$news = new backend_controller_news();
 			if(magixcjquery_filter_request::isGet('edit')){
 				$news->edit();
-			}/*elseif(magixcjquery_filter_request::isGet('rewrite')){
-				if(magixcjquery_filter_request::isGet('getrewrite')){
-					$news->edit_rewrite();
-				}elseif(magixcjquery_filter_request::isGet('drmetas')){
-					$news->del_rewrite_metas();
-				}else{
-					$news->rewrite_display();
-				}
-			}*/elseif(magixcjquery_filter_request::isGet('add')){
+			}elseif(magixcjquery_filter_request::isGet('add')){
 				$news->display_addnews();
 			}elseif(magixcjquery_filter_request::isGet('delnews')){
 				$news->del_news();
 			}else{
 				$news->display_news();
 			}
-		}elseif(magixcjquery_filter_request::isGet('cms')){
+		}/*elseif(magixcjquery_filter_request::isGet('cms')){
 			$ini = new backend_controller_cms();
 			if(magixcjquery_filter_request::isGet('add')){
 				if(magixcjquery_filter_request::isGet('post')){
 					$ini->insert_new_page();
-					//$ini->display_page();
 				}else{
 					$ini->display_page();
 				}
 			}elseif(magixcjquery_filter_request::isGet('editcms')){
 				if(magixcjquery_filter_request::isGet('post')){
 					$ini->update_page();
-					//$ini->display_edit_page();
 				}else{
 					$ini->display_edit_page();
 				}
@@ -132,14 +128,18 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 					$ini->display_category();
 				}
 			}elseif(magixcjquery_filter_request::isGet('ucategory')){
-				$ini->edit_category_cms();
+				if(magixcjquery_filter_request::isGet('post')){
+					$ini->update_category_cms();
+				}else{
+					$ini->edit_category_cms();
+				}
 			}elseif(magixcjquery_filter_request::isGet('dcmscat')){
 				$ini->delete_category_cms();
 			}
 			else{
 				$ini->display_view();
 			}
-		}elseif(magixcjquery_filter_request::isGet('catalog')){
+		}*/elseif(magixcjquery_filter_request::isGet('catalog')){
 			$catalog = new backend_controller_catalog();
 			if(magixcjquery_filter_request::isGet('category')){
 				if(magixcjquery_filter_request::isGet('delc')){
@@ -152,9 +152,17 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 					$catalog->display_category();
 				}
 			}elseif(magixcjquery_filter_request::isGet('upcat')){
+				if(magixcjquery_filter_request::isGet('post')){
+					$catalog->update_category();
+				}else{
 					$catalog->display_edit_category();
+				}
 			}elseif(magixcjquery_filter_request::isGet('upsubcat')){
+				if(magixcjquery_filter_request::isGet('post')){
+					$catalog->update_subcategory();
+				}else{
 					$catalog->display_edit_subcategory();
+				}
 			}elseif(magixcjquery_filter_request::isGet('product')){
 				if(magixcjquery_filter_request::isGet('addproduct')){
 					$catalog->insert_new_product();
@@ -213,14 +221,14 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			else{
 				$ini->display_index();
 			}
-		}elseif(magixcjquery_filter_request::isGet('templates')){
+		}/*elseif(magixcjquery_filter_request::isGet('templates')){
 			$tpl = new backend_controller_templates();
 			if(magixcjquery_filter_request::isGet('post')){
 				$tpl->send_post_template();
 			}else{
 				$tpl->view_tpl_screen();
 			}
-		}elseif(magixcjquery_filter_request::isGet('plugin')){
+		}*/elseif(magixcjquery_filter_request::isGet('plugin')){
 			$plugin = new backend_controller_plugins();
 			$plugin->display_plugins();
 		}elseif(magixcjquery_filter_request::isGet('googletools')){
