@@ -1,6 +1,8 @@
 <?php
 	require_once($basepath . "FileManager/FileManagerPlugin.php");
-
+	$tinymce_img_dir = dirname(realpath( __FILE__ ));
+	$tinymce_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce-3-3-8'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'filemanager');
+	$tinymce_path = str_replace($tinymce_array_dir,array('') , $tinymce_img_dir);
 	// * * * * FileManager config
 
 	// General options
@@ -30,8 +32,8 @@
 
 	// General file system options
 	$mcFileManagerConfig['filesystem'] = "Moxiecode_LocalFileImpl";
-	$mcFileManagerConfig['filesystem.path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'media'; // absolute or relative from this script path.
-	$mcFileManagerConfig['filesystem.rootpath'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'media'; // absolute or relative from this script path.
+	$mcFileManagerConfig['filesystem.path'] = $tinymce_path.DIRECTORY_SEPARATOR.'media'; // absolute or relative from this script path.
+	$mcFileManagerConfig['filesystem.rootpath'] = $tinymce_path.DIRECTORY_SEPARATOR.'media'; // absolute or relative from this script path.
 	$mcFileManagerConfig['filesystem.datefmt'] = "Y-m-d H:i";
 	$mcFileManagerConfig['filesystem.include_directory_pattern'] = '';
 	$mcFileManagerConfig['filesystem.exclude_directory_pattern'] = '/^mcith$/i';

@@ -11,8 +11,11 @@
 /**
  * Charge toutes les Classes de l'application
  */
+$pathinstall = dirname(realpath( __FILE__ ));
+$arrayinstall = array('install');
+$incinstall = str_replace($arrayinstall,array('') , $pathinstall);
 require(dirname(__FILE__).'/exec/autoload.php');
-$loaderFilename = dirname(__FILE__).'/../lib/loaderIniclass.php';
+$loaderFilename = $incinstall.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'loaderIniclass.php';
 if (!file_exists($loaderFilename)) {
 	print "<p>Loader is not found<br />Contact Webmestre: aurelien@web-solution-way.be</p>";
 	exit;

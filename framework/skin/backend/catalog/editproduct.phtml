@@ -17,15 +17,16 @@
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Modifier un produit</div>
 					<div class="dashboard-content">
 					{if $configcatalog eq 1}
-					<form id="forms-catalog-product" method="post" action="{geturl}/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct={$smarty.get.editproduct}&amp;updateproduct" style="margin-left:10px;">
-					<div class="request">{$msg}</div>
+					<form id="forms-catalog-product-edit" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table class="table-tinymce">
 								<tr>
 									<td class="label"><label for="titlecatalog" class="inlinelabel">Titre :</label></td>
 								</tr>
 								<tr>
-									<td><input type="text" id="titlecatalog" name="titlecatalog" class="inputtext ui-corner-all" value="{$titlecatalog}" size="50" /></td>
+									<td>
+									<input type="hidden" id="idcatalog" value="{$smarty.get.editproduct}" />
+									<input type="text" id="titlecatalog" name="titlecatalog" class="inputtext ui-corner-all" value="{$titlecatalog}" size="50" /></td>
 									<td style="width:150px;" class="errorInput"></td>
 								</tr>
 								<tr>
@@ -82,6 +83,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript" src="/min/?g=editor"></script>
 {include file="catalog/jsextends.phtml"}

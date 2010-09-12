@@ -64,14 +64,15 @@ class exec_controller_install{
 	 * Constructor
 	 */
 	function __construct(){
+		
 		/**
 		 * path for reading file config.php.in
 		 */
-		self::$config_in = $_SERVER['DOCUMENT_ROOT'].'/app/config/config.php.in';
+		self::$config_in = self::dir_config_file().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php.in';
 		/*
 		 * path for create file config.php
 		 */
-		self::$configfile = $_SERVER['DOCUMENT_ROOT'].'/app/config/config.php';
+		self::$configfile = self::dir_config_file().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
 		self::$M_DBDRIVER = !empty($_POST['M_DBDRIVER']) ? $_POST['M_DBDRIVER'] : 'mysql';
 		self::$M_DBHOST = !empty($_POST['M_DBHOST']) ? $_POST['M_DBHOST'] : '';
 		self::$M_DBUSER = !empty($_POST['M_DBUSER']) ? $_POST['M_DBUSER'] : '';
@@ -80,6 +81,9 @@ class exec_controller_install{
 		self::$M_LOG = !empty($_POST['M_LOG']) ? $_POST['M_LOG'] : '';
 		self::$M_TMP_DIR = !empty($_POST['M_TMP_DIR']) ? $_POST['M_TMP_DIR'] : '';
 		self::$M_FIREPHP = !empty($_POST['M_FIREPHP']) ? $_POST['M_FIREPHP'] : '';
+	}
+	private function dir_config_file(){
+		return magixglobal_model_system::base_path();
 	}
 	/**
 	 * Vérifie si le fichier config.php.in est présent
@@ -143,7 +147,7 @@ class exec_controller_install{
 	}
 	public function display_install_page(){
 		$dom = null;
-		if(!is_writable(dirname(__FILE__).'/../app/config')){
+		if(!is_writable(self::dir_config_file().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config')){
 			$dom = '<div id="notify-folder">
 					<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span> Close</a>
 					<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	

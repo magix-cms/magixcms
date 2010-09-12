@@ -1,10 +1,12 @@
 <?php
 /**
+ * MAGIX CMS
  * @category   Controller 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.cms-site.com)
- * @license    Proprietary software
- * @version    4.1
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    4.2
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @name CMS
  *
@@ -310,8 +312,7 @@ class backend_controller_cms{
 		$module = backend_db_config::adminDbConfig()->s_config_number_module();
 		if(isset($this->subjectpage) AND isset($this->contentpage)){
 			if(empty($this->subjectpage) OR empty($this->contentpage)){
-				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}elseif($modexist['idconfig'] != null){
 				// Si le module existe
 				// Si le nombre est plus grand que zero
@@ -319,8 +320,7 @@ class backend_controller_cms{
 					$cpage = backend_db_cms::adminDbCms()->s_count_cms_max();
 					if($cpage['total'] >= $module['number']){
 						//Si le nombre maximal de page est atteint
-						$fetch = backend_config_smarty::getInstance()->fetch('request/maxpage.phtml');
-						backend_config_smarty::getInstance()->assign('msg',$fetch);
+						backend_config_smarty::getInstance()->display('request/maxpage.phtml');
 					}else{
 						backend_db_cms::adminDbCms()->i_news_page(
 							$this->subjectpage,
@@ -332,8 +332,7 @@ class backend_controller_cms{
 							$this->metatitle,
 							$this->metadescription
 						);
-						$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
-						backend_config_smarty::getInstance()->assign('msg',$fetch);
+						backend_config_smarty::getInstance()->display('request/success.phtml');
 					}
 				}else{
 					// Sinon on insére
@@ -347,8 +346,7 @@ class backend_controller_cms{
 						$this->metatitle,
 						$this->metadescription
 					);
-					$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					backend_config_smarty::getInstance()->display('request/success.phtml');
 				}
 			}
 		}
@@ -442,7 +440,7 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('metatitle',$data['metatitle']);
 		backend_config_smarty::getInstance()->assign('metadescription',$data['metadescription']);
-		$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
+		/*$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
 		switch($data['idcategory']){
 				case 0:
 					$catpath = null;
@@ -450,8 +448,10 @@ class backend_controller_cms{
 				default: 
 					$catpath = 'getidcategory='.$data['idcategory'].'&amp;getcat='.$data['pathcategory'].'&amp;';
 				break;
-			}
-		backend_config_smarty::getInstance()->assign('view',magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$data['idpage'].'&amp;'.'getpurl='.$data['pathpage']);
+			}*/
+		$uri = magixglobal_model_rewrite::filter_cms_url($data['codelang'],$data['idcategory'],$data['pathcategory'],$data['idpage'],$data['pathpage']);
+		//magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$data['idpage'].'&amp;'.'getpurl='.$data['pathpage']
+		backend_config_smarty::getInstance()->assign('view',$uri);
 	}
 /**
 	 * mise à jour d'une page
@@ -460,8 +460,7 @@ class backend_controller_cms{
 	public function update_page(){
 		if(isset($this->subjectpage) AND isset($this->contentpage)){
 			if(empty($this->subjectpage) OR empty($this->contentpage)){
-				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}else{
 				backend_db_cms::adminDbCms()->u_cms_page(
 						$this->subjectpage,
@@ -474,8 +473,7 @@ class backend_controller_cms{
 						$this->metadescription,
 						$this->editcms
 					);
-					$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/success.phtml');
 			}
 		}
 	}

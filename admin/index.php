@@ -1,24 +1,36 @@
 <?php
 /**
- * @category   Admin Index
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-10-27
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * MAGIX CMS
+ * @category   admin
+ * @package    Exec Files
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.0
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @name index
  *
  */
 /**
  * Charge toutes les Classes de l'application
  */
-$loaderFilename = '../lib/loaderIniclass.php';
+$adminpathdir = dirname(realpath( __FILE__ ));
+$adminarraydir = array('admin');
+$adminpath = str_replace($adminarraydir,array('') , $adminpathdir);
+$loaderFilename = $adminpath.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'loaderIniclass.php';
 if (!file_exists($loaderFilename)) {
-	print "<p>Loader is not found<br />Contact Webmestre: aurelien@web-solution-way.be</p>";
+	print "<p>Loader is not found<br />Contact Support Magix CMS: support@cms-site.com</p>";
 	exit;
 }else{
 	require $loaderFilename;
 }
-require('../app/backend/autoload.php');
+require(magixglobal_model_system::base_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'autoload.php');
+$config = magixglobal_model_system::base_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
+if (!file_exists($config)) {
+	//Header("Location: /install/index.php");
+	print '<p>La base de donnée n\'existe pas, veuillez suivre la procédure pour faire l\'<a href="/install/">installation</a> de Magix CMS</p>';
+	exit;
+}
 /**
  * Autoload Frontend
  */
@@ -95,14 +107,14 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			if(magixcjquery_filter_request::isGet('add')){
 				if(magixcjquery_filter_request::isGet('post')){
 					$ini->insert_new_page();
-					$ini->display_page();
+					//$ini->display_page();
 				}else{
 					$ini->display_page();
 				}
 			}elseif(magixcjquery_filter_request::isGet('editcms')){
 				if(magixcjquery_filter_request::isGet('post')){
 					$ini->update_page();
-					$ini->display_edit_page();
+					//$ini->display_edit_page();
 				}else{
 					$ini->display_edit_page();
 				}
@@ -146,11 +158,9 @@ if(magixcjquery_filter_request::isSession('useradmin')){
 			}elseif(magixcjquery_filter_request::isGet('product')){
 				if(magixcjquery_filter_request::isGet('addproduct')){
 					$catalog->insert_new_product();
-					$catalog->display_product();
 				}elseif(magixcjquery_filter_request::isGet('editproduct')){
 					if(magixcjquery_filter_request::isGet('updateproduct')){
 						$catalog->update_specific_product();
-						$catalog->display_edit_product();
 					}else{
 						$catalog->display_edit_product();
 					}

@@ -1,13 +1,14 @@
 <?php
 /**
+ * MAGIX CMS
  * @category   Controller 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-08-27
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    5.2
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
- * @name RSS
- * @version 5.1
+ * @name rss
  *
  */
 class backend_controller_rss{
@@ -23,19 +24,6 @@ class backend_controller_rss{
 	 * @var void
 	 */
 	protected static $xmlRssInstance;
-	/**
-	* initialise la class system sur l'ensemble de la class
-	 */
-	private $pathdir;
-	private $arraydir;
-	/**
-	 * Constructeur de class
-	 * 
-	 */
-	function __construct(){
-		$this->pathdir = dirname(realpath( __FILE__ ));
-		$this->arraydir = array('app\backend\controller', 'app/backend/controller');
-	}
 	/**
 	 * 
 	 */
@@ -62,7 +50,7 @@ class backend_controller_rss{
 	 **/
 	private function dir_XML_FILE(){
 		try {
-			return magixglobal_model_system::root_path($this->arraydir,array("","") , $this->pathdir);
+			return magixglobal_model_system::base_path().DIRECTORY_SEPARATOR;
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}

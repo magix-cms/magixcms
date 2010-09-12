@@ -1,13 +1,14 @@
 <?php
 /**
+ * MAGIX CMS
  * @category   Controller 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-08-27
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    5.1
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
- * @name SITEMAP
- * @version 5.0
+ * @name sitemap
  *
  */
 class backend_controller_sitemap{
@@ -15,7 +16,7 @@ class backend_controller_sitemap{
 	 * Constante
 	 * string
 	 */
-	const plugins = 'plugins/';
+	const plugins = 'plugins';
 	/*
 	 * Creation du fichier (get)
 	 * @var void
@@ -26,9 +27,6 @@ class backend_controller_sitemap{
 	 * @var void
 	 */
 	public $googleping;
-	private $pathdir;
-	private $arraydir;
-	
 	/**
 	 * 
 	 * Constructor
@@ -40,8 +38,6 @@ class backend_controller_sitemap{
 		if(magixcjquery_filter_request::isGet('googleping')) {
 			$this->googleping = $_GET['googleping'];
 		}
-		$this->pathdir = dirname(realpath( __FILE__ ));
-		$this->arraydir = array('app\backend\controller', 'app/backend/controller');
 	}
 	/*
 	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
@@ -50,7 +46,7 @@ class backend_controller_sitemap{
 	private function dir_XML_FILE(){
 	//		$system = new magixglobal_model_system();
 		try {
-			return magixglobal_model_system::root_path($this->arraydir,array("","") , $this->pathdir);
+			return magixglobal_model_system::base_path().DIRECTORY_SEPARATOR;
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
@@ -196,7 +192,7 @@ class backend_controller_sitemap{
 	 * return void
 	 */
 	private function directory_plugins(){
-		return self::dir_XML_FILE().self::plugins;
+		return self::dir_XML_FILE().self::plugins.DIRECTORY_SEPARATOR;
 		//return $_SERVER['DOCUMENT_ROOT'].self::plugins;
 	}
 	/**
@@ -216,7 +212,7 @@ class backend_controller_sitemap{
 		$dir = $makefiles->scanRecursiveDir(self::directory_plugins());
 		if($dir != null){
 			foreach($dir as $d){
-				if(file_exists(self::directory_plugins().$d.'/'.'admin.php')){
+				if(file_exists(self::directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
 					$pluginPath = self::directory_plugins().$d;
 					if($makefiles->scanDir($pluginPath) != null){
 						if(class_exists('plugins_'.$d.'_admin')){
@@ -270,7 +266,7 @@ class backend_controller_sitemap{
 				/**
 				 * Si le fichier exist on continue
 				 */
-				if(file_exists(self::directory_plugins().$d.'/'.'admin.php')){
+				if(file_exists(self::directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
 					/**
 					 * Retourne le dossier ou chemin vers le dossier du plugin
 					 * @var string
@@ -370,7 +366,7 @@ class backend_controller_sitemap{
 		}else{
 			self::execute_compression();
 			backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml.gz');
-			//$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
+			$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
 		}
 		backend_config_smarty::getInstance()->display('sitemap/request/ping.phtml');
 	}
@@ -384,6 +380,6 @@ class backend_controller_sitemap{
 			self::writeCatalog();
 			self::writeplugin();
 			self::endXMLWriter();
-			backend_config_smarty::getInstance()->display('request/success.phtml');
+			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
 	}
 }

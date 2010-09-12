@@ -1,12 +1,11 @@
 /**
- * @category   javascript
- * @package    dashboard
- * @copyright  Copyright (c) 2010 - 2011 (http://www.logiciel-referencement-professionnel.com)
- * @license    Proprietary software
- * @version    1.3 
- * @Date       2010-01-04
- * @update     2010-06-16
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * MAGIX CMS
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.0
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @name dashboard
  *
  */
 /**

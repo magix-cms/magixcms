@@ -10,7 +10,9 @@ $min_cachePath = new Minify_Cache_Memcache($memcache);*/
  * Configuration for default Minify application
  * @package Minify
  */
-
+$mindir = dirname(realpath( __FILE__ ));
+$minarraydir = array('min');
+$minpath = str_replace($minarraydir,array('') , $mindir);
 
 /**
  * In 'debug' mode, Minify can combine files with no minification and
@@ -50,7 +52,7 @@ $min_enableBuilder = true;
 //$min_cachePath = '/tmp';
 //$min_cachePath = preg_replace('/^\\d+;/', '', session_save_path());
 //$min_cachePath = $_SERVER['DOCUMENT_ROOT'].'/min/caches';
-$min_cachePath = $_SERVER['DOCUMENT_ROOT'].'/var/caches';
+$min_cachePath = $minpath.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'caches';
 
 /**
  * Leave an empty string to use PHP's $_SERVER['DOCUMENT_ROOT'].
@@ -62,7 +64,7 @@ $min_cachePath = $_SERVER['DOCUMENT_ROOT'].'/var/caches';
  * If /min/ is directly inside your document root, just uncomment the
  * second line. The third line might work on some Apache servers.
  */
-$min_documentRoot = '';
+$min_documentRoot = $minpath;
 //$min_documentRoot = substr(__FILE__, 0, strlen(__FILE__) - 15);
 //$min_documentRoot = $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'];
 

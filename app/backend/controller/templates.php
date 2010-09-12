@@ -1,13 +1,14 @@
 <?php
 /**
+ * MAGIX CMS
  * @category   Controller 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-08-27
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.1
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @name templates
- * @version 0.1alpha
  *
  */
 class backend_controller_templates{
@@ -15,7 +16,7 @@ class backend_controller_templates{
 	 * Cosntante
 	 * @var string
 	 */
-	const skin = 'skin/';
+	const skin = 'skin';
 	/**
 	 * ptheme
 	 * @var string
@@ -36,8 +37,8 @@ class backend_controller_templates{
 	private function directory_skin(){
 		try{
 			$pathdir = dirname(realpath( __FILE__ ));
-			$arraydir = array('app\backend\controller', 'app/backend/controller');
-			return magixglobal_model_system::root_path($arraydir,array(self::skin,self::skin) , $pathdir);
+			$arraydir = array('app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'controller');
+			return magixglobal_model_system::root_path($arraydir,array(self::skin) , $pathdir).DIRECTORY_SEPARATOR;
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}

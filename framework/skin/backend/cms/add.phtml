@@ -17,8 +17,7 @@
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
 					<div class="dashboard-content">
 					{if $configcms eq 1}
-					<form id="forms-cms" method="post" action="{geturl}/admin/index.php?dashboard&amp;cms&amp;add&amp;post" style="margin-left:10px;">
-					<div class="request">{$msg}</div>
+					<form id="forms-cms-page" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table class="table-tinymce">
 								<tr>
@@ -85,7 +84,7 @@
 								</tr>
 							</table>
 							</div>
-						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+						<div style="margin:5px;"><input type="submit" /></div>
 					</form>
 					{else}
 					<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
@@ -99,6 +98,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript" src="/min/?g=editor"></script>
 </body>

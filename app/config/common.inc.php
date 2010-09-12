@@ -11,7 +11,7 @@
 /**
  * Ini name data Mysql
  */
-$config = dirname(__FILE__).'/config.php';
+$config = dirname(__FILE__).DIRECTORY_SEPARATOR.'config.php';
 if (file_exists($config)) {
 	require $config;
 }/*else{
@@ -29,5 +29,5 @@ if(defined('M_LOG')){
 	}
 	ini_set('display_errors', $dis_errors);
 }
-/*error_reporting(E_WARNING);*/ 
+//error_reporting(E_ALL ^ E_NOTICE);
 ?>

@@ -1,9 +1,11 @@
 <?php
 /**
+ * MAGIX CMS
  * @category   Controller 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    3.0
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @name catalog
@@ -297,9 +299,10 @@ class backend_controller_catalog{
 		}
 	}
 	private function def_dirimg_frontend($pathupload){
-		$pathdir = dirname(realpath( __FILE__ ));
-		$arraydir = array('app\backend\controller', 'app/backend/controller');
-		return magixglobal_model_system::root_path($arraydir,array($pathupload,$pathupload) , $pathdir);
+		/*$pathdir = dirname(realpath( __FILE__ ));
+		$arraydir = array('app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'controller');
+		return magixglobal_model_system::root_path($arraydir,array($pathupload) , $pathdir);*/
+		return magixglobal_model_system::base_path().$pathupload;
 	}
 	/**
 	 * Affiche le menu "sortable" avec les éléments de catégorie
@@ -398,9 +401,10 @@ class backend_controller_catalog{
 		if(isset($this->clibelle)){
 			try{
 				if(empty($this->clibelle)){
-					backend_config_smarty::getInstance()->display('request/empty.phtml');
+					backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 				}else{
 					backend_db_catalog::adminDbCatalog()->i_catalog_category($this->clibelle,$this->pathclibelle,$this->idlang);
+					backend_config_smarty::getInstance()->display('catalog/request/success-cat.phtml');
 				}
 			}catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -424,11 +428,12 @@ class backend_controller_catalog{
 		if(isset($this->slibelle)){
 			try{
 				if(empty($this->slibelle)){
-					backend_config_smarty::getInstance()->display('request/empty.phtml');
+					backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 				}elseif(empty($this->idclc)){
 					backend_config_smarty::getInstance()->display('catalog/request/nocategory.phtml');
 				}else{
 					backend_db_catalog::adminDbCatalog()->i_catalog_subcategory($this->slibelle,$this->pathslibelle,$this->idclc);
+					backend_config_smarty::getInstance()->display('catalog/request/success-subcat.phtml');
 				}
 			} catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -496,8 +501,7 @@ class backend_controller_catalog{
 	public function insert_new_product(){
 		if(isset($this->titlecatalog) AND isset($this->desccatalog)){
 			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
-				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_product(
 					$this->idlang,
@@ -507,8 +511,7 @@ class backend_controller_catalog{
 					$this->desccatalog,
 					$this->price
 				);
-				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/success.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('catalog/request/success.phtml');
 			}
 		}
 	}
@@ -578,8 +581,7 @@ class backend_controller_catalog{
 	public function update_specific_product(){
 		if(isset($this->titlecatalog) AND isset($this->desccatalog)){
 			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
-				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->u_catalog_product(
 					backend_model_member::s_idadmin(),
@@ -589,8 +591,7 @@ class backend_controller_catalog{
 					$this->price,
 					$this->editproduct
 				);
-				$fetch = backend_config_smarty::getInstance()->fetch('catalog/request/success.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('catalog/request/success.phtml');
 			}
 		}
 	}
@@ -646,7 +647,7 @@ class backend_controller_catalog{
 	private function dir_img_product(){
 		//return $_SERVER['DOCUMENT_ROOT'].'/upload/catalogimg/';
 		try{
-			return self::def_dirimg_frontend("upload/catalogimg/");
+			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
@@ -660,13 +661,13 @@ class backend_controller_catalog{
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
 				 */
-				backend_model_image::upload_img('imgcatalog','upload'.magixcjquery_html_helpersHtml::unixSeparator().'catalogimg');
+				backend_model_image::upload_img('imgcatalog','upload'.DIRECTORY_SEPARATOR.'catalogimg');
 				/**
 				 * Analyze l'extension du fichier en traitement
 				 * @var $fileextends
 				 */
 				$fileextends = backend_model_image::image_analyze(self::dir_img_product().$this->imgcatalog);
-				if (backend_model_image::imgSizeMin(self::dir_img_product().$this->imgcatalog,100,100)){
+				if (backend_model_image::imgSizeMin(self::dir_img_product().$this->imgcatalog,50,50)){
 					// Sélectionne et retourne le nom du produit
 					$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
 					// Charge la classe pour renommer le fichier
@@ -696,9 +697,9 @@ class backend_controller_catalog{
 					 * Création des images et miniatures utile.
 					 * 3 tailles !!!
 					 */
-					$thumb->resize(500)->save(self::dir_img_product().'product/'.$getimg['imgcatalog']);
-					$thumb->resize(350,250)->save(self::dir_img_product().'medium/'.$getimg['imgcatalog']);
-					$thumb->resize(120,100)->save(self::dir_img_product().'mini/'.$getimg['imgcatalog']);
+					$thumb->resize(500)->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize(350,250)->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize(120,100)->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					//Supprime le fichier original pour gagner en espace
 					$makeFiles = new magixcjquery_files_makefiles();
 					if(file_exists(self::dir_img_product().$getimg['imgcatalog'])){
@@ -725,7 +726,7 @@ class backend_controller_catalog{
 	 */
 	private function dir_micro_galery(){
 		//return $_SERVER['DOCUMENT_ROOT'].'/upload/catalogimg/galery/';
-		return self::def_dirimg_frontend("upload/catalogimg/galery/");
+		return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."galery".DIRECTORY_SEPARATOR);
 	}
 	/**
 	 * Insertion d'une image dans la galerie spéifique à un produit
@@ -736,13 +737,13 @@ class backend_controller_catalog{
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
 				 */
-				backend_model_image::upload_img('imggalery','upload/catalogimg/galery');
+				backend_model_image::upload_img('imggalery','upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR.'galery');
 				/**
 				 * Analyze l'extension du fichier en traitement
 				 * @var $fileextends
 				 */
 				$fileextends = backend_model_image::image_analyze(self::dir_micro_galery().$this->imggalery);
-				if (backend_model_image::imgSizeMin(self::dir_micro_galery().$this->imggalery,100,100)){
+				if (backend_model_image::imgSizeMin(self::dir_micro_galery().$this->imggalery,50,50)){
 					// Sélectionne et retourne le nom du produit
 					$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
 					// Compte le nombre d'image dans la galerie et incrémente de un
@@ -769,8 +770,8 @@ class backend_controller_catalog{
 					 * Création des images et miniatures utile.
 					 * 2 tailles !!!
 					 */
-					$thumb->resize(500)->save(self::dir_micro_galery().'maxi/'.$getimg['imgcatalog']);
-					$thumb->resize(120,100)->save(self::dir_micro_galery().'mini/'.$getimg['imgcatalog']);
+					$thumb->resize(500)->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize(120,100)->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$makeFiles = new magixcjquery_files_makefiles();
 					if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_micro_galery(),$getimg['imgcatalog']);
@@ -795,8 +796,8 @@ class backend_controller_catalog{
 				$dfile = backend_db_catalog::adminDbCatalog()->s_galery_image_micro($this->delmicro);
 				$makeFiles = new magixcjquery_files_makefiles();
 				if(file_exists(self::dir_micro_galery().'maxi/'.$dfile['imgcatalog'])){
-					$makeFiles->removeFile(self::dir_micro_galery().'maxi/',$dfile['imgcatalog']);
-					$makeFiles->removeFile(self::dir_micro_galery().'mini/',$dfile['imgcatalog']);
+					$makeFiles->removeFile(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR,$dfile['imgcatalog']);
+					$makeFiles->removeFile(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR,$dfile['imgcatalog']);
 				}/*else{
 					throw new Exception('file: '.$dfile['imgcatalog'].' is not found');
 				}*/
@@ -940,7 +941,6 @@ class backend_controller_catalog{
 	 * @access public
 	 */
 	public function display(){
-		magixcjquery_debug_magixfire::magixFireInfo("test");
 		backend_config_smarty::getInstance()->display('catalog/index.phtml');
 	}
 }

@@ -1,12 +1,11 @@
 /**
- * @category   javascript
- * @package    global js
- * @copyright  Copyright (c) 2010 - 2011 (http://www.logiciel-referencement-professionnel.com)
- * @license    Proprietary software
- * @version    1.3 
- * @Date       2010-06-12
- * @update     2010-06-16
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * MAGIX CMS
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.0
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @name ad-globaljs
  *
  */
 $(function() {
@@ -161,11 +160,15 @@ $(function() {
 		 * Notification après installation pour le dossier "install"
 		 */
 		if ($('#notify-install').length != 0){
-			getDirNotify("install");
+			$.notice({
+				ntype: "dir",
+				nparams: 'install'
+			});
 		}else if ($('#notify-folder').length != 0){
-			getDirNotify("folder");
-		}else if($('#notify-header').length != 0){
-			getSimpleNotify(4);
+			$.notice({
+				ntype: "dir",
+				nparams: 'chmod'
+			});
 		}
 		/**
 		 * Initialisation du menu accordéon avec jquery cookies
@@ -498,6 +501,55 @@ $(function() {
 				}
 			});
 			return false; 
+		});
+		/**
+		 * Soumission d'une nouvelle page CMS
+		 */
+		$("#forms-cms-page").submit(function(){
+			tinyMCE.triggerSave(true,true);
+			$(this).ajaxSubmit({
+        		url:'/admin/index.php?dashboard&cms&add&post',
+        		type:"post",
+        		resetForm: true,
+        		success:function(request) {
+					$.notice({
+						ntype: "simple",
+						time:2
+					});
+        			$(".mc-head-request").html(request);
+        				setTimeout(function(){
+        					location.reload();
+        				},2800);
+        		}
+        	});
+			return false; 
+		});
+		/**
+		 * Soumission ajax d'une mise à jour d'un produit dans le catalogue
+		 */
+		$("#forms-cms-updatepage").submit(function(){
+			var pageid = $('#idpage').val();
+			if(pageid != null){
+				tinyMCE.triggerSave(true,true);
+				$(this).ajaxSubmit({
+	        		url:'/admin/index.php?dashboard&cms&editcms='+pageid+'&post',
+	        		type:"post",
+	        		resetForm: false,
+	        		success:function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
+	        		}
+	        	});
+				return false; 
+			}else{
+				console.log("%s: %o","productid is null",productid);
+			}
 		});
 		/**
 		 * Affiche la pop-up pour la modification 
@@ -849,7 +901,7 @@ $(function() {
 		 * Soumission d'une nouvelle catégorie dans le catalogue
 		 */
 		$("#forms-catalog-category").submit(function(){
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 				url:'/admin/index.php?dashboard&catalog&category&post',
 				type:"post",
 				success:function(e) {
@@ -858,6 +910,17 @@ $(function() {
 						location.reload();
 					},1000);
 				}
+			});*/
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		delay: 2800,
+	    		dom: this,
+	    		uri: '/admin/index.php?dashboard&catalog&category&post',
+	    		typesend: 'post',
+	    		noticedata: null,
+	    		resetform:true,
+	    		time:2,
+	    		reloadhtml:true	
 			});
 			return false; 
 		});
@@ -865,17 +928,67 @@ $(function() {
 		 * Soumission d'une nouvelle sous catégorie dans le catalogue
 		 */
 		$("#forms-catalog-subcategory").submit(function(){
-			$(this).ajaxSubmit({
-				url:'/admin/index.php?dashboard&catalog&category&post',
-				type:"post",
-				success:function(e) {
-					$("#resultsubcategory").html(e);
-					setTimeout(function(){
-						location.reload();
-					},1000);
-				}
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		delay: 2800,
+	    		dom: this,
+	    		uri: '/admin/index.php?dashboard&catalog&category&post',
+	    		typesend: 'post',
+	    		noticedata: null,
+	    		resetform:true,
+	    		time:2,
+	    		reloadhtml:true	
 			});
 			return false; 
+		});
+		/**
+		 * Soumission ajax d'un produit dans le catalogue
+		 */
+		$("#forms-catalog-product").submit(function(){
+			tinyMCE.triggerSave(true,true);
+			$(this).ajaxSubmit({
+        		url:'/admin/index.php?dashboard&catalog&product&addproduct',
+        		type:"post",
+        		resetForm: true,
+        		success:function(request) {
+					$.notice({
+						ntype: "simple",
+						time:2
+					});
+        			$(".mc-head-request").html(request);
+        				setTimeout(function(){
+        					location.reload();
+        				},2800);
+        		}
+        	});
+			return false; 
+		});
+		/**
+		 * Soumission ajax d'une mise à jour d'un produit dans le catalogue
+		 */
+		$("#forms-catalog-product-edit").submit(function(){
+			var productid = $('#idcatalog').val();
+			if(productid != null){
+				tinyMCE.triggerSave(true,true);
+				$(this).ajaxSubmit({
+	        		url:'/admin/index.php?dashboard&catalog&product&editproduct='+productid+'&updateproduct',
+	        		type:"post",
+	        		resetForm: false,
+	        		success:function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
+	        		}
+	        	});
+				return false; 
+			}else{
+				console.log("%s: %o","productid is null",productid);
+			}
 		});
 		/**
 		 * Mise à jour d'une catégorie
@@ -1002,7 +1115,7 @@ $(function() {
 			$("#dialog").dialog({
 				bgiframe: true,
 				resizable: false,
-				height:180,
+				minHeight:180,
 				modal: true,
 				title: 'Supprimé ce produit',
 				overlay: {
@@ -1019,6 +1132,7 @@ $(function() {
 							success:function(e) {
 								$(".reqdialog").html(e);
 								setTimeout(function(){
+									$(this).dialog('close');
 									location.reload();
 								},3000);
 							}
@@ -1114,40 +1228,46 @@ $(function() {
 	     * Requête ajax pour la création, modification de fichier sitemap xml
 	     */
 		$('.createxml').click(function (){
-				$.ajax({
+				/*$.ajax({
 					type:'get',
 					url: "/admin/index.php?dashboard&sitemap&createxml",
 					async: false,
 					success:function(e) {
 						$("#reponse").html(e);
 					}
-				});
+				});*/
+			$.notice({
+				ntype: "ajax",
+	    		uri: '/admin/index.php?dashboard&sitemap&createxml',
+	    		typesend: 'get',
+	    		noticedata: null,
+	    		time:2
+			});
+			//noticehead("/admin/index.php?dashboard&sitemap&createxml","get",null,4);
 		 });
 /*################## Google Tools ##############*/
 		/**
 	     * Requête ajax pour la création de la soumission vers google
 	     */
 		$('.pinggoogle').click(function (){
-			$.ajax({
-				type:'get',
-				url: "/admin/index.php?dashboard&sitemap&googleping",
-				async: false,
-				success:function(e) {
-					$("#reponse").html(e);
-				}
+			$.notice({
+				ntype: "ajax",
+	    		uri: '/admin/index.php?dashboard&sitemap&googleping',
+	    		typesend: 'get',
+	    		noticedata: null,
+	    		time:2
 			});
 		});
 		/**
 	     * Requête ajax pour la création du fichier xml compressé au format GZ + soumission du fichier vers google
 	     */
 		$('.compressping').click(function (){
-			$.ajax({
-				type:'get',
-				url: "/admin/index.php?dashboard&sitemap&compressionping",
-				async: false,
-				success:function(e) {
-					$("#reponse").html(e);
-				}
+			$.notice({
+				ntype: "ajax",
+	    		uri: '/admin/index.php?dashboard&sitemap&compressionping',
+	    		typesend: 'get',
+	    		noticedata: null,
+	    		time:2
 			});
 		});
 		/**

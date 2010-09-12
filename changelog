@@ -7,8 +7,17 @@ Stable 2.3.35
 	* Ajout de la fonction smarty notify_dir_header en remplacement de notify_header
 	* Ajout de la fonction smarty header_notify pour les notifications utilisateurs (en cours de développement)
 	* Initialisation de magixglobal sur l'ensemble du logiciel
-	* Début de la suppression des variables globales $_SERVER['DOCUMENT_ROOT'] sur l'ensemble de l'installation pour permettre l'utilisation de localhost
-
+	* Suppression des variables globales $_SERVER['DOCUMENT_ROOT'] sur l'ensemble de l'installation pour permettre l'utilisation de localhost
+		=> Reecriture des chemins
+	* Ajout des licences open source dans deux fichiers ainsi qu'une entête dans chaque fichiers
+	* Création de la fonction base_path() dans la classe magixglobal_model_system pour la racine de l'installation
+	* Ajout de ajax notification pour le remplacement des messages de retour classique
+	* Ajout de la soumission ajax avec notification
+		=> Ajouter une page CMS
+		=> Edition d'une page CMS
+		=> Ajout d'un produit dans le catalogue
+		=> Edition d'un produit dans le catalogue
+	
 Stable 2.3.34
 	* Mise à jour tinyMCE 3.3.7 => 3.3.8
 	* Fix bug absolute url avec le domaine associer remplacer par / (tinyMCE)

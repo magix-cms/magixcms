@@ -1,13 +1,14 @@
 <?php
 /**
+ * MAGIX CMS
  * @category   Controller 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.cms-site.com)
- * @license    Proprietary software
- * @version    1.0 2009-08-27
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.4
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
- * @name PLUGINS
- * @version 1.3
+ * @name plugins
  *
  */
 class backend_controller_plugins{
@@ -15,7 +16,7 @@ class backend_controller_plugins{
 	 * Cosntante
 	 * @var string
 	 */
-	const plugins = '/plugins/';
+	const plugins = 'plugins';
 	/**
 	 * 
 	 * @var string
@@ -34,7 +35,9 @@ class backend_controller_plugins{
 	 * return void
 	 */
 	private function directory_plugins(){
-		return $_SERVER['DOCUMENT_ROOT'].self::plugins;
+		$pathdir = dirname(realpath( __FILE__ ));
+		$arraydir = array('app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'controller');
+		return magixglobal_model_system::root_path($arraydir,array('') , $pathdir).DIRECTORY_SEPARATOR.self::plugins.DIRECTORY_SEPARATOR;
 	}
 	/**
 	 * @access protected
@@ -51,8 +54,8 @@ class backend_controller_plugins{
 	 * @return string
 	 */
 	private function icon_plugin($plugin){
-		if(file_exists(self::directory_plugins().$plugin.'/icon.png')){
-			$icon = '<img src="/plugins/'.$plugin.'/icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
+		if(file_exists(self::directory_plugins().$plugin.DIRECTORY_SEPARATOR.'icon.png')){
+			$icon = '<img src="'.DIRECTORY_SEPARATOR.'plugins'.$plugin.DIRECTORY_SEPARATOR.'icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
 		}else{
 			$icon = '<span style="float:left;" class="ui-icon ui-icon-wrench"></span>';
 		}
@@ -82,7 +85,7 @@ class backend_controller_plugins{
 			plugins_Autoloader::register();
 			$list = '<ul class="plugin-list">';
 				foreach($dir as $d){
-					if(file_exists(self::directory_plugins().$d.'/'.'admin.php')){
+					if(file_exists(self::directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
 						$pluginPath = self::directory_plugins().$d;
 						if($makefiles->scanDir($pluginPath) != null){
 							//Nom de la classe pour le test de la méthode
@@ -128,7 +131,7 @@ class backend_controller_plugins{
 		try{
 			plugins_Autoloader::register();
 			//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
-			if(file_exists(self::directory_plugins().self::getplugin().'/admin.php')){
+			if(file_exists(self::directory_plugins().self::getplugin().DIRECTORY_SEPARATOR.'admin.php')){
 				//Si la classe exist on recherche la fonction run()
 				if(class_exists('plugins_'.self::getplugin().'_admin')){
 					$load = self::execute_plugins('plugins_'.self::getplugin().'_admin');
@@ -168,7 +171,7 @@ class backend_controller_plugins{
 	 * @param void $page
 	 */
 	public static function append_display($page){
-		backend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/skin/admin/');
+		backend_config_smarty::getInstance()->addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
 		return backend_config_smarty::getInstance()->display($page);
 	}
 	/**
@@ -176,7 +179,7 @@ class backend_controller_plugins{
 	 * @param void $page
 	 */
 	public static function append_fetch($page){
-		backend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/skin/admin/');
+		backend_config_smarty::getInstance()->addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
 		return backend_config_smarty::getInstance()->fetch($page);
 	}
 	/**

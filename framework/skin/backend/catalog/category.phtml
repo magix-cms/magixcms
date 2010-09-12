@@ -19,7 +19,6 @@
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
 						<form id="forms-catalog-category" method="post" action="" style="margin-left:10px;">
-						<div id="resultcategory"></div>
 						<fieldset>
 							<table>
 								<tr>
@@ -58,7 +57,6 @@
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
 						<form id="forms-catalog-subcategory" method="post" action="" style="margin-left:10px;">
-						<div id="resultsubcategory"></div>
 						<fieldset>
 							<table>
 								<tr>
@@ -106,6 +104,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 <div id="update-category" title="Modifier une catégorie"></div>
 <div id="update-subcategory" title="Modifier une sous catégorie"></div>
 {include file="common/javascript.phtml"}

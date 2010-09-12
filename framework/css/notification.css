@@ -70,8 +70,9 @@ html[xmlns*=""] body:last-child #message-notification{padding-top:0;}
  * html>body #message-notification { padding-top:0; }
  * 
 */
-.mc-rep-request{margin:0;padding:0;top:0;}
-.mc-rep-request span{margin-right:5px;}
+.notify-txt{padding-top:10px;}
+.mc-head-request{margin:0;padding:0;top:0;}
+.mc-head-request span{margin-right:5px;}
 /*######################### Sprites ##########################*/
 /*### notify-32-icon ###*/
 .notify-32-icon {width: 32px; height: 32px; background-image: url(/framework/img/notify/mc_icon_notify_32x32.png); background-repeat:none;}

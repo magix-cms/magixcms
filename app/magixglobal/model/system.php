@@ -1,13 +1,14 @@
 <?php
 /**
+ * MAGIX CMS
  * @category   Model 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2010-09-06
+ * @package    magixglobal
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.0
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @name system
- * @version 1.0
  *
  */
 class magixglobal_model_system{
@@ -32,12 +33,25 @@ class magixglobal_model_system{
 	        magixcjquery_debug_magixfire::magixFireError($e);
 		}
 	}
+	/**
+	 * Retourne le dossier base(ROOT) de Magix CMS
+	 */
+	public static function base_path(){
+		$search  = array('app'.DIRECTORY_SEPARATOR.'magixglobal'.DIRECTORY_SEPARATOR.'model');
+		$replace = array('');
+		return str_replace($search, $replace, dirname(realpath( __FILE__ )));
+	}
+	/**
+	 * Initialise le système de LOG du CMS
+	 * @param string $str
+	 * @param void $e (paramètre Exception)
+	 */
 	public static function magixlog($str,$e){
 		//Systeme de log + firephp
 		$log = magixcjquery_error_log::getLog();
         $log->logfile = M_TMP_DIR;
         $log->write($str. $e->getMessage(),__FILE__, $e->getLine());
-        return magixcjquery_debug_magixfire::magixFireError($e);
+        magixcjquery_debug_magixfire::magixFireError($e);
 	}
 }
 ?>
