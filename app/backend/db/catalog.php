@@ -188,12 +188,14 @@ class backend_db_catalog{
 		return $this->layer->selectOne($sql);
     }
 	/**
-	 * function load row by sub category ID
+	 * Selectionne les sous catégorie d'une catégorie
 	 *
-	 * @return void
+	 * @param getidclc
 	 */
 	function s_json_subcategory($getidclc){
-		$sql='SELECT * FROM mc_catalog_s where idclc = :idclc';
+		$sql='SELECT s.idcls,s.slibelle FROM mc_catalog_c as c
+		LEFT JOIN mc_catalog_s as s USING (idclc)
+		where idclc = :idclc';
 		return $this->layer->select($sql,array(':idclc'=>$getidclc));
 	}
 	/**
@@ -290,6 +292,10 @@ class backend_db_catalog{
 		ORDER BY p.'.$sort.' DESC'.$limit.$offset;
 		return $this->layer->select($sql,false,'assoc');
     }
+    /**
+     * Selectionne les produits correspondant au catalogue
+     * @param $editproduct
+     */
 	function s_catalog_product($editproduct){
     	$sql = 'SELECT p.idproduct,c.clibelle,s.slibelle
 		FROM mc_catalog_product AS p
@@ -298,6 +304,19 @@ class backend_db_catalog{
 		LEFT JOIN mc_catalog_s as s USING ( idcls )
 		WHERE idcatalog = :editproduct';
 		return $this->layer->select($sql,array(":editproduct"=>$editproduct));
+    }
+	/**
+     * Selectionne les produits correspondant à la langue du catalogue
+     * @param $editproduct
+     */
+	function s_catalog_product_for_lang($getidclc){
+    	$sql = 'SELECT p.idproduct, c.clibelle, s.slibelle, card.titlecatalog
+				FROM mc_catalog_product AS p
+				LEFT JOIN mc_catalog AS card USING ( idcatalog )
+				LEFT JOIN mc_catalog_c AS c USING ( idclc )
+				LEFT JOIN mc_catalog_s AS s USING ( idcls )
+				WHERE c.idclc =:idclc ORDER BY s.idcls';
+		return $this->layer->select($sql,array("idclc"=>$getidclc));
     }
     /**
      * Insert un nouveau produit dans la table mc_catalog

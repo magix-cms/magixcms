@@ -202,6 +202,9 @@ class backend_controller_catalog{
 	 * @var string
 	 */
 	public $update_pathslibelle;
+	public $selidclc;
+	public $gethtmlprod;
+	public $getjsonprod;
 	/**
 	 * Constructor
 	 */
@@ -296,6 +299,15 @@ class backend_controller_catalog{
 		}
 		if(isset($_GET['upsubcat'])){
 			$this->upsubcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upsubcat']);
+		}
+		if(isset($_GET['idclc'])){
+			$this->selidclc = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
+		}
+		if(isset($_GET['gethtmlprod'])){
+			$this->gethtmlprod = (string) magixcjquery_form_helpersforms::inputClean($_GET['gethtmlprod']);
+		}
+		if(isset($_GET['getjsonprod'])){
+			$this->getjsonprod = (string) magixcjquery_form_helpersforms::inputClean($_GET['getjsonprod']);
 		}
 	}
 	private function def_dirimg_frontend($pathupload){
@@ -559,9 +571,68 @@ EOT;
 		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) as $prod){
 			$product .='
 			<tr class="line">
-				<td class="maximal">'.$prod['clibelle'].'</td>
+				<td class="nowrap">'.$prod['clibelle'].'</td>
 				<td class="nowrap">'.$prod['slibelle'].'</td>
-				<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
+				<td class="minimal"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
+			</tr>';
+		}
+		$product .= <<<EOT
+			</tbody>
+		</table>
+EOT;
+	return $product;
+	}
+	private function construct_select_product(){
+		$admindb =  backend_db_catalog::adminDbCatalog()->s_catalog_product_for_lang($this->selidclc);
+		$category = '<select id="idproduct" name="idproduct">';
+		$category .='<option value="">Aucun produits</option>';
+		$idcls = '';
+		foreach ($admindb as $row){
+			//si codelang pas = à $lang
+			if ($row['slibelle'] != $idcls) {
+				if ($idcls != '') { $category .= "</optgroup>\n"; }
+			       $category .= '<optgroup label="'.$row['slibelle'].'">';
+			}
+			$category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
+			$idcls = $row['slibelle'];
+		}
+		if ($idcls != '') { $category .= "</optgroup>\n"; }
+		$category .='</select>';
+		print  $category;
+	}
+	/**
+	 * @category json request
+	 * @access private
+	 * Requête json pour le chargement des sous catégories associé à une catégorie
+	 */
+	private function json_idcls(){
+		if(backend_db_catalog::adminDbCatalog()->s_json_subcategory($this->selidclc) != null){
+			foreach (backend_db_catalog::adminDbCatalog()->s_json_subcategory($this->selidclc) as $list){
+				$subcat[]= json_encode($list['idcls']).':'.json_encode($list['slibelle']);
+			}
+			print '{'.implode(',',$subcat).'}';
+		}else{
+			print '{}';
+		}
+	}
+	private function list_rel_product(){
+		$product = <<<EOT
+		<table class="clear" style="margin-left:2em;width:50%">
+			<thead>
+				<tr>
+				<th><span style="float:left;" class="ui-icon ui-icon-folder-open"></span></th>
+				<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
+				<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
+				</tr>
+			</thead>
+			<tbody>
+EOT;
+		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) as $prod){
+			$product .='
+			<tr class="line">
+				<td class="nowrap">'.$prod['clibelle'].'</td>
+				<td class="nowrap">'.$prod['slibelle'].'</td>
+				<td class="minimal"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
 			</tr>';
 		}
 		$product .= <<<EOT
@@ -581,6 +652,7 @@ EOT;
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('list_category_in_product',self::list_category_in_product());
+		//backend_config_smarty::getInstance()->assign('select_product',self::construct_select_product());
 		//$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
 	}
 	/**
@@ -1039,9 +1111,24 @@ EOT;
 			}elseif(magixcjquery_filter_request::isGet('editproduct')){
 				if(magixcjquery_filter_request::isGet('add_product')){
 					self::insert_new_product();
-				}
-				elseif(magixcjquery_filter_request::isGet('updateproduct')){
+				}elseif(magixcjquery_filter_request::isGet('updateproduct')){
 					self::update_specific_product();
+				}elseif(magixcjquery_filter_request::isGet('gethtmlprod')){
+					if(magixcjquery_filter_request::isGet('idclc')){
+						header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
+						header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
+						header("Pragma: no-cache" ); 
+						header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+						self::construct_select_product();
+					}
+				}elseif(magixcjquery_filter_request::isGet('getjsonprod')){
+					if(magixcjquery_filter_request::isGet('idclc')){
+						header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
+						header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
+						header("Pragma: no-cache" ); 
+						header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+						self::json_idcls();
+					}
 				}else{
 					self::display_edit_product();
 				}

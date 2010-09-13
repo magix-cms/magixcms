@@ -128,12 +128,29 @@
 							<form id="forms-catalog-rel-product" method="post" action="" style="margin-left:10px;">
 							<fieldset>
 								<table>
-									<tr>
-										<td class="label"><label for="idclc" class="inlinelabel">Produits :</label></td>
+								<tr>
+										<td class="label"><label for="idclc" class="inlinelabel">Catégorie :</label></td>
 									</tr>
 									<tr>
-										<td></td>
+										<td>{$selectcategory}</td>
 										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="idproduct" class="inlinelabel">Produits :</label></td>
+									</tr>
+									<tr>
+										<td>
+											<select id="idproduct" name="idproduct">
+											<option value="">Sélectionner un produit</option>
+											</select>
+										</td>
+									<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
 									</tr>
 								</table>			
 							</fieldset>
@@ -150,7 +167,47 @@
 {ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript" src="/min/?g=editor"></script>
-<script type="text/javascript" src="/min/f=framework/js/ad-product-1.0.js"></script>
+<script type="text/javascript" src="/framework/js/jquery.relatedselects.min.js"></script>
+<script type="text/javascript">
+/*
+ * Menu select dynamique
+ * @param id
+ * @param url
+ */
+function dynamical_select_html(id,url,params){
+	$(id).relatedSelects({
+		onChangeLoad: url,
+		dataType: 'html',
+		defaultOptionText: 'Choose an Option',
+		loadingMessage: 'Loading, please wait...',
+		disableIfEmpty:true,
+		selects: params
+	});
+}
+function dynamical_select_json(id,url,params){
+	$(id).relatedSelects({
+		onChangeLoad: url,
+		dataType: 'json',
+		defaultOptionText: 'Choose an Option',
+		loadingMessage: 'Loading, please wait...',
+		disableIfEmpty:true,
+		selects: params
+	});
+}
+$(function(){
+
+	dynamical_select_html(
+			'#forms-catalog-rel-product',
+			'/admin/catalog.php?product&editproduct=1&gethtmlprod',
+			['idclc','idproduct']		
+	);
+	dynamical_select_json(
+			'#forms-catalog-product',
+			'/admin/catalog.php?product&editproduct=1&getjsonprod',
+			['idclc','idcls']		
+	);
+});
+</script>
 {include file="catalog/jsextends.phtml"}
 </body>
 </html>
