@@ -76,7 +76,7 @@ class backend_controller_googletools{
 	/**
 	 * affiche la page du formulaire pour l'insertion.
 	 */
-	public function display_gdata(){
+	private function display_gdata(){
 		$this->load_webmaster_gdata();
 		$this->load_analytics_gdata();
 		backend_config_smarty::getInstance()->display('googletools/index.phtml');
@@ -84,8 +84,19 @@ class backend_controller_googletools{
 	/**
 	 * Envoi les données des outils Google
 	 */
-	public function post_gdata(){
+	private function post_gdata(){
 		$this->update_webmastertools();
 		$this->update_analytics();
+	}
+	/**
+	 * Execute le module dans l'administration
+	 * @access public
+	 */
+	public function run(){
+		if(magixcjquery_filter_request::isGet('pgdata')){
+			self::post_gdata();
+		}else{
+			self::display_gdata();
+		}
 	}
 }

@@ -347,6 +347,17 @@ class backend_controller_catalog{
 		$category .='</select>';
 		return $category;
 	}
+	private function construct_select_category_lang(){
+		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->editproduct);
+		$admindb =  backend_db_catalog::adminDbCatalog()->s_catalog_getlang_category_select($data['idlang']);
+		$category = '<select id="idclc" name="idclc">';
+		$category .='<option value="0">Aucune catégorie</option>';
+		foreach ($admindb as $row){
+			$category .= '<option value="'.$row['idclc'].'">'.$row['clibelle'].'</option>';
+		}
+		$category .='</select>';
+		return $category;
+	}
 	/**
 	 * Execute Update AJAX FOR order category
 	 * Post la requête ajax pour la modification de l'ordre des catégories
@@ -498,12 +509,12 @@ class backend_controller_catalog{
 	/**
 	 * Insertion d'un nouveau produit dans la table mc_catalog
 	 */
-	public function insert_new_product(){
+	public function insert_new_card_product(){
 		if(isset($this->titlecatalog) AND isset($this->desccatalog)){
 			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
 				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 			}else{
-				backend_db_catalog::adminDbCatalog()->i_catalog_product(
+				backend_db_catalog::adminDbCatalog()->i_catalog_card_product(
 					$this->idlang,
 					backend_model_member::s_idadmin(),
 					$this->urlcatalog,
@@ -516,6 +527,50 @@ class backend_controller_catalog{
 		}
 	}
 	/**
+	 * @access private
+	 * Insertion d'un produit dans la table mc_catalog_product pour la liaison produit=>categorie
+	 */
+	private function insert_new_product(){
+		if(isset($this->idclc)){
+			if(empty($this->idclc)){
+				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+			}else{
+				backend_db_catalog::adminDbCatalog()->i_catalog_product(
+					$this->editproduct,
+					$this->idclc,
+					$this->idcls
+				);
+				backend_config_smarty::getInstance()->display('catalog/request/success-cat-product.phtml');
+			}
+		}
+	}
+	private function list_category_in_product(){
+		$product = <<<EOT
+		<table class="clear" style="margin-left:2em;width:50%">
+			<thead>
+				<tr>
+				<th><span style="float:left;" class="ui-icon ui-icon-folder-open"></span></th>
+				<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
+				<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
+				</tr>
+			</thead>
+			<tbody>
+EOT;
+		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) as $prod){
+			$product .='
+			<tr class="line">
+				<td class="maximal">'.$prod['clibelle'].'</td>
+				<td class="nowrap">'.$prod['slibelle'].'</td>
+				<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
+			</tr>';
+		}
+		$product .= <<<EOT
+			</tbody>
+		</table>
+EOT;
+	return $product;
+	}
+	/**
 	 * chargement des données d'un produit pour le formulaire
 	 */
 	private function load_data_product_forms(){
@@ -525,6 +580,7 @@ class backend_controller_catalog{
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+		backend_config_smarty::getInstance()->assign('list_category_in_product',self::list_category_in_product());
 		//$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
 	}
 	/**
@@ -566,10 +622,10 @@ class backend_controller_catalog{
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->getimg);
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-		backend_config_smarty::getInstance()->assign('clibelle',$data['clibelle']);
-		backend_config_smarty::getInstance()->assign('idclc',$data['idclc']);
-		backend_config_smarty::getInstance()->assign('slibelle',$data['slibelle']);
-		backend_config_smarty::getInstance()->assign('idcls',$data['idcls']);
+//		backend_config_smarty::getInstance()->assign('clibelle',$data['clibelle']);
+//		backend_config_smarty::getInstance()->assign('idclc',$data['idclc']);
+//		backend_config_smarty::getInstance()->assign('slibelle',$data['slibelle']);
+//		backend_config_smarty::getInstance()->assign('idcls',$data['idcls']);
 		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
@@ -838,6 +894,7 @@ class backend_controller_catalog{
 	 */
 	public function display_edit_product(){
 		self::load_data_product_forms();
+		backend_config_smarty::getInstance()->assign('selectcategory',self::construct_select_category_lang());
 		backend_config_smarty::getInstance()->display('catalog/editproduct.phtml');
 	}
 	/**
@@ -921,7 +978,6 @@ class backend_controller_catalog{
 	 * @access public
 	 */
 	public function display_product(){
-		//backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/product.phtml');
 	}
@@ -953,6 +1009,77 @@ class backend_controller_catalog{
 	 */
 	public function display(){
 		backend_config_smarty::getInstance()->display('catalog/index.phtml');
+	}
+	public function run(){
+		if(magixcjquery_filter_request::isGet('category')){
+			if(magixcjquery_filter_request::isGet('delc')){
+				self::delete_catalog_category();
+			}elseif(magixcjquery_filter_request::isGet('dels')){
+				self::delete_catalog_subcategory();
+			}elseif(magixcjquery_filter_request::isGet('post')){
+				self::post_category();
+			}else{
+				self::display_category();
+			}
+		}elseif(magixcjquery_filter_request::isGet('upcat')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::update_category();
+			}else{
+				self::display_edit_category();
+			}
+		}elseif(magixcjquery_filter_request::isGet('upsubcat')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::update_subcategory();
+			}else{
+				self::display_edit_subcategory();
+			}
+		}elseif(magixcjquery_filter_request::isGet('product')){
+			if(magixcjquery_filter_request::isGet('add_card_product')){
+				self::insert_new_card_product();
+			}elseif(magixcjquery_filter_request::isGet('editproduct')){
+				if(magixcjquery_filter_request::isGet('add_product')){
+					self::insert_new_product();
+				}
+				elseif(magixcjquery_filter_request::isGet('updateproduct')){
+					self::update_specific_product();
+				}else{
+					self::display_edit_product();
+				}
+			}elseif(magixcjquery_filter_request::isGet('moveproduct')){
+				if(magixcjquery_filter_request::isGet('postmoveproduct')){
+					self::move_specific_product();
+				}else{
+					self::display_move_product();
+				}
+			}elseif(magixcjquery_filter_request::isGet('copyproduct')){
+				if(magixcjquery_filter_request::isGet('postcopyproduct')){
+					self::copy_product();
+				}else{
+					self::display_copy_product();
+				}
+			}elseif(magixcjquery_filter_request::isGet('getimg')){
+				if(magixcjquery_filter_request::isGet('postimgproduct')){
+					self::insert_image_product();
+				}elseif(magixcjquery_filter_request::isGet('postimggalery')){
+					self::insert_image_galery();
+				}elseif(magixcjquery_filter_request::isGet('delmicro')){
+					self::delete_image_microgalery();
+				}else{
+					self::display_product_image();
+				}
+			}elseif(magixcjquery_filter_request::isGet('delproduct')){
+				self::delete_catalog_product();
+			}else{
+				self::display_product();
+			}
+		}elseif(magixcjquery_filter_request::isGet('order')){
+			self::executeOrderCategory();
+			self::executeOrderSubCategory();
+		}elseif(magixcjquery_filter_request::isGet('json')){
+			self::get_select_json_construct();
+		}else{
+			self::display();
+		}
 	}
 }
 ?>

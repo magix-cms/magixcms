@@ -44,11 +44,6 @@ class backend_controller_news{
 	public $publish;
 	/**
 	 * 
-	 * @var string
-	 */
-	public $useradmin;
-	/**
-	 * 
 	 * @var intéger
 	 */
 	public $getpage;
@@ -59,45 +54,11 @@ class backend_controller_news{
 	public $delnews;
 	/**
 	 * 
-	 * @var integer
-	 */
-	public $phrase1;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $phrase2;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $getrewrite;
-	/**
-	 * 
-	 * @var intéger
-	 */
-	public $idmetas;
-	/**
-	 * get delete metas news
-	 * @var drmetas $_GET['drmetas']
-	 */
-	public $drmetas;
-	/**
-	 * 
 	 * 
 	 */
 	function __construct(){
 		if(isset($_GET['edit'])){
 			$this->getnews = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
-		}
-		if(isset($_GET['getrewrite'])){
-			$this->getrewrite = magixcjquery_filter_isVar::isPostNumeric($_GET['getrewrite']);
-		}
-		if(isset($_SESSION['useradmin'])){
-			$this->useradmin = $_SESSION['useradmin'];
-		}
-		if(isset($_POST['idmetas'])){
-			$this->idmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['idmetas']);
 		}
 		if(isset($_POST['subject'])){
 			$this->subject = magixcjquery_form_helpersforms::inputClean($_POST['subject']);
@@ -123,15 +84,6 @@ class backend_controller_news{
 		if(isset($_POST['publish'])){
 			$this->publish = magixcjquery_filter_isVar::isPostNumeric($_POST['publish']);
 		}
-		if(isset($_POST['phrase1'])){
-			$this->phrase1 = magixcjquery_form_helpersforms::inputClean($_POST['phrase1']);
-		}
-		if(isset($_POST['phrase2'])){
-			$this->phrase2 = magixcjquery_form_helpersforms::inputClean($_POST['phrase2']);
-		}
-		if(isset($_GET['drmetas'])){
-			$this->drmetas = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['drmetas']);
-		}
 		if(isset($_GET['delnews'])){
 			$this->delnews = magixcjquery_filter_isVar::isPostNumeric($_GET['delnews']);
 		}
@@ -142,8 +94,7 @@ class backend_controller_news{
 	private function insert_data_forms(){
 		if(isset($this->subject) AND isset($this->content)){
 			if(empty($this->subject) OR empty($this->content)){
-				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}else{
 					backend_db_news::adminDbNews()->i_new_news(
 						$this->subject,
@@ -153,8 +104,7 @@ class backend_controller_news{
 						backend_model_member::s_idadmin()
 					);
 					backend_controller_rss::instance()->exec();
-					$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					backend_config_smarty::getInstance()->display('request/success.phtml');
 				}
 			}
 	}
@@ -173,7 +123,7 @@ class backend_controller_news{
 	public function news_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = backend_db_news::adminDbNews()->s_count_news_pager_max();
-		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/dashboard/news/',false,true,'page');
+		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/news.php?',false,false,'page');
 		
 	}
 	/**
@@ -202,8 +152,7 @@ class backend_controller_news{
 	private function update_data_forms(){
 		if(isset($this->subject) AND isset($this->content)){
 			if(empty($this->subject) OR empty($this->content)){
-				$fetch = backend_config_smarty::getInstance()->fetch('request/empty.phtml');
-				backend_config_smarty::getInstance()->assign('msg',$fetch);
+				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}else{
 					switch($this->publish){
 						case 0:
@@ -224,8 +173,7 @@ class backend_controller_news{
 						$this->publish
 					);
 					backend_controller_rss::instance()->exec();
-					$fetch = backend_config_smarty::getInstance()->fetch('request/success.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					backend_config_smarty::getInstance()->display('request/success.phtml');
 			}
 		}
 	}
@@ -238,81 +186,9 @@ class backend_controller_news{
 		}
 	}
 	/**
-	 * Affiche la reecriture des métas de news trié par langue
-	 */
-	function view_metas(){
-		$title = '<table class="clear">
-						<thead>
-							<tr>
-							<th>type</th>
-							<th>subject</th>
-							<th>phrase</th>
-							<th>subject</th>
-							<th>phrase2</th>
-							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
-		foreach(backend_db_config::adminDbConfig()->s_rewrite_meta(5) as $seo){
-			$subject = backend_db_news::adminDbNews()->s_news_keyword($seo['codelang']);
-			switch($seo['idmetas']){
-				case 1:
-					$type = 'TITLE';
-					break;
-				case 2:
-					$type = 'DESCRIPTION';
-					break;
-			}
-		 	$title .= '<tr class="line">';
-		 	$title .= '<td class="maximal">'.$type.'</td>';
-		 	$title .= '<td class="nowrap">'.$subject['subject'].'</td>';
-		 	$title .= '<td class="nowrap">'.$seo['phrase1'].'</td>';
-		 	$title .= '<td class="nowrap">'.$subject['subject'].'</td>';
-		 	$title .= '<td class="nowrap">'.$seo['phrase2'].'</td>';
-		 	$title .= '<td class="nowrap">'.$seo['codelang'].'</td>';
-		 	$title .= '<td class="nowrap">'.'<a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/news/metas-rewrite/edit/'.$seo['idrewrite'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
-		 	$title .= '<td class="nowrap">'.'<a class="d-news-rmetas" title="'.$seo['idrewrite'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
-		 	$title .= '</tr>';
-		}
-		$title .= '</tbody></table>';
-		return $title;;
-	}
-	/**
-	 * insertion de la réécriture des métas
-	 */
-	private function insertion_rewrite(){
-		if(isset($this->phrase1)){
-			if(backend_db_config::adminDbConfig()->s_rewrite_v_lang(5,$this->idlang,$this->idmetas) == null){
-				backend_db_config::adminDbConfig()->i_rewrite_metas(5,$this->idlang,$this->phrase1,$this->phrase2,null,$this->idmetas,0);
-			}else{
-					$fetch = backend_config_smarty::getInstance()->fetch('request/element-exist.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
-				}
-		}
-	}
-	/**
-	 * Mise à jour de la réécriture des métas
-	 */
-	private function update_rewrite(){
-		if(isset($this->phrase1)){
-			backend_db_config::adminDbConfig()->u_rewrite_metas(5,$this->idlang,$this->phrase1,$this->phrase2,'',$this->idmetas,0,$this->getrewrite);
-		}
-	}
-	/**
-	 * Supprime une réécriture des métas
-	 */
-	public function del_rewrite_metas(){
-		if(isset($this->drmetas)){
-			backend_db_config::adminDbConfig()->d_rewrite_metas($this->drmetas);
-		}
-	}
-	/**
 	 * La page d'edition d'une news
 	 */
 	public function edit(){
-		self::update_data_forms();
 		self::load_data_forms();
 		backend_config_smarty::getInstance()->display('news/edit.phtml');
 	}
@@ -320,43 +196,36 @@ class backend_controller_news{
 	 * affiche la page des news
 	 */
 	function display_addnews(){
-		self::insert_data_forms();
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('news/addnews.phtml');
-	}
-	/**
-	 * 
-	 */
-	function rewrite_display(){
-		self::insertion_rewrite();
-		backend_config_smarty::getInstance()->assign('ptitle',self::view_metas());
-		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->display('news/rewrite.phtml');
-	}
-	function edit_rewrite(){
-		self::update_rewrite();
-		$data = backend_db_config::adminDbConfig()->s_rewrite_for_edit($this->getrewrite);
-		switch($data['idmetas']){
-			case 1:
-				$metas = 'title';
-			break;
-			case 2:
-				$metas = 'description';
-			break;
-		}
-		backend_config_smarty::getInstance()->assign('umetas',$metas);
-		backend_config_smarty::getInstance()->assign('uidmetas',$data['idmetas']);
-		backend_config_smarty::getInstance()->assign('uphrase1',$data['phrase1']);
-		backend_config_smarty::getInstance()->assign('uphrase2',$data['phrase2']);
-		backend_config_smarty::getInstance()->assign('ucodelang',$data['codelang']);
-		backend_config_smarty::getInstance()->assign('uidlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('ptitle',self::view_metas());
-		backend_config_smarty::getInstance()->display('news/editrewrite.phtml');
 	}
 	/**
 	 * affiche la page des news
 	 */
 	function display_news(){
 		backend_config_smarty::getInstance()->display('news/index.phtml');
+	}
+	/**
+	 * Execute le module dans l'administration
+	 * @access public
+	 */
+	public function run(){
+		if(magixcjquery_filter_request::isGet('edit')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::update_data_forms();
+			}else{
+				self::edit();
+			}
+		}elseif(magixcjquery_filter_request::isGet('add')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::insert_data_forms();
+			}else{
+				self::display_addnews();
+			}
+		}elseif(magixcjquery_filter_request::isGet('delnews')){
+			self::del_news();
+		}else{
+			self::display_news();
+		}
 	}
 }

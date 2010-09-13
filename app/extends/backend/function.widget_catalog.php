@@ -89,21 +89,21 @@ function smarty_function_widget_catalog($params, &$smarty){
 			}
 			switch($pcms['imgcatalog']){
 				case null:
-					$imgcatalog = '<div class="ui-state-error" style="border:none;"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></a></div>';
+					$imgcatalog = '<div class="ui-state-error" style="border:none;"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></a></div>';
 				break;
 				default: 
-					$imgcatalog = '<div class="ui-state-highlight" style="border:none;"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
+					$imgcatalog = '<div class="ui-state-highlight" style="border:none;"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</a></td>';
+			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$imgcatalog.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'index.php?'.$lang.'catalog&amp;'.$pcms['pathclibelle'].'&amp;idclc='.$pcms['idclc'].$subcatpath.'&amp;'.$pcms['urlcatalog'].'&amp;idcatalog='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;editproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;moveproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;catalog&amp;product&amp;copyproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-copy"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;moveproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;copyproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-copy"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deleteproduct" title="'.$pcms['idcatalog'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
 		}

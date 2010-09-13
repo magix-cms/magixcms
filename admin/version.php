@@ -39,7 +39,7 @@ $members = new backend_controller_admin();
 $members->securePage();
 $members->closeSession();
 if(magixcjquery_filter_request::isSession('useradmin')){
-	$home = new backend_controller_dashboard();
-	$home->version_cms();
+	$version = new backend_controller_dashboard();
+	$version->version_cms();
 }
 ?>

@@ -105,11 +105,11 @@ class backend_controller_admin{
 						$session->openSession($const_url['idadmin'],session_regenerate_id(true));
 						//session_regenerate_id(true);
 		    			$_SESSION['useradmin'] = $this->acmail;
-		    			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard');	
+		    			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard.php');	
 					}else{
 						$session->openSession($const_url['idadmin'],null);
 						$_SESSION['useradmin'] = $this->acmail;
-						header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard');	
+						header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard.php');	
 					}
 				}else{
 					backend_config_smarty::getInstance()->assign('msg',

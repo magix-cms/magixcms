@@ -27,6 +27,9 @@ class backend_controller_lang{
 	 * @var intéger
 	 */
 	public $dellang;
+	public $ulang;
+	public $ucodelang;
+	public $udesclang;
 	/**
 	 * Constructor
 	 */
@@ -38,11 +41,22 @@ class backend_controller_lang{
 			$this->desclang = magixcjquery_form_helpersforms::inputClean($_POST['codelang']);
 		}
 		if(isset($_GET['dellang'])){
-			$this->dellang = $_GET['dellang'];
+			$this->dellang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dellang']);
+		}
+		//Update
+		if(isset($_GET['ulang'])){
+			$this->ulang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['ulang']);
+		}
+		if(isset($_POST['ucodelang'])){
+			$this->ucodelang = magixcjquery_form_helpersforms::inputCleanStrolower($_POST['ucodelang']);
+		}
+		if(isset($_POST['udesclang'])){
+			$this->udesclang = magixcjquery_form_helpersforms::inputClean($_POST['udesclang']);
 		}
 	}
 	/**
 	 * retourne les langues ajouté
+	 * @access private
 	 */
 	private function full_language(){
 		$lang = null;
@@ -68,7 +82,7 @@ class backend_controller_lang{
 				 $lang .= '<tr class="line">';
 				 $lang .=	'<td class="maximal">'.$slang['codelang'].'</td>';
 				 $lang .=	'<td class="nowrap">'.$slang['desclang'].'</td>';
-				 $lang .= 	'<td class="nowrap"><a href="'./*magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard/lang/edit/'.$slang['idlang'].*/'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+				 $lang .= 	'<td class="nowrap"><a class="edit-lang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 				 $lang .= 	'<td class="nowrap"><a class="dellang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 				 $lang .= '</tr>';
 			}
@@ -83,19 +97,12 @@ class backend_controller_lang{
 	private function insert_new_lang(){
 		if(isset($this->codelang) AND isset($this->desclang)){
 			if(empty($this->codelang) OR empty($this->desclang)){
-				backend_config_smarty::getInstance()->assign(
-				'msg',
-				'<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-				<span style="float:left;" class="ui-icon ui-icon-alert"></span>Les champs ne sont pas tous rempli</div>'
-				);
+				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}elseif(backend_db_lang::dblang()->s_verif_lang($this->codelang) == null){
 				backend_db_lang::dblang()->i_new_lang($this->codelang,$this->desclang);
+				backend_config_smarty::getInstance()->display('lang/success.phtml');
 			}else{
-				backend_config_smarty::getInstance()->assign(
-					'msg',
-					'<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-					<span style="float:left;" class="ui-icon ui-icon-alert"></span>Cette langue existe déjà</div>'
-					);
+				backend_config_smarty::getInstance()->display('lang/element-exist.phtml');
 			}
 		}
 	}
@@ -151,7 +158,7 @@ class backend_controller_lang{
 	 * Suppression d'une lang via une requête ajax
 	 * @access public
 	 */
-	public function delete_lang_record(){
+	private function delete_lang_record(){
 		if(isset($this->dellang)){
 			$count = backend_db_lang::dblang()->global_count($this->dellang);
 			if($count['ctotal'] != 0){
@@ -162,13 +169,42 @@ class backend_controller_lang{
 			}
 		}
 	}
+	private function update_lang(){
+		if(isset($this->ulang)){
+			backend_db_lang::dblang()->u_lang($this->ucodelang,$this->udesclang,$this->ulang);
+			backend_config_smarty::getInstance()->display('lang/update-success.phtml');
+		}
+	}
+	private function edit_lang(){
+		if(isset($this->ulang)){
+			$data = backend_db_lang::dblang()->s_lang_edit($this->ulang);
+			backend_config_smarty::getInstance()->assign('ucodelang',$data['codelang']);
+			backend_config_smarty::getInstance()->assign('udesclang',$data['desclang']);
+			backend_config_smarty::getInstance()->display('lang/edit-lang.phtml');
+		}
+	}
 	/**
 	 * Affiche la page des langues
 	 */
-	function display(){
-		self::insert_new_lang();
+	private function display_index(){
 		backend_config_smarty::getInstance()->assign('viewlang',self::full_language());
 		backend_config_smarty::getInstance()->assign('countlang',self::count_lang());
 		backend_config_smarty::getInstance()->display('lang/index.phtml');
+	}
+	public function run(){
+		if(magixcjquery_filter_request::isGet('add')){
+			self::insert_new_lang();
+		}
+		elseif(magixcjquery_filter_request::isGet('ulang')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::update_lang();
+			}else{
+				self::edit_lang();
+			}
+		}elseif(magixcjquery_filter_request::isGet('dellang')){
+			self::delete_lang_record();
+		}else{
+			self::display_index();
+		}
 	}
 }

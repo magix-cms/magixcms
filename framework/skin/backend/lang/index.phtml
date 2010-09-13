@@ -72,7 +72,7 @@
 									</tr>
 								</table>			
 							</fieldset>
-							<div style="margin:5px;"><input type="submit" name="snom" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+							<div style="margin:5px;"><input type="submit" /></div>
 						</form>
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
@@ -87,6 +87,8 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+<div id="update-lang" title="Modifier une langue"></div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
 </body>
 </html>

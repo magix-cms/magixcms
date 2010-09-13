@@ -6,9 +6,9 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.0
+ * @version    1.2
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
- * @name index
+ * @name home
  *
  */
 /**
@@ -39,10 +39,7 @@ $members = new backend_controller_admin();
 $members->securePage();
 $members->closeSession();
 if(magixcjquery_filter_request::isSession('useradmin')){
-	backend_controller_config::load_attribute_config();
-	if (!headers_sent()) {
-		header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard.php');
-		exit();
-	}
+backend_controller_config::load_attribute_config();
+	$catalog = new backend_controller_catalog();
+	$catalog->run();
 }
-?>

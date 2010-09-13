@@ -61,6 +61,12 @@ class backend_db_lang{
 			':codelang'			=>	$codelang
 		));
     }
+	public function s_lang_edit($idlang){
+    	$sql = 'SELECT lang.idlang,lang.codelang,lang.desclang FROM mc_lang AS lang WHERE idlang = :idlang';
+		return $this->layer->selectOne($sql,array(
+			':idlang'	=>	$idlang
+		));
+    }
     /**
      * ajout d'une nouvelle langue
      * @param $codelang
@@ -117,6 +123,15 @@ class backend_db_lang{
 				WHERE lang.idlang = :idlang';
 		return $this->layer->selectOne($sql,
 		array(
+			':idlang'	=>	$idlang
+		));
+	}
+	public function u_lang($codelang,$desclang,$idlang){
+		$sql = 'UPDATE mc_lang SET codelang=:codelang,desclang=:desclang WHERE idlang = :idlang';
+		$this->layer->update($sql,
+		array(
+			':codelang'	=>	$codelang,
+			':desclang'	=>	$desclang,
 			':idlang'	=>	$idlang
 		));
 	}

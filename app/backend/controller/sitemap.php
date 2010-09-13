@@ -294,7 +294,7 @@ class backend_controller_sitemap{
 	/**
 	 * Affiche la page d'administration des sitemaps
 	 */
-	public function display(){
+	private function display(){
 		$statnews = backend_db_news::adminDbNews()->s_count_news_max();
 		$statcms = backend_db_cms::adminDbCms()->s_count_cms_max();
 		$statcatalog = backend_db_catalog::adminDbCatalog()->s_count_catalog_max();
@@ -322,17 +322,6 @@ class backend_controller_sitemap{
 		if($configcatalog['status'] == 1){
 			backend_config_smarty::getInstance()->assign('statcatalog',$statcatalog['total']);
 		}
-		/*if(backend_db_sitemap::adminDbSitemap()->s_plugin_sitemap() != null){
-			foreach(backend_db_sitemap::adminDbSitemap()->s_plugin_sitemap() as $smap){
-			$statplugins .= '<tr class="line">
-								<td class="maximal">'.magixcjquery_string_convert::ucFirst($smap['pname']).'</td>
-								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-calculator"></span></td>
-								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
-							</tr>';
-			}
-			
-		}*/
-		
 		backend_config_smarty::getInstance()->assign('statplugins',self::register_plugins());
 		backend_config_smarty::getInstance()->display('sitemap/index.phtml');
 	}
@@ -349,7 +338,7 @@ class backend_controller_sitemap{
 	/**
 	 * Pinguer Google
 	 */
-	public function execPing(){
+	private function execPing(){
 		$sitemap = new magixcjquery_xml_sitemap();
 		backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml');
 		$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml');
@@ -358,7 +347,7 @@ class backend_controller_sitemap{
 	/**
 	 * Compression GZ + ping Google
 	 */
-	public function execCompressionPing(){
+	private function execCompressionPing(){
 		$sitemap = new magixcjquery_xml_sitemap();
 		if(!extension_loaded('zlib')) {
 			backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml');
@@ -373,13 +362,28 @@ class backend_controller_sitemap{
 	/**
 	 * Execute l'écriture dans le fichier XML
 	 */
-	public function exec(){
+	private function exec(){
 			self::createXMLFile();
 			self::writeNews();
 			self::writeCms();
-			self::writeCatalog();
+			//self::writeCatalog();
 			self::writeplugin();
 			self::endXMLWriter();
 			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
+	}
+	/**
+	 * Execute le module dans l'administration
+	 * @access public
+	 */
+	public function run(){
+		if(magixcjquery_filter_request::isGet('createxml')){
+			self::exec();
+		}elseif(magixcjquery_filter_request::isGet('googleping')){
+			self::execPing();
+		}elseif(magixcjquery_filter_request::isGet('compressionping')){
+			self::execCompressionPing();
+		}else{
+			self::display();
+		}
 	}
 }

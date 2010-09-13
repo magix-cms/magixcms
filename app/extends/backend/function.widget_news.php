@@ -37,7 +37,7 @@ function smarty_function_widget_news($params, &$smarty){
 	}
 	$viewuser = empty($params['viewuser']) ? true : false;
 	if($viewuser){
-		$thuser = '<th>Users</th>';
+		$thuser = '<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>';
 	}else{
 		$thuser = '';
 	}
@@ -58,11 +58,11 @@ function smarty_function_widget_news($params, &$smarty){
 	$plugin .= '<table class="clear">
 						<thead>
 							<tr>
-							'.$thuser.'
 							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-calendar"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-suitcase"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
+							'.$thuser.'
 							<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
@@ -90,13 +90,13 @@ function smarty_function_widget_news($params, &$smarty){
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal">'.$pnews['pseudo'].'</td>':'';
-			 $plugin .=	$viewuser?'<td class="nowrap">'.magixcjquery_string_convert::cleanTruncate($pnews['subject'],20,'...').'</td>':'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($pnews['subject'],20,'...').'</td>';
+			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['subject'],20,'...').'</a></td>':'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['subject'],20,'...').'</a></td>';
 			 $plugin .=	'<td class="nowrap">'.$pnews['date_sent'].'</td>';
 			 $plugin .=	'<td class="nowrap">'.$publisher.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
+			 $plugin .=	$viewuser?'<td class="nowrap">'.$pnews['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;news&amp;edit='.$pnews['idnews'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a href="/admin/news.php?edit='.$pnews['idnews'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deletenews" title="'.$pnews['idnews'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
 		}

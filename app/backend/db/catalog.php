@@ -53,13 +53,22 @@ class backend_db_catalog{
 		return $this->layer->select($sql);
     }
     /**
-     * Requête de construction du menu select
+     * Requête de construction du menu select avec optgroup
      */
 	function s_catalog_category_select_construct(){
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.idlang';
 		return $this->layer->select($sql);
+    }
+    /**
+     * 
+     * Construction du menu select des catégories suivant la langue
+     * @param $idlang
+     */
+	function s_catalog_getlang_category_select($idlang){
+    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle FROM mc_catalog_c as c WHERE c.idlang = :idlang';
+		return $this->layer->select($sql,array(":idlang"=>$idlang));
     }
     /**
      * Requête pour récupérer le contenu d'une catégorie
@@ -281,10 +290,19 @@ class backend_db_catalog{
 		ORDER BY p.'.$sort.' DESC'.$limit.$offset;
 		return $this->layer->select($sql,false,'assoc');
     }
+	function s_catalog_product($editproduct){
+    	$sql = 'SELECT p.idproduct,c.clibelle,s.slibelle
+		FROM mc_catalog_product AS p
+		LEFT JOIN mc_catalog as card USING ( idcatalog )
+		LEFT JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		WHERE idcatalog = :editproduct';
+		return $this->layer->select($sql,array(":editproduct"=>$editproduct));
+    }
     /**
      * Insert un nouveau produit dans la table mc_catalog
      */
-	function i_catalog_product($idlang,$idadmin,$urlcatalog,$titlecatalog,$desccatalog,$price){
+	function i_catalog_card_product($idlang,$idadmin,$urlcatalog,$titlecatalog,$desccatalog,$price){
 		// récupère le nombre maximum de la colonne order
 		$maxorder = self::s_count_catalog_max();
 		$sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
@@ -298,6 +316,22 @@ class backend_db_catalog{
 			':desccatalog'		=>	$desccatalog,
 			':price'			=>	$price,
 			':ordercatalog'		=>	$maxorder['total'] + 1
+		));
+	}
+	/**
+	 * 
+	 * Insertion d'un produit dans la table mc_catalog_product pour la liaison à une catégorie/sous catégorie
+	 * @param $idcatalog
+	 * @param $idclc
+	 * @param $idcls
+	 */
+	function i_catalog_product($idcatalog,$idclc,$idcls){
+		$sql = 'INSERT INTO mc_catalog_product (idcatalog,idclc,idcls) VALUE(:idcatalog,:idclc,:idcls)';
+		$this->layer->insert($sql,
+		array(
+			':idcatalog'=>	$idcatalog,
+			':idclc'	=>	$idclc,
+			':idcls'	=>	$idcls
 		));
 	}
 	/**
@@ -315,11 +349,8 @@ class backend_db_catalog{
 	 * @param $editproduct
 	 */
 	function s_data_forms($editproduct){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.price, p.idclc, p.idcls, c.clibelle, 
-    	s.slibelle, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.price, lang.codelang
 		FROM mc_catalog AS p
-		LEFT JOIN mc_catalog_c as c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s as s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		WHERE p.idcatalog = :editproduct';
 		return $this->layer->selectOne($sql,array(

@@ -26,8 +26,8 @@ class backend_controller_plugins{
 	 * Constructor
 	 */
 	function __construct(){
-		if(isset($_GET['plugin'])){
-			$this->getplugin = (string) magixcjquery_filter_isVar::isPostAlpha($_GET['plugin']);
+		if(isset($_GET['name'])){
+			$this->getplugin = (string) magixcjquery_filter_isVar::isPostAlpha($_GET['name']);
 		}
 	}
 	/**
@@ -35,17 +35,15 @@ class backend_controller_plugins{
 	 * return void
 	 */
 	private function directory_plugins(){
-		$pathdir = dirname(realpath( __FILE__ ));
-		$arraydir = array('app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'controller');
-		return magixglobal_model_system::root_path($arraydir,array('') , $pathdir).DIRECTORY_SEPARATOR.self::plugins.DIRECTORY_SEPARATOR;
+		return magixglobal_model_system::base_path().DIRECTORY_SEPARATOR.self::plugins.DIRECTORY_SEPARATOR;
 	}
 	/**
 	 * @access protected
 	 * getplugin
 	 */
 	private function getplugin(){
-		if(isset($_GET['plugin'])){
-			return magixcjquery_filter_isVar::isPostAlpha($_GET['plugin']);
+		if(isset($_GET['name']) != null){
+			return magixcjquery_filter_isVar::isPostAlpha($_GET['name']);
 		}
 	}
 	/**
@@ -55,7 +53,7 @@ class backend_controller_plugins{
 	 */
 	private function icon_plugin($plugin){
 		if(file_exists(self::directory_plugins().$plugin.DIRECTORY_SEPARATOR.'icon.png')){
-			$icon = '<img src="'.DIRECTORY_SEPARATOR.'plugins'.$plugin.DIRECTORY_SEPARATOR.'icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
+			$icon = '<img src="'.magixcjquery_html_helpersHtml::getUrl().'/plugins/'.$plugin.'/icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
 		}else{
 			$icon = '<span style="float:left;" class="ui-icon ui-icon-wrench"></span>';
 		}
@@ -74,13 +72,6 @@ class backend_controller_plugins{
 		}
 		$makefiles = new magixcjquery_files_makefiles();
 		$dir = $makefiles->scanRecursiveDir(self::directory_plugins());
-		/*$count = count($dir);
-		if($count == 0){
-			throw new exception('Plugin is not found');
-		}*/
-		/*if(!is_array($dir)){
-			throw new exception('Plugin is not array');
-		}*/
 		if($dir != null){
 			plugins_Autoloader::register();
 			$list = '<ul class="plugin-list">';
@@ -93,7 +84,7 @@ class backend_controller_plugins{
 							//Si la méthode run existe on ajoute le plugin dans le menu
 							if(method_exists($class,'run')){
 								$list .= '<li>'.self::icon_plugin($d).
-								'<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'admin'.magixcjquery_html_helpersHtml::unixSeparator().'index.php?dashboard&amp;plugin='.$d.'">'
+								'<a href="/admin/plugins.php?name='.$d.'">'
 								.magixcjquery_string_convert::ucFirst($d).'</a></li>';
 							}
 						}
@@ -154,8 +145,7 @@ class backend_controller_plugins{
 	 * pluginName
 	 */
 	public static function pluginName(){
-		//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
-		return self::getplugin();//$plugin['pname'];
+		return self::getplugin();
 	}
 	/**
 	 * Retourne l'url du plugin
@@ -164,7 +154,7 @@ class backend_controller_plugins{
 	 * pluginUrl
 	 */
 	public static function pluginUrl(){
-		return magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;plugin='.self::pluginName();
+		return magixcjquery_html_helpersHtml::getUrl().'/plugins.php?name='.self::pluginName();
 	}
 	/**
 	 * Affiche les pages du plugin
@@ -193,10 +183,9 @@ class backend_controller_plugins{
 	 * @access public
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
-	public function display_plugins(){
+	private function display_plugins(){
 		if(self::getplugin()){
 			try{
-				//$plugin = backend_db_plugins::s_plugins_page_index(self::getplugin());
 				backend_config_smarty::getInstance()->assign('pluginName',self::pluginName()/*$plugin['pname']*/);
 				backend_config_smarty::getInstance()->assign('pluginUrl',self::pluginUrl());
 				self::load_plugin();
@@ -204,5 +193,8 @@ class backend_controller_plugins{
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 		}
+	}
+	public function run(){
+		self::display_plugins();
 	}
 }

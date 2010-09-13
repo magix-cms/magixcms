@@ -121,6 +121,10 @@ class backend_controller_templates{
 		self::assign_screen();
 		backend_config_smarty::getInstance()->display('templates/index.phtml');
 	}
+	/**
+	 * Execute le module dans l'administration
+	 * @access public
+	 */
 	public function run(){
 		if(magixcjquery_filter_request::isGet('post')){
 			self::send_post_template();

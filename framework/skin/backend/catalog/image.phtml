@@ -89,7 +89,7 @@
 									 	<td style="width:250px;" class="errorInput"></td>
 								 	</tr>
 								 	<tr>
-								 	<td><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></td>
+								 	<td><input type="submit" /></td>
 								 	</tr>
 							 	</table>
 								</td>
@@ -132,7 +132,7 @@
 									 	<td style="width:250px;" class="errorInput"></td>
 								 	</tr>
 								 	<tr>
-								 	<td><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></td>
+								 	<td><input type="submit" /></td>
 								 	</tr>
 							 	</table>
 								</td>
@@ -208,6 +208,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript" src="/min/?g=editor"></script>
 {magixmin}
@@ -219,12 +220,12 @@ $(function(){
 		imgcatalog: {
 	 			required: true,
 	 			minlength: 1,
-	 			accept: "(jpe?g|gif|png)"
+	 			accept: "(jpe?g|gif|png|JPE?G|GIF|PNG)"
 	 		}
 	 	},
 	 	submitHandler: function(form) {
 		 	$(form).ajaxSubmit({
-			 	url:"/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}&postimgproduct",
+			 	url:"/admin/catalog.php?product&getimg={/literal}{$smarty.get.getimg}{literal}&postimgproduct",
 			 	type:"post",
 			 	beforeSubmit:function(){
 		 			$("#progressbar").progressbar({ value: 0 });
@@ -238,12 +239,12 @@ $(function(){
 		imgcatalog: {
 	 			required: true,
 	 			minlength: 1,
-	 			accept: "(jpe?g|gif|png)"
+	 			accept: "(jpe?g|gif|png|JPE?G|GIF|PNG)"
 	 		}
 	 	},
 	 	submitHandler: function(form) {
 		 	$(form).ajaxSubmit({
-			 	url:"/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}&postimggalery",
+			 	url:"/admin/catalog.php?product&getimg={/literal}{$smarty.get.getimg}{literal}&postimggalery",
 			 	type:"post",
 			 	beforeSubmit:function(){
 		 			$("#progressbar2").progressbar({ value: 0 });
@@ -266,17 +267,20 @@ $(function(){
 			},
 			buttons: {
 				'Delete item': function() {
-					//$(this).dialog('close');
+					$(this).dialog('close');
 					$.ajax({
 						type:'get',
-						url: "/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}&delmicro="+lg,
+						url: "/admin/catalog.php?product&getimg={/literal}{$smarty.get.getimg}{literal}&delmicro="+lg,
 						async: false,
-						success:function(e) {
-							$(".reqdialog").html(e);
+						success:function(request) {
+							$.notice({
+								ntype: "simple",
+								time:2
+							});
+	        				$(".mc-head-request").html(request);
 							setTimeout(function(){
-							//location.reload();
-							window.location.href = '/admin/index.php?dashboard&catalog&product&getimg={/literal}{$smarty.get.getimg}{literal}'; 
-							},3000);
+								window.location.href = '/admin/catalog.php?product&getimg={/literal}{$smarty.get.getimg}{literal}'; 
+							},2800);
 						}
 				     });
 				},

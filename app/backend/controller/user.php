@@ -82,8 +82,7 @@ class backend_controller_user extends statesUserAdmin{
 			if(isset($this->pseudo) AND isset($this->cryptpass)){
 				try{
 					backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,$this->perms,$this->edit);
-					$fetch = backend_config_smarty::getInstance()->fetch('user/request/update.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					backend_config_smarty::getInstance()->display('user/request/update.phtml');
 				}catch(Exception $e) {
 		         	magixcjquery_debug_magixfire::magixFireError($e);
 				} 
@@ -93,7 +92,7 @@ class backend_controller_user extends statesUserAdmin{
 	/**
 	 * Block pour afficher le nombre total de membres
 	 */
-	function block_states_members(){
+	private function block_states_members(){
 		$states = null;
 		$states .=  parent::count_maximum_members();
 		return $states;
@@ -101,7 +100,7 @@ class backend_controller_user extends statesUserAdmin{
 	/**
 	 * Block pour afficher le nombre total de membres suivant les permissions
 	 */
-	function block_members_perms(){
+	private function block_members_perms(){
 		$states = null;
 		$states .=  parent::count_members_in_perms();
 		return $states;
@@ -109,7 +108,7 @@ class backend_controller_user extends statesUserAdmin{
 	/**
 	 * Block pour afficher le nombre total de news par membres
 	 */
-	function block_news_members(){
+	private function block_news_members(){
 		$states = null;
 		$states .=  parent::count_news_by_members();
 		return $states;
@@ -117,7 +116,7 @@ class backend_controller_user extends statesUserAdmin{
 	/**
 	 * Block pour afficher le nombre total de page CMS par membres
 	 */
-	function block_cms_members(){
+	private function block_cms_members(){
 		$states = null;
 		$states .=  parent::count_cms_by_members();
 		return $states;
@@ -125,19 +124,19 @@ class backend_controller_user extends statesUserAdmin{
 	/**
 	 * Requête POST pour l'insertion des membres
 	 */
-	function post(){
+	private function post(){
 		self::insert_members();
 	}
 	/**
 	 * Requête POST pour la mise à jour des membres
 	 */
-	function update_post(){
+	private function update_post(){
 		self::update_members();
 	}
 	/**
 	 * Suppression d'utilisateur
 	 */
-	function delete_user(){
+	private function delete_user(){
 		if(isset($this->deluser)){
 			backend_db_admin::adminDbMember()->d_members_user($this->deluser);
 		}
@@ -145,7 +144,7 @@ class backend_controller_user extends statesUserAdmin{
 	/**
 	 * Affiche la page des utilisateurs
 	 */
-	function display(){
+	private function display(){
 		backend_config_smarty::getInstance()->assign('block_states_users',self::block_states_members());
 		backend_config_smarty::getInstance()->assign('block_members_perms',self::block_members_perms());
 		backend_config_smarty::getInstance()->assign('block_news_members',self::block_news_members());
@@ -155,11 +154,25 @@ class backend_controller_user extends statesUserAdmin{
 	/**
 	 * Affiche la page des utilisateurs
 	 */
-	function display_edit(){
-		self::update_post();
+	private function display_edit(){
 		parent::load_param_form($this->edit);
 		backend_config_smarty::getInstance()->assign('current_perm',backend_model_member::s_perms_current_admin());
 		backend_config_smarty::getInstance()->display('user/edit.phtml');
+	}
+	public function run(){
+		if(magixcjquery_filter_request::isGet('add')){
+			self::post();
+		}elseif(magixcjquery_filter_request::isGet('deluser')){
+			self::delete_user();
+		}elseif(magixcjquery_filter_request::isGet('edit')){
+			if(magixcjquery_filter_request::isGet('post')){
+				self::update_post();
+			}else{
+				self::display_edit();
+			}
+		}else{
+			self::display();
+		}
 	}
 }
 /**

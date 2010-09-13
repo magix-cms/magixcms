@@ -150,5 +150,8 @@ class backend_controller_dashboard{
 		backend_config_smarty::getInstance()->assign('licence', $licence['setting_value']);
 		backend_config_smarty::getInstance()->display('dashboard/index.phtml');
 	}
+	public function run(){
+		self::display();
+	}
 }
 ?>

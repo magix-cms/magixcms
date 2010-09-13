@@ -64,7 +64,7 @@ function smarty_function_widget_users($params, &$smarty){
 			 $plugin .=	'<td class="nowrap">'.$perms.'</td>';
 			 if($userperm['perms'] <= "1"){
 			 	if($members['perms'] >= "1"){
-			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;user&amp;edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 		$plugin .= '<td class="nowrap"><a href="/admin/users.php?edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
@@ -72,7 +72,7 @@ function smarty_function_widget_users($params, &$smarty){
 			 	}
 			 }elseif($userperm['perms'] <= "2"){
 			 	if($members['perms'] >= "2"){
-			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;user&amp;edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 		$plugin .= '<td class="nowrap"><a href="/admin/users.php?edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
@@ -80,7 +80,7 @@ function smarty_function_widget_users($params, &$smarty){
 			 	}
 			 }elseif($userperm['perms'] <= "3"){
 			 	if($members['perms'] >= "3"){
-			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;user&amp;edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 		$plugin .= '<td class="nowrap"><a href="/admin/users.php?edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';
@@ -88,7 +88,7 @@ function smarty_function_widget_users($params, &$smarty){
 			 	}
 			 }elseif($userperm['perms'] <= "4"){
 			 	if($members['perms'] >= "4"){
-			 		$plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;user&amp;edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 		$plugin .= '<td class="nowrap"><a href="/admin/users.php?edit='.$members['idadmin'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 		$plugin .= '<td class="nowrap"><a class="deleteuser" title="'.$members['idadmin'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 	}else{
 			 		$plugin .= '<td class="nowrap">&nbsp;</td>';

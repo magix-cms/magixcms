@@ -1,6 +1,6 @@
 <div id="sidebar" class="ui-corner-all">
 	<div id="bdashboard" class="fg-button ui-state-default fg-button-icon-left ui-corner-all" style="margin-left:5px;width:135px;">
-	<a href="{geturl}/admin/index.php?dashboard">
+	<a href="{geturl}/admin/dashboard.php">
 		<span class="ui-icon ui-icon-home"></span>Dashboard
 	</a>
 	</div>
@@ -9,14 +9,14 @@
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-person"></span>Utilisateurs</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;user"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
+				<li><a href="{geturl}/admin/users.php"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
 			</ul>
 		</div>
 		{if $configlang eq 1 AND $perms <= 2}
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-flag"></span>Langues</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;lang"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
+				<li><a href="{geturl}/admin/lang.php"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
 			</ul>
 		</div>
 		{/if}
@@ -42,11 +42,8 @@
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-star"></span>Articles</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;news"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;news&amp;add"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
-				{*{if $rewritenews eq 1 AND $perms eq 1}
-				<li><a href="{geturl}/admin/dashboard/news/metas-rewrite/"><span style="float:left;" class="ui-icon ui-icon-gear"></span>Metas rewrite</a></li>
-				{/if}*}
+				<li><a href="{geturl}/admin/news.php"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
+				<li><a href="{geturl}/admin/news.php?add"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
 			</ul>
 		</div>
 	{/if}
@@ -73,14 +70,14 @@
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Catégories</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;catalog&amp;category"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
+				<li><a href="{geturl}/admin/catalog.php?category"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
 			</ul>
 		</div>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Produits</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;catalog"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;catalog&amp;product"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+				<li><a href="{geturl}/admin/catalog.php"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
+				<li><a href="{geturl}/admin/catalog.php?product"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
 			</ul>
 		</div>
 	{/if}
@@ -102,7 +99,7 @@
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-bookmark"></span>Les sitemaps</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/index.php?dashboard&amp;sitemap"><span style="float:left;" class="ui-icon ui-icon-refresh"></span>Créer</a></li>
+				<li><a href="{geturl}/admin/sitemap.php"><span style="float:left;" class="ui-icon ui-icon-refresh"></span>Créer</a></li>
 			</ul>
 		</div>
 		{*<h3><a href="#"><span style="float:left;" class="ui-icon ui-icon-image"></span>Les galeries</a></h3>

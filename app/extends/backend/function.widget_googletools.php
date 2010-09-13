@@ -55,7 +55,7 @@ function smarty_function_widget_googletools($params, &$smarty){
 	}
 	$plugin .= '<td class="maximal">'.$webtools.'</td>
 				<td class="medium">'.$analytics.'</td>
-				<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/index.php?dashboard&amp;googletools"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+				<td class="nowrap"><a href="/admin/googletools.php"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 	$plugin .= '</tr></tbody></table>';
 	return $plugin;
 }

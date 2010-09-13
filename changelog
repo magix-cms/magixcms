@@ -22,12 +22,24 @@ Stable 2.3.35
 		=> Changement de template
 		=> Ajout d'une page d'accueil
 		=> Edition d'une page d'accueil
+		=> Ajout d'une news
+		=> Editer une news
 	* Création de fichiers d'exécution pour chaque module indépendant (dossier admin)
+		=> catalog.php
 		=> cms.php
 		=> config.php
+		=> dashboard.php
+		=> googletools.php
 		=> home.php
+		=> lang.php
+		=> news.php
+		=> plugins.php
+		=> sitemap.php
 		=> templates.php
+		=> users.php
 	* Multiplication de la vitesse par 5 pour l'upload des images catalogue, images micro galerie (Ecriture plus rapide)
+	* Création de l'ajout des produits dans une catégorie et sous catégorie
+		=> Affiche la liste dans l'édition du produit
 	
 Stable 2.3.34
 	* Mise à jour tinyMCE 3.3.7 => 3.3.8
