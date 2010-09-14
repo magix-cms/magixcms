@@ -13,45 +13,47 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
-					<div class="dashboard-content">
-					{if $confignews eq 1}
-					<form id="forms-news" method="post" action="" style="margin-left:10px;">
-					{$msg}
-						<fieldset>
-							<table>
-								<tr>
-									<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
-								</tr>
-								<tr>
-									<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="" size="50" /></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								{$selectlang}
-								<tr>
-									<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
-								</tr>
-								<tr>
-									<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-							</table>			
-						</fieldset>
-						<div style="margin:5px;"><input type="submit" /></div>
-					</form>
-					{else}
-					<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-						Vous n'avez pas la permission d'administrer ce module
-					</div>
-					{/if}
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une news</div>
+						<div class="dashboard-widget-content">
+						{if $confignews eq 1}
+						<form id="forms-news" method="post" action="" style="margin-left:10px;">
+						{$msg}
+							<fieldset>
+								<table>
+									<tr>
+										<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="" size="50" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									{$selectlang}
+									<tr>
+										<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
+									</tr>
+									<tr>
+										<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>			
+							</fieldset>
+							<div style="margin:5px;"><input type="submit" /></div>
+						</form>
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
 					</div>
 				</div>
 			</div>

@@ -8,6 +8,44 @@
  * @name ad-globalform
  *
  */
+/**
+ * Menu select dynamique avec retour html
+ * @addon Dépendance avec jquery relatedselect
+ * @param id
+ * @param url
+ * @param params
+ */
+function dynamical_select_html(id,url,params){
+	$(id).relatedSelects({
+		onChangeLoad: url,
+		dataType: 'html',
+		defaultOptionText: 'Choose an Option',
+		loadingMessage: 'Loading, please wait...',
+		disableIfEmpty:true,
+		selects: params
+	});
+}
+/**
+ * Menu select dynamique avec retour json
+ * @addon Dépendance avec jquery relatedselect
+ * @param id
+ * @param url
+ * @param params
+ */
+function dynamical_select_json(id,url,params){
+	$(id).relatedSelects({
+		onChangeLoad: url,
+		dataType: 'json',
+		defaultOptionText: 'Choose an Option',
+		loadingMessage: 'Loading, please wait...',
+		disableIfEmpty:true,
+		selects: params
+	});
+}
+/**
+ * Execution de la barre de téléchargement de base
+ * @returns {Boolean}
+ */
 function updateProgress() {
 	  var progress;
 	  progress = $("#progressbar")
@@ -23,6 +61,10 @@ function updateProgress() {
 	  }
 	 return false;
 }
+/**
+ * Execution de la barre de téléchargement supplémentaire
+ * @returns {Boolean}
+ */
 function updateProgress2() {
 	  var progress;
 	  progress = $("#progressbar2")
@@ -38,6 +80,10 @@ function updateProgress2() {
 	  }
 	 return false;
 }
+/**
+ * Proposition aléatoire de mot de passe
+ * @returns {String}
+ */
 function randomPassword() {
 	var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$_+";
 	var size = 10;
@@ -52,6 +98,11 @@ function randomPassword() {
 	}
 	return ret;
 }
+/**
+ * Nettoie une chaine de caractères
+ * @param string
+ * @returns
+ */
 function cleanString(string) {
 	  clean = string.replace(/[àâä]/g,"a");
 	  clean = clean.replace(/[ÈÉÊËèéêë]/g,"e");

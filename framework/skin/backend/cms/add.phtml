@@ -13,85 +13,87 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
-					<div class="dashboard-content">
-					{if $configcms eq 1}
-					<form id="forms-cms-page" method="post" action="" style="margin-left:10px;">
-						<fieldset>
-							<table class="table-tinymce">
-								<tr>
-									<td class="label"><label for="subjectpage" class="inlinelabel">Titre :</label></td>
-								</tr>
-								<tr>
-									<td><input type="text" id="subjectpage" name="subjectpage" class="inputtext ui-corner-all" value="" size="50" /></td>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
+						<div class="dashboard-widget-content">
+						{if $configcms eq 1}
+						<form id="forms-cms-page" method="post" action="" style="margin-left:10px;">
+							<fieldset>
+								<table class="table-tinymce">
+									<tr>
+										<td class="label"><label for="subjectpage" class="inlinelabel">Titre :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="subjectpage" name="subjectpage" class="inputtext ui-corner-all" value="" size="50" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									{$selectlang}
+									<tr>
+										<td class="label"><label for="idcategory" class="inlinelabel">Catégorie :</label></td>
+									</tr>
+									<tr>
+										<td>{$selectcategory}</td>
 									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								{$selectlang}
-								<tr>
-									<td class="label"><label for="idcategory" class="inlinelabel">Catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>{$selectcategory}</td>
-								<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								<tr>
-									<td class="label"><label for="contentpage" class="inlinelabel">Contenu :</label></td>
-								</tr>
-								<tr>
-									<td><textarea name="contentpage" id="contentpage" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-							</table>			
-						</fieldset>
-						<div id="showmetas" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span style="float:left;"></span> Voir les métas</div>
-							<div id="metas">
-							<table>
-								<tr>
-									<td class="label"><label for="metatitle" class="inlinelabel">Title :</label></td>
-								</tr>
-								<tr>
-									<td>
-										<textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
-										<div id="charactersLeftT" class="wrap">120</div>
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								<tr>
-									<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
-								</tr>
-								<tr>
-									<td>
-									<textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
-									<div id="charactersLeftD" class="wrap">180</div>
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-							</table>
-							</div>
-						<div style="margin:5px;"><input type="submit" /></div>
-					</form>
-					{else}
-					<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-						Vous n'avez pas la permission d'administrer ce module
-					</div>
-					{/if}
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="contentpage" class="inlinelabel">Contenu :</label></td>
+									</tr>
+									<tr>
+										<td><textarea name="contentpage" id="contentpage" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>			
+							</fieldset>
+							<div id="showmetas" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span style="float:left;"></span> Voir les métas</div>
+								<div id="metas">
+								<table>
+									<tr>
+										<td class="label"><label for="metatitle" class="inlinelabel">Title :</label></td>
+									</tr>
+									<tr>
+										<td>
+											<textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
+											<div id="charactersLeftT" class="wrap">120</div>
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
+									</tr>
+									<tr>
+										<td>
+										<textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
+										<div id="charactersLeftD" class="wrap">180</div>
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>
+								</div>
+							<div style="margin:5px;"><input type="submit" /></div>
+						</form>
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
 					</div>
 				</div>
 			</div>

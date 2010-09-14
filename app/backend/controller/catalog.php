@@ -205,6 +205,7 @@ class backend_controller_catalog{
 	public $selidclc;
 	public $gethtmlprod;
 	public $getjsonprod;
+	public $idproduct;
 	/**
 	 * Constructor
 	 */
@@ -308,6 +309,9 @@ class backend_controller_catalog{
 		}
 		if(isset($_GET['getjsonprod'])){
 			$this->getjsonprod = (string) magixcjquery_form_helpersforms::inputClean($_GET['getjsonprod']);
+		}
+		if(magixcjquery_filter_request::isPost('idproduct')){
+			$this->idproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idproduct']);
 		}
 	}
 	private function def_dirimg_frontend($pathupload){
@@ -615,6 +619,25 @@ EOT;
 			print '{}';
 		}
 	}
+	private function insert_rel_product(){
+		if(isset($this->idproduct)){
+			if(empty($this->idproduct)){
+				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+			}else{
+				$idrelproduct = backend_db_catalog::adminDbCatalog()->s_catalog_max_rel_product();
+				backend_db_catalog::adminDbCatalog()->i_catalog_rel_product(
+					$idrelproduct['max']+1,
+					$this->editproduct,
+					$this->idproduct
+				);
+				backend_config_smarty::getInstance()->display('catalog/request/success-cat-product.phtml');
+			}
+		}
+	}
+	/**
+	 * @access private
+	 * La liste des produit lié à une fiche
+	 */
 	private function list_rel_product(){
 		$product = <<<EOT
 		<table class="clear" style="margin-left:2em;width:50%">
@@ -627,7 +650,7 @@ EOT;
 			</thead>
 			<tbody>
 EOT;
-		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) as $prod){
+		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) as $prod){
 			$product .='
 			<tr class="line">
 				<td class="nowrap">'.$prod['clibelle'].'</td>
@@ -825,7 +848,7 @@ EOT;
 					 * Création des images et miniatures utile.
 					 * 3 tailles !!!
 					 */
-					$thumb->resize(500)->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize(700)->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$thumb->resize(350,250)->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$thumb->resize(120,100)->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					//Supprime le fichier original pour gagner en espace
@@ -898,7 +921,7 @@ EOT;
 					 * Création des images et miniatures utile.
 					 * 2 tailles !!!
 					 */
-					$thumb->resize(500)->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize(700)->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$thumb->resize(120,100)->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$makeFiles = new magixcjquery_files_makefiles();
 					if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
@@ -1129,6 +1152,8 @@ EOT;
 						header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
 						self::json_idcls();
 					}
+				}elseif(magixcjquery_filter_request::isGet('post_rel_product')){
+					self::insert_rel_product();
 				}else{
 					self::display_edit_product();
 				}

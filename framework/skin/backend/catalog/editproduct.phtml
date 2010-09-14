@@ -169,31 +169,6 @@
 <script type="text/javascript" src="/min/?g=editor"></script>
 <script type="text/javascript" src="/framework/js/jquery.relatedselects.min.js"></script>
 <script type="text/javascript">
-/*
- * Menu select dynamique
- * @param id
- * @param url
- */
-function dynamical_select_html(id,url,params){
-	$(id).relatedSelects({
-		onChangeLoad: url,
-		dataType: 'html',
-		defaultOptionText: 'Choose an Option',
-		loadingMessage: 'Loading, please wait...',
-		disableIfEmpty:true,
-		selects: params
-	});
-}
-function dynamical_select_json(id,url,params){
-	$(id).relatedSelects({
-		onChangeLoad: url,
-		dataType: 'json',
-		defaultOptionText: 'Choose an Option',
-		loadingMessage: 'Loading, please wait...',
-		disableIfEmpty:true,
-		selects: params
-	});
-}
 $(function(){
 
 	dynamical_select_html(

@@ -1205,6 +1205,29 @@ $(function() {
 				console.log("%s: %o","productid is null",productid);
 			}
 		});
+		$("#forms-catalog-rel-product").submit(function(){
+			var productid = $('#idcatalog').val();
+			if(productid != null){
+				$(this).ajaxSubmit({
+	        		url:'/admin/catalog.php?product&editproduct='+productid+'&post_rel_product',
+	        		type:"post",
+	        		resetForm: false,
+	        		success:function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
+	        		}
+	        	});
+				return false; 
+			}else{
+				console.log("%s: %o","productid is null",productid);
+			}
+		});
 		/**
 		 * Mise à jour d'une catégorie
 		 */

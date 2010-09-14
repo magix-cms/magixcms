@@ -169,17 +169,6 @@ class backend_db_catalog{
     	WHERE s.idcls = :upsubcat';
 		return $this->layer->selectOne($sql,array(':upsubcat'=>$upsubcat));
     }
-    /**
-     * Suppression d'une sous catégorie
-     * @param $dels
-     */
-	function d_catalog_subcategory($dels){
-		$sql = 'DELETE FROM mc_catalog_s WHERE idcls = :dels';
-			$this->layer->delete($sql,
-			array(
-				':dels'	=>	$dels
-			)); 
-	}
 	/**
     * Selectionne le maximum des identifiants "order" pour les sous catégories
     */
@@ -246,6 +235,17 @@ class backend_db_catalog{
 			':upsubcat'		=>	$upsubcat
 			)
 		);
+	}
+	/**
+     * Suppression d'une sous catégorie
+     * @param $dels
+     */
+	function d_catalog_subcategory($dels){
+		$sql = 'DELETE FROM mc_catalog_s WHERE idcls = :dels';
+			$this->layer->delete($sql,
+			array(
+				':dels'	=>	$dels
+			)); 
 	}
 	/**
 	 * CATALOG PAGE
@@ -318,6 +318,59 @@ class backend_db_catalog{
 				WHERE c.idclc =:idclc ORDER BY s.idcls';
 		return $this->layer->select($sql,array("idclc"=>$getidclc));
     }
+	/**
+	 * Selectionne les donnée du formulaire pour la mise à jour d'un produit
+	 * @param $editproduct
+	 */
+	function s_data_forms($editproduct){
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.price, lang.codelang
+		FROM mc_catalog AS p
+		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		WHERE p.idcatalog = :editproduct';
+		return $this->layer->selectOne($sql,array(
+			':editproduct'=>$editproduct
+		));
+	}
+	/**
+	 * Retourne une liste contenant l'identifiant de chaque produit
+	 * @return array()
+	 */
+	function s_idcatalog_product(){
+		$sql = 'SELECT p.idcatalog,p.titlecatalog FROM mc_catalog as p';
+		return $this->layer->select($sql);
+	}
+	/**
+	 * Sélectionne une image spécifique à une fiche catalogue
+	 * @param $getimg
+	 */
+	function s_image_product($getimg){
+		$sql = 'SELECT img.imgcatalog FROM mc_catalog_img as img WHERE idcatalog = :getimg';
+		return $this->layer->selectOne($sql,array(
+			':getimg'	=>	$getimg
+		));
+	}
+	/**
+	 * Compte le nombre d'image pour une fiche catalogue
+	 * @param $getimg
+	 */
+	function count_image_product($getimg){
+		$sql = 'SELECT count(img.imgcatalog) as cimage FROM mc_catalog_img as img WHERE idcatalog = :getimg';
+		return $this->layer->selectOne($sql,array(
+			':getimg'	=>	$getimg
+		));
+	}
+	function s_catalog_max_rel_product(){
+		$sql = 'SELECT count(idrelproduct) as max FROM mc_catalog_rel_product';
+		$this->layer->selectOne($sql);
+	}
+	function s_catalog_rel_product($idcatalog){
+		$sql = 'SELECT rel.*,prod.titlecatalog,c.clibelle FROM mc_catalog_rel_product as rel 
+		LEFT JOIN mc_catalog USING(idcatalog) as prod
+		LEFT JOIN mc_catalog_c USING(idcatalog) as c
+		LEFT JOIN mc_catalog_s USING(idclc) as s
+		WHERE idcatalog = :idcatalog';
+		$this->layer->select($sql,array("idcatalog"=>$idcatalog));
+	}
     /**
      * Insert un nouveau produit dans la table mc_catalog
      */
@@ -354,26 +407,54 @@ class backend_db_catalog{
 		));
 	}
 	/**
-	 * Suppression d'un produit
-	 * @param $delproduct
+	 * 
+	 * Insertion d'un produit lié
+	 * @param $idrelproduct
+	 * @param $idcatalog
+	 * @param $idproduct
 	 */
-	function d_catalog_product($delproduct){
-		$sql = array(
-		'DELETE FROM mc_catalog_img WHERE idcatalog = '.$delproduct
-		,'DELETE FROM mc_catalog WHERE idcatalog = '.$delproduct);
-		$this->layer->transaction($sql); 
+	function i_catalog_rel_product($idrelproduct,$idcatalog,$idproduct){
+		$sql = 'INSERT INTO mc_catalog_rel_product (idrelproduct,idcatalog,idproduct) 
+		VALUE(:idrelproduct,:idcatalog,:idproduct)';
+		$this->layer->insert($sql,
+		array(
+			':idrelproduct'	=>	$idrelproduct,
+			':idcatalog'	=>	$idcatalog,
+			':idproduct'	=>	$idproduct
+		));
 	}
 	/**
-	 * Selectionne les donnée du formulaire pour la mise à jour d'un produit
-	 * @param $editproduct
+	 * Copie un enregistrement dans une autre catégorie, sous catégorie et langue
+	 * @param $idadmin
+	 * @param $idclc
+	 * @param $idcls
+	 * @param $idlang
+	 * @param $copyproduct
 	 */
-	function s_data_forms($editproduct){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.price, lang.codelang
-		FROM mc_catalog AS p
-		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idcatalog = :editproduct';
-		return $this->layer->selectOne($sql,array(
-			':editproduct'=>$editproduct
+	function copy_catalog_product($idclc,$idcls,$idlang,$idadmin,$copyproduct){
+		$sql = 'INSERT INTO mc_catalog (idclc,idcls,idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
+		SELECT :idclc,:idcls,:idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
+		WHERE idcatalog = :copyproduct';
+		$this->layer->insert($sql,
+		array(
+			':idclc'			=>	$idclc,
+			':idcls'			=>	$idcls,
+			':idlang'			=>	$idlang,
+			':idadmin'			=>	$idadmin,
+			':copyproduct'		=>	$copyproduct
+		));
+	}
+	/**
+	 * Insère une image dans le catalogue
+	 * @param $idcatalog
+	 * @param $imgcatalog
+	 */
+	function i_image_catalog($idcatalog,$imgcatalog){
+		$sql = 'INSERT INTO mc_catalog_img (idcatalog,imgcatalog) VALUE(:idcatalog,:imgcatalog)';
+		$this->layer->insert($sql,
+		array(
+			':idcatalog'	=>	$idcatalog,
+			':imgcatalog'	=>	$imgcatalog
 		));
 	}
 	/**
@@ -418,68 +499,6 @@ class backend_db_catalog{
 		));
 	}
 	/**
-	 * Copie un enregistrement dans une autre catégorie, sous catégorie et langue
-	 * @param $idadmin
-	 * @param $idclc
-	 * @param $idcls
-	 * @param $idlang
-	 * @param $copyproduct
-	 */
-	function copy_catalog_product($idclc,$idcls,$idlang,$idadmin,$copyproduct){
-		$sql = 'INSERT INTO mc_catalog (idclc,idcls,idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
-		SELECT :idclc,:idcls,:idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
-		WHERE idcatalog = :copyproduct';
-		$this->layer->insert($sql,
-		array(
-			':idclc'			=>	$idclc,
-			':idcls'			=>	$idcls,
-			':idlang'			=>	$idlang,
-			':idadmin'			=>	$idadmin,
-			':copyproduct'		=>	$copyproduct
-		));
-	}
-	/**
-	 * Retourne une liste contenant l'identifiant de chaque produit
-	 * @return array()
-	 */
-	function s_idcatalog_product(){
-		$sql = 'SELECT p.idcatalog,p.titlecatalog FROM mc_catalog as p';
-		return $this->layer->select($sql);
-	}
-	/**
-	 * Sélectionne une image spécifique à une fiche catalogue
-	 * @param $getimg
-	 */
-	function s_image_product($getimg){
-		$sql = 'SELECT img.imgcatalog FROM mc_catalog_img as img WHERE idcatalog = :getimg';
-		return $this->layer->selectOne($sql,array(
-			':getimg'	=>	$getimg
-		));
-	}
-	/**
-	 * Compte le nombre d'image pour une fiche catalogue
-	 * @param $getimg
-	 */
-	function count_image_product($getimg){
-		$sql = 'SELECT count(img.imgcatalog) as cimage FROM mc_catalog_img as img WHERE idcatalog = :getimg';
-		return $this->layer->selectOne($sql,array(
-			':getimg'	=>	$getimg
-		));
-	}
-	/**
-	 * Insère une image dans le catalogue
-	 * @param $idcatalog
-	 * @param $imgcatalog
-	 */
-	function i_image_catalog($idcatalog,$imgcatalog){
-		$sql = 'INSERT INTO mc_catalog_img (idcatalog,imgcatalog) VALUE(:idcatalog,:imgcatalog)';
-		$this->layer->insert($sql,
-		array(
-			':idcatalog'	=>	$idcatalog,
-			':imgcatalog'	=>	$imgcatalog
-		));
-	}
-/**
 	 * Met à jour une image dans le catalogue
 	 * @param $idcatalog
 	 * @param $imgcatalog
@@ -491,6 +510,16 @@ class backend_db_catalog{
 			':idcatalog'	=>	$idcatalog,
 			':imgcatalog'	=>	$imgcatalog
 		));
+	}
+	/**
+	 * Suppression d'un produit
+	 * @param $delproduct
+	 */
+	function d_catalog_product($delproduct){
+		$sql = array(
+		'DELETE FROM mc_catalog_img WHERE idcatalog = '.$delproduct
+		,'DELETE FROM mc_catalog WHERE idcatalog = '.$delproduct);
+		$this->layer->transaction($sql); 
 	}
 	/**
 	 * ################ Galerie d'image pour un produit ###################

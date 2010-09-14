@@ -44,7 +44,7 @@ $(function() {
 	valid_elements : "*[*]",
 	skin : "o2k7",
 	skin_variant : "silver",
-	width:'700px',
+	width:'100%',
 	height:'300px',
 	language : 'fr'
 	});
