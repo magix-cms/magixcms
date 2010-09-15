@@ -6,7 +6,7 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    3.0
+ * @version    3.1
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @name catalog
  *
@@ -240,6 +240,8 @@ class backend_controller_catalog{
 	 * @var getreluri
 	 */
 	public $getreluri;
+	public $d_in_product;
+	public $d_rel_product;
 	/**
 	 * Constructor
 	 */
@@ -353,6 +355,12 @@ class backend_controller_catalog{
 		if(magixcjquery_filter_request::isGet('getreluri')){
 			$this->getreluri = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getreluri']);
 		}
+		if(magixcjquery_filter_request::isGet('d_in_product')){
+			$this->d_in_product = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['d_in_product']);
+		}
+		if(magixcjquery_filter_request::isGet('d_rel_product')){
+			$this->d_rel_product = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['d_rel_product']);
+		}
 	}
 	private function def_dirimg_frontend($pathupload){
 		/*$pathdir = dirname(realpath( __FILE__ ));
@@ -382,6 +390,7 @@ class backend_controller_catalog{
 		return $category;
 	}
 	/**
+	 * @access private
 	 * Construction du select pour les catégories
 	 */
 	private function catalog_select_category(){
@@ -491,10 +500,11 @@ class backend_controller_catalog{
 	private function delete_catalog_category(){
 		if(isset($this->delc)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_category($this->delc);
-			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
+			backend_config_smarty::getInstance()->display('catalog/request/s-cat-delete.phtml');
 		}
 	}
 	/**
+	 * @access private
 	 * insert une nouvelle sous catégorie dans le catalogue
 	 */
 	private function insert_new_subcategory(){
@@ -514,12 +524,13 @@ class backend_controller_catalog{
 		}
 	}
 	/**
-	 * Suppression d'une sous categroie
+	 * @access private
+	 * Suppression d'une sous catégorie
 	 */
 	private function delete_catalog_subcategory(){
 		if(isset($this->dels)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_subcategory($this->dels);
-			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
+			backend_config_smarty::getInstance()->display('catalog/request/s-subcat-delete.phtml');
 		}
 	}
 	/**
@@ -569,6 +580,7 @@ class backend_controller_catalog{
 		);
 	}
 	/**
+	 * @access private
 	 * Insertion d'un nouveau produit dans la table mc_catalog
 	 */
 	private function insert_new_card_product(){
@@ -630,7 +642,7 @@ EOT;
 				<td class="nowrap">'.$prod['idproduct'].'</td>	
 				<td class="nowrap">'.$prod['clibelle'].'</td>
 				<td class="nowrap">'.$prod['slibelle'].'</td>
-				<td class="minimal"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
+				<td class="minimal"><a href="#" class="d-in-product" title="'.$prod['idproduct'].'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>
 			</tr>';
 		}
 		$product .= <<<EOT
@@ -639,7 +651,13 @@ EOT;
 EOT;
 	return $product;
 	}
-/**
+	private function delete_in_product(){
+		if(isset($this->d_in_product)){
+			backend_db_catalog::adminDbCatalog()->d_in_product($this->d_in_product);
+			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
+		}
+	}
+	/**
 	 * @access private
 	 * Retourne la liste des urls d'un produit défini
 	 */
@@ -751,11 +769,11 @@ EOT;
 			$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
 			$product .='
 			<tr class="line">
-				<td class="nowrap">'.$info['idproduct'].'</td>
+				<td class="nowrap">'.$prod['idrelproduct'].'</td>
 				<td class="nowrap">'.$info['clibelle'].'</td>
 				<td class="nowrap">'.$info['slibelle'].'</td>
 				<td class="nowrap">'.$info['titlecatalog'].'</td>
-				<td class="minimal"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
+				<td class="minimal"><a href="#" class="d-rel-product" title="'.$prod['idrelproduct'].'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>
 			</tr>';
 		}
 		$product .= <<<EOT
@@ -789,6 +807,16 @@ EOT;
 		}
 		backend_config_smarty::getInstance()->assign('rel_uri_catalog',$product);
 		backend_config_smarty::getInstance()->display('catalog/window/rel-uricatalog.phtml');
+	}
+	/**
+	 * Supprime un produit de liaison à une fiche catalogue
+	 * @access private
+	 */
+	private function delete_rel_product(){
+		if(isset($this->d_rel_product)){
+			backend_db_catalog::adminDbCatalog()->d_rel_product($this->d_rel_product);
+			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
+		}
 	}
 	/**
 	 * @access private
@@ -1302,6 +1330,10 @@ EOT;
 					}
 				}elseif(magixcjquery_filter_request::isGet('post_rel_product')){
 					self::insert_rel_product();
+				}elseif(magixcjquery_filter_request::isGet('d_in_product')){
+					self::delete_in_product();
+				}elseif(magixcjquery_filter_request::isGet('d_rel_product')){
+					self::delete_rel_product();
 				}else{
 					self::display_edit_product();
 				}

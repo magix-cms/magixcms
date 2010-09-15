@@ -534,6 +534,23 @@ class backend_db_catalog{
 		$this->layer->transaction($sql); 
 	}
 	/**
+	 * Suppression des produits ainsi que des produits lié à celui-ci
+	 * @param $d_in_product
+	 */
+	function d_in_product($d_in_product){
+		$sql = array('DELETE FROM mc_catalog_rel_product WHERE idproduct ='.$d_in_product,
+		'DELETE FROM mc_catalog_product WHERE idproduct ='.$d_in_product);
+		$this->layer->transaction($sql); 
+	}
+	/**
+	 * Suppression des produits associé ou liaison de produits à une fiche
+	 * @param $d_in_product
+	 */
+	function d_rel_product($d_in_product){
+		$sql = 'DELETE FROM mc_catalog_rel_product WHERE idproduct = :d_in_product';
+		$this->layer->delete($sql,array(':d_in_product'=>$d_in_product)); 
+	}
+	/**
 	 * ################ Galerie d'image pour un produit ###################
 	 */
 	/**

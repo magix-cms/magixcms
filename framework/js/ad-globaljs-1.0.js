@@ -1445,19 +1445,15 @@ $(function() {
 				},
 				buttons: {
 					'Delete item': function() {
-						//$(this).dialog('close');
-						$.ajax({
-							type:'get',
-							url: "/admin/catalog.php?category&delc="+lg,
-							async: false,
-							success:function(e) {
-							$(".reqdialog").html(e);
-								setTimeout(function(){
-									//location.reload();
-									window.location.href = '/admin/catalog.php?category'; 
-								},3000);
-							}
-					     });
+						$(this).dialog('close');
+						$.notice({
+							ntype: "ajax",
+				    		uri: "/admin/catalog.php?category&delc="+lg,
+				    		typesend: 'get',
+				    		delay: 2800,
+				    		time:2,
+				    		reloadhtml:true
+						});
 					},
 					Cancel: function() {
 						$(this).dialog('close');
@@ -1484,17 +1480,84 @@ $(function() {
 				buttons: {
 					'Delete item': function() {
 						$(this).dialog('close');
-						$.ajax({
-							type:'get',
-							url: "/admin/catalog.php?category&dels="+lg,
-							async: false,
-							success:function(e) {
-							$(".reqdialog").html(e);
-							setTimeout(function(){
-								window.location.href = '/admin/catalog.php?category'; 
-								},3000);
-							}
-					     });
+						$.notice({
+							ntype: "ajax",
+				    		uri: "/admin/catalog.php?category&dels="+lg,
+				    		typesend: 'get',
+				    		delay: 2800,
+				    		time:2,
+				    		reloadhtml:true
+						});
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+						success: location.reload()
+					}
+				}
+			});
+		 });
+		/**
+		 * Supprime une création de produit dans une catégorie/ou sous catégorie
+		 */
+		$('.d-in-product').click(function (){
+			var inproduct = $(this).attr("title");
+			var productid = $('#idcatalog').val();
+			$("#dialog").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:180,
+				modal: true,
+				title: 'Supprimé ce produit ?',
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: {
+					'Delete item': function() {
+						$(this).dialog('close');
+						$.notice({
+							ntype: "ajax",
+				    		uri: "/admin/catalog.php?product&editproduct="+productid+"&d_in_product="+inproduct,
+				    		typesend: 'get',
+				    		delay: 2800,
+				    		time:2,
+				    		reloadhtml:true
+						});
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+						success: location.reload()
+					}
+				}
+			});
+		 });
+		/**
+		 * Supprime une liaison de produit avec une fiche catalogue
+		 */
+		$('.d-rel-product').click(function (){
+			var relproduct = $(this).attr("title");
+			var productid = $('#idcatalog').val();
+			$("#dialog").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:180,
+				modal: true,
+				title: 'Supprimé une liaison avec ce produit ?',
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: {
+					'Delete item': function() {
+						$(this).dialog('close');
+						$.notice({
+							ntype: "ajax",
+				    		uri: "/admin/catalog.php?product&editproduct="+productid+"&d_rel_product="+relproduct,
+				    		typesend: 'get',
+				    		delay: 2800,
+				    		time:2,
+				    		reloadhtml:true
+						});
 					},
 					Cancel: function() {
 						$(this).dialog('close');

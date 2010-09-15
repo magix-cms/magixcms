@@ -98,24 +98,15 @@ class backend_controller_sitemap{
         $config = backend_db_config::adminDbConfig()->s_config_named('cms');
 		if($config['status'] == 1){
 	        foreach(backend_db_sitemap::adminDbSitemap()->s_cms_sitemap() as $data){
-		        switch($data['idlang']){
-					case 0:
-						$codelang = null;
-					break;
-					default: 
-						$codelang = $data['codelang'].magixcjquery_html_helpersHtml::unixSeparator();
-					break;
-				}
-				switch($data['idcategory']){
-					case 0:
-						$catpath = null;
-					break;
-					default: 
-						$catpath = $data['idcategory'].'-'.$data['pathcategory'].magixcjquery_html_helpersHtml::unixSeparator();
-					break;
-				}
 		       	$sitemap->writeMakeNode(
-				    $codelang.$catpath.$data['idpage'].'-'.$data['pathpage'].'.html',
+				    magixglobal_model_rewrite::filter_cms_url(
+				    	$data['codelang'],
+				    	$data['idcategory'],
+				    	$data['pathcategory'],
+				    	$data['idpage'],
+				    	$data['pathpage'],
+				    	true
+				    ),
 				    date('d-m-Y'),
 				    'always',
 				     0.8
@@ -134,41 +125,15 @@ class backend_controller_sitemap{
 		if($config['status'] == 1){
 			$langsession = null;
 	        foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_sitemap() as $data){
-	        switch($data['codelang']){
-				case 'fr':
-				$langsession = 'catalogue';
-					break;
-				case 'en':
-				$langsession = 'catalog';
-					break;	
-				case 'de':
-				$langsession = 'katalog';
-					break;
-				case 'nl':
-				$langsession = 'catalog';
-					break;	
-				default:
-				$langsession = 'catalogue';	
-			}
-		        switch($data['idlang']){
-					case 0:
-						$codelang = null;
-					break;
-					default: 
-						$codelang = $data['codelang'].magixcjquery_html_helpersHtml::unixSeparator();
-					break;
-				}
-		        switch($data['idcls']){
-					case 0:
-						$subcatpath = null;
-					break;
-					default: 
-						$subcatpath = magixcjquery_html_helpersHtml::unixSeparator().$data['pathslibelle'].'-'.$data['idcls'];
-					break;
-				}
 		       	$sitemap->writeMakeNode(
-				    $codelang.$langsession.magixcjquery_html_helpersHtml::unixSeparator().$data['pathclibelle'].'-'.$data['idclc'].$subcatpath.magixcjquery_html_helpersHtml::unixSeparator().$data['urlcatalog'].'-'.$data['idcatalog'].'.html',
-				    date('d-m-Y'),
+			       	 magixglobal_model_rewrite::filter_catalog_product_url(
+						$data['codelang'], 
+						$data['pathclibelle'], 
+						$data['idclc'], 
+						$data['urlcatalog'], 
+						$data['idproduct'],
+						true
+					),date('d-m-Y'),
 				    'always',
 				     0.8
 		        );
@@ -366,7 +331,7 @@ class backend_controller_sitemap{
 			self::createXMLFile();
 			self::writeNews();
 			self::writeCms();
-			//self::writeCatalog();
+			self::writeCatalog();
 			self::writeplugin();
 			self::endXMLWriter();
 			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');

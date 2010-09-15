@@ -64,13 +64,12 @@ class backend_db_sitemap{
      * Sélections dans les produits pour la construction du sitemap
      */
     function s_catalog_sitemap(){
-    	$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,p.idclc,p.idcls, c.clibelle, 
-    	s.slibelle,c.pathclibelle,s.pathslibelle,img.imgcatalog, lang.codelang
-		FROM mc_catalog AS p
-		LEFT JOIN mc_catalog_c as c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s as s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
+		FROM mc_catalog_product AS p
+		LEFT JOIN mc_catalog as card USING ( idcatalog )
+		LEFT JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
 		ORDER BY lang.idlang';
 		return $this->layer->select($sql);
     }
