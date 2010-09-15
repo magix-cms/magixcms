@@ -202,10 +202,44 @@ class backend_controller_catalog{
 	 * @var string
 	 */
 	public $update_pathslibelle;
+	/**
+	 * 
+	 * GET vers l'identifiant des catégories
+	 * @var selidclc
+	 */
 	public $selidclc;
+	/**
+	 * 
+	 * GT vers le résultat des produits html
+	 * @var gethtmlprod
+	 */
 	public $gethtmlprod;
+	/**
+	 * 
+	 * GET vers le résultat json des produits
+	 * @var getjsonprod
+	 */
 	public $getjsonprod;
+	/**
+	 * 
+	 * POST l'identifiant du produit
+	 * @var idproduct
+	 */
 	public $idproduct;
+	/**
+	 * 
+	 * GET vers l'identifiant du catalogue pour 
+	 * récupérer l'url des produits de cette fiche
+	 * @var geturicat
+	 */
+	public $geturicat;
+	/**
+	 * 
+	 * GET vers l'identifiant du catalogue pour 
+	 * récupérer l'url des produits de liaison de cette fiche
+	 * @var getreluri
+	 */
+	public $getreluri;
 	/**
 	 * Constructor
 	 */
@@ -262,31 +296,31 @@ class backend_controller_catalog{
 		if(magixcjquery_filter_request::isGet('getidclc')) {
 			$this->getidclc = (integer) magixcjquery_filter_isVar::isPostFloat($_GET['getidclc']);
 		}
-		if(isset($_GET['delproduct'])){
+		if(magixcjquery_filter_request::isGet('delproduct')){
 			$this->delproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delproduct']);
 		}
-		if(isset($_GET['dels'])){
+		if(magixcjquery_filter_request::isGet('dels')){
 			$this->dels = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dels']);
 		}
-		if(isset($_GET['delc'])){
+		if(magixcjquery_filter_request::isGet('delc')){
 			$this->delc = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delc']);
 		}
-		if(isset($_GET['delmicro'])){
+		if(magixcjquery_filter_request::isGet('delmicro')){
 			$this->delmicro = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delmicro']);
 		}
-		if(isset($_GET['editproduct'])){
+		if(magixcjquery_filter_request::isGet('editproduct')){
 			$this->editproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['editproduct']);
 		}
-		if(isset($_GET['moveproduct'])){
+		if(magixcjquery_filter_request::isGet('moveproduct')){
 			$this->moveproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['moveproduct']);
 		}
-		if(isset($_GET['copyproduct'])){
+		if(magixcjquery_filter_request::isGet('copyproduct')){
 			$this->copyproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['copyproduct']);
 		}
-		if(isset($_GET['getimg'])){
+		if(magixcjquery_filter_request::isGet('getimg')){
 			$this->getimg = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getimg']);
 		}
-		if(isset($_GET['getgalery'])){
+		if(magixcjquery_filter_request::isGet('getgalery')){
 			$this->getgalery = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getgalery']);
 		}
 		if(isset($_FILES['imgcatalog']["name"])){
@@ -295,23 +329,29 @@ class backend_controller_catalog{
 		if(isset($_FILES['imggalery']["name"])){
 			$this->imggalery = magixcjquery_url_clean::rplMagixString($_FILES['imggalery']["name"]);
 		}
-		if(isset($_GET['upcat'])){
+		if(magixcjquery_filter_request::isGet('upcat')){
 			$this->upcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upcat']);
 		}
-		if(isset($_GET['upsubcat'])){
+		if(magixcjquery_filter_request::isGet('upsubcat')){
 			$this->upsubcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upsubcat']);
 		}
-		if(isset($_GET['idclc'])){
+		if(magixcjquery_filter_request::isGet('idclc')){
 			$this->selidclc = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
 		}
-		if(isset($_GET['gethtmlprod'])){
+		if(magixcjquery_filter_request::isGet('gethtmlprod')){
 			$this->gethtmlprod = (string) magixcjquery_form_helpersforms::inputClean($_GET['gethtmlprod']);
 		}
-		if(isset($_GET['getjsonprod'])){
+		if(magixcjquery_filter_request::isGet('getjsonprod')){
 			$this->getjsonprod = (string) magixcjquery_form_helpersforms::inputClean($_GET['getjsonprod']);
 		}
 		if(magixcjquery_filter_request::isPost('idproduct')){
 			$this->idproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idproduct']);
+		}
+		if(magixcjquery_filter_request::isGet('geturicat')){
+			$this->geturicat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['geturicat']);
+		}
+		if(magixcjquery_filter_request::isGet('getreluri')){
+			$this->getreluri = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getreluri']);
 		}
 	}
 	private function def_dirimg_frontend($pathupload){
@@ -363,6 +403,11 @@ class backend_controller_catalog{
 		$category .='</select>';
 		return $category;
 	}
+	/**
+	 * @access private
+	 * @return string
+	 * Construction du menu select suivant la langue
+	 */
 	private function construct_select_category_lang(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->editproduct);
 		$admindb =  backend_db_catalog::adminDbCatalog()->s_catalog_getlang_category_select($data['idlang']);
@@ -375,11 +420,11 @@ class backend_controller_catalog{
 		return $category;
 	}
 	/**
+	 * @access private
 	 * Execute Update AJAX FOR order category
 	 * Post la requête ajax pour la modification de l'ordre des catégories
-	 *
 	 */
-	public function executeOrderCategory(){
+	private function executeOrderCategory(){
 		if(isset($_POST['corder'])){
 			$p = $_POST['corder'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -388,6 +433,7 @@ class backend_controller_catalog{
 		}
 	}
 	/**
+	 * @access private
 	 * Affiche le menu "sortable" avec les éléments des sous catégorie
 	 */
 	private function catalog_sub_category_order(){
@@ -412,7 +458,7 @@ class backend_controller_catalog{
 	 * Post la requête ajax pour la modification de l'ordre des sous catégories
 	 *
 	 */
-	public function executeOrderSubCategory(){
+	private function executeOrderSubCategory(){
 		if(isset($_POST['sorder'])){
 			$p = $_POST['sorder'];
 			for ($i = 0; $i < count($p); $i++) {
@@ -424,7 +470,7 @@ class backend_controller_catalog{
 	 * insert une nouvelle catégorie dans le catalogue
 	 * @access public
 	 */
-	public function insert_new_category(){
+	private function insert_new_category(){
 		if(isset($this->clibelle)){
 			try{
 				if(empty($this->clibelle)){
@@ -442,7 +488,7 @@ class backend_controller_catalog{
 	 * Suppression d'une categorie
 	 * @access public
 	 */
-	public function delete_catalog_category(){
+	private function delete_catalog_category(){
 		if(isset($this->delc)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_category($this->delc);
 			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
@@ -451,7 +497,7 @@ class backend_controller_catalog{
 	/**
 	 * insert une nouvelle sous catégorie dans le catalogue
 	 */
-	public function insert_new_subcategory(){
+	private function insert_new_subcategory(){
 		if(isset($this->slibelle)){
 			try{
 				if(empty($this->slibelle)){
@@ -470,7 +516,7 @@ class backend_controller_catalog{
 	/**
 	 * Suppression d'une sous categroie
 	 */
-	public function delete_catalog_subcategory(){
+	private function delete_catalog_subcategory(){
 		if(isset($this->dels)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_subcategory($this->dels);
 			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
@@ -479,7 +525,7 @@ class backend_controller_catalog{
 	/**
 	 * Requete ajax json pour le chargement du menu select des sous-catégories correspondante à une catégorie
 	 */
-	public function get_select_json_construct(){
+	/*public function get_select_json_construct(){
 		if($this->getidclc){
 			try {
 				$select = '';
@@ -495,7 +541,7 @@ class backend_controller_catalog{
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
-	}
+	}*/
 	/**
 	 * offset for pager in pagination
 	 * @param $max
@@ -525,9 +571,9 @@ class backend_controller_catalog{
 	/**
 	 * Insertion d'un nouveau produit dans la table mc_catalog
 	 */
-	public function insert_new_card_product(){
-		if(isset($this->titlecatalog) AND isset($this->desccatalog)){
-			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
+	private function insert_new_card_product(){
+		if(isset($this->titlecatalog)){
+			if(empty($this->titlecatalog)){
 				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_card_product(
@@ -560,11 +606,17 @@ class backend_controller_catalog{
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * @return string
+	 * Retourne la liste des catégories/et sous catégories dans lequel se trouve le catalogue courant
+	 */
 	private function list_category_in_product(){
 		$product = <<<EOT
 		<table class="clear" style="margin-left:2em;width:50%">
 			<thead>
 				<tr>
+				<th>ID</th>
 				<th><span style="float:left;" class="ui-icon ui-icon-folder-open"></span></th>
 				<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
 				<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
@@ -575,6 +627,7 @@ EOT;
 		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) as $prod){
 			$product .='
 			<tr class="line">
+				<td class="nowrap">'.$prod['idproduct'].'</td>	
 				<td class="nowrap">'.$prod['clibelle'].'</td>
 				<td class="nowrap">'.$prod['slibelle'].'</td>
 				<td class="minimal"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
@@ -586,6 +639,38 @@ EOT;
 EOT;
 	return $product;
 	}
+/**
+	 * @access private
+	 * Retourne la liste des urls d'un produit défini
+	 */
+	private function uri_catalog_product(){
+		if(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->geturicat) != null){
+			$product = '<ul style="margin-left:1em;">';
+			//foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->geturicat) as $prod){
+			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->geturicat) as $prod){
+				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
+				$product .= '<li style="list-style-type: square;">/'
+				.magixglobal_model_rewrite::filter_catalog_product_url(
+					$prod['codelang'], 
+					$prod['pathclibelle'], 
+					$prod['idclc'], 
+					$prod['urlcatalog'], 
+					$prod['idproduct'],
+					true
+				).'</li>';
+			}
+			$product .= '</ul>';
+		}else{
+			$product = 'Ce produit ne contient aucun lien';
+		}
+		backend_config_smarty::getInstance()->assign('uri_catalog',$product);
+		backend_config_smarty::getInstance()->display('catalog/window/uricatalog.phtml');
+	}
+	/**
+	 * @access private
+	 * @return string
+	 * Retourne un menu select des produits groupés par sous catégorie de la catégorie
+	 */
 	private function construct_select_product(){
 		$admindb =  backend_db_catalog::adminDbCatalog()->s_catalog_product_for_lang($this->selidclc);
 		$category = '<select id="idproduct" name="idproduct">';
@@ -611,14 +696,24 @@ EOT;
 	 */
 	private function json_idcls(){
 		if(backend_db_catalog::adminDbCatalog()->s_json_subcategory($this->selidclc) != null){
+			//print_r(backend_db_catalog::adminDbCatalog()->s_json_subcategory(2));
 			foreach (backend_db_catalog::adminDbCatalog()->s_json_subcategory($this->selidclc) as $list){
-				$subcat[]= json_encode($list['idcls']).':'.json_encode($list['slibelle']);
+				if($list['idcls'] != 0){
+					$subcat[]= json_encode($list['idcls']).':'.json_encode($list['slibelle']);
+				}else{
+					$subcat[] = json_encode("0").':'.json_encode("Aucune sous catégorie");
+				}
 			}
 			print '{'.implode(',',$subcat).'}';
-		}else{
-			print '{}';
 		}
+		/*}else{
+			print '{"0":""}';
+		}*/
 	}
+	/**
+	 * @access private
+	 * Insertion d'un produit lié avec le catalogue courant
+	 */
 	private function insert_rel_product(){
 		if(isset($this->idproduct)){
 			if(empty($this->idproduct)){
@@ -643,18 +738,23 @@ EOT;
 		<table class="clear" style="margin-left:2em;width:50%">
 			<thead>
 				<tr>
+				<th>ID</th>
 				<th><span style="float:left;" class="ui-icon ui-icon-folder-open"></span></th>
 				<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
+				<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
 				<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 				</tr>
 			</thead>
 			<tbody>
 EOT;
 		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) as $prod){
+			$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
 			$product .='
 			<tr class="line">
-				<td class="nowrap">'.$prod['clibelle'].'</td>
-				<td class="nowrap">'.$prod['slibelle'].'</td>
+				<td class="nowrap">'.$info['idproduct'].'</td>
+				<td class="nowrap">'.$info['clibelle'].'</td>
+				<td class="nowrap">'.$info['slibelle'].'</td>
+				<td class="nowrap">'.$info['titlecatalog'].'</td>
 				<td class="minimal"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
 			</tr>';
 		}
@@ -665,6 +765,33 @@ EOT;
 	return $product;
 	}
 	/**
+	 * @access private
+	 * Retourne la liste des urls de liaison d'un produit défini
+	 */
+	private function uri_rel_product(){
+		if(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) != null){
+			$product = '<ul style="margin-left:1em;">';
+			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) as $prod){
+				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
+				$product .= '<li style="list-style-type: square;">/'
+				.magixglobal_model_rewrite::filter_catalog_product_url(
+					$info['codelang'], 
+					$info['pathclibelle'], 
+					$info['idclc'], 
+					$info['urlcatalog'], 
+					$info['idproduct'],
+					true
+				).'</li>';
+			}
+			$product .= '</ul>';
+		}else{
+			$product = 'Ce produit ne contient aucun lien';
+		}
+		backend_config_smarty::getInstance()->assign('rel_uri_catalog',$product);
+		backend_config_smarty::getInstance()->display('catalog/window/rel-uricatalog.phtml');
+	}
+	/**
+	 * @access private
 	 * chargement des données d'un produit pour le formulaire
 	 */
 	private function load_data_product_forms(){
@@ -675,6 +802,7 @@ EOT;
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('list_category_in_product',self::list_category_in_product());
+		backend_config_smarty::getInstance()->assign('list_rel_product',self::list_rel_product());
 		//backend_config_smarty::getInstance()->assign('select_product',self::construct_select_product());
 		//$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
 	}
@@ -729,9 +857,9 @@ EOT;
 	/**
 	 * Mise à jour d'un produit
 	 */
-	public function update_specific_product(){
-		if(isset($this->titlecatalog) AND isset($this->desccatalog)){
-			if(empty($this->titlecatalog) OR empty($this->desccatalog)){
+	private function update_specific_product(){
+		if(isset($this->titlecatalog)){
+			if(empty($this->titlecatalog)){
 				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->u_catalog_product(
@@ -749,7 +877,7 @@ EOT;
 	/**
 	 * Déplace un produit
 	 */
-	public function move_specific_product(){
+	private function move_specific_product(){
 		if(isset($this->idclc)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_product_move(
 					$this->idclc,
@@ -763,7 +891,7 @@ EOT;
 	/**
 	 * Suppression d'un produit
 	 */
-	public function delete_catalog_product(){
+	private function delete_catalog_product(){
 		if(isset($this->delproduct)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_product($this->delproduct);
 			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
@@ -772,7 +900,7 @@ EOT;
 	/**
 	 * Copie un produit dans la table mc_catalog
 	 */
-	public function copy_product(){
+	private function copy_product(){
 		if(isset($this->idclc)){
 			if(empty($this->idclc)){
 				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
@@ -806,7 +934,7 @@ EOT;
 	/**
 	 * Insertion d'une image à un produit spécifique
 	 */
-	public function insert_image_product(){
+	private function insert_image_product(){
 		if(isset($this->imgcatalog)){
 			try{
 				/**
@@ -882,7 +1010,7 @@ EOT;
 	/**
 	 * Insertion d'une image dans la galerie spéifique à un produit
 	 */
-	public function insert_image_galery(){
+	private function insert_image_galery(){
 		if(isset($this->imggalery)){
 			try{
 				/**
@@ -941,7 +1069,7 @@ EOT;
 	 * Suppression d'une image dans une micro galerie
 	 * @access public
 	 */
-	public function delete_image_microgalery(){
+	private function delete_image_microgalery(){
 		if(isset($this->delmicro)){
 			try{
 				$dfile = backend_db_catalog::adminDbCatalog()->s_galery_image_micro($this->delmicro);
@@ -963,7 +1091,7 @@ EOT;
 	 * Affiche les images de la galerie d'un produit spécifique
 	 * @access public
 	 */
-	public function view_galery_in_product(){
+	private function view_galery_in_product(){
 		if(isset($this->getimg)){
 			$count = backend_db_catalog::adminDbCatalog()->count_image_in_galery_product($this->getimg);
 			$galery = null;
@@ -987,7 +1115,7 @@ EOT;
 	 * Affiche l'edition d'un produit
 	 * @access public
 	 */
-	public function display_edit_product(){
+	private function display_edit_product(){
 		self::load_data_product_forms();
 		backend_config_smarty::getInstance()->assign('selectcategory',self::construct_select_category_lang());
 		backend_config_smarty::getInstance()->display('catalog/editproduct.phtml');
@@ -996,7 +1124,7 @@ EOT;
 	 * Affiche le déplacement d'un produit
 	 * @access public
 	 */
-	public function display_move_product(){
+	private function display_move_product(){
 		self::load_data_move_product();
 		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
 		backend_config_smarty::getInstance()->display('catalog/moveproduct.phtml');
@@ -1005,7 +1133,7 @@ EOT;
 	 * Affiche la copie d'un produit
 	 * @access public
 	 */
-	public function display_copy_product(){
+	private function display_copy_product(){
 		self::load_data_copy_product();
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
@@ -1014,7 +1142,7 @@ EOT;
 	/**
 	 * Ajoute une catégorie (method post)
 	 */
-	public function post_category(){
+	private function post_category(){
 		self::insert_new_category();
 		self::insert_new_subcategory();
 	}
@@ -1022,14 +1150,18 @@ EOT;
 	 * Affiche la page des sous catégories
 	 * @access public
 	 */
-	public function display_category(){
+	private function display_category(){
 		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
 		backend_config_smarty::getInstance()->assign('category_order',self::catalog_category_order());
 		backend_config_smarty::getInstance()->assign('subcategory_order',self::catalog_sub_category_order());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/category.phtml');
 	}
-	public function update_category(){
+	/**
+	 * @access private
+	 * Mise à jour d'un catégorie
+	 */
+	private function update_category(){
 		if(isset($this->upcat)){
 			if(isset($this->update_category)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$this->upcat);
@@ -1042,14 +1174,18 @@ EOT;
 	 * Affiche la pop-up pour l'édition de la catégorie
 	 * @access public
 	 */
-	public function display_edit_category(){
+	private function display_edit_category(){
 		if(isset($this->upcat)){
 			$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
 			backend_config_smarty::getInstance()->assign('clibelle',$clibelle['clibelle']);
 		}
 		backend_config_smarty::getInstance()->display('catalog/editcategory.phtml');
 	}
-	public function update_subcategory(){
+	/**
+	 * @access private
+	 * Mise à jour d'une sous catégorie
+	 */
+	private function update_subcategory(){
 		if(isset($this->upsubcat)){
 			if(isset($this->update_subcategory)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$this->upsubcat);
@@ -1061,7 +1197,7 @@ EOT;
 	 * Affiche la pop-up pour l'édition de la sous catégorie
 	 * @access public
 	 */
-	public function display_edit_subcategory(){
+	private function display_edit_subcategory(){
 		if(isset($this->upsubcat)){
 			$slibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
 			backend_config_smarty::getInstance()->assign('slibelle',$slibelle['slibelle']);
@@ -1072,7 +1208,7 @@ EOT;
 	 * Affiche la page des produits ou insertion d'un produit
 	 * @access public
 	 */
-	public function display_product(){
+	private function display_product(){
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/product.phtml');
 	}
@@ -1080,21 +1216,29 @@ EOT;
 	 * affiche la page d'insertion d'une image
 	 * @access public
 	 */
-	public function display_product_image(){
+	private function display_product_image(){
 		self::load_data_image_product();
 		$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
 		if($getimg['imgcatalog'] != null){
-			$gsize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'product'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
-			$psize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'medium'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
-			$ssize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'mini'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
-			backend_config_smarty::getInstance()->assign('gwidth',$gsize[0]);
-			backend_config_smarty::getInstance()->assign('gheight',$gsize[1]);
-			backend_config_smarty::getInstance()->assign('pwidth',$psize[0]);
-			backend_config_smarty::getInstance()->assign('pheight',$psize[1]);
-			backend_config_smarty::getInstance()->assign('swidth',$ssize[0]);
-			backend_config_smarty::getInstance()->assign('sheight',$ssize[1]);
+			if(file_exists(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog'])){
+				$gsize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'product'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
+				$psize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'medium'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
+				$ssize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').magixcjquery_html_helpersHtml::unixSeparator().'mini'.magixcjquery_html_helpersHtml::unixSeparator().$getimg['imgcatalog']);
+				backend_config_smarty::getInstance()->assign('gwidth',$gsize[0]);
+				backend_config_smarty::getInstance()->assign('gheight',$gsize[1]);
+				backend_config_smarty::getInstance()->assign('pwidth',$psize[0]);
+				backend_config_smarty::getInstance()->assign('pheight',$psize[1]);
+				backend_config_smarty::getInstance()->assign('swidth',$ssize[0]);
+				backend_config_smarty::getInstance()->assign('sheight',$ssize[1]);
+				backend_config_smarty::getInstance()->assign('imgcatalog',$getimg['imgcatalog']);
+				
+			}else{
+				backend_config_smarty::getInstance()->assign('imgcatalog',null);
+				if(M_FIREPHP == true){
+					magixcjquery_debug_magixfire::magixFireError("Not file exist: ".$getimg['imgcatalog']);
+				}
+			}
 		}
-		backend_config_smarty::getInstance()->assign('imgcatalog',$getimg['imgcatalog']);
 		backend_config_smarty::getInstance()->assign('galery',self::view_galery_in_product());
 		backend_config_smarty::getInstance()->display('catalog/image.phtml');
 	}
@@ -1102,9 +1246,13 @@ EOT;
 	 * affiche la page pour la liste des articles
 	 * @access public
 	 */
-	public function display(){
+	private function display(){
 		backend_config_smarty::getInstance()->display('catalog/index.phtml');
 	}
+	/**
+	 * Execute le module dans l'administration
+	 * @access public
+	 */
 	public function run(){
 		if(magixcjquery_filter_request::isGet('category')){
 			if(magixcjquery_filter_request::isGet('delc')){
@@ -1189,6 +1337,10 @@ EOT;
 			self::executeOrderSubCategory();
 		}elseif(magixcjquery_filter_request::isGet('json')){
 			self::get_select_json_construct();
+		}elseif(magixcjquery_filter_request::isGet('geturicat')){
+			self::uri_catalog_product();
+		}elseif(magixcjquery_filter_request::isGet('getreluri')){
+			self::uri_rel_product();
 		}else{
 			self::display();
 		}

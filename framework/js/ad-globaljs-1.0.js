@@ -84,6 +84,7 @@ $(function() {
             },
             text: false
         });
+		$(".button-link").button();
 		/**
 		 * Ajout d'une classe spécifique au survol d'un thème
 		 */
@@ -1297,6 +1298,52 @@ $(function() {
 							success: location.reload();
 						}
 					}
+				});
+			});
+		});
+		/**
+		 * Affiche la popup des liens du produit
+		 */
+		$('.cat-uri-product').live("click",function(){
+			var idproducturi = $(this).attr('title');
+			var url = '/admin/catalog.php?geturicat='+idproducturi;
+			$("#window-box").load(url, function() {
+				$(this).dialog({
+					bgiframe: true,
+					minHeight: 150,
+					minWidth: 400,
+					modal: true,
+					title: 'Copier un lien',
+					closeOnEscape: true,
+					position: "center",
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: { "Close": function() { $(this).dialog("close"); } }
+				});
+			});
+		});
+		/**
+		 * Affiche la popup des produits de liaison
+		 */
+		$('.rel-uri-product').live("click",function(){
+			var idproducturi = $(this).attr('title');
+			var url = '/admin/catalog.php?getreluri='+idproducturi;
+			$("#window-box").load(url, function() {
+				$(this).dialog({
+					bgiframe: true,
+					minHeight: 150,
+					minWidth: 400,
+					modal: true,
+					title: 'Copier un lien de produit de liaison',
+					closeOnEscape: true,
+					position: "center",
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: { "Close": function() { $(this).dialog("close"); } }
 				});
 			});
 		});

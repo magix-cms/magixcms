@@ -297,11 +297,12 @@ class backend_db_catalog{
      * @param $editproduct
      */
 	function s_catalog_product($editproduct){
-    	$sql = 'SELECT p.idproduct,c.clibelle,s.slibelle
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog as card USING ( idcatalog )
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
 		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
 		WHERE idcatalog = :editproduct';
 		return $this->layer->select($sql,array(":editproduct"=>$editproduct));
     }
@@ -361,15 +362,26 @@ class backend_db_catalog{
 	}
 	function s_catalog_max_rel_product(){
 		$sql = 'SELECT count(idrelproduct) as max FROM mc_catalog_rel_product';
-		$this->layer->selectOne($sql);
+		return $this->layer->selectOne($sql);
+	}
+	function s_catalog_product_info($idproduct){
+		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
+				FROM mc_catalog_product AS p
+				LEFT JOIN mc_catalog AS card USING ( idcatalog )
+				LEFT JOIN mc_catalog_c AS c USING ( idclc )
+				LEFT JOIN mc_catalog_s AS s USING ( idcls )
+				LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
+				WHERE idproduct = :idproduct';
+		return $this->layer->selectOne($sql,array(
+			':idproduct'	=>	$idproduct
+		));
 	}
 	function s_catalog_rel_product($idcatalog){
-		$sql = 'SELECT rel.*,prod.titlecatalog,c.clibelle FROM mc_catalog_rel_product as rel 
-		LEFT JOIN mc_catalog USING(idcatalog) as prod
-		LEFT JOIN mc_catalog_c USING(idcatalog) as c
-		LEFT JOIN mc_catalog_s USING(idclc) as s
-		WHERE idcatalog = :idcatalog';
-		$this->layer->select($sql,array("idcatalog"=>$idcatalog));
+		$sql = 'SELECT rel.idrelproduct,rel.idproduct FROM mc_catalog_rel_product AS rel
+				WHERE rel.idcatalog = :idcatalog';
+		return $this->layer->select($sql,array(
+			':idcatalog'	=>	$idcatalog
+		));
 	}
     /**
      * Insert un nouveau produit dans la table mc_catalog
