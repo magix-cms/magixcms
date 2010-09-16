@@ -86,9 +86,24 @@ $(function() {
         });
 		$(".button-link").button();
 		/**
+		 * Bouton pour les modifications dans les templates
+		 */
+		$(".template-edit").button({
+            icons: {
+                primary: 'ui-icon-pencil'
+            },
+            text: false
+        });
+		$(".template-delete").button({
+            icons: {
+                primary: 'ui-icon-close'
+            },
+            text: false
+        });
+		/**
 		 * Ajout d'une classe spécifique au survol d'un thème
 		 */
-		$(".list-screen:not(.ui-state-active)").hover(
+		$(".list-screen:not(.ui-state-highlight)").hover(
 				function(){
 					if($(this).find('ui-state-disabled')){
 						$(this).removeClass("ui-state-disabled");
@@ -96,7 +111,7 @@ $(function() {
 					$(this).addClass("ui-state-hover");
 				},
 				function(){ 
-					if(!$(this).hasClass('ui-state-active')){
+					if(!$(this).hasClass('ui-state-highlight')){
 						$(this).removeClass("ui-state-hover");
 						$(this).addClass("ui-state-disabled");
 					}
@@ -106,7 +121,7 @@ $(function() {
 		 * Ajout d'une class spécifique si le thème est actif
 		 */
 		$(".list-screen").live("click",function (){
-			$('.list-screen').removeClass("ui-state-active");
+			$('.list-screen').removeClass("ui-state-highlight");
 			$('.list-screen').addClass("ui-state-disabled");
 			if($(this).find('ui-state-disabled')){
 				$(this).removeClass("ui-state-disabled");
@@ -114,8 +129,8 @@ $(function() {
 			if($(this).find('ui-state-hover')){
 				$(this).removeClass("ui-state-hover");
 			}
-			if($(this).not('ui-state-active')){
-				$(this).addClass("ui-state-active");
+			if($(this).not('ui-state-highlight')){
+				$(this).addClass("ui-state-highlight");
 			}
 		});
 		/**
@@ -320,7 +335,7 @@ $(function() {
 						},
 						Cancel: function() {
 							$(this).dialog('close');
-							success: location.reload()
+							//success: location.reload()
 						}
 					}
 				});
@@ -354,7 +369,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -446,7 +461,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -603,21 +618,16 @@ $(function() {
 		 */
 		$("#forms-cms-page").submit(function(){
 			tinyMCE.triggerSave(true,true);
-			$(this).ajaxSubmit({
-        		url:'/admin/cms.php?add&post',
-        		type:"post",
-        		resetForm: true,
-        		success:function(request) {
-					$.notice({
-						ntype: "simple",
-						time:2
-					});
-        			$(".mc-head-request").html(request);
-        				setTimeout(function(){
-        					location.reload();
-        				},2800);
-        		}
-        	});
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		delay: 2800,
+	    		dom: this,
+	    		uri: '/admin/cms.php?add&post',
+	    		typesend: 'post',
+	    		resetform:true,
+	    		time:2,
+	    		reloadhtml:true	
+			});
 			return false; 
 		});
 		/**
@@ -627,21 +637,16 @@ $(function() {
 			var pageid = $('#idpage').val();
 			if(pageid != null){
 				tinyMCE.triggerSave(true,true);
-				$(this).ajaxSubmit({
-	        		url:'/admin/cms.php?editcms='+pageid+'&post',
-	        		type:"post",
-	        		resetForm: false,
-	        		success:function(request) {
-						$.notice({
-							ntype: "simple",
-							time:2
-						});
-	        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
-	        		}
-	        	});
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		delay: 2800,
+		    		dom: this,
+		    		uri: '/admin/cms.php?editcms='+pageid+'&post',
+		    		typesend: 'post',
+		    		resetform:false,
+		    		time:2,
+		    		reloadhtml:true	
+				});
 				return false; 
 			}else{
 				console.log("%s: %o","pageid is null",pageid);
@@ -677,7 +682,7 @@ $(function() {
 						},
 						Cancel: function() {
 							$(this).dialog('close');
-							success: location.reload()
+							//success: location.reload()
 						}
 					}
 				});
@@ -710,7 +715,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -745,7 +750,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -781,7 +786,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -936,7 +941,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -1015,7 +1020,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -1091,7 +1096,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -1259,7 +1264,7 @@ $(function() {
 						},
 						Cancel: function() {
 							$(this).dialog('close');
-							success: location.reload()
+							//success: location.reload()
 						}
 					}
 				});
@@ -1295,7 +1300,7 @@ $(function() {
 						},
 						Cancel: function() {
 							$(this).dialog('close');
-							success: location.reload();
+							//success: location.reload();
 						}
 					}
 				});
@@ -1420,7 +1425,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload();
+						//success: location.reload();
 					}
 				}
 			});
@@ -1457,7 +1462,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success : window.location.href = '/admin/catalog.php?category';//window.location.pathname;
+						//success : window.location.href = '/admin/catalog.php?category';//window.location.pathname;
 					}
 				}
 			});
@@ -1470,9 +1475,9 @@ $(function() {
 			$("#dialog").dialog({
 				bgiframe: true,
 				resizable: false,
-				height:180,
+				minHeight:180,
 				modal: true,
-				title: 'Supprimé cette sous catégorie',
+				title: 'Supprimé une sous catégorie ?',
 				overlay: {
 					backgroundColor: '#000',
 					opacity: 0.5
@@ -1491,7 +1496,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -1526,7 +1531,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});
@@ -1561,7 +1566,7 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						success: location.reload()
+						//success: location.reload()
 					}
 				}
 			});

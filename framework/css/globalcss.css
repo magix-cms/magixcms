@@ -378,6 +378,16 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-organ 	  { background-position: -224px 0; }
 .magix-icon-process   { background-position: -240px 0; }
 .magix-icon-cart 	{ background-position: 0 -16px; }
+/**
+ * ############################## Utility class
+ * 
+* ***/
+.clearfix{display:block;}
+.lfloat {float:left;}
+.rfloat{float:right;}
+.clearboth{clear:both;}
+.clearleft{clear:left;}
+.hide{display:none;}
 /*############## Catalog ##################*/
 #list-image-galery{
 	margin-left:10px;
@@ -392,18 +402,23 @@ input.ui-button { padding: .1em 1em; }
 .title-galery-image{padding:0 5px 0 5px;}
 /*templates*/
 #viewskin{
-	margin-left:10px;
+	margin:5px 0 5px 10px;
+}
+#viewskin .img-screen{
+	
 }
 #viewskin .list-screen{
 	margin:3px;
 	float:left;
 	width:155px;
-	height:170px;
+	height:155px;
 }
 #viewskin .img-screen{padding:2px;text-align:center;}
 #viewskin .img-screen a{}
 #viewskin .img-screen a:hover{cursor:pointer;}
-#viewskin .title-skin{padding:2px 5px 2px 5px;}
+#viewskin .title-skin{padding:4px 5px 4px 5px;margin:0;}
+.skin-name{float:left;width:100px;display:block;}
+.template-delete,.template-edit{border:none;height:16px;width:16px;}
 #version{font-size:15px;margin-left:20px;}
 /*PLUGIN*/
 ul.plugin-list{}

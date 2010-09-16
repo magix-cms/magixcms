@@ -12,7 +12,7 @@
 $(function() {
 	$('.mceEditor').tinymce({
 	// Location of TinyMCE script
-	script_url : '/framework/js/tiny_mce-3-3-8/tiny_mce.js',
+	script_url : '/framework/js/tiny_mce-3-3-9/tiny_mce.js',
 	//document_base_url :"/",
 	apply_source_formatting : true,
 	mode : "exact",

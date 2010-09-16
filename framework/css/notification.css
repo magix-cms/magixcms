@@ -80,10 +80,30 @@ html[xmlns*=""] body:last-child #message-notification{padding-top:0;}
 .notify-32-icon-check {background-position: 0 0;}
 .notify-32-icon-delete {background-position:-32px 0;}
 .notify-32-icon-help{background-position:-64px 0;}
-.notify-32-icon-info{background-position:-98px 0;}
-.notify-32-icon-light-bulb{ background-position:-130px 0;}
-.notify-32-icon-plugin-check{ background-position:-162px 0;}
-.notify-32-icon-plugin-delete{ background-position:-194px 0;}
+.notify-32-icon-info{background-position:-96px 0;}
+.notify-32-icon-light-bulb{ background-position:-128px 0;}
+.notify-32-icon-warning{ background-position:-160px 0;}
+.notify-32-icon-plugin-check{ background-position:-192px 0;}
+.notify-32-icon-plugin-delete{ background-position:-224px 0;}
 .notify-32-icon-folder-check {background-position: 0 -32px;}
 .notify-32-icon-folder-delete {background-position:-32px -32px;}
 .notify-32-icon-folder-conflict{background-position:-64px -32px;}
+.notify-32-icon-folder-add{background-position:-96px -32px;}
+.notify-32-icon-folder-modified{background-position:-128px -32px;}
+.notify-32-icon-folder-warning{background-position:-160px -32px;}
+.notify-32-icon-folder-info{background-position:-192px -32px;}
+.notify-32-icon-folder-alert{background-position:-224px -32px;}
+.notify-32-icon-page-check {background-position: 0 -64px;}
+.notify-32-icon-page-delete {background-position:-32px -64px;}
+.notify-32-icon-page-conflict{background-position:-64px -64px;}
+.notify-32-icon-page-add{background-position:-96px -64px;}
+.notify-32-icon-page-modified{background-position:-128px -64px;}
+.notify-32-icon-page-warning{background-position:-160px -64px;}
+.notify-32-icon-page-info{background-position:-192px -64px;}
+.notify-32-icon-page-alert{background-position:-224px -64px;}
+.notify-32-icon-tpl-check {background-position: 0 -96px;}
+.notify-32-icon-tpl-conflict {background-position:-32px -96px;}
+.notify-32-icon-tpl-add{background-position:-64px -96px;}
+.notify-32-icon-tpl-info{background-position:-96px -96px;}
+.notify-32-icon-tpl-modified{background-position:-128px -96px;}
+.notify-32-icon-tpl-process{background-position:-160px -96px;}

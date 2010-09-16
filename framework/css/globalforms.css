@@ -47,3 +47,8 @@ select { width: 220px; }
 	background: #008000;
 	width: 180px;
 }
+/**
+ * Hack IE 7 pour les formulaires
+ */
+*:first-child+html .button-link{max-width:200px;}
+*:first-child+html input[type=submit]{max-width:200px;}

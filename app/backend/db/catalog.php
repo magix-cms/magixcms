@@ -12,25 +12,11 @@
  */
 class backend_db_catalog{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
-	/**
 	 * singleton dbnews
 	 * @access public
 	 * @var void
 	 */
 	static public $admindbcatalog;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_home with singleton
 	 */
@@ -50,7 +36,7 @@ class backend_db_catalog{
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.corder';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
      * Requête de construction du menu select avec optgroup
@@ -59,7 +45,7 @@ class backend_db_catalog{
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.idlang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
      * 
@@ -68,7 +54,7 @@ class backend_db_catalog{
      */
 	function s_catalog_getlang_category_select($idlang){
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle FROM mc_catalog_c as c WHERE c.idlang = :idlang';
-		return $this->layer->select($sql,array(":idlang"=>$idlang));
+		return magixglobal_model_db::layerDB()->select($sql,array(":idlang"=>$idlang));
     }
     /**
      * Requête pour récupérer le contenu d'une catégorie
@@ -78,14 +64,14 @@ class backend_db_catalog{
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE c.idclc = :upcat';
-		return $this->layer->selectOne($sql,array(':upcat'=>$upcat));
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(':upcat'=>$upcat));
     }
     /**
     * Selectionne le maximum des identifiants "order" pour les catégories
     */
     function s_max_order_catalog_category(){
     	$sql = 'SELECT max(c.corder) as clcorder FROM mc_catalog_c as c';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
     /**
      * insertion d'une nouvelle catégorie
@@ -99,7 +85,7 @@ class backend_db_catalog{
 		$maxorder = self::s_max_order_catalog_category();
 		$sql = 'INSERT INTO mc_catalog_c (clibelle,pathclibelle,idlang,corder) 
 		VALUE(:clibelle,:pathclibelle,:idlang,:corder)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':clibelle'			=>	$clibelle,
 			':pathclibelle'		=>	$pathclibelle,
@@ -114,7 +100,7 @@ class backend_db_catalog{
 	 */
 	function u_order_catalog_category($i,$id){
 		$sql = 'UPDATE mc_catalog_c SET corder = :i WHERE idclc = :id';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':i'=>$i,
 			':id'=>$id
@@ -129,7 +115,7 @@ class backend_db_catalog{
 	 */
 	function u_catalog_category($clibelle,$pathclibelle,$upcat){
 		$sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle,pathclibelle = :pathclibelle WHERE idclc = :upcat';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':clibelle'		=>	$clibelle,
 			':pathclibelle'	=>	$pathclibelle,
@@ -143,7 +129,7 @@ class backend_db_catalog{
      */
 	function d_catalog_category($delc){
 		$sql = array('DELETE FROM mc_catalog_s WHERE idclc = '.$delc,'DELETE FROM mc_catalog_c WHERE idclc = '.$delc);
-			$this->layer->transaction($sql); 
+			magixglobal_model_db::layerDB()->transaction($sql); 
 	}
 	/*
 	 * ########### Sous categorie #############
@@ -156,7 +142,7 @@ class backend_db_catalog{
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
 		ORDER BY s.sorder';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**
      * Requête pour récupérer le contenu d'une sous catégorie
@@ -167,14 +153,14 @@ class backend_db_catalog{
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE s.idcls = :upsubcat';
-		return $this->layer->selectOne($sql,array(':upsubcat'=>$upsubcat));
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(':upsubcat'=>$upsubcat));
     }
 	/**
     * Selectionne le maximum des identifiants "order" pour les sous catégories
     */
     function s_max_order_catalog_subcategory(){
     	$sql = 'SELECT max(s.sorder) as clsorder FROM mc_catalog_s as s';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
 	/**
 	 * Selectionne les sous catégorie d'une catégorie
@@ -185,7 +171,7 @@ class backend_db_catalog{
 		$sql='SELECT s.idcls,s.slibelle FROM mc_catalog_c as c
 		LEFT JOIN mc_catalog_s as s USING (idclc)
 		where idclc = :idclc';
-		return $this->layer->select($sql,array(':idclc'=>$getidclc));
+		return magixglobal_model_db::layerDB()->select($sql,array(':idclc'=>$getidclc));
 	}
 	/**
 	 * insertion d'une nouvelle sous catégorie
@@ -198,7 +184,7 @@ class backend_db_catalog{
 		// récupère le nombre maximum de la colonne order
 		$maxorder = self::s_max_order_catalog_subcategory();
 		$sql = 'INSERT INTO mc_catalog_s (slibelle,pathslibelle,idclc,sorder) VALUE(:slibelle,:pathslibelle,:idclc,:sorder)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':slibelle'			=>	$slibelle,
 			':pathslibelle'		=>	$pathslibelle,
@@ -213,7 +199,7 @@ class backend_db_catalog{
 	 */
 	function u_order_catalog_subcategory($i,$id){
 		$sql = 'UPDATE mc_catalog_s SET sorder = :i WHERE idcls = :id';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':i'=>$i,
 			':id'=>$id
@@ -228,7 +214,7 @@ class backend_db_catalog{
 	 */
 	function u_catalog_subcategory($slibelle,$pathslibelle,$upsubcat){
 		$sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle WHERE idcls = :upsubcat';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':slibelle'		=>	$slibelle,
 			':pathslibelle'	=>	$pathslibelle,
@@ -242,7 +228,7 @@ class backend_db_catalog{
      */
 	function d_catalog_subcategory($dels){
 		$sql = 'DELETE FROM mc_catalog_s WHERE idcls = :dels';
-			$this->layer->delete($sql,
+			magixglobal_model_db::layerDB()->delete($sql,
 			array(
 				':dels'	=>	$dels
 			)); 
@@ -256,7 +242,7 @@ class backend_db_catalog{
 	 */
 	function s_count_catalog_max(){
 		$sql = 'SELECT count(p.idcatalog) as total FROM mc_catalog as p';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * Retourne le nombre maximum de pages
@@ -264,7 +250,7 @@ class backend_db_catalog{
 	 */
 	function s_count_catalog_pager_max(){
 		$sql = 'SELECT count(p.idcatalog) as total FROM mc_catalog as p';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Retourne l'url du produit courant pour la génération d'image intelligente
@@ -272,7 +258,7 @@ class backend_db_catalog{
 	 */
 	function s_uniq_url_catalog($getimg){
 		$sql = 'SELECT urlcatalog FROM mc_catalog WHERE idcatalog = :getimg';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getimg'=>$getimg
 		));
 	}
@@ -290,7 +276,7 @@ class backend_db_catalog{
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		LEFT JOIN mc_admin_member as m ON ( p.idadmin = m.idadmin )
 		ORDER BY p.'.$sort.' DESC'.$limit.$offset;
-		return $this->layer->select($sql,false,'assoc');
+		return magixglobal_model_db::layerDB()->select($sql,false,'assoc');
     }
     /**
      * Selectionne les produits correspondant au catalogue
@@ -304,20 +290,20 @@ class backend_db_catalog{
 		LEFT JOIN mc_catalog_s as s USING ( idcls )
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
 		WHERE idcatalog = :editproduct';
-		return $this->layer->select($sql,array(":editproduct"=>$editproduct));
+		return magixglobal_model_db::layerDB()->select($sql,array(":editproduct"=>$editproduct));
     }
 	/**
      * Selectionne les produits correspondant à la langue du catalogue
      * @param $editproduct
      */
 	function s_catalog_product_for_lang($getidclc){
-    	$sql = 'SELECT p.idproduct, c.clibelle, s.slibelle, card.titlecatalog
+    	$sql = 'SELECT p.idproduct, c.clibelle, s.idcls,s.slibelle, card.titlecatalog
 				FROM mc_catalog_product AS p
 				LEFT JOIN mc_catalog AS card USING ( idcatalog )
 				LEFT JOIN mc_catalog_c AS c USING ( idclc )
 				LEFT JOIN mc_catalog_s AS s USING ( idcls )
 				WHERE c.idclc =:idclc ORDER BY s.idcls';
-		return $this->layer->select($sql,array("idclc"=>$getidclc));
+		return magixglobal_model_db::layerDB()->select($sql,array("idclc"=>$getidclc));
     }
 	/**
 	 * Selectionne les donnée du formulaire pour la mise à jour d'un produit
@@ -328,7 +314,7 @@ class backend_db_catalog{
 		FROM mc_catalog AS p
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		WHERE p.idcatalog = :editproduct';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':editproduct'=>$editproduct
 		));
 	}
@@ -338,7 +324,7 @@ class backend_db_catalog{
 	 */
 	function s_idcatalog_product(){
 		$sql = 'SELECT p.idcatalog,p.titlecatalog FROM mc_catalog as p';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Sélectionne une image spécifique à une fiche catalogue
@@ -346,7 +332,7 @@ class backend_db_catalog{
 	 */
 	function s_image_product($getimg){
 		$sql = 'SELECT img.imgcatalog FROM mc_catalog_img as img WHERE idcatalog = :getimg';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getimg'	=>	$getimg
 		));
 	}
@@ -356,13 +342,13 @@ class backend_db_catalog{
 	 */
 	function count_image_product($getimg){
 		$sql = 'SELECT count(img.imgcatalog) as cimage FROM mc_catalog_img as img WHERE idcatalog = :getimg';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getimg'	=>	$getimg
 		));
 	}
 	function s_catalog_max_rel_product(){
 		$sql = 'SELECT count(idrelproduct) as max FROM mc_catalog_rel_product';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	function s_catalog_product_info($idproduct){
 		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
@@ -372,14 +358,14 @@ class backend_db_catalog{
 				LEFT JOIN mc_catalog_s AS s USING ( idcls )
 				LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
 				WHERE idproduct = :idproduct';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idproduct'	=>	$idproduct
 		));
 	}
 	function s_catalog_rel_product($idcatalog){
 		$sql = 'SELECT rel.idrelproduct,rel.idproduct FROM mc_catalog_rel_product AS rel
 				WHERE rel.idcatalog = :idcatalog';
-		return $this->layer->select($sql,array(
+		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idcatalog'	=>	$idcatalog
 		));
 	}
@@ -391,7 +377,7 @@ class backend_db_catalog{
 		$maxorder = self::s_count_catalog_max();
 		$sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
 		VALUE(:idlang,:idadmin,:urlcatalog,:titlecatalog,:desccatalog,:price,:ordercatalog)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idlang'			=>	$idlang,
 			':idadmin'			=>	$idadmin,
@@ -411,7 +397,7 @@ class backend_db_catalog{
 	 */
 	function i_catalog_product($idcatalog,$idclc,$idcls){
 		$sql = 'INSERT INTO mc_catalog_product (idcatalog,idclc,idcls) VALUE(:idcatalog,:idclc,:idcls)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idcatalog'=>	$idcatalog,
 			':idclc'	=>	$idclc,
@@ -425,12 +411,11 @@ class backend_db_catalog{
 	 * @param $idcatalog
 	 * @param $idproduct
 	 */
-	function i_catalog_rel_product($idrelproduct,$idcatalog,$idproduct){
-		$sql = 'INSERT INTO mc_catalog_rel_product (idrelproduct,idcatalog,idproduct) 
-		VALUE(:idrelproduct,:idcatalog,:idproduct)';
-		$this->layer->insert($sql,
+	function i_catalog_rel_product($idcatalog,$idproduct){
+		$sql = 'INSERT INTO mc_catalog_rel_product (idcatalog,idproduct) 
+		VALUE(:idcatalog,:idproduct)';
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
-			':idrelproduct'	=>	$idrelproduct,
 			':idcatalog'	=>	$idcatalog,
 			':idproduct'	=>	$idproduct
 		));
@@ -447,7 +432,7 @@ class backend_db_catalog{
 		$sql = 'INSERT INTO mc_catalog (idclc,idcls,idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
 		SELECT :idclc,:idcls,:idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
 		WHERE idcatalog = :copyproduct';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idclc'			=>	$idclc,
 			':idcls'			=>	$idcls,
@@ -463,7 +448,7 @@ class backend_db_catalog{
 	 */
 	function i_image_catalog($idcatalog,$imgcatalog){
 		$sql = 'INSERT INTO mc_catalog_img (idcatalog,imgcatalog) VALUE(:idcatalog,:imgcatalog)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idcatalog'	=>	$idcatalog,
 			':imgcatalog'	=>	$imgcatalog
@@ -482,7 +467,7 @@ class backend_db_catalog{
 		$sql = 'UPDATE mc_catalog SET idadmin=:idadmin,titlecatalog=:titlecatalog
 		,urlcatalog=:urlcatalog,desccatalog=:desccatalog,price=:price 
 		WHERE idcatalog=:editproduct';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idadmin'			=>	$idadmin,
 			':titlecatalog'		=>	$titlecatalog,
@@ -502,7 +487,7 @@ class backend_db_catalog{
 	function u_catalog_product_move($idclc,$idcls,$idadmin,$moveproduct){
 		$sql = 'UPDATE mc_catalog SET idadmin=:idadmin,idclc=:idclc,idcls=:idcls
 		WHERE idcatalog=:moveproduct';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':idclc'			=>	$idclc,
 			':idcls'			=>	$idcls,
@@ -517,7 +502,7 @@ class backend_db_catalog{
 	 */
 	function u_image_catalog($idcatalog,$imgcatalog){
 		$sql = 'UPDATE mc_catalog_img SET imgcatalog = :imgcatalog WHERE idcatalog = :idcatalog';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':idcatalog'	=>	$idcatalog,
 			':imgcatalog'	=>	$imgcatalog
@@ -531,7 +516,7 @@ class backend_db_catalog{
 		$sql = array(
 		'DELETE FROM mc_catalog_img WHERE idcatalog = '.$delproduct
 		,'DELETE FROM mc_catalog WHERE idcatalog = '.$delproduct);
-		$this->layer->transaction($sql); 
+		magixglobal_model_db::layerDB()->transaction($sql); 
 	}
 	/**
 	 * Suppression des produits ainsi que des produits lié à celui-ci
@@ -540,15 +525,15 @@ class backend_db_catalog{
 	function d_in_product($d_in_product){
 		$sql = array('DELETE FROM mc_catalog_rel_product WHERE idproduct ='.$d_in_product,
 		'DELETE FROM mc_catalog_product WHERE idproduct ='.$d_in_product);
-		$this->layer->transaction($sql); 
+		magixglobal_model_db::layerDB()->transaction($sql); 
 	}
 	/**
 	 * Suppression des produits associé ou liaison de produits à une fiche
 	 * @param $d_in_product
 	 */
-	function d_rel_product($d_in_product){
-		$sql = 'DELETE FROM mc_catalog_rel_product WHERE idproduct = :d_in_product';
-		$this->layer->delete($sql,array(':d_in_product'=>$d_in_product)); 
+	function d_rel_product($d_rel_product){
+		$sql = 'DELETE FROM mc_catalog_rel_product WHERE idrelproduct = :d_rel_product';
+		magixglobal_model_db::layerDB()->delete($sql,array(':d_rel_product'=>$d_rel_product)); 
 	}
 	/**
 	 * ################ Galerie d'image pour un produit ###################
@@ -558,8 +543,8 @@ class backend_db_catalog{
 	 * 
 	 */
 	function s_galery_image_product(){
-		$sql = 'SELECT img.imgcatalog FROM mc_catalog_galery as img WHERE idmicro = '.$this->layer->lastInsert();
-		return $this->layer->selectOne($sql);
+		$sql = 'SELECT img.imgcatalog FROM mc_catalog_galery as img WHERE idmicro = '.magixglobal_model_db::layerDB()->lastInsert();
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * Récupère le nom de l'image avant la suppression (micro galerie)
@@ -567,7 +552,7 @@ class backend_db_catalog{
 	 */
 	function s_galery_image_micro($delmicro){
 		$sql = 'SELECT imgcatalog FROM mc_catalog_galery WHERE idmicro = :delmicro';
-		return $this->layer->selectOne($sql,
+		return magixglobal_model_db::layerDB()->selectOne($sql,
 			array(
 				':delmicro'	=>	$delmicro
 			)); 
@@ -578,7 +563,7 @@ class backend_db_catalog{
 	 */
 	function count_image_in_galery_product($getimg){
 		$sql = 'SELECT count(img.imgcatalog) as cimage FROM mc_catalog_galery as img WHERE idcatalog = :getimg';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getimg'	=>	$getimg
 		));
 	}
@@ -588,7 +573,7 @@ class backend_db_catalog{
 	 */
 	function s_image_in_galery_product($getimg){
 		$sql = 'SELECT img.idmicro,img.imgcatalog FROM mc_catalog_galery as img WHERE idcatalog = :getimg';
-		return $this->layer->select($sql,array(
+		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getimg'	=>	$getimg
 		));
 	}
@@ -599,7 +584,7 @@ class backend_db_catalog{
 	 */
 	function i_galery_image_catalog($idcatalog,$imgcatalog){
 		$sql = 'INSERT INTO mc_catalog_galery (idcatalog,imgcatalog) VALUE(:idcatalog,:imgcatalog)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idcatalog'	=>	$idcatalog,
 			':imgcatalog'	=>	$imgcatalog
@@ -611,9 +596,44 @@ class backend_db_catalog{
 	 */
 	function d_galery_image_catalog($delmicro){
 		$sql = 'DELETE FROM mc_catalog_galery WHERE idmicro = :delmicro';
-			$this->layer->delete($sql,
+			magixglobal_model_db::layerDB()->delete($sql,
 			array(
 				':delmicro'	=>	$delmicro
 			)); 
+	}
+	/**
+	 * Statistic catalog
+	 */
+	/**
+	 * 
+	 * Compte le nombre de produit visible sur le site internet
+	 */
+	function count_global_product(){
+		$sql = 'SELECT count(idproduct) as globalproduct FROM mc_catalog_product';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
+	}
+	function count_global_subfolder_product(){
+		$sql = 'SELECT count(idcls) as subfolder FROM mc_catalog_product WHERE idcls != 0';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
+	}
+	/**
+	 * 
+	 * Compte le nombre de produit lié sur le site internet
+	 */
+	function count_global_rel_product(){
+		$sql = 'SELECT count(idrelproduct) as relproduct FROM mc_catalog_rel_product';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
+	}
+	/**
+	 * 
+	 * Compte le nombre de produit lié sur le site internet
+	 */
+	function count_global_folder(){
+		$sql = 'SELECT count(idclc) as folder FROM mc_catalog_c';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
+	}
+	function count_global_subfolder(){
+		$sql = 'SELECT count(idcls) as subfolder FROM mc_catalog_s';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 }

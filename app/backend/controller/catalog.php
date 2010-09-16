@@ -11,7 +11,7 @@
  * @name catalog
  *
  */
-class backend_controller_catalog{
+class backend_controller_catalog extends analyzer_catalog{
 	/**
 	 * ####### Categorie et sous categorie ########
 	 */
@@ -586,7 +586,7 @@ class backend_controller_catalog{
 	private function insert_new_card_product(){
 		if(isset($this->titlecatalog)){
 			if(empty($this->titlecatalog)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_card_product(
 					$this->idlang,
@@ -607,7 +607,7 @@ class backend_controller_catalog{
 	private function insert_new_product(){
 		if(isset($this->idclc)){
 			if(empty($this->idclc)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_product(
 					$this->editproduct,
@@ -691,20 +691,30 @@ EOT;
 	 */
 	private function construct_select_product(){
 		$admindb =  backend_db_catalog::adminDbCatalog()->s_catalog_product_for_lang($this->selidclc);
-		$category = '<select id="idproduct" name="idproduct">';
-		$category .='<option value="">Aucun produits</option>';
+		/*$category = '<select id="idproduct" name="idproduct">';
+		$category .='<option value="">Aucun produits</option>';*/
+		$category ='';
 		$idcls = '';
 		foreach ($admindb as $row){
-			//si codelang pas = à $lang
 			if ($row['slibelle'] != $idcls) {
 				if ($idcls != '') { $category .= "</optgroup>\n"; }
 			       $category .= '<optgroup label="'.$row['slibelle'].'">';
 			}
-			$category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
+			if ($row['idcls'] != 0) {
+				$category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
+			}
 			$idcls = $row['slibelle'];
 		}
 		if ($idcls != '') { $category .= "</optgroup>\n"; }
-		$category .='</select>';
+		if ($idcls == '') {
+			$category .= '<optgroup label="Pas de sous catégorie">';
+			foreach ($admindb as $row){
+				if ($row['idcls'] == 0) {
+					$category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
+				}
+			}
+		}
+		if ($idcls == '') { $category .= "</optgroup>\n"; }
 		print  $category;
 	}
 	/**
@@ -735,11 +745,9 @@ EOT;
 	private function insert_rel_product(){
 		if(isset($this->idproduct)){
 			if(empty($this->idproduct)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
 			}else{
-				$idrelproduct = backend_db_catalog::adminDbCatalog()->s_catalog_max_rel_product();
 				backend_db_catalog::adminDbCatalog()->i_catalog_rel_product(
-					$idrelproduct['max']+1,
 					$this->editproduct,
 					$this->idproduct
 				);
@@ -888,7 +896,7 @@ EOT;
 	private function update_specific_product(){
 		if(isset($this->titlecatalog)){
 			if(empty($this->titlecatalog)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->u_catalog_product(
 					backend_model_member::s_idadmin(),
@@ -1237,6 +1245,11 @@ EOT;
 	 * @access public
 	 */
 	private function display_product(){
+		backend_config_smarty::getInstance()->assign('global_product',parent::statistic_global_product('product'));
+		backend_config_smarty::getInstance()->assign('global_product_subfolder',parent::statistic_global_product('subfolder'));
+		backend_config_smarty::getInstance()->assign('global_folder',parent::statistic_global_folder_product());
+		backend_config_smarty::getInstance()->assign('global_subfolder',parent::statistic_global_subfolder_product());
+		backend_config_smarty::getInstance()->assign('global_rel_product',parent::statistic_global_rel_product());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/product.phtml');
 	}
@@ -1376,6 +1389,32 @@ EOT;
 		}else{
 			self::display();
 		}
+	}
+}
+class analyzer_catalog{
+	protected function statistic_global_product($info){
+		$count = backend_db_catalog::adminDbCatalog()->count_global_product();
+		$subfolder = backend_db_catalog::adminDbCatalog()->count_global_subfolder_product();
+		switch($info){
+			case 'subfolder':
+				return $subfolder['subfolder'];
+				break;
+			case 'product':
+				return $count['globalproduct'];
+				break;
+		}
+	}
+	protected function statistic_global_rel_product(){
+		$count = backend_db_catalog::adminDbCatalog()->count_global_rel_product();
+		return $count['relproduct'];
+	}
+	protected function statistic_global_folder_product(){
+		$count = backend_db_catalog::adminDbCatalog()->count_global_folder();
+		return $count['folder'];
+	}
+	protected function statistic_global_subfolder_product(){
+		$count = backend_db_catalog::adminDbCatalog()->count_global_subfolder();
+		return $count['subfolder'];
 	}
 }
 ?>

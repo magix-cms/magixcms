@@ -73,25 +73,27 @@ class backend_controller_templates{
 		$dossier = null;
 		foreach($dir as $d){
 			if($d == self::tpl_identifier()){
-				$selected = ' ui-state-active';
+				$selected = ' ui-state-highlight';
 			}else{
 				$selected = ' ui-state-disabled';
+				$ctpl = '';
 			}
 			$themePath = self::directory_skin().$d;
 			if($makefiles->scanDir($themePath) != null){
 				if(file_exists($themePath.'/screenshot.png')){
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
-					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all">'.$d.'</div>';
-					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/'.$d.'/screenshot.png" alt="" /></a></div>';
+					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'.'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a></div>';
+					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img width="150" height="125" src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/'.$d.'/screenshot.png" alt="" /></a></div>';
 					$dossier .= '</div>';
 				}else{
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
-					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all">'.$d.'</div>';
-					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png" alt="" /></a></div>';
+					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div><div class="rfloat">'.$ctpl.'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a></div></div>';
+					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img width="150" height="130" src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png" alt="" /></a></div>';
 					$dossier .= '</div>';
 				}
 			}
 		}
+		$dossier .= '<div class="clearleft"></div>';
 		return $dossier;
 	}
 	/**
