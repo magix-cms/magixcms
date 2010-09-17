@@ -9,6 +9,8 @@ Stable 2.3.39
 		=> Suppression de la liaison de produits
 	* Ajout de la réécriture d'url des produits dans la classe rewrite (méthode filter_catalog_product_url)
 	* Modification des urls CMS + produits catalogue dans le système de sitemap xml
+	* Préparation du mode édition des templates
+	* Fix bug IE7 sur le sélecteur de templates (backend)
 	
 Stable 2.3.38
 	* Ajout de la soumission ajax avec notification

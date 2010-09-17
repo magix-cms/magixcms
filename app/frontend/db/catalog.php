@@ -265,7 +265,7 @@ class frontend_db_catalog{
 	 * Construction du menu des catégories avec capture des derniers articles (sans langue)
 	 */
 	function s_category_withimg_nolang(){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.idlang, 
+		/*$sql = 'SELECT p.idcatalog, p.urlcatalog, p.idlang, 
 		p.idclc, p.idcls, c.pathclibelle,clibelle, img.imgcatalog, lang.codelang
 		FROM mc_catalog AS p
 		JOIN (
@@ -276,7 +276,19 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
 		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idlang = 0';
+		WHERE p.idlang = 0';*/
+		$sql = 'SELECT p.idproduct,p.idcatalog, c.idlang, 
+		p.idclc, p.idcls, c.pathclibelle,c.clibelle, img.imgcatalog, lang.codelang
+		FROM mc_catalog_product AS p
+		JOIN (
+			SELECT max( p.idproduct ) id, c.idclc FROM mc_catalog_product AS p
+			LEFT JOIN mc_catalog_c AS c ON c.idclc = p.idclc
+			GROUP BY c.idclc
+		)catalog_id_max ON ( p.idproduct = catalog_id_max.id )
+		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
+		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+		WHERE c.idlang = 0';
 		return $this->layer->select($sql);
 	}
 	/**

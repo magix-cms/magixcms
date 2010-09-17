@@ -278,7 +278,7 @@ class backend_db_cms{
 	 */
 	function u_cms_page($subjectpage,$pathpage,$contentpage,$idcategory,$idlang,$idadmin,$metatitle,$metadescription,$getpage){
 		$sql = 'UPDATE mc_cms_page 
-		SET subjectpage=:subjectpage,pathpage=:pathpage,contentpage=:contentpage,idcategory=:idcategory,idlang=:idlang,idadmin=:idadmin,metatitle=:metatitle,metadescription=:metadescription
+		SET subjectpage=:subjectpage,pathpage=:pathpage,contentpage=:contentpage,idcategory=:idcategory,idlang=:idlang,idadmin=:idadmin,metatitle=:metatitle,metadescription=:metadescription,date_page=NOW()
 		WHERE idpage=:getpage';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(

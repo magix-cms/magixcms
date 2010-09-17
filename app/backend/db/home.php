@@ -108,7 +108,7 @@ class backend_db_home{
 	 */
 	function u_home_page($subject,$content,$metatitle,$metadescription,$idlang,$idadmin,$idhome){
 		$sql = 'UPDATE mc_page_home 
-		SET subject=:subject,content=:content,metatitle=:metatitle,metadescription=:metadescription,idlang=:idlang,idadmin=:idadmin
+		SET subject=:subject,content=:content,metatitle=:metatitle,metadescription=:metadescription,idlang=:idlang,idadmin=:idadmin,date_home=NOW()
 		WHERE idhome = :idhome';
 		$this->layer->update($sql,
 		array(

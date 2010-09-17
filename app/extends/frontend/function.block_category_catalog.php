@@ -34,22 +34,6 @@ function smarty_function_block_category_catalog($params, &$smarty){
 			$sizecapture = 'mini';
 		break;
 	}
-	switch($lang){
-			case 'fr':
-			$langsession = 'catalogue';
-				break;
-			case 'en':
-			$langsession = 'catalog';
-				break;	
-			case 'de':
-			$langsession = 'katalog';
-				break;
-			case 'nl':
-			$langsession = 'catalog';
-				break;	
-			default:
-			$langsession = 'catalogue';	
-	}
 	if(isset($ui)){
 		switch($ui){
 			case "true":
@@ -73,19 +57,19 @@ function smarty_function_block_category_catalog($params, &$smarty){
 				foreach(frontend_db_catalog::publicDbCatalog()->s_category_withimg_nolang() as $cat){
 					$block .= '<div class="list-img-category'.$wcontent.'">';
 					if($tposition == 'top'){
-						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
 					if($cat['imgcatalog'] != null){
 						$block .= '<div class="img-product">';
-						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg'.magixcjquery_html_helpersHtml::unixSeparator().$sizecapture.magixcjquery_html_helpersHtml::unixSeparator().$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$block .= '<a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg'.magixcjquery_html_helpersHtml::unixSeparator().$sizecapture.magixcjquery_html_helpersHtml::unixSeparator().$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
 						$block .= '</div>';
 					}else{
 						$block .= '<div class="img-product">';
-						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$block .= '<a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
 						$block .= '</div>';
 					}
 					if($tposition == 'bottom'){
-						$block .= '<div class="title-category'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-category'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
 					$block .= '</div>';
 				}

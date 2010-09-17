@@ -43,9 +43,10 @@ class frontend_db_news{
 	 * @param $getsubject
 	 */
 	function s_news_page($getdate,$getnews){
-		$sql = 'SELECT n.subject,n.content,lang.codelang,n.idlang,n.date_sent
+		$sql = 'SELECT n.subject,n.content,lang.codelang,n.idlang,n.date_sent,pub.date_publication
 				FROM mc_news AS n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
 				WHERE n.rewritelink = :getnews AND n.date_sent = :getdate';
 		return $this->layer->selectOne($sql,array(
 			':getnews'=>$getnews,
@@ -65,7 +66,7 @@ class frontend_db_news{
 	function s_news_plugins($limit=false,$max=null,$offset=null){
 		$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,lang.codelang
+		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,pub.date_publication,lang.codelang
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
@@ -78,7 +79,7 @@ class frontend_db_news{
 	function s_news_plugins_lang($codelang,$limit=false,$max=null,$offset=null){
 		$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,lang.codelang
+		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,pub.date_publication,lang.codelang
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
@@ -89,7 +90,7 @@ class frontend_db_news{
 	 * Sélectionne la dernière news publié
 	 */
 	function s_lastnews_plugins(){
-		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,lang.codelang
+		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,pub.date_publication,lang.codelang
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
@@ -100,7 +101,7 @@ class frontend_db_news{
 	 * Sélectionne la dernière news publié dans une langue spécifique
 	 */
 	function s_lastnews_lang_plugins($codelang){
-		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,lang.codelang
+		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,pub.date_publication,lang.codelang
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)

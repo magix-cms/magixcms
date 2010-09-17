@@ -227,11 +227,11 @@ class backend_db_catalog{
      * @param $dels
      */
 	function d_catalog_subcategory($dels){
-		$sql = 'DELETE FROM mc_catalog_s WHERE idcls = :dels';
-			magixglobal_model_db::layerDB()->delete($sql,
-			array(
-				':dels'	=>	$dels
-			)); 
+		$sql = array(
+		'DELETE FROM mc_catalog_s WHERE idcls ='.$dels,
+		'DELETE FROM mc_catalog_product WHERE idcls ='.$dels
+		);
+			magixglobal_model_db::layerDB()->transaction($sql); 
 	}
 	/**
 	 * CATALOG PAGE
@@ -465,7 +465,7 @@ class backend_db_catalog{
 	 */
 	function u_catalog_product($idadmin,$titlecatalog,$urlcatalog,$desccatalog,$price,$editproduct){
 		$sql = 'UPDATE mc_catalog SET idadmin=:idadmin,titlecatalog=:titlecatalog
-		,urlcatalog=:urlcatalog,desccatalog=:desccatalog,price=:price 
+		,urlcatalog=:urlcatalog,desccatalog=:desccatalog,price=:price,date_catalog=NOW() 
 		WHERE idcatalog=:editproduct';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
@@ -514,7 +514,8 @@ class backend_db_catalog{
 	 */
 	function d_catalog_product($delproduct){
 		$sql = array(
-		'DELETE FROM mc_catalog_img WHERE idcatalog = '.$delproduct
+		'DELETE FROM mc_catalog_img WHERE idcatalog = '.$delproduct,
+		'DELETE FROM mc_catalog_product WHERE idcatalog = '.$delproduct
 		,'DELETE FROM mc_catalog WHERE idcatalog = '.$delproduct);
 		magixglobal_model_db::layerDB()->transaction($sql); 
 	}

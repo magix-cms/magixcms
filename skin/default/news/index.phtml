@@ -9,7 +9,18 @@
 <div id="content">
 {include file="common/sidebar.phtml"}
 	<div id="principal" class="principal">
-	<div class="sdate"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>{$date_sent}</div>
+		<div class="sdate">
+			<table>
+				<tr>
+					<td><span style="float:left;" class="ui-icon ui-icon-calendar"></span></td>
+					<td>{$date_sent}</td>
+				</tr>
+				<tr>
+					<td><span style="float:left;" class="ui-icon ui-icon-calendar"></span></td>
+					<td>{$date_publication|date_format}</td>
+				</tr>
+			</table>
+		</div>
 		<h1>{$subject}</h1>
 		{$content}
 	</div>

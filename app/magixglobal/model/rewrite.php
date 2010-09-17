@@ -53,7 +53,7 @@ class magixglobal_model_rewrite{
 	 * @param integer $id
 	 * @param string $url
 	 */
-	private function cms_public_uri($lang,$catid,$cat,$idpage,$pathpage){
+	private function cms_rewrite_uri($lang,$catid,$cat,$idpage,$pathpage){
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
@@ -71,7 +71,7 @@ class magixglobal_model_rewrite{
 	 * @param integer $id
 	 * @param string $url
 	 */
-	private function cms_admin_uri($lang,$catid,$cat,$idpage,$pathpage){
+	private function cms_uri($lang,$catid,$cat,$idpage,$pathpage){
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}else $language = '';
@@ -93,15 +93,43 @@ class magixglobal_model_rewrite{
 	public static function filter_cms_url($lang,$catid,$cat,$idpage,$pathpage,$rewrite=false){
 		switch ($rewrite){
 			case true:
-				return self::cms_public_uri($lang, $catid, $cat, $idpage,$pathpage);
+				return self::cms_rewrite_uri($lang, $catid, $cat, $idpage,$pathpage);
 			break;
 			case false:
-				return self::cms_admin_uri($lang, $catid, $cat, $idpage,$pathpage);
+				return self::cms_uri($lang, $catid, $cat, $idpage,$pathpage);
 			break;
 		}
 		
 	}
 	/**
+	 * @access private
+	 * URL public des catégories du catalogue sans réécriture
+	 * @param string $lang
+	 * @param string $pathclibelle
+	 * @param integer $idclc
+	 * @return string
+	 */
+	private function catalog_uri_c($lang,$pathclibelle,$idclc){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else $language = '';
+		return magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$language.'catalog&amp;pathclibelle='.$pathclibelle.'&amp;'.'idclc='.$idclc;
+	}
+	/**
+	 * @access private
+	 * URL public des catégories du catalogue avec réécriture
+	 * @param string $lang
+	 * @param string $pathclibelle
+	 * @param integer $idclc
+	 * @return string
+	 */
+	private function catalog_rewrite_uri_c($lang,$pathclibelle,$idclc){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		return magixcjquery_html_helpersHtml::getUrl().'/'.$language.self::mod_catalog_lang($lang).'/c/'.$pathclibelle.'-'.$idclc.'.html';
+	}
+	/**
 	 * 
 	 * URL public des produits du catalogue avec réécriture
 	 * @param $lang
@@ -109,12 +137,13 @@ class magixglobal_model_rewrite{
 	 * @param $idclc
 	 * @param $urlcatalog
 	 * @param $idproduct
+	 * @return string
 	 */
-	private function catalog_admin_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct){
+	private function catalog_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct){
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}else $language = '';
-		return 'index.php?'.$language.self::mod_catalog_lang($lang).'&amp;'.'idclc='.$idclc.'&amp;'.$pathclibelle.'&amp;idcatalog='.$idproduct.'&amp;'.$urlcatalog;
+		return magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$language.'catalog&amp;'.'idclc='.$idclc.'&amp;'.$pathclibelle.'&amp;idcatalog='.$idproduct.'&amp;'.$urlcatalog;
 	}
 	/**
 	 * 
@@ -125,11 +154,30 @@ class magixglobal_model_rewrite{
 	 * @param $urlcatalog
 	 * @param $idproduct
 	 */
-	private function catalog_public_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct){
+	private function catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct){
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return $language.self::mod_catalog_lang($lang).'/'.$pathclibelle.'-'.$idclc.'/'.$urlcatalog.'-'.$idproduct.'.html';
+		return magixcjquery_html_helpersHtml::getUrl().'/'.$language.self::mod_catalog_lang($lang).'/'.$pathclibelle.'-'.$idclc.'/'.$urlcatalog.'-'.$idproduct.'.html';
+	}
+	/**
+	 * 
+	 * La réécriture des urls pour les catégories du catalogue
+	 * @param string $lang
+	 * @param string $pathclibelle
+	 * @param integer $idclc
+	 * @param bool $rewrite
+	 */
+	public static function filter_catalog_category_url($lang,$pathclibelle,$idclc,$rewrite=false){
+		switch ($rewrite){
+			case true:
+				return self::catalog_rewrite_uri_c($lang, $pathclibelle, $idclc);
+			break;
+			case false:
+				return self::catalog_uri_c($lang, $pathclibelle, $idclc);
+			break;
+		}
+		
 	}
 	/**
 	 * 
@@ -144,10 +192,10 @@ class magixglobal_model_rewrite{
 	public static function filter_catalog_product_url($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct,$rewrite=false){
 		switch ($rewrite){
 			case true:
-				return self::catalog_public_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct);
+				return self::catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct);
 			break;
 			case false:
-				return self::catalog_admin_uri_product($lang, $pathclibelle, $idclc, $urlcatalog, $idproduct);
+				return self::catalog_uri_product($lang, $pathclibelle, $idclc, $urlcatalog, $idproduct);
 			break;
 		}
 		
@@ -158,7 +206,7 @@ class magixglobal_model_rewrite{
 	 * @param integer $id
 	 * @param string  $url
 	 */
-	public static function catalog_cat_uri($lang,$id,$url){
+	/*public static function catalog_cat_uri($lang,$id,$url){
 		return magixcjquery_html_helpersHtml::getUrl().'/'.$lang.'/'.self::mod_catalog_lang($lang).'/c/'.$id.'-'.$url.'.html';
-	}
+	}*/
 }

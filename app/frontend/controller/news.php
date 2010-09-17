@@ -137,6 +137,7 @@ class frontend_controller_news{
 		frontend_config_smarty::getInstance()->assign('subject',magixcjquery_string_convert::ucFirst($news['subject']));
 		frontend_config_smarty::getInstance()->assign('content',$news['content']);
 		frontend_config_smarty::getInstance()->assign('date_sent',$news['date_sent']);
+		frontend_config_smarty::getInstance()->assign('date_publication',$news['date_publication']);
 	}
 	/**
 	 * Retourne la page de la news courante
