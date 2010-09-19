@@ -4,6 +4,26 @@
 		<tr>
 			<td><input type="text" name="update_subcategory" id="update_subcategory" class="inputtext ui-corner-all" value="{$slibelle}" size="20" /></td>
 		</tr>
+		<tr>
+		<td>
+		<table>
+			<tr>
+				<td style="width:250px;">
+					<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+			 		<input type="file" id="update_img_s" name="update_img_s" value="" />
+			 	</td>
+			 	<td>&nbsp;</td>
+			 	<td style="width:250px;" class="errorInput"></td>
+		 	</tr>
+	 	</table>
+		</td>
+		</tr>
+		<tr>
+			<td class="status"></td>
+		</tr>
 	</table>			
 	</fieldset>
 </form>
+{if $img_s != null}
+<div><img src="{geturl}/upload/catalogimg/subcategory/{$img_s}" /></div>
+{/if}

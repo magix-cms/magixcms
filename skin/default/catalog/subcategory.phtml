@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{rewrite_metas_catalog type='description' subcategory=$slibelle level='2'}"}
-    <title>{rewrite_metas_catalog type='title' subcategory=$slibelle level='2'}</title>
+{headmeta meta="description" content="{rewrite_metas_catalog type='description' category=$clibelle subcategory=$slibelle level='2'}"}
+    <title>{rewrite_metas_catalog type='title' category=$clibelle subcategory=$slibelle level='2'}</title>
 {include file="common/css.phtml"}
 </head>
 <body>
@@ -10,7 +10,7 @@
 {include file="common/sidebar.phtml"}
 	<div id="principal" class="principal">
 		<h1>{$slibelle}</h1>
-		{load_catalog_subcategory size="mini" tposition="top" description=false}
+		{load_catalog_subcategory ui=true tposition="top" description=false}
 	</div>
 </div>
 {include file="common/footer.phtml"}

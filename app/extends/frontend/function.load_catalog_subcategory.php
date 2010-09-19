@@ -39,6 +39,8 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 	$tposition = $params['tposition']? $params['tposition'] : 'top';
 	//Affiche si le bien est vendu
 	$soldout = $params['soldout'];
+	// Affiche le prix de l'article
+	$price = $params['price']?true:false;
 	// Parametre pour la description du produit
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 100 ;
 	// Le délimiteur pour tronqué le texte
@@ -52,22 +54,6 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 		case 'mini':
 			$sizecapture = 'mini';
 		break;
-	}
-	switch($lang){
-			case 'fr':
-			$langsession = 'catalogue';
-				break;
-			case 'en':
-			$langsession = 'catalog';
-				break;	
-			case 'de':
-			$langsession = 'katalog';
-				break;
-			case 'nl':
-			$langsession = 'catalog';
-				break;	
-			default:
-			$langsession = 'catalogue';	
 	}
 	if(isset($ui)){
 		switch($ui){
@@ -91,25 +77,25 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 				foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_page_with_language($idclc,$idcls,$lang) as $cat){
 					$product .= '<div class="list-img-category'.$wcontent.'">';
 					if($tposition == 'top'){
-						$product .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$this->getlang.magixcjquery_html_helpersHtml::unixSeparator().self::session_language().magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].magixcjquery_html_helpersHtml::unixSeparator().$cat['urlcatalog'].'-'.$cat['idcatalog'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
+						$product .= '<div class="title-product'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
 					}
 					if($cat['imgcatalog'] != null){
 						$product .= '<div class="img-product">';
-						$product .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$this->getlang.magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].magixcjquery_html_helpersHtml::unixSeparator().$cat['urlcatalog'].'-'.$cat['idcatalog'].'.html'.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/'.$sizecapture.'/'.$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$product .= '<a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/'.$sizecapture.'/'.$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
 						$product .= '</div>';
 					}else{
 						$product .= '<div class="img-product">';
-						$product .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$this->getlang.magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" />';
+						$product .= '<a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
 						$product .= '</div>';
 					}
 					if($tposition == 'bottom'){
-						$product .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$this->getlang.magixcjquery_html_helpersHtml::unixSeparator().self::session_language().magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].magixcjquery_html_helpersHtml::unixSeparator().$cat['urlcatalog'].'-'.$cat['idcatalog'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
+						$product .= '<div class="title-product'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
 					}
-					/**
-					 * Affiche la description si définie
-					 */
 					if($description != false){
 						$product .= '<p>'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</p>';
+					}
+					if($price != false){
+						$product .= '<div class="bg-price">€ '.number_format($cat['price'], 2, '.', ',').'</div>';
 					}
 					$product .= '</div>';
 				}
@@ -121,28 +107,28 @@ function smarty_function_load_catalog_subcategory($params, &$smarty){
 			$product .= '<div id="catalog-list-category">';
 				foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_page_no_language($idclc,$idcls) as $cat){
 				$product .= '<div class="list-img-category'.$wcontent.'">';
-				if($tposition == 'top'){
-					$product .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].magixcjquery_html_helpersHtml::unixSeparator().$cat['urlcatalog'].'-'.$cat['idcatalog'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
-				}
-				if($cat['imgcatalog'] != null){
-					$product .= '<div class="img-product">';
-					$product .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].magixcjquery_html_helpersHtml::unixSeparator().$cat['urlcatalog'].'-'.$cat['idcatalog'].'.html'.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/'.$sizecapture.'/'.$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
+					if($tposition == 'top'){
+						$product .= '<div class="title-product'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
+					}
+					if($cat['imgcatalog'] != null){
+						$product .= '<div class="img-product">';
+						$product .= '<a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/'.$sizecapture.'/'.$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$product .= '</div>';
+					}else{
+						$product .= '<div class="img-product">';
+						$product .= '<a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$product .= '</div>';
+					}
+					if($tposition == 'bottom'){
+						$product .= '<div class="title-product'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['urlcatalog'],$cat['idproduct'],true).'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
+					}
+					if($description != false){
+						$product .= '<p>'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</p>';
+					}
+					if($price != false){
+						$product .= '<div class="bg-price">€ '.number_format($cat['price'], 2, '.', ',').'</div>';
+					}
 					$product .= '</div>';
-				}else{
-					$product .= '<div class="img-product">';
-					$product .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" />';
-					$product .= '</div>';
-				}
-				if($tposition == 'bottom'){
-					$product .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].magixcjquery_html_helpersHtml::unixSeparator().$cat['urlcatalog'].'-'.$cat['idcatalog'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></div>';
-				}
-				/**
-				* Affiche la description si définie
-				*/
-				if($description != false){
-					$product .= '<p>'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</p>';
-				}
-				$product .= '</div>';
 				}
 			$product .= '<div style="clear:left;"></div></div>';
 			}

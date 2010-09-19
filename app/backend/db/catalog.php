@@ -61,7 +61,7 @@ class backend_db_catalog{
      * @param $upcat
      */
 	function s_catalog_category_id($upcat){
-    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
+    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,img_c,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE c.idclc = :upcat';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(':upcat'=>$upcat));
@@ -80,15 +80,16 @@ class backend_db_catalog{
      * @param $idlang
      * @param $corder
      */
-	function i_catalog_category($clibelle,$pathclibelle,$idlang){
+	function i_catalog_category($clibelle,$pathclibelle,$img_c,$idlang){
 		// récupère le nombre maximum de la colonne order
 		$maxorder = self::s_max_order_catalog_category();
-		$sql = 'INSERT INTO mc_catalog_c (clibelle,pathclibelle,idlang,corder) 
-		VALUE(:clibelle,:pathclibelle,:idlang,:corder)';
+		$sql = 'INSERT INTO mc_catalog_c (clibelle,pathclibelle,img_c,idlang,corder) 
+		VALUE(:clibelle,:pathclibelle,:img_c,:idlang,:corder)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':clibelle'			=>	$clibelle,
 			':pathclibelle'		=>	$pathclibelle,
+			':img_c'			=>	$img_c,
 			':idlang'			=>	$idlang,
 			':corder'			=>	$maxorder['clcorder'] + 1
 		));
@@ -113,12 +114,13 @@ class backend_db_catalog{
 	 * @param $pathclibelle
 	 * @param $upcat
 	 */
-	function u_catalog_category($clibelle,$pathclibelle,$upcat){
-		$sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle,pathclibelle = :pathclibelle WHERE idclc = :upcat';
+	function u_catalog_category($clibelle,$pathclibelle,$img_c,$upcat){
+		$sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle,pathclibelle = :pathclibelle,img_c = :img_c WHERE idclc = :upcat';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':clibelle'		=>	$clibelle,
 			':pathclibelle'	=>	$pathclibelle,
+			':img_c'		=>	$img_c,
 			':upcat'		=>	$upcat
 			)
 		);
@@ -149,7 +151,7 @@ class backend_db_catalog{
      * @param $upcat
      */
 	function s_catalog_subcategory_id($upsubcat){
-    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,s.img_s,c.clibelle,lang.codelang FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE s.idcls = :upsubcat';
@@ -180,15 +182,16 @@ class backend_db_catalog{
 	 * @param $idlang
 	 * @param $sorder
 	 */
-	function i_catalog_subcategory($slibelle,$pathslibelle,$idclc){
+	function i_catalog_subcategory($slibelle,$pathslibelle,$img_s,$idclc){
 		// récupère le nombre maximum de la colonne order
 		$maxorder = self::s_max_order_catalog_subcategory();
-		$sql = 'INSERT INTO mc_catalog_s (slibelle,pathslibelle,idclc,sorder) VALUE(:slibelle,:pathslibelle,:idclc,:sorder)';
+		$sql = 'INSERT INTO mc_catalog_s (slibelle,pathslibelle,img_s,idclc,sorder) VALUE(:slibelle,:pathslibelle,:img_s,:idclc,:sorder)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':slibelle'			=>	$slibelle,
 			':pathslibelle'		=>	$pathslibelle,
 			':idclc'			=>	$idclc,
+			':img_s'			=>	$img_s,
 			':sorder'			=>	$maxorder['clsorder'] + 1
 		));
 	}
@@ -212,12 +215,13 @@ class backend_db_catalog{
 	 * @param $pathclibelle
 	 * @param $upcat
 	 */
-	function u_catalog_subcategory($slibelle,$pathslibelle,$upsubcat){
-		$sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle WHERE idcls = :upsubcat';
+	function u_catalog_subcategory($slibelle,$pathslibelle,$img_s,$upsubcat){
+		$sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle,img_s = :img_s WHERE idcls = :upsubcat';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':slibelle'		=>	$slibelle,
 			':pathslibelle'	=>	$pathslibelle,
+			':img_s'		=>	$img_s,
 			':upsubcat'		=>	$upsubcat
 			)
 		);

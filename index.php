@@ -62,7 +62,7 @@ if(isset($_GET['news'])){
 }elseif(isset($_GET['catalog'])){
 	$catalog = new frontend_controller_catalog();
 	if(isset($_GET['idclc'])){
-		if(isset($_GET['idcatalog'])){
+		if(isset($_GET['idproduct'])){
 			$catalog->display_product();
 		}elseif(isset($_GET['idcls'])){
 			$catalog->display_sub_category();

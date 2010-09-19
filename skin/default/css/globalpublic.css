@@ -124,9 +124,9 @@ h1{
 #principal ul{}
 #principal ol li{}
 #principal ul li{
-	font-size:15px;
+	/*font-size:15px;
 	list-style:square;
-	margin: 0.2em 0 0.2em 3em;
+	margin: 0.2em 0 0.2em 3em;*/
 }
 #principal a{font-size:15px;color:#560b4b;}
 #principal a:hover{color:#6f0d61;}
@@ -160,7 +160,8 @@ h1{
 	font-size: 13px;
 }
 .personnal-side-list li a {
-	padding: 6px 0 6px 0;
+	background:#fff;
+	padding: 4px 0 6px 0;
 	text-align: left;
 	text-decoration: none;
 	position: relative;
@@ -169,15 +170,16 @@ h1{
 .personnal-side-list li a.active-page,.personnal-side-list li a.active-page:hover {
 	color:#fff;
 	background:#696969;
-	padding-left:5px;
-	left:10px;
+	/*padding-left:5px;
+	left:10px;*/
 }
 .personnal-side-list li a:hover {
 	background:#696969;
 	color:#fff;
-	padding-left:5px;
+	/*padding-left:5px;*/
 }
 .personnal-side-list li div:hover{}
+ul.current_subcat{margin-left:8px;}
 #page-menu-nolang h3{background:white;}
 /*************************** Footer ***********************/
 #pieddepage{clear:both;}
@@ -240,6 +242,7 @@ h1{
 .title-category{}
 .title-category p{padding-left:2px;}
 .title-category a{}
+#product-tabs ul li a.tabslink{ font-size:12px;}
 /*############## Micro galery ##################*/
 #list-image-galery{
 	margin-left:30px;
@@ -279,3 +282,21 @@ h1{
 	list-style-type:none;
 }
 #barfixed #breadcrum ul li a{font-size:11px;color:#222222/*#0A8ECC*/;text-decoration:underline;}
+/*
+ * jQuery UI Tabs @VERSION
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Tabs#theming
+ */
+.ui-tabs { position: relative; padding: .2em; zoom: 1; } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav { margin: 0; padding: .2em .2em 0; }
+.ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 1px; margin: 0 .2em 1px 0; border-bottom: 0 !important; padding: 0; white-space: nowrap; }
+.ui-tabs .ui-tabs-nav li a { float: left; padding: .5em 1em; text-decoration: none; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 1px; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; }
+.ui-tabs .ui-tabs-hide { display: none !important; }

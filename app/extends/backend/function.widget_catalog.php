@@ -67,7 +67,6 @@ function smarty_function_widget_catalog($params, &$smarty){
 							<th><span class="ui-icon ui-icon-flag"></span></th>
 							<th><span class="ui-icon ui-icon-link"></span></th>
 							'.$thuser.'
-							<th><span class="ui-icon ui-icon-zoomin"></span></th>
 							<th><span class="ui-icon ui-icon-pencil"></span></th>
 							<th><span class="ui-icon ui-icon-transferthick-e-w"></span></th>
 							<th><span class="ui-icon ui-icon-copy"></span></th>
@@ -102,7 +101,14 @@ function smarty_function_widget_catalog($params, &$smarty){
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .= '<td><a href="#" class="cat-uri-product" title="'.$pcms['idcatalog'].'"><span class="ui-icon ui-icon-link"></span></a></td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'index.php?'.$lang.'catalog&amp;'.$pcms['pathclibelle'].'&amp;idclc='.$pcms['idclc'].$subcatpath.'&amp;'.$pcms['urlcatalog'].'&amp;idcatalog='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
+			 /*$plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url(
+					$pcms['codelang'], 
+					$pcms['pathclibelle'], 
+					$pcms['idclc'], 
+					$pcms['urlcatalog'], 
+					$pcms['idproduct'],
+					true
+				).'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';*/
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;moveproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;copyproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-copy"></span></a></td>';
@@ -113,7 +119,6 @@ function smarty_function_widget_catalog($params, &$smarty){
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	$viewuser?'<td class="maximal"></td>':'';
 			 $plugin .=	'<td class="nowrap"></td>';
-			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';

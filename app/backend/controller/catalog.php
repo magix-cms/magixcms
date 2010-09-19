@@ -138,6 +138,26 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	public $imggalery;
 	/**
+	 * Image d'une catégorie
+	 * @var img_c
+	 */
+	public $img_c;
+	/**
+	 * Modification d!une Image catégorie
+	 * @var $update_img_c
+	 */
+	public $update_img_c;
+	/**
+	 * Image d'une sous catégorie
+	 * @var img_c
+	 */
+	public $img_s;
+	/**
+	 * Modification d!une Image sous catégorie
+	 * @var $update_img_c
+	 */
+	public $update_img_s;
+	/**
 	 * intéger
 	 * @var 
 	 */
@@ -240,7 +260,15 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @var getreluri
 	 */
 	public $getreluri;
+	/**
+	 * GET pour la suppression d'un produit
+	 * @var d_in_product
+	 */
 	public $d_in_product;
+	/**
+	 * GET pour la suppression d'un produit lié
+	 * @var d_in_product
+	 */
 	public $d_rel_product;
 	/**
 	 * Constructor
@@ -331,6 +359,18 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($_FILES['imggalery']["name"])){
 			$this->imggalery = magixcjquery_url_clean::rplMagixString($_FILES['imggalery']["name"]);
 		}
+		if(isset($_FILES['img_c']["name"])){
+			$this->img_c = magixcjquery_url_clean::rplMagixString($_FILES['img_c']["name"]);
+		}
+		if(isset($_FILES['update_img_c']["name"])){
+			$this->update_img_c = magixcjquery_url_clean::rplMagixString($_FILES['update_img_c']["name"]);
+		}
+		if(isset($_FILES['img_s']["name"])){
+			$this->img_s = magixcjquery_url_clean::rplMagixString($_FILES['img_s']["name"]);
+		}
+		if(isset($_FILES['update_img_s']["name"])){
+			$this->update_img_s = magixcjquery_url_clean::rplMagixString($_FILES['update_img_s']["name"]);
+		}
 		if(magixcjquery_filter_request::isGet('upcat')){
 			$this->upcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upcat']);
 		}
@@ -363,14 +403,13 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	private function def_dirimg_frontend($pathupload){
-		/*$pathdir = dirname(realpath( __FILE__ ));
-		$arraydir = array('app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'controller');
-		return magixglobal_model_system::root_path($arraydir,array($pathupload) , $pathdir);*/
 		return magixglobal_model_system::base_path().$pathupload;
 	}
 	/**
+	 * catalog_category_order
 	 * Affiche le menu "sortable" avec les éléments de catégorie
-	 * @
+	 * @access private
+	 * @return string
 	 */
 	private function catalog_category_order(){
 		$category = null;
@@ -476,6 +515,58 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
+	 * @access private
+	 * retourne le dossier des images catalogue des catégories
+	 * @return string
+	 */
+	private function dir_img_category(){
+		try{
+			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."category".DIRECTORY_SEPARATOR);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
+	}
+	/**
+	 * Insertion d'une image por la catégorie du catalogue
+	 * @access private
+	 * @return string
+	 */
+	private function insert_image_category($img,$pathclibelle){
+		if(isset($this->$img)){
+			try{
+				/**
+				 * Envoi une image dans le dossier "racine" catalogimg
+				 */
+				backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."category");
+				/**
+				 * Analyze l'extension du fichier en traitement
+				 * @var $fileextends
+				 */
+				$fileextends = backend_model_image::image_analyze(self::dir_img_category().$this->$img);
+				if (backend_model_image::imgSizeMin(self::dir_img_category().$this->$img,50,50)){
+					// Charge la classe pour renommer le fichier
+					$makeFiles = new magixcjquery_files_makefiles();
+					$makeFiles->renameFiles(self::dir_img_category(),self::dir_img_category().$this->$img,self::dir_img_category().$pathclibelle.$fileextends);
+					/**
+					 * Initialisation de la classe phpthumb 
+					 * @var void
+					 */
+					$thumb = PhpThumbFactory::create(self::dir_img_category().$pathclibelle.$fileextends);
+					$thumb->resize(120,100)->save(self::dir_img_category().$pathclibelle.$fileextends);
+					return $pathclibelle.$fileextends;
+				}else{
+					if(file_exists(self::dir_img_category().$this->$img)){
+						$makeFiles->removeFile(self::dir_img_category().$this->$img);
+					}else{
+						throw new Exception('file: '.$this->$img.' is not found');
+					}
+				}
+			}catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
+			}
+		}
+	}
+	/**
 	 * insert une nouvelle catégorie dans le catalogue
 	 * @access public
 	 */
@@ -485,7 +576,11 @@ class backend_controller_catalog extends analyzer_catalog{
 				if(empty($this->clibelle)){
 					backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
 				}else{
-					backend_db_catalog::adminDbCatalog()->i_catalog_category($this->clibelle,$this->pathclibelle,$this->idlang);
+					$imgc = null;
+					if($this->img_c != null){
+						$imgc = self::insert_image_category('img_c',$this->pathclibelle);
+					}
+					backend_db_catalog::adminDbCatalog()->i_catalog_category($this->clibelle,$this->pathclibelle,$imgc,$this->idlang);
 					backend_config_smarty::getInstance()->display('catalog/request/success-cat.phtml');
 				}
 			}catch (Exception $e){
@@ -503,6 +598,58 @@ class backend_controller_catalog extends analyzer_catalog{
 			backend_config_smarty::getInstance()->display('catalog/request/s-cat-delete.phtml');
 		}
 	}
+/**
+	 * @access private
+	 * retourne le dossier des images catalogue des catégories
+	 * @return string
+	 */
+	private function dir_img_subcategory(){
+		try{
+			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."subcategory".DIRECTORY_SEPARATOR);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
+	}
+	/**
+	 * Insertion d'une image por la catégorie du catalogue
+	 * @access private
+	 * @return string
+	 */
+	private function insert_image_subcategory($img,$pathslibelle){
+		if(isset($this->$img)){
+			try{
+				/**
+				 * Envoi une image dans le dossier "racine" catalogimg
+				 */
+				backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."subcategory");
+				/**
+				 * Analyze l'extension du fichier en traitement
+				 * @var $fileextends
+				 */
+				$fileextends = backend_model_image::image_analyze(self::dir_img_subcategory().$this->$img);
+				if (backend_model_image::imgSizeMin(self::dir_img_subcategory().$this->$img,50,50)){
+					// Charge la classe pour renommer le fichier
+					$makeFiles = new magixcjquery_files_makefiles();
+					$makeFiles->renameFiles(self::dir_img_subcategory(),self::dir_img_subcategory().$this->$img,self::dir_img_subcategory().$pathslibelle.$fileextends);
+					/**
+					 * Initialisation de la classe phpthumb 
+					 * @var void
+					 */
+					$thumb = PhpThumbFactory::create(self::dir_img_subcategory().$pathslibelle.$fileextends);
+					$thumb->resize(120,100)->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
+					return $pathslibelle.$fileextends;
+				}else{
+					if(file_exists(self::dir_img_subcategory().$this->$img)){
+						$makeFiles->removeFile(self::dir_img_subcategory().$this->$img);
+					}else{
+						throw new Exception('file: '.$this->$img.' is not found');
+					}
+				}
+			}catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
+			}
+		}
+	}
 	/**
 	 * @access private
 	 * insert une nouvelle sous catégorie dans le catalogue
@@ -515,7 +662,11 @@ class backend_controller_catalog extends analyzer_catalog{
 				}elseif(empty($this->idclc)){
 					backend_config_smarty::getInstance()->display('catalog/request/nocategory.phtml');
 				}else{
-					backend_db_catalog::adminDbCatalog()->i_catalog_subcategory($this->slibelle,$this->pathslibelle,$this->idclc);
+					$imgs = null;
+					if($this->img_s != null){
+						$imgs = self::insert_image_subcategory('img_s',$this->pathslibelle);
+					}
+					backend_db_catalog::adminDbCatalog()->i_catalog_subcategory($this->slibelle,$this->pathslibelle,$imgs,$this->idclc);
 					backend_config_smarty::getInstance()->display('catalog/request/success-subcat.phtml');
 				}
 			} catch (Exception $e){
@@ -651,6 +802,10 @@ EOT;
 EOT;
 	return $product;
 	}
+	/**
+	 * @access private
+	 * Suppression d'un produit
+	 */
 	private function delete_in_product(){
 		if(isset($this->d_in_product)){
 			backend_db_catalog::adminDbCatalog()->d_in_product($this->d_in_product);
@@ -667,8 +822,16 @@ EOT;
 			//foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->geturicat) as $prod){
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->geturicat) as $prod){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
-				$product .= '<li style="list-style-type: square;">/'
+				$product .= '<li style="list-style-type: square;">
+				<a href="'
 				.magixglobal_model_rewrite::filter_catalog_product_url(
+					$prod['codelang'], 
+					$prod['pathclibelle'], 
+					$prod['idclc'], 
+					$prod['urlcatalog'], 
+					$prod['idproduct'],
+					true
+				).'">'.magixglobal_model_rewrite::filter_catalog_product_url(
 					$prod['codelang'], 
 					$prod['pathclibelle'], 
 					$prod['idclc'], 
@@ -799,8 +962,15 @@ EOT;
 			$product = '<ul style="margin-left:1em;">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) as $prod){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
-				$product .= '<li style="list-style-type: square;">/'
+				$product .= '<li style="list-style-type: square;"><a href="'
 				.magixglobal_model_rewrite::filter_catalog_product_url(
+					$info['codelang'], 
+					$info['pathclibelle'], 
+					$info['idclc'], 
+					$info['urlcatalog'], 
+					$info['idproduct'],
+					true
+				).'">'.magixglobal_model_rewrite::filter_catalog_product_url(
 					$info['codelang'], 
 					$info['pathclibelle'], 
 					$info['idclc'], 
@@ -1200,7 +1370,12 @@ EOT;
 	private function update_category(){
 		if(isset($this->upcat)){
 			if(isset($this->update_category)){
-				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$this->upcat);
+				$imgc = null;
+				if($this->update_img_c != null){
+					$imgc = self::insert_image_category('update_img_c',$this->update_pathclibelle);
+				}
+				magixcjquery_debug_magixfire::magixFireLog($this->update_img_c,'Evoi image');
+				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$imgc,$this->upcat);
 				backend_config_smarty::getInstance()->display('request/update-category.phtml');
 			}
 		}
@@ -1214,6 +1389,7 @@ EOT;
 		if(isset($this->upcat)){
 			$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
 			backend_config_smarty::getInstance()->assign('clibelle',$clibelle['clibelle']);
+			backend_config_smarty::getInstance()->assign('img_c',$clibelle['img_c']);
 		}
 		backend_config_smarty::getInstance()->display('catalog/editcategory.phtml');
 	}
@@ -1224,7 +1400,11 @@ EOT;
 	private function update_subcategory(){
 		if(isset($this->upsubcat)){
 			if(isset($this->update_subcategory)){
-				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$this->upsubcat);
+				$imgs = null;
+				if($this->update_img_s != null){
+					$imgs = self::insert_image_subcategory('update_img_s',$this->update_pathslibelle);
+				}
+				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$imgs,$this->upsubcat);
 				backend_config_smarty::getInstance()->display('request/update-subcategory.phtml');
 			}
 		}
@@ -1237,6 +1417,7 @@ EOT;
 		if(isset($this->upsubcat)){
 			$slibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
 			backend_config_smarty::getInstance()->assign('slibelle',$slibelle['slibelle']);
+			backend_config_smarty::getInstance()->assign('img_s',$slibelle['img_s']);
 		}
 		backend_config_smarty::getInstance()->display('catalog/editsubcategory.phtml');
 	}

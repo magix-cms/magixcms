@@ -1165,7 +1165,7 @@ $(function() {
 			var productid = $('#idcatalog').val();
 			if(productid != null){
 				tinyMCE.triggerSave(true,true);
-				$(this).ajaxSubmit({
+				/*$(this).ajaxSubmit({
 	        		url:'/admin/catalog.php?product&editproduct='+productid+'&updateproduct',
 	        		type:"post",
 	        		resetForm: false,
@@ -1179,7 +1179,18 @@ $(function() {
 	        					location.reload();
 	        				},2800);
 	        		}
-	        	});
+	        	});*/
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		delay: 1800,
+		    		dom: this,
+		    		uri: '/admin/catalog.php?product&editproduct='+productid+'&updateproduct',
+		    		typesend: 'post',
+		    		noticedata: null,
+		    		resetform:false,
+		    		time:1,
+		    		reloadhtml:true	
+				});
 				return false; 
 			}else{
 				console.log("%s: %o","productid is null",productid);
@@ -1191,7 +1202,7 @@ $(function() {
 		$("#forms-catalog-product").submit(function(){
 			var productid = $('#idcatalog').val();
 			if(productid != null){
-				$(this).ajaxSubmit({
+				/*$(this).ajaxSubmit({
 	        		url:'/admin/catalog.php?product&editproduct='+productid+'&add_product',
 	        		type:"post",
 	        		resetForm: false,
@@ -1205,7 +1216,18 @@ $(function() {
 	        					location.reload();
 	        				},2800);
 	        		}
-	        	});
+	        	});*/
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		delay: 1800,
+		    		dom: this,
+		    		uri: '/admin/catalog.php?product&editproduct='+productid+'&add_product',
+		    		typesend: 'post',
+		    		noticedata: null,
+		    		resetform:false,
+		    		time:1,
+		    		reloadhtml:true	
+				});
 				return false; 
 			}else{
 				console.log("%s: %o","productid is null",productid);
@@ -1240,10 +1262,10 @@ $(function() {
 		$('.ucategory').live("click",function(){
 			var idcategory = $(this).attr('title');
 			var url = '/admin/catalog.php?catalog&upcat='+idcategory;
-			$("#update-category").load(url, function() {
+			$("#window-update-category").load(url, function() {
 				$(this).dialog({
 					bgiframe: true,
-					minHeight: 100,
+					minHeight: 150,
 					width:320,
 					modal: true,
 					overlay: {
@@ -1253,13 +1275,23 @@ $(function() {
 					buttons: {
 						'Save': function() {
 							$(this).dialog('close');
-							$.notice({
+							/*$.notice({
 								ntype: "ajax",
 					    		uri:  url+"&post",
 					    		typesend: 'post',
-					    		noticedata: "update_category="+$('#update_category').val(),
+					    		noticedata:{update_category:$('#update_category').val(),update_img_c:$('#update_img_c').val()},
 					    		time:2,
-					    		reloadhtml:true
+					    		reloadhtml:false
+							});*/
+							$.notice({
+								ntype: "ajaxsubmit",
+					    		delay: 2800,
+					    		dom: '#forms-catalog-editcategory',
+					    		uri:  url+"&post",
+					    		typesend: 'post',
+					    		resetform:false,
+					    		time:2,
+					    		reloadhtml:true	
 							});
 						},
 						Cancel: function() {
@@ -1279,7 +1311,7 @@ $(function() {
 			$("#update-subcategory").load(url, function() {
 				$(this).dialog({
 					bgiframe: true,
-					minHeight: 100,
+					minHeight: 150,
 					width:320,
 					modal: true,
 					overlay: {
@@ -1289,13 +1321,23 @@ $(function() {
 					buttons: {
 						'Save': function() {
 							$(this).dialog('close');
-							$.notice({
+							/*$.notice({
 								ntype: "ajax",
 					    		uri:  url+"&post",
 					    		typesend: 'post',
 					    		noticedata: "update_subcategory="+$('#update_subcategory').val(),
 					    		time:2,
 					    		reloadhtml:true
+							});*/
+							$.notice({
+								ntype: "ajaxsubmit",
+					    		delay: 2800,
+					    		dom: '#forms-catalog-editsubcategory',
+					    		uri:  url+"&post",
+					    		typesend: 'post',
+					    		resetform:false,
+					    		time:2,
+					    		reloadhtml:true	
 							});
 						},
 						Cancel: function() {
@@ -1419,7 +1461,8 @@ $(function() {
 							ntype: "ajax",
 				    		uri:  "/admin/catalog.php?product&delproduct="+lg,
 				    		typesend: 'get',
-				    		time:2,
+				    		delay: 1800,
+				    		time:1,
 				    		reloadhtml:true
 						});
 					},
@@ -1455,8 +1498,8 @@ $(function() {
 							ntype: "ajax",
 				    		uri: "/admin/catalog.php?category&delc="+lg,
 				    		typesend: 'get',
-				    		delay: 2800,
-				    		time:2,
+				    		delay: 1800,
+				    		time:1,
 				    		reloadhtml:true
 						});
 					},
@@ -1489,8 +1532,8 @@ $(function() {
 							ntype: "ajax",
 				    		uri: "/admin/catalog.php?category&dels="+lg,
 				    		typesend: 'get',
-				    		delay: 2800,
-				    		time:2,
+				    		delay: 1800,
+				    		time:1,
 				    		reloadhtml:true
 						});
 					},
@@ -1524,8 +1567,8 @@ $(function() {
 							ntype: "ajax",
 				    		uri: "/admin/catalog.php?product&editproduct="+productid+"&d_in_product="+inproduct,
 				    		typesend: 'get',
-				    		delay: 2800,
-				    		time:2,
+				    		delay: 1800,
+				    		time:1,
 				    		reloadhtml:true
 						});
 					},
@@ -1559,8 +1602,8 @@ $(function() {
 							ntype: "ajax",
 				    		uri: "/admin/catalog.php?product&editproduct="+productid+"&d_rel_product="+relproduct,
 				    		typesend: 'get',
-				    		delay: 2800,
-				    		time:2,
+				    		delay: 1800,
+				    		time:1,
 				    		reloadhtml:true
 						});
 					},

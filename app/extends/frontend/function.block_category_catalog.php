@@ -24,16 +24,16 @@ function smarty_function_block_category_catalog($params, &$smarty){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$title = !empty($params['title'])?$params['title']:'';
 	$ui = $params['ui'];
-	$size = $params['size']?$params['size']:'mini';
+	//$size = $params['size']?$params['size']:'mini';
 	$tposition = $params['tposition']? $params['tposition'] : 'top';
-	switch($size){
+	/*switch($size){
 		case 'medium':
 			$sizecapture = 'medium';
 		break;
 		case 'mini':
 			$sizecapture = 'mini';
 		break;
-	}
+	}*/
 	if(isset($ui)){
 		switch($ui){
 			case "true":
@@ -57,19 +57,19 @@ function smarty_function_block_category_catalog($params, &$smarty){
 				foreach(frontend_db_catalog::publicDbCatalog()->s_category_withimg_nolang() as $cat){
 					$block .= '<div class="list-img-category'.$wcontent.'">';
 					if($tposition == 'top'){
-						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
-					if($cat['imgcatalog'] != null){
+					if($cat['img_c'] != null){
 						$block .= '<div class="img-product">';
-						$block .= '<a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg'.magixcjquery_html_helpersHtml::unixSeparator().$sizecapture.magixcjquery_html_helpersHtml::unixSeparator().$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/category/'.$cat['img_c'].'" alt="'.$cat['clibelle'].'" /></a>';
 						$block .= '</div>';
 					}else{
 						$block .= '<div class="img-product">';
-						$block .= '<a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['clibelle'].'" /></a>';
 						$block .= '</div>';
 					}
 					if($tposition == 'bottom'){
-						$block .= '<div class="title-category'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-category'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
 					$block .= '</div>';
 				}
@@ -82,19 +82,19 @@ function smarty_function_block_category_catalog($params, &$smarty){
 				foreach(frontend_db_catalog::publicDbCatalog()->s_category_withimg_lang($lang) as $cat){
 					$block .= '<div class="list-img-category'.$wcontent.'">';
 					if($tposition == 'top'){
-						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-product'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
-					if($cat['imgcatalog'] != null){
+					if($cat['img_c'] != null){
 						$block .= '<div class="img-product">';
-						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$lang.magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg'.magixcjquery_html_helpersHtml::unixSeparator().$sizecapture.magixcjquery_html_helpersHtml::unixSeparator().$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/category/'.$cat['img_c'].'" alt="'.$cat['clibelle'].'" /></a>';
 						$block .= '</div>';
 					}else{
 						$block .= '<div class="img-product">';
-						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$lang.magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$block .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['clibelle'].'" /></a>';
 						$block .= '</div>';
 					}
 					if($tposition == 'bottom'){
-						$block .= '<div class="title-category"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().'c'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
+						$block .= '<div class="title-category'.$wheader.'"><a href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($lang, $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></div>';
 					}
 					$block .= '</div>';
 				}

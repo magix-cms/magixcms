@@ -34,6 +34,7 @@ $(function() {
 	$(".imagebox").colorbox();
 	$(".select").selectmenu({width: 200,maxWidth: 200});
 	$('.checkbox').checkbox();
+	$("#product-tabs").tabs();
 	/**
 	 * Notification après installation pour le dossier "install"
 	 */
@@ -71,9 +72,10 @@ $(function() {
 			onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
 		}).addClass('pos-top');
 	}
+	$('.personnal-side-list a.active-page').prepend('<span style="float:left;" class="ui-icon ui-icon-triangle-1-e"></span>');
 	$('.personnal-side-list a:not(.active-page)').hover(function() {
-		$(this).stop().animate({ opacity: '0.7',left: 10,backgroundColor: "#696969",color: "#FFFFFF" }, 'fast');
+		$(this).stop().animate({ opacity: '0.7',left: 0,backgroundColor: "#696969",color: "#FFFFFF" }, 'fast');
 	  }, function() {
-	    $(this).stop().animate({ opacity: '1',left: 0,backgroundColor: "#BFBFBF",color: "#333333" }, 'fast');
+	    $(this).stop().animate({ opacity: '1',left: 0,backgroundColor: "#FFFFFF",color: "#000000" }, 'fast');
 	});
 });

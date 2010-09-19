@@ -24,16 +24,17 @@
 function smarty_function_microgalery($params, &$smarty){
 	$type = $params['type'];
 	$ui = $params['ui']?true:false;
-	if(isset($_GET['idcatalog'])){
-		$idcatalog = magixcjquery_filter_isVar::isPostNumeric($_GET['idcatalog']);
+	if(isset($_GET['idproduct'])){
+		$idproduct = magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct']);
 	}
 	switch ($type){
 		case 'imagebox':
-			$count = frontend_db_catalog::publicDbCatalog()->count_image_in_galery_product($idcatalog);
+			$identifier =  frontend_db_catalog::publicDbCatalog()->s_identifier_catalog($idproduct);
+			$count = frontend_db_catalog::publicDbCatalog()->count_image_in_galery_product($identifier['idcatalog']);
 			$galery = null;
 			if($count['cimage'] != 0){
 			$galery .= '<div id="list-image-galery">';
-			foreach(frontend_db_catalog::publicDbCatalog()->s_microgalery_product($idcatalog) as $img){
+			foreach(frontend_db_catalog::publicDbCatalog()->s_microgalery_product($identifier['idcatalog']) as $img){
 				if($ui){
 					$galery .= '<div class="list-img ui-widget-content ui-corner-all">';
 					$galery .= '<div class="title-galery-image ui-widget-header ui-corner-all"></div>';

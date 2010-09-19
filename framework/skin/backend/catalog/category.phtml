@@ -18,7 +18,7 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Ajouter une catégorie</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
-						<form id="forms-catalog-category" method="post" action="" style="margin-left:10px;">
+						<form id="forms-catalog-category" method="post" enctype="multipart/form-data" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>
 								<tr>
@@ -32,9 +32,29 @@
 									<td class="status"></td>
 								</tr>
 								{$selectlang}
+								<tr>
+									<td class="label"><label for="img_c">Image :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<table>
+										<tr>
+											<td style="width:250px;">
+												<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+										 		<input type="file" id="img_c" name="img_c" value="" />
+										 	</td>
+										 	<td>&nbsp;</td>
+										 	<td style="width:250px;" class="errorInput"></td>
+									 	</tr>
+								 	</table>
+									</td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
 							</table>			
 						</fieldset>
-						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+						<div style="margin:5px;"><input type="submit" /></div>
 						</form>
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
@@ -56,7 +76,7 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span><span style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></span><span style="float:left;" class="ui-icon ui-icon-folder-open"></span>Ajouter une sous-catégorie</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
-						<form id="forms-catalog-subcategory" method="post" action="" style="margin-left:10px;">
+						<form id="forms-catalog-subcategory" method="post" enctype="multipart/form-data" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>
 								<tr>
@@ -81,9 +101,29 @@
 								<tr>
 									<td class="status"></td>
 								</tr>
-							</table>			
-						</fieldset>
-						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
+								<tr>
+									<td class="label"><label for="img_s">Image :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<table>
+										<tr>
+											<td style="width:250px;">
+												<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+										 		<input type="file" id="img_s" name="img_s" value="" />
+										 	</td>
+										 	<td>&nbsp;</td>
+										 	<td style="width:250px;" class="errorInput"></td>
+									 	</tr>
+								 	</table>
+									</td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								</table>			
+							</fieldset>
+						<div style="margin:5px;"><input type="submit" /></div>
 						</form>
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
@@ -105,7 +145,7 @@
 	{include file="common/footer.phtml"}
 </div>
 {ajax_notify}
-<div id="update-category" title="Modifier une catégorie"></div>
+<div id="window-update-category" title="Modifier une catégorie"></div>
 <div id="update-subcategory" title="Modifier une sous catégorie"></div>
 {include file="common/javascript.phtml"}
 </body>

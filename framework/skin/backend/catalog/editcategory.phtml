@@ -1,9 +1,29 @@
-<form id="forms-catalog-editcategory" method="post" action="" style="margin-left:10px;">
+<form id="forms-catalog-editcategory" method="post" enctype="multipart/form-data" action="" style="margin-left:10px;">
 	<fieldset>
 	<table>
 		<tr>
 			<td><input type="text" name="update_category" id="update_category" class="inputtext ui-corner-all" value="{$clibelle}" size="20" /></td>
 		</tr>
+		<tr>
+		<td>
+		<table>
+			<tr>
+				<td style="width:250px;">
+					<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+			 		<input type="file" id="update_img_c" name="update_img_c" value="" />
+			 	</td>
+			 	<td>&nbsp;</td>
+			 	<td style="width:250px;" class="errorInput"></td>
+		 	</tr>
+	 	</table>
+		</td>
+		</tr>
+		<tr>
+			<td class="status"></td>
+		</tr>
 	</table>			
 	</fieldset>
 </form>
+{if $img_c != null}
+<div><img src="{geturl}/upload/catalogimg/category/{$img_c}" /></div>
+{/if}

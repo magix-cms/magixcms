@@ -10,22 +10,36 @@
 {include file="common/sidebar.phtml"}
 	<div id="principal" class="principal">
 		<div id="catalog-product">
-		<h1>{$titlecatalog}</h1>
-			<table>
-				<tr>
-					<td>{$imgcatalog}</td>
-					<td style="width:100%;"></td>
-					<td>
-					<form action="{geturl}{getlang}/magixmod/contact/" method="post">
-				      <div><input type="hidden" name="moreinfo" value="{$titlecatalog}"/></div>
-				      <div><input type="image" src="{geturl}/skin/{template}/img/catalog/more-product.png" /></div>
-			      	</form>
-					</td>
-				</tr>
-			</table>
-			{microgalery type="imagebox" ui=true}
-			<div class="catalog-product-content ui-widget-content ui-corner-all">
-				{$desccatalog}
+			<h1>{$titlecatalog}</h1>
+			<div id="product-tabs">
+				<ul style="height:30px;">
+					<li><a class="tabslink" href="#product-tabs-1">Produits</a></li>
+					<li><a class="tabslink" href="#product-tabs-2">Images</a></li>
+					<li><a class="tabslink" href="#product-tabs-3">Autres produits</a></li>
+				</ul>
+				<div id="product-tabs-1">
+					<table>
+						<tr>
+							<td>{$imgcatalog}</td>
+							<td style="width:100%;"></td>
+							<td>
+							<form action="{geturl}{getlang}/magixmod/contact/" method="post">
+						      <div><input type="hidden" name="moreinfo" value="{$titlecatalog}"/></div>
+						      <div><input type="image" src="{geturl}/skin/{template}/img/catalog/more-product.png" /></div>
+					      	</form>
+							</td>
+						</tr>
+					</table>
+					<div class="catalog-product-content ui-widget-content ui-corner-all">
+						{$desccatalog}
+					</div>
+				</div>
+				<div id="product-tabs-2">
+					{microgalery type="imagebox" ui=true}
+				</div>
+				<div id="product-tabs-3">
+					{catalog_rel_product idcatalog=$idcatalog ui=true}
+				</div>
 			</div>
 		</div>
 	</div>

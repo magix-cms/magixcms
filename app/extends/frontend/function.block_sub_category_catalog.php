@@ -23,22 +23,6 @@
 function smarty_function_block_sub_category_catalog($params, &$smarty){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$title = $params['title']?$params['title']:'';
-	switch($lang){
-			case 'fr':
-			$langsession = 'catalogue';
-				break;
-			case 'en':
-			$langsession = 'catalog';
-				break;	
-			case 'de':
-			$langsession = 'katalog';
-				break;
-			case 'nl':
-			$langsession = 'catalog';
-				break;	
-			default:
-			$langsession = 'catalogue';	
-	}
 	$tcat = frontend_db_catalog::publicDbCatalog()->s_current_name_category($_GET['idclc']);
 	foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_no_lang($_GET['idclc']) as $cat) $vcat .= $cat['idcls'];
 	if($vcat!= null){
@@ -46,7 +30,7 @@ function smarty_function_block_sub_category_catalog($params, &$smarty){
 		$block .= '<ul>';
 		foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_no_lang($_GET['idclc']) as $cat){
 				if($cat['idcls'] != null){
-					$block .= '<li><a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$langsession.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathclibelle'].'-'.$cat['idclc'].magixcjquery_html_helpersHtml::unixSeparator().'s'.magixcjquery_html_helpersHtml::unixSeparator().$cat['pathslibelle'].'-'.$cat['idcls'].'.html'.'">'.magixcjquery_string_convert::ucFirst($cat['slibelle']).'</a></li>';
+					$block .= '<li><a href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['pathslibelle'],$cat['idcls'],true).'">'.magixcjquery_string_convert::ucFirst($cat['slibelle']).'</a></li>';
 				}
 			}
 		$block .= '</ul>';

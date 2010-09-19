@@ -32,17 +32,14 @@ class frontend_model_template extends db_theme{
 		if($db['setting_value'] != null){
 			if($db['setting_value'] == 'default'){
 				$theme =  $db['setting_value'];
-			}elseif(file_exists($_SERVER['DOCUMENT_ROOT'].'/skin/'.$db['setting_value'].'/')){
+			}elseif(file_exists(magixglobal_model_system::base_path().'/skin/'.$db['setting_value'].'/')){
 				$theme =  $db['setting_value'];
 			}else{
 				try {
 					$theme = 'default';
 	        		throw new Exception('template '.$db['setting_value'].' is not found');
-				} catch(Exception $e) {
-				    $log = magixcjquery_error_log::getLog();
-	        		$log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        		$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        		magixcjquery_debug_magixfire::magixFireError($e);
+				} catch (Exception $e){
+					magixglobal_model_system::magixlog('An error has occured :',$e);
 				}
 			}
 		}else{
@@ -69,25 +66,11 @@ class frontend_model_template extends db_theme{
  */
 class db_theme{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	private $layer;
-	/**
 	 * singleton dbconfig
 	 * @access public
 	 * @var void
 	 */
 	static protected $frontenddbtheme;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance backend_db_config with singleton
 	 */
@@ -102,7 +85,7 @@ class db_theme{
      */
     public function s_current_theme(){
     	$sql = 'SELECT setting_value FROM mc_setting WHERE setting_id = "theme"';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
 }
 ?>
