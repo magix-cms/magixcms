@@ -2,33 +2,20 @@
 /**
  * @category   DB CLass 
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-10-27
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    2.0
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  *
  */
 class frontend_db_cms{
-	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
 	/**
 	 * singleton dbnews
 	 * @access public
 	 * @var void
 	 */
 	static public $publicdbcms;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_news with singleton
 	 */
@@ -51,7 +38,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
 				LEFT JOIN mc_cms_category as c ON(c.idcategory = p.idcategory)
 				WHERE p.idpage = :getidpage';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getidpage'=>$getidpage
 		));
 	}
@@ -63,7 +50,7 @@ class frontend_db_cms{
 		$sql = 'SELECT p.metatitle,p.metadescription
 				FROM mc_cms_page as p
 				WHERE p.idpage = :getidpage';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getidpage'=>$getidpage
 		));
 	}
@@ -81,7 +68,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory != 0
 				ORDER BY p.orderpage,c.idorder';
-		return $this->layer->select($sql,array('codelang'=>$codelang));
+		return magixglobal_model_db::layerDB()->select($sql,array('codelang'=>$codelang));
 	}*/
 	/**
 	 * sélectionne les pages sans la langue
@@ -93,7 +80,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				WHERE viewpage = 1 AND p.idlang =0 AND p.idcategory != 0
 				ORDER BY p.orderpage,c.idorder';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}*/
 	/**
 	 * sélectionne les pages avec une langue et sans catégorie
@@ -104,7 +91,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory = 0
 				ORDER BY p.orderpage';
-		return $this->layer->select($sql,array('codelang'=>$codelang));
+		return magixglobal_model_db::layerDB()->select($sql,array('codelang'=>$codelang));
 	}
 	/**
 	 * sélectionne les pages sans la langue et sans la catégorie
@@ -115,7 +102,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				WHERE viewpage = 1 AND p.idlang =0 AND p.idcategory = 0
 				ORDER BY p.orderpage';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Selectionne les pages suivant l'identifiant de la catégorie
@@ -128,7 +115,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				WHERE viewpage = 1 AND p.idlang =0 AND p.idcategory = :idcategory
 				ORDER BY p.orderpage';
-		return $this->layer->select($sql,array(':idcategory'=>$idcategory));
+		return magixglobal_model_db::layerDB()->select($sql,array(':idcategory'=>$idcategory));
 	}
 	/**
 	 * Selectionne les pages suivant l'identifiant de la catégorie avec la langue
@@ -142,7 +129,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory = :idcategory
 				ORDER BY p.orderpage';
-		return $this->layer->select($sql,array(':idcategory'=>$idcategory,'codelang'=>$codelang));
+		return magixglobal_model_db::layerDB()->select($sql,array(':idcategory'=>$idcategory,'codelang'=>$codelang));
 	}
 	/**
 	 * Retourne toutes les catégories cms
@@ -152,7 +139,7 @@ class frontend_db_cms{
 				FROM mc_cms_category AS c
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				ORDER BY c.idorder';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * ################## Sélection des Catégories ##########
@@ -166,7 +153,7 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				WHERE c.idlang = 0
 				ORDER BY c.idorder';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Selectionne les catégories avec une langue
@@ -178,6 +165,6 @@ class frontend_db_cms{
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				WHERE lang.codelang = :codelang
 				ORDER BY c.idorder';
-		return $this->layer->select($sql,array('codelang'=>$codelang));
+		return magixglobal_model_db::layerDB()->select($sql,array('codelang'=>$codelang));
 	}
 }

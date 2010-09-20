@@ -2,33 +2,21 @@
 /**
  * @category   DB CLass 
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-10-27
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.2
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  *
  */
 class frontend_db_lang{
-	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 */
-	protected $layer;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * selectionne l'identifiant correspondant au code de la langue
 	 * @param $codelang
 	 */
 	function s_lang($codelang){
 		$sql = 'SELECT idlang FROM mc_lang WHERE codelang = :codelang';
-		return $this->layer->selectOne($sql,
+		return magixglobal_model_db::layerDB()->selectOne($sql,
 			array(':codelang' => $codelang)
 		);
 	}

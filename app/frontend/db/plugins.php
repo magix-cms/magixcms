@@ -2,12 +2,11 @@
 /**
  * @category   Controller 
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-08-27
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
- * @name Plugins
- * @version 1.0
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    3.0
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  *
  */
 class frontend_db_plugins{

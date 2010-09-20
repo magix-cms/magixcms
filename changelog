@@ -11,6 +11,16 @@ Stable 2.3.39
 	* Modification des urls CMS + produits catalogue dans le système de sitemap xml
 	* Préparation du mode édition des templates
 	* Fix bug IE7 sur le sélecteur de templates (backend)
+	* Création du système de relation de produits dans les fiches (frontend)
+	* Ajout d'un menu tabs dans les fiches produits pour améliorer l'ergonomie et le contenu
+	* Fix bug avec la réécriture des métas => Impossible d'afficher une catégorie dans le title, description de la sous catégorie
+	* Correction des requêtes sql des widgets du catalogue(frontend)
+	* Ajout des fonctions de réécriture des urls dans les widgets du catalogue (frontend)
+	* Fix bug avec la requête ajax pour l'ajout d'un produit lié (backend)
+	* Ajout du système des images de catégories et sous catégories (backend)
+	* Suppression du dossier backend dans js
+	* Ajout du dossier tools dans js pour les outils spécifiques.
+	* Fix bug pour la création du sitemap xml => URL incorrect + Impossible de créer le fichier (corriger les plugins en conséquence)
 	
 Stable 2.3.38
 	* Ajout de la soumission ajax avec notification

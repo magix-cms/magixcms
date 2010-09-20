@@ -317,4 +317,14 @@ class backend_db_cms{
 				GROUP BY page.idadmin';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+	/**
+	 * Fonctions de recherche de page cms dans les titres
+	 * @param $searchpage
+	 */
+	function r_search_cms_title($searchpage){
+		$sql = 'SELECT p.idpage, p.subjectpage
+		FROM mc_cms_page p
+		WHERE p.subjectpage LIKE "%'.$searchpage.'%"';
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
 }

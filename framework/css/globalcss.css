@@ -429,3 +429,5 @@ ul.plugin-list li{}
 /*link preview*/
 .linkurl{text-decoration:underline;}
 /*POP UP*/
+/*Recherche*/
+#cms-window-search{margin:5px;}

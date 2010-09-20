@@ -107,3 +107,5 @@ html[xmlns*=""] body:last-child #message-notification{padding-top:0;}
 .notify-32-icon-tpl-info{background-position:-96px -96px;}
 .notify-32-icon-tpl-modified{background-position:-128px -96px;}
 .notify-32-icon-tpl-process{background-position:-160px -96px;}
+.notify-32-icon-search{background-position:-192px -96px;}
+.notify-32-icon-search-page{background-position:-224px -96px;}

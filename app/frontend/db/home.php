@@ -2,20 +2,14 @@
 /**
  * @category   DB CLass 
  * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-10-27
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.2
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  *
  */
 class frontend_db_home{
-	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
 	/**
 	 * include dblang 
 	 * @var dblang
@@ -32,7 +26,6 @@ class frontend_db_home{
 	 *
 	 */
 	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
 		$this->dblang = new frontend_db_lang();
 	}
 	/**
@@ -52,14 +45,14 @@ class frontend_db_home{
 		$idlang = $this->dblang->s_lang($codelang);
 		if($codelang == null){
 			$sql = 'SELECT subject,content,metatitle,metadescription FROM mc_page_home WHERE idlang = :idlang';
-			return $this->layer->selectOne($sql,
+			return magixglobal_model_db::layerDB()->selectOne($sql,
 				array(
 					':idlang' => 0
 				)
 			);
 		}else{
 			$sql = 'SELECT subject,content,metatitle,metadescription FROM mc_page_home WHERE idlang = :idlang';
-			return $this->layer->selectOne($sql,
+			return magixglobal_model_db::layerDB()->selectOne($sql,
 				array(
 					':idlang' => $idlang['idlang']
 				)

@@ -107,6 +107,8 @@ class backend_controller_cms{
 	 * @var dcmscat
 	 */
 	public $dcmscat;
+	public $post_search;
+	public $get_search_page;
 	/**
 	 * function construct class
 	 */
@@ -181,6 +183,12 @@ class backend_controller_cms{
 		 */
 		if(isset($_GET['dcmscat'])){
 			$this->dcmscat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dcmscat']);
+		}
+		if(isset($_POST['post_search'])){
+			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
+		}
+		if(isset($_GET['get_search_page'])){
+			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
 		}
 	}
 	/**
@@ -519,6 +527,31 @@ class backend_controller_cms{
 		}
 	}
 	/**
+	 * 
+	 * Rechercher une page CMS dans les titres
+	 */
+	private function search_title_page(){
+		$search = '';
+		if($this->post_search != ''){
+			$search .= '<table class="clear" style="width:80%">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
+							</tr>
+						</thead>
+						<tbody>';
+			foreach(backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) as $s){
+				 $search .= '<tr class="line">';
+				 $search .=	'<td class="minimal">'.$s['idpage'].'</td>';
+				 $search .=	'<td class="nowrap"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/cms.php?editcms='.$s['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($s['subjectpage'],100,'').'</a></td>';
+				 $search .= '</tr>';
+			}
+			$search .= '</tbody></table>';
+		}
+		print $search;
+	}
+	/**
 	 * Affiche l'edition d'une page CMS
 	 * @access private
 	 */
@@ -602,8 +635,9 @@ class backend_controller_cms{
 			}
 		}elseif(magixcjquery_filter_request::isGet('dcmscat')){
 			self::delete_category_cms();
-		}
-		else{
+		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
+			self::search_title_page();
+		}else{
 			self::display_view();
 		}
 	}

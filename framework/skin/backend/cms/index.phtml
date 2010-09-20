@@ -13,19 +13,28 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>CMS</div>
-						<div class="dashboard-content">
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>CMS</div>
+						<div class="dashboard-widget-content">
 						{if $configcms eq 1}
-						{include file="cms/search.phtml"}
 							{widget_cms limit="true" max=20 getpage=true}
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
 							Vous n'avez pas la permission d'administrer ce module
 						</div>
 						{/if}
 						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Chercher une page CMS</div>
+						<div class="dashboard-widget-content">
+						{include file="cms/search.phtml"}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

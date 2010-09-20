@@ -755,6 +755,20 @@ $(function() {
 				}
 			});
 		 });
+		/**
+		 * Recherche simple dans les titres des pages CMS
+		 */
+		$("#forms-search-page").submit(function(){
+			$(this).ajaxSubmit({
+        		url:'/admin/cms.php?get_search_page',
+        		type:"post",
+        		resetForm: true,
+        		success:function(request) {
+        			$("#result-search-page").html(request);
+        		}
+        	});
+			return false; 
+		});
 /*################## formulaire ##############*/
 		/**
 	     * Requête ajax pour la suppression des formulaires

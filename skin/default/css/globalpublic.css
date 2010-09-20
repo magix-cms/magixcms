@@ -233,15 +233,17 @@ ul.current_subcat{margin-left:8px;}
 }
 .img-product{padding:5px;text-align:center;}
 #catalog-list-category .title-product{padding:0 5px 0 5px;}
-.catalog-product-content{padding:5px;}
 .bg-soldout{float:right;margin-right:10px;width:50px;height:50px;}
-#catalog-list-category .title-product{padding:0 5px 0 5px;}
-#catalog-list-category .title-product a{}
+#catalog-list-category .title-product{padding:0 5px 0 5px;border:none;}
+#catalog-list-category .title-product a{font-size:12px;color:#000;}
+#catalog-list-category .title-product a:hover{color:white;}
 .list-img-category p{padding-left:5px;}
 .catalog-product-content{padding:5px;}
 .title-category{}
 .title-category p{padding-left:2px;}
 .title-category a{}
+#catalog-product .catalog-product-content{padding:5px;font-size:12px;}
+#catalog-product .catalog-product-content p{font-size:12px;}
 #product-tabs ul li a.tabslink{ font-size:12px;}
 /*############## Micro galery ##################*/
 #list-image-galery{
