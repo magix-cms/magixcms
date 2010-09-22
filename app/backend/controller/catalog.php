@@ -724,7 +724,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			'total',
 			$max,
 			$this->getpage,
-			'/admin/index.php?dashboard&amp;catalog&amp;',
+			'/admin/catalog.php?',
 			false,
 			false,
 			'page'
