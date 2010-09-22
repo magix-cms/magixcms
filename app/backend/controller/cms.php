@@ -281,7 +281,7 @@ class backend_controller_cms{
 			$request,'total',
 			$max,
 			$this->getpage,
-			'/admin/index.php?dashboard&amp;cms&amp;',
+			'/admin/cms.php?',
 			false,
 			false,
 			'page'
