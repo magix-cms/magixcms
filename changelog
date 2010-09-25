@@ -21,6 +21,10 @@ Stable 2.3.39
 	* Suppression du dossier backend dans js
 	* Ajout du dossier tools dans js pour les outils spécifiques.
 	* Fix bug pour la création du sitemap xml => URL incorrect + Impossible de créer le fichier (corriger les plugins en conséquence)
+	* Upgrade jquery UI 1.8.4 => 1.8.5 + Upgrade thème dark backend 1.8.5
+	* Mise à jour tinyMCE 3.3.8 => 3.3.9
+	* Upgrade magixcjquery 3.0 => 3.1
+	* Ajout des licences Open source GPL3 + MIT
 	
 Stable 2.3.38
 	* Ajout de la soumission ajax avec notification
@@ -79,7 +83,8 @@ Stable 2.3.34
 		- Remplacement par jQuery UI checkbox officiel 1.8.1 avec adaptation à Magix CMS
 	* Correction du chemin des fichiers (js,css) dans le thème par défaut de Magix CMS
 	* Upgrade smarty 3 => RC3
-	* Mise à jour de jquery ui 1.8.2=>1.8.4 * Upgrade du thème jquery UI 1.8.4
+	* Mise à jour de jquery ui 1.8.2=>1.8.4 
+	* Upgrade du thème jquery UI 1.8.4
 	* Suppression du .html pour les plugins dans le htaccess
 	
 Stable 2.3.33
