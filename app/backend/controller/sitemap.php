@@ -68,6 +68,23 @@ class backend_controller_sitemap{
         /*Ecrit les éléments*/
     	$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
 	}
+	/*
+	 * Ouverture du fichier XML pour ecriture de l'entête
+	 */
+	private function createXMLImgFile(){
+		/*instance la classe*/
+        $sitemap = new magixcjquery_xml_sitemap();
+		/*Crée le fichier xml s'il n'existe pas*/
+        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-images.xml');
+		/*Ouvre le fichier xml s'il existe*/
+        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-images.xml');
+		/*indente les lignes (optionnel)*/
+        $sitemap->indentXML(true);
+		/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
+    	$sitemap->headSitemapImage("UTF-8");
+        /*Ecrit les éléments*/
+    	//$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
+	}
 	/**
 	 * Si les NEWS sont activé, on inscrit les URLs dans le sitemap
 	 */
@@ -163,6 +180,19 @@ class backend_controller_sitemap{
 				     0.8
 		        );
 	        }
+		}
+	}
+	private function writeImagesCatalog(){
+		/*instance la classe*/
+        $sitemap = new magixcjquery_xml_sitemap();
+        $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
+		if($config['status'] == 1){
+			foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_images() as $data){
+				$sitemap->writeMakeNodeImage(
+					magixcjquery_html_helpersHtml::getUrl(),
+					$sitemap->writeImageLoc(magixcjquery_html_helpersHtml::getUrl().'/'.$data['imgcatalog'])
+				);
+			}
 		}
 	}
 	/**
@@ -357,9 +387,14 @@ class backend_controller_sitemap{
 			self::writeNews();
 			self::writeCms();
 			self::writeCatalog();
-			self::writeplugin();
+			//self::writeplugin();
 			self::endXMLWriter();
 			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
+	}
+	private function execImages(){
+		self::createXMLImgFile();
+		//self::writeImagesCatalog();
+		self::endXMLWriter();
 	}
 	/**
 	 * Execute le module dans l'administration
@@ -367,6 +402,7 @@ class backend_controller_sitemap{
 	 */
 	public function run(){
 		if(magixcjquery_filter_request::isGet('createxml')){
+			//self::execImages();
 			self::exec();
 		}elseif(magixcjquery_filter_request::isGet('googleping')){
 			self::execPing();

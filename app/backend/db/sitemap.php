@@ -81,6 +81,10 @@ class backend_db_sitemap{
 		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
+ 	function s_catalog_images(){
+    	$sql = 'SELECT imgcatalog FROM mc_catalog_img';
+		return magixglobal_model_db::layerDB()->select($sql);
+    }
     /**
      * Sélections dans les plugins (répertorié) pour la construction du sitemap
      */
