@@ -144,6 +144,11 @@ class backend_controller_sitemap{
         $config = backend_db_config::adminDbConfig()->s_config_named('cms');
 		if($config['status'] == 1){
 	        foreach(backend_db_sitemap::adminDbSitemap()->s_cms_sitemap() as $data){
+	        	if($data['date_page'] == '0000-00-00 00:00:00'){
+	        		$date_page = date('d-m-Y');
+	        	}else{
+	        		$date_page = $data['date_page'];
+	        	}
 		       	$sitemap->writeMakeNode(
 				     magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_cms_url(
 				    	$data['codelang'],
@@ -153,7 +158,7 @@ class backend_controller_sitemap{
 				    	$data['pathpage'],
 				    	true
 				    ),
-				    $data['date_page'],
+				    $date_page,
 				    'always',
 				     0.8
 		        );
@@ -237,7 +242,8 @@ class backend_controller_sitemap{
 		foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_category_sitemap() as $data){
 			$valid= '';
 			foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_images_by_lang($data['idclc']) as $t) $valid.= $t['idcls'];
-			if($valid != ''){
+			//magixcjquery_debug_magixfire::magixFireDump('test',backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_images_by_lang($data['idclc']));
+			if($valid != null){
 				$sitemap->writeMakeNodeImage(
 					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($data['codelang'],$data['pathclibelle'],$data['idclc'],true),
 					'img_s',
