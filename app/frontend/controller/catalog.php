@@ -60,6 +60,7 @@ class frontend_controller_catalog{
 			}
 			$imgc .= '</div>';
 			$page = frontend_config_smarty::getInstance()->assign('idcatalog',$products['idcatalog']);
+			$page .= frontend_config_smarty::getInstance()->assign('date_catalog',$products['date_catalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('titlecatalog',$products['titlecatalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('category',$products['clibelle']);
 			$page .= frontend_config_smarty::getInstance()->assign('subcategory',$products['slibelle']);
@@ -79,6 +80,7 @@ class frontend_controller_catalog{
 			}
 			$imgc .= '</div>';
 			$page = frontend_config_smarty::getInstance()->assign('idcatalog',$products['idcatalog']);
+			$page .= frontend_config_smarty::getInstance()->assign('date_catalog',$products['date_catalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('titlecatalog',$products['titlecatalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('category',$products['clibelle']);
 			$page .= frontend_config_smarty::getInstance()->assign('subcategory',$products['slibelle']);

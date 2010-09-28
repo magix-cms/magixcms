@@ -33,7 +33,7 @@ class frontend_db_cms{
 	 * @param $getpurl
 	 */
 	public function s_cms_page($getidpage){
-		$sql = 'SELECT p.subjectpage,p.contentpage,p.idlang,lang.codelang,c.pathcategory,c.category
+		$sql = 'SELECT p.subjectpage,p.contentpage,p.idlang,lang.codelang,c.pathcategory,c.category,p.date_page
 				FROM mc_cms_page as p
 				LEFT JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
 				LEFT JOIN mc_cms_category as c ON(c.idcategory = p.idcategory)

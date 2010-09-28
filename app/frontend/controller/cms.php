@@ -70,6 +70,7 @@ class frontend_controller_cms{
 	 */
 	public function load_cms_content_page(){
 		$cms = frontend_db_cms::publicDbCms()->s_cms_page($this->getidpage);
+		frontend_config_smarty::getInstance()->assign('date_page',$cms['date_page']);
 		frontend_config_smarty::getInstance()->assign('subjectpage',magixcjquery_string_convert::ucFirst($cms['subjectpage']));
 		frontend_config_smarty::getInstance()->assign('contentpage',$cms['contentpage']);
 	}

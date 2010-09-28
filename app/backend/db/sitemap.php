@@ -51,7 +51,7 @@ class backend_db_sitemap{
      * Selectionne les catégories du catalogue
      */
 	function s_catalog_category_sitemap(){
-    	$sql = 'SELECT c.idclc, c.clibelle, c.pathclibelle, lang.codelang
+    	$sql = 'SELECT c.idclc, c.clibelle, c.pathclibelle, lang.codelang, c.idlang, c.img_c
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
 		ORDER BY lang.idlang';
@@ -81,8 +81,52 @@ class backend_db_sitemap{
 		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
- 	function s_catalog_images(){
-    	$sql = 'SELECT imgcatalog FROM mc_catalog_img';
+    /**
+     * @access public
+     * Compte le nombre de catégorie par langue + compte le nombre d'image
+     */
+	function count_catalog_category_sitemap_by_lang(){
+    	$sql = 'SELECT count(c.idclc) as category,count(c.img_c) as catimg, lang.codelang, c.idlang
+		FROM mc_catalog_c AS c
+		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
+		GROUP BY lang.idlang';
+		return magixglobal_model_db::layerDB()->select($sql);
+    }
+    /**
+     * Retourne des informations
+     * @param $idlang
+     */
+    function s_catalog_category_images_by_lang($idlang){
+    	$sql ='SELECT c.idclc, c.clibelle, c.pathclibelle, c.img_c, lang.codelang
+		FROM mc_catalog_c AS c
+		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
+		WHERE c.idlang = :idlang';
+    	return magixglobal_model_db::layerDB()->select($sql,array(':idlang'=>$idlang));
+    }
+    /**
+     * Selectionne les sous catégorie d'une catégorie pour le sitemap image
+     * @param $idclc
+     */
+    function s_catalog_subcategory_images_by_lang($idclc){
+    	$sql ='SELECT c.idclc, c.clibelle, c.pathclibelle,s.idcls, s.slibelle,s.img_s ,s.pathslibelle, lang.codelang
+		FROM mc_catalog_s AS s
+		LEFT JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
+		WHERE c.idclc = :idclc';
+    	return magixglobal_model_db::layerDB()->select($sql,array(':idclc'=>$idclc));
+    }
+    /**
+     * Retourne les images produits du catalogue
+     */
+ 	function s_catalog_product_images(){
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, img.imgcatalog,lang.codelang
+		FROM mc_catalog_product AS p
+		LEFT JOIN mc_catalog as card USING ( idcatalog )
+        LEFT JOIN mc_catalog_img as img USING ( idcatalog)
+		LEFT JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
+		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**

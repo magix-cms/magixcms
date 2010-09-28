@@ -58,9 +58,9 @@ class backend_controller_sitemap{
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
 		/*Crée le fichier xml s'il n'existe pas*/
-        $sitemap->createXML(self::dir_XML_FILE(),'sitemap.xml');
+        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-url.xml');
 		/*Ouvre le fichier xml s'il existe*/
-        $sitemap->openFile(self::dir_XML_FILE(),'sitemap.xml');
+        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-url.xml');
 		/*indente les lignes (optionnel)*/
         $sitemap->indentXML(true);
 		/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
@@ -84,6 +84,35 @@ class backend_controller_sitemap{
     	$sitemap->headSitemapImage("UTF-8");
         /*Ecrit les éléments*/
     	//$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
+	}
+	/**
+	 * @access private
+	 * Création du fichier sitemap.xml ainsi que l'entête sitemapindex 
+	 */
+	private function createXMLIndexFile(){
+		/*instance la classe*/
+        $sitemap = new magixcjquery_xml_sitemap();
+		/*Crée le fichier xml s'il n'existe pas*/
+        $sitemap->createXML(self::dir_XML_FILE(),'sitemap.xml');
+		/*Ouvre le fichier xml s'il existe*/
+        $sitemap->openFile(self::dir_XML_FILE(),'sitemap.xml');
+		/*indente les lignes (optionnel)*/
+        $sitemap->indentXML(true);
+		/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
+    	$sitemap->headSitemapIndex("UTF-8");
+	}
+	/**
+	 * @access private
+	 * Ecriture dans le sitemapindex 
+	 */
+	private function writeIndex(){
+		/*instance la classe*/
+        $sitemap = new magixcjquery_xml_sitemap();
+        $sitemap->writeMakeNodeIndex(magixcjquery_html_helpersHtml::getUrl().'/'.'sitemap-url.xml',date('d-m-Y'));
+        $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
+		if($config['status'] == 1){
+        	$sitemap->writeMakeNodeIndex(magixcjquery_html_helpersHtml::getUrl().'/'.'sitemap-images.xml',date('d-m-Y'));
+		}
 	}
 	/**
 	 * Si les NEWS sont activé, on inscrit les URLs dans le sitemap
@@ -182,17 +211,50 @@ class backend_controller_sitemap{
 	        }
 		}
 	}
+	/**
+	 * @access private
+	 * Ecrit les urls des images du catalogue (Google Image sitemap)
+	 */
 	private function writeImagesCatalog(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
-        $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
-		if($config['status'] == 1){
-			foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_images() as $data){
+		/**
+		 * Les images des catégories du catalogue sur la racine de celui-ci
+		 */
+		foreach(backend_db_sitemap::adminDbSitemap()->count_catalog_category_sitemap_by_lang() as $data){
+			if($data['catimg'] != 0){
 				$sitemap->writeMakeNodeImage(
-					magixcjquery_html_helpersHtml::getUrl(),
-					$sitemap->writeImageLoc(magixcjquery_html_helpersHtml::getUrl().'/'.$data['imgcatalog'])
+					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_root_url($data['codelang'],true),
+					'img_c',
+					magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/category/',
+					backend_db_sitemap::adminDbSitemap()->s_catalog_category_images_by_lang($data['idlang'])
 				);
 			}
+		}
+		/*
+		 * Les images des sous catégories du catalogue de chaque catégorie
+		 */
+		foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_category_sitemap() as $data){
+			$valid= '';
+			foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_images_by_lang($data['idclc']) as $t) $valid.= $t['idcls'];
+			if($valid != ''){
+				$sitemap->writeMakeNodeImage(
+					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($data['codelang'],$data['pathclibelle'],$data['idclc'],true),
+					'img_s',
+					magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/subcategory/',
+					backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_images_by_lang($data['idclc'])
+				);
+			}
+		}
+		/**
+		 * Les images des produits du catalogue
+		 */
+		foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_product_images() as $data){
+			$sitemap->writeMakeNodeImage(
+				magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url($data['codelang'],$data['pathclibelle'],$data['idclc'],$data['urlcatalog'],$data['idproduct'],true),
+				$data['imgcatalog'],
+				magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/product/'
+			);
 		}
 	}
 	/**
@@ -379,6 +441,11 @@ class backend_controller_sitemap{
 		}
 		backend_config_smarty::getInstance()->display('sitemap/request/ping.phtml');
 	}
+	private function execIndex(){
+		self::createXMLIndexFile();
+		self::writeIndex();
+		self::endXMLWriter();
+	}
 	/**
 	 * Execute l'écriture dans le fichier XML
 	 */
@@ -392,9 +459,12 @@ class backend_controller_sitemap{
 			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
 	}
 	private function execImages(){
-		self::createXMLImgFile();
-		//self::writeImagesCatalog();
-		self::endXMLWriter();
+		$config = backend_db_config::adminDbConfig()->s_config_named('catalog');
+		if($config['status'] == 1){
+			self::createXMLImgFile();
+			self::writeImagesCatalog();
+			self::endXMLWriter();
+		}
 	}
 	/**
 	 * Execute le module dans l'administration
@@ -402,7 +472,8 @@ class backend_controller_sitemap{
 	 */
 	public function run(){
 		if(magixcjquery_filter_request::isGet('createxml')){
-			//self::execImages();
+			self::execIndex();
+			self::execImages();
 			self::exec();
 		}elseif(magixcjquery_filter_request::isGet('googleping')){
 			self::execPing();

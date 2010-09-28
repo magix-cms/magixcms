@@ -103,6 +103,28 @@ class magixglobal_model_rewrite{
 	}
 	/**
 	 * @access private
+	 * URL public du catalogue sans réécriture
+	 * @param string $lang
+	 */
+	private function catalog_uri_root($lang){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else $language = '';
+		return '/index.php?'.$language.'catalog';
+	}
+	/**
+	 * @access private
+	 * URL public du catalogue avec réécriture
+	 * @param string $lang
+	 */
+	private function catalog_rewrite_uri_root($lang){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		return '/'.$language.self::mod_catalog_lang($lang).'/';
+	}
+	/**
+	 * @access private
 	 * URL public des catégories du catalogue sans réécriture
 	 * @param string $lang
 	 * @param string $pathclibelle
@@ -189,6 +211,22 @@ class magixglobal_model_rewrite{
 			$language = $lang.'/';
 		}else $language = '';
 		return '/'.$language.self::mod_catalog_lang($lang).'/'.$pathclibelle.'-'.$idclc.'/'.$urlcatalog.'-'.$idproduct.'.html';
+	}
+	/**
+	 * La réécriture des urls de la racine du catalogue
+	 * @param string $lang
+	 * @param bool $rewrite
+	 */
+	public static function filter_catalog_root_url($lang,$rewrite=false){
+		switch ($rewrite){
+			case true:
+				return self::catalog_rewrite_uri_root($lang);
+			break;
+			case false:
+				return self::catalog_uri_root($lang);
+			break;
+		}
+		
 	}
 	/**
 	 * 

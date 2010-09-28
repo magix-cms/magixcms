@@ -122,7 +122,7 @@ class frontend_db_catalog{
 	}
 /*############### Product ##############*/
 	function s_product_page_no_language($idclc,$idproduct){
-		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, 
+		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog, p.idclc, p.idcls, 
 		catalog.price,catalog.desccatalog, c.clibelle,c.pathclibelle,s.slibelle, s.pathslibelle, img.imgcatalog, lang.codelang
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
@@ -137,7 +137,7 @@ class frontend_db_catalog{
 		));
 	}
 	function s_product_page_with_language($idclc,$idproduct,$codelang){
-		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,
+		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog, p.idclc, p.idcls, catalog.price,
 		catalog.desccatalog,c.clibelle, c.pathclibelle,s.slibelle, s.pathslibelle, img.imgcatalog, lang.codelang
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )

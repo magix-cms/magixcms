@@ -1,3 +1,10 @@
+Stable 2.3.40
+	* Modification du système de sitemap 
+		=> Ajout de la création du sitemap google images
+		=> Ajout du sitemap index pour la relation avec les sitemaps enfants
+		=> Le sitemap des URLS devient sitemap-url.xml
+	* Ajout des dates de publication dans les pages CMS + produits du catalogue
+
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie
 		=> Affiche la liste dans l'édition du produit
