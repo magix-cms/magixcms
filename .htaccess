@@ -114,7 +114,7 @@
 </IfModule>
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{HTTP_HOST} ^localhost
+#RewriteCond %{HTTP_HOST} ^localhost
 ##################### Public ##########################
 RewriteRule ^(fr|en|nl){1,3}/{0,1}$     														/index.php?strLangue=$1 							[QSA,L]
 RewriteRule ^(article|news).html/{0,1}$      													/index.php?news 									[QSA,L]

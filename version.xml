@@ -5,10 +5,10 @@
  * Dual licensed under the MIT or GPL Version 3 licenses.
  * http://jquery.org/license
  *
- * Date: September 16 00:02 2010
+ * Date: September 29 16:28 2010
  */-->
 <version>
-	<number>2.3.39</number>
+	<number>2.3.40</number>
 	<phase>stable</phase>
 	<link>http://www.logiciel-referencement-professionnel.com</link>
 </version>
