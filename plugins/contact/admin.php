@@ -20,7 +20,7 @@ class plugins_contact_admin{
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
 		   $sitemap->writeMakeNode(
-				'magixmod/contact/',
+				magixcjquery_html_helpersHtml::getUrl().'/magixmod/contact/',
 				date('d-m-Y'),
 				'always',
 				0.7

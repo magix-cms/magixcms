@@ -115,6 +115,16 @@ class backend_db_sitemap{
 		WHERE c.idclc = :idclc';
     	return magixglobal_model_db::layerDB()->select($sql,array(':idclc'=>$idclc));
     }
+    /*
+     * Compte le nombre d'image et sous catégorie dans la catégorie
+     * @param $idclc (integer)
+     */
+	function count_catalog_subcategory_sitemap($idclc){
+    	$sql = 'SELECT s.idclc,count(s.idcls) as category,count(s.img_s) as subcatimg
+		FROM mc_catalog_s AS s
+		WHERE s.idclc = :idclc';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(':idclc'=>$idclc));
+    }
     /**
      * Retourne les images produits du catalogue
      */

@@ -240,10 +240,9 @@ class backend_controller_sitemap{
 		 * Les images des sous catégories du catalogue de chaque catégorie
 		 */
 		foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_category_sitemap() as $data){
-			$valid= '';
-			foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_images_by_lang($data['idclc']) as $t) $valid.= $t['idcls'];
-			//magixcjquery_debug_magixfire::magixFireDump('test',backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_images_by_lang($data['idclc']));
-			if($valid != null){
+			$count = backend_db_sitemap::adminDbSitemap()->count_catalog_subcategory_sitemap($data['idclc']);
+			//magixcjquery_debug_magixfire::magixFireLog($count['subcatimg']);
+			if($count['subcatimg'] != 0){
 				$sitemap->writeMakeNodeImage(
 					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($data['codelang'],$data['pathclibelle'],$data['idclc'],true),
 					'img_s',
@@ -460,7 +459,7 @@ class backend_controller_sitemap{
 			self::writeNews();
 			self::writeCms();
 			self::writeCatalog();
-			//self::writeplugin();
+			self::writeplugin();
 			self::endXMLWriter();
 			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
 	}

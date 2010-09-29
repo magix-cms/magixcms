@@ -4,6 +4,9 @@ Stable 2.3.40
 		=> Ajout du sitemap index pour la relation avec les sitemaps enfants
 		=> Le sitemap des URLS devient sitemap-url.xml
 	* Ajout des dates de publication dans les pages CMS + produits du catalogue
+	* Upgrade minify 1.2.3 => 1.2.4 beta
+		- Nouvelle configuration sans $_SERVER['DOCUMENT_ROOT']
+		- Aucune limite du nombre de fichier js, css dans minify
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie
