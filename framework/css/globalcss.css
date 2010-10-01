@@ -261,6 +261,14 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 	padding-left : 15px;
 }
 /**
+ * Tableau clean
+ */
+.clean-table{margin:0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse; }
+.clean-table tr th{margin:0;padding:0 5px;vertical-align:top;background:#EEE;}
+.clean-table tr td{margin:0;padding:0;vertical-align:top;}
+.clean-table tr td{}
+.clean-table tr td:first-child{}
+/**
  * pagination
  */
 .pagination {

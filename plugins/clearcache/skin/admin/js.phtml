@@ -1,0 +1,77 @@
+<div id="clearcache-dialog" style="display:none;">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+	Etes-vous sur de vouloir effectuer cette action ?</p>
+	<div class="ui-widget-header ui-corner-all" style="margin-top:3px;padding:3px;min-height:32px;">
+		<span style="float:left;" class="notify-32-icon notify-32-icon-light-bulb"></span>
+		<p style="margin-top:5px;">N'oubliez pas de recharger votre site internet</p>
+	</div>
+</div>
+{ajax_notify}
+<script type="text/javascript">
+$(function(){
+	$(".clear-cache").button({
+        icons: {
+            primary: 'ui-icon-triangle-1-e'
+        },
+        text: true
+    });
+	$('#clear-minify-cache').click(function (){
+		$("#clearcache-dialog").dialog({
+			bgiframe: true,
+			resizable: false,
+			minHeight:200,
+			modal: true,
+			title: 'Suppression des fichiers de minify',
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'Vider le cache': function() {
+					$(this).dialog('close');
+					$.notice({
+						ntype: "ajax",
+						uri: "/admin/plugins.php?name=clearcache&clear=caches",
+						typesend: 'get',
+						delay: 1800,
+						time:1,
+						reloadhtml:true
+					});
+				},
+				Cancel: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	 });
+	$('#clear-tpl-cache').click(function (){
+		$("#clearcache-dialog").dialog({
+			bgiframe: true,
+			resizable: false,
+			minHeight:200,
+			modal: true,
+			title: 'Suppression des fichiers temporaire',
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'Vider le cache': function() {
+					$(this).dialog('close');
+					$.notice({
+						ntype: "ajax",
+						uri: "/admin/plugins.php?name=clearcache&clear=tpl",
+						typesend: 'get',
+						delay: 1800,
+						time:1,
+						reloadhtml:true
+					});
+				},
+				Cancel: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	 });
+});
+</script>

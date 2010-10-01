@@ -365,7 +365,7 @@ class backend_controller_cms{
 	 */
 	private function navigation_construct(){
 		$form = '';
-		foreach(backend_db_cms::adminDbCms()->s_cms_navigation() as $nav){
+		foreach(backend_db_cms::adminDbCms()->s_cms_form_navigation() as $nav){
 			$active = $nav['viewpage'] == 1 ? 'checked="checked"': null;
 			$noactive = $nav['viewpage'] == 0 ? 'checked="checked"': null;
 			$form .= '<form class="forms-cms-navigation" id="forms-cms-navigation_'.$nav['orderpage'].'" method="post" action="">

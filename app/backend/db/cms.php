@@ -208,7 +208,16 @@ class backend_db_cms{
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				ORDER BY p.orderpage';
-		return magixglobal_model_db::layerDB()->select($sql,false,'assoc');
+		return magixglobal_model_db::layerDB()->select($sql);
+    }
+    /**
+     * Charge les identifiants de la vue d'une page CMS
+     */
+	function s_cms_form_navigation(){
+    	$sql = 'SELECT p.idpage, p.subjectpage,p.orderpage,p.viewpage,lang.codelang
+				FROM mc_cms_page AS p
+				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )';
+		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
      * mise à jour de la configuration d'une page dans le menu (view/hidden)
