@@ -18,10 +18,20 @@ class backend_controller_sitemap{
 	 */
 	const plugins = 'plugins';
 	/*
-	 * Creation du fichier (get)
+	 * Creation du fichier xml index (get)
 	 * @var void
 	 */
-	public $createxml;
+	public $create_xml_index;
+	/*
+	 * Creation du fichier xml url (get)
+	 * @var void
+	 */
+	public $create_xml_url;
+	/*
+	 * Creation du fichier xml images (get)
+	 * @var void
+	 */
+	public $create_xml_images;
 	/*
 	 * Ping Google (get)
 	 * @var void
@@ -32,8 +42,14 @@ class backend_controller_sitemap{
 	 * Constructor
 	 */
 	function  __construct(){
-		if(magixcjquery_filter_request::isGet('createxml')) {
-			$this->createxml = $_GET['createxml'];
+		if(magixcjquery_filter_request::isGet('create_xml_index')) {
+			$this->create_xml_index = $_GET['create_xml_index'];
+		}
+		if(magixcjquery_filter_request::isGet('create_xml_url')) {
+			$this->create_xml_url = $_GET['create_xml_url'];
+		}
+		if(magixcjquery_filter_request::isGet('create_xml_images')) {
+			$this->create_xml_images = $_GET['create_xml_images'];
 		}
 		if(magixcjquery_filter_request::isGet('googleping')) {
 			$this->googleping = $_GET['googleping'];
@@ -108,10 +124,14 @@ class backend_controller_sitemap{
 	private function writeIndex(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
-        $sitemap->writeMakeNodeIndex(magixcjquery_html_helpersHtml::getUrl().'/'.'sitemap-url.xml',date('d-m-Y'));
+        $sitemap->writeMakeNodeIndex(
+        	magixcjquery_html_helpersHtml::getUrl().'/sitemap-url.xml',
+        	date('d-m-Y')
+        );
+        ///magixcjquery_debug_magixfire::magixFireLog(magixcjquery_html_helpersHtml::getUrl().'/sitemap-url.xml');
         $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
 		if($config['status'] == 1){
-        	$sitemap->writeMakeNodeIndex(magixcjquery_html_helpersHtml::getUrl().'/'.'sitemap-images.xml',date('d-m-Y'));
+        	$sitemap->writeMakeNodeIndex(magixcjquery_html_helpersHtml::getUrl().'/sitemap-images.xml',date('d-m-Y'));
 		}
 	}
 	/**
@@ -450,6 +470,7 @@ class backend_controller_sitemap{
 		self::createXMLIndexFile();
 		self::writeIndex();
 		self::endXMLWriter();
+		backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
 	}
 	/**
 	 * Execute l'écriture dans le fichier XML
@@ -469,6 +490,9 @@ class backend_controller_sitemap{
 			self::createXMLImgFile();
 			self::writeImagesCatalog();
 			self::endXMLWriter();
+			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
+		}else{
+			backend_config_smarty::getInstance()->display('sitemap/request/noimages.phtml');
 		}
 	}
 	/**
@@ -476,10 +500,12 @@ class backend_controller_sitemap{
 	 * @access public
 	 */
 	public function run(){
-		if(magixcjquery_filter_request::isGet('createxml')){
+		if(magixcjquery_filter_request::isGet('create_xml_index')){
 			self::execIndex();
-			self::execImages();
+		}elseif(magixcjquery_filter_request::isGet('create_xml_url')){
 			self::exec();
+		}elseif(magixcjquery_filter_request::isGet('create_xml_images')){
+			self::execImages();
 		}elseif(magixcjquery_filter_request::isGet('googleping')){
 			self::execPing();
 		}elseif(magixcjquery_filter_request::isGet('compressionping')){
