@@ -154,7 +154,7 @@ class backend_controller_plugins{
 	 * pluginUrl
 	 */
 	public static function pluginUrl(){
-		return magixcjquery_html_helpersHtml::getUrl().'/plugins.php?name='.self::pluginName();
+		return magixcjquery_html_helpersHtml::getUrl().'/admin/plugins.php?name='.self::pluginName();
 	}
 	/**
 	 * Affiche les pages du plugin
