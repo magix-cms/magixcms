@@ -17,9 +17,25 @@ class frontend_controller_catalog{
 	 * @var string
 	 */
 	public $slang;
+	/**
+	 * identifiant Categorie
+	 * @var integer
+	 */
 	public $idclc;
+	/**
+	 * identifiant sous Categorie
+	 * @var integer
+	 */
 	public $idcls;
+	/**
+	 * identifiant produit
+	 * @var integer
+	 */
 	public $idproduct;
+	/**
+	 * Variable get pour la langue
+	 * @var string
+	 */
 	public $getlang;
 	/**
 	 * function construct
@@ -54,7 +70,7 @@ class frontend_controller_catalog{
 			 */
 			$imgc = '<div class="img-product">';
 			if($products['imgcatalog'] != null){
-				$imgc .= '<a class="imagebox" href="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/product/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/product/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'" /></a>';
+				$imgc .= '<a class="imagebox" href="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/product/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/medium/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'" /></a>';
 			}else{
 				$imgc .= '<a href="'.magixglobal_model_rewrite::filter_catalog_product_url($this->getlang,$products['pathclibelle'],$products['idclc'],$products['urlcatalog'],$products['idproduct'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$products['titlecatalog'].'" /></a>';
 			}

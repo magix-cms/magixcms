@@ -213,6 +213,28 @@ class magixglobal_model_rewrite{
 		return '/'.$language.self::mod_catalog_lang($lang).'/'.$pathclibelle.'-'.$idclc.'/'.$urlcatalog.'-'.$idproduct.'.html';
 	}
 	/**
+	 * URL public d'un plugin sans réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 */
+	private function plugins_uri_root($lang,$magixmod){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else $language = '';
+		return '/index.php?'.$language.'magixmod='.$magixmod;
+	}
+	/**
+	 * URL public d'un plugin avec réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 */
+	private function plugins_rewrite_uri_root($lang,$magixmod){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		return '/'.$language.'magixmod/'.$magixmod.'/';
+	}
+	/**
 	 * La réécriture des urls de la racine du catalogue
 	 * @param string $lang
 	 * @param bool $rewrite
