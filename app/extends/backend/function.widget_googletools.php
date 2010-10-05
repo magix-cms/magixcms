@@ -53,8 +53,8 @@ function smarty_function_widget_googletools($params, &$smarty){
 	}else{
 		$analytics = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
 	}
-	$plugin .= '<td class="maximal">'.$webtools.'</td>
-				<td class="medium">'.$analytics.'</td>
+	$plugin .= '<td class="nowrap">'.$webtools.'</td>
+				<td class="maximal">'.$analytics.'</td>
 				<td class="nowrap"><a href="/admin/googletools.php"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 	$plugin .= '</tr></tbody></table>';
 	return $plugin;

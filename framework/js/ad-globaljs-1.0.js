@@ -569,6 +569,8 @@ $(function() {
 				function() { $(this).removeClass('ui-state-hover'); }
 		);
 		$("#sortable").sortable({
+			placeholder: 'ui-state-highlight',
+			dropOnEmpty: false,
 			axis: "y",
 			cursor: "move",
 			update : function () {
@@ -1420,6 +1422,8 @@ $(function() {
 	     * Requête ajax pour l'enregistrement du déplacement
 	     */
 		$("#sortcat").sortable({
+			placeholder: 'ui-state-highlight',
+			dropOnEmpty: false,
 			axis: "y",
 			cursor: "move",
 			update : function () {
@@ -1439,6 +1443,8 @@ $(function() {
 	     * Requête ajax pour l'enregistrement du déplacement
 	     */
 		$("#sortsubcat").sortable({
+			placeholder: 'ui-state-highlight',
+			dropOnEmpty: false,
 			axis: "y",
 			cursor: "move",
 			update : function () {

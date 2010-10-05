@@ -198,7 +198,7 @@ class backend_controller_cms{
 		$category = null;
 		foreach(backend_db_cms::adminDbCms()->s_block_category() as $block){
 			$category .= '<li class="ui-state-default" id="ordercategory_'.$block['idcategory'].'">';
-			$category .= '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>';
+			$category .= '<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>';
 			$category .= '<div class="sortdivfloat">'.$block['category'].'</div>';
 			$category .= '<div style="float:right;"><a style="float:left;" class="ucms-category" href="#" title="'.$block['idcategory'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
 			$category .= '<a class="aspanfloat dcmscat" href="#" title="'.$block['idcategory'].'"><span class="ui-icon ui-icon-close"></span></a>';
@@ -394,7 +394,7 @@ class backend_controller_cms{
 	private function navigation_order(){
 		$page = null;
 		foreach(backend_db_cms::adminDbCms()->s_cms_navigation() as $nav){
-			$page .= '<li class="ui-state-default" id="orderpage_'.$nav['idpage'].'"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$nav['subjectpage'].'<div style="float:right;"><span class="ui-icon ui-icon-flag"></span>'.$nav['codelang'].'</div>'.'</li>';
+			$page .= '<li class="ui-state-default" id="orderpage_'.$nav['idpage'].'"><span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'.$nav['subjectpage'].'<div style="float:right;"><span class="ui-icon ui-icon-flag"></span>'.$nav['codelang'].'</div>'.'</li>';
 		}
 		return $page;
 	}

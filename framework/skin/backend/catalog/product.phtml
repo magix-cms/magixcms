@@ -69,33 +69,33 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Statistiques</div>
 						<div class="dashboard-widget-content">
-						<table class="clear" style="margin-left:1em;width:60%;">
+						<table class="clear" style="width:60%;">
 							<thead>
 								<tr>
 									<th>Intitulé</th>
 									<th>Eléments</th>
-									<th>Catégorie</th>
-									<th>Sous Catégorie</th>
+									<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
+									<th><span style="float:left;" class="ui-icon ui-icon-folder-open"></span></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class="line">
 									<td>Produits visibles</td>
-									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-document"></span>({$global_product})</td>
+									<td class="nowrap">{$global_product}</td>
 									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
-									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-folder-open"></span>({$global_product_subfolder})</td>
+									<td class="nowrap">{$global_product_subfolder}</td>
 								</tr>
 								<tr class="line">
 									<td>Produits liés</td>
-									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-document"></span>({$global_rel_product})</td>
+									<td class="nowrap">{$global_rel_product}</td>
 									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
 									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
 								</tr>
 								<tr class="line">
 									<td>Catégories</td>
 									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>
-									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>({$global_folder})</td>
-									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-folder-open"></span>({$global_subfolder})</td>
+									<td class="nowrap">{$global_folder}</td>
+									<td class="nowrap">{$global_subfolder}</td>
 								</tr>
 							</tbody>
 						</table>

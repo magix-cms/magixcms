@@ -271,9 +271,10 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	public $d_rel_product;
 	/**
+	 * @access public
 	 * Constructor
 	 */
-	function __construct(){
+	public function __construct(){
 		if(magixcjquery_filter_request::isPost('clibelle')){
 			$this->clibelle = (string) magixcjquery_form_helpersforms::inputClean($_POST['clibelle']);
 			$this->pathclibelle = (string) magixcjquery_url_clean::rplMagixString($_POST['clibelle'],true);
@@ -323,18 +324,30 @@ class backend_controller_catalog extends analyzer_catalog{
 		}else {
 		    $this->getpage = 1;
 		}
-		if(magixcjquery_filter_request::isGet('getidclc')) {
+		/*if(magixcjquery_filter_request::isGet('getidclc')) {
 			$this->getidclc = (integer) magixcjquery_filter_isVar::isPostFloat($_GET['getidclc']);
-		}
+		}*/
+		/**
+		 * Identifiant pour la suppression d'un catalogue !!!!
+		 */
 		if(magixcjquery_filter_request::isGet('delproduct')){
 			$this->delproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delproduct']);
 		}
+		/**
+		 * identifiant pour la suppression d'une sous catégorie
+		 */
 		if(magixcjquery_filter_request::isGet('dels')){
 			$this->dels = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dels']);
 		}
+		/**
+		 * identifiant pour la suppression d'une sous catégorie
+		 */
 		if(magixcjquery_filter_request::isGet('delc')){
 			$this->delc = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delc']);
 		}
+		/**
+		 * identifiant pour la suppression d'une image dans une galerie catalogue
+		 */
 		if(magixcjquery_filter_request::isGet('delmicro')){
 			$this->delmicro = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delmicro']);
 		}
@@ -371,9 +384,15 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($_FILES['update_img_s']["name"])){
 			$this->update_img_s = magixcjquery_url_clean::rplMagixString($_FILES['update_img_s']["name"]);
 		}
+		/**
+		 * URL pour édition d'une catégorie
+		 */
 		if(magixcjquery_filter_request::isGet('upcat')){
 			$this->upcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upcat']);
 		}
+		/**
+		 * URL pour édition d'une sous catégorie
+		 */
 		if(magixcjquery_filter_request::isGet('upsubcat')){
 			$this->upsubcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upsubcat']);
 		}
@@ -389,9 +408,15 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(magixcjquery_filter_request::isPost('idproduct')){
 			$this->idproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idproduct']);
 		}
+		/**
+		 * Identifiant de catalogue pour la construction de la fenêtre des URL produits (modal URL produits)
+		 */
 		if(magixcjquery_filter_request::isGet('geturicat')){
 			$this->geturicat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['geturicat']);
 		}
+		/**
+		 * Identifiant de catalogue pour la construction de la fenêtre des URL produits liées (modal URL produits liées)
+		 */
 		if(magixcjquery_filter_request::isGet('getreluri')){
 			$this->getreluri = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getreluri']);
 		}
@@ -416,8 +441,8 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
 			$category = '<ul id="sortcat">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $cat){
-				$category .= '<li class="ui-state-default ui-corner-all" id="corder_'.$cat['idclc'].'">';
-				$category .= '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>';
+				$category .= '<li class="ui-state-default" id="corder_'.$cat['idclc'].'">';
+				$category .= '<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>';
 				$category .= '<div class="sortdivfloat">'.$cat['clibelle'].'</div>';
 				$category .= '<div style="float:right;"><a style="float:left;" class="ucategory" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
 				$category .= '<a class="aspanfloat delc" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-close"></span></a>';
@@ -431,6 +456,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	/**
 	 * @access private
 	 * Construction du select pour les catégories
+	 * @return string
 	 */
 	private function catalog_select_category(){
 		//SELECT ordonnées pour detecter le changement de section
@@ -489,11 +515,13 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() != null){
 			$category = '<ul id="sortsubcat">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() as $cat){
-				$category .= '<li class="ui-state-default ui-corner-all" id="sorder_'.$cat['idcls'].'">';
-				$category .= '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>';
+				$category .= '<li class="ui-state-default" id="sorder_'.$cat['idcls'].'">';
+				$category .= '<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>';
 				$category .= '<div class="sortdivfloat">'.$cat['slibelle'].'</div>';
-				$category .= '<div style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></div>';
-				$category .= $cat['clibelle'].'<div style="float:right;"><a style="float:left;" class="usubcategory" href="#" title="'.$cat['idcls'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
+				$category .= '<span style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></span>';
+				$category .= '<span style="font-style:italic;">'.$cat['clibelle'].'</span>';
+				$category .= '<div style="float:right;">';
+				$category .= '<a style="float:left;" class="usubcategory" href="#" title="'.$cat['idcls'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
 				$category .= '<a class="aspanfloat dels" href="#" title="'.$cat['idcls'].'"><span class="ui-icon ui-icon-close"></span></a>';
 				$category .= '</div></li>';
 			}
@@ -598,7 +626,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			backend_config_smarty::getInstance()->display('catalog/request/s-cat-delete.phtml');
 		}
 	}
-/**
+	/**
 	 * @access private
 	 * retourne le dossier des images catalogue des catégories
 	 * @return string
@@ -1214,7 +1242,7 @@ EOT;
 		return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."galery".DIRECTORY_SEPARATOR);
 	}
 	/**
-	 * Insertion d'une image dans la galerie spéifique à un produit
+	 * Insertion d'une image dans la galerie spécifique à un produit
 	 */
 	private function insert_image_galery(){
 		if(isset($this->imggalery)){
@@ -1572,6 +1600,11 @@ EOT;
 		}
 	}
 }
+/**
+ * Class pour les statistiques du catalogue
+ * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ *
+ */
 class analyzer_catalog{
 	protected function statistic_global_product($info){
 		$count = backend_db_catalog::adminDbCatalog()->count_global_product();

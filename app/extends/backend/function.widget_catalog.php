@@ -99,7 +99,7 @@ function smarty_function_widget_catalog($params, &$smarty){
 			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$imgcatalog.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
-			 $plugin .= '<td><a href="#" class="cat-uri-product" title="'.$pcms['idcatalog'].'"><span class="ui-icon ui-icon-link"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a href="#" class="cat-uri-product" title="'.$pcms['idcatalog'].'"><span class="ui-icon ui-icon-link"></span></a></td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
 			 /*$plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url(
 					$pcms['codelang'], 

@@ -175,8 +175,8 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 .clear {
 	font-size : 11px;
 	border-collapse : collapse;
-	margin : 0 0 1em 0;
-	width:100%;
+	margin : 0 0 1em 0.6em;
+	width:97%;
 }
  .clear tr.line:hover {
 	background : #696969;
@@ -214,6 +214,7 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 }
 .clear .nowrap {
 	white-space : nowrap;
+	width:1%;
 }
 .clear .nowrap a {
 	color:white;
@@ -261,7 +262,7 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 	padding-left : 15px;
 }
 /**
- * Tableau clean
+ * Tableau sans espace
  */
 .clean-table{margin:0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse; }
 .clean-table tr th{margin:0;padding:0 5px;vertical-align:top;background:#EEE;}
@@ -360,12 +361,18 @@ input.ui-button { padding: .1em 1em; }
 .ui-button-text-icons .ui-button-icon-secondary, .ui-button-icons-only .ui-button-icon-secondary { right: .5em; }
 /*----------------UI Sortable
 ------------------*/
-#sortable,#sortcat,#sortsubcat,.globalsort{ list-style-type: none; margin: 10px 0 10px 10px; padding: 0; width: 97%; }
-#sortable li,#sortcat li,#sortsubcat li,.globalsort li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }
-#sortable li span,#sortcat li span,#sortsubcat li span,.globalsort li span { position: absolute; margin-left: -1.3em; }
+#sortable,#sortcat,#sortsubcat,.globalsort{ list-style-type: none; margin: 5px 0 5px 5px; padding: 0; width: 97%; }
+/*#sortable li,#sortcat li,#sortsubcat li,.globalsort li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }*/
+#sortable li, #sortcat li, #sortsubcat li, .globalsort li {
+	font-size:12px;
+	height:12px;
+	margin:0 3px 3px;
+	padding:0.1em 0.3em 0.3em 1.5em;
+}
+#sortable li span.arrowthick,#sortcat li span.arrowthick,#sortsubcat li span.arrowthick,.globalsort li span.arrowthick { position: absolute; margin-left: -1.3em; }
 #sortable li:hover,#sortcat li:hover,#sortsubcat li:hover,.globalsort li:hover{cursor: move;}
-.sortdivfloat{float:left;width:auto;}
-.aspanfloat{float:left;margin-left:20px;}
+.sortdivfloat{float:left;min-width:120px;font-weight:600;}
+.aspanfloat{float:left;/*margin-left:20px;*/}
 /*#################### magixicon ######################*/
 .magix-icon { width: 16px; height: 16px; background-image: url(/framework/img/magixicon_256x240.png); }
 /* positioning */
@@ -408,7 +415,8 @@ input.ui-button { padding: .1em 1em; }
 }
 .img-galery{padding:2px;text-align:center;}
 .title-galery-image{padding:0 5px 0 5px;}
-/*templates*/
+.ctitle{margin:5px 0 5px 10px;width:97%;padding:0 0 0 10px;}
+/*############## templates ##################*/
 #viewskin{
 	margin:5px 0 5px 10px;
 }
@@ -428,14 +436,14 @@ input.ui-button { padding: .1em 1em; }
 .skin-name{float:left;width:100px;display:block;}
 .template-delete,.template-edit{border:none;height:16px;width:16px;}
 #version{font-size:15px;margin-left:20px;}
-/*PLUGIN*/
+/*######################## PLUGINS ##########################*/
 ul.plugin-list{}
 ul.plugin-list li{}
-/*SEO MODULE*/
+/*######################## SEO MODULE ##########################*/
 .addseo{display:block;clear:left;cursor:pointer;}
 .addseo:hover{font-weight:700px;text-decoration:underline;}
-/*link preview*/
+/*######################## link preview ##########################*/
 .linkurl{text-decoration:underline;}
-/*POP UP*/
-/*Recherche*/
+/*######################## POP UP ##########################*/
+/*######################## SEARCH ##########################*/
 #cms-window-search{margin:5px;}
