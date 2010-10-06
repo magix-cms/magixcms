@@ -47,7 +47,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
 		WHERE p.idclc = :idclc AND p.idcls = 0 AND catalog.idlang = 0
-		ORDER BY p.idcatalog DESC';
+		ORDER BY p.orderproduct DESC';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idclc'=>$idclc
 		));
@@ -65,7 +65,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.codelang = :codelang ORDER BY p.idcatalog DESC';
+		WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.codelang = :codelang ORDER BY p.orderproduct';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idclc'=>$idclc,
 			':codelang'=>$codelang
@@ -93,7 +93,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = :idcls AND catalog.idlang = 0 ORDER BY p.idcatalog DESC';
+		WHERE p.idclc = :idclc AND p.idcls = :idcls AND catalog.idlang = 0 ORDER BY p.orderproduct';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idclc'=>$idclc,
 			':idcls'=>$idcls
@@ -113,7 +113,7 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = :idcls AND lang.codelang = :codelang ORDER BY p.idcatalog DESC';
+		WHERE p.idclc = :idclc AND p.idcls = :idcls AND lang.codelang = :codelang ORDER BY p.orderproduct';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idclc'	=>$idclc,
 			':idcls'	=>$idcls,

@@ -1275,94 +1275,38 @@ $(function() {
 		/**
 		 * Mise à jour d'une catégorie
 		 */
-		$('.ucategory').live("click",function(){
-			var idcategory = $(this).attr('title');
+		$("#forms-catalog-editcategory").submit(function(){
+			var idcategory = $('#ucategory').val();
 			var url = '/admin/catalog.php?catalog&upcat='+idcategory;
-			$("#window-update-category").load(url, function() {
-				$(this).dialog({
-					bgiframe: true,
-					minHeight: 150,
-					width:320,
-					modal: true,
-					overlay: {
-						backgroundColor: '#000',
-						opacity: 0.5
-					},
-					buttons: {
-						'Save': function() {
-							$(this).dialog('close');
-							/*$.notice({
-								ntype: "ajax",
-					    		uri:  url+"&post",
-					    		typesend: 'post',
-					    		noticedata:{update_category:$('#update_category').val(),update_img_c:$('#update_img_c').val()},
-					    		time:2,
-					    		reloadhtml:false
-							});*/
-							$.notice({
-								ntype: "ajaxsubmit",
-					    		delay: 2800,
-					    		dom: '#forms-catalog-editcategory',
-					    		uri:  url+"&post",
-					    		typesend: 'post',
-					    		resetform:false,
-					    		time:2,
-					    		reloadhtml:true	
-							});
-						},
-						Cancel: function() {
-							$(this).dialog('close');
-							//success: location.reload()
-						}
-					}
-				});
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		dom: this,
+	    		uri:  url+"&post",
+	    		typesend: 'post',
+	    		delay: 2800,
+	    		time:2,
+	    		reloadhtml:true,
+	    		resetform:false
 			});
+			return false; 
 		});
 		/**
 		 * Mise à jour d'une sous catégorie
 		 */
-		$('.usubcategory').live("click",function(){
-			var idsubcategory = $(this).attr('title');
+		$("#forms-catalog-editsubcategory").submit(function(){
+			var idsubcategory = $('#usubcategory').val();
 			var url = '/admin/catalog.php?upsubcat='+idsubcategory;
-			$("#update-subcategory").load(url, function() {
-				$(this).dialog({
-					bgiframe: true,
-					minHeight: 150,
-					width:320,
-					modal: true,
-					overlay: {
-						backgroundColor: '#000',
-						opacity: 0.5
-					},
-					buttons: {
-						'Save': function() {
-							$(this).dialog('close');
-							/*$.notice({
-								ntype: "ajax",
-					    		uri:  url+"&post",
-					    		typesend: 'post',
-					    		noticedata: "update_subcategory="+$('#update_subcategory').val(),
-					    		time:2,
-					    		reloadhtml:true
-							});*/
-							$.notice({
-								ntype: "ajaxsubmit",
-					    		delay: 2800,
-					    		dom: '#forms-catalog-editsubcategory',
-					    		uri:  url+"&post",
-					    		typesend: 'post',
-					    		resetform:false,
-					    		time:2,
-					    		reloadhtml:true	
-							});
-						},
-						Cancel: function() {
-							$(this).dialog('close');
-							//success: location.reload();
-						}
-					}
-				});
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		dom: this,
+	    		uri:  url+"&post",
+	    		typesend: 'post',
+	    		delay: 2800,
+	    		time:2,
+	    		reloadhtml:true,
+	    		resetform:false
 			});
+			return false; 
 		});
 		/**
 		 * Affiche la popup des liens du produit
@@ -1413,10 +1357,31 @@ $(function() {
 	    /**
 	     * Ajout d'une class au survol d'une catégorie
 	     */
-	    $('#sortcat li,#sortsubcat li').hover(
+	    $('#sortproduct li,#sortcat li,#sortsubcat li').hover(
 				function() { $(this).addClass('ui-state-hover'); },
 				function() { $(this).removeClass('ui-state-hover'); }
 		);
+	    /**
+	     * Initialisation du drag and drop pour les catégories (catalogue ou cms)
+	     * Requête ajax pour l'enregistrement du déplacement
+	     */
+		$("#sortproduct").sortable({
+			placeholder: 'ui-state-highlight',
+			dropOnEmpty: false,
+			axis: "y",
+			cursor: "move",
+			update : function () {
+				serial = $('#sortproduct').sortable('serialize');
+				$.ajax({
+					url: "/admin/catalog.php?catalog&order",
+					type: "post",
+					data: serial,
+					error: function(){
+						alert("theres an error with AJAX");
+					}
+				});
+			}
+		});
 	    /**
 	     * Initialisation du drag and drop pour les catégories (catalogue ou cms)
 	     * Requête ajax pour l'enregistrement du déplacement

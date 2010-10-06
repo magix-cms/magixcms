@@ -101,14 +101,6 @@ function smarty_function_widget_catalog($params, &$smarty){
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .= '<td class="nowrap"><a href="#" class="cat-uri-product" title="'.$pcms['idcatalog'].'"><span class="ui-icon ui-icon-link"></span></a></td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
-			 /*$plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url(
-					$pcms['codelang'], 
-					$pcms['pathclibelle'], 
-					$pcms['idclc'], 
-					$pcms['urlcatalog'], 
-					$pcms['idproduct'],
-					true
-				).'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';*/
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;moveproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;copyproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-copy"></span></a></td>';

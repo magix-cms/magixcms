@@ -74,6 +74,19 @@ class backend_db_catalog{
     	$sql = 'SELECT max(c.corder) as clcorder FROM mc_catalog_c as c';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
+	/**
+     * Selectionne les produits correspondant à la catégorie (niveau ROOT)
+     * @param $upcat
+     */
+	function s_product_in_category($upcat){
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle,  p.idcls,card.titlecatalog, card.urlcatalog,p.orderproduct
+		FROM mc_catalog_product AS p
+		LEFT JOIN mc_catalog as card USING ( idcatalog )
+		LEFT JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		WHERE p.idclc = :upcat AND p.idcls = 0 ORDER BY p.orderproduct';
+		return magixglobal_model_db::layerDB()->select($sql,array(':upcat'=>$upcat));
+    }
     /**
      * insertion d'une nouvelle catégorie
      * @param $clibelle
@@ -102,6 +115,20 @@ class backend_db_catalog{
 	 */
 	function u_order_catalog_category($i,$id){
 		$sql = 'UPDATE mc_catalog_c SET corder = :i WHERE idclc = :id';
+		magixglobal_model_db::layerDB()->update($sql,
+			array(
+			':i'=>$i,
+			':id'=>$id
+			)
+		);
+	}
+	/**
+	 * Met à jour l'ordre d'affichage des produits dans la catégorie
+	 * @param $i
+	 * @param $id
+	 */
+	function u_order_product_category($i,$id){
+		$sql = 'UPDATE mc_catalog_product SET orderproduct = :i WHERE idproduct = :id';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':i'=>$i,
@@ -152,7 +179,8 @@ class backend_db_catalog{
      * @param $upcat
      */
 	function s_catalog_subcategory_id($upsubcat){
-    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,s.img_s,c.clibelle,lang.codelang FROM mc_catalog_s as s
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,s.img_s,c.clibelle,lang.codelang 
+    	FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE s.idcls = :upsubcat';
@@ -175,6 +203,33 @@ class backend_db_catalog{
 		LEFT JOIN mc_catalog_s as s USING (idclc)
 		where idclc = :idclc';
 		return magixglobal_model_db::layerDB()->select($sql,array(':idclc'=>$getidclc));
+	}
+	/**
+     * Selectionne les produits correspondant à la sous catégorie
+     * @param $upsubcat
+     */
+	function s_product_in_subcategory($upsubcat){
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle,  p.idcls,card.titlecatalog, card.urlcatalog,p.orderproduct
+		FROM mc_catalog_product AS p
+		LEFT JOIN mc_catalog as card USING ( idcatalog )
+		LEFT JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		WHERE p.idcls = :upsubcat ORDER BY p.orderproduct';
+		return magixglobal_model_db::layerDB()->select($sql,array(':upsubcat'=>$upsubcat));
+    }
+	/**
+	 * Met à jour l'ordre d'affichage des produits dans la sous catégorie
+	 * @param $i
+	 * @param $id
+	 */
+	function u_order_product_subcategory($i,$id){
+		$sql = 'UPDATE mc_catalog_product SET orderproduct = :i WHERE idproduct = :id';
+		magixglobal_model_db::layerDB()->update($sql,
+			array(
+			':i'=>$i,
+			':id'=>$id
+			)
+		);
 	}
 	/**
 	 * insertion d'une nouvelle sous catégorie

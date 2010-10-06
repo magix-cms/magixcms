@@ -394,7 +394,7 @@ class backend_controller_cms{
 	private function navigation_order(){
 		$page = null;
 		foreach(backend_db_cms::adminDbCms()->s_cms_navigation() as $nav){
-			$page .= '<li class="ui-state-default" id="orderpage_'.$nav['idpage'].'"><span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'.$nav['subjectpage'].'<div style="float:right;"><span class="ui-icon ui-icon-flag"></span>'.$nav['codelang'].'</div>'.'</li>';
+			$page .= '<li class="ui-state-default" id="orderpage_'.$nav['idpage'].'"><span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'.$nav['subjectpage'].'<div style="float:right;">'.$nav['codelang'].'</div>'.'</li>';
 		}
 		return $page;
 	}
