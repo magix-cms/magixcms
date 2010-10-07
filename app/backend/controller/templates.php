@@ -50,6 +50,7 @@ class backend_controller_templates{
 	private function tpl_identifier(){
 		return backend_model_template::backendTheme()->themeSelected();
 	}
+	private function register_template(){}
 	/**
 	 * Scanne le dossier skin (public) et retourne les images ou capture des thèmes
 	 */
@@ -59,9 +60,6 @@ class backend_controller_templates{
 			throw new exception('skin is not minimal permission');
 		}
 		$makefiles = new magixcjquery_files_makefiles();
-		//print_r($t->sizeDirectory($_SERVER['DOCUMENT_ROOT']));
-		//print_r($t->scanDir($skin.'default/'));
-		//print_r($t->recursiveDirectoryFile($skin));
 		$dir = $makefiles->scanRecursiveDir($skin,'.svn');
 		$count = count($dir);
 		if($count == 0){
@@ -79,6 +77,7 @@ class backend_controller_templates{
 				$ctpl = '';
 			}
 			$themePath = self::directory_skin().$d;
+			//print_r($makefiles->scanRecursiveDir($themePath));
 			if($makefiles->scanDir($themePath) != null){
 				if(file_exists($themePath.'/screenshot.png')){
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
@@ -87,7 +86,7 @@ class backend_controller_templates{
 					$dossier .= '</div>';
 				}else{
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
-					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div><div class="rfloat">'.$ctpl.'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a></div></div>';
+					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'.'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a></div>';
 					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img width="150" height="130" src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png" alt="" /></a></div>';
 					$dossier .= '</div>';
 				}
