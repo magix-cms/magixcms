@@ -7,6 +7,13 @@ Stable 2.3.40
 	* Upgrade minify 2.1.3 => 2.1.4 beta
 		- Nouvelle configuration sans $_SERVER['DOCUMENT_ROOT']
 		- Aucune limite du nombre de fichier js, css dans minify
+	* Modification pour la création du fichier de configuration (config.php) avec l'assistant d'installation
+		=> Ecriture en dur du chemin vers les logs
+	* Fix bug dans la création du fichier LOG pour les requêtes
+	* Nouvelle installation des tables mysql via fichier db.sql
+	* Modification graphique (h1,p,...) dans le système d'installation
+	* Correction des chemins dans le système d'installation en utilisant magixglobal
+	* Correction des requête ajax dans l'assistant d'installation
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie

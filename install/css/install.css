@@ -71,6 +71,9 @@ body,
 	text-align: left;
 	font-size: 12px;
 }
+.right-text-infos p{font-size:12px;}
+.center-text-infos{padding:5px;}
+.center-text-infos p{font-size:16px;}
 /*######################### dashboard wuidget UI ########################*/
 .dashboard-widget-h2{padding:0;color:#696969;}
 .column { width:50%;/*width: 170px;*/ float: left; padding:0; }

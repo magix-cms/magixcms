@@ -1,12 +1,14 @@
 <?php
 /**
- * @category   Controller
- * @package    install
- * @copyright  Copyright Magix CMS (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0
+ * MAGIX CMS
+ * @category   Controller 
+ * @package    INSTALL
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.2
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
- * @name home
+ * @name install
  *
  */
 class exec_controller_install{
@@ -54,7 +56,7 @@ class exec_controller_install{
 	 * variable pour la constante du fichier de configuration
 	 * @var string
 	 */
-	public static $M_TMP_DIR;
+	//public static $M_TMP_DIR;
 	/**
 	 * variable pour la constante du fichier de configuration
 	 * @var string
@@ -79,7 +81,7 @@ class exec_controller_install{
 		self::$M_DBPASSWORD = !empty($_POST['M_DBPASSWORD']) ? $_POST['M_DBPASSWORD'] : '';
 		self::$M_DBNAME = !empty($_POST['M_DBNAME']) ? $_POST['M_DBNAME'] : '';
 		self::$M_LOG = !empty($_POST['M_LOG']) ? $_POST['M_LOG'] : '';
-		self::$M_TMP_DIR = !empty($_POST['M_TMP_DIR']) ? $_POST['M_TMP_DIR'] : '';
+		//self::$M_TMP_DIR = !empty($_POST['M_TMP_DIR']) ? $_POST['M_TMP_DIR'] : '';
 		self::$M_FIREPHP = !empty($_POST['M_FIREPHP']) ? $_POST['M_FIREPHP'] : '';
 	}
 	private function dir_config_file(){
@@ -123,7 +125,7 @@ class exec_controller_install{
 					case 'false':
 						$writeconst->writeConstValue('M_LOG',self::$M_LOG,$full_conf,false);
 				}
-				$writeconst->writeConstValue('M_TMP_DIR',self::$M_TMP_DIR,$full_conf);
+				$writeconst->writeConstValue('M_TMP_DIR',self::dir_config_file().'var'.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'errors.log',$full_conf);
 				$writeconst->writeConstValue('M_FIREPHP',self::$M_FIREPHP,$full_conf,false);
 				
 				$fp = fopen(self::$configfile,'wb');
@@ -135,9 +137,6 @@ class exec_controller_install{
 				//chmod(self::$configfile, 0666);
 				exec_config_smarty::getInstance()->display('request/success-config.phtml');
 			} catch(Exception $e) {
-				$log = magixcjquery_error_log::getLog();
-	        	$log->logfile = M_TMP_DIR;
-	        	$log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
 	        	magixcjquery_debug_magixfire::magixFireError($e);
 			}
 		}

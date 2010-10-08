@@ -51,14 +51,14 @@
 					</div>
 					{if $configcms eq 1}
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Dernière pages CMS</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Dernières pages CMS ajoutées</div>
 						<div class="dashboard-widget-content">
 							{widget_cms limit="true" max="5" viewuser="false"}
 						</div>
 					</div>
 					{/if}
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Outil Google</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Outils Google</div>
 						<div class="dashboard-widget-content">
 							{widget_googletools}
 						</div>
@@ -67,7 +67,7 @@
 				<div class="column">
 				{if $configcatalog eq 1}
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Dernière articles dans le catalogue</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Derniers articles ajoutés dans le catalogue</div>
 						<div class="dashboard-widget-content">
 							{widget_catalog limit="true" max="5" sort="product" viewuser="false"}
 						</div>

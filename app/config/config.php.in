@@ -37,10 +37,8 @@ define('M_DBNAME','');
 // DEBUG (debug,log or false)
 define('M_LOG','log');
 
-$pathconfig = dirname(realpath( __FILE__ ));
-$logpath = str_replace(array('app'.DIRECTORY_SEPARATOR.'config'),array('var'.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR),$pathconfig);
 // Path for error log
-define('M_TMP_DIR',$logpath.'errors.log');
+define('M_TMP_DIR','');
 
 // FirePHP (false or true)
 define('M_FIREPHP',false);

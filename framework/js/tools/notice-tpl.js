@@ -10,7 +10,9 @@
     		noticedata: null,
     		resetform:false,
     		time:4,
-    		reloadhtml:false
+    		reloadhtml:false,
+    		beforeSubmit:function(){},
+    		successParams:false
     	};
         $.extend(options, settings);
         function getSimpleNotify(time){
@@ -32,12 +34,13 @@
         		}).addClass('pos-top');
         	});
         }
-        function submit_noticehead(dom,uri,typesend,noticedata,resetform,time,reloadhtml){
+        function submit_noticehead(dom,uri,typesend,noticedata,beforeSubmit,successParams,resetform,time,reloadhtml){
         	$(dom).ajaxSubmit({
         		url:uri,
         		type:typesend,
         		data:noticedata,
         		resetForm: resetform,
+        		beforeSubmit:beforeSubmit,
         		success:function(request) {
         			$.getScript('/framework/js/jquery.meerkat.1.3.min.js', function() {
         				$('#notify-header').destroyMeerkat();
@@ -57,6 +60,7 @@
         					}
         				}).addClass('pos-top');
         			});
+        			successParams;
         			$(".mc-head-request").html(request);
         			if(reloadhtml == true){
         				setTimeout(function(){
@@ -66,7 +70,7 @@
         		}
         	});
         }
-        function noticehead(uri,typesend,noticedata,time){
+        function noticehead(uri,typesend,noticedata,successParams,time){
         	$.ajax({
         		url:uri,
         		type:typesend,
@@ -91,6 +95,7 @@
         					}
         				}).addClass('pos-top');
         			});
+        			successParams;
         			$(".mc-head-request").html(request);
         			if(options.reloadhtml == true){
         				setTimeout(function(){
@@ -144,10 +149,10 @@
         	case "simple":
         		getSimpleNotify(options.time);
         	case "ajaxsubmit":
-        		submit_noticehead(options.dom,options.uri,options.typesend,options.noticedata,options.resetform,options.time,options.reloadhtml);
+        		submit_noticehead(options.dom,options.uri,options.typesend,options.noticedata,options.beforeSubmit,options.successParams,options.resetform,options.time,options.reloadhtml);
         	break;
         	case "ajax":
-        		noticehead(options.uri,options.typesend,options.noticedata,options.time);
+        		noticehead(options.uri,options.typesend,options.noticedata,options.successParams,options.time);
         	break;
         	case "dir":
         		getDirNotify(options.nparams);
