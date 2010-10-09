@@ -162,7 +162,7 @@ $(function() {
 				$('#install-config').removeClass("ui-state-disabled");
 				$('#install-config').addClass("ui-state-active");
 				$('#install-config').live('click',function(){
-					window.location = "/install/install.php";
+					window.location = "/install/config.php";
 				});
 			},1400);
 		});
@@ -215,7 +215,7 @@ $(function() {
 				$.notice({
 					ntype: "ajaxsubmit",
 		    		dom: form,
-		    		uri: '/install/install.php?cfile',
+		    		uri: '/install/config.php?cfile',
 		    		typesend: 'post',
 		    		noticedata: null,
 		    		resetform:true,
@@ -256,7 +256,7 @@ $(function() {
 			return false; 
 		});
 		/**
-		 * Validation de l'utilisateur principal
+		 * Validation de l'utilisateur principal avec requête ajax pour l'ajout de l'utilisateur principal
 		 */
 		var formsusers = $("#forms-install-users").validate({
 			onsubmit: true,

@@ -10,13 +10,16 @@
 		<div class="dashboard ui-widget-content ui-corner-all">
 		{include file="common/slider.phtml"}
 			<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span><h1>Fin de l'installation</h1></div>
-				<div class="dashboard-content" style="font-size:18px;">
-					<p style="margin-left:10px;">L'installation est terminé.</p>
-					<p style="margin-left:10px;">Connectez-vous à l'administration de votre site internet.</p>
-					<ul style="margin-left:20px;">
-					<li style="list-style:square;"><a style="text-decoration:underline;" href="{geturl}/admin/">Administration</a></li>
-					<li style="list-style:square;"><a style="text-decoration:underline;" href="{geturl}">Site internet</a></li>
+				<div class="dashboard-content">
+					<div class="center-text-infos">
+					<p>L'installation est terminée.</p>
+					<p>N'oubliez pas de supprimer le dossier <strong>install</strong></p>
+					<p>Connectez-vous à l'administration de votre site internet.</p>
+					<ul>
+						<li><a class="targetblank" href="{geturl}/admin/">Administration</a></li>
+						<li><a class="targetblank" href="{geturl}">Site internet</a></li>
 					</ul>
+					</div>
 				</div>
 				{include file="common/footer.phtml"}
 			</div>

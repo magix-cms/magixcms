@@ -29,9 +29,5 @@ if (!file_exists($loaderFilename)) {
  * Autoload Frontend
  */
 exec_Autoloader::register();
-$install = new exec_controller_install();
-if(magixcjquery_filter_request::isGet('cfile')){
-	$install->createConfig();
-}else{
-	$install->display_install_page();
-}
+$exec = new exec_controller_config();
+$exec->run();

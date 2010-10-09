@@ -28,4 +28,30 @@ class magixglobal_model_db{
         }
     	return self::$layerDB;
     }
+    /**
+     * Chargement du fichier SQL pour la lecture du fichier
+     * @param $sqlfile
+     */
+	private function load_sql_file($sqlfile){
+		$db_structure = "";
+		$structureFile = $sqlfile;
+		if(!file_exists($structureFile)){
+			throw new Exception("Error : Not File exist .sql");
+		}else{
+			$db_structure = preg_split("/;\\s*[\r\n]+/",file_get_contents($structureFile));
+		}
+		return $db_structure;
+	}
+	/**
+	 * Création des tables avec la lecture du fichier SQL
+	 * @param void $sqlfile
+	 */
+	public static function create_new_sqltable($sqlfile){
+		if(self::load_sql_file($sqlfile) != false){
+			foreach(self::load_sql_file($sqlfile) as $query){
+				$query = magixcjquery_filter_var::trimText($query);
+				self::layerDB()->createTable($query);
+			}
+		}
+	}
 }

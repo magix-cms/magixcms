@@ -2,7 +2,7 @@
 /**
  * MAGIX CMS
  * @category   Controller 
- * @package    INSTALL
+ * @package    CONFIG
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
@@ -11,7 +11,7 @@
  * @name install
  *
  */
-class exec_controller_install{
+class exec_controller_config{
 	/**
 	 * chemin vers le fichier de base config.in.php
 	 * @var void
@@ -144,7 +144,7 @@ class exec_controller_install{
 	public function createConfig(){
 		self::writeConfigFile();
 	}
-	public function display_install_page(){
+	public function display_config_page(){
 		$dom = null;
 		if(!is_writable(self::dir_config_file().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config')){
 			$dom = '<div id="notify-folder">
@@ -156,6 +156,13 @@ class exec_controller_install{
 			</div>';
 		}
 		exec_config_smarty::getInstance()->assign('notify',$dom);
-		exec_config_smarty::getInstance()->display('install.phtml');
+		exec_config_smarty::getInstance()->display('config.phtml');
+	}
+	public function run(){
+		if(magixcjquery_filter_request::isGet('cfile')){
+			self::createConfig();
+		}else{
+			self::display_config_page();
+		}
 	}
 }
