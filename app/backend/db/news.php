@@ -10,25 +10,11 @@
  */
 class backend_db_news{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
-	/**
 	 * singleton dbnews
 	 * @access public
 	 * @var void
 	 */
 	static public $admindbnews;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_home with singleton
 	 */
@@ -51,7 +37,7 @@ class backend_db_news{
 				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin) ORDER BY n.idnews DESC'.$limit.$offset;
-		return $this->layer->select($sql,false,'assoc');
+		return magixglobal_model_db::layerDB()->select($sql,false,'assoc');
     }
 	/**
 	 * insertion d'un nouvel enregistrement pour une news
@@ -62,9 +48,9 @@ class backend_db_news{
 	 */
 	function i_new_news($subject,$rewritelink,$content,$idlang,$idadmin){
 		$sql = array('INSERT INTO mc_news (subject,rewritelink,content,idlang,idadmin,date_sent) 
-				VALUE('.$this->layer->escape_string($subject).','.$this->layer->escape_string($rewritelink).','.$this->layer->escape_string($content).',"'.$idlang.'","'.$idadmin.'",NOW())',
+				VALUE('.magixglobal_model_db::layerDB()->escape_string($subject).','.magixglobal_model_db::layerDB()->escape_string($rewritelink).','.magixglobal_model_db::layerDB()->escape_string($content).',"'.$idlang.'","'.$idadmin.'",NOW())',
 		'INSERT INTO mc_news_publication (date_publication,publish) VALUE("0000-00-00 00:00:00","0")');
-		$this->layer->transaction($sql);
+		magixglobal_model_db::layerDB()->transaction($sql);
 	}
 	/**
 	 * Retourne le nombre maximum de news
@@ -73,7 +59,7 @@ class backend_db_news{
 	function s_count_news_max(){
 		$sql = 'SELECT count(n.idnews) as total
 		FROM mc_news AS n';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * Retourne le nombre maximum de news
@@ -82,7 +68,7 @@ class backend_db_news{
 	function s_count_news_pager_max(){
 		$sql = 'SELECT count(n.idnews) as total
 		FROM mc_news AS n';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Affiche les données (dans les champs) pour une modification
@@ -95,7 +81,7 @@ class backend_db_news{
 				LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
 				LEFT JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
 				WHERE n.idnews = :getnews';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 		':getnews'=>$getnews
 		));
 	}
@@ -111,7 +97,7 @@ class backend_db_news{
 		/*$sql = 'UPDATE mc_news 
 		SET subject=:subject,rewritelink = :rewritelink,content=:content,idlang=:idlang,idadmin=:idadmin
 		WHERE idnews = :idnews';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':subject'			=>	$subject,
 			':rewritelink'		=>	$rewritelink,
@@ -120,9 +106,9 @@ class backend_db_news{
 			':idadmin'			=>	$idadmin,
 			':idnews'			=>	$idnews
 		));*/
-		$sql = array('UPDATE mc_news SET subject='.$this->layer->escape_string($subject).',rewritelink ='.$this->layer->escape_string($rewritelink).',content='.$this->layer->escape_string($content).',idlang="'.$idlang.'",idadmin="'.$idadmin.'" 
+		$sql = array('UPDATE mc_news SET subject='.magixglobal_model_db::layerDB()->escape_string($subject).',rewritelink ='.magixglobal_model_db::layerDB()->escape_string($rewritelink).',content='.magixglobal_model_db::layerDB()->escape_string($content).',idlang="'.$idlang.'",idadmin="'.$idadmin.'" 
 		WHERE idnews ='.$idnews,'UPDATE mc_news_publication SET date_publication="'.$date_publication.'",publish="'.$publish.'" WHERE idnews ='.$idnews);
-		$this->layer->transaction($sql);
+		magixglobal_model_db::layerDB()->transaction($sql);
 	}
 	/**
 	 * selectionne le sujet suivant la langue pour la réecriture des métas
@@ -134,7 +120,7 @@ class backend_db_news{
 				LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
 				LEFT JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
 				WHERE lang.codelang=:codelang ORDER BY idnews DESC LIMIT 1';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':codelang'=>$codelang
 		));
 	}
@@ -148,7 +134,7 @@ class backend_db_news{
 				LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
 				LEFT JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
 				GROUP BY n.idadmin';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * supprime un article
@@ -159,6 +145,6 @@ class backend_db_news{
 		'DELETE FROM mc_news_publication WHERE idnews = "'.$idnews.'"',
 		'DELETE FROM mc_news WHERE idnews = "'.$idnews.'"'
 		);
-		$this->layer->transaction($sql);
+		magixglobal_model_db::layerDB()->transaction($sql);
 	}
 }

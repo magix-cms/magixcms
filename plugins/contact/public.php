@@ -8,7 +8,7 @@
  * @author Gérits Aurélien <aurelien@web-solution-way.be>
  *
  */
-class plugins_contact_public{
+class plugins_contact_public extends database_plugins_contact{
 	/**
 	 * 
 	 * @var mail
@@ -149,7 +149,33 @@ class plugins_contact_public{
 				self::mail()->simple_mail_html_head($this->email);
 				self::mail()->mail_subject(self::subject());
 				self::mail()->mail_body(self::body_message());
-				self::mail()->select_mail_user();
+				if(isset($_GET['strLangue'])){
+					if(parent::c_show_table() != 0){
+						if(parent::s_register_contact_with_lang($_GET['strLangue']) != null){
+							$s = '';
+							foreach (parent::s_register_contact_with_lang($_GET['strLangue']) as $list) {
+								$s .= self::mail()->mail_add_Address($list['email'],$list['pseudo']);
+							}
+						}else{
+							self::mail()->select_mail_user();
+						}
+					}else{
+						self::mail()->select_mail_user();
+					}
+				}else{
+					if(parent::c_show_table() != 0){
+						if(parent::s_register_contact_no_lang() != null){
+							$s = '';
+							foreach (parent::s_register_contact_no_lang() as $list){
+								$s .= self::mail()->mail_add_Address($list['email'],$list['pseudo']);
+							}
+						}else{
+							self::mail()->select_mail_user();
+						}
+					}else{
+						self::mail()->select_mail_user();
+					}
+				}
 				self::mail()->mail_submit();
 				self::mail()->clean_Submit();
 				$fetch = frontend_controller_plugins::append_fetch('success.phtml');
@@ -164,5 +190,38 @@ class plugins_contact_public{
 		self::send_email();
 		frontend_controller_plugins::append_display('index.phtml');
     }
+}
+class database_plugins_contact{
+	/**
+	 * Vérifie si les tables du plugin sont installé
+	 * @access protected
+	 * return integer
+	 */
+	protected function c_show_table(){
+		$table = 'mc_plugins_contact';
+		return frontend_db_plugins::layerPlugins()->showTable($table);
+	}
+	/**
+	 * @access protected
+	 * Selectionne les contacts pour le formulaire de base sans langue 
+	 */
+	protected function s_register_contact_no_lang(){
+		$sql = 'SELECT c.idlang,lang.codelang,m.email,m.pseudo FROM mc_plugins_contact c
+		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
+		WHERE c.idlang = 0';
+		return frontend_db_plugins::layerPlugins()->select($sql);
+	}
+	/**
+	 * @access protected
+	 * Selectionne les contacts pour le formulaire avec langue 
+	 */
+	protected function s_register_contact_with_lang($codelang){
+		$sql = 'SELECT c.idlang,lang.codelang,m.email,m.pseudo FROM mc_plugins_contact c
+		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
+		WHERE lang.codelang = :codelang';
+		return frontend_db_plugins::layerPlugins()->select($sql,array(':codelang'=>$codelang));
+	}
 }
 ?>

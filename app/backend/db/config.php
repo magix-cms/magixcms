@@ -10,25 +10,11 @@
  */
 class backend_db_config{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
-	/**
 	 * singleton dbconfig
 	 * @access public
 	 * @var void
 	 */
 	static public $admindbconfig;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance backend_db_config with singleton
 	 */
@@ -40,7 +26,7 @@ class backend_db_config{
     }
     function s_config_named_all(){
     	$sql = 'SELECT * FROM mc_global_config WHERE idconfig >= 5';
-    	return $this->layer->select($sql);
+    	return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
      * Selectionne la configuration global suivant la variable
@@ -48,7 +34,7 @@ class backend_db_config{
      */
     function s_config_named($named){
     	$sql = 'SELECT named,status FROM mc_global_config WHERE named = :named';
-    	return $this->layer->selectOne($sql,array(
+    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':named' =>	$named
 		));
     }
@@ -59,7 +45,7 @@ class backend_db_config{
      */
     function u_config_states($status,$named){
     	$sql = 'UPDATE mc_global_config SET status = :status WHERE named = :named';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':status'  =>	$status,
 			':named'   =>	$named
@@ -82,7 +68,7 @@ class backend_db_config{
 		LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 		'.$id.'
 		ORDER BY lang.codelang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * selectionne les données suivant la langue
@@ -92,7 +78,7 @@ class backend_db_config{
 		$sql ='SELECT idrewrite
 				FROM mc_metas_rewrite AS r
 				WHERE r.idconfig =:idconfig AND r.idmetas =:idmetas AND r.level =:level AND r.idlang =:idlang';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 		':idconfig'	=>	$idconfig,	
 		':idlang' 	=>	$idlang,
 		':idmetas'	=>	$idmetas,
@@ -109,7 +95,7 @@ class backend_db_config{
 				LEFT JOIN mc_global_config as conf ON(r.idconfig = conf.idconfig)
 				LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 				WHERE r.idrewrite =:idrewrite';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idrewrite'	=>	$idrewrite
 		));
 	}
@@ -124,7 +110,7 @@ class backend_db_config{
 	function i_rewrite_metas($idconfig,$idlang,$strrewrite,$idmetas,$level){
     	$sql = 'INSERT INTO mc_metas_rewrite (idconfig,idlang,strrewrite,idmetas,level) 
 				VALUE(:idconfig,:idlang,:strrewrite,:idmetas,:level)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idconfig'			=>	$idconfig,
 			':idlang'			=>	$idlang,
@@ -150,7 +136,7 @@ class backend_db_config{
     	idmetas = :idmetas,
     	level = :level
     	WHERE idrewrite = :idrewrite';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':idconfig'			=>	$idconfig,
 			':idlang'			=>	$idlang,
@@ -166,7 +152,7 @@ class backend_db_config{
      */
 	function d_rewrite_metas($delconfig){
 		$sql = 'DELETE FROM mc_metas_rewrite WHERE idrewrite = :delconfig';
-			$this->layer->delete($sql,
+			magixglobal_model_db::layerDB()->delete($sql,
 			array(
 				':delconfig'	=>	$delconfig
 		)); 
@@ -177,14 +163,14 @@ class backend_db_config{
 	 */
 	function s_limited_module_exist(){
 		$sql = 'SELECT idconfig FROM mc_config_limited_module WHERE idconfig = 3';
-    	return $this->layer->selectOne($sql);
+    	return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * Sélectionne le nombre de limitation de page par module
 	 */
 	function s_config_number_module(){
 		$sql = 'SELECT idconfig,number FROM mc_config_limited_module WHERE idconfig = 3';
-    	return $this->layer->selectOne($sql);
+    	return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * Modifie la limitation d'un module
@@ -193,7 +179,7 @@ class backend_db_config{
 	 */
 	function u_limited_module($idconfig,$number){
 		$sql = 'UPDATE mc_config_limited_module SET number = :number WHERE idconfig = :idconfig';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idconfig'			=>	$idconfig,
 			':number'			=>	$number

@@ -10,25 +10,11 @@
  */
 class backend_db_home{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
-	/**
 	 * singleton dbhome
 	 * @access public
 	 * @var void
 	 */
 	static public $admindbhome;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_home with singleton
 	 */
@@ -47,7 +33,7 @@ class backend_db_home{
 				FROM mc_page_home AS h
 				LEFT JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
 				LEFT JOIN mc_admin_member AS m ON(h.idadmin = m.idadmin)';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Affiche les données (dans les champs) pour une modification
@@ -58,7 +44,7 @@ class backend_db_home{
 				FROM mc_page_home AS h
 				LEFT JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
 				WHERE idhome = :gethome';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 		':gethome'=>$gethome
 		));
 	}
@@ -70,7 +56,7 @@ class backend_db_home{
 		$sql ='SELECT h.idhome,h.idlang
 				FROM mc_page_home AS h
 				WHERE h.idlang =:idlang';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 		':idlang'=>$idlang
 		));
 	}
@@ -86,7 +72,7 @@ class backend_db_home{
 	function i_new_home_page($subject,$content,$metatitle,$metadescription,$idlang,$idadmin){
 		$sql = 'INSERT INTO mc_page_home (subject,content,metatitle,metadescription,idlang,idadmin) 
 				VALUE(:subject,:content,:metatitle,:metadescription,:idlang,:idadmin)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':subject'			=>	$subject,
 			':content'			=>	$content,
@@ -110,7 +96,7 @@ class backend_db_home{
 		$sql = 'UPDATE mc_page_home 
 		SET subject=:subject,content=:content,metatitle=:metatitle,metadescription=:metadescription,idlang=:idlang,idadmin=:idadmin,date_home=NOW()
 		WHERE idhome = :idhome';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':subject'			=>	$subject,
 			':content'			=>	$content,
@@ -127,7 +113,7 @@ class backend_db_home{
 	 */
 	function d_home($delhome){
 		$sql = 'DELETE FROM mc_page_home WHERE idhome = :delhome';
-			$this->layer->delete($sql,
+			magixglobal_model_db::layerDB()->delete($sql,
 			array(
 				':delhome'	=>	$delhome
 			)); 

@@ -17,6 +17,9 @@ class backend_model_member{
 		$const_url = backend_db_admin::adminDbMember()->s_t_profil_url($_SESSION['useradmin']);
 		return $const_url['idadmin'];
 	}
+	/**
+	 * Retourne les permissions de l'utilisateur courant
+	 */
 	public static function s_perms_current_admin(){
 		$const_url = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
 		return $const_url['perms'];

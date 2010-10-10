@@ -10,25 +10,11 @@
  */
 class backend_db_navigation{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
-	/**
 	 * singleton dbnavigation
 	 * @access public
 	 * @var void
 	 */
 	static public $admindbnav;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_home with singleton
 	 */
@@ -41,6 +27,6 @@ class backend_db_navigation{
 	function s_block_menu_cms($blockmenu){
     	$sql = 'SELECT elmenu FROM mc_public_menu 
     	WHERE blockmenu = :blockmenu';
-		return $this->layer->select($sql,array(":blockmenu"=>$blockmenu));
+		return magixglobal_model_db::layerDB()->select($sql,array(":blockmenu"=>$blockmenu));
     }
 }

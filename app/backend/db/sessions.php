@@ -10,24 +10,11 @@
  */
 class backend_db_sessions{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 */
-	protected $layer;
-	/**
 	 * singleton dbconfig
 	 * @access public
 	 * @var void
 	 */
 	static public $admindbsession;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance backend_db_config with singleton
 	 */
@@ -44,7 +31,7 @@ class backend_db_sessions{
 	 */
 	function delCurrent($userid){
 		$sql = 'DELETE FROM mc_admin_session WHERE userid = :userid';
-		$this->layer->delete($sql,
+		magixglobal_model_db::layerDB()->delete($sql,
 			array(
 				':userid'=> $userid
 				
@@ -58,7 +45,7 @@ class backend_db_sessions{
 	 */
 	function insertNewSessionId($userid,$ip,$browser){
 		$sql = 'INSERT INTO mc_admin_session (sid, userid, ip, browser) VALUE (:sid,:userid, :ip, :browser)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 			array(
 			':sid'=> session_id(),
 			':userid'=> $userid,
@@ -73,7 +60,7 @@ class backend_db_sessions{
 	 */
 	function delLast_modified($limit){
 		$sql = 'DELETE FROM mc_admin_session WHERE last_modified < :limit';
-		$this->layer->delete($sql,
+		magixglobal_model_db::layerDB()->delete($sql,
 		array(':limit'=>$limit));
 	}
 	/**
@@ -83,7 +70,7 @@ class backend_db_sessions{
 	 */
 	function delete_session_sid($sid){
 		$sql = 'DELETE FROM mc_admin_session WHERE sid = :sid';
-		$this->layer->delete($sql,
+		magixglobal_model_db::layerDB()->delete($sql,
 		array(':sid'=>$sid));
 	}
 	/**
@@ -92,7 +79,7 @@ class backend_db_sessions{
 	 */
 	function getsid(){
 		$sql = 'SELECT sid,userid FROM mc_admin_session WHERE sid = :sid';
-		return $this->layer->selectOne($sql,
+		return magixglobal_model_db::layerDB()->selectOne($sql,
 		array(':sid'=>session_id()));
 	}
 }

@@ -193,6 +193,25 @@ $(function() {
 				ntype: "dir",
 				nparams: 'chmod'
 			});
+		}else if ($('#notify-header-plus').length != 0){
+			$.getScript('/framework/js/jquery.meerkat.1.3.min.js', function() {
+				$('#notify-header').destroyMeerkat();
+				$('#notify-header-plus').meerkat({
+					background:"#efefef",
+					width: '100%',
+					position: 'top',
+					close: '.close-notify',
+					animationIn: 'fade',
+					animationOut: 'slide',
+					animationSpeed: '750',
+					height: '80px',
+					opacity: '0.90',
+					timer: 2,
+					onMeerkatShow: function() { 
+						$(this).animate({opacity: 'show'}, 1000); 
+					}
+				}).addClass('pos-top');
+			});
 		}
 		/**
 		 * Initialisation du menu accordéon avec jquery cookies

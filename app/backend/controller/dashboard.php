@@ -105,51 +105,21 @@ class backend_controller_dashboard{
 	 * Affiche la version du CMS ainsi que le message attaché
 	 */
 	public function version_cms(){
-			/*backend_config_smarty::getInstance()->cache_lifetime = 3600 * 4;
-			backend_config_smarty::getInstance()->caching = 1;*/
 			$version = '<strong>'.self::read_local_version().'</strong> ('.self::read_local_phase().')';
-			//$version .= self::check_version();
-			/*if(!backend_config_smarty::getInstance()->is_cached('dashboard/version.phtml')) {
-		      // suppression du phtml du cache
-		      backend_config_smarty::getInstance()->clear_cache('dashboard/version.phtml');
-		      // ajout de la version au fichier
-		      backend_config_smarty::getInstance()->assign('version', $version);
-			}*/
 			backend_config_smarty::getInstance()->assign('version', $version);
 			backend_config_smarty::getInstance()->display('dashboard/version.phtml');
 	}
-	public function display(){
-		//try {
-		  //magixcjquery_debug_magixfire::magixFireDump('test',array('test'=>'test'));
-		  /*magixcjquery_debug_magixfire::magixFireGroup('Test Group');
-		  magixcjquery_debug_magixfire::magixFireLog('Hello World');
-		  magixcjquery_debug_magixfire::magixFireGroupEnd();
-		  magixcjquery_debug_magixfire::magixFireGroup('Mettre de la couleur dans un groupe',
-                array('Collapsed' => false,
-                      'Color' => '#FF00FF')
-          );
-          magixcjquery_debug_magixfire::magixFireLog('Hello le monde');
-          magixcjquery_debug_magixfire::magixFireWarn('Personne ne répond');
-          magixcjquery_debug_magixfire::magixFireError('La folie me gagne');
-          magixcjquery_debug_magixfire::magixFireInfo('Je me soigne');
-		  magixcjquery_debug_magixfire::magixFireGroupEnd();*/
-		/*$test = '$(document).ready(function(){
-              $("#accordion").accordion({
-                           active:2,event:"mouseover",
-                          icons:{header:"ui-icon-circle-arrow-e",headerSelected:"ui-icon-circle-arrow-s"}
-              });';
-		$comp = new magixcjquery_compjs_minify();
-		$comp->_optionsPacker(
-			array('encoding'=> 0,
-			'fastDecode'=> true,
-			'specialChars'=> false
-			)
-		);
-	    print $comp->jscompressor('packer',$test);*/ 
+	/**
+	 * Retourne le dashboard
+	 */
+	private function display(){
 		$licence = backend_model_setting::select_uniq_setting('licence');
 		backend_config_smarty::getInstance()->assign('licence', $licence['setting_value']);
 		backend_config_smarty::getInstance()->display('dashboard/index.phtml');
 	}
+	/**
+	 * Execute les scripts du dashboard
+	 */
 	public function run(){
 		self::display();
 	}
