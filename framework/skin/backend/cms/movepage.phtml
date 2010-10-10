@@ -14,18 +14,17 @@
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
 				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Copier un produit</div>
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Déplacer une page CMS</div>
 					<div class="dashboard-content">
-					{if $configcatalog eq 1}
-					<form id="copy-catalog-product" method="post" action="" style="margin-left:10px;">
-					<div class="request">{$msg}</div>
+					{if $configcms eq 1}
+					<form id="move-cms-page" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>
 								<tr>
-									<td class="label"><label for="idproduct" class="inlinelabel">Identifiant :</label></td>
+									<td class="label"><label for="idpage" class="inlinelabel">Identifiant :</label></td>
 								</tr>
 								<tr>
-									<td><input type="text" disabled="disabled" readonly="readonly" id="idproduct" name="idproduct" class="inputtext ui-corner-all" value="{$idproduct}" size="50" /></td>
+									<td><input type="text" disabled="disabled" readonly="readonly" id="idpage" name="idpage" class="inputtext ui-corner-all" value="{$idpage}" size="50" /></td>
 									<td style="width:150px;" class="errorInput"></td>
 								</tr>
 								<tr>
@@ -35,15 +34,29 @@
 									<td class="label"><label for="titlecatalog" class="inlinelabel">Titre :</label></td>
 								</tr>
 								<tr>
-									<td><input type="text" disabled="disabled" readonly="readonly" id="titlecatalog" name="titlecatalog" class="inputtext ui-corner-all" value="{$titlecatalog}" size="50" /></td>
+									<td><input type="text" disabled="disabled" readonly="readonly" id="subjectpage" name="subjectpage" class="inputtext ui-corner-all" value="{$subjectpage}" size="50" /></td>
 									<td style="width:150px;" class="errorInput"></td>
 								</tr>
 								<tr>
 									<td class="status"></td>
 								</tr>
+								{if $idcategory != 0}
+								<tr>
+									<td class="label"><label for="idlang" class="inlinelabel">Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>
+									<input type="text" disabled="disabled" readonly="readonly" id="category" name="category" class="inputdisabled ui-corner-all" value="{$category}" size="25" />
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
+								{/if}
 								{if $idlang != 0}
 								<tr>
-									<td class="label"><label for="codelang" class="inlinelabel">Langue :</label></td>
+									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
 								</tr>
 								<tr>
 									<td>
@@ -56,6 +69,20 @@
 								</tr>
 								{/if}
 								{$selectlang}
+								<tr>
+									<td class="label"><label for="idcategory" class="inlinelabel">Catégorie :</label></td>
+								</tr>
+								<tr>
+									<td>
+										<select id="idcategory" name="idcategory">
+											<option value="">Aucune catégorie</option>
+										</select>
+									</td>
+									<td style="width:150px;" class="errorInput"></td>
+								</tr>
+								<tr>
+									<td class="status"></td>
+								</tr>
 							</table>			
 						</fieldset>
 						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
@@ -74,5 +101,14 @@
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+<script type="text/javascript">
+$(function(){
+	dynamical_select_json(
+		'#move-cms-page',
+		'/admin/cms.php?add&json=true',
+		['idlang','idcategory']		
+	);
+});
+</script>
 </body>
 </html>

@@ -429,6 +429,19 @@ class backend_db_catalog{
 			':idcatalog'	=>	$idcatalog
 		));
 	}
+	/**
+	 * Fonctions de recherche de produits dans les titres
+	 * @param $searchpage
+	 */
+	function r_search_catalog_title($searchpage){
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,img.imgcatalog, lang.codelang, m.pseudo
+		FROM mc_catalog AS p
+		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
+		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		LEFT JOIN mc_admin_member as m ON ( p.idadmin = m.idadmin )
+		WHERE p.titlecatalog LIKE "%'.$searchpage.'%"';
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
     /**
      * Insert un nouveau produit dans la table mc_catalog
      */
@@ -483,19 +496,15 @@ class backend_db_catalog{
 	/**
 	 * Copie un enregistrement dans une autre catégorie, sous catégorie et langue
 	 * @param $idadmin
-	 * @param $idclc
-	 * @param $idcls
 	 * @param $idlang
 	 * @param $copyproduct
 	 */
-	function copy_catalog_product($idclc,$idcls,$idlang,$idadmin,$copyproduct){
-		$sql = 'INSERT INTO mc_catalog (idclc,idcls,idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
-		SELECT :idclc,:idcls,:idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
+	function copy_catalog_product($idlang,$idadmin,$copyproduct){
+		$sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
+		SELECT :idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
 		WHERE idcatalog = :copyproduct';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
-			':idclc'			=>	$idclc,
-			':idcls'			=>	$idcls,
 			':idlang'			=>	$idlang,
 			':idadmin'			=>	$idadmin,
 			':copyproduct'		=>	$copyproduct
@@ -544,13 +553,12 @@ class backend_db_catalog{
 	 * @param $idcls
 	 * @param $moveproduct
 	 */
-	function u_catalog_product_move($idclc,$idcls,$idadmin,$moveproduct){
-		$sql = 'UPDATE mc_catalog SET idadmin=:idadmin,idclc=:idclc,idcls=:idcls
+	function u_catalog_product_move($idlang,$idadmin,$moveproduct){
+		$sql = 'UPDATE mc_catalog SET idadmin=:idadmin,idlang=:idlang
 		WHERE idcatalog=:moveproduct';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
-			':idclc'			=>	$idclc,
-			':idcls'			=>	$idcls,
+			':idlang'			=>	$idlang,
 			':idadmin'			=>	$idadmin,
 			':moveproduct'		=>	$moveproduct
 		));

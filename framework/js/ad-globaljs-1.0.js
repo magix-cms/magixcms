@@ -615,6 +615,19 @@ $(function() {
 			});
 			return false; 
 		});
+		$("#move-cms-page").submit(function(){
+			var getpage = $("#idpage").val();
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		dom: this,
+	    		uri: '/admin/cms.php?movepage='+getpage+'&postmovepage',
+	    		typesend: 'post',
+	    		delay: 2800,
+	    		time:2,
+	    		reloadhtml:true	
+			});
+			return false; 
+		});
 		/**
 		 * Soumission d'une nouvelle page CMS
 		 */
@@ -770,6 +783,37 @@ $(function() {
         		}
         	});
 			return false; 
+		});
+		/**
+		 * Affiche la popup des liens des pages CMS
+		 */
+		$('.cms-page-uri').live("click",function(){
+			var currenturi = $(this).attr('title');
+				$('#window-box').dialog({
+					open:function() {
+						$(this).append(currenturi);
+					},
+					bgiframe: true,
+					minHeight: 120,
+					minWidth: 400,
+					modal: true,
+					title: 'Copier un lien',
+					closeOnEscape: true,
+					//position: "center",
+					overlay: {
+						backgroundColor: '#000',
+						opacity: 0.5
+					},
+					buttons: { 
+						"Close": function() { 
+						$(this).dialog("close"); 
+						} 
+					},
+					close: function() {
+						$(this).empty();
+					}
+				});
+				return false;
 		});
 /*################## formulaire ##############*/
 		/**
@@ -1599,6 +1643,87 @@ $(function() {
 				}
 			});
 		 });
+		/**
+		 * Formulaire de copie d'un produit du catalogue
+		 */
+		var formsproduct = $("#copy-catalog-product").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				titlecatalog: {
+					required: true,
+					minlength: 2
+				},
+				desccatalog: {
+					required: true
+				}
+			},
+			messages: {
+				titlecatalog: {
+					required: "Enter a title"
+				},
+				desccatalog: {
+					required: "Enter a content"
+				}
+			},
+			submitHandler: function(form) {
+				var getcatalog = $("#idproduct").val();
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		dom: form,
+		    		uri: '/admin/catalog.php?product&copyproduct='+getcatalog+'&postcopyproduct',
+		    		typesend: 'post',
+		    		delay: 2800,
+		    		time:2,
+		    		reloadhtml:true	
+				});
+			}
+		});
+		$("#copy-catalog-product").formsproduct;
+		/**
+		 * Déplacement d'un produit dans une autre langue
+		 */
+		var formsproduct = $("#move-catalog-product").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				idclc: {
+					required: true
+				}
+			},
+			messages: {
+				idclc: {
+					required: "select category"
+				}
+			},
+			submitHandler: function(form) {
+				var getcatalog = $("#idproduct").val();
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		dom: form,
+		    		uri: '/admin/catalog.php?product&moveproduct='+getcatalog+'&postmoveproduct',
+		    		typesend: 'post',
+		    		delay: 2800,
+		    		time:2,
+		    		reloadhtml:true	
+				});
+			}
+		});
+		$("#move-catalog-product").formsproduct;
+		/**
+		 * Recherche simple dans les titres des catalogues
+		 */
+		$("#forms-search-catalog").submit(function(){
+			$(this).ajaxSubmit({
+        		url:'/admin/catalog.php?get_search_page=true',
+        		type:"post",
+        		resetForm: true,
+        		success:function(request) {
+        			$("#result-search-page").html(request);
+        		}
+        	});
+			return false; 
+		});
 /*################## Sitemap ##############*/
 		/**
 	     * Requête ajax pour la création, modification de fichier sitemap xml

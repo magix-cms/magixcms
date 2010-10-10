@@ -58,14 +58,16 @@ function smarty_function_widget_cms($params, &$smarty){
 	$plugin .= '<table class="clear">
 						<thead>
 							<tr>
-							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
+							<th title="Titre de la page"><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
 							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-t"></span></th>
 							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-d"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
 							'.$thuser.'
+							<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-transferthick-e-w"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 							</tr>
 						</thead>
@@ -102,14 +104,16 @@ function smarty_function_widget_cms($params, &$smarty){
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/cms.php?editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],45,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/cms.php?editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</a></td>';
+			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="/admin/cms.php?editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],45,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/cms.php?editcms='.$pcms['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['subjectpage'],30,'').'</a></td>';
 			 $plugin .=	'<td class="nowrap">'.$category.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_t.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_d.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_cms_url($pcms['codelang'], $pcms['idcategory'], $pcms['pathcategory'], $pcms['idpage'], $pcms['pathpage'])./*magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$pcms['idpage'].'&amp;'.'getpurl='.$pcms['pathpage'].*/'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/cms.php?editcms='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="cms-page-uri" href="#" title="'.magixglobal_model_rewrite::filter_cms_url($pcms['codelang'], $pcms['idcategory'], $pcms['pathcategory'], $pcms['idpage'], $pcms['pathpage'],true).'"><span style="float:left;" class="ui-icon ui-icon-link"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_cms_url($pcms['codelang'], $pcms['idcategory'], $pcms['pathcategory'], $pcms['idpage'], $pcms['pathpage']).'" title="'.$pcms['subjectpage'].'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?editcms='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?movepage='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deletecms" title="'.$pcms['idpage'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
 		}
@@ -117,7 +121,7 @@ function smarty_function_widget_cms($params, &$smarty){
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	'<td class="maximal"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
-			 //$plugin .=	'<td class="nowrap"></td>';
+			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';

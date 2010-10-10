@@ -35,7 +35,7 @@ class backend_controller_plugins{
 	 * return void
 	 */
 	private function directory_plugins(){
-		return magixglobal_model_system::base_path().DIRECTORY_SEPARATOR.self::plugins.DIRECTORY_SEPARATOR;
+		return magixglobal_model_system::base_path().self::plugins.DIRECTORY_SEPARATOR;
 	}
 	/**
 	 * @access protected
@@ -155,6 +155,12 @@ class backend_controller_plugins{
 	 */
 	public static function pluginUrl(){
 		return magixcjquery_html_helpersHtml::getUrl().'/admin/plugins.php?name='.self::pluginName();
+	}
+	/**
+	 * Retourne le chemin du dossier du plugin courant
+	 */
+	public static function pluginDir(){
+		return self::directory_plugins().self::getplugin().DIRECTORY_SEPARATOR;
 	}
 	/**
 	 * Affiche les pages du plugin

@@ -16,13 +16,15 @@
  * @param params
  */
 function dynamical_select_html(id,url,params){
-	$(id).relatedSelects({
-		onChangeLoad: url,
-		dataType: 'html',
-		defaultOptionText: 'Choose an Option',
-		loadingMessage: 'Loading, please wait...',
-		disableIfEmpty:true,
-		selects: params
+	$.getScript('/framework/js/jquery.relatedselects.min.js', function() {
+		$(id).relatedSelects({
+			onChangeLoad: url,
+			dataType: 'html',
+			defaultOptionText: 'Choose an Option',
+			loadingMessage: 'Loading, please wait...',
+			disableIfEmpty:true,
+			selects: params
+		});
 	});
 }
 /**
@@ -33,13 +35,15 @@ function dynamical_select_html(id,url,params){
  * @param params
  */
 function dynamical_select_json(id,url,params){
-	$(id).relatedSelects({
-		onChangeLoad: url,
-		dataType: 'json',
-		defaultOptionText: 'Choose an Option',
-		loadingMessage: 'Loading, please wait...',
-		disableIfEmpty:true,
-		selects: params
+	$.getScript('/framework/js/jquery.relatedselects.min.js', function() {
+		$(id).relatedSelects({
+			onChangeLoad: url,
+			dataType: 'json',
+			defaultOptionText: 'Choose an Option',
+			loadingMessage: 'Loading, please wait...',
+			disableIfEmpty:true,
+			selects: params
+		});
 	});
 }
 /**

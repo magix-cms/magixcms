@@ -34,15 +34,14 @@ function smarty_function_header_notify($params, &$smarty){
 	$text = $params['text'];
 	if(!empty($text)){
 	return <<<EOT
-	<div id="notify-header">
+	<div id="notify-header-plus">
 		<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>	
-		<div id="message-notification">
+		<div id="message-notification-plus">
 			<div class="mc-rep-request">
 				$text
 			</div>
 		</div>
 	</div>
 EOT;
-	
 	}
 }

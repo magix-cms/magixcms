@@ -280,6 +280,8 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @var d_in_product
 	 */
 	public $d_rel_product;
+	public $post_search;
+	public $get_search_page;
 	/**
 	 * @access public
 	 * Constructor
@@ -435,6 +437,15 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 		if(magixcjquery_filter_request::isGet('d_rel_product')){
 			$this->d_rel_product = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['d_rel_product']);
+		}
+		/**
+		 * Recherche de fiche catalogue
+		 */
+		if(isset($_POST['post_search'])){
+			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
+		}
+		if(isset($_GET['get_search_page'])){
+			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
 		}
 	}
 	private function def_dirimg_frontend($pathupload){
@@ -909,6 +920,41 @@ class backend_controller_catalog extends analyzer_catalog{
 		);
 	}
 	/**
+	 * 
+	 * Rechercher un catalogue dans les titres
+	 */
+	private function search_title_page(){
+		$search = '';
+		if($this->post_search != ''){
+			$search .= '<table class="clear" style="width:80%">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
+								<th><span class="ui-icon ui-icon-image"></span></th>
+							</tr>
+						</thead>
+						<tbody>';
+			foreach(backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) as $s){
+				switch($s['imgcatalog']){
+					case null:
+						$imgcatalog = '<div class="ui-state-error" style="border:none;"><a href="/admin/catalog.php?product&amp;getimg='.$s['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></a></div>';
+					break;
+					default: 
+						$imgcatalog = '<div class="ui-state-highlight" style="border:none;"><a href="/admin/catalog.php?product&amp;getimg='.$s['idcatalog'].'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
+					break;
+				}
+				 $search .= '<tr class="line">';
+				 $search .=	'<td class="minimal">'.$s['idcatalog'].'</td>';
+				 $search .=	'<td class="nowrap"><a class="linkurl" href="/admin/catalog.php?product&amp;editproduct='.$s['idcatalog'].'">'.$s['titlecatalog'].'</a></td>';
+				 $search .='<td class="nowrap">'.$imgcatalog.'</td>';
+				 $search .= '</tr>';
+			}
+			$search .= '</tbody></table>';
+		}
+		print $search;
+	}
+	/**
 	 * @access private
 	 * Insertion d'un nouveau produit dans la table mc_catalog
 	 */
@@ -1197,10 +1243,6 @@ EOT;
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->moveproduct);
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-		backend_config_smarty::getInstance()->assign('clibelle',$data['clibelle']);
-		backend_config_smarty::getInstance()->assign('idclc',$data['idclc']);
-		backend_config_smarty::getInstance()->assign('slibelle',$data['slibelle']);
-		backend_config_smarty::getInstance()->assign('idcls',$data['idcls']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		//$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
@@ -1212,10 +1254,6 @@ EOT;
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->copyproduct);
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-		backend_config_smarty::getInstance()->assign('clibelle',$data['clibelle']);
-		backend_config_smarty::getInstance()->assign('idclc',$data['idclc']);
-		backend_config_smarty::getInstance()->assign('slibelle',$data['slibelle']);
-		backend_config_smarty::getInstance()->assign('idcls',$data['idcls']);
 		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
@@ -1229,10 +1267,6 @@ EOT;
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->getimg);
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-//		backend_config_smarty::getInstance()->assign('clibelle',$data['clibelle']);
-//		backend_config_smarty::getInstance()->assign('idclc',$data['idclc']);
-//		backend_config_smarty::getInstance()->assign('slibelle',$data['slibelle']);
-//		backend_config_smarty::getInstance()->assign('idcls',$data['idcls']);
 		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
@@ -1262,14 +1296,13 @@ EOT;
 	 * Déplace un produit
 	 */
 	private function move_specific_product(){
-		if(isset($this->idclc)){
+		if(isset($this->moveproduct)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_product_move(
-					$this->idclc,
-					$this->idcls,
+					$this->idlang,
 					backend_model_member::s_idadmin(),
 					$this->moveproduct
 				);
-				backend_config_smarty::getInstance()->display('catalog/request/success.phtml');
+			backend_config_smarty::getInstance()->display('catalog/request/success.phtml');
 		}
 	}
 	/**
@@ -1285,15 +1318,11 @@ EOT;
 	 * Copie un produit dans la table mc_catalog
 	 */
 	private function copy_product(){
-		if(isset($this->idclc)){
-			if(empty($this->idclc)){
+		if(isset($this->copyproduct)){
+			if(empty($this->copyproduct)){
 				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
-			}elseif($this->idclc == 0){
-				backend_config_smarty::getInstance()->display('catalog/request/nocategory.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->copy_catalog_product(
-					$this->idclc,
-					$this->idcls,
 					$this->idlang,
 					backend_model_member::s_idadmin(),
 					$this->copyproduct
@@ -1508,7 +1537,7 @@ EOT;
 	 */
 	private function display_move_product(){
 		self::load_data_move_product();
-		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
+		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/moveproduct.phtml');
 	}
 	/**
@@ -1518,7 +1547,6 @@ EOT;
 	private function display_copy_product(){
 		self::load_data_copy_product();
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
 		backend_config_smarty::getInstance()->display('catalog/copyproduct.phtml');
 	}
 	/**
@@ -1675,6 +1703,8 @@ EOT;
 			}else{
 				self::display_product();
 			}
+		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
+			self::search_title_page();
 		}elseif(magixcjquery_filter_request::isGet('order')){
 			self::executeOrderCategory();
 			self::executeOrderSubCategory();

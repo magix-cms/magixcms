@@ -63,14 +63,14 @@ function smarty_function_widget_catalog($params, &$smarty){
 						<thead>
 							<tr>
 							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-							<th><span class="ui-icon ui-icon-image"></span></th>
-							<th><span class="ui-icon ui-icon-flag"></span></th>
-							<th><span class="ui-icon ui-icon-link"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-image"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>
 							'.$thuser.'
-							<th><span class="ui-icon ui-icon-pencil"></span></th>
-							<th><span class="ui-icon ui-icon-transferthick-e-w"></span></th>
-							<th><span class="ui-icon ui-icon-copy"></span></th>
-							<th><span class="ui-icon ui-icon-close"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-transferthick-e-w"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-copy"></span></th>
+							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 							</tr>
 						</thead>
 						<tbody>';
@@ -89,10 +89,10 @@ function smarty_function_widget_catalog($params, &$smarty){
 			}
 			switch($pcms['imgcatalog']){
 				case null:
-					$imgcatalog = '<div class="ui-state-error" style="border:none;"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></a></div>';
+					$imgcatalog = '<div class="ui-state-error" style="border:none;"><a href="/admin/catalog.php?product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></a></div>';
 				break;
 				default: 
-					$imgcatalog = '<div class="ui-state-highlight" style="border:none;"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
+					$imgcatalog = '<div class="ui-state-highlight" style="border:none;"><a href="/admin/catalog.php?product&amp;getimg='.$pcms['idcatalog'].'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
 				break;
 			}
 			 $plugin .= '<tr class="line">';

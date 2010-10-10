@@ -13,12 +13,22 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Voir les produits</div>
 					<div class="dashboard-content">
 					{if $configcatalog eq 1}
 						{widget_catalog limit="true" max=25 getpage=true sort="product"}
 					{/if}
+					</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Chercher un produit</div>
+						<div class="dashboard-widget-content">
+						{include file="catalog/search.phtml"}
+						</div>
 					</div>
 				</div>
 			</div>

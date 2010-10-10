@@ -53,18 +53,27 @@ a.dont-notify:hover {}
 	position:relative;
 	width:1024px;
 }
-#message-notification{padding-top:5px;}
+#notify-header-plus{
+	display: none;
+	font-size:18px;
+	color:#000;
+	font-weight:bold;
+	margin:0 auto;
+	position:relative;
+	width:1024px;
+}
+#message-notification,#message-notification-plus{padding-top:5px;}
 /**
  * HACK pour Safari
  */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	#message-notification{padding-top:0;}
+	#message-notification,#message-notification-plus{padding-top:0;}
 }
-html[xmlns*=""] body:last-child #message-notification{padding-top:0;}
+html[xmlns*=""] body:last-child #message-notification,html[xmlns*=""] body:last-child #message-notification-plus{padding-top:0;}
 /**
  * Hack IE 7
  */
-*:first-child+html  #message-notification { padding-top:0; }
+*:first-child+html  #message-notification ,*:first-child+html #message-notification-plus{ padding-top:0; }
 /*
  * Hack IE7, FF, Saf, Opera  
  * html>body #message-notification { padding-top:0; }

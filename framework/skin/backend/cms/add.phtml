@@ -36,8 +36,12 @@
 										<td class="label"><label for="idcategory" class="inlinelabel">Catégorie :</label></td>
 									</tr>
 									<tr>
-										<td>{$selectcategory}</td>
-									<td style="width:150px;" class="errorInput"></td>
+										<td>
+											<select id="idcategory" name="idcategory">
+												<option value="">Aucune catégorie</option>
+											</select>
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
 									</tr>
 									<tr>
 										<td class="status"></td>
@@ -103,5 +107,14 @@
 {ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript" src="/min/?g=editor"></script>
+<script type="text/javascript">
+$(function(){
+	dynamical_select_json(
+			'#forms-cms-page',
+			'/admin/cms.php?add&json=true',
+			['idlang','idcategory']		
+	);
+});
+</script>
 </body>
 </html>

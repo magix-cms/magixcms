@@ -34,6 +34,13 @@ class backend_db_cms{
 		//return $this->layer->select($sql);
 		return magixglobal_model_db::layerDB()->select($sql);
     }
+	function s_json_category($idlang){
+    	$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder,lang.codelang,c.idlang FROM mc_cms_category AS c 
+    	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	WHERE c.idlang= :idlang';
+		//return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql,array(':idlang'=>$idlang));
+    }
     /**
      * Selectionne le maximum des identifiants "order" pour les catégories
      */
@@ -300,6 +307,17 @@ class backend_db_cms{
 			':metatitle'		=>	$metatitle,
 			':metadescription'	=>	$metadescription,
 			':getpage'			=>	$getpage
+		));
+	}
+	function u_cms_page_move($idlang,$idcategory,$idadmin,$movepage){
+		$sql = 'UPDATE mc_cms_page SET idadmin=:idadmin,idlang=:idlang,idcategory=:idcategory
+		WHERE idpage=:movepage';
+		magixglobal_model_db::layerDB()->update($sql,
+		array(
+			':idlang'		=>	$idlang,
+			':idcategory'	=>	$idcategory,
+			':idadmin'		=>	$idadmin,
+			':movepage'		=>	$movepage
 		));
 	}
 	/**

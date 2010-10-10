@@ -15,30 +15,61 @@ class backend_model_blockDom{
 	 */
 	public static function select_language(){
 		if(backend_db_lang::dblang()->s_full_lang() != null){
-			$lang = '<tr>
+			$block = '<tr>
 						<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
 					</tr>
 					<tr>
 						<td>';
-			$lang .= '<select id="idlang" name="idlang" class="select">';
-			$lang .= '<option value="0">Aucune langue</option>';
+			$block .= '<select id="idlang" name="idlang">';
+			$block .= '<option value="0">Défaut</option>';
 			foreach(backend_db_lang::dblang()->s_full_lang() as $slang){
-				$lang .= '<option value="'.$slang['idlang'].'">'.$slang['codelang'].'</option>';
+				$block .= '<option value="'.$slang['idlang'].'">'.$slang['codelang'].'</option>';
 			}
-			$lang .='</select>';
-			$lang .= '</td>
+			$block .='</select>';
+			$block .= '</td>
 							<td style="width:150px;" class="errorInput"></td>
 					</tr>
 					<tr>
 						<td class="status"></td>
 					</tr>';
 		}else{
-			$lang = '<tr>
+			$block = '<tr>
 						<td>';
-			$lang .= '<input type="hidden" size="5" id="idlang" name="idlang" value="0" />';
-			$lang .= '</td>
+			$block .= '<input type="hidden" size="5" id="idlang" name="idlang" value="0" />';
+			$block .= '</td>
 					</tr>';
 		}
-		return $lang;
+		return $block;
+	}
+	/**
+	 * Construction du menu select des utilisateurs 
+	 */
+	public static function select_users(){
+		if(backend_db_admin::adminDbMember()->view_list_members() != null){
+			$block = '<tr>
+						<td class="label"><label for="idadmin" class="inlinelabel">Utilisateurs :</label></td>
+					</tr>
+					<tr>
+						<td>';
+			$block .= '<select id="idadmin" name="idadmin">';
+			$block .= '<option value="">Sélectionner un utilisateur</option>';
+			foreach(backend_db_admin::adminDbMember()->view_list_members() as $m){
+				$block .= '<option value="'.$m['idadmin'].'">'.$m['pseudo'].'</option>';
+			}
+			$block .='</select>';
+			$block .= '</td>
+							<td style="width:150px;" class="errorInput"></td>
+					</tr>
+					<tr>
+						<td class="status"></td>
+					</tr>';
+		}else{
+			$block = '<tr>
+						<td>';
+			$block .= '<input type="hidden" size="5" id="idlang" name="idlang" value="0" />';
+			$block .= '</td>
+					</tr>';
+		}
+		return $block;
 	}
 }

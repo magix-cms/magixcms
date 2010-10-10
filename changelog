@@ -14,6 +14,18 @@ Stable 2.3.40
 	* Modification graphique (h1,p,...) dans le système d'installation
 	* Correction des chemins dans le système d'installation en utilisant magixglobal
 	* Correction des requête ajax dans l'assistant d'installation
+	* Suppression du fichiers install.php => remplacement par config.php
+	* ajout de fonctions pour installer des tables mysql
+	* Remplacement du système d'installation actuel des tables mysql avec les nouvelles fonctions
+	* Fix bug chemin des plugins dans l'administration
+	* Intégration du système d'installation des tables mysql dans les plugins
+	* Ajout du système de notification d'installation des tables MYSQL d'un plugin
+	* Ajout du système de déplacement des pages CMS
+	* Ajout du système de déplacement des fiches catalogue
+	* Ajout du système de copie des fiches catalogue
+	* Ajout de la fenêtre modal pour les liens des pages CMS
+	* Ajout du moteur de recherche des fiches catalogue (version simple)
+	* Ajout des fichiers admin pour le plugin contact (insertion des membres pour la reception des emails)
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie

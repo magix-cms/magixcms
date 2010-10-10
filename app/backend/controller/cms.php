@@ -109,6 +109,12 @@ class backend_controller_cms{
 	public $dcmscat;
 	public $post_search;
 	public $get_search_page;
+	public $selidlang;
+	/**
+	 * déplacement d'une page
+	 * @var movepage
+	 */
+	public $movepage;
 	/**
 	 * function construct class
 	 */
@@ -189,6 +195,12 @@ class backend_controller_cms{
 		}
 		if(isset($_GET['get_search_page'])){
 			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
+		}
+		if(magixcjquery_filter_request::isGet('idlang')){
+			$this->selidlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['idlang']);
+		}
+		if(magixcjquery_filter_request::isGet('movepage')){
+			$this->movepage = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['movepage']);
 		}
 	}
 	/**
@@ -439,7 +451,7 @@ class backend_controller_cms{
 	 * @access private
 	 */
 	private function load_data_cms_forms(){
-	$data = backend_db_cms::adminDbCms()->s_data_forms($this->editcms);
+		$data = backend_db_cms::adminDbCms()->s_data_forms($this->editcms);
 		backend_config_smarty::getInstance()->assign('subjectpage',$data['subjectpage']);
 		backend_config_smarty::getInstance()->assign('contentpage',$data['contentpage']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
@@ -448,20 +460,19 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('metatitle',$data['metatitle']);
 		backend_config_smarty::getInstance()->assign('metadescription',$data['metadescription']);
-		/*$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
-		switch($data['idcategory']){
-				case 0:
-					$catpath = null;
-				break;
-				default: 
-					$catpath = 'getidcategory='.$data['idcategory'].'&amp;getcat='.$data['pathcategory'].'&amp;';
-				break;
-			}*/
 		$uri = magixglobal_model_rewrite::filter_cms_url($data['codelang'],$data['idcategory'],$data['pathcategory'],$data['idpage'],$data['pathpage']);
-		//magixcjquery_html_helpersHtml::getUrl().'/index.php?'.$islang.$catpath.'getidpage='.$data['idpage'].'&amp;'.'getpurl='.$data['pathpage']
 		backend_config_smarty::getInstance()->assign('view',$uri);
 	}
-/**
+	private function load_data_cms_move(){
+		$data = backend_db_cms::adminDbCms()->s_data_forms($this->movepage);
+		backend_config_smarty::getInstance()->assign('idpage',$data['idpage']);
+		backend_config_smarty::getInstance()->assign('subjectpage',$data['subjectpage']);
+		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
+		backend_config_smarty::getInstance()->assign('idcategory',$data['idcategory']);
+		backend_config_smarty::getInstance()->assign('category',$data['category']);
+		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+	}
+	/**
 	 * mise à jour d'une page
 	 * @access private
 	 */
@@ -552,6 +563,39 @@ class backend_controller_cms{
 		print $search;
 	}
 	/**
+	 * @category json request
+	 * @access private
+	 * Requête json pour le chargement des catégories associé à une langue
+	 */
+	private function json_category(){
+		if(backend_db_cms::adminDbCms()->s_json_category($this->selidlang) != null){
+			foreach (backend_db_cms::adminDbCms()->s_json_category($this->selidlang) as $list){
+				//if($list['idlang'] != 0){
+					$subcat[]= json_encode($list['idcategory']).':'.json_encode($list['category']);
+				/*}else{
+					$subcat[] = json_encode("0").':'.json_encode("Aucune catégorie");
+				}*/
+			}
+			print '{'.implode(',',$subcat).'}';
+		}else{
+			print '{"0":"Aucune catégorie"}';
+		}
+	}
+	/**
+	 * Déplace d'une page CMS
+	 */
+	private function move_specific_page(){
+		if(isset($this->movepage)){
+				backend_db_cms::adminDbCms()->u_cms_page_move(
+					$this->idlang,
+					$this->idcategory,
+					backend_model_member::s_idadmin(),
+					$this->movepage
+				);
+			backend_config_smarty::getInstance()->display('request/move.phtml');
+		}
+	}
+	/**
 	 * Affiche l'edition d'une page CMS
 	 * @access private
 	 */
@@ -580,6 +624,15 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->display('cms/add.phtml');
 	}
 	/**
+	 * Affiche le déplacement d'une page CMS
+	 * @access public
+	 */
+	private function display_move_page(){
+		self::load_data_cms_move();
+		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
+		backend_config_smarty::getInstance()->display('cms/movepage.phtml');
+	}
+	/**
 	 * Affiche la page des catégories et statistiques
 	 * @access private
 	 */
@@ -605,6 +658,8 @@ class backend_controller_cms{
 		if(magixcjquery_filter_request::isGet('add')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::insert_new_page();
+			}elseif(magixcjquery_filter_request::isGet('json')){
+				self::json_category();
 			}else{
 				self::display_page();
 			}
@@ -613,6 +668,12 @@ class backend_controller_cms{
 				self::update_page();
 			}else{
 				self::display_edit_page();
+			}
+		}elseif(magixcjquery_filter_request::isGet('movepage')){
+			if(magixcjquery_filter_request::isGet('postmovepage')){
+				self::move_specific_page();
+			}else{
+				self::display_move_page();
 			}
 		}elseif(magixcjquery_filter_request::isGet('navigation')){
 			self::display_navigation();

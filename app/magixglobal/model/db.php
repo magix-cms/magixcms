@@ -37,10 +37,16 @@ class magixglobal_model_db{
 		$structureFile = $sqlfile;
 		if(!file_exists($structureFile)){
 			throw new Exception("Error : Not File exist .sql");
-		}else{
+		}else{ 
 			$db_structure = preg_split("/;\\s*[\r\n]+/",file_get_contents($structureFile));
+			if($db_structure != null){
+				$tables = $db_structure;
+			}else{
+				magixcjquery_debug_magixfire::magixFireError("Error : SQL File is empty");
+				return false;
+			}
 		}
-		return $db_structure;
+		return $tables;
 	}
 	/**
 	 * Création des tables avec la lecture du fichier SQL
@@ -52,6 +58,7 @@ class magixglobal_model_db{
 				$query = magixcjquery_filter_var::trimText($query);
 				self::layerDB()->createTable($query);
 			}
+			return true;
 		}
 	}
 }

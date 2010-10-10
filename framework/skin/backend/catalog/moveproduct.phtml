@@ -55,71 +55,7 @@
 									<td class="status"></td>
 								</tr>
 								{/if}
-								{if $idclc != 0}
-								<tr>
-									<td class="label"><label for="category" class="inlinelabel">Catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>
-									<input type="text" disabled="disabled" readonly="readonly" id="category" name="category" class="inputtext ui-corner-all" value="{$clibelle}" size="50" />
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								{/if}
-								{if $idcls != 0}
-								<tr>
-									<td class="label"><label for="subcategory" class="inlinelabel">Sous Catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>
-									<input type="text" disabled="disabled" readonly="readonly" id="subcategory" name="subcategory" class="inputtext ui-corner-all" value="{$slibelle}" size="50" />
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								{else}
-								<tr>
-									<td class="label"><label for="subcategory" class="inlinelabel">Sous Catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>
-									<input type="text" disabled="disabled" readonly="readonly" id="subcategory" name="subcategory" class="inputtext ui-corner-all" value="Aucune sous catégorie" size="50" />
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								{/if}
-								<tr>
-									<td class="label"><label for="idclc" class="inlinelabel">Catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>{$selectcategory}</td>
-								<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								<tr>
-									<td class="label"><label for="idcls" class="inlinelabel">Sous catégorie :</label></td>
-								</tr>
-								<tr>
-									<td>
-										<select id="idcls" name="idcls">
-										<option value="">Sélectionner une catégorie</option>
-										</select>
-									</td>
-								<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
+								{$selectlang}
 							</table>			
 						</fieldset>
 						<div style="margin:5px;"><input type="submit" class="ud-button ui-state-default ui-corner-all" value="envoyer" /></div>
@@ -136,41 +72,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
-<script type="text/javascript" src="/min/f=framework/js/ad-product-1.0.js"></script>
-{magixmin}
-{literal}
-<script type="text/javascript">
-$(function() {
-	var formsproduct = $("#move-catalog-product").validate({
-		onsubmit: true,
-		event: 'submit',
-		rules: {
-			idclc: {
-				required: true
-			}
-		},
-		messages: {
-			idclc: {
-				required: "select category"
-			}
-		},
-		submitHandler: function(form) {
-			$(form).ajaxSubmit({url:"{/literal}/admin/index.php?dashboard&catalog&product&moveproduct={$smarty.get.moveproduct}&postmoveproduct{literal}",
-				type:"post",
-				success:function(e) {
-					$("div.request").html(e);
-					setTimeout(function(){
-						location.reload();
-					},3000);
-				}
-			});
-		}
-	});
-	$("#move-catalog-product").formsproduct;
-	});
-</script>
-{/literal}
-{/magixmin}
 </body>
 </html>

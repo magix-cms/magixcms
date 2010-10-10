@@ -1,0 +1,31 @@
+{include file="cplugin/layout_up.phtml"}
+<div class="dashboard ui-widget-content ui-corner-all">
+<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>{$pluginName}</div>
+	<div class="dashboard-content">
+		<div class="column">
+			<div class="dashboard ui-widget-content ui-corner-all">
+				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Ajouter un utilisateur de contact</div>
+				<div class="dashboard-content">
+					<form method="post" id="forms-plugins-contact" action="" style="margin-left:10px;">
+					<fieldset>
+						<table>
+							{$selectusers}
+							{$selectlang}
+						</table>		
+						<div style="margin:5px;"><input type="submit" value="envoyer" /></div>
+					</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="column">
+			<div class="dashboard ui-widget-content ui-corner-all">
+				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Les utilisateurs</div>
+				<div class="dashboard-content">
+					{$list_member_admin}
+				</div>
+			</div>
+		</div>
+	</div>		
+</div>
+{include file="cplugin/layout_down.phtml"}
