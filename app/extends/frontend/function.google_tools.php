@@ -15,13 +15,13 @@
  * Type:     function
  * Name:     google_tools
  * Date:     Décember 18, 2009
- * Update:   Mars 12, 2010
+ * Update:   11 Octobre, 2010
  * Purpose:  
  * Examples: {google_tools}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.1
+ * @version  1.2
  * @param array
  * @param Smarty
  * @return string
@@ -29,18 +29,26 @@
  */
 function smarty_function_google_tools($params, &$smarty){
 	$type = $params['tools'];
+	if (!isset($type)) {
+	 	$smarty->trigger_error("type: missing 'type' parameter");
+		return;
+	}
 	switch ($type){
 		case 'analytics':
 		$analyticsdata = frontend_model_setting::select_uniq_setting('analytics');
-		$tools = '<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));
-		</script>'.
-		'<script type="text/javascript">
-		try {
-		var pageTracker = _gat._getTracker("'.$analyticsdata['setting_value'].'");
-		pageTracker._trackPageview();
-		} catch(err) {}</script>';
+		$analytics = $analyticsdata['setting_value'];
+		$tools = <<<EOT
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', '$analytics']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+EOT;
 			break;
 		case 'webmaster':
 			$webmasterdata = frontend_model_setting::select_uniq_setting('webmaster');

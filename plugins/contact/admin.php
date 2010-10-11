@@ -23,6 +23,11 @@ class plugins_contact_admin extends database_plugins_contact{
 	 */
 	public $idlang;
 	/**
+	 * GET pour la suppression de contact
+	 * @var $dcontact (integer)
+	 */
+	public $dcontact;
+	/**
 	 * Construct class
 	 */
 	public function __construct(){
@@ -31,6 +36,9 @@ class plugins_contact_admin extends database_plugins_contact{
 		}
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
+		}
+		if(magixcjquery_filter_request::isGet('dcontact')){
+			$this->dcontact = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dcontact']);
 		}
 	}
 	/**
@@ -110,6 +118,7 @@ class plugins_contact_admin extends database_plugins_contact{
 						<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-mail-closed"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 					</tr>
 				</thead>
 				<tbody>';
@@ -133,10 +142,17 @@ class plugins_contact_admin extends database_plugins_contact{
 			$m .='<td class="minimal">'.$codelang.'</td>';
 			$m .='<td class="nowrap">'.$list['pseudo'].'</td>';
 			$m .='<td class="maximal">'.$list['email'].'</td>';
+			$m .='<td class="minimal"><a href="#" title="'.$list['idcontact'].'" class="d-plugins-contact"><span style="float:left" class="ui-icon ui-icon-close"></span></a></td>';
 			$m .='</tr>';
 		}
 		$m .= '</tbody></table>';
 		return $m;
+	}
+	private function delete_contact(){
+		if(isset($this->dcontact)){
+			parent::d_contact($this->dcontact);
+			backend_controller_plugins::append_display('delete.phtml');
+		}
 	}
 	/**
 	 * @access private
@@ -181,6 +197,8 @@ class plugins_contact_admin extends database_plugins_contact{
 	public function run(){
 		if(isset($_GET['add'])){
 			self::insert_contact();
+		}elseif(isset($_GET['dcontact'])){
+			self::delete_contact();
 		}else{
 			//Installation des tables mysql
 			if(self::install_table() == true){
@@ -203,13 +221,23 @@ class database_plugins_contact{
 		$table = 'mc_plugins_contact';
 		return backend_db_plugins::layerPlugins()->showTable($table);
 	}
+	/**
+	 * @access protected
+	 * Retourne les contacts enregistrés pour le formulaire
+	 */
 	protected function s_register_contact(){
-		$sql = 'SELECT c.idadmin,c.idlang,lang.codelang,m.pseudo,m.email FROM mc_plugins_contact c
+		$sql = 'SELECT c.idcontact,c.idadmin,c.idlang,lang.codelang,m.pseudo,m.email FROM mc_plugins_contact c
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
 		ORDER BY lang.idlang';
 		return backend_db_plugins::layerPlugins()->select($sql);
 	}
+	/**
+	 * @access protected
+	 * Insertion d'un nouveau contact de l'administration
+	 * @param integer $idadmin
+	 * @param integer $idlang
+	 */
 	protected function i_contact($idadmin,$idlang){
 		$sql = 'INSERT INTO mc_plugins_contact (idadmin,idlang) VALUE(:idadmin,:idlang)';
 		backend_db_plugins::layerPlugins()->insert($sql,
@@ -217,5 +245,15 @@ class database_plugins_contact{
 			':idadmin'	=>	$idadmin,
 			':idlang'	=>	$idlang
 		));
+	}
+	/**
+	 * @access protected
+	 * @param integer $idcontact
+	 */
+	protected function d_contact($idcontact){
+		$sql = 'DELETE FROM mc_plugins_contact WHERE idcontact = :idcontact';
+		magixglobal_model_db::layerDB()->delete($sql,array(
+			':idcontact'	=>	$idcontact
+		)); 
 	}
 }

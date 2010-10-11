@@ -27,7 +27,7 @@ class backend_controller_dashboard{
 	 * @return string
 	 */
 	private function load_local_file(){
-		return magixcjquery_html_helpersHtml::getUrl().'/version.xml';
+		return magixglobal_model_system::base_path().'version.xml';
 	}
 	/**
 	 * Lit le fichier version.xml local et retourne le numéro de version
@@ -53,54 +53,6 @@ class backend_controller_dashboard{
 		}
 		return $v;
 	}
-	/**
-	 * Compare la version local et la version distante
-	 */
-	private function compare_version(){
-		try {
-		$http_contexte = stream_context_create(
-		    array(
-		        'http' => array(
-		            'method' => 'GET',
-		    		'header '=> 'HEAD',
-		            'timeout' => 5
-		        )
-		    )
-		);
-		/*
-		 * Si le fichier n'est pas accessible une erreur est retourné.
-		 */
-		if(!$stream = @fopen('http://www.logiciel-referencement-professionnel.com/version.xml', 'r', false, $http_contexte)){
-			$compare = '<div style="margin:3px 3px 1px 0px;padding:3px;" class="ui-state-error ui-corner-all">
-					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-			Serveur indisponible</div>';
-			fclose($stream);
-		}else{
-			$xml = new SimpleXMLElement('http://www.logiciel-referencement-professionnel.com/version.xml',0, TRUE);
-			$magixv = $xml->number;
-			$localv = self::read_local_version();
-				if(strcmp($localv , $magixv)){
-					$compare = '<div style="margin:3px 3px 1px 0px;padding:3px;" class="ui-state-error ui-corner-all">
-					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-					Une nouvelle version est disponible :'.$magixv.'&nbsp;'.$xml->phase.'</div>';
-				}else{
-					$compare = '<div style="margin:3px 3px 1px 0px;padding:3px;" class="ui-state-highlight ui-corner-all">
-					<span style="float:left;" class="ui-icon ui-icon-check"></span>
-					Vous utilisez la dernière version</div>';
-				}
-			}
-			fclose($stream);
-		}catch (Exception $e){
-			magixglobal_model_system::magixlog('An error has occured :',$e);
-		}
-		return $compare;
-	}
-	/**
-	 * Retourne le résultat de la comparaison de version
-	 */
-	private function check_version(){
-		return self::compare_version();
-	}
 	/*
 	 * Affiche la version du CMS ainsi que le message attaché
 	 */
@@ -113,8 +65,6 @@ class backend_controller_dashboard{
 	 * Retourne le dashboard
 	 */
 	private function display(){
-		$licence = backend_model_setting::select_uniq_setting('licence');
-		backend_config_smarty::getInstance()->assign('licence', $licence['setting_value']);
 		backend_config_smarty::getInstance()->display('dashboard/index.phtml');
 	}
 	/**

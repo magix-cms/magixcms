@@ -838,7 +838,7 @@ $(function() {
 		/**
 	     * Requête ajax pour la suppression des formulaires
 	     */
-	    $('.deleteinput').click(function (){
+	   /* $('.deleteinput').click(function (){
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -865,11 +865,10 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						//success: location.reload()
 					}
 				}
 			});
-		 });
+		 });*/
 /*################## USER ##############*/
 	    /**
 	     * Ajout d'un utilisateur
@@ -1010,7 +1009,7 @@ $(function() {
 						$(this).dialog('close');
 						$.ajax({
 							type:'get',
-							url: "/admin/index.php?dashboard&user&deluser="+lg,
+							url: "/admin/users.php?deluser="+lg,
 							async: false,
 							success : function(){
 								$(this).dialog('close');
@@ -1092,7 +1091,7 @@ $(function() {
 						$(this).dialog('close');
 						$.ajax({
 							type:'get',
-							url: "/admin/index.php?dashboard&news&delnews="+lg,
+							url: "/admin/news.php?delnews="+lg,
 							async: false,
 							success: location.reload()
 					     });
