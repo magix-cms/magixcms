@@ -13,95 +13,99 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Page d'accueil</div>
-					<div class="dashboard-content">
-						{widget_home}
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Modifier</div>
+						<div class="dashboard-content">
+						<form id="forms-home-update" method="post" action="" style="margin-left:10px;">
+						{$msg}
+							<fieldset>
+								<table>
+									<tr>
+										<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
+									</tr>
+									<tr>
+										<td>
+										<input type="hidden" id="idhome" value="{$smarty.get.edit}" />
+										<input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									{if $idlang != 0}
+									<tr>
+										<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+									</tr>
+									<tr>
+										<td>
+										<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
+										<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									{else}
+									<tr>
+										<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
+									</tr>
+									{/if}
+									<tr>
+										<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
+									</tr>
+									<tr>
+										<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="50" rows="10">{$content}</textarea></td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>			
+							</fieldset>
+							<div id="showmetas" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span style="float:left;"></span> Voir les métas</div>
+								<div id="metas">
+								<table>
+									<tr>
+										<td class="label"><label for="metatitle" class="inlinelabel">Title :</label></td>
+									</tr>
+									<tr>
+										<td>
+											<textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$metatitle}</textarea>
+											<div id="charactersLeftT" class="wrap">120</div>
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
+									</tr>
+									<tr>
+										<td>
+											<textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$metadescription}</textarea>
+											<div id="charactersLeftD" class="wrap">180</div>
+										</td>
+										<td style="width:150px;" class="errorInput"></td>
+									</tr>
+									<tr>
+										<td class="status"></td>
+									</tr>
+								</table>
+								</div>
+							<div style="margin:5px;"><input type="submit" /></div>
+						</form>
+						</div>
 					</div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Modifier</div>
-					<div class="dashboard-content">
-					<form id="forms-home-update" method="post" action="" style="margin-left:10px;">
-					{$msg}
-						<fieldset>
-							<table>
-								<tr>
-									<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
-								</tr>
-								<tr>
-									<td>
-									<input type="hidden" id="idhome" value="{$smarty.get.edit}" />
-									<input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								{if $idlang != 0}
-								<tr>
-									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
-								</tr>
-								<tr>
-									<td>
-									<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
-									<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								{else}
-								<tr>
-									<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
-								</tr>
-								{/if}
-								<tr>
-									<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
-								</tr>
-								<tr>
-									<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="50" rows="10">{$content}</textarea></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-							</table>			
-						</fieldset>
-						<div id="showmetas" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span style="float:left;"></span> Voir les métas</div>
-							<div id="metas">
-							<table>
-								<tr>
-									<td class="label"><label for="metatitle" class="inlinelabel">Title :</label></td>
-								</tr>
-								<tr>
-									<td>
-										<textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$metatitle}</textarea>
-										<div id="charactersLeftT" class="wrap">120</div>
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-								<tr>
-									<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
-								</tr>
-								<tr>
-									<td>
-										<textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$metadescription}</textarea>
-										<div id="charactersLeftD" class="wrap">180</div>
-									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
-								</tr>
-							</table>
-							</div>
-						<div style="margin:5px;"><input type="submit" /></div>
-					</form>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Page d'accueil</div>
+						<div class="dashboard-content">
+							{widget_home}
+						</div>
 					</div>
 				</div>
 			</div>

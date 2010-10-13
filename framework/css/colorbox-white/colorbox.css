@@ -19,7 +19,7 @@
     order/nesting of the generated HTML, so that the structure easier to understand.
 */
 #cboxOverlay{background:#fff;}
-
+#cboxPrevious,#cboxNext, #cboxClose{font-size:12px;}
 #colorBox{}
     #cboxTopLeft{width:25px; height:25px; background:url(images/border1.png) 0 0 no-repeat;}
     #cboxTopCenter{height:25px; background:url(images/border1.png) 0 -50px repeat-x;}

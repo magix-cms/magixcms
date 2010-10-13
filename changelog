@@ -26,6 +26,7 @@ Stable 2.3.40
 	* Ajout de la fenêtre modal pour les liens des pages CMS
 	* Ajout du moteur de recherche des fiches catalogue (version simple)
 	* Ajout des fichiers admin pour le plugin contact (insertion des membres pour la reception des emails)
+	* Upgrade tinyMCE 3.3.9 => 3.3.9.2  (Voir le changelog sur moxicode)
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie
