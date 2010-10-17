@@ -98,6 +98,11 @@ class backend_controller_config{
 	 */
 	public $drmetas;
 	/**
+	 * Sélectionne l'éditeur html
+	 * @var string
+	 */
+	public $editor;
+	/**
 	 * function construct
 	 */
 	function __construct(){
@@ -151,6 +156,9 @@ class backend_controller_config{
 		}
 		if(isset($_GET['drmetas'])){
 			$this->drmetas = magixcjquery_filter_isVar::isPostNumeric($_GET['drmetas']);
+		}
+		if(isset($_POST['editor'])){
+			$this->editor = magixcjquery_form_helpersforms::inputClean($_POST['editor']);
 		}
 	}
 	/**
@@ -254,6 +262,21 @@ class backend_controller_config{
 		backend_config_smarty::getInstance()->assign('numbcmspage',$config['number']);
 	}
 	/**
+	 * Charge les données concernant l'éditeur wysiwyg
+	 */
+	private function load_wysiwyg_editor(){
+		$config = backend_db_setting::adminDbSetting()->s_uniq_setting_value('editor');
+		backend_config_smarty::getInstance()->assign('editor',$config['setting_value']);
+	}
+	/**
+	 * Update les données concernant l'éditeur wysiwyg
+	 */
+	private function send_wysiwyg_editor(){
+		if($this->editor){
+			backend_db_setting::adminDbSetting()->u_uniq_setting_value($this->editor,$this->editor);
+		}
+	}
+	/**
 	 * @access public
 	 * @static
 	 * load global attribute configuration
@@ -269,6 +292,7 @@ class backend_controller_config{
 		self::load_rewrite_cms();
 		self::load_rewrite_catalog();
 		self::load_limited_cms_number();
+		self::load_wysiwyg_editor();
 		self::admin_config();
 	}
 	/**

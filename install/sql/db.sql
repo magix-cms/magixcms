@@ -251,7 +251,8 @@ INSERT INTO `mc_setting` (`setting_id`, `setting_value`, `setting_type`, `settin
 ('microgalery', 'default', 'string', 'micro galery'),
 ('sold', 'sold_product', 'string', 'Produit vendu'),
 ('webmaster', '', 'string', 'google webmasterTools'),
-('analytics', '', 'string', 'google analytics');
+('analytics', '', 'string', 'google analytics'),
+('editor', 'tinymce', 'string', 'tinymce');
 
 ALTER TABLE `mc_admin_session`
   ADD CONSTRAINT `mc_admin_session_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `mc_admin_member` (`idadmin`);

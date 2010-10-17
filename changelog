@@ -27,6 +27,8 @@ Stable 2.3.40
 	* Ajout du moteur de recherche des fiches catalogue (version simple)
 	* Ajout des fichiers admin pour le plugin contact (insertion des membres pour la reception des emails)
 	* Upgrade tinyMCE 3.3.9 => 3.3.9.2  (Voir le changelog sur moxicode)
+	* Remplacement de imagesmanager (tinymce) par pdw_file_browser
+	* Ajout du système pour choisir son éditeur wysiwyg (tinymce ou ckeditor)
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie

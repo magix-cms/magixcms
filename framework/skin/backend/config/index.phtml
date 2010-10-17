@@ -22,6 +22,7 @@
 							<li><a href="#tabs-1">Paramètres globaux</a></li>
 							<li><a href="#tabs-2">Réecriture métas</a></li>
 							<li><a href="#tabs-3">Limitation</a></li>
+							<li><a href="#tabs-4">Editeurs</a></li>
 						</ul>
 						<div id="tabs-1">
 						<form class="forms-config" method="post" action="" id="global-config-lang">
@@ -175,6 +176,20 @@
 											<td><input type="button" id="snumbCms" name="snumbCms" class="ud-button ui-state-default ui-corner-all" value="update" /></td>
 										</tr>
 									</table>
+								</fieldset>
+							</form>
+						</div>
+						<div id="tabs-4">
+							<form class="forms-config" method="post" action="" id="global-editor-wysiwyg">
+								<fieldset>
+								<table>
+									<tr>
+										<td style="width:150px;">Editeur wysiwyg :</td>
+										<td style="width:150px;">
+											<p><a class="imagebox" href="/framework/img/editors/tinymce.gif">TinyMCE</a> <input type="radio" name="editor" {if $editor eq "tinymce"}checked="checked"{/if} value="tinymce" /></p>
+										</td>
+									</tr>
+								</table>
 								</fieldset>
 							</form>
 						</div>

@@ -21,15 +21,16 @@ $(function() {
 		elements : 'absurls',
 		//remove_script_host : false,
 		theme : "advanced",
-		plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,imagemanager,filemanager,preview,rj_insertcode,tablegrid,loremipsum,images",
+		plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,rj_insertcode,tablegrid,loremipsum",
 		// Theme options
 		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-		theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,insertimage,insertfile,image,|,forecolor,backcolor,|,insertdate,inserttime,preview",
+		theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,|,forecolor,backcolor,|,insertdate,inserttime,preview",
 		/*tabledraw,convertcelltype,*/
-		theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,tabledraw,convertcelltype,|,hr,removeformat,visualaid,|,fullscreen,|,rj_insertcode,loremipsum,code,images",
+		theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,tabledraw,convertcelltype,|,hr,removeformat,visualaid,|,fullscreen,|,rj_insertcode,loremipsum,code",
 		//tableextras_col_size: 10, // Optional
 		//tableextras_row_size: 10, // Optional
 		// Available table grid settings
+		file_browser_callback: "filebrowser",
 	    tablegrid_row_size: 10,
 	    tablegrid_col_size: 10,
 		theme_advanced_toolbar_location : "top",
@@ -53,3 +54,18 @@ $(function() {
 		language : 'fr'
 	});
 });
+function filebrowser(field_name, url, type, win) {
+	fileBrowserURL = "/framework/js/tiny_mce-3-3-9-2/plugins/pdw_file_browser/index.php?filter=" + type;
+	tinyMCE.activeEditor.windowManager.open({
+		title: "PDW File Browser",
+		url: fileBrowserURL,
+		width: 950,
+		height: 650,
+		inline: 0,
+		maximizable: 1,
+		close_previous: 0
+	},{
+		window : win,
+		input : field_name
+	});		
+}

@@ -312,7 +312,10 @@ $(function() {
 	    /**
 	     * Initialisation de colorbox dans l'administration pour la prévisualisation
 	     */
+	    //Prévisualisation dans une iframe
 	    $(".post-preview").colorbox({width:"90%", height:"90%", iframe:true});
+	    //Prévisualisation d'images
+	    $(".imagebox").colorbox();
 /*################## Langue ##############*/
 	    $("#forms-lang").submit(function(){
 			$.notice({
@@ -560,6 +563,12 @@ $(function() {
 			});
 		});
 		$('.spin').spinner({ min: 0, max: 200 });
+		$("#global-editor-wysiwyg :radio").click(function(){
+			$("#global-editor-wysiwyg").ajaxSubmit({
+				url:"/admin/config.php",
+				type:"post"
+			});
+		});
 /*################## CMS ##############*/
 	    /**
 	     * ID pour le déplacement des pages CMS
