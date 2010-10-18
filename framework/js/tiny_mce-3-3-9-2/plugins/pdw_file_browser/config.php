@@ -40,7 +40,7 @@ error_reporting(E_ALL);
  * $uploadpath = '/images/upload/';
  *
  */
-$uploadpath = DIRECTORY_SEPARATOR.'media'.DIRECTORY_SEPARATOR; // absolute path from root to upload folder (DON'T FORGET SLASHES)
+$uploadpath = '/media/'; // absolute path from root to upload folder (DON'T FORGET SLASHES)
 /*
  * DEFAULT TIMEZONE
  * 
