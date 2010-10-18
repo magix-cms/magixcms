@@ -436,6 +436,18 @@ input.ui-button { padding: .1em 1em; }
 .skin-name{float:left;width:100px;display:block;}
 .template-delete,.template-edit{border:none;height:16px;width:16px;}
 #version{font-size:15px;margin-left:20px;}
+/**
+ *  ########### Editors ##########
+ */
+#vieweditor .list-editor{
+	margin:3px;
+	float:left;
+	width:350px;
+	height:300px;
+}
+#vieweditor .title-editor{padding:4px 5px 4px 5px;margin:0;}
+#vieweditor .editor-name{display:block;}
+#vieweditor .editor-info{margin-left:10px;}
 /*######################## PLUGINS ##########################*/
 ul.plugin-list{}
 ul.plugin-list li{}

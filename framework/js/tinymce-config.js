@@ -13,7 +13,7 @@
 $(function() {
 	$('.mceEditor').tinymce({
 		// Location of TinyMCE script
-		script_url : '/framework/js/tiny_mce-3-3-9-2/tiny_mce.js',
+		script_url : '/framework/js/tiny_mce/tiny_mce.js',
 		//document_base_url :"/",
 		apply_source_formatting : true,
 		mode : "exact",
@@ -21,16 +21,16 @@ $(function() {
 		elements : 'absurls',
 		//remove_script_host : false,
 		theme : "advanced",
-		plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,rj_insertcode,tablegrid,loremipsum",
+		plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,rj_insertcode,tablegrid,loremipsum"+manager_tinymce_plugin,
 		// Theme options
 		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-		theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,|,forecolor,backcolor,|,insertdate,inserttime,preview",
+		theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor"+manager_tinymce_button+",image,|,forecolor,backcolor,|,insertdate,inserttime,preview",
 		/*tabledraw,convertcelltype,*/
 		theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,tabledraw,convertcelltype,|,hr,removeformat,visualaid,|,fullscreen,|,rj_insertcode,loremipsum,code",
 		//tableextras_col_size: 10, // Optional
 		//tableextras_row_size: 10, // Optional
 		// Available table grid settings
-		file_browser_callback: "filebrowser",
+		file_browser_callback: tinymce_call_back,
 	    tablegrid_row_size: 10,
 	    tablegrid_col_size: 10,
 		theme_advanced_toolbar_location : "top",
@@ -39,10 +39,10 @@ $(function() {
 		theme_advanced_resizing : true,
 		theme_advanced_styles : "imagebox=imagebox;targetblank=targetblank",
 		// Drop lists for link/image/media/template dialogs
-		template_external_list_url : "/lists/template_list.js",
+		/*template_external_list_url : "/lists/template_list.js",
 		external_link_list_url : "/lists/link_list.js",
 		external_image_list_url : "/lists/image_list.js",
-		media_external_list_url : "/lists/media_list.js",
+		media_external_list_url : "/lists/media_list.js",*/
 		cleanup : true,
 		cleanup_on_startup : true,
 		valid_elements : "*[*]",
@@ -55,7 +55,7 @@ $(function() {
 	});
 });
 function filebrowser(field_name, url, type, win) {
-	fileBrowserURL = "/framework/js/tiny_mce-3-3-9-2/plugins/pdw_file_browser/index.php?filter=" + type;
+	fileBrowserURL = "/framework/js/tiny_mce/plugins/pdw_file_browser/index.php?filter=" + type;
 	tinyMCE.activeEditor.windowManager.open({
 		title: "PDW File Browser",
 		url: fileBrowserURL,

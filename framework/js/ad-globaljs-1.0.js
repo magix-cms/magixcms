@@ -181,6 +181,53 @@ $(function() {
 				}
 		});
 		/**
+		 * Requête ajax pour le changement de thème
+		 */
+		$(".list-editor a").bind("click", function(){
+			var hreftitle = $(this).attr("title");
+				if(hreftitle != null){
+					if(ie){
+						$.post('/admin/config.php?htmleditor=true', 
+							{ editor: hreftitle}
+						, function(request) {
+							$.notice({
+								ntype: "simple",
+								time:2
+							});
+		        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
+						});
+					}else{
+						$.ajax({
+							type:'post',
+							data: "editor="+hreftitle,
+							url: "/admin/config.php?htmleditor=true",
+							timeout:5000,
+							error: function(request,error) {
+								  if (error == "timeout") {
+									  $("#error").append("The request timed out, please resubmit");
+								  }
+								  else {
+									  $("#error").append("ERROR: " + error);
+								  }
+							},
+							success:function(request) {
+								$.notice({
+									ntype: "simple",
+									time:2
+								});
+			        			$(".mc-head-request").html(request);
+		        				setTimeout(function(){
+		        					location.reload();
+		        				},2800);
+							}
+						});
+					}
+				}
+		});
+		/**
 		 * Notification après installation pour le dossier "install"
 		 */
 		if ($('#notify-install').length != 0){
@@ -562,13 +609,19 @@ $(function() {
 				success:function(e) {$(".configupdate").html(e);}
 			});
 		});
-		$('.spin').spinner({ min: 0, max: 200 });
-		$("#global-editor-wysiwyg :radio").click(function(){
-			$("#global-editor-wysiwyg").ajaxSubmit({
-				url:"/admin/config.php",
-				type:"post"
+		$("#manager-editor-settings :radio").click(function(){
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		delay: 2800,
+	    		dom: '#manager-editor-settings',
+	    		uri: '/admin/config.php?manager_editor_setting=true',
+	    		typesend: 'post',
+	    		time:2,
+	    		reloadhtml:false	
 			});
+			return false; 
 		});
+		$('.spin').spinner({ min: 0, max: 200 });
 /*################## CMS ##############*/
 	    /**
 	     * ID pour le déplacement des pages CMS

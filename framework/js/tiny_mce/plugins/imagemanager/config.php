@@ -1,7 +1,7 @@
 <?php
 	require_once(MCMANAGER_ABSPATH . "ImageManager/ImageManagerPlugin.php");
 	$tinymce_img_dir = dirname(realpath( __FILE__ ));
-	$tinymce_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce-3-3-9-2'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'imagemanager');
+	$tinymce_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'imagemanager');
 	$tinymce_path = str_replace($tinymce_array_dir,array('') , $tinymce_img_dir);
 	//print_r($tinymce_path);
 	// * * * * ImageManager config

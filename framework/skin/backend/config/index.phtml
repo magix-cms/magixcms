@@ -22,7 +22,7 @@
 							<li><a href="#tabs-1">Paramètres globaux</a></li>
 							<li><a href="#tabs-2">Réecriture métas</a></li>
 							<li><a href="#tabs-3">Limitation</a></li>
-							<li><a href="#tabs-4">Editeurs</a></li>
+							<li><a href="#tabs-4">Editeurs wysiwyg</a></li>
 						</ul>
 						<div id="tabs-1">
 						<form class="forms-config" method="post" action="" id="global-config-lang">
@@ -180,18 +180,29 @@
 							</form>
 						</div>
 						<div id="tabs-4">
-							<form class="forms-config" method="post" action="" id="global-editor-wysiwyg">
-								<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">Editeur wysiwyg :</td>
-										<td style="width:150px;">
-											<p><a class="imagebox" href="/framework/img/editors/tinymce.gif">TinyMCE</a> <input type="radio" name="editor" {if $editor eq "tinymce"}checked="checked"{/if} value="tinymce" /></p>
-										</td>
-									</tr>
-								</table>
-								</fieldset>
-							</form>
+							<div id="vieweditor">
+								<div class="list-editor ui-widget-content{if $editor eq 'tinymce'} ui-state-highlight{else} ui-state-disabled{/if}">
+									<div class="title-editor ui-widget-header"><div class="editor-name">TinyMCE</div></div>
+									<div class="img-editor">
+										<a title="tinymce" href="#"><img src="/framework/img/editors/tinymce.png" /></a>
+									</div>
+									{if $editor eq 'tinymce'}
+									<div class="editor-info">
+										<form class="forms-config" method="post" action="" id="manager-editor-settings">
+										<h4>Gestionnaire de fichiers</h4>
+										{$list_manager_setting}
+										</form>
+									</div>
+									{/if}
+								</div>
+								<div class="list-editor ui-widget-content{if $editor eq 'ckeditor'} ui-state-highlight{else} ui-state-disabled{/if}">
+									<div class="title-editor ui-widget-header"><div class="editor-name">Ckeditor</div></div>
+									<div class="img-editor">
+										<img src="/framework/img/editors/ckeditor.png" />
+									</div>
+								</div>
+								<div class="clearleft"></div>
+							</div>
 						</div>
 						</div>
 						{else}
@@ -206,6 +217,7 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+{ajax_notify}
 {include file="common/javascript.phtml"}
 </body>
 </html>

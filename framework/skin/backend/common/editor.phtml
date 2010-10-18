@@ -1,3 +1,18 @@
 {if $editor eq "tinymce"}
-<script type="text/javascript" src="/min/?f=framework/js/tiny_mce-3-3-9-2/jquery.tinymce.js,framework/js/tinymce-config.js"></script>
+	{if $manager_setting eq 'imagemanager'}
+	<script type="text/javascript">
+		var manager_tinymce_plugin = ",imagemanager";
+		var manager_tinymce_button = ",insertimage";
+		var tinymce_call_back = "";
+	</script>
+	{elseif $manager_setting eq 'pdw_file_browser'}
+	<script type="text/javascript">
+		var manager_tinymce_plugin = "";
+		var manager_tinymce_button = "";
+		var tinymce_call_back = "filebrowser";
+	</script>
+	{/if}
+<script type="text/javascript" src="/min/?f=framework/js/tiny_mce/jquery.tinymce.js,framework/js/tinymce-config.js"></script>
+{elseif $editor eq "ckeditor"}
+<script type="text/javascript" src="/min/?f=framework/js/ckeditor/ckeditor.js,framework/js/ckeditor/adapters/jquery.js,framework/js/ckeditor-config.js"></script>
 {/if}

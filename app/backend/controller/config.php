@@ -103,6 +103,11 @@ class backend_controller_config{
 	 */
 	public $editor;
 	/**
+	 * Sélectionne le manager des fichiers de l'éditeur html
+	 * @var string
+	 */
+	public $manager_setting;
+	/**
 	 * function construct
 	 */
 	function __construct(){
@@ -159,6 +164,9 @@ class backend_controller_config{
 		}
 		if(isset($_POST['editor'])){
 			$this->editor = magixcjquery_form_helpersforms::inputClean($_POST['editor']);
+		}
+		if(isset($_POST['manager_setting'])){
+			$this->manager_setting = magixcjquery_form_helpersforms::inputClean($_POST['manager_setting']);
 		}
 	}
 	/**
@@ -265,15 +273,45 @@ class backend_controller_config{
 	 * Charge les données concernant l'éditeur wysiwyg
 	 */
 	private function load_wysiwyg_editor(){
-		$config = backend_db_setting::adminDbSetting()->s_uniq_setting_value('editor');
-		backend_config_smarty::getInstance()->assign('editor',$config['setting_value']);
+		$config = backend_db_setting::adminDbSetting()->s_uniq_complete_setting('editor');
+		backend_config_smarty::getInstance()->assign('editor',$config['setting_label']);
+		if($config['setting_value'] == "pdw_file_browser"){
+			$checked_filebrowser = 'checked="checked"';
+		}else{
+			$checked_filebrowser = '';
+		}
+		$m_setting = <<<EOT
+		<ul>
+				<li>pdw_file_browser <input type="radio" name="manager_setting" $checked_filebrowser value="pdw_file_browser" /> (Intégrer)</li>
+EOT;
+
+		if(file_exists(magixglobal_model_system::base_path().'framework/js/tiny_mce/plugins/imagemanager/')){
+			if($config['setting_value'] == "imagemanager"){
+				$checked_imagemanager = 'checked="checked" ';
+			}else{
+				$checked_imagemanager = '';
+			}
+			$m_setting .= <<<EOT
+			<li>Imagemanager <input type="radio" name="manager_setting" $checked_imagemanager value="imagemanager" /> (Payant)</li>
+EOT;
+		}
+		$m_setting .= '</ul>';
+		backend_config_smarty::getInstance()->assign('list_manager_setting',$m_setting);
+		backend_config_smarty::getInstance()->assign('manager_setting',$config['setting_value']);
 	}
 	/**
 	 * Update les données concernant l'éditeur wysiwyg
 	 */
 	private function send_wysiwyg_editor(){
 		if($this->editor){
-			backend_db_setting::adminDbSetting()->u_uniq_setting_value($this->editor,$this->editor);
+			backend_db_setting::adminDbSetting()->u_uniq_setting_label('editor',$this->editor);
+			backend_config_smarty::getInstance()->display('config/request/success.phtml');
+		}
+	}
+	private function send_manager_editor(){
+		if($this->manager_setting){
+			backend_db_setting::adminDbSetting()->u_uniq_setting_value('editor',$this->manager_setting);
+			backend_config_smarty::getInstance()->display('config/request/success.phtml');
 		}
 	}
 	/**
@@ -499,6 +537,10 @@ class backend_controller_config{
 			}else{
 				self::display_seo();
 			}
+		}elseif(magixcjquery_filter_request::isGet('htmleditor')){
+			self::send_wysiwyg_editor();
+		}elseif(magixcjquery_filter_request::isGet('manager_editor_setting')){
+			self::send_manager_editor();
 		}else{
 			self::display();
 		}
