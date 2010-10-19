@@ -1,5 +1,5 @@
 fieldset{border-width:0;}
-label,select,.ui-select-menu { float: left; margin-right: 10px; }
+select,.ui-select-menu { float: left; margin-right: 10px; }
 select { width: 220px; }
 .table-tinymce{width:100%;}
 /*############## plugin password metter ######################*/

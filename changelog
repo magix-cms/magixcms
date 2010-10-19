@@ -27,8 +27,13 @@ Stable 2.3.40
 	* Ajout du moteur de recherche des fiches catalogue (version simple)
 	* Ajout des fichiers admin pour le plugin contact (insertion des membres pour la reception des emails)
 	* Upgrade tinyMCE 3.3.9 => 3.3.9.2  (Voir le changelog sur moxicode)
-	* Remplacement de imagesmanager (tinymce) par pdw_file_browser
+	* Remplacement de imagemanager (tinymce) par pdw_file_browser (avec possibilité d'une réinsertion de imagemanager)
 	* Ajout du système pour choisir son éditeur wysiwyg (tinymce ou ckeditor)
+	* Ajout et configuration de ckeditor 3.4.1
+	* Ajout de pdw_file_browser dans ckeditor comme gestionnaire de fichiers par défaut
+	* Upgrade jQuery 1.4.2 => 1.4.3 (voir le changelog de jQuery)
+	* Upgrade de compatibilité avec jquery 1.4.3 pour colorbox (version 1.3.9 => 1.3.10)
+	* Ajout de mc_editor_config.js pour charger la configuration des éditeurs
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie

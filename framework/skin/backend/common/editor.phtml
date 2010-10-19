@@ -12,7 +12,14 @@
 		var tinymce_call_back = "filebrowser";
 	</script>
 	{/if}
-<script type="text/javascript" src="/min/?f=framework/js/tiny_mce/jquery.tinymce.js,framework/js/tinymce-config.js"></script>
+<script type="text/javascript" src="/min/?f=framework/js/backend/tinymce-config.js"></script>
 {elseif $editor eq "ckeditor"}
-<script type="text/javascript" src="/min/?f=framework/js/ckeditor/ckeditor.js,framework/js/ckeditor/adapters/jquery.js,framework/js/ckeditor-config.js"></script>
+{if $manager_setting eq 'pdw_file_browser'}
+	<script type="text/javascript">
+		var manager_filebrowserBrowseUrl = '/framework/js/ckeditor/plugins/pdw_file_browser/index.php?editor=ckeditor';
+		var manager_filebrowserImageBrowseUrl = '/framework/js/ckeditor/plugins/pdw_file_browser/index.php?editor=ckeditor&filter=image';
+	</script>
+{/if}
+<script type="text/javascript" src="/framework/js/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/min/?f=framework/js/backend/ckeditor-config.js"></script>
 {/if}

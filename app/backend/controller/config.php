@@ -305,6 +305,7 @@ EOT;
 	private function send_wysiwyg_editor(){
 		if($this->editor){
 			backend_db_setting::adminDbSetting()->u_uniq_setting_label('editor',$this->editor);
+			backend_db_setting::adminDbSetting()->u_uniq_setting_value('editor','pdw_file_browser');
 			backend_config_smarty::getInstance()->display('config/request/success.phtml');
 		}
 	}

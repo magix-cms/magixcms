@@ -713,7 +713,8 @@ $(function() {
 		 * Soumission d'une nouvelle page CMS
 		 */
 		$("#forms-cms-page").submit(function(){
-			tinyMCE.triggerSave(true,true);
+			/*tinyMCE.triggerSave(true,true);*/
+			$.editorhtml({editor:_editorConfig});
 			$.notice({
 				ntype: "ajaxsubmit",
 	    		delay: 2800,
@@ -732,7 +733,8 @@ $(function() {
 		$("#forms-cms-updatepage").submit(function(){
 			var pageid = $('#idpage').val();
 			if(pageid != null){
-				tinyMCE.triggerSave(true,true);
+				/*/*tinyMCE.triggerSave(true,true);*/
+				$.editorhtml({editor:_editorConfig});
 				$.notice({
 					ntype: "ajaxsubmit",
 		    		delay: 2800,
@@ -1088,7 +1090,8 @@ $(function() {
 		 });
 /*################## article / news #################*/
 	    $("#forms-news").submit(function(){
-			tinyMCE.triggerSave(true,true);
+			/*tinyMCE.triggerSave(true,true);*/
+	    	$.editorhtml({editor:_editorConfig});
 			$(this).ajaxSubmit({
         		url:'/admin/news.php?add&post',
         		type:"post",
@@ -1112,7 +1115,8 @@ $(function() {
 		$("#forms-news-update").submit(function(){
 			var newsid = $('#idnews').val();
 			if(newsid != null){
-				tinyMCE.triggerSave(true,true);
+				/*tinyMCE.triggerSave(true,true);*/
+				$.editorhtml({editor:_editorConfig});
 				$(this).ajaxSubmit({
 	        		url:'/admin/news.php?edit='+newsid+'&post',
 	        		type:"post",
@@ -1167,7 +1171,8 @@ $(function() {
 		 });
 /*################## Home ##############*/
 	    $("#forms-home").submit(function(){
-			tinyMCE.triggerSave(true,true);
+			/*tinyMCE.triggerSave(true,true);*/
+	    	$.editorhtml({editor:_editorConfig});
 			$(this).ajaxSubmit({
         		url:'/admin/home.php?add',
         		type:"post",
@@ -1188,7 +1193,8 @@ $(function() {
 	    $("#forms-home-update").submit(function(){
 			var homeid = $('#idhome').val();
 			if(homeid != null){
-				tinyMCE.triggerSave(true,true);
+				/*tinyMCE.triggerSave(true,true);*/
+				$.editorhtml({editor:_editorConfig});
 				$(this).ajaxSubmit({
 	        		url:'/admin/home.php?edit='+homeid+'&post',
 	        		type:"post",
@@ -1280,7 +1286,8 @@ $(function() {
 		 * Soumission ajax d'un produit dans le catalogue
 		 */
 		$("#forms-catalog-card-product").submit(function(){
-			tinyMCE.triggerSave(true,true);
+			/*tinyMCE.triggerSave(true,true);*/
+			$.editorhtml({editor:_editorConfig});
 			$(this).ajaxSubmit({
         		url:'/admin/catalog.php?product&add_card_product',
         		type:"post",
@@ -1304,7 +1311,7 @@ $(function() {
 		$("#forms-catalog-card-product-edit").submit(function(){
 			var productid = $('#idcatalog').val();
 			if(productid != null){
-				tinyMCE.triggerSave(true,true);
+				/*tinyMCE.triggerSave(true,true);*
 				/*$(this).ajaxSubmit({
 	        		url:'/admin/catalog.php?product&editproduct='+productid+'&updateproduct',
 	        		type:"post",
