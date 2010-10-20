@@ -1,34 +1,42 @@
 <?php
+# -- BEGIN LICENSE BLOCK ----------------------------------
+#
+# This file is part of Magix CMS.
+# Magix CMS, a CMS optimized for SEO
+# Copyright (C) 2010 - 2011  Gerits Aurelien <aurelien@magix-cms.com>
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# -- END LICENSE BLOCK -----------------------------------
 /**
- * @category   DB CLass 
- * @package    Magix CMS
- * @copyright  Copyright (c) 2009 - 2010 (http://www.magix-cms.com)
- * @license    Proprietary software
- * @version    1.0 2009-10-27
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * MAGIX CMS
+ * @category   DB 
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.0
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @name lang
  *
  */
 class backend_db_lang{
-	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
 	/**
 	 * singleton dbhome
 	 * @access public
 	 * @var void
 	 */
 	static public $dblang;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_home with singleton
 	 */
@@ -43,27 +51,27 @@ class backend_db_lang{
      */
     public function s_full_lang(){
     	$sql = 'SELECT lang.codelang,lang.idlang FROM mc_lang AS lang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**
      * retourne la liste des langues disponible
      */
     public function s_full_lang_data(){
     	$sql = 'SELECT lang.codelang,lang.idlang,lang.desclang FROM mc_lang AS lang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**
      * Vérifie si la langue existe
      */
     public function s_verif_lang($codelang){
     	$sql = 'SELECT lang.idlang FROM mc_lang AS lang WHERE codelang = :codelang';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':codelang'			=>	$codelang
 		));
     }
 	public function s_lang_edit($idlang){
     	$sql = 'SELECT lang.idlang,lang.codelang,lang.desclang FROM mc_lang AS lang WHERE idlang = :idlang';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idlang'	=>	$idlang
 		));
     }
@@ -74,7 +82,7 @@ class backend_db_lang{
      */
 	public function i_new_lang($codelang,$desclang){
 		$sql = 'INSERT INTO mc_lang (codelang,desclang) VALUE(:codelang,:desclang)';
-		$this->layer->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':codelang'			=>	$codelang,
 			':desclang'			=>	$desclang
@@ -88,7 +96,7 @@ class backend_db_lang{
 				FROM mc_page_home AS h
 				LEFT JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
 				GROUP BY h.idlang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/*
 	 * Compte et retourne le nombre d'enregistrement dans la table page (cms) par langue
@@ -98,7 +106,7 @@ class backend_db_lang{
 				FROM mc_cms_page AS cms
 				LEFT JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
 				GROUP BY cms.idlang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Compte le nombre de langues dans le module news
@@ -108,7 +116,17 @@ class backend_db_lang{
 				FROM mc_news AS news
 				LEFT JOIN mc_lang AS lang ON ( news.idlang = lang.idlang )
 				GROUP BY news.idlang';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
+	/**
+	 * Compte le nombre de langues dans le module catalog
+	 */
+	public function count_lang_catalog(){
+		$sql = 'SELECT count( catalog.idcatalog ) AS countlang, lang.codelang, lang.desclang
+				FROM mc_catalog AS catalog
+				LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+				GROUP BY catalog.idlang';
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Compte et additionne le nombre de pages,news,home
@@ -121,14 +139,14 @@ class backend_db_lang{
 				LEFT JOIN mc_cms_page AS cms ON ( cms.idlang = lang.idlang )
 				LEFT JOIN mc_page_home AS h ON ( h.idlang = lang.idlang )
 				WHERE lang.idlang = :idlang';
-		return $this->layer->selectOne($sql,
+		return magixglobal_model_db::layerDB()->selectOne($sql,
 		array(
 			':idlang'	=>	$idlang
 		));
 	}
 	public function u_lang($codelang,$desclang,$idlang){
 		$sql = 'UPDATE mc_lang SET codelang=:codelang,desclang=:desclang WHERE idlang = :idlang';
-		$this->layer->update($sql,
+		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':codelang'	=>	$codelang,
 			':desclang'	=>	$desclang,
@@ -141,7 +159,7 @@ class backend_db_lang{
 	 */
 	public function d_lang($dellang){
 		$sql = 'DELETE FROM mc_lang WHERE idlang = :dellang';
-		$this->layer->delete($sql,
+		magixglobal_model_db::layerDB()->delete($sql,
 		array(
 				':dellang'	=>	$dellang
 		)); 

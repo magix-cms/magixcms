@@ -1,4 +1,23 @@
 <?php
+# -- BEGIN LICENSE BLOCK ----------------------------------
+#
+# This file is part of Magix CMS.
+# Magix CMS, a CMS optimized for SEO
+# Copyright (C) 2010 - 2011  Gerits Aurelien <aurelien@magix-cms.com>
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# -- END LICENSE BLOCK -----------------------------------
 /**
  * MAGIX CMS
  * @category   Model 
@@ -213,28 +232,6 @@ class magixglobal_model_rewrite{
 		return '/'.$language.self::mod_catalog_lang($lang).'/'.$pathclibelle.'-'.$idclc.'/'.$urlcatalog.'-'.$idproduct.'.html';
 	}
 	/**
-	 * URL public d'un plugin sans réécriture
-	 * @param string $lang
-	 * @param string $magixmod
-	 */
-	private function plugins_uri_root($lang,$magixmod){
-		if($lang != null){
-			$language = 'strLangue='.$lang.'&amp;';
-		}else $language = '';
-		return '/index.php?'.$language.'magixmod='.$magixmod;
-	}
-	/**
-	 * URL public d'un plugin avec réécriture
-	 * @param string $lang
-	 * @param string $magixmod
-	 */
-	private function plugins_rewrite_uri_root($lang,$magixmod){
-		if($lang != null){
-			$language = $lang.'/';
-		}else $language = '';
-		return '/'.$language.'magixmod/'.$magixmod.'/';
-	}
-	/**
 	 * La réécriture des urls de la racine du catalogue
 	 * @param string $lang
 	 * @param bool $rewrite
@@ -309,5 +306,27 @@ class magixglobal_model_rewrite{
 			break;
 		}
 		
+	}
+	/**
+	 * URL public d'un plugin sans réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 */
+	private function plugins_uri_root($lang,$magixmod){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else $language = '';
+		return '/index.php?'.$language.'magixmod='.$magixmod;
+	}
+	/**
+	 * URL public d'un plugin avec réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 */
+	private function plugins_rewrite_uri_root($lang,$magixmod){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		return '/'.$language.'magixmod/'.$magixmod.'/';
 	}
 }

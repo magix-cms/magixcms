@@ -1,4 +1,23 @@
 <?php
+# -- BEGIN LICENSE BLOCK ----------------------------------
+#
+# This file is part of Magix CMS.
+# Magix CMS, a CMS optimized for SEO
+# Copyright (C) 2010 - 2011  Gerits Aurelien <aurelien@magix-cms.com>
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# -- END LICENSE BLOCK -----------------------------------
 /**
  * MAGIX CMS
  * @category   Controller 
@@ -7,7 +26,7 @@
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
- * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name lang
  *
  */
@@ -38,7 +57,7 @@ class backend_controller_lang{
 			$this->codelang = magixcjquery_form_helpersforms::inputCleanStrolower($_POST['codelang']);
 		}
 		if(isset($_POST['desclang'])){
-			$this->desclang = magixcjquery_form_helpersforms::inputClean($_POST['codelang']);
+			$this->desclang = magixcjquery_form_helpersforms::inputClean($_POST['desclang']);
 		}
 		if(isset($_GET['dellang'])){
 			$this->dellang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dellang']);
@@ -127,7 +146,7 @@ class backend_controller_lang{
 		//Compte les langues dans la page home
 		foreach(backend_db_lang::dblang()->count_lang_home() as $clang){
 			$lang .= '<tr class="line">';
-			$lang .=	'<td class="nowrap">home</td>';
+			$lang .=	'<td class="nowrap">Home</td>';
 			$lang .=	'<td class="nowrap">'.$clang['codelang'].'</td>';
 			$lang .=	'<td class="nowrap">'.$clang['desclang'].'</td>';
 			$lang .=	'<td class="nowrap">'.$clang['countlang'].'</td>';
@@ -146,6 +165,15 @@ class backend_controller_lang{
 		foreach(backend_db_lang::dblang()->count_lang_news() as $clang){
 			$lang .= '<tr class="line">';
 			$lang .=	'<td class="nowrap">News</td>';
+			$lang .=	'<td class="nowrap">'.$clang['codelang'].'</td>';
+			$lang .=	'<td class="nowrap">'.$clang['desclang'].'</td>';
+			$lang .=	'<td class="nowrap">'.$clang['countlang'].'</td>';
+			$lang .= '</tr>';
+		}
+		//Compte le nombre de fiche catalogue par langue
+		foreach(backend_db_lang::dblang()->count_lang_catalog() as $clang){
+			$lang .= '<tr class="line">';
+			$lang .=	'<td class="nowrap">Catalogue</td>';
 			$lang .=	'<td class="nowrap">'.$clang['codelang'].'</td>';
 			$lang .=	'<td class="nowrap">'.$clang['desclang'].'</td>';
 			$lang .=	'<td class="nowrap">'.$clang['countlang'].'</td>';

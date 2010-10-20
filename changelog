@@ -34,6 +34,8 @@ Stable 2.3.40
 	* Upgrade jQuery 1.4.2 => 1.4.3 (voir le changelog de jQuery)
 	* Upgrade de compatibilité avec jquery 1.4.3 pour colorbox (version 1.3.9 => 1.3.10)
 	* Ajout de mc_editor_config.js pour charger la configuration des éditeurs
+	* Ajout des licences GPL 3 et MIT dans tous les fichiers
+	* Déplacement des fichiers ad-globaljs.js et dashboard dans le dossier backend
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie

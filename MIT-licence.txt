@@ -1,6 +1,6 @@
 MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
 http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
-
+<aurelien@magix-cms.com>
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including

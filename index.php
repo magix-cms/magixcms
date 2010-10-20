@@ -2,8 +2,8 @@
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
 # This file is part of Magix CMS.
-# Magix CMS, un CMS optimisé pour le référencement
-# Copyright (C) 2010 - 2011  Gerits Aurelien (aurelien@magix-cms.com)
+# Magix CMS, a CMS optimized for SEO
+# Copyright (C) 2010 - 2011  Gerits Aurelien <aurelien@magix-cms.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -26,7 +26,7 @@
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
- * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name index
  *
  */

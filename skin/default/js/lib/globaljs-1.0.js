@@ -1,3 +1,13 @@
+/**
+ * MAGIX CMS
+ * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.0
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * JS theme default
+ *
+ */
 $(function() {
 	//In case you don't have firebug...
 	if (!window.console || !console.firebug) {
@@ -32,45 +42,24 @@ $(function() {
 		}
 	});
 	$(".imagebox").colorbox();
-	$(".select").selectmenu({width: 200,maxWidth: 200});
-	$('.checkbox').checkbox();
+	/*
+	 * $(".select").selectmenu({width: 200,maxWidth: 200});
+	 * $('.checkbox').checkbox();
+	 * */
 	$("#product-tabs").tabs();
 	/**
 	 * Notification après installation pour le dossier "install"
 	 */
 	if ($('#notify-install').length != 0){
-		$('#notify-install').destroyMeerkat();
-		$('#notify-install').meerkat({
-			//background: 'url(\'../images/meerkat-top-bg.png\') repeat-x left bottom',
-			background:"#fdd",
-			width: '100%',
-			position: 'top',
-			close: '.close-notify',
-			dontShowAgain: '.dont-notify',
-			animationIn: 'fade',
-			animationOut: 'slide',
-			animationSpeed: '750',
-			//removeCookie: '.reset',
-			height: '80px',
-			opacity: '0.90',
-			onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
-		}).addClass('pos-top');
+		$.notice({
+			ntype: "dir",
+			nparams: 'install'
+		});
 	}else if ($('#notify-folder').length != 0){
-		$('#notify-folder').destroyMeerkat();
-		$('#notify-folder').meerkat({
-			background:"#efefef",
-			width: '100%',
-			position: 'top',
-			close: '.close-notify',
-			dontShowAgain: '.dont-notify',
-			animationIn: 'fade',
-			animationOut: 'slide',
-			animationSpeed: '750',
-			//removeCookie: '.reset',
-			height: '80px',
-			opacity: '0.90',
-			onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
-		}).addClass('pos-top');
+		$.notice({
+			ntype: "dir",
+			nparams: 'chmod'
+		});
 	}
 	$('.personnal-side-list a.active-page').prepend('<span style="float:left;" class="ui-icon ui-icon-triangle-1-e"></span>');
 	$('.personnal-side-list a:not(.active-page)').hover(function() {
