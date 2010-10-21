@@ -73,11 +73,11 @@ function smarty_function_widget_lastnews($params, &$smarty){
 			$curl = date_create($pnews['date_sent']);
 			$widget = '<div class="widget-news'.$wcontent.'">';
 			$widget .='<div class="widget-news-header'.$whead.'">';
-			$widget .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
+			$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_url($lang,date_format($curl,'Y/m/d'),$pnews['rewritelink'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
 			$widget .='<div style="float:right;">'.$wicons.$pnews['date_sent'].'</div></div>';
 			$widget .= '<div class="widget-news-content">';
 			$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],$length,$delimiter));
-			$widget .= '<br /><a href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news.html>'.$newsall.'</a>';
+			$widget .= '<br /><a href="'.magixglobal_model_rewrite::filter_news_root_url($lang,true).'">'.$newsall.'</a>';
 			$widget .= '</div>';
 			$widget .= '</div>';
 		}
@@ -88,11 +88,11 @@ function smarty_function_widget_lastnews($params, &$smarty){
 			$curl = date_create($pnews['date_sent']);
 			$widget = '<div class="widget-news'.$wcontent.'">';
 			$widget .='<div class="widget-news-header'.$whead.'">';
-			$widget .= '<a href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
+			$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_url($lang,date_format($curl,'Y/m/d'),$pnews['rewritelink'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
 			$widget .='<div style="float:right;">'.$wicons.$pnews['date_sent'].'</div></div>';
 			$widget .= '<div class="widget-news-content">';
 			$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],$length,$delimiter));
-			$widget .= '<br /><a href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news.html">'.$newsall.'</a>';
+			$widget .= '<br /><a href="'.magixglobal_model_rewrite::filter_news_root_url($lang,true).'">'.$newsall.'</a>';
 			$widget .= '</div>';
 			$widget .= '</div>';
 		}

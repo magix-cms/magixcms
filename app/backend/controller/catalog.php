@@ -1065,16 +1065,8 @@ EOT;
 			//foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->geturicat) as $prod){
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->geturicat) as $prod){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
-				$product .= '<li style="list-style-type: square;">
-				<a href="'
-				.magixglobal_model_rewrite::filter_catalog_product_url(
-					$prod['codelang'], 
-					$prod['pathclibelle'], 
-					$prod['idclc'], 
-					$prod['urlcatalog'], 
-					$prod['idproduct'],
-					true
-				).'">'.magixglobal_model_rewrite::filter_catalog_product_url(
+				$product .= '<li style="list-style-type: square;">'.
+				magixglobal_model_rewrite::filter_catalog_product_url(
 					$prod['codelang'], 
 					$prod['pathclibelle'], 
 					$prod['idclc'], 
@@ -1205,15 +1197,8 @@ EOT;
 			$product = '<ul style="margin-left:1em;">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) as $prod){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
-				$product .= '<li style="list-style-type: square;"><a href="'
+				$product .= '<li style="list-style-type: square;">'
 				.magixglobal_model_rewrite::filter_catalog_product_url(
-					$info['codelang'], 
-					$info['pathclibelle'], 
-					$info['idclc'], 
-					$info['urlcatalog'], 
-					$info['idproduct'],
-					true
-				).'">'.magixglobal_model_rewrite::filter_catalog_product_url(
 					$info['codelang'], 
 					$info['pathclibelle'], 
 					$info['idclc'], 

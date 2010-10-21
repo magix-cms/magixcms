@@ -88,7 +88,7 @@ function smarty_function_widget_news($params, &$smarty){
 						<tbody>';
 	if(backend_db_news::adminDbNews()->s_news_plugin($limit,$max,$offset)){
 		foreach(backend_db_news::adminDbNews()->s_news_plugin($limit,$max,$offset) as $pnews){
-			$islang = $pnews['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$pnews['codelang']: '';
+			$islang = $pnews['codelang'] ? $pnews['codelang']: '';
 			$curl = date_create($pnews['date_sent']);
 			switch($pnews['publish']){
 				case 0:
@@ -112,7 +112,7 @@ function smarty_function_widget_news($params, &$smarty){
 			 $plugin .=	'<td class="nowrap">'.$publisher.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pnews['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_news_url($islang,date_format($curl,'Y/m/d'),$pnews['rewritelink'],true).'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/news.php?edit='.$pnews['idnews'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deletenews" title="'.$pnews['idnews'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';

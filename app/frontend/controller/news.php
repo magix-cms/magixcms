@@ -82,7 +82,7 @@ class frontend_controller_news{
 	 * offset for pager in pagination
 	 * @param $max
 	 */
-	public function news_offset_pager($max){
+	private function news_offset_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		return $pagination->pageOffset($max,$this->getpage);
 	}
@@ -91,7 +91,7 @@ class frontend_controller_news{
 	 * @param $max
 	 * @access public
 	 */
-	public function news_pager($max){
+	private function news_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		$request = frontend_db_news::publicDbNews()->s_count_news_publish_max();
 		return $pagination->pagerData($request,'total',$max,$this->getpage,'/news/','.html',false,'page');
@@ -101,24 +101,24 @@ class frontend_controller_news{
 	 * @param $max
 	 * @access public
 	 */
-	public function news_pagination($max){
+	private function news_pagination($max){
 		return '<div class="pagination"><div class="middle">'.self::news_pager($max).'</div></div>';
 	}
 	/**
 	 * Affiche la liste des news avec la pagination
 	 * @access public
 	 */
-	public function s_all_linknews(){
+	private function s_all_linknews(){
 		$max = 5;
 		$news = '';
 		$offset = self::news_offset_pager($max);
 		if(isset($this->getlang)){
 			foreach(frontend_db_news::publicDbNews()->s_news_plugins_lang($this->getlang,true,$max,$offset) as $pnews){
-				$islang = $pnews['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$pnews['codelang']: '';
+				$islang = $pnews['codelang'] ? $pnews['codelang']: '';
 				$curl = date_create($pnews['date_sent']);
 				$news .= '<div class="listnews">';
 				$news .='<div class="listnews-header">';
-				$news .= '<a class="listnews-header-link" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
+				$news .= '<a class="listnews-header-link" href="'.magixglobal_model_rewrite::filter_news_url($this->getlang,date_format($curl,'Y/m/d'),$pnews['rewritelink'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
 				$news .='<div style="float:right;"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>'.$pnews['date_sent'].'</div></div>';
 				$news .= '<div class="listnews-content">';
 				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],240,''));
@@ -131,7 +131,7 @@ class frontend_controller_news{
 				$curl = date_create($pnews['date_sent']);
 				$news .= '<div class="listnews">';
 				$news .='<div class="listnews-header">';
-				$news .= '<a class="listnews-header-link" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$pnews['rewritelink'].'.html'.'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
+				$news .= '<a class="listnews-header-link" href="'.magixglobal_model_rewrite::filter_news_url($this->getlang,date_format($curl,'Y/m/d'),$pnews['rewritelink'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
 				$news .='<div style="float:right;"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>'.$pnews['date_sent'].'</div></div>';
 				$news .= '<div class="listnews-content">';
 				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],240,''));
@@ -151,7 +151,7 @@ class frontend_controller_news{
 	 * Retourne le contenu de la news courante
 	 * @access public
 	 */
-	public function load_news_content(){
+	private function load_news_content(){
 		$news = frontend_db_news::publicDbNews()->s_news_page($this->getdate,$this->getnews);
 		frontend_config_smarty::getInstance()->assign('subject',magixcjquery_string_convert::ucFirst($news['subject']));
 		frontend_config_smarty::getInstance()->assign('content',$news['content']);
@@ -162,7 +162,7 @@ class frontend_controller_news{
 	 * Retourne la page de la news courante
 	 * @access public
 	 */
-	public function display_getnews(){
+	private function display_getnews(){
 		self::load_news_content();
 		frontend_config_smarty::getInstance()->display('news/index.phtml');
 	}
@@ -170,9 +170,16 @@ class frontend_controller_news{
 	 * Retourne la page qui liste les news avec pagination
 	 * @access public
 	 */
-	public function display_list(){
+	private function display_list(){
 		self::s_all_linknews();
 		frontend_config_smarty::getInstance()->display('news/list.phtml');
+	}
+	public function run(){
+		if(isset($this->getnews)){
+			self::display_getnews();
+		}else{
+			self::display_list();
+		}
 	}
 }
 ?>

@@ -130,6 +130,11 @@ class backend_config_smarty extends Smarty{
 		//$this->load_filter('pre','magixmin');
 		$this->autoload_filters = array('pre' => array('magixmin'));
 		/**
+		 * 
+		 * @var error_reporting
+		 */
+		$this->error_reporting = error_reporting() &~E_NOTICE;
+		/**
 		 * security settings
 		 */
 		/*$this->security_settings = array(

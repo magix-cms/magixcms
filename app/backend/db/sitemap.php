@@ -46,6 +46,17 @@ class backend_db_sitemap{
         }
     	return self::$admindbsitemap;
     }
+	/**
+     * Sélections dans les news pour la construction du sitemap
+     */
+    function s_root_news_sitemap(){
+    	$sql = 'SELECT count(n.idnews) AS numbnews,n.date_sent,lang.codelang
+				FROM mc_news AS n
+				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
+				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+				WHERE pub.publish = 1 GROUP BY lang.idlang';
+		return magixglobal_model_db::layerDB()->select($sql);
+    }
     /**
      * Sélections dans les news pour la construction du sitemap
      */

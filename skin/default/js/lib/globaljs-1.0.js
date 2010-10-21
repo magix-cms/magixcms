@@ -63,8 +63,8 @@ $(function() {
 	}
 	$('.personnal-side-list a.active-page').prepend('<span style="float:left;" class="ui-icon ui-icon-triangle-1-e"></span>');
 	$('.personnal-side-list a:not(.active-page)').hover(function() {
-		$(this).stop().animate({ opacity: '0.7',left: 0,backgroundColor: "#696969",color: "#FFFFFF" }, 'fast');
+		$(this).stop().animate({ opacity: '1',backgroundColor: "transparent",color: "#622181" }, 'normal');
 	  }, function() {
-	    $(this).stop().animate({ opacity: '1',left: 0,backgroundColor: "#FFFFFF",color: "#000000" }, 'fast');
+	    $(this).stop().animate({ opacity: '1',backgroundColor: "transparent",color: "#F29400" }, 'normal');
 	});
 });

@@ -9,10 +9,11 @@
 <div id="content">
 {include file="common/sidebar.phtml"}
 	<div id="principal" class="principal">
-	<div class="sdate"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>{$date_page|date_format:"%d-%m-%y"}</div>
+		<div class="sdate"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>{$date_page|date_format:"%d-%m-%y"}</div>
 		<h1>{$subjectpage}</h1>
 		{$contentpage}
 	</div>
+	<hr class="clear" />
 </div>
 {include file="common/footer.phtml"}
 </body>

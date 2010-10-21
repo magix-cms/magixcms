@@ -36,6 +36,9 @@ Stable 2.3.40
 	* Ajout de mc_editor_config.js pour charger la configuration des éditeurs
 	* Ajout des licences GPL 3 et MIT dans tous les fichiers
 	* Déplacement des fichiers ad-globaljs.js et dashboard dans le dossier backend
+	* Ajout de séparation frontend dans des fichiers spécifique.
+	* Refonte du thème par défaut (adaptation par Samuel L.)
+	* Ajout de la réécriture d'url des news dans la classe rewrite (méthode: filter_news_root_url,filter_news_url)
 
 Stable 2.3.39
 	* Création de l'ajout des produits dans une catégorie et sous catégorie

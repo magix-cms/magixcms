@@ -161,11 +161,27 @@ class backend_controller_sitemap{
         $sitemap = new magixcjquery_xml_sitemap();
         $config = backend_db_config::adminDbConfig()->s_config_named('news');
 		if($config['status'] == 1){
-	        foreach(backend_db_sitemap::adminDbSitemap()->s_news_sitemap() as $data){
-	        	$islang = $data['codelang'] ? $data['codelang'].magixcjquery_html_helpersHtml::unixSeparator(): '';
+			/**
+			 * La racine des news par langue
+			 */
+			foreach(backend_db_sitemap::adminDbSitemap()->s_root_news_sitemap() as $data){
+	        	$islang = $data['codelang'] ? $data['codelang']: '';
 	        	$curl = date_create($data['date_sent']);
 	        	 $sitemap->writeMakeNode(
-		        	  magixcjquery_html_helpersHtml::getUrl().'/'.$islang.'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$data['rewritelink'].'.html',
+	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_root_url($islang,true),
+		        	 $data['date_sent'],
+		        	 'always',
+		        	 0.8
+	        	 );
+	        }
+	        /**
+	         * Les news par langue
+	         */
+	        foreach(backend_db_sitemap::adminDbSitemap()->s_news_sitemap() as $data){
+	        	$islang = $data['codelang'] ? $data['codelang']: '';
+	        	$curl = date_create($data['date_sent']);
+	        	 $sitemap->writeMakeNode(
+	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_url($islang,date_format($curl,'Y/m/d'),$data['rewritelink'],true),
 		        	 $data['date_sent'],
 		        	 'always',
 		        	 0.8

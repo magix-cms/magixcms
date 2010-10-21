@@ -54,15 +54,33 @@
 function smarty_function_widget_simple_sidebar_catalog($params, &$smarty){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$ui = $params['ui'];
+	if(isset($ui)){
+		switch($ui){
+			case "true":
+				$wcontent = ' ui-widget-content ui-corner-all';
+				$wheader = ' ui-widget-header ui-corner-all';
+				$carticon = '<span class="ui-icon ui-icon-cart" style="float: left;"></span>';
+			break;
+			case "false":
+				$wcontent = '';
+				$wheader = '';
+				$carticon= '';
+			break;
+		}
+	}else{
+		$wcontent = '';
+		$wheader = '';
+		$carticon= '';
+	}
 	$title = !empty($params['title'])? $params['title']:'';
 	if(isset($_GET['catalog'])){
+		$wmenu .= '<div class="sidebar'.$wheader.'">';
+		$wmenu .= '<div id="catalog-menu" class="block">';
 		if(isset($params['title'])){
-			$wmenu = '<h2 class="t_catalog ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-cart" style="float: left;"></span>'.$title.'</h2>';
+			$wmenu .= '<h3 class="t_catalog'.$wheader.'">'.$carticon.$title.'</h3>';
 		}else{
-			$wmenu = null;
+			$wmenu .= null;
 		}
-		$wmenu .= '<div class="sidebar ui-widget-header ui-corner-all">
-			<div id="catalog-menu" class="block">';
 		if(!isset($_GET['idclc'])){
 			if(!$lang){
 				foreach(frontend_db_catalog::publicDbCatalog()->s_category_menu_no_lang() as $cat){

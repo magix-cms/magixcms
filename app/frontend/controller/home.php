@@ -62,9 +62,15 @@ class frontend_controller_home{
 	 * Retourne et affiche la page d'accueil courante
 	 * @access public
 	 */
-	function display(){
+	private function display(){
 		self::load_home_content();
 		frontend_config_smarty::getInstance()->display('home/index.phtml');
+	}
+	/**
+	 * Exec home script
+	 */
+	public function run(){
+		self::display();
 	}
 }
 ?>

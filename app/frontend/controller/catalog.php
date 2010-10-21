@@ -81,7 +81,7 @@ class frontend_controller_catalog{
 	/**
 	 * Charge le titre d'une fiche catalogue
 	 */
-	public function load_product_page(){
+	private function load_product_page(){
 		if(isset($this->getlang)){
 			$products = frontend_db_catalog::publicDbCatalog()->s_product_page_with_language($this->idclc,$this->idproduct,$this->getlang);
 			/**
@@ -128,7 +128,7 @@ class frontend_controller_catalog{
 	 * Affiche la page des categories du catalogue
 	 * @access public
 	 */
-	public function display_category(){
+	private function display_category(){
 		$catname = frontend_db_catalog::publicDbCatalog()->s_current_name_category($this->idclc);
 		frontend_config_smarty::getInstance()->assign('clibelle',magixcjquery_string_convert::ucFirst($catname['clibelle']));
 		frontend_config_smarty::getInstance()->display('catalog/category.phtml');
@@ -137,7 +137,7 @@ class frontend_controller_catalog{
 	 * Affiche la page des sous categories du catalogue
 	 * @access public
 	 */
-	public function display_sub_category(){
+	private function display_sub_category(){
 		$subcatname = frontend_db_catalog::publicDbCatalog()->s_current_name_subcategory($this->idcls);
 		frontend_config_smarty::getInstance()->assign('clibelle',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
 		frontend_config_smarty::getInstance()->assign('slibelle',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
@@ -147,7 +147,7 @@ class frontend_controller_catalog{
 	 * Affiche la page du produit selectionner du catalogue
 	 * @access public
 	 */
-	public function display_product(){
+	private function display_product(){
 		self::load_product_page();
 		frontend_config_smarty::getInstance()->display('catalog/product.phtml');
 	}
@@ -155,7 +155,20 @@ class frontend_controller_catalog{
 	 * Affiche la page ROOT du catalogue
 	 * @access public
 	 */
-	public function display_catalog(){
+	private function display_catalog(){
 		frontend_config_smarty::getInstance()->display('catalog/index.phtml');
+	}
+	public function run(){
+		if(isset($this->idclc)){
+			if(isset($this->idproduct)){
+				self::display_product();
+			}elseif(isset($this->idcls)){
+				self::display_sub_category();
+			}else{
+				self::display_category();
+			}
+		}else{
+			self::display_catalog();
+		}
 	}
 }
