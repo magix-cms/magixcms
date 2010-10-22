@@ -147,8 +147,6 @@ class frontend_model_mail extends PHPMailer{
 	    	foreach(frontend_db_member::dbMember()->s_members_user_states() as $members){
 	    		$mail .= self::mail_add_Address($members['email']);
 	    	}
-    	}else{
-    		$mail = self::mail_add_Address('aurelien@web-solution-way.be');
     	}
     	return $mail;
     }
