@@ -53,6 +53,7 @@
         		resetForm: resetform,
         		beforeSubmit:beforeSubmit,
         		success:function(request) {
+        			successParams;
         			$.getScript('/framework/js/jquery.meerkat.1.3.min.js', function() {
         				$('#notify-header').destroyMeerkat();
         				$('#notify-header').meerkat({
@@ -71,7 +72,6 @@
         					}
         				}).addClass('pos-top');
         			});
-        			successParams;
         			$(".mc-head-request").html(request);
         			if(reloadhtml == true){
         				setTimeout(function(){

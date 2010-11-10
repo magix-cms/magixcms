@@ -237,7 +237,7 @@ $(function() {
 		 * Requête ajax tous les 200 micros S 
 		 */
 		$("#forms-install-database").submit(function(){
-			$.notice({
+			/*$.notice({
 				ntype: "ajaxsubmit",
 	    		dom: this,
 	    		uri: '/install/database.php?process=true',
@@ -246,12 +246,27 @@ $(function() {
 	    		resetform:true,
 	    		time:null,
 	    		reloadhtml:false
-			});
-			$(':submit',this).attr("disabled","disabled");
-			$('#install-user').removeClass("ui-state-disabled");
-			$('#install-user').addClass("ui-state-active");
-			$('#install-user').live('click',function(){
-				window.location = "/install/adminuser.php";
+	    	});*/
+			$(this).ajaxSubmit({
+				url:"/install/database.php?process=true",
+				type:"post",
+				beforeSubmit:function(){
+					$("#dbinstall").prepend('<img style="margin-left:50px;" src="/install/img/loading.gif" />');
+				},
+				success:function(e){
+					$.notice({
+						ntype: "simple",
+			    		time:null
+			    	});
+					$("#dbinstall").empty();
+					$(".mc-head-request").html(e);
+					$(':submit',this).attr("disabled","disabled");
+					$('#install-user').removeClass("ui-state-disabled");
+					$('#install-user').addClass("ui-state-active");
+					$('#install-user').live('click',function(){
+						window.location = "/install/adminuser.php";
+					});
+				}
 			});
 			return false; 
 		});
