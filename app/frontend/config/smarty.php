@@ -25,20 +25,29 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.1
+ * @version    1.3
+ * Update : 24/11/2010
  * Configuration / extends smarty with class
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name smarty
  *
  */
-$pathdir = dirname(realpath( __FILE__ ));
+/*$pathdir = dirname(realpath( __FILE__ ));
 $arraydir = array('app\frontend\config', 'app/frontend/config');
-$smartydir = magixglobal_model_system::root_path($arraydir,array('lib\smarty3', 'lib/smarty3') , $pathdir);
-$inc = $smartydir.'/Smarty.class.php';
+$smartydir = magixglobal_model_system::root_path($arraydir,array('lib\smarty3', 'lib/smarty3') , $pathdir);*/
+$inc = magixglobal_model_system::base_path().'lib'.DIRECTORY_SEPARATOR.'smarty3'.DIRECTORY_SEPARATOR.'Smarty.class.php';
 if (file_exists($inc)) {
 	require_once($inc);
 }else{
 	throw new Exception('template core is not found');
+}
+class Security_Policy extends Smarty_Security {
+	// disable all PHP functions
+	//public $php_functions = null;
+	// remove PHP tags
+	public $php_handling = Smarty::PHP_PASSTHRU;
+	// allow everthing as modifier
+	//public $modifiers = array();
 }
 //if(!defined('REQUIRED_SMARTY_DIR')) define('REQUIRED_SMARTY_DIR','./');
 /**
@@ -68,9 +77,10 @@ class frontend_config_smarty extends Smarty{
 		 */
 	}
 	private function setPath(){
-		$pathdir = dirname(realpath( __FILE__ ));
+		return magixglobal_model_system::base_path();
+		/*$pathdir = dirname(realpath( __FILE__ ));
 		$arraydir = array('app\frontend\config', 'app/frontend/config');
-		return $smartydir = magixglobal_model_system::root_path($arraydir,array('', '') , $pathdir);
+		return $smartydir = magixglobal_model_system::root_path($arraydir,array('', '') , $pathdir);*/
 	}
 	/**
 	 * Les paramètres pour la configuration de smarty 3
@@ -125,10 +135,6 @@ class frontend_config_smarty extends Smarty{
 		 */
 		$this->cache_dir = self::setPath().'/var/cache/';
 		/**
-		 * Security
-		 */
-		$this->security = false;
-		/**
 		 * load pre filter
 		 */
 		//$this->load_filter('pre','magixmin');
@@ -141,19 +147,7 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * security settings
 		 */
-		/*$this->security_settings = array(
-                                    'PHP_HANDLING'    => false,
-                                    'IF_FUNCS'        => array('array', 'list',
-                                                               'isset', 'empty',
-                                                               'count', 'sizeof',
-                                                               'in_array', 'is_array',
-                                                               'true', 'false', 'null'),
-                                    'INCLUDE_ANY'     => false,
-                                    'PHP_TAGS'        => false,
-                                    'MODIFIER_FUNCS'  => array('count'),
-                                    'ALLOW_CONSTANTS'  => false,
-                                    'ALLOW_SUPER_GLOBALS' => true
-	);*/
+		//$this->enableSecurity('Security_Policy');
 	}
 	public static function getInstance(){
         if (!isset(self::$instance))

@@ -35,7 +35,7 @@ class frontend_controller_plugins{
 	 * Constante
 	 * @var string
 	 */
-	const plugins = '/plugins/';
+	const plugins = 'plugins/';
 	/**
 	 * 
 	 * @var string
@@ -55,7 +55,7 @@ class frontend_controller_plugins{
 	 * Le chemin du dossier des plugins
 	 */
 	private function directory_plugins(){
-		return $_SERVER['DOCUMENT_ROOT'].self::plugins;
+		return magixglobal_model_system::base_path().self::plugins;
 	}
 	/**
 	 * @access protected
@@ -106,10 +106,7 @@ class frontend_controller_plugins{
 		try{
 			$class =  new $className;
 		}catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        magixcjquery_debug_magixfire::magixFireError($e);
+			magixglobal_model_system::magixlog("Error plugins execute", $e);
 		}
 		return $class;
 	}
@@ -120,7 +117,7 @@ class frontend_controller_plugins{
 	private function load_plugin(){
 		try{
 			plugins_Autoloader::register();
-			if(file_exists($_SERVER['DOCUMENT_ROOT'].'/plugins/'.self::getplugin().'/public.php')){
+			if(file_exists(magixglobal_model_system::base_path().'plugins/'.self::getplugin().'/public.php')){
 				if(class_exists('plugins_'.self::getplugin().'_public')){
 					$load = self::execute_plugins('plugins_'.self::getplugin().'_public');
 					if(method_exists($load,'run')){
@@ -131,10 +128,7 @@ class frontend_controller_plugins{
 				}
 			}
 		}catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-		    $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-		    $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-		    magixcjquery_debug_magixfire::magixFireError($e);
+			magixglobal_model_system::magixlog("Error plugins execute", $e);
 		}
 	}
 	/**
@@ -147,10 +141,7 @@ class frontend_controller_plugins{
 			try{
 				self::load_plugin();
 			}catch(Exception $e) {
-				$log = magixcjquery_error_log::getLog();
-		        $log->logfile = $_SERVER['DOCUMENT_ROOT'].'/var/report/handlererror.log';
-		        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-		        magixcjquery_debug_magixfire::magixFireError($e);
+				magixglobal_model_system::magixlog("Error plugins execute", $e);
 			}
 		}
 	}

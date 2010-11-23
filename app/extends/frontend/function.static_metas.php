@@ -41,16 +41,16 @@
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.1
  * @param array
  * @param Smarty
  * @return string
  */
-function smarty_function_static_metas($params, &$smarty){
-	$param = $params['param'];
+function smarty_function_static_metas($params, $template){
+	$param = !empty($params['param']) ? $params['param']:"";
 	$dynamic = $params['dynamic'];
 	if (!isset($param)) {
-	 	$smarty->trigger_error("config: missing 'param' parameter");
+	 	trigger_error("config: missing 'param' parameter");
 		return;
 	}
 	if($param == null){
