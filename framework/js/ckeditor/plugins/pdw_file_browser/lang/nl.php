@@ -94,6 +94,8 @@ $lang = array(
 	"Save settings"                    => "Instellingen opslaan",
 	"Settings saved!"                  => "Instellingen opgeslagen!",
 	
+	"Absolute URL with hostname"       => "Absolute URL met hostnaam",
+	
 	"EOF" => TRUE
 );
 

@@ -25,7 +25,8 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.4
+ * @version    1.5
+ * update 24/11/2010
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name plugins
  *
@@ -41,6 +42,16 @@ class backend_controller_plugins{
 	 * @var string
 	 */
 	public $getplugin;
+	/**
+	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
+	 * @var string
+	 */
+	private static $ConfigFile = 'admin_local_';
+	/**
+	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour les emails
+	 * @var string
+	 */
+	private static $MailConfigFile = 'mail';
 	/**
 	 * Constructor
 	 */
@@ -182,6 +193,27 @@ class backend_controller_plugins{
 		return self::directory_plugins().self::getplugin().DIRECTORY_SEPARATOR;
 	}
 	/**
+	 * Retourne la langue courante
+	 * @return string
+	 * @access public 
+	 * @static
+	 */
+	public static function current_Language(){
+		return !empty($_SESSION['mc_adminlangue']) ? magixcjquery_filter_join::getCleanAlpha($_SESSION['mc_adminlangue'],3) : '';
+	}
+	/**
+	 * Chargement du fichier de configuration suivant la langue.
+	 * @access private
+	 * return string
+	 */
+	private function pathConfigLoad($configfile){
+		try {
+			return $configfile.self::current_Language().'.conf';
+		} catch (Exception $e) {
+			magixglobal_model_system::magixlog("Error path config", $e);
+		}
+	}
+	/**
 	 * Affiche les pages du plugin
 	 * @param void $page
 	 */
@@ -203,6 +235,20 @@ class backend_controller_plugins{
 	 */
 	public static function append_assign($assign,$fetch){
 		return backend_config_smarty::getInstance()->assign($assign,$fetch);
+	}
+	/**
+	 * Charge le fichier de configuration associer à la langue
+	 * @param string $sections (optionnel) :la section à charger
+	 */
+	public static function configLoad($sections = false){
+		return backend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $sections = false);
+	}
+	/**
+	 * Affiche les pages phtml supplémentaire
+	 * @param void $page
+	 */
+	public static function isCached($page){
+		return backend_config_smarty::getInstance()->isCached($page);
 	}
 	/**
 	 * @access public

@@ -94,6 +94,8 @@ $lang = array(
     #"Cookies need to be enabled to save your settings!"          => "Cookies need to be enabled to save your settings!",
     "Save settings"                 => "Spara inställningar",
     "Settings saved!"               => "Inställningar sparats!",
+	
+	#"Absolute URL with hostname"    => "Absolute URL with hostname",
 
     "EOF" => TRUE
 );

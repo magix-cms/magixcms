@@ -48,7 +48,7 @@ class frontend_model_mail extends PHPMailer{
 		}else{
 			$lang = 'fr';
 		}
-		$this->mail->SetLanguage($lang, $_SERVER['DOCUMENT_ROOT']."/lib/phpmailler/language/");
+		$this->mail->SetLanguage($lang, magixglobal_model_system::base_path()."lib/phpmailler/language/");
 	}
 	/**
 	 * extract domain
@@ -142,8 +142,8 @@ class frontend_model_mail extends PHPMailer{
      * Récupération des mails utilisateurs et administrateurs
      */
     public function select_mail_user(){
+    	$mail = null;
     	if(frontend_db_member::dbMember()->s_members_user_states() != null){
-	    	$mail = null;
 	    	foreach(frontend_db_member::dbMember()->s_members_user_states() as $members){
 	    		$mail .= self::mail_add_Address($members['email']);
 	    	}

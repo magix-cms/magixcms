@@ -1,4 +1,16 @@
 -----------------------------------------
+Version 1.3 beta
+-----------------------------------------
++ Added Italian language (by Paolo Battistella http://www.paolobattistella.it)
++ Added Serbian language (by krsman http://tinymce.moxiecode.com/punbb/viewtopic.php?pid=81381#p81381)
++ Added Czech language (by Piotr @ SourceForge Project http://sourceforge.net/projects/pdwfilebrowser/)
++ Image preview (A modified version of SlimBox 2 (Christophe Beyls http://www.digitalia.be))
++ Standalone File Browser (Please see http://www.neele.name/filebrowser/standalone.php)
++ Returning links as absolute or relative
++ New skin "Mountain View Dark"
+* Rename cookie view to pdw-view because Joomla is using the same cookie
+
+-----------------------------------------
 Version 1.2 beta
 -----------------------------------------
 + Added Danish language (by Mattias)

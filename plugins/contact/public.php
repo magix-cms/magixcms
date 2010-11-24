@@ -168,6 +168,9 @@ class plugins_contact_public extends database_plugins_contact{
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
 				$fetch = frontend_controller_plugins::append_fetch('empty.phtml');
 				frontend_controller_plugins::append_assign('msg',$fetch);
+			}elseif(!magixcjquery_filter_isVar::isMail($this->email)){
+				$fetch = frontend_controller_plugins::append_fetch('mail.phtml');
+				frontend_controller_plugins::append_assign('msg',$fetch);
 			}else{
 				self::mail()->simple_mail_html_head($this->email);
 				self::mail()->mail_subject(self::subject());

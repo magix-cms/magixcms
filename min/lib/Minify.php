@@ -423,7 +423,9 @@ class Minify {
         $url = htmlspecialchars($url, ENT_QUOTES);
         list(,$h1) = explode(' ', $header, 2);
         $h1 = htmlspecialchars($h1);
-        header($header);
+        // FastCGI environments require 3rd arg to header() to be set
+        list(, $code) = explode(' ', $header, 3);
+        header($header, true, $code);
         header('Content-Type: text/html; charset=utf-8');
         echo "<h1>$h1</h1>";
         echo "<p>Please see <a href='$url'>$url</a>.</p>";
@@ -527,7 +529,7 @@ class Minify {
     {
         $name = preg_replace('/[^a-zA-Z0-9\\.=_,]/', '', self::$_controller->selectionId);
         $name = preg_replace('/\\.+/', '.', $name);
-        $name = substr($name, 0, 250 - 34 - strlen($prefix));
+        $name = substr($name, 0, 200 - 34 - strlen($prefix));
         $md5 = md5(serialize(array(
             Minify_Source::getDigest(self::$_controller->sources)
             ,self::$_options['minifiers'] 

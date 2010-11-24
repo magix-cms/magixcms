@@ -42,7 +42,7 @@ a {text-decoration: none;}
 /* Remove highlight in Safari and Chrome */
 *:focus { outline: none; }
 
-div.loading {height: 43px; width:43px; background-image: url(img/ajaxLoader.gif); margin:10px;}
+div.loading {height:31px; width:31px; background-image: url(img/ajaxLoader.gif); margin:10px;}
 
 /**
  * 
@@ -60,7 +60,7 @@ div#horizontal-resize-handler { /*cursor: n-resize; background: url(img/resize-h
  *  
 **/
 div.ab { background: url(img/addressbar.png) 0 0 repeat-x; height: 24px; padding: 6px; }
-div.ab ol { background:url(img/addressbar.png) right -36px no-repeat; margin: 0; padding: 0; list-style: none none; height: 24px; margin-right: 300px;}
+div.ab ol { background:url(img/addressbar.png) right -36px no-repeat; margin: 0; padding: 0; list-style: none none; height: 24px; margin-right: 300px; overflow:hidden;}
 div.ab ol li { float: left; padding: 2px;}
 div.ab ol li a { float: left; line-height: 18px; padding: 1px 4px; font-size: 12px; color: #000000; text-decoration: none;}
 div.ab ol li a:hover { background:url(img/addressbar.png) left -78px repeat-x; padding-right: 3px; padding-left: 3px; border-left: 1px solid #3C7FB1; border-right: 1px solid #3C7FB1;}
@@ -431,6 +431,9 @@ input.path.border {border:1px solid #B9D1EA;}
 form#fileform {display:block; position:absolute; top: 10px; right: 10px;}
 form#fileform input {border: 1px solid #D6E5F5; width: 275px; margin-left: 10px;}
 form#fileform button {min-width: 80px; margin-left: 10px;}
+form#fileform div {padding-top:5px; position:relative;}
+form#fileform div input.checkbox {width:20px; margin:0; top:8px; left:0; position:absolute; border:0;}
+form#fileform div label { line-height:20px; display:block; padding-left:25px;}
 
 
 
@@ -894,6 +897,17 @@ div#file-specs #info div.icon.gz{ background-image: url(phpthumb/phpThumb.php?h=
 .context-menu-theme-mb .context-menu-item-hover .context-menu-item-inner { padding:4px 16px 4px 35px; border:1px solid #AECFF7; margin: 0; background-color:#E6EDF6; border-radius:3px; -moz-border-radius:3px; }
 .context-menu-theme-mb .context-menu-item-disabled { color:#A7A7A7;}
 
+/**
+ * 
+ *  Slimbox
+ *
+**/
+#lbOverlay { position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: #000; cursor: pointer;}
+#lbCenter { position: absolute; z-index: 9999; overflow: hidden; background-color: #fff;}
+.lbLoading { background: #fff url(img/ajaxLoader.gif) no-repeat center;}
+#lbImage { position: absolute; left: 0; top: 0; border: 10px solid #fff; background-repeat: no-repeat; z-index:-1;}
+#lbBottom { font-family: Verdana, Arial, Geneva, Helvetica, sans-serif; font-size: 10px; color: #666; line-height: 1.4em; text-align: left; border: 10px solid #fff; border-top-style: none; }
+#lbCloseLink { display: block; float: right; width:10px; height:10px; background: transparent url(img/closelabel.gif) no-repeat center; outline: none; z-index:99; }
 
 
 /**

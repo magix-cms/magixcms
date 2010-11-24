@@ -2,14 +2,17 @@
 
 	$.MediaBrowser = {
 	
+		absoluteURL: false,
 		clipboard: new Array(),
 		copyMethod: '',
 		ctrlKeyPressed: false,
+		currentFile: '',
 		currentFolder: '',
 		currentView: '',
 		dragMode: false,
 		dragObj: null,
 		dragID: '',
+		hostname: "http://" + window.location.host,
 		lastSelectedItem:null,
 		searchDefaultValue: '',
 		shiftKeyPressed: false,
@@ -33,6 +36,9 @@
 			// Set currently selected folder and view
 			$.MediaBrowser.setCurrentFolder($('input#currentfolder').val());
 			$.MediaBrowser.currentView = $('input#currentview').val();
+			
+			//Check if a url should be returned absolute
+			$.MediaBrowser.absoluteURL = $('#absolute_url').is(':checked') ? true : false;
 			
 			//Stripe table if view is Details
 			$('div#files table#details tbody tr:odd').addClass('odd');
@@ -143,27 +149,35 @@
 			});
 			
 			$('div#files ul li a.image, div#files table tr.image').live('dblclick', function(event){
-                $("form#fileform input#file").val($(this).attr('href'));
+                var host = '';
+				var path = $(this).attr('href');
+				
+				if($.MediaBrowser.absoluteURL){
+                    host = $.MediaBrowser.hostname;
+                }
+				
+				$("form#fileform input#file").val(host + path);
                 $.MediaBrowser.insertFile();
                 event.preventDefault(); //Don't follow link
             });
 			
-			$('div#files').click(function(event){
-				if (event.button != 0) return true; //If right click then return true
-				if ($(event.target).closest('.files').length == 1) return true;
-				
-				$('div#files li.selected, div#files tr.selected').removeClass("selected"); //Deselect all selected items
-				$.MediaBrowser.updateFileSpecs($.MediaBrowser.currentFolder, 'folder');
-				
-				$('table.contextmenu, div.context-menu-shadow').css({'display': 'none'}); //Hide all contextmenus
-			});	
-			
+            $('div#files').click(function(event){
+                if (event.button != 0) return true; //If right click then return true
+                if ($(event.target).closest('.files').length == 1) return true;
+
+                $('div#files li.selected, div#files tr.selected').removeClass("selected"); //Deselect all selected items
+                $.MediaBrowser.updateFileSpecs($.MediaBrowser.currentFolder, 'folder');
+                $.MediaBrowser.currentFile = '';
+
+                $('table.contextmenu, div.context-menu-shadow').css({'display': 'none'}); //Hide all contextmenus
+            });
+
 			// Add event handlers to links in addressbar
 			$('div#addressbar a[href]').live('click', function(event){
 				$.MediaBrowser.loadFolder($(this).attr('href'));
 				event.preventDefault(); //Don't follow link
 			});
-			
+
 			// Add event handlers to links in addressbar
 			$('input#fn').live('keyup', function(event){
 				if(this.value != this.defaultValue){
@@ -188,6 +202,25 @@
 				}
 			);
 			
+			//Absolute URl active/inactive
+			$('#absolute_url').click(function(){
+				if ($('#absolute_url').is(':checked')) {
+					$.MediaBrowser.absoluteURL = true;
+					if ($.MediaBrowser.currentFile !== '') {
+						$("form#fileform input#file").val($.MediaBrowser.hostname + $.MediaBrowser.currentFile);
+					}
+					$.MediaBrowser.createCookie('absoluteURL', 1, 365);
+				}
+				else 
+				{
+					$.MediaBrowser.absoluteURL = false;
+					if ($.MediaBrowser.currentFile !== '') {
+						$("form#fileform input#file").val($.MediaBrowser.currentFile);
+					}
+					$.MediaBrowser.createCookie('absoluteURL', 0, 365);
+				}
+			});
+			
 			// Reset layout if window is being resized
 			window.onresize = window.onload = function(){
 				$.MediaBrowser.resizeWindow();
@@ -202,7 +235,7 @@
 			$('input#search').val($.MediaBrowser.searchDefaultValue);
 			
 			//Save view to cookie
-			$.MediaBrowser.createCookie("view", $.MediaBrowser.currentView, 30);
+			$.MediaBrowser.createCookie("pdw-view", $.MediaBrowser.currentView, 30);
 			
 			return false;
 		},
@@ -324,15 +357,20 @@
 			
 			var URL = $("form#fileform input#file").val();
 			
-			if (URL == '') {
+			if (URL == '') 
+			{
                 $.MediaBrowser.showMessage(select_one_file);
 			}
 			
-			// TINYMCE
-            if(editor == "tinymce"){
-				try {
+			
+            if(editor == "tinymce")
+			{
+				try 
+				{
 					var win = tinyMCEPopup.getWindowArg("window");
-				} catch(err) {
+				} 
+				catch(err) 
+				{
 					$.MediaBrowser.showMessage(insert_cancelled);
 					return;
 				}	
@@ -341,7 +379,8 @@
 				win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = URL;
 						
 				// are we an image browser
-				if (typeof(win.ImageDialog) != "undefined") {
+				if (typeof(win.ImageDialog) != "undefined") 
+				{
 					// we are, so update image dimensions...
 					if (win.ImageDialog.getImageData) 
 						win.ImageDialog.getImageData();
@@ -351,12 +390,13 @@
 						win.ImageDialog.showPreviewImage(URL);
 				}
 						
-					// close popup window
-	                tinyMCEPopup.close();
+				// close popup window
+	            tinyMCEPopup.close();
 			
-			// CKEDITOR		
-            } else if(editor == "ckeditor"){
-
+				
+            } 
+			else if(editor == "ckeditor")	
+			{
                 try {
 					window.opener.CKEDITOR.tools.callFunction(funcNum, URL);
 					window.close();
@@ -364,8 +404,14 @@
 					$.MediaBrowser.showMessage(insert_cancelled);
                     return;
 				}
-				
-			} else {
+			} 
+			else if(editor == "standalone")
+			{
+				window.opener.document.getElementById(returnID).value = URL;
+				window.close();
+			} 
+			else 
+			{
 				$.MediaBrowser.showMessage("No editor available, see config.php!");
 			}
 
@@ -490,8 +536,7 @@
 							$.MediaBrowser.reloadTree();
 						}
 				);
-			}
-			
+			}		
 		},
 		
 		printClipboard: function(){
@@ -663,6 +708,7 @@
 
 			//See if function is called via a context menu
 			var cm = (typeof arguments[3] == 'undefined') ? false : true;
+            var host = '';
 
 			// Hide all visible contextmenus
 			$('table.contextmenu, div.context-menu-shadow').css({'display': 'none'});
@@ -671,9 +717,14 @@
 			$.MediaBrowser.updateFileSpecs(path, type);
 			
 			if(type != "folder" && $('div#files li.selected, div#files tr.selected').length == 1){
-				$("form#fileform input#file").val(path);
+				if($.MediaBrowser.absoluteURL){
+					host = $.MediaBrowser.hostname;
+				}
+				$("form#fileform input#file").val(host + path);
+				$.MediaBrowser.currentFile = path;
 			} else {
 				$("form#fileform input#file").val("");	
+				$.MediaBrowser.currentFile = '';
 			}
 		},
 		
@@ -906,7 +957,11 @@
 		
 		// Show detailed information over the selected file or folder
 		updateFileSpecs: function(path, type){
-			$('div#file-specs #info').load('file_specs.php', {'ajax':true, 'path': urlencode(path), 'type': type});
+			$('div#file-specs #info').load('file_specs.php', {'ajax':true, 'path': urlencode(path), 'type': type}, function(){
+				$("div#file-specs a[rel^='lightbox']").slimbox({/* Put custom options here */}, null, function(el) {
+		            return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+		        });
+			});
 			$('input#file').val("");
 		},
 		

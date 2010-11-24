@@ -178,11 +178,7 @@ CREATE TABLE IF NOT EXISTS `mc_lang` (
   `codelang` varchar(2) NOT NULL,
   `desclang` varchar(20) NOT NULL,
   PRIMARY KEY (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
-INSERT INTO `mc_lang` (`idlang`, `codelang`, `desclang`) VALUES
-(1, 'nl', 'nl'),
-(2, 'en', 'en');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
   `idrewrite` tinyint(2) NOT NULL AUTO_INCREMENT,

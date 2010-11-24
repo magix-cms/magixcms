@@ -1,7 +1,7 @@
 <?php
 /*
-PDW File Browser v1.2 beta
-Date: September 12, 2010
+PDW File Browser v1.3 beta
+Date: October 19, 2010
 Url: http://www.neele.name
 
 Copyright (c) 2010 Guido Neele
@@ -31,10 +31,10 @@ define('MINIFY_CACHE_DIR', dirname(__FILE__) . '/cache');
 require_once('functions.php');
 require_once('minify.php');
 
-if(!empty($_COOKIE["view"])):
-	$viewLayout = $_COOKIE["view"];
-elseif(isset($_REQUEST['view'])):
-	$viewLayout = $_REQUEST['view'];
+if(!empty($_COOKIE["pdw-view"])):
+	$viewLayout = $_COOKIE["pdw-view"];
+elseif(isset($_REQUEST['pdw-view'])):
+	$viewLayout = $_REQUEST['pdw-view'];
 endif;
 
 if(!empty($_REQUEST['skin'])) {
@@ -51,9 +51,11 @@ if(!empty($_REQUEST['skin'])) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>PDW File Browser v1.2 (beta)</title>
+<title>PDW File Browser v1.3 (beta)</title>
 <link rel="shortcut icon" href="mediabrowser.ico" />
 <script type="text/javascript">
+//<![CDATA[
+    var returnID = "<?php echo isset($_GET['returnID']) ? $_GET['returnID'] : ''; ?>";
     var editor = "<?php echo $editor; ?>";
     var funcNum = "<?php echo isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : 0; ?>";
     var select_one_file = "<?php echo translate('Select only one file to insert!');?>";
@@ -62,6 +64,7 @@ if(!empty($_REQUEST['skin'])) {
     var rename_file = "<?php echo translate('Please give a new name for file');?>";
     var rename_folder = "<?php echo translate('Please give a new name for folder');?>";
     var rename_error = "<?php echo translate('Rename failed!');?>";
+//]]>
 </script>
 <?php
 // MINIFY JS and CSS
@@ -97,16 +100,16 @@ endif;
 $minifyJS->addFile($jsFiles);
  
 // JAVASCRIPT
-echo '<script type="text/javascript">'."\n";
-echo '//<![CDATA['."\n";
+echo '<script type="text/javascript">';
+echo '//<![CDATA[';
 echo $minifyJS->combine();
-echo '//]]>'."\n";
-echo '</script>'."\n";
+echo '//]]>';
+echo '</script>';
 
 // CSS
-echo '<style type="text/css">'."\n";
+echo '<style type="text/css">';
 echo $minifyCSS->combine(); 
-echo '</style>'."\n";
+echo '</style>';
 ?>
 
 <script type="text/javascript">
@@ -381,6 +384,7 @@ $(document).ready(function() {
             flash_url: "swfupload/swfupload.swf",
             upload_url: "swfupload/upload.php",
             post_params: {
+                "PHPSESSID": "<?php echo session_id(); ?>",
                 "uploadpath": "<?php echo rawurlencode($uploadpath); ?>"
             },
             file_size_limit: "<?php echo $max_file_size_in_bytes/(1024*1024); ?> MB",
@@ -475,7 +479,7 @@ $(document).ready(function() {
                 <li><a href="#" onclick="return $.MediaBrowser.changeview('content');" title="<?php echo translate('Content');?>"><span class="icon content"></span><?php echo translate("Content");?></a></li>                
             </ul>
         </li>
-        <?php if($allowedActions['settings'] === TRUE): ?><li><a href="#" onclick="return $.MediaBrowser.showLayer('settings');" class="settings" title="<?php echo translate('Settings');?>"><span><img src="img/settings.png" alt="<?php echo translate('Settings');?>" /></span></a></li><?php endif; ?>
+        <?php if($allowedActions['settings'] === TRUE): ?><li><a href="#" onclick="return $.MediaBrowser.showLayer('settings');" class="settings" title="<?php echo translate('Settings');?>"><span><img src="img/gear.png" alt="<?php echo translate('Settings');?>" /></span></a></li><?php endif; ?>
 		<li><a href="#" onclick="return $.MediaBrowser.showLayer('help');" class="help" title="<?php echo translate('Help');?>"><span><img src="img/help.png" alt="<?php echo translate('Help');?>" /></span></a></li>
     </ul>
 </div>
@@ -508,7 +512,7 @@ $(document).ready(function() {
         <div id="filelist" class="layer">
             <h2><?php echo $rootname?></h2>
             <select id="filters">
-                <option value=""><?php echo translate("All files")?> (*.*)&nbsp;</option>
+                <option value=""><?php echo translate("All files");?> (*.*)&nbsp;</option>
                 <option<?php echo (isset($_GET["filter"]) && $_GET["filter"] == "flash" ? ' selected="selected"' : '');?> value=".swf|.flv|.fla">Flash&nbsp;</option>
                 <option<?php echo (isset($_GET["filter"]) && $_GET["filter"] == "image" ? ' selected="selected"' : '');?> value=".bmp|.gif|.jpg|.jpeg|.png">Images&nbsp;</option>
                 <option<?php echo (isset($_GET["filter"]) && $_GET["filter"] == "media" ? ' selected="selected"' : '');?> value=".avi|.flv|.mov|.mp3|.mp4|.mpeg|.mpg|.ogg|.wav|.wma|.wmv">Media&nbsp;</option>
@@ -594,7 +598,7 @@ $(document).ready(function() {
             <div class="window">
 				<form id="form1" action="index.php" method="post" enctype="multipart/form-data">
 	                <div class="paddingtop10 paddingleft10 height20">
-	                    <label for="uploadpath"><?php echo translate("Currently uploading in folder");?>: <input class="path" type="text" name="uploadpath" id="uploadpath" readonly="readonly"/></label>
+	                    <label for="uploadpath"><?php echo translate("Currently uploading in folder");?>: <input class="path" type="text" name="uploadpath" id="uploadpath" readonly="readonly" /></label>
 	                </div>
 	                <div class="paddingtop10 paddingleft10 height20">
 	                    <?php echo translate("Select your file");?>: &nbsp;&nbsp;<span id="spanButtonPlaceHolder"></span>
@@ -680,13 +684,13 @@ $(document).ready(function() {
         +++++++++++++++++++++++++++++++++
         -->
         <div id="help" class="layer" style="display:none;">
-            <h2>PDW File Browser v1.2 beta</h2>
+            <h2>PDW File Browser v1.3 beta</h2>
             <a href="#" class="close" onclick="$.MediaBrowser.hideLayer(); return false;" title="<?php echo translate("Close")?>"><?php echo translate("Close")?></a>
             <hr />
             <div class="window">
 				<div class="padding10">
 	                <p>Author: Guido Neele<br />
-	                Date: September 3, 2010<br />
+	                Date: October 10, 2010<br />
 	                Url: http://www.neele.name</p>
 	                <p>Copyright (c) 2010 Guido Neele</p>
 	                <p>Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -712,6 +716,7 @@ $(document).ready(function() {
 	                    <li>Javascript functions urlencode/urldecode - (phpjs.org)</li>
 	                    <li>createCookie - Peter-Paul Koch (http://www.quirksmode.org/js/cookies.html)</li>
 	                    <li>Javascript function printf - Dav Glass extension for the Yahoo UI Library</li>
+						<li>Modified version of Slimbox 2 - Christophe Beyls (http://www.digitalia.be)</li>
 	                </ul>
 	                <p><button type="button" onclick="$.MediaBrowser.hideLayer(); return false;"><?php echo translate("Close");?></button></p>
 	            </div>
@@ -736,6 +741,12 @@ $(document).ready(function() {
         <label for="file"><?php echo translate("File");?></label>
         <input type="text" name="file" id="file" readonly="readonly" value="" />
         <button type="submit"><?php echo translate("Insert");?></button>
+		<div>
+            <?php 
+                $checked = isset($_COOKIE["absoluteURL"]) ? $_COOKIE["absoluteURL"] : $absolute_url;
+            ?>
+			<label for="absolute_url"><input class="checkbox" type="checkbox" id="absolute_url" <?php echo $absolute_url_disabled ? 'disabled="disabled" ' : '';?><?php echo $checked ? 'checked="checked" ' : '';?>/><?php echo translate("Absolute URL with hostname");?></label>
+		</div>
     </form>
 </div>
 </body>

@@ -18,7 +18,7 @@ switch($type){
 		$filename = array_pop((explode("/", $uploadpath)));
 	
 		printf('<div class="icon image"><img src="phpthumb/phpThumb.php?h=140&amp;w=140&amp;far=1&amp;src=%s&bg=0000FF" alt="%s" /></div>', urlencode($uploadpath), $filename);
-   		printf('<div class="filename">%s</div>', $filename);
+   		printf('<div class="filename"><a href="%s" rel="lightbox">%s</a></div>', $uploadpath, $filename);
 		printf('<div class="filetype">%s</div>', $image_info['mime']);
 		printf('<div class="filemodified"><span>%s:&nbsp;</span>%s</div>',translate('Modified on'), $file_modified);
 		printf('<div class="filesize"><span>%s:&nbsp;</span>%s</div>',translate('Size'), $file_size);

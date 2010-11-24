@@ -1,7 +1,7 @@
 <?php
 /*
-PDW File Browser v1.2 beta
-Date: September 12, 2010
+PDW File Browser v1.3 beta
+Date: October 19, 2010
 Url: http://www.neele.name
 
 Copyright (c) 2010 Guido Neele
@@ -28,7 +28,29 @@ $tinymce_img_dir = dirname(realpath( __FILE__ ));
 $tinymce_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'pdw_file_browser');
 $tinymce_path = str_replace($tinymce_array_dir,array('') , $tinymce_img_dir);
 if(!isset($_SESSION)){ session_start();}  
-error_reporting(E_ALL);
+
+/*
+ * Uncomment lines below to enable PHP error reporting and displaying PHP errors.
+ * Do not do this on a production server. Might be helpful when debugging why PDW File Browser
+ * does not work as expected.
+ */
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
+
+/**
+ * WARNING: You should do your authorization checking right here. config.php is included 
+ * in every file so checking it here is securing the whole plug-in. By not checking for 
+ * authorization you are allowing "anyone" to upload and list the files in your server. 
+ * You must implement some kind of session validation here. You could do something like...
+ *
+ * if (!(isset($_SESSION['IsAuthorized']) && $_SESSION['IsAuthorized'])){
+ *      die("You are not authorized!");
+ * }
+ *
+ * ... where $_SESSION['IsAuthorized'] is set to "true" as soon as the user logs in to your system.
+**/
+
 /*
  * UPLOAD PATH
  * 
@@ -40,7 +62,8 @@ error_reporting(E_ALL);
  * $uploadpath = '/images/upload/';
  *
  */
-$uploadpath = '/media/'; // absolute path from root to upload folder (DON'T FORGET SLASHES)
+//$uploadpath = "/path/to/upload/folder/"; // absolute path from root to upload folder (DON'T FORGET SLASHES)
+$uploadpath = '/media/';
 /*
  * DEFAULT TIMEZONE
  * 
@@ -74,7 +97,6 @@ $viewLayout = 'small_images';
  *
  */
 $defaultLanguage = 'fr';
-
 /*
  * ALLOWED ACTIONS
  * 
@@ -84,20 +106,18 @@ $defaultLanguage = 'fr';
  */
 $allowedActions = array(
     'upload' => TRUE,
-    'settings' => TRUE,
+	'settings' => TRUE,
     'cut_paste' => TRUE,
-    'copy_paste' => TRUE,
-    'rename' => TRUE,
-    'delete' => TRUE,
-    'create_folder' => TRUE
+	'copy_paste' => TRUE,
+	'rename' => TRUE,
+	'delete' => TRUE,
+	'create_folder' => TRUE
 ); 
-
 /*
  * PDW File Browser depends on $_SERVER['DOCUMENT_ROOT'] to resolve path/filenames. This value is usually
  * correct, but has been known to be broken on some servers. This value allows you to override the default
  * value.
- * Do not modify from the auto-detect default value unless you are having problems. On Windows Servers
- * upload problems may occur. In that case use line 104 and specify your full path to the root.
+ * Do not modify from the auto-detect default value unless you are having problems.
  */
 //define('DOCUMENTROOT', '/home/httpd/httpdocs');
 //define('DOCUMENTROOT', 'c:\\webroot\\example.com\\www');
@@ -124,57 +144,57 @@ define('DOCUMENTROOT',$tinymce_path);
  */
 //$defaultSkin="mountainview";
 $defaultSkin="cupertino";
-
 /*
  * EDITOR
  * 
  * Which editor are we dealing with? PDW File Browser can be used with TinyMCE and CKEditor.
  */
-//$editor = isset($_GET["editor"]) ? $_GET["editor"] : ''; // If you want to use the file browser for both editors
+//$editor = isset($_GET["editor"]) ? $_GET["editor"] : ''; // If you want to use the file browser for both editors and/or standalone
 $editor="tinymce";
 //$editor="ckeditor";
-
+//$editor="standalone";
 /*
  * UPLOAD SETTINGS
  * 
  */
 // Maximum file size
 $max_file_size_in_bytes = 1048576; // 1MB in bytes
-
 // Characters allowed in the file name (in a Regular Expression format)               
 $valid_chars_regex = '.A-Z0-9_ !@#$%^&()+={}\[\]\',~`-';
-
 // Allowed file extensions
 // Remove an extension if you don't want to allow those files to be uploaded.
 //$extension_whitelist = "7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip";
-$extension_whitelist = 'asf,avi,bmp,fla,flv,gif,jpeg,jpg,mov,mpeg,mpg,png,tif,tiff,wmv'; // Images, video and flash only
+$extension_whitelist = "asf,avi,bmp,fla,flv,gif,jpeg,jpg,mov,mpeg,mpg,png,tif,tiff,wmv"; // Images, video and flash only
+/*
+ * RETURN LINKS AS ABSOLUTE OR ABSOLUTE WITHOUT HOSTNAME
+ *
+ * Ex. http://www.example.com/upload/file.jpg instead of /upload/file.jpg 
+ */
+$absolute_url = FALSE; // When FALSE url will be returned absolute without hostname, like /upload/file.jpg.
+$absolute_url_disabled = FALSE; // When TRUE changing from absolute to relative is not possible.
 //--------------------------DON'T EDIT BEYOND THIS LINE ----------------------------------
 define('STARTINGPATH', DOCUMENTROOT . $uploadpath); //DON'T EDIT
 
 //Check if upload folder exists
-if(!@is_dir(STARTINGPATH)) die('Upload folder doesn\'t exist or $uploadpath in config.php (line 43) is set wrong!');
+if(!@is_dir(STARTINGPATH)) die('Upload folder doesn\'t exist or $uploadpath in config.php is set wrong!');
 
 //Check if editor is set
-if(!isset($editor)) die('The variable $editor in config.php (line 135) is not set!');
+if(!isset($editor)) die('The variable $editor in config.php is not set!');
 
 // Figure out which language file to load
 if(!empty($_REQUEST['language'])) {
-    $language = $_REQUEST['language'];
+	$language = $_REQUEST['language'];
 } elseif (isset($_SESSION['language'])) {
-    $language = $_SESSION['language'];
+	$language = $_SESSION['language'];
 } else {
-    $language = $defaultLanguage;
+	$language = $defaultLanguage;
 }
-
-require_once('lang/'.$language.'.php');
+require_once("lang/".$language.".php");
 $_SESSION['language'] = $language;
-
 // Get local settings from language file
-$datetimeFormat = $lang['datetime format'];             // 24 hours, AM/PM, etc...
-$dec_seperator = $lang['decimal seperator'];            // character in front of the decimals
-$thousands_separator = $lang['thousands separator'];    // character between every group of thousands
-
-
+$datetimeFormat = $lang["datetime format"];				// 24 hours, AM/PM, etc...
+$dec_seperator = $lang["decimal seperator"]; 			// character in front of the decimals
+$thousands_separator = $lang["thousands separator"];	// character between every group of thousands
 // Check post_max_size (http://us3.php.net/manual/en/features.file-upload.php#73762)
 function let_to_num($v){ //This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)
     $l = substr($v, -1);
@@ -189,7 +209,6 @@ function let_to_num($v){ //This function transforms the php.ini notation for num
     }
     return $ret;
 }
-
 $max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get('upload_max_filesize')));
 
 if ($max_file_size_in_bytes > $max_upload_size) {

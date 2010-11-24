@@ -1,3 +1,13 @@
+stable 2.3.41
+	* Upgrade de pdw file browser 1.3 dans tinymce et ckeditor
+	* Upgrade smarty 3.0.1 => 3.0.5 stable
+	* Fix bug smarty extends chemin relatif de la classe smarty 3
+	* Fix bug chemin vers le dossier des plugins (// a la place de /)
+	* Remplacement de $_SERVER['DOCUMENT_ROOT'] dans le chemin des plugins
+	* Fix bug smarty trigger_error smarty supprimer
+	* Ajout de méthode pour manipuler smarty 3 avec l'API (frontend et backend)
+	* Update minify avec la dernière version du svn (r429)
+	
 Stable 2.3.40
 	* Modification du système de sitemap 
 		=> Ajout de la création du sitemap google images
