@@ -7,6 +7,7 @@ stable 2.3.41
 	* Fix bug smarty trigger_error smarty supprimer
 	* Ajout de méthode pour manipuler smarty 3 avec l'API (frontend et backend)
 	* Update minify avec la dernière version du svn (r429)
+	* Ajoute la fonction db_install_table pour l'installation automatique des tables SQL du plugin
 	
 Stable 2.3.40
 	* Modification du système de sitemap 

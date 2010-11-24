@@ -268,4 +268,30 @@ class backend_controller_plugins{
 	public function run(){
 		self::display_plugins();
 	}
+//####### INSTALL TABLE ######
+	/**
+	 * @access private
+	 * load sql file
+	 */
+	private function load_sql_file($filename){
+		return backend_controller_plugins::pluginDir().'sql'.DIRECTORY_SEPARATOR.$filename;
+	}
+	/**
+	 * @access public
+	 * @static
+	 * Installation des tables mysql du plugin
+	 */
+	public static function db_install_table($filename,$fetchFile){
+		try{
+			if(file_exists(self::load_sql_file($filename))){
+				if(magixglobal_model_db::create_new_sqltable(self::load_sql_file($filename))){
+					self::append_assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.self::pluginUrl().'">');
+					$fetch = self::append_fetch($fetchFile);
+					self::append_assign('install_db',$fetch);
+				}
+			}
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('Error install table '.self::pluginName().':',$e);
+		}
+	}
 }

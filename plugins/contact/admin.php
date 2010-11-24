@@ -63,24 +63,11 @@ class plugins_contact_admin extends database_plugins_contact{
 	}
 	/**
 	 * @access private
-	 * load sql file
-	 */
-	private function load_sql_file(){
-		return backend_controller_plugins::pluginDir().'sql'.DIRECTORY_SEPARATOR.'db.sql';
-	}
-	/**
-	 * @access private
 	 * Installation des tables mysql du plugin
 	 */
 	private function install_table(){
 		if(parent::c_show_table() == 0){
-			if(file_exists(self::load_sql_file())){
-				if(magixglobal_model_db::create_new_sqltable(self::load_sql_file())){
-					backend_controller_plugins::append_assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.backend_controller_plugins::pluginUrl().'">');
-					$fetch = backend_controller_plugins::append_fetch('request/install.phtml');
-					backend_controller_plugins::append_assign('install_db',$fetch);
-				}
-			}
+			backend_controller_plugins::db_install_table('db.sql', 'request/install.phtml');
 		}else{
 			magixcjquery_debug_magixfire::magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
 			return true;
