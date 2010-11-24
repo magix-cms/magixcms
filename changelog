@@ -4,10 +4,12 @@ stable 2.3.41
 	* Fix bug smarty extends chemin relatif de la classe smarty 3
 	* Fix bug chemin vers le dossier des plugins (// a la place de /)
 	* Remplacement de $_SERVER['DOCUMENT_ROOT'] dans le chemin des plugins
-	* Fix bug smarty trigger_error smarty supprimer
+	* Fix bug $smarty->trigger_error(), suppression de la fonction.
 	* Ajout de méthode pour manipuler smarty 3 avec l'API (frontend et backend)
 	* Update minify avec la dernière version du svn (r429)
 	* Ajoute la fonction db_install_table pour l'installation automatique des tables SQL du plugin
+	* Ajout du widget widget_prelude_lang pour afficher les langues du site internet disponible.
+	* Ajout de la traduction des liens du menu horizontal dans le template "default".
 	
 Stable 2.3.40
 	* Modification du système de sitemap 

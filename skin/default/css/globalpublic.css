@@ -102,17 +102,16 @@ a img { border:none;}
 #entete #prelude{
 	color: #ccc;
 	float: right;
-	margin-right:15px;
-	margin-top:0px;
+	margin:0;
 }
 #entete #prelude a{
 	color: #666;
-	font-size: 11px;
-	font-style: italic;
+	font-size: 12px;
+	font-style: bold;
+	padding:0 3px;
 }
 #entete #prelude a:hover{
 	color: black;
-	font-style: italic;
 }
 h1{
 	font-weight: 500;
@@ -349,3 +348,12 @@ h1{
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; }
 .ui-tabs .ui-tabs-hide { display: none !important; }
+/**
+ * ############################## Utility class
+ ***/
+.clearfix{display:block;}
+.lfloat {float:left;}
+.rfloat{float:right;}
+.clearboth{clear:both;}
+.clearleft{clear:left;}
+.hide{display:none;}
