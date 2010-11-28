@@ -52,7 +52,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_simple_sidebar_cms($params, &$smarty){
+function smarty_function_widget_simple_sidebar_cms($params, $template){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$home = empty($params['home']) ? 'Home' : $params['home'];
 	$menu = null;

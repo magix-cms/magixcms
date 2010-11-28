@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_template($params, &$smarty){
+function smarty_function_template($params, $template){
 		return frontend_model_template::frontendTheme()->themeSelected();
 }
 ?>

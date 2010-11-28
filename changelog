@@ -10,6 +10,11 @@ stable 2.3.41
 	* Ajoute la fonction db_install_table pour l'installation automatique des tables SQL du plugin
 	* Ajout du widget widget_prelude_lang pour afficher les langues du site internet disponible.
 	* Ajout de la traduction des liens du menu horizontal dans le template "default".
+	* Ajout de la langue dans la liste des catégories, sous catégories du catalogue, catégories CMS
+	* Upgrade jQuery 1.4.3 => 1.4.4 (voir le changelog de jQuery)
+	* Upgrade jQuery UI 1.8.5 => 1.8.6 (voir le changelog de jQuery UI)
+	* Suppression de toutes les variables &$smarty
+	* Modification du menu vertical du catalog, ajout d'un menu style explorer
 	
 Stable 2.3.40
 	* Modification du système de sitemap 

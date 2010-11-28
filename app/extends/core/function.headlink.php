@@ -46,15 +46,15 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_headlink($params, &$smarty){
+function smarty_function_headlink($params, $template){
 	$rel = $params['rel'];
 	if (!isset($rel)) {
-	 	$smarty->trigger_error("rel: missing 'rel' parameter in link");
+	 	trigger_error("rel: missing 'rel' parameter in link");
 		return;
 	}
 	$href = $params['href'];
 	if (!isset($href)) {
-	 	$smarty->trigger_error("href: missing 'href' parameter in link");
+	 	trigger_error("href: missing 'href' parameter in link");
 		return;
 	}
 	$ini = new magixcjquery_view_helper_headLink();

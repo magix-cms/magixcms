@@ -40,7 +40,7 @@
  *           robots spammers.
  * -------------------------------------------------------------
  */
-function smarty_outputfilter_protect_email($output, &$smarty)
+function smarty_outputfilter_protect_email($output, $smarty)
 {
      return preg_replace('!(\S+)@([a-zA-Z0-9\.\-]+\.([a-zA-Z]{2,3}|[0-9]{1,3}))!',
                          '$1%40$2', $output);

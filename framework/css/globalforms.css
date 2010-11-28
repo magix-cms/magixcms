@@ -2,6 +2,23 @@ fieldset{border-width:0;}
 select,.ui-select-menu { float: left; margin-right: 10px; }
 select { width: 220px; }
 .table-tinymce{width:100%;}
+/**
+ * Table contenu avec jquery ui widget
+ */
+#tablecontain {margin: 0 0 0 10px; border-collapse: collapse; width: 95%;}
+#tablecontain th,#tablecontain td{text-align: left;}
+#tablecontain th {padding: .1em 4px;}
+#tablecontain td{padding: .1em 4px;}
+#tablecontain td a{text-decoration:underline;}
+#tablecontain td a:hover{}
+.tablecontain {margin: 0 0 0 10px; border-collapse: collapse; width: 95%;}
+.tablecontain th,.tablecontain td{text-align: left;}
+.tablecontain th {padding: .1em 4px;}
+.tablecontain td{padding: .1em 4px;}
+.tablecontain tr td:first-child{width:1%;}
+.tablecontain tr:hover {}
+.tablecontain td a{text-decoration:underline;}
+.tablecontain td a:hover{}
 /*############## plugin password metter ######################*/
 .password-meter {
 	position:relative;

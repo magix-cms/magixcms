@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_session_identifier($params, &$smarty){
+function smarty_function_widget_session_identifier($params, $template){
 	if(isset($_SESSION['useradmin'])){
 		$const_url = backend_db_admin::adminDbMember()->s_t_profil_url($_SESSION['useradmin']);
 		$plugin = $const_url['pseudo'];

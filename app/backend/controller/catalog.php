@@ -481,10 +481,15 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
 			$category = '<ul id="sortcat">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $cat){
+				if($cat['codelang'] != null){
+					$langspan = '<span class="lfloat">'.$cat['codelang'].'</span>';
+				}else{
+					$langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
+				}
 				$category .= '<li class="ui-state-default" id="corder_'.$cat['idclc'].'">';
 				$category .= '<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>';
 				$category .= '<div class="sortdivfloat">'.$cat['clibelle'].'</div>';
-				$category .= '<div style="float:right;"><a style="float:left;" href="/admin/catalog.php?upcat='.$cat['idclc'].'" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
+				$category .= '<div style="float:right;">'.$langspan.'<a style="float:left;" href="/admin/catalog.php?upcat='.$cat['idclc'].'" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
 				$category .= '<a class="aspanfloat delc" href="#" title="'.$cat['idclc'].'"><span class="ui-icon ui-icon-close"></span></a>';
 				$category .= '</div>';
 				$category .= '</li>';
@@ -579,15 +584,17 @@ class backend_controller_catalog extends analyzer_catalog{
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() as $cat){
 				if($cat['codelang'] != null){
 					$lang = $cat['codelang'];
+					$langspan = '<span class="lfloat">'.$cat['codelang'].'</span>';
 				}else{
 					$lang = 'default';
+					$langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
 				}
-				$category .= '<li alt="'.$lang.'" title="'.$lang.'" class="ui-state-default" id="sorder_'.$cat['idcls'].'">';
+				$category .= '<li title="'.$lang.'" class="ui-state-default" id="sorder_'.$cat['idcls'].'">';
 				$category .= '<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>';
 				$category .= '<div class="sortdivfloat">'.$cat['slibelle'].'</div>';
 				$category .= '<span style="float:left;" class="ui-icon ui-icon-arrowthick-1-e"></span>';
 				$category .= '<span style="font-style:italic;">'.$cat['clibelle'].'</span>';
-				$category .= '<div style="float:right;">';
+				$category .= '<div style="float:right;">'.$langspan;
 				$category .= '<a style="float:left;" href="/admin/catalog.php?upsubcat='.$cat['idcls'].'" title="'.$cat['idcls'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
 				$category .= '<a class="aspanfloat dels" href="#" title="'.$cat['idcls'].'"><span class="ui-icon ui-icon-close"></span></a>';
 				$category .= '</div></li>';

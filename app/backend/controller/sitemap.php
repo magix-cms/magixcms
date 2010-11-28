@@ -34,33 +34,33 @@ class backend_controller_sitemap{
 	/**
 	 * Constante
 	 * string
-	 */
+	 **/
 	const plugins = 'plugins';
-	/*
+	/**
 	 * Creation du fichier xml index (get)
 	 * @var void
-	 */
+	 **/
 	public $create_xml_index;
-	/*
+	/**
 	 * Creation du fichier xml url (get)
 	 * @var void
-	 */
+	 **/
 	public $create_xml_url;
-	/*
+	/**
 	 * Creation du fichier xml images (get)
 	 * @var void
-	 */
+	 **/
 	public $create_xml_images;
-	/*
+	/**
 	 * Ping Google (get)
 	 * @var void
-	 */
+	 **/
 	public $googleping;
 	/**
-	 * 
+	 * @access public
 	 * Constructor
 	 */
-	function  __construct(){
+	public function  __construct(){
 		if(magixcjquery_filter_request::isGet('create_xml_index')) {
 			$this->create_xml_index = $_GET['create_xml_index'];
 		}
@@ -74,10 +74,10 @@ class backend_controller_sitemap{
 			$this->googleping = $_GET['googleping'];
 		}
 	}
-	/*
+	/**
 	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
 	 * @access private
-	 */
+	 **/
 	private function dir_XML_FILE(){
 	//		$system = new magixglobal_model_system();
 		try {
@@ -86,9 +86,10 @@ class backend_controller_sitemap{
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
-	/*
+	/**
+	 * @access private
 	 * Ouverture du fichier XML pour ecriture de l'entête
-	 */
+	 **/
 	private function createXMLFile(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
@@ -103,9 +104,10 @@ class backend_controller_sitemap{
         /*Ecrit les éléments*/
     	$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
 	}
-	/*
+	/**
+	 * @access private
 	 * Ouverture du fichier XML pour ecriture de l'entête
-	 */
+	 **/
 	private function createXMLImgFile(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
@@ -150,10 +152,14 @@ class backend_controller_sitemap{
         ///magixcjquery_debug_magixfire::magixFireLog(magixcjquery_html_helpersHtml::getUrl().'/sitemap-url.xml');
         $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
 		if($config['status'] == 1){
-        	$sitemap->writeMakeNodeIndex(magixcjquery_html_helpersHtml::getUrl().'/sitemap-images.xml',date('d-m-Y'));
+        	$sitemap->writeMakeNodeIndex(
+        		magixcjquery_html_helpersHtml::getUrl().'/sitemap-images.xml',
+        		date('d-m-Y')
+        	);
 		}
 	}
 	/**
+	 * @access private
 	 * Si les NEWS sont activé, on inscrit les URLs dans le sitemap
 	 */
 	private function writeNews(){
@@ -215,7 +221,7 @@ class backend_controller_sitemap{
 				    ),
 				    $date_page,
 				    'always',
-				     0.8
+				     0.9
 		        );
 	        }
 		}
@@ -266,7 +272,7 @@ class backend_controller_sitemap{
 						true
 					),date('d-m-Y'),
 				    'always',
-				     0.8
+				     0.9
 		        );
 	        }
 		}
@@ -335,7 +341,6 @@ class backend_controller_sitemap{
 	 */
 	private function directory_plugins(){
 		return self::dir_XML_FILE().self::plugins.DIRECTORY_SEPARATOR;
-		//return $_SERVER['DOCUMENT_ROOT'].self::plugins;
 	}
 	/**
 	 * Scanne les plugins et vérifie si la fonction createSitemap 
@@ -501,6 +506,10 @@ class backend_controller_sitemap{
 		}
 		backend_config_smarty::getInstance()->display('sitemap/request/ping.phtml');
 	}
+	/**
+	 * @access private
+	 * Execution de la création du fichier index
+	 */
 	private function execIndex(){
 		self::createXMLIndexFile();
 		self::writeIndex();
@@ -508,6 +517,7 @@ class backend_controller_sitemap{
 		backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
 	}
 	/**
+	 * @access private
 	 * Execute l'écriture dans le fichier XML
 	 */
 	private function exec(){
@@ -519,6 +529,10 @@ class backend_controller_sitemap{
 			self::endXMLWriter();
 			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
 	}
+	/**
+	 * @access private
+	 * Execution de la création du sitemap des images
+	 */
 	private function execImages(){
 		$config = backend_db_config::adminDbConfig()->s_config_named('catalog');
 		if($config['status'] == 1){

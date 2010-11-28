@@ -135,25 +135,25 @@ class plugins_contact_public extends database_plugins_contact{
 		'<html><body>'.
 		'<table>'.
 		'<tr>'.
-		'<td><strong>Nom: </strong>'.$this->nom.'</td>'.
+			'<td><strong>Nom: </strong>'.$this->nom.'</td>'.
 		'</tr>'.
 		'<tr>'.
-		'<td><strong>Prénom: </strong>'.$this->prenom.'</td>'.
+			'<td><strong>Prénom: </strong>'.$this->prenom.'</td>'.
 		'</tr>'.
 		'<tr>'.
-		'<td><strong>Email: </strong>'.$this->email.'</td>'.
+			'<td><strong>Email: </strong>'.$this->email.'</td>'.
 		'</tr>'.
 		'<tr>'.
-		'<td><strong>Tel: </strong>'.$this->tel.'</td>'.
+			'<td><strong>Tel: </strong>'.$this->tel.'</td>'.
 		'</tr>'.
 		'<tr>'.
-		'<td><strong>Adresse: </strong>'.$this->adresse.'</td>'.
+			'<td><strong>Adresse: </strong>'.$this->adresse.'</td>'.
 		'</tr>'.
 		'<tr>'.
-		'<td><strong>Demande: </strong>'.$this->programme.'</td>'.
+			'<td><strong>Demande: </strong>'.$this->programme.'</td>'.
 		'</tr>'.
 		'<tr>'.
-		'<td><strong>Message: </strong>'.$this->message.'</td>'.
+			'<td><strong>Message: </strong>'.$this->message.'</td>'.
 		'</tr>'.
 		'</table>'
 		.'</body></html>';

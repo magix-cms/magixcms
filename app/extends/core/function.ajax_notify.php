@@ -47,7 +47,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_ajax_notify($params, &$smarty){
+function smarty_function_ajax_notify($params, $template){
 	return <<<EOT
 	<div id="notify-header">
 		<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>	

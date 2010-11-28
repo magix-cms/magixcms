@@ -434,9 +434,59 @@ class magixglobal_model_rewrite{
 		return '/'.$language.'magixmod/'.$magixmod.'/';
 	}
 	/**
+	 * URL public d'un plugin sans réécriture avec le paramètre uniqp
+	 * @param string $lang
+	 * @param string $magixmod
+	 */
+	private function plugins_uri_uniqp($lang,$magixmod,$uniqp){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else $language = '';
+		return '/plugins.php?'.$language.'magixmod='.$magixmod.'&uniqp='.$uniqp;
+	}
+	/**
+	 * URL public d'un plugin avec réécriture avec le paramètre uniqp
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param string uniqp
+	 */
+	private function plugins_rewrite_uri_uniqp($lang,$magixmod,$uniqp){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		return '/'.$language.'magixmod/'.$magixmod.'/'.$uniqp.'/';
+	}
+	/**
+	 * URL public d'un plugin sans réécriture avec les paramètres supplémentaire
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param integer $pnum1
+	 * @param string $pstring2
+	 */
+	private function plugins_uri_mparams($lang,$magixmod,$pnum1,$pstring2){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else $language = '';
+		return '/plugins.php?'.$language.'magixmod='.$magixmod.'&pnum1='.$pnum1.'&pstring2='.$pstring2;
+	}
+	/**
+	 * URL public d'un plugin avec réécriture avec les paramètres supplémentaire
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param integer $pnum1
+	 * @param string $pstring2
+	 */
+	private function plugins_rewrite_uri_mparams($lang,$magixmod,$pnum1,$pstring2){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		return '/'.$language.'magixmod/'.$magixmod.'/'.$pnum1.'/'.$pstring2.'.html';
+	}
+	/**
 	 * La réécriture des URL Root des plugins
 	 * @param string $lang
 	 * @param string $magixmod
+	 * @param string uniqp
 	 * @param bool $rewrite
 	 */
 	public static function filter_plugins_root_url($lang,$magixmod,$rewrite=false){
@@ -446,6 +496,43 @@ class magixglobal_model_rewrite{
 			break;
 			case false:
 				return self::plugins_uri_root($lang,$magixmod);
+			break;
+		}
+		
+	}
+	/**
+	 * La réécriture des URL pour les plugins avec le paramètre uniqp
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param string uniqp
+	 * @param bool $rewrite
+	 */
+	public static function filter_plugins_uniqp_url($lang,$magixmod,$uniqp,$rewrite=false){
+		switch ($rewrite){
+			case true:
+				return self::plugins_rewrite_uri_uniqp($lang,$magixmod,$uniqp);
+			break;
+			case false:
+				return self::plugins_uri_uniqp($lang,$magixmod,$uniqp);
+			break;
+		}
+		
+	}
+	/**
+	 * La réécriture des URL pour les plugins avec le paramètre uniqp
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param integer $pnum1
+	 * @param string $pstring2
+	 * @param bool $rewrite
+	 */
+	public static function filter_plugins_mparams_url($lang,$magixmod,$pnum1,$pstring2,$rewrite=false){
+		switch ($rewrite){
+			case true:
+				return self::plugins_rewrite_uri_mparams($lang,$magixmod,$pnum1,$pstring2);
+			break;
+			case false:
+				return self::plugins_uri_mparams($lang,$magixmod,$pnum1,$pstring2);
 			break;
 		}
 		

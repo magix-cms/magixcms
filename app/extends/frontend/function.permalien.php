@@ -46,6 +46,6 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_permalien($params, &$smarty){
+function smarty_function_permalien($params, $template){
 	
 }

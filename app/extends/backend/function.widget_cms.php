@@ -46,10 +46,10 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_cms($params, &$smarty){
+function smarty_function_widget_cms($params, $template){
 	$max = empty($params['max']) ? 5 : $params['max'];
 	if (!isset($params['limit'])) {
-	 	$smarty->trigger_error("limit: missing 'limit' parameter");
+	 	trigger_error("limit: missing 'limit' parameter");
 		return;
 	}
 	$viewuser = empty($params['viewuser']) ? true : false;
@@ -73,22 +73,22 @@ function smarty_function_widget_cms($params, &$smarty){
 		$limit = false;
 	}
 	$plugin .= '<table class="clear">
-						<thead>
-							<tr>
-							<th title="Titre de la page"><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
-							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-t"></span></th>
-							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-d"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
-							'.$thuser.'
-							<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-transferthick-e-w"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
+					<thead>
+						<tr>
+						<th title="Titre de la page"><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
+						<th><span style="float:left;" class="magix-icon magix-icon-igoogle-t"></span></th>
+						<th><span style="float:left;" class="magix-icon magix-icon-igoogle-d"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
+						'.$thuser.'
+						<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-transferthick-e-w"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
+						</tr>
+					</thead>
+					<tbody>';
 	if(backend_db_cms::adminDbCms()->s_cms_plugin($limit,$max,$offset) != null){
 		foreach(backend_db_cms::adminDbCms()->s_cms_plugin($limit,$max,$offset) as $pcms){
 			//$islang = $pcms['codelang'] ? 'strLangue='.$pcms['codelang'].'&amp;': '';

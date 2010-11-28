@@ -47,7 +47,7 @@
  * @return string
  *
  */
-function smarty_function_rewrite_metas_news($params, &$smarty){
+function smarty_function_rewrite_metas_news($params, $template){
 	$type = $params['type'];
 	$p = $params['param'];
 	$level = $params['level'];

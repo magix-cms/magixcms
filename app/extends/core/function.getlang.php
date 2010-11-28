@@ -46,6 +46,6 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_getlang($params, &$smarty){
+function smarty_function_getlang($params, $template){
 	return !empty($_GET['strLangue']) ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3).'/' : '';
 }

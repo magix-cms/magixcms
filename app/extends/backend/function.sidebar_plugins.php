@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_sidebar_plugins($params, &$smarty){
+function smarty_function_sidebar_plugins($params, $template){
 	$plugins = new backend_controller_plugins();
 	return $plugins->constructNavigation();
 }

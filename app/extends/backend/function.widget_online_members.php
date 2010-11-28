@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_online_members($params, &$smarty){
+function smarty_function_widget_online_members($params, $template){
 	if(isset($_SESSION['useradmin'])){
 		$session = backend_db_admin::adminDbMember()->s_session_membres();
 		$plugin = '<table class="clear">

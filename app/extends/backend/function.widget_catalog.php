@@ -47,10 +47,10 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_catalog($params, &$smarty){
+function smarty_function_widget_catalog($params, $template){
 	$max = empty($params['max']) ? 5 : $params['max'];
 	if (!isset($params['limit'])) {
-	 	$smarty->trigger_error("limit: missing 'limit' parameter");
+	 	trigger_error("limit: missing 'limit' parameter");
 		return;
 	}
 	$viewuser = empty($params['viewuser']) ? true : false;

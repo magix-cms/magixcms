@@ -47,7 +47,7 @@
  * @return string
  *
  */
-function smarty_function_module($params, &$smarty){
+function smarty_function_module($params, $template){
 	$type = $params['type'];
 	$config = frontend_db_config::frontendDCconfig()->s_public_config_named($type);
 	return $config['status'];

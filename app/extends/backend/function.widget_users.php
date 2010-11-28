@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_users($params, &$smarty){
+function smarty_function_widget_users($params, $template){
 	if(isset($_SESSION['useradmin'])){
 		$plugin .= '<table class="clear">
 						<thead>

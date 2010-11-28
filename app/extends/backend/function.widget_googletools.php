@@ -47,7 +47,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_googletools($params, &$smarty){
+function smarty_function_widget_googletools($params, $template){
 	$webmasterdata = backend_model_setting::select_uniq_setting('webmaster');
 	$analyticsdata = backend_model_setting::select_uniq_setting('analytics');
 	$plugin = '<table class="clear">

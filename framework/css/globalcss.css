@@ -101,7 +101,7 @@ body,
 }
 /*SIDEBAR*/
 #sidebar{
-	margin:0 0 0 0;
+	margin:0 0 5px 0;
 	padding:5px 0 5px 0;
 	width:170px;
 	background:#000;

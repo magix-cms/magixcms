@@ -47,7 +47,7 @@
  * @return string
  *
  */
-function smarty_function_microgalery($params, &$smarty){
+function smarty_function_microgalery($params, $template){
 	$type = $params['type'];
 	$ui = $params['ui']?true:false;
 	if(isset($_GET['idproduct'])){

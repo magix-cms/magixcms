@@ -47,15 +47,9 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_notify_dir_header($params, &$smarty){ 
-	/*$text = $params['text'];
-	if (!isset($text)) {
-	 	$smarty->trigger_error("type: missing 'text' parameter");
-		return;
-	}*/
+function smarty_function_notify_dir_header($params, $template){ 
 	$pathdir = dirname(realpath( __FILE__ ));
 	$arraydir = array('app\extends\core', 'app/extends/core');
-	//magixcjquery_debug_magixfire::magixFireLog(magixglobal_model_system::root_path($arraydir,array("install","install") , $pathdir),'path');
 	if(file_exists(magixglobal_model_system::root_path($arraydir,array("install","install") , $pathdir))){
 		$dom = '<div id="notify-install">
 				<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>

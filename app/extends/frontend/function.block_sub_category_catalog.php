@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_block_sub_category_catalog($params, &$smarty){
+function smarty_function_block_sub_category_catalog($params, $template){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$title = $params['title']?$params['title']:'';
 	$tcat = frontend_db_catalog::publicDbCatalog()->s_current_name_category($_GET['idclc']);

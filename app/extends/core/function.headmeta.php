@@ -46,26 +46,26 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_headmeta($params, &$smarty){
+function smarty_function_headmeta($params, $template){
 	$meta = $params['meta'];
 	if (!isset($meta)) {
-	 	$smarty->trigger_error("meta: missing 'meta' parameter");
+	 	trigger_error("meta: missing 'meta' parameter");
 		return;
 	}
 	$head = '';
 	$ini = new magixcjquery_view_helper_headMeta();
 	switch($meta){
 		case 'contentType':
-			$content = !isset($params['content'])?$smarty->trigger_error("content: missing 'content' parameter"):$params['content'];
+			$content = !isset($params['content'])?trigger_error("content: missing 'content' parameter"):$params['content'];
 			$charset = !empty($params['charset'])?$params['charset']:'utf8';
 			$head = $ini->contentType($content,$charset);
 		break;
 		case 'contentStyleType' : 
-			$content = !isset($params['content'])?$smarty->trigger_error("content: missing 'content' parameter"):$params['content'];
+			$content = !isset($params['content'])?trigger_error("content: missing 'content' parameter"):$params['content'];
 			$head = $ini->contentStyleType($content);
 		break;
 		case 'contentLanguage' :
-			$content = !isset($params['content'])?$smarty->trigger_error("content: missing 'content' parameter"):$params['content'];
+			$content = !isset($params['content'])?trigger_error("content: missing 'content' parameter"):$params['content'];
 			$head = $ini->contentLanguage($content);
 		break;
 		case 'revisitAfter' : 
@@ -74,19 +74,19 @@ function smarty_function_headmeta($params, &$smarty){
 			$head = $ini->revisitAfter($int,$delay);
 		break;
 		case 'keywords' :
-			$content = !isset($params['content'])?$smarty->trigger_error("content: missing 'content' parameter"):$params['content'];
+			$content = !isset($params['content'])?trigger_error("content: missing 'content' parameter"):$params['content'];
 			$head = $ini->keywords($content);
 		break;
 		case 'robots' :
-			$content = !isset($params['content'])?$smarty->trigger_error("content: missing 'content' parameter"):$params['content'];
+			$content = !isset($params['content'])?trigger_error("content: missing 'content' parameter"):$params['content'];
 			$head = $ini->robots($content);
 		break;
 		case 'googleSiteVerification' :
-			$content = !isset($params['content'])?$smarty->trigger_error("content: missing 'content' parameter"):$params['content'];
+			$content = !isset($params['content'])?trigger_error("content: missing 'content' parameter"):$params['content'];
 			$head = $ini->googleSiteVerification($content);
 		break;
 		case 'description' :
-			$content = !isset($params['content'])?$smarty->trigger_error("content: missing 'content' parameter"):$params['content'];
+			$content = !isset($params['content'])?trigger_error("content: missing 'content' parameter"):$params['content'];
 			$head = $ini->description($content);
 		break;
 	}

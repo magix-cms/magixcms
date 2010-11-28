@@ -46,10 +46,10 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_doctype($params, &$smarty){
+function smarty_function_doctype($params, $template){
 	$type = $params['type'];
 	if (!isset($type)) {
-	 	$smarty->trigger_error("type: missing 'type' parameter");
+	 	trigger_error("type: missing 'type' parameter");
 		return;
 	}
 	return magixcjquery_view_helper_doctype::doctype($type);

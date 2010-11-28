@@ -46,11 +46,11 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_cms_seo($params, &$smarty){
+function smarty_function_cms_seo($params, $template){
 	$config = $params['config'];
 	$default = $params['default'];
 	if (!isset($params['config'])) {
-	 	$smarty->trigger_error("config: missing 'config' parameter");
+	 	trigger_error("config: missing 'config' parameter");
 		return;
 	}
 	$seo = frontend_db_cms::publicDbCms()->s_cms_seo($_GET['getidpage']);

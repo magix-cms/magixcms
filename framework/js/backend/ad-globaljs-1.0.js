@@ -538,7 +538,12 @@ $(function() {
 		/**
 		 * Initialisation de jQuery UI tabs pour la configuration de Magix CMS
 		 */
-	    $("#tabsFormsConfig").tabs();
+	    $("#tabsFormsConfig").tabs({
+			cookie: {
+				expires: 1,
+				name:"FormsConfig"
+			}
+		});
 	    /**
 	     * requête ajax par sélection du bouton radio
 	     */

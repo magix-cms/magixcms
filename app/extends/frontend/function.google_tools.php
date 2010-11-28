@@ -48,10 +48,10 @@
  * @return string
  *
  */
-function smarty_function_google_tools($params, &$smarty){
+function smarty_function_google_tools($params, $template){
 	$type = $params['tools'];
 	if (!isset($type)) {
-	 	$smarty->trigger_error("type: missing 'type' parameter");
+	 	trigger_error("type: missing 'type' parameter");
 		return;
 	}
 	switch ($type){

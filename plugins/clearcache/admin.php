@@ -37,6 +37,10 @@ class plugins_clearcache_admin{
 	 * @var GET clear
 	 */
 	public $clear;
+	/**
+	 * @access public
+	 * Constructor
+	 */
 	function __construct(){
 		if(magixcjquery_filter_request::isGet('clear')){
 			$this->clear = (string) magixcjquery_form_helpersforms::inputClean($_GET['clear']);
@@ -77,6 +81,9 @@ class plugins_clearcache_admin{
 			case "tpl":
 				self::clear_dir_caches('templates_c');
 			break;
+			case "admin":
+				self::clear_dir_caches('tpl_admin');
+			break;
 		}
 	}
 	/**
@@ -89,7 +96,6 @@ class plugins_clearcache_admin{
 			self::exec_clear();
 		//Si on veut modifier un onglet catalogue
 		}else{
-			
 			// Retourne la page index.phtml
 			backend_controller_plugins::append_display('index.phtml');
 		}

@@ -36,17 +36,18 @@
  * Type:     function
  * Name:     widget_home
  * Date:     September 2, 2010
+ * UPDATE:   Novembre 27 2010
  * Purpose:  
  * Examples: {widget_home}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.1
  * @param array
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_home($params, &$smarty){
+function smarty_function_widget_home($params, $template){
 	$viewuser = empty($params['viewuser']) ? true : false;
 	if($viewuser){
 		$thuser = '<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>';
@@ -54,19 +55,19 @@ function smarty_function_widget_home($params, &$smarty){
 		$thuser = '';
 	}
 	$plugin .= '<table class="clear">
-						<thead>
-							<tr>
-							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-t"></span></th>
-							<th><span style="float:left;" class="magix-icon magix-icon-igoogle-d"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
-							'.$thuser.'
-							<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
+					<thead>
+						<tr>
+						<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
+						<th><span style="float:left;" class="magix-icon magix-icon-igoogle-t"></span></th>
+						<th><span style="float:left;" class="magix-icon magix-icon-igoogle-d"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
+						'.$thuser.'
+						<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
+						</tr>
+					</thead>
+					<tbody>';
 	if(backend_db_home::adminDbHome()->s_home_page_plugin() != null){
 		foreach(backend_db_home::adminDbHome()->s_home_page_plugin() as $phome){
 			$islang = $phome['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$phome['codelang'].magixcjquery_html_helpersHtml::unixSeparator(): '';
@@ -89,7 +90,7 @@ function smarty_function_widget_home($params, &$smarty){
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	'<td class="maximal">'.magixcjquery_string_convert::cleanTruncate($phome['subject'],40,"").'</td>';
+			 $plugin .=	'<td class="maximal"><a class="linkurl" href="/admin/home.php?edit='.$phome['idhome'].'">'.magixcjquery_string_convert::cleanTruncate($phome['subject'],40,"").'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$icons_t.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_d.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';

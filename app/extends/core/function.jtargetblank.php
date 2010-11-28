@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_jtargetblank($params, &$smarty){
+function smarty_function_jtargetblank($params, $template){
 	/*$target = new frontend_js_targetblank();
 	return $target->new_window();*/
 }

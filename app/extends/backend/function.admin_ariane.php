@@ -47,7 +47,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_admin_ariane($params, &$smarty){
+function smarty_function_admin_ariane($params, $template){
 	$url = $_SERVER['REQUEST_URI'];
 	//print $_SERVER['QUERY_STRING'];
 	//print_r(parse_url($url,PHP_URL_PATH));

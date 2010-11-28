@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_load_catalog_subcategory($params, &$smarty){
+function smarty_function_load_catalog_subcategory($params, $template){
 	//Variable de la langue
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	//Test si lidentifiant de la catégorie existe

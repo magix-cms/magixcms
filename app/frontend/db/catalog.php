@@ -216,22 +216,20 @@ class frontend_db_catalog{
 				FROM mc_catalog_c AS c
 				LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idlang =0 ORDER BY corder';
+				WHERE c.idlang = 0 ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * construction menu des sous catégories (avec langue)
-	 * @param idclc
 	 * @param codelang
 	 */
-	function s_sub_category_menu_with_lang($idclc,$codelang){
+	function s_sub_category_menu_with_lang($codelang){
 		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.codelang
 				FROM mc_catalog_c AS c
 				LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idclc = :idclc AND lang.codelang = :codelang ORDER BY corder';
+				WHERE lang.codelang = :codelang ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idclc'=>$idclc,
 			':codelang'		=>	$codelang
 		));
 	}

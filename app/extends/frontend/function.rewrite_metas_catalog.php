@@ -47,18 +47,18 @@
  * @return string
  *
  */
-function smarty_function_rewrite_metas_catalog($params, &$smarty){
+function smarty_function_rewrite_metas_catalog($params, $template){
 	$type = $params['type'];
 	$product = $params['product'];
 	$category = $params['category'];
 	$subcategory = $params['subcategory'];
 	$level = $params['level'];
 	if (!isset($type)) {
-	 	$smarty->trigger_error("type: missing 'type' parameter");
+	 	trigger_error("type: missing 'type' parameter");
 		return;
 	}
 	if (!isset($level)) {
-	 	$smarty->trigger_error("level: missing 'level' parameter");
+	 	trigger_error("level: missing 'level' parameter");
 		return;
 	}
 	$lang = $_GET['strLangue'] ? $_GET['strLangue']:'';

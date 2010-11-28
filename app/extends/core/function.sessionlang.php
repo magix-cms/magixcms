@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_sessionlang($params, &$smarty){
+function smarty_function_sessionlang($params, $template){
 	if(!$_GET['strLangue']){
 		$_SESSION['strLangue'] = 'fr';
 	}

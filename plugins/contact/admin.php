@@ -190,12 +190,23 @@ class plugins_contact_admin extends database_plugins_contact{
 	public function createSitemap(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
-		   $sitemap->writeMakeNode(
-				magixcjquery_html_helpersHtml::getUrl().'/magixmod/contact/',
-				date('d-m-Y'),
-				'always',
-				0.7
-		   );
+        $dblang = backend_db_lang::dblang()->s_full_lang();
+	    $sitemap->writeMakeNode(
+			magixcjquery_html_helpersHtml::getUrl().'/magixmod/contact/',
+			date('d-m-Y'),
+			'always',
+			0.7
+	    );
+		if($dblang != null){
+	        foreach ($dblang as $l){
+	        	$sitemap->writeMakeNode(
+					magixcjquery_html_helpersHtml::getUrl().'/'.$l['codelang'].'/magixmod/contact/',
+					date('d-m-Y'),
+					'always',
+					0.7
+		   		);
+	        }
+        }
 	}
 	/**
 	 * Affiche les pages de l'administration du plugin

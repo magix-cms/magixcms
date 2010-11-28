@@ -46,6 +46,6 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_geturl($params, &$smarty){
+function smarty_function_geturl($params, $template){
 	return magixcjquery_html_helpersHtml::getUrl();
 }

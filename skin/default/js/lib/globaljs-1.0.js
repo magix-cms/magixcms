@@ -67,4 +67,11 @@ $(function() {
 	  }, function() {
 	    $(this).stop().animate({ opacity: '1',backgroundColor: "transparent",color: "#F29400" }, 'normal');
 	});
+	/**
+	 * Jquery treeview pour le catalogue
+	 */
+	$("#catalog-hierarchy").treeview({
+		animated: "fast"
+
+	});
 });

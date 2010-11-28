@@ -51,7 +51,7 @@
  * @param    Smarty
  * @return   string
  */
-function smarty_function_widget_titlepage($params, &$smarty){
+function smarty_function_widget_titlepage($params,$template){
 	$url = $_SERVER['REQUEST_URI'];
 	$segment =  explode('/',parse_url($url,PHP_URL_PATH));
 	//$segment = str_replace('=',' - ',$segment);

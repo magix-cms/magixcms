@@ -228,10 +228,15 @@ class backend_controller_cms{
 	private function view_category(){
 		$category = null;
 		foreach(backend_db_cms::adminDbCms()->s_block_category() as $block){
+			if($block['codelang'] != null){
+				$langspan = '<span class="lfloat">'.$block['codelang'].'</span>';
+			}else{
+				$langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
+			}
 			$category .= '<li class="ui-state-default" id="ordercategory_'.$block['idcategory'].'">';
 			$category .= '<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>';
 			$category .= '<div class="sortdivfloat">'.$block['category'].'</div>';
-			$category .= '<div style="float:right;"><a style="float:left;" class="ucms-category" href="#" title="'.$block['idcategory'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
+			$category .= '<div style="float:right;">'.$langspan.'<a style="float:left;" class="ucms-category" href="#" title="'.$block['idcategory'].'"><span class="ui-icon ui-icon-pencil"></span></a>';
 			$category .= '<a class="aspanfloat dcmscat" href="#" title="'.$block['idcategory'].'"><span class="ui-icon ui-icon-close"></span></a>';
 			$category .= '</div>';
 			$category .= '</li>';

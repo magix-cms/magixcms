@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_prefilter_magixmin($source, &$smarty){
+function smarty_prefilter_magixmin($source, $smarty){
     $source = preg_replace_callback(
         '|\{magixmin\}(.*?)\{\/magixmin\}|s',
         'smarty_prefilter_magixmin_callback',

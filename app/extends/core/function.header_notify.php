@@ -47,7 +47,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_header_notify($params, &$smarty){
+function smarty_function_header_notify($params, $template){
 	$text = $params['text'];
 	if(!empty($text)){
 	return <<<EOT

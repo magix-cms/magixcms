@@ -46,10 +46,10 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_news($params, &$smarty){
+function smarty_function_widget_news($params, $template){
 	$max = empty($params['max']) ? 5 : $params['max'];
 	if (!isset($params['limit'])) {
-	 	$smarty->trigger_error("limit: missing 'limit' parameter");
+	 	trigger_error("limit: missing 'limit' parameter");
 		return;
 	}
 	$viewuser = empty($params['viewuser']) ? true : false;
@@ -73,19 +73,19 @@ function smarty_function_widget_news($params, &$smarty){
 		$limit = false;
 	}
 	$plugin .= '<table class="clear">
-						<thead>
-							<tr>
-							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-calendar"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-suitcase"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
-							'.$thuser.'
-							<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
+					<thead>
+						<tr>
+						<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-calendar"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-suitcase"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
+						'.$thuser.'
+						<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
+						<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
+						</tr>
+					</thead>
+					<tbody>';
 	if(backend_db_news::adminDbNews()->s_news_plugin($limit,$max,$offset)){
 		foreach(backend_db_news::adminDbNews()->s_news_plugin($limit,$max,$offset) as $pnews){
 			$islang = $pnews['codelang'] ? $pnews['codelang']: '';

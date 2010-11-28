@@ -59,8 +59,4 @@ $lang->autoLangSession();
 if(frontend_controller_plugins::getplugin()){
 	frontend_controller_plugins::display_plugins();
 }
-/*elseif(isset($_GET['mix'])){
-	$gp = new frontend_plugins_gpageRegional();
-	$gp->display();
-}*/
 ?>

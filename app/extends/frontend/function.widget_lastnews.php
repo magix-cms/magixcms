@@ -48,16 +48,16 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_lastnews($params, &$smarty){
+function smarty_function_widget_lastnews($params, $template){
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 250 ;
 	$delimiter = $params['delimiter']? $params['delimiter']: '...';
 	$ui = $params['ui'];
 	$newsall = $params['newsall'];
 	if (!isset($length)) {
-	 	$smarty->trigger_error("limit: missing 'Content length' parameter");
+	 	trigger_error("limit: missing 'Content length' parameter");
 		return;
 	}elseif(!isset($delimiter)){
-		$smarty->trigger_error("limit: missing 'Delimiter' parameter");
+		trigger_error("limit: missing 'Delimiter' parameter");
 		return;
 	}
 	if($ui){

@@ -46,7 +46,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_block_category_catalog($params, &$smarty){
+function smarty_function_block_category_catalog($params, $template){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$title = !empty($params['title'])?$params['title']:'';
 	$ui = $params['ui'];

@@ -49,7 +49,7 @@
 function smarty_function_plugin_exist($params, &$smarty){
 	$class = $params['class'];
 	if (!isset($class)) {
-	 	$smarty->trigger_error("class: missing 'class' parameter");
+	 	trigger_error("class: missing 'class' parameter");
 		return;
 	}
 	if(class_exists('backend_plugins_'.$class)){

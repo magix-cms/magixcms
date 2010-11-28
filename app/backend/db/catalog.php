@@ -55,7 +55,7 @@ class backend_db_catalog{
 	function s_catalog_category_corder(){
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
-    	ORDER BY c.corder';
+    	ORDER BY c.idlang,c.corder';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
@@ -190,7 +190,7 @@ class backend_db_catalog{
     	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
-		ORDER BY s.sorder';
+		ORDER BY c.idlang,s.sorder';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**
