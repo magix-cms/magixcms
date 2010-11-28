@@ -13,19 +13,7 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une réecriture des métas</div>
-					<div class="dashboard-content">
-					{if $perms <= 2}
-					{$viewmetas}
-					{else}
-					<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-						Vous n'avez pas la permission d'administrer ce module
-					</div>
-					{/if}
-					</div>
-				</div>
+				<div class="column">
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une réecriture des métas</div>
 					<div class="dashboard-content">
@@ -39,9 +27,9 @@
 									<td>&nbsp;</td>
 								</tr>
 								<tr>
-									<td><textarea id="strrewrite" name="strrewrite" class="ui-input ui-widget-content ui-corner-all" cols="80" rows="2"></textarea></td>
+									<td><textarea id="strrewrite" name="strrewrite" class="ui-input ui-widget-content ui-corner-all" cols="48" rows="3"></textarea></td>
 									<td>
-									<ul>
+									<ul class="seotags">
 										<li><div id="add-category" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Catégorie</div></li>
 										<li><div id="add-subcategory" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Sous catégorie</div></li>
 										<li><div id="add-product" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Articles</div></li>
@@ -99,11 +87,58 @@
 					{/if}
 					</div>
 				</div>
+				</div>
+				<div class="column">
+					<div class="dashboard ui-widget-content ui-corner-all">
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une réecriture des métas</div>
+						<div class="dashboard-content">
+						{if $perms <= 2}
+						{$viewmetas}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	{include file="common/footer.phtml"}
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+{literal}
+{magixmin}
+<script type="text/javascript">
+$(function(){
+	/**
+	 * Ajoute les éléments pour la réécriture des métas
+	 */
+	$.getScript('/framework/js/tools/jquery.a-tools-1.5.2.min.js', function() {
+		$("#add-category").bind("click",function (){
+			var myContent = $("#strrewrite").val();
+			//$("#strrewrite").val(myContent + "[[category]]").focus();
+			$("#strrewrite").insertAtCaretPos("[[category]]");
+	        return false;
+		});
+		$("#add-subcategory").bind("click",function (){
+			var myContent = $("#strrewrite").val();
+	        //$("#strrewrite").val(myContent + "[[subcategory]]").focus();
+			$("#strrewrite").insertAtCaretPos("[[subcategory]]");
+	        return false;
+		});
+		$("#add-product").bind("click",function (){
+			var myContent = $("#strrewrite").val();
+	        //$("#strrewrite").val(myContent + "[[record]]").focus();
+			$("#strrewrite").insertAtCaretPos("[[record]]");
+	        return false;
+		});
+	});
+});
+</script>
+{/magixmin}
+{/literal}
 </body>
 </html>

@@ -452,6 +452,7 @@ input.ui-button { padding: .1em 1em; }
 ul.plugin-list{}
 ul.plugin-list li{}
 /*######################## SEO MODULE ##########################*/
+.seotags{margin:0;padding:0;}
 .addseo{display:block;clear:left;cursor:pointer;}
 .addseo:hover{font-weight:700px;text-decoration:underline;}
 /*######################## link preview ##########################*/
@@ -460,3 +461,5 @@ ul.plugin-list li{}
 /*######################## SEARCH ##########################*/
 #cms-window-search{margin:5px;}
 #catalog-window-search{margin:5px;}
+/*#########################CONFIG#########################*/
+.forms-config{margin:0;padding:0;}

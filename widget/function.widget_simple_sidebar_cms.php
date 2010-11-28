@@ -39,9 +39,9 @@
  * Smarty {widget_simple_sidebar_cms} function plugin
  *
  * Type:     function
- * Name:     personnal_cms
+ * Name:     widget_simple_sidebar_cms
  * Date:     September 29, 2009
- * Update:   May 23, 2010
+ * Update:   Novembre 28, 2010
  * Purpose:  
  * Examples: {widget_simple_sidebar_cms home=""}
  * Output:   
@@ -81,7 +81,7 @@ function smarty_function_widget_simple_sidebar_cms($params, $template){
 						$active = ' class="non-active-page"';
 					}  
 				}
-				$menu .='<li>'.'<div><a'.$active.' href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().$catpath.$block['idpage'].'-'.$block['pathpage'].'.html'.'">'.magixcjquery_string_convert::ucFirst($block['subjectpage']).'</a></div>'.'</li>';
+				$menu .='<li>'.'<a'.$active.' href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().$catpath.$block['idpage'].'-'.$block['pathpage'].'.html'.'">'.magixcjquery_string_convert::ucFirst($block['subjectpage']).'</a>'.'</li>';
 			}
 			if($nocat == 0){
 				$menu .= '</ul><div style="clear:left;"></div></div></div>';
@@ -141,7 +141,7 @@ function smarty_function_widget_simple_sidebar_cms($params, $template){
 						$active = ' class="non-active-page"';
 					}  
 				}
-				$menu .='<li>'.'<div><a'.$active.' href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().$catpath.$block['idpage'].'-'.$block['pathpage'].'.html'.'">'.magixcjquery_string_convert::ucFirst($block['subjectpage']).'</a></div>'.'</li>';
+				$menu .='<li>'.'<a'.$active.' href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().$catpath.$block['idpage'].'-'.$block['pathpage'].'.html'.'">'.magixcjquery_string_convert::ucFirst($block['subjectpage']).'</a>'.'</li>';
 			}
 			if($nocat == 0){
 				$menu .= '</ul><div style="clear:left;"></div></div></div>';
@@ -159,22 +159,6 @@ function smarty_function_widget_simple_sidebar_cms($params, $template){
 						$catpath = $block['idcategory'].'-'.$block['pathcategory'].magixcjquery_html_helpersHtml::unixSeparator();
 					break;
 				}
-				/*if(frontend_db_cms::publicDbCms()->s_page_cms_join_category($block['idcategory'],$lang) != null){
-					$menu .= '<h3><a id="'.$block['pathcategory'].'" href="#">'.magixcjquery_string_convert::ucFirst($block['category']).'</a></h3>';
-					$menu .= '<div><ul class="personnal-side-list">';
-					foreach(frontend_db_cms::publicDbCms()->s_page_cms_join_category($block['idcategory'],$lang) as $url){
-						if(isset($_GET['getpurl'])){
-							if($_GET['getpurl'] === $url['pathpage']){
-								$active = ' class="active-page"';
-							}else{
-								$active = '';
-							} 
-						}
-						$menu .='<li>'.'<a'.$active.' href="'.magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().$catpath.$url['pathpage'].'.html'.'">'.magixcjquery_string_convert::ucFirst($url['subjectpage']).'</a>'.'</li>';
-					}
-					$menu .= '</ul><div style="clear:left;"></div></div>';
-				}
-				*/
 				if(frontend_db_cms::publicDbCms()->s_page_cms_join_category($block['idcategory'],$lang) != null){
 					$menu .= '<h3><a id="'.$block['pathcategory'].'" href="#">'.magixcjquery_string_convert::ucFirst($block['category']).'</a></h3>';
 					$menu .= '<div><ul class="personnal-side-list">';

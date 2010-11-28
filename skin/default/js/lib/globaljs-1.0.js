@@ -61,7 +61,10 @@ $(function() {
 			nparams: 'chmod'
 		});
 	}
-	$('.personnal-side-list a.active-page').prepend('<span style="float:left;" class="ui-icon ui-icon-triangle-1-e"></span>');
+	/**
+	 * Animation du menu vertical CMS
+	 */
+	$('.personnal-side-list li a').prepend('<span style="float:left;" class="ui-icon ui-icon-triangle-1-e"></span>');
 	$('.personnal-side-list a:not(.active-page)').hover(function() {
 		$(this).stop().animate({ opacity: '1',backgroundColor: "transparent",color: "#622181" }, 'normal');
 	  }, function() {
@@ -72,6 +75,5 @@ $(function() {
 	 */
 	$("#catalog-hierarchy").treeview({
 		animated: "fast"
-
 	});
 });

@@ -444,24 +444,6 @@ $(function() {
 			});
 		 });
 /*################## Configuration ##############*/
-	    /**
-		 * Ajoute les éléments pour la réécriture des métas
-		 */
-		$("#add-category").bind("click",function (){
-			var myContent = $("#strrewrite").val();
-	        $("#strrewrite").val(myContent + "[[category]]").focus();
-	        return false;
-		});
-		$("#add-subcategory").bind("click",function (){
-			var myContent = $("#strrewrite").val();
-	        $("#strrewrite").val(myContent + "[[subcategory]]").focus();
-	        return false;
-		});
-		$("#add-product").bind("click",function (){
-			var myContent = $("#strrewrite").val();
-	        $("#strrewrite").val(myContent + "[[record]]").focus();
-	        return false;
-		});
 		/*### Config Metas ###*/
 		$("#forms-config-rewrite").submit(function(){
 			$.notice({

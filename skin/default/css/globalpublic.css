@@ -193,12 +193,13 @@ h1{
 	float: left;
 }
 .personnal-side-list li {
-	margin: 0px;
+	margin: 0;
 	font-size: 13px;
 }
+.personnal-side-list li a span{}
 .personnal-side-list li a {
 	color: #F29400;
-	padding: 4px 11px 4px 22px;
+	padding: 4px 11px 4px 13px;
 	text-align: left;
 	text-decoration: none;
 	position: relative;
@@ -210,41 +211,13 @@ h1{
 	border-bottom: 1px solid #000;
 }
 .personnal-side-list li a:hover {
-	color:#fff;
+	color:#622181;
 }
 .personnal-side-list li div:hover{}
 .clear {
 	clear: both; 
 	visibility: hidden;
 }
-/*.current_subcat{
-	list-style: none;
-	margin: 0px;
-	margin-right: 22px;
-	padding: 0px;
-	padding-left: 0px;
-	padding-top: 2%;
-	width: 184px;
-	float: left;
-}
-.current_subcat li {
-	margin: 0px;
-	font-size: 12px;
-	line-height:0.8em;
-}
-.current_subcat li a {
-	color: #F29400;
-	padding: 2px 11px 2px 22px;
-	text-align: left;
-	text-decoration: none;
-	position: relative;
-	display: block;
-}
-.current_subcat li a.active-page,.current_subcat li a.active-page:hover {
-	color:#93117E;
-}
-.current_subcat li a:hover {
-}*/
 #page-menu-nolang h3,#page-menu-lang h3,#catalog-menu h3{padding:4px 0 4px 22px;margin:0 22px 0 0;border-bottom:1px solid #ccc;font-size:100%;}
 #page-menu-nolang h3 a,#page-menu-lang h3 a,#catalog-menu h3 a{color:#93117E;}
 /*************************** Footer ***********************/

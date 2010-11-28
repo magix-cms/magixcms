@@ -19,6 +19,23 @@ select { width: 220px; }
 .tablecontain tr:hover {}
 .tablecontain td a{text-decoration:underline;}
 .tablecontain td a:hover{}
+/**
+* HACK safari and chrome
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.forms-cms-navigation table{margin:0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse;}
+	.forms-cms-navigation table tr th{margin:0;padding:0 ;vertical-align:top;}
+	.forms-cms-navigation table tr td{margin:0;padding:0;vertical-align:top;}
+	#forms-config-rewrite table{margin:0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse;}
+	#forms-config-rewrite table tr th{margin:0;padding:0 ;vertical-align:top;}
+	#forms-config-rewrite table tr td{margin:0;padding:0;vertical-align:top;}
+	#forms-config-rewrite-update table{margin:0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse;}
+	#forms-config-rewrite-update table tr th{margin:0;padding:0 ;vertical-align:top;}
+	#forms-config-rewrite-update table tr td{margin:0;padding:0;vertical-align:top;}
+	.forms-config table{margin:0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse;}
+	.forms-config table tr th{margin:0;padding:0 ;vertical-align:top;}
+	.forms-config table tr td{margin:0;padding:0;vertical-align:top;}
+}
 /*############## plugin password metter ######################*/
 .password-meter {
 	position:relative;
