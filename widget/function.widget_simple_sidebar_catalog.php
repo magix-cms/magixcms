@@ -110,11 +110,11 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 							if($_GET['idclc'] === $scat['idclc']){
 								$active = '';
 							}else{
-								$active = 'closed';
+								$active = ' class="closed"';
 							} 
 						}
 						if ($scat['idclc'] != $catId) {
-							$wmenu .= '<li class="'.$active.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$scat['pathclibelle'],$scat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($scat['clibelle']).'</span></a>'."\n";
+							$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$scat['pathclibelle'],$scat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($scat['clibelle']).'</span></a>'."\n";
 							if ($scat['idcls'] != null) {
 								$wmenu .= '<ul>';
 							}
@@ -122,7 +122,8 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 						if ($scat['idcls'] != null) {
 							$wmenu .= '<li><a href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url($lang,$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";
 						}
-						if ($catId != '') { 
+						if ($scat['idclc'] != $catId) {
+						//if ($catId != '') { 
 							if ($scat['idcls'] != null) {
 								$wmenu .= '</ul>';
 							}
@@ -141,11 +142,11 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 							if($_GET['idclc'] === $scat['idclc']){
 								$active = '';
 							}else{
-								$active = 'closed';
+								$active = ' class="closed"';
 							} 
 						}
 						if ($scat['idclc'] != $langcatId) {
-							$wmenu .= '<li class="'.$active.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$scat['pathclibelle'],$scat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($scat['clibelle']).'</span></a>'."\n";
+							$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$scat['pathclibelle'],$scat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($scat['clibelle']).'</span></a>'."\n";
 							if ($scat['idcls'] != null) {
 								$wmenu .= '<ul>';
 							}
@@ -153,7 +154,8 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 						if ($scat['idcls'] != null) {
 							$wmenu .= '<li><a href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url($lang,$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";
 						}
-						if ($langcatId != '') { 
+						if ($scat['idclc'] != $langcatId) {
+						//if ($langcatId != '') { 
 							if ($scat['idcls'] != null) {
 								$wmenu .= '</ul>';
 							}
