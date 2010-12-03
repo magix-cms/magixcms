@@ -125,7 +125,7 @@ RewriteRule ^(actualites|news|nieuws)/([/0-9]+)/([-_0-9a-zA-Z]+).html/{0,1}$    
 RewriteRule ^(fr|en|nl){1,3}[/](actualites|news|nieuws)[/]([/0-9]+)[/]([-_0-9a-zA-Z]+).html/{0,1}$     	/news.php?strLangue=$1&news&getdate=$3&getnews=$4 	[QSA,L]
 RewriteRule ^([/0-9]+)[-]([-_&0-9a-zA-Z]+).html/{0,1}$     										/cms.php?getidpage=$1&getpurl=$2 					[QSA,L]
 RewriteRule ^(fr|en|nl){1,3}[/]([/0-9]+)[-]([-_&0-9a-zA-Z]+).html/{0,1}$     					/cms.php?strLangue=$1&getidpage=$2&getpurl=$3		[QSA,L]
-RewriteRule ^([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_&0-9a-zA-Z]+).html/{0,1}$     					/cms.php?getidcategory=$1getcat=$2&getidpage=$3&getpurl=$4 		[QSA,L]
+RewriteRule ^([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_&0-9a-zA-Z]+).html/{0,1}$     					/cms.php?getidcategory=$1&getcat=$2&getidpage=$3&getpurl=$4 		[QSA,L]
 RewriteRule ^(fr|en|nl){1,3}[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_&0-9a-zA-Z]+).html/{0,1}$     /cms.php?strLangue=$1&getidcategory=$2&getcat=$3&getidpage=$4&getpurl=$5 		[QSA,L]
 #RewriteRule ^(formulaire|form)[/]([-_0-9a-zA-Z]+)[/]f-([/0-9]+).html/{0,1}$     				/index.php?forms&f&getforms=$3 						[QSA,L]
 #RewriteRule ^(fr|en|nl){1,3}[/](formulaire|form)[/]([-_0-9a-zA-Z]+)[/]f-([/0-9]+).html/{0,1}$  /index.php?strLangue=$1&forms&f&getforms=$4 		[QSA,L]
