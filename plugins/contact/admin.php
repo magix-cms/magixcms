@@ -237,7 +237,7 @@ class database_plugins_contact{
 	 */
 	protected function c_show_table(){
 		$table = 'mc_plugins_contact';
-		return backend_db_plugins::layerPlugins()->showTable($table);
+		return magixglobal_model_db::layerDB()->showTable($table);
 	}
 	/**
 	 * @access protected
@@ -248,7 +248,7 @@ class database_plugins_contact{
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
 		ORDER BY lang.idlang';
-		return backend_db_plugins::layerPlugins()->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * @access protected
@@ -258,7 +258,7 @@ class database_plugins_contact{
 	 */
 	protected function i_contact($idadmin,$idlang){
 		$sql = 'INSERT INTO mc_plugins_contact (idadmin,idlang) VALUE(:idadmin,:idlang)';
-		backend_db_plugins::layerPlugins()->insert($sql,
+		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idadmin'	=>	$idadmin,
 			':idlang'	=>	$idlang

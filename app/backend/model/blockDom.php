@@ -55,10 +55,19 @@ class backend_model_blockDom{
 					</tr>';
 		}else{
 			$block = '<tr>
+						<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+					</tr>
+					<tr>
 						<td>';
-			$block .= '<input type="hidden" size="5" id="idlang" name="idlang" value="0" />';
+			$block .= '<select id="idlang" name="idlang">';
+			$block .= '<option value="0">Défaut</option>';
+			$block .='</select>';
 			$block .= '</td>
-					</tr>';
+					<td style="width:150px;" class="errorInput"></td>
+			</tr>
+			<tr>
+				<td class="status"></td>
+			</tr>';
 		}
 		return $block;
 	}
@@ -83,12 +92,6 @@ class backend_model_blockDom{
 					</tr>
 					<tr>
 						<td class="status"></td>
-					</tr>';
-		}else{
-			$block = '<tr>
-						<td>';
-			$block .= '<input type="hidden" size="5" id="idlang" name="idlang" value="0" />';
-			$block .= '</td>
 					</tr>';
 		}
 		return $block;

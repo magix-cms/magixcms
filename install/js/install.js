@@ -47,6 +47,7 @@ $(function() {
 		 * Support input button with jquery ui button
 		 */
 		$("input:submit").button();
+		$(".inst-button").button();
 		$('#install-check').live('click',function(){
 			window.location = "/install/check.php";
 		});

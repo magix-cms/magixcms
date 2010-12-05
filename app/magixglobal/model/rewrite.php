@@ -486,7 +486,6 @@ class magixglobal_model_rewrite{
 	 * La réécriture des URL Root des plugins
 	 * @param string $lang
 	 * @param string $magixmod
-	 * @param string uniqp
 	 * @param bool $rewrite
 	 */
 	public static function filter_plugins_root_url($lang,$magixmod,$rewrite=false){
