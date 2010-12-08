@@ -37,10 +37,10 @@ if (version_compare(phpversion(), '5.2.0', '<')) {
 	echo  'Votre version de PHP est incompatible';
 	exit;
 }
-if (version_compare(phpversion(), '5.3.0', '>=')) {
+/*if (version_compare(phpversion(), '5.3.0', '>=')) {
 	echo  'Votre version de PHP n\'est pas supporté';
 	exit;
-}
+}*/
 $pathdir = dirname(realpath( __FILE__ ));
 $arraydir = array('lib', 'lib');
 $bootpath = str_replace($arraydir,array('','') , $pathdir);
