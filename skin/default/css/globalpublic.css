@@ -218,6 +218,10 @@ h1{
 	clear: both; 
 	visibility: hidden;
 }
+/**
+*Le menu treeview du catalogue et du CMS
+*/
+#page-menu-nolang a.active-page,#catalog-hierarchy a.active-page{color:#D1071E;text-decoration:underline;}
 #page-menu-nolang h3,#page-menu-lang h3,#catalog-menu h3{padding:4px 0 4px 22px;margin:0 22px 0 0;border-bottom:1px solid #ccc;font-size:100%;}
 #page-menu-nolang h3 a,#page-menu-lang h3 a,#catalog-menu h3 a{color:#93117E;}
 /*************************** Footer ***********************/

@@ -46,7 +46,7 @@
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.1
+ * @version  1.2
  * @param array
  * @param Smarty
  * @return string
@@ -55,6 +55,7 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$ui = $params['ui'];
 	$icons = $params['icons'];
+	//Si jQuery UI on applique les style
 	if(isset($ui)){
 		switch($ui){
 			case "true":
@@ -73,6 +74,7 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 		$wheader = '';
 		$carticon= '';
 	}
+	//Si icons = true on retourne les icônes de jquery treeview
 	if(isset($icons)){
 		$folder = ' class="folder"';
 		$file = ' class="file"';
@@ -80,6 +82,7 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 		$folder = '';
 		$file = '';
 	}
+	//On retourne le titre
 	$title = !empty($params['title'])? $params['title']:'';
 		$wmenu .= '<div class="sidebar'.$wheader.'">';
 		$wmenu .= '<div id="catalog-menu" class="block">';
@@ -88,6 +91,7 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 		}else{
 			$wmenu .= null;
 		}
+		//Sur la page root du catalogue
 		if(!isset($_GET['idclc'])){
 			$wmenu .= '<ul id="catalog-hierarchy" class="filetree">'."\n";
 			if(!$lang){
@@ -101,67 +105,67 @@ function smarty_function_widget_simple_sidebar_catalog($params, $template){
 			}
 			$wmenu .= '</ul>'."\n";
 		}else{
+			/*
+			 * Si on est dans une catégorie on execute la suite
+			 * Si pas de langue
+			 */
 			if(!$lang){
-				if(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_all_no_lang() != null){
-					$catId = '';
+				if(frontend_db_catalog::publicDbCatalog()->s_category_menu_no_lang() != null){
 					$wmenu .='<ul id="catalog-hierarchy" class="filetree">'."\n";
-					foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_all_no_lang() as $scat){
+					foreach(frontend_db_catalog::publicDbCatalog()->s_category_menu_no_lang() as $cat){
 						if(isset($_GET['idclc'])){
-							if($_GET['idclc'] === $scat['idclc']){
+							if($_GET['idclc'] === $cat['idclc']){
 								$active = '';
 							}else{
 								$active = ' class="closed"';
 							} 
 						}
-						if ($scat['idclc'] != $catId) {
-							$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$scat['pathclibelle'],$scat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($scat['clibelle']).'</span></a>'."\n";
-							if ($scat['idcls'] != null) {
-								$wmenu .= '<ul>';
+						$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$cat['pathclibelle'],$cat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</span></a>'."\n";
+						if(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_no_lang($cat['idclc']) != null){
+							$wmenu .= '<ul>';
+							foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_no_lang($cat['idclc']) as $scat){
+								if(isset($_GET['idcls'])){
+									if($_GET['idcls'] === $scat['idcls']){
+										$currentpage = ' class="active-page"';
+									}else{
+										$currentpage = '';
+									}  
+								}
+								$wmenu .= '<li><a'.$currentpage.' href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url($lang,$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";	
 							}
+							$wmenu .= '</ul>';
 						}
-						if ($scat['idcls'] != null) {
-							$wmenu .= '<li><a href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url($lang,$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";
-						}
-						if ($scat['idclc'] != $catId) {
-						//if ($catId != '') { 
-							if ($scat['idcls'] != null) {
-								$wmenu .= '</ul>';
-							}
-							$wmenu .= "</li>\n"; 
-						}
-						$catId = $scat['idclc'];
+					
+					$wmenu .= "</li>\n"; 
 					}
 					$wmenu .='</ul>'."\n";
 				}
 			}else{
-				if(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_with_lang($lang) != null){
-					$langcatId = '';
+				/**
+				 * Si la langue est définie
+				 * On liste les catégories et les catégories respective de la catégorie sélectionné
+				 */
+			if(frontend_db_catalog::publicDbCatalog()->s_category_menu_with_lang($lang) != null){
 					$wmenu .='<ul id="catalog-hierarchy" class="filetree">'."\n";
-					foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_with_lang($lang) as $scat){
+					foreach(frontend_db_catalog::publicDbCatalog()->s_category_menu_with_lang($lang) as $cat){
 						if(isset($_GET['idclc'])){
-							if($_GET['idclc'] === $scat['idclc']){
+							if($_GET['idclc'] === $cat['idclc']){
 								$active = '';
 							}else{
 								$active = ' class="closed"';
 							} 
 						}
-						if ($scat['idclc'] != $langcatId) {
-							$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$scat['pathclibelle'],$scat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($scat['clibelle']).'</span></a>'."\n";
-							if ($scat['idcls'] != null) {
-								$wmenu .= '<ul>';
+						$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($lang,$cat['pathclibelle'],$cat['idclc'],true).'"><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</span></a>'."\n";
+						
+						if(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_with_lang($lang,$cat['idclc']) != null){
+							$wmenu .= '<ul>';
+							foreach(frontend_db_catalog::publicDbCatalog()->s_sub_category_menu_with_lang($lang,$cat['idclc']) as $scat){
+								$wmenu .= '<li><a href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url($lang,$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";	
 							}
+							$wmenu .= '</ul>';
 						}
-						if ($scat['idcls'] != null) {
-							$wmenu .= '<li><a href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url($lang,$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";
-						}
-						if ($scat['idclc'] != $langcatId) {
-						//if ($langcatId != '') { 
-							if ($scat['idcls'] != null) {
-								$wmenu .= '</ul>';
-							}
-							$wmenu .= "</li>\n"; 
-						}
-						$langcatId = $scat['idclc'];
+					
+					$wmenu .= "</li>\n"; 
 					}
 					$wmenu .='</ul>'."\n";
 				}

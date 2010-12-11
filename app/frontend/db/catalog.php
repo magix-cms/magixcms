@@ -201,7 +201,7 @@ class frontend_db_catalog{
 	function s_sub_category_menu_no_lang($idclc){
 		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.codelang
 				FROM mc_catalog_c AS c
-				LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
+				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				WHERE c.idclc = :idclc AND c.idlang =0 ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
@@ -214,7 +214,7 @@ class frontend_db_catalog{
 	function s_sub_category_menu_all_no_lang(){
 		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.codelang
 				FROM mc_catalog_c AS c
-				LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
+				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				WHERE c.idlang = 0 ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql);
@@ -222,15 +222,17 @@ class frontend_db_catalog{
 	/**
 	 * construction menu des sous catégories (avec langue)
 	 * @param codelang
+	 * @param idclc
 	 */
-	function s_sub_category_menu_with_lang($codelang){
+	function s_sub_category_menu_with_lang($codelang,$idclc){
 		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.codelang
 				FROM mc_catalog_c AS c
-				LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
+				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE lang.codelang = :codelang ORDER BY corder';
+				WHERE c.idclc = :idclc AND lang.codelang = :codelang ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
-			':codelang'		=>	$codelang
+			':codelang'		=>	$codelang,
+			':idclc'		=>	$idclc
 		));
 	}
 	/**
