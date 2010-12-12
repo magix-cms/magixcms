@@ -1,3 +1,3 @@
 tinyMCE.addI18n('fr.youtube',{
-	desc : 'Insérer une vidéo YouTube'
+	desc : 'Ins&eacute;rer une vid&eacute;o YouTube'
 });

@@ -22,7 +22,7 @@ $(function() {
 			elements : 'absurls',
 			//remove_script_host : false,
 			theme : "advanced",
-			plugins : "safari,xhtmlxtras,emotions,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,rj_insertcode,tablegrid,youtube,loremipsum"+manager_tinymce_plugin,
+			plugins : "safari,xhtmlxtras,emotions,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,rj_insertcode,tablegrid,youtube,loremipsum"+manager_tinymce_plugin,
 			// Theme options
 			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fullscreen",
 			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,fontsizeselect,forecolor,backcolor,|,insertdate,inserttime,preview",
@@ -40,10 +40,10 @@ $(function() {
 			theme_advanced_resizing : true,
 			theme_advanced_styles : "imagebox=imagebox;targetblank=targetblank",
 			// Drop lists for link/image/media/template dialogs
-			/*template_external_list_url : "/lists/template_list.js",
-			external_link_list_url : "/lists/link_list.js",
-			external_image_list_url : "/lists/image_list.js",
-			media_external_list_url : "/lists/media_list.js",*/
+			template_external_list_url : "lists/template_list.js",
+			external_link_list_url : "lists/link_list.js",
+			external_image_list_url : "lists/image_list.js",
+			media_external_list_url : "lists/media_list.js",
 			cleanup : true,
 			cleanup_on_startup : true,
 			valid_elements : "*[*]",

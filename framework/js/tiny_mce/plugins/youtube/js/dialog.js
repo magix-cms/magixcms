@@ -26,7 +26,7 @@ var YouTubeDialog = {
 	        break;
 	        case '1':
 	        	insertedHD = '&amp;hd=1';
-                break;
+            break;
 		}
 		// Insert the contents from the input into the document
 		var objectCode = '<div style="width:'+document.forms[0].youtubeWidth.value+';height:'+document.forms[0].youtubeHeight.value+';">';

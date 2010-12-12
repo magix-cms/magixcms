@@ -44,7 +44,6 @@
 				cm.setActive('youtube', n.nodeName == 'IMG');
 			});
 		},
-
 		/**
 		 * Creates control instances based in the incomming name. This method is normally not
 		 * needed since the addButton method of the tinymce.Editor class is a more easy way of adding buttons
@@ -75,7 +74,6 @@
 			};
 		}
 	});
-
 	// Register plugin
 	tinymce.PluginManager.add('youtube', tinymce.plugins.YouTubePlugin);
 })();

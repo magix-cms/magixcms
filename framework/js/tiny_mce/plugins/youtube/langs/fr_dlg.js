@@ -1,10 +1,10 @@
 tinyMCE.addI18n('fr.youtube_dlg',{
-    title : "Video YouTube",
-    instr : "Insérez l'identifiant YouTube",
+    title : "Vid&eacute;o YouTube",
+    instr : "Ins&eacute;rez l'identifiant YouTube",
     ytID : "ID",
     ytW : "Width",
     ytH : "Height",
-    relvideo: "Inclure les vidéos similaires",
+    relvideo: "Inclure les vid&eacute;os similaires",
     hd:"Visionner en HD",
     yes:"Oui",
     no:"Non"
