@@ -229,7 +229,8 @@ $(function(){
 			 	beforeSubmit:function(){
 		 			$("#progressbar").progressbar({ value: 0 });
 			 		setTimeout(updateProgress, 100);
-			 	}
+			 	},
+		 	success:function(e){}
 			});
 	 	}
 	 });
@@ -248,7 +249,8 @@ $(function(){
 			 	beforeSubmit:function(){
 		 			$("#progressbar2").progressbar({ value: 0 });
 			 		setTimeout(updateProgress2, 100);
-			 	}
+			 	},
+			 	success:function(e){}
 			});
 	 	}
 	 });

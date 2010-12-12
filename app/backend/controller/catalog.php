@@ -1632,6 +1632,7 @@ EOT;
 	 * @access public
 	 */
 	public function run(){
+		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('category')){
 			if(magixcjquery_filter_request::isGet('delc')){
 				self::delete_catalog_category();
@@ -1664,18 +1665,22 @@ EOT;
 					self::update_specific_product();
 				}elseif(magixcjquery_filter_request::isGet('gethtmlprod')){
 					if(magixcjquery_filter_request::isGet('idclc')){
-						header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
-						header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-						header("Pragma: no-cache" ); 
-						header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+						$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+						$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+						$header->pragma();
+						$header->cache_control("nocache");
+						$header->getStatus('200');
+						$header->html_header("UTF-8");
 						self::construct_select_product();
 					}
 				}elseif(magixcjquery_filter_request::isGet('getjsonprod')){
 					if(magixcjquery_filter_request::isGet('idclc')){
-						header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
-						header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-						header("Pragma: no-cache" ); 
-						header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+						$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+						$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+						$header->pragma();
+						$header->cache_control("nocache");
+						$header->getStatus('200');
+						$header->json_header("UTF-8");
 						self::json_idcls();
 					}
 				}elseif(magixcjquery_filter_request::isGet('post_rel_product')){
@@ -1721,9 +1726,15 @@ EOT;
 			self::executeOrderSubCategory();
 			self::execute_order_product_category();
 			self::execute_order_product_subcategory();
-		}elseif(magixcjquery_filter_request::isGet('json')){
+		}/*elseif(magixcjquery_filter_request::isGet('json')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
 			self::get_select_json_construct();
-		}elseif(magixcjquery_filter_request::isGet('geturicat')){
+		}*/elseif(magixcjquery_filter_request::isGet('geturicat')){
 			self::uri_catalog_product();
 		}elseif(magixcjquery_filter_request::isGet('getreluri')){
 			self::uri_rel_product();

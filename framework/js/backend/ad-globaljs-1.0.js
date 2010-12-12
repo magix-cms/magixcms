@@ -136,7 +136,8 @@ $(function() {
 		/**
 		 * Requête ajax pour le changement de thème
 		 */
-		$(".list-screen a").bind("click", function(){
+		$(".list-screen a").bind("click", function(e){
+			e.preventDefault();
 			var hreftitle = $(this).attr("title");
 				if(hreftitle != null){
 					if(ie){
@@ -183,7 +184,8 @@ $(function() {
 		/**
 		 * Requête ajax pour le changement de thème
 		 */
-		$(".list-editor a").bind("click", function(){
+		$(".list-editor a").bind("click", function(e){
+			e.preventDefault();
 			var hreftitle = $(this).attr("title");
 				if(hreftitle != null){
 					if(ie){
@@ -377,7 +379,8 @@ $(function() {
 			});
 			return false; 
 		});
-	    $('.edit-lang').live("click",function(){
+	    $('.edit-lang').live("click",function(e){
+	    	e.preventDefault();
 			var idlang = $(this).attr('title');
 			var url = '/admin/lang.php?ulang='+idlang;
 			$("#update-lang").load(url, function() {
@@ -413,7 +416,8 @@ $(function() {
 	    /**
 	     * Requête ajax pour la suppression des langues
 	     */
-	    $('.dellang').click(function (){
+	    $('.dellang').click(function(e){
+	    	e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -488,7 +492,8 @@ $(function() {
 		/**
 	     * Requête ajax pour la suppression des réécriture de métas
 	     */
-		$('.d-config-rmetas').click(function (){
+		$('.d-config-rmetas').click(function(e){
+			e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -740,7 +745,8 @@ $(function() {
 		/**
 		 * Affiche la pop-up pour la modification 
 		 */
-		$('.ucms-category').live("click",function(){
+		$('.ucms-category').live("click",function(e){
+			e.preventDefault();
 			var idcategory = $(this).attr('title');
 			var url = '/admin/cms.php?ucategory='+idcategory;
 			$("#update-category").load(url, function() {
@@ -776,7 +782,8 @@ $(function() {
 	    /**
 	     * Requête ajax pour la suppression des pages CMS
 	     */
-		$('.deletecms').click(function (){
+		$('.deletecms').click(function (e){
+			e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -808,7 +815,8 @@ $(function() {
 		/**
 		 * Requête ajax pour la mise à jour d'une catégorie CMS
 		 */
-		$('.dcmscat').click(function (){
+		$('.dcmscat').click(function (e){
+			e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -857,7 +865,8 @@ $(function() {
 		/**
 		 * Affiche la popup des liens des pages CMS
 		 */
-		$('.cms-page-uri').live("click",function(){
+		$('.cms-page-uri').live("click",function(e){
+			e.preventDefault();
 			var currenturi = $(this).attr('title');
 				$('#window-box').dialog({
 					open:function() {
@@ -1043,7 +1052,8 @@ $(function() {
 	    /**
 	     * Requête ajax pour la suppression des utilisateurs
 	     */
-	    $('.deleteuser').click(function (){
+	    $('.deleteuser').click(function (e){
+	    	e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -1127,7 +1137,8 @@ $(function() {
 	    /**
 	     * Requête ajax pour la suppression des articles ou news
 	     */
-	    $('.deletenews').click(function (){
+	    $('.deletenews').click(function (e){
+	    	e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -1205,7 +1216,8 @@ $(function() {
 	    /**
 	     * Requête ajax pour la suppression des pages d'accueil
 	     */
-	    $('.deletehome').click(function (){
+	    $('.deletehome').click(function (e){
+	    	e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -1429,7 +1441,8 @@ $(function() {
 		/**
 		 * Affiche la popup des liens du produit
 		 */
-		$('.cat-uri-product').live("click",function(){
+		$('.cat-uri-product').live("click",function(e){
+			e.preventDefault();
 			var idproducturi = $(this).attr('title');
 			var url = '/admin/catalog.php?geturicat='+idproducturi;
 			$("#window-box").load(url, function() {
@@ -1452,7 +1465,8 @@ $(function() {
 		/**
 		 * Affiche la popup des produits de liaison
 		 */
-		$('.rel-uri-product').live("click",function(){
+		$('.rel-uri-product').live("click",function(e){
+			e.preventDefault();
 			var idproducturi = $(this).attr('title');
 			var url = '/admin/catalog.php?getreluri='+idproducturi;
 			$("#window-box").load(url, function() {
@@ -1545,7 +1559,8 @@ $(function() {
 		/**
 	     * Requête ajax pour la suppression des produits
 	     */
-		$('.deleteproduct').click(function (){
+		$('.deleteproduct').click(function (e){
+			e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -1579,7 +1594,8 @@ $(function() {
 		/**
 	     * Requête ajax pour la suppression des catégories
 	     */
-		$('.delc').click(function (){
+		$('.delc').click(function (e){
+			e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -1616,7 +1632,8 @@ $(function() {
 		/**
 	     * Requête ajax pour la suppression des sous catégories dans le catalogue
 	     */
-		$('.dels').click(function (){
+		$('.dels').click(function (e){
+			e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
 				bgiframe: true,
@@ -1650,7 +1667,8 @@ $(function() {
 		/**
 		 * Supprime une création de produit dans une catégorie/ou sous catégorie
 		 */
-		$('.d-in-product').click(function (){
+		$('.d-in-product').click(function (e){
+			e.preventDefault();
 			var inproduct = $(this).attr("title");
 			var productid = $('#idcatalog').val();
 			$("#dialog").dialog({
@@ -1685,7 +1703,8 @@ $(function() {
 		/**
 		 * Supprime une liaison de produit avec une fiche catalogue
 		 */
-		$('.d-rel-product').click(function (){
+		$('.d-rel-product').click(function (e){
+			e.preventDefault();
 			var relproduct = $(this).attr("title");
 			var productid = $('#idcatalog').val();
 			$("#dialog").dialog({

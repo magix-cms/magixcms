@@ -679,10 +679,17 @@ class backend_controller_cms{
 	 * @access public
 	 */
 	public function run(){
+		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('add')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::insert_new_page();
 			}elseif(magixcjquery_filter_request::isGet('json')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
 				self::json_category();
 			}else{
 				self::display_page();
@@ -716,6 +723,12 @@ class backend_controller_cms{
 			if(magixcjquery_filter_request::isGet('post')){
 				self::update_category_cms();
 			}else{
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->html_header("UTF-8");
 				self::edit_category_cms();
 			}
 		}elseif(magixcjquery_filter_request::isGet('dcmscat')){
