@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>{#youtube_dlg.title}</title>
+  <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+  <script type="text/javascript" src="js/dialog.js"></script>
+</head>
+<body>
+<div style="float:right;"><img src="img/Google-YouTube-128.png" width="128" height="128" alt="Youtube" /></div>
+<form onsubmit="YouTubeDialog.insert();return false;" action="#">
+  <p>{#youtube_dlg.instr}</p>
+ <div class="mceActionPanel">
+ <table>
+ <tr>
+ 	<td>{#youtube_dlg.ytID}</td>
+ </tr>
+ <tr>
+ 	<td><input id="youtubeID" name="youtubeID" type="text" class="text" size="12" value="" /></td>
+ </tr>
+ <tr>
+ 	<td>{#youtube_dlg.relvideo}</td>
+ </tr>
+ <tr>
+	<td>
+		<select name="youtubeREL" id="youtubeREL" style="width: 80px;">
+		  <option value="0">{#youtube_dlg.yes}</option>
+		  <option value="1">{#youtube_dlg.no}</option>
+		</select>
+	</td>
+  </tr>
+  <tr>
+ 	<td>{#youtube_dlg.hd}</td>
+ </tr>
+ <tr>
+	<td>
+		<select name="youtubeREL" id="youtubeHD" style="width: 80px;">
+			<option value="0">{#youtube_dlg.no}</option>
+			<option value="1">{#youtube_dlg.yes}</option>
+		</select>
+	</td>
+ </tr>
+ <tr>
+ 	<td>{#youtube_dlg.ytW} <input id="youtubeWidth" name="youtubeWidth" type="text" class="text" size="2" value="350" />&nbsp;
+ 	{#youtube_dlg.ytH} <input id="youtubeHeight" name="youtubeHeight" type="text" class="text" size="2" value="300" /></td>
+ <td>&nbsp;</td>
+ </tr>
+   </table>
+  </div>
+  <div class="mceActionPanel">
+    <div style="float:left;padding-top:5px">
+      <input type="button" id="insert" name="insert" value="{#insert}" onclick="YouTubeDialog.insert();" />&nbsp;
+      <input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+    </div>
+  </div>
+</form>
+
+</body>
+</html>
