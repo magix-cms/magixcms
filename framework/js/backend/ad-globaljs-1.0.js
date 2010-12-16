@@ -872,7 +872,7 @@ $(function() {
 					open:function() {
 						$(this).append(currenturi);
 					},
-					bgiframe: true,
+					bgiframe: false,
 					minHeight: 120,
 					minWidth: 400,
 					modal: true,
@@ -885,7 +885,7 @@ $(function() {
 					},
 					buttons: { 
 						"Close": function() { 
-						$(this).dialog("close"); 
+							$(this).dialog("close"); 
 						} 
 					},
 					close: function() {
@@ -1348,21 +1348,6 @@ $(function() {
 		$("#forms-catalog-product").submit(function(){
 			var productid = $('#idcatalog').val();
 			if(productid != null){
-				/*$(this).ajaxSubmit({
-	        		url:'/admin/catalog.php?product&editproduct='+productid+'&add_product',
-	        		type:"post",
-	        		resetForm: false,
-	        		success:function(request) {
-						$.notice({
-							ntype: "simple",
-							time:2
-						});
-	        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
-	        		}
-	        	});*/
 				$.notice({
 					ntype: "ajaxsubmit",
 		    		delay: 1800,
@@ -1441,48 +1426,61 @@ $(function() {
 		/**
 		 * Affiche la popup des liens du produit
 		 */
-		$('.cat-uri-product').live("click",function(e){
-			e.preventDefault();
+		$('.cat-uri-product').live("click",function(event){
+			event.preventDefault();
 			var idproducturi = $(this).attr('title');
 			var url = '/admin/catalog.php?geturicat='+idproducturi;
 			$("#window-box").load(url, function() {
 				$(this).dialog({
-					bgiframe: true,
+					bgiframe: false,
 					minHeight: 150,
 					minWidth: 400,
 					modal: true,
 					title: 'Copier un lien',
 					closeOnEscape: true,
-					position: "center",
+					position:"center",
 					overlay: {
 						backgroundColor: '#000',
 						opacity: 0.5
 					},
-					buttons: { "Close": function() { $(this).dialog("close"); } }
+					buttons: { 
+						"Close": function() { 
+							$(this).dialog("close"); 
+						} 
+					},
+					close: function() {
+						$(this).empty();
+					}
 				});
 			});
 		});
 		/**
 		 * Affiche la popup des produits de liaison
 		 */
-		$('.rel-uri-product').live("click",function(e){
-			e.preventDefault();
+		$('.rel-uri-product').live("click",function(event){
+			event.preventDefault();
 			var idproducturi = $(this).attr('title');
 			var url = '/admin/catalog.php?getreluri='+idproducturi;
 			$("#window-box").load(url, function() {
 				$(this).dialog({
-					bgiframe: true,
+					bgiframe: false,
 					minHeight: 150,
 					minWidth: 400,
 					modal: true,
 					title: 'Copier un lien de produit de liaison',
 					closeOnEscape: true,
-					position: "center",
 					overlay: {
 						backgroundColor: '#000',
 						opacity: 0.5
 					},
-					buttons: { "Close": function() { $(this).dialog("close"); } }
+					buttons: { 
+						"Close": function() { 
+							$(this).dialog("close"); 
+						} 
+					},
+					close: function() {
+						$(this).empty();
+					}
 				});
 			});
 		});

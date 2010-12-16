@@ -55,7 +55,8 @@ function smarty_function_widget_catalog($params, $template){
 	}
 	$viewuser = empty($params['viewuser']) ? true : false;
 	if($viewuser){
-		$thuser = '<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>';
+		$thuser = '<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>
+		<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>';
 	}else{
 		$thuser = '';
 	}
@@ -82,7 +83,6 @@ function smarty_function_widget_catalog($params, $template){
 							<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-image"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>
 							'.$thuser.'
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-transferthick-e-w"></span></th>
@@ -116,7 +116,7 @@ function smarty_function_widget_catalog($params, $template){
 			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$imgcatalog.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
-			 $plugin .= '<td class="nowrap"><a href="#" class="cat-uri-product" title="'.$pcms['idcatalog'].'"><span class="ui-icon ui-icon-link"></span></a></td>';
+			 $plugin .= $viewuser?'<td class="nowrap"><a href="#" class="cat-uri-product" title="'.$pcms['idcatalog'].'"><span class="ui-icon ui-icon-link"></span></a></td>':'';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;moveproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
@@ -129,8 +129,8 @@ function smarty_function_widget_catalog($params, $template){
 			 $plugin .=	$viewuser?'<td class="maximal"></td>':'';
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
-			 $plugin .= '<td class="nowrap"></td>';
-			 $plugin .= '<td class="nowrap"></td>';
+			  $plugin .= $viewuser?'<td class="nowrap"></td>':'';
+			 $plugin .= $viewuser?'<td class="nowrap"></td>':'';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';

@@ -1068,11 +1068,11 @@ EOT;
 	 */
 	private function uri_catalog_product(){
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->geturicat) != null){
-			$product = '<ul style="margin-left:1em;">';
+			$product = '<ul style="margin:0;">';
 			//foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->geturicat) as $prod){
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->geturicat) as $prod){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
-				$product .= '<li style="list-style-type: square;">'.
+				$product .= '<li style="list-style: none;margin:0;padding:0;">'.
 				magixglobal_model_rewrite::filter_catalog_product_url(
 					$prod['codelang'], 
 					$prod['pathclibelle'], 
@@ -1201,10 +1201,10 @@ EOT;
 	 */
 	private function uri_rel_product(){
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) != null){
-			$product = '<ul style="margin-left:1em;">';
+			$product = '<ul style="margin:0;">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) as $prod){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
-				$product .= '<li style="list-style-type: square;">'
+				$product .= '<li style="list-style: none;margin:0;padding:0;">'
 				.magixglobal_model_rewrite::filter_catalog_product_url(
 					$info['codelang'], 
 					$info['pathclibelle'], 

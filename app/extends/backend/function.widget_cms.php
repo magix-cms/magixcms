@@ -54,7 +54,8 @@ function smarty_function_widget_cms($params, $template){
 	}
 	$viewuser = empty($params['viewuser']) ? true : false;
 	if($viewuser){
-		$thuser = '<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>';
+		$thuser = '<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
+		<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>';
 	}else{
 		$thuser = '';
 	}
@@ -81,7 +82,6 @@ function smarty_function_widget_cms($params, $template){
 						<th><span style="float:left;" class="magix-icon magix-icon-igoogle-d"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
 						'.$thuser.'
-						<th><span style="float:left;" class="ui-icon ui-icon-link"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-transferthick-e-w"></span></th>
@@ -127,7 +127,7 @@ function smarty_function_widget_cms($params, $template){
 			 $plugin .= '<td class="nowrap">'.$icons_d.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="cms-page-uri" href="#" title="'.magixglobal_model_rewrite::filter_cms_url($pcms['codelang'], $pcms['idcategory'], $pcms['pathcategory'], $pcms['idpage'], $pcms['pathpage'],true).'"><span style="float:left;" class="ui-icon ui-icon-link"></span></a></td>';
+			 $plugin .= $viewuser?'<td class="nowrap"><a class="cms-page-uri" href="#" title="'.magixglobal_model_rewrite::filter_cms_url($pcms['codelang'], $pcms['idcategory'], $pcms['pathcategory'], $pcms['idpage'], $pcms['pathpage'],true).'"><span style="float:left;" class="ui-icon ui-icon-link"></span></a></td>':'';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_cms_url($pcms['codelang'], $pcms['idcategory'], $pcms['pathcategory'], $pcms['idpage'], $pcms['pathpage']).'" title="'.$pcms['subjectpage'].'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?editcms='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?movepage='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';

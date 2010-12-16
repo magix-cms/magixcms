@@ -1,5 +1,5 @@
 tinyMCE.addI18n('en.youtube_dlg',{
-    title : "YouTube Video",
+    title : "Insert a YouTube Video",
     instr : "Insert the YouTube video ID of the video you want to appear.",
     ytID : "ID",
     ytW : "Width",

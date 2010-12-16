@@ -1,3 +1,19 @@
+stable 2.3.42
+	* Fix bug menu déroulant des catégories dans l'admin
+	* Modification de l'instance de base de donnée dans le plugin contact
+	* Fix bug htaccess pour les news (undefined)
+	* Suppression de la condition pour le teste de php5.3, prise en charge fonctionnelle
+	* Fix bug du menu treeview du catalogue
+	* Redéfinition des requêtes pour la construction du menu treeview catalogue.
+	* Ajout des styles du menu treeview pour les pages active
+	* Ajout du plugin youtube dans tinyMCE
+	* Ajout de la classe pour la gestion des entête HTTP dans magixglobal
+	* Modification des entêtes json dans le catalogue, CMS avec la nouvelle classe header
+	* Fix bug de la mise en cache des fichiers json et php via le htaccess
+	* Ajout de popupinline dans tinymce
+	* Fix bug affichage du plugin youtube (prise en charge des caractères accentuer)
+	* Update jquery form 2.49 => 2.52
+	
 stable 2.3.41
 	* Upgrade de pdw file browser 1.3 dans tinymce et ckeditor
 	* Upgrade smarty 3.0.1 => 3.0.5 stable
