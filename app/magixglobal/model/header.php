@@ -212,6 +212,17 @@ class magixglobal_model_header{
 		}
 	}
 	/**
+	 * retourne l'entete html
+	 * @param string $charset
+	 * @param bool $debug
+	 */
+	public function txt_header($charset,$debug=false){
+		header('Content-Type: text/plain; charset='.$charset);
+		if($debug == true){
+			magixcjquery_debug_magixfire::magixFireLog("Headers:", headers_list());
+		}
+	}
+	/**
 	 * @param string $method
 	 * @param  $arguments
 	 * @throws Exception

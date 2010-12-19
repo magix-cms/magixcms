@@ -21,7 +21,7 @@ $(function() {
 	/**
 	 * Textchange pour les champs avec une information de limitation de caractère
 	 */
-	$.event.special.textchange = {
+	/*$.event.special.textchange = {
 		setup: function (data, namespaces) {
 			$(this).bind('keyup', $.event.special.textchange.handler);
 			$(this).bind('cut paste input', $.event.special.textchange.delayedHandler);
@@ -45,7 +45,7 @@ $(function() {
 				element.data('lastValue', element.val());
 			}
 		}
-	};
+	};*/
 	/**
 	 * Effet de survol sur les boutons dans le top sidebar
 	 */
@@ -305,15 +305,6 @@ $(function() {
 					$('span',this).addClass("ui-icon ui-icon-circle-minus");
 		        }
 		 });
-		 /**
-		  * Utilisation de textchange pour le compteur informatif des métas
-		  */
-		$('#metatitle').bind('textchange', function (event, previousText) {
-			$('#charactersLeftT').html( 120 - parseInt($(this).val().length) );
-		});
-		$('#metadescription').bind('textchange', function (event, previousText) {
-			$('#charactersLeftD').html( 180 - parseInt($(this).val().length) );
-		});
 		// sortable portlets ou déplacement et loking des widgets
 		// les colonnes qui contiennet les widget déplaçable
 		/*$(".column").sortable({
@@ -802,12 +793,14 @@ $(function() {
 							type:'get',
 							url: "/admin/cms.php?delpage="+lg,
 							async: false,
-							success: location.reload()
+							cache:false,
+							success: function(){
+								location.reload();
+							}
 					     });
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						//success: location.reload()
 					}
 				}
 			});
@@ -836,8 +829,7 @@ $(function() {
 							url: "/admin/cms.php?dcmscat="+lg,
 							async: false,
 							success : function(){
-								$(this).dialog('close');
-								location.reload()
+								location.reload();
 				    		}
 					     });
 					},
@@ -1072,15 +1064,14 @@ $(function() {
 							type:'get',
 							url: "/admin/users.php?deluser="+lg,
 							async: false,
+							cache:false,
 							success : function(){
-								$(this).dialog('close');
-								location.reload()
+								location.reload();
 					    	}
 					     });
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						//success: location.reload()
 					}
 				}
 			});
@@ -1157,7 +1148,10 @@ $(function() {
 							type:'get',
 							url: "/admin/news.php?delnews="+lg,
 							async: false,
-							success: location.reload()
+							cache:false,
+							success: function(){
+								location.reload();
+							}
 					     });
 					},
 					Cancel: function() {
@@ -1236,7 +1230,10 @@ $(function() {
 							type:'get',
 							url: "/admin/home.php?delhome="+lg,
 							async: false,
-							success: location.reload()
+							cache: false,
+							success: function(){
+								location.reload();
+							}
 					     });
 					},
 					Cancel: function() {
@@ -1310,22 +1307,6 @@ $(function() {
 		$("#forms-catalog-card-product-edit").submit(function(){
 			var productid = $('#idcatalog').val();
 			if(productid != null){
-				/*tinyMCE.triggerSave(true,true);*
-				/*$(this).ajaxSubmit({
-	        		url:'/admin/catalog.php?product&editproduct='+productid+'&updateproduct',
-	        		type:"post",
-	        		resetForm: false,
-	        		success:function(request) {
-						$.notice({
-							ntype: "simple",
-							time:2
-						});
-	        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
-	        		}
-	        	});*/
 				$.notice({
 					ntype: "ajaxsubmit",
 		    		delay: 1800,
@@ -1377,9 +1358,9 @@ $(function() {
 							time:2
 						});
 	        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
+        				setTimeout(function(){
+        					location.reload();
+        				},2800);
 	        		}
 	        	});
 				return false; 
@@ -1584,7 +1565,6 @@ $(function() {
 					},
 					Cancel: function() {
 						$(this).dialog('close');
-						//success: location.reload();
 					}
 				}
 			});
@@ -1592,7 +1572,7 @@ $(function() {
 		/**
 	     * Requête ajax pour la suppression des catégories
 	     */
-		$('.delc').click(function (e){
+		$('.delc').click(function(e){
 			e.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({

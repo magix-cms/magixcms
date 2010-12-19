@@ -113,7 +113,7 @@
 									</tr>
 								</table>
 								</div>
-							<div style="margin:5px;"><input type="submit" /></div>
+							<div style="margin:5px;"><input type="submit" value="Envoyer" /></div>
 						</form>
 						{else}
 							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
@@ -131,5 +131,20 @@
 {ajax_notify}
 {include file="common/javascript.phtml"}
 {include file="common/editor.phtml"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/framework/js/tools/jquery.textchange.min.js', function() {
+		/**
+		  * Utilisation de textchange pour le compteur informatif des métas
+		  */
+		$('#metatitle').bind('textchange', function (event, previousText) {
+			$('#charactersLeftT').html( 120 - parseInt($(this).val().length) );
+		});
+		$('#metadescription').bind('textchange', function (event, previousText) {
+			$('#charactersLeftD').html( 180 - parseInt($(this).val().length) );
+		});
+	});
+});
+</script>
 </body>
 </html>

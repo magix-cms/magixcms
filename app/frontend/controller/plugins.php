@@ -103,9 +103,10 @@ class frontend_controller_plugins{
 	 * @access private
 	 * return string
 	 */
-	private function pathConfigLoad($configfile){
+	private function pathConfigLoad($configfile,$filextension,$plugin=''){
 		try {
-			return $configfile.self::current_Language().'.conf';
+			$filextends = $filextension ? $filextension : '.conf';
+			return self::directory_plugins().self::controlGetPlugin($plugin).DIRECTORY_SEPARATOR.$configfile.self::current_Language().$filextends;
 		} catch (Exception $e) {
 			magixglobal_model_system::magixlog("Error path config", $e);
 		}

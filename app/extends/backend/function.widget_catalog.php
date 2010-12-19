@@ -126,11 +126,12 @@ function smarty_function_widget_catalog($params, $template){
 		}
 	}else{
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal"></td>':'';
+			 $plugin .=	$viewuser?'<td class="maximal"></td>':'<td class="maximal"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
-			  $plugin .= $viewuser?'<td class="nowrap"></td>':'';
 			 $plugin .= $viewuser?'<td class="nowrap"></td>':'';
+			 $plugin .= $viewuser?'<td class="nowrap"></td>':'';
+			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';

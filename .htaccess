@@ -113,7 +113,8 @@
     RewriteEngine on
 ############################################
 ## always send 404 on missing files in these folders
-    RewriteCond %{REQUEST_URI} !^/(skin)/
+#RewriteCond %{REQUEST_URI} !^/(skin)/
+#RewriteRule ^([^/]+\.html) /$1.phtml [L]
 </IfModule>
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteCond %{REQUEST_FILENAME} !-d

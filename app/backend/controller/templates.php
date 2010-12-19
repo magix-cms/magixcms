@@ -55,14 +55,16 @@ class backend_controller_templates{
 	 */
 	private function directory_skin(){
 		try{
-			$pathdir = dirname(realpath( __FILE__ ));
+			/*$pathdir = dirname(realpath( __FILE__ ));
 			$arraydir = array('app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'controller');
-			return magixglobal_model_system::root_path($arraydir,array(self::skin) , $pathdir).DIRECTORY_SEPARATOR;
+			return magixglobal_model_system::root_path($arraydir,array(self::skin) , $pathdir).DIRECTORY_SEPARATOR;*/
+			return magixglobal_model_system::base_path().self::skin.DIRECTORY_SEPARATOR;
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
 	/**
+	 * @access private
 	 * @see backend_model_template
 	 * Theme selectionné dans la base de donnée
 	 */
@@ -71,6 +73,7 @@ class backend_controller_templates{
 	}
 	private function register_template(){}
 	/**
+	 * @access private
 	 * Scanne le dossier skin (public) et retourne les images ou capture des thèmes
 	 */
 	private function scanTemplateDir(){
@@ -115,19 +118,21 @@ class backend_controller_templates{
 		return $dossier;
 	}
 	/**
+	 * @access private
 	 * Assigne une variable pour les themes
 	 */
 	private function assign_screen(){
 		return backend_config_smarty::getInstance()->assign('themes',self::scanTemplateDir());
 	}
-	/*
-	 * 
+	/**
+	 * @access private
 	 * Met à jour le template dans la configuration
 	 */
 	private function change_tpl(){
 		backend_model_template::backendTheme()->u_change_theme($this->ptheme);
 	}
 	/**
+	 * @access private
 	 * Post les données concernant le template
 	 */
 	private function send_post_template(){
@@ -135,12 +140,25 @@ class backend_controller_templates{
 		backend_config_smarty::getInstance()->display('request/success-templates.phtml');
 	}
 	/**
+	 * @access private
 	 * Affiche la page pour la sélection ou le changement de template
 	 */
 	private function view_tpl_screen(){
 		self::assign_screen();
 		backend_config_smarty::getInstance()->display('templates/index.phtml');
 	}
+	/**
+	 * @access private
+	 * Charge le thème sélectionné
+	 */
+	private function load_theme_screen(){
+		$theme = '<div id="screen-tpl">';
+		$theme .= '<h3>'.$this->editor.'</h3>';
+		$theme .= '<img src="/'.self::skin.'/'.$this->editor.'/screenshot.png'.'" alt="'.$this->editor.'" />';
+		$theme .= '</div>' ;
+		return $theme;
+	}
+	
 	/**
 	 * Execute le module dans l'administration
 	 * @access public

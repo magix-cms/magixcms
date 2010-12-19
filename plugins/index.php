@@ -7,5 +7,5 @@ header('Last-Modified: '.gmdate('D, d M Y H:i:s', $time).' GMT');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-exit("You don't have permission to access plugins on this server.");
+die("You don't have permission to access plugins on this server.");
 ?>
