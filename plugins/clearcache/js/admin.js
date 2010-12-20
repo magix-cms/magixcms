@@ -37,7 +37,7 @@ $(function(){
 						typesend: 'get',
 						delay: 1800,
 						time:1,
-						reloadhtml:true
+						reloadhtml:false
 					});
 				},
 				Cancel: function() {
@@ -66,7 +66,7 @@ $(function(){
 						typesend: 'get',
 						delay: 1800,
 						time:1,
-						reloadhtml:true
+						reloadhtml:false
 					});
 				},
 				Cancel: function() {
@@ -95,7 +95,7 @@ $(function(){
 						typesend: 'get',
 						delay: 1800,
 						time:1,
-						reloadhtml:true
+						reloadhtml:false
 					});
 				},
 				Cancel: function() {

@@ -53,11 +53,8 @@ class backend_controller_templates{
 	 * @access private
 	 * return void
 	 */
-	private function directory_skin(){
+	protected function directory_skin(){
 		try{
-			/*$pathdir = dirname(realpath( __FILE__ ));
-			$arraydir = array('app'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'controller');
-			return magixglobal_model_system::root_path($arraydir,array(self::skin) , $pathdir).DIRECTORY_SEPARATOR;*/
 			return magixglobal_model_system::base_path().self::skin.DIRECTORY_SEPARATOR;
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -99,7 +96,6 @@ class backend_controller_templates{
 				$ctpl = '';
 			}
 			$themePath = self::directory_skin().$d;
-			//print_r($makefiles->scanRecursiveDir($themePath));
 			if($makefiles->scanDir($themePath) != null){
 				if(file_exists($themePath.'/screenshot.png')){
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
@@ -147,18 +143,6 @@ class backend_controller_templates{
 		self::assign_screen();
 		backend_config_smarty::getInstance()->display('templates/index.phtml');
 	}
-	/**
-	 * @access private
-	 * Charge le thème sélectionné
-	 */
-	private function load_theme_screen(){
-		$theme = '<div id="screen-tpl">';
-		$theme .= '<h3>'.$this->editor.'</h3>';
-		$theme .= '<img src="/'.self::skin.'/'.$this->editor.'/screenshot.png'.'" alt="'.$this->editor.'" />';
-		$theme .= '</div>' ;
-		return $theme;
-	}
-	
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
