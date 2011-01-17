@@ -480,7 +480,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return '/'.$language.'magixmod/'.$magixmod.'/'.$pnum1.'/'.$pstring2.'.html';
+		return '/'.$language.'magixmod/'.$magixmod.'/'.$pnum1.'-'.$pstring2.'.html';
 	}
 	/**
 	 * La réécriture des URL Root des plugins
