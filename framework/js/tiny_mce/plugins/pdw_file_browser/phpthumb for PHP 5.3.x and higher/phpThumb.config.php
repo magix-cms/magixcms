@@ -16,7 +16,9 @@ if (!file_exists(dirname(__FILE__).'/phpthumb.functions.php') || !include_once(d
 	die('failed to include_once(phpthumb.functions.php) - realpath="'.realpath(dirname(__FILE__).'/phpthumb.functions.php').'"');
 }
 ob_end_clean();
-
+$pdw_thumb_dir = dirname(realpath( __FILE__ ));
+$pdw_thumb_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'pdw_file_browser'.DIRECTORY_SEPARATOR.'phpthumb');
+$pdw_thumb = str_replace($pdw_thumb_array_dir,array('var'.DIRECTORY_SEPARATOR.'pdw_file_cache') , $pdw_thumb_dir);
 // START USER CONFIGURATION SECTION:
 
 // * DocumentRoot configuration
@@ -32,7 +34,9 @@ $PHPTHUMB_CONFIG['document_root'] = realpath((getenv('DOCUMENT_ROOT') && preg_ma
 // * Cache directory configuration (choose only one of these - leave the other lines commented-out):
 // Note: this directory must be writable (usually chmod 777 is neccesary) for caching to work.
 // If the directory is not writable no error will be generated but caching will be disabled.
-$PHPTHUMB_CONFIG['cache_directory'] = dirname(__FILE__).'/../cache/';                            // set the cache directory relative to the phpThumb() installation
+/*Ancienne configuration de base Magix CMS*/
+//$PHPTHUMB_CONFIG['cache_directory'] = dirname(__FILE__).'/../cache/';                            // set the cache directory relative to the phpThumb() installation
+$PHPTHUMB_CONFIG['cache_directory'] = $pdw_thumb;
 //$PHPTHUMB_CONFIG['cache_directory'] = $PHPTHUMB_CONFIG['document_root'].'/phpthumb/cache/'; // set the cache directory to an absolute directory for all source images
 //$PHPTHUMB_CONFIG['cache_directory'] = './cache/';                                           // set the cache directory relative to the source image - must start with '.' (will not work to cache URL- or database-sourced images, please use an absolute directory name)
 //$PHPTHUMB_CONFIG['cache_directory'] = null;                                                 // disable thumbnail caching (not recommended)

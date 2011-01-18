@@ -25,9 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 ob_start( 'ob_gzhandler' );
-
-define('MINIFY_CACHE_DIR', dirname(__FILE__) . '/cache');
-
+$pdw_minify_dir = dirname(realpath( __FILE__ ));
+$pdw_minify_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'pdw_file_browser');
+$pdw_minify = str_replace($pdw_minify_array_dir,array('var'.DIRECTORY_SEPARATOR.'pdw_file_cache') , $pdw_minify_dir);
+//define('MINIFY_CACHE_DIR', dirname(__FILE__) . '/cache');
+define('MINIFY_CACHE_DIR', $pdw_minify);
 require_once('functions.php');
 require_once('minify.php');
 
@@ -402,6 +404,7 @@ $(document).ready(function() {
             button_width: "175",
             button_height: "20",
             button_window_mode: "transparent",
+            //button_image_url:   /v220/featuresdemo/images/button_270x22.png
             button_placeholder_id: "spanButtonPlaceHolder",
             button_text: '<span class="browseButton"><?php echo translate("Browse..."); ?></span>',
             button_text_style: ".browseButton {font-family:sans-serif; color:#000000; font-size:14px; font-weight: bold;}",

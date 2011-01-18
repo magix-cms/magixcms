@@ -40,10 +40,10 @@ $(function() {
 			theme_advanced_resizing : true,
 			theme_advanced_styles : "imagebox=imagebox;targetblank=targetblank",
 			// Drop lists for link/image/media/template dialogs
-			template_external_list_url : "lists/template_list.js",
+			/*template_external_list_url : "lists/template_list.js",
 			external_link_list_url : "lists/link_list.js",
 			external_image_list_url : "lists/image_list.js",
-			media_external_list_url : "lists/media_list.js",
+			media_external_list_url : "lists/media_list.js",*/
 			cleanup : true,
 			cleanup_on_startup : true,
 			valid_elements : "*[*]",
@@ -56,14 +56,14 @@ $(function() {
 		});
 	});
 });
-	function filebrowser(field_name, url, type, win) {
+function filebrowser(field_name, url, type, win) {
 	fileBrowserURL = "/framework/js/tiny_mce/plugins/pdw_file_browser/index.php?filter=" + type;
 	tinyMCE.activeEditor.windowManager.open({
 		title: "PDW File Browser",
 		url: fileBrowserURL,
 		width: 950,
 		height: 650,
-		inline: 0,
+		inline: 1,
 		maximizable: 1,
 		close_previous: 0
 	},{
