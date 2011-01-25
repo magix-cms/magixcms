@@ -23,26 +23,6 @@ $(function() {
 		 window.open($(this).attr('href'));
 		 return false;
 	});
-	/**
-	 * Effet de survol sur les boutons
-	 */
-		//all hover and click logic for buttons
-		$(".fg-button:not(.ui-state-disabled)").hover(
-			function(){ 
-				$(this).addClass("ui-state-hover"); 
-			},
-			function(){ 
-				$(this).removeClass("ui-state-hover"); 
-			}
-		).mousedown(function(){
-				$(this).parents('.fg-buttonset-single:first').find(".fg-button.ui-state-active").removeClass("ui-state-active");
-				if( $(this).is('.ui-state-active.fg-button-toggleable, .fg-buttonset-multi .ui-state-active') ){ $(this).removeClass("ui-state-active"); }
-				else { $(this).addClass("ui-state-active"); }	
-		}).mouseup(function(){
-			if(! $(this).is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
-				$(this).removeClass("ui-state-active");
-			}
-		});
 		/**
 		 * Support input button with jquery ui button
 		 */
@@ -50,6 +30,9 @@ $(function() {
 		$(".inst-button").button();
 		$('#install-check').live('click',function(){
 			window.location = "/install/check.php";
+		});
+		$('#upgrade-check').live('click',function(){
+			window.location = "/install/upgrade.php";
 		});
 		/**
 		 * Notification après installation pour le dossier "install"

@@ -46,19 +46,20 @@ class magixglobal_model_system{
 				return str_replace($search, $replace, $pathdir);
 			}
 		}catch(Exception $e) {
-			$log = magixcjquery_error_log::getLog();
-	        $log->logfile = M_TMP_DIR;
-	        $log->write('An error has occured :'. $e->getMessage(),__FILE__, $e->getLine());
-	        magixcjquery_debug_magixfire::magixFireError($e);
+			self::magixlog("An error has occured :", $e);
 		}
 	}
 	/**
 	 * Retourne le dossier base(ROOT) de Magix CMS
 	 */
 	public static function base_path(){
-		$search  = array('app'.DIRECTORY_SEPARATOR.'magixglobal'.DIRECTORY_SEPARATOR.'model');
-		$replace = array('');
-		return str_replace($search, $replace, dirname(realpath( __FILE__ )));
+		try{
+			$search  = array('app'.DIRECTORY_SEPARATOR.'magixglobal'.DIRECTORY_SEPARATOR.'model');
+			$replace = array('');
+			return str_replace($search, $replace, dirname(realpath( __FILE__ )));
+		}catch(Exception $e) {
+			self::magixlog("An error has occured :", $e);
+		}
 	}
 	/**
 	 * Initialise le système de LOG du CMS

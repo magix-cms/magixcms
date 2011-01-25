@@ -31,10 +31,16 @@
  * @name smarty
  *
  */
-$pathdir = dirname(realpath( __FILE__ ));
+/*$pathdir = dirname(realpath( __FILE__ ));
 $arraydir = array('install\exec\config', 'install/exec/config');
 $smartydir = magixglobal_model_system::root_path($arraydir,array('lib\smarty3', 'lib/smarty3') , $pathdir);
 $inc = $smartydir.'/Smarty.class.php';
+if (file_exists($inc)) {
+	require_once($inc);
+}else{
+	exit();
+}*/
+$inc = magixglobal_model_system::base_path().'lib'.DIRECTORY_SEPARATOR.'smarty3'.DIRECTORY_SEPARATOR.'Smarty.class.php';
 if (file_exists($inc)) {
 	require_once($inc);
 }else{
@@ -68,9 +74,11 @@ class exec_config_smarty extends Smarty{
 		 */
 	}
 	private function setPath(){
-		$pathdir = dirname(realpath( __FILE__ ));
+		/*$pathdir = dirname(realpath( __FILE__ ));
 		$arraydir = array('install\exec\config', 'install/exec/config');
 		return $smartydir = magixglobal_model_system::root_path($arraydir,array('', '') , $pathdir);
+		*/
+		return magixglobal_model_system::base_path();
 	}
 	protected function setParams() {
 		/**

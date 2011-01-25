@@ -451,7 +451,7 @@ input.ui-button { padding: .1em 1em; }
 .screentheme{text-align:center;}
 #postfile{width:100%;margin:5px;min-width:600px;min-height:300px;}
 .frame-tpl-editor{background:white;width:100%;}
-#forms-code-editor{margin:5px;width:800px;height:350px;}
+#forms-code-editor{margin:5px;min-width:800px;height:400px;}
 .txt-save,.editor-save{margin-top:5px;margin-left:5px;}
 /*######################## PLUGINS ##########################*/
 ul.plugin-list{}

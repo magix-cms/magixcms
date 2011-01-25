@@ -100,27 +100,6 @@ body,
 .dashboard-header .ui-icon { float: right; }
 .dashboard-content { /*padding: 0.4em;*/width:100%; }
 a.widget-links{text-decoration:underline;}
-/*Extend UI CSS with fg button*/
-.fg-button { outline: 0; margin:0 4px 0 0; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
-.fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
-/* remove extra button width in IE */
-button.fg-button { width:auto; overflow:visible; }
-div.fg-button { width:auto; overflow:visible; }
-.fg-button-icon-left { padding-left: 2.1em; }
-.fg-button-icon-right { padding-right: 2.1em; }
-.fg-button-icon-left .ui-icon { right: auto; left: .2em; margin-left: 0; }
-.fg-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
-.fg-button-icon-solo { display:block; width:8px; text-indent: -9999px; }	 /* solo icon buttons must have block properties for the text-indent to work */	
-.fg-button { 
-   outline: 0; 
-   margin:0 4px 0 0; 
-   padding: .4em 1em; 
-   text-decoration:none !important; 
-   cursor:pointer; 
-   position: relative; 
-   text-align: center; 
-   zoom: 1;
-}
 /* TABLES CLEAR
 -------------------------------------------------------- */
 .clear {
@@ -214,7 +193,7 @@ div.fg-button { width:auto; overflow:visible; }
 }
 #phpversion,#mbstr,#iconv,#obst,#simple,#dom,#spl{height:16px;}
 .tdrequest{height:16px;}
-#install-check{font-weight:bold;font-size:22px;width:185px;height:45px;margin:5px;}
+#install-check,#upgrade-check{font-weight:bold;font-size:22px;width:185px;height:35px;margin:5px;}
 #install-config{font-weight:bold;width:185px;height:30px;margin:5px;}
 /**
  * pagination
@@ -302,30 +281,14 @@ html[xmlns*=""] body:last-child ... { ... }
 .magix-icon-home      { background-position: -208px 0; }
 .magix-icon-organ 	  { background-position: -224px 0; }
 .magix-icon-process   { background-position: -240px 0; }
-/*############## Catalog ##################*/
-#list-image-galery{
-	margin-left:10px;
-}
-.list-img{
-	margin:3px;
-	float:left;
-	width:130px;
-	height:auto;
-}
-.img-galery{padding:2px;text-align:center;}
-.title-galery-image{padding:0 5px 0 5px;}
-/*templates*/
-#viewskin{
-	margin-left:10px;
-}
-#viewskin .list-screen{
-	margin:3px;
-	float:left;
-	width:155px;
-	height:170px;
-}
-#viewskin .img-screen{padding:2px;text-align:center;}
-#viewskin .img-screen a{}
-#viewskin .img-screen a:hover{cursor:pointer;}
-#viewskin .title-skin{padding:2px 5px 2px 5px;}
-#version{width:60%;}
+/*########### Table contain #############*/
+.tableversion {margin: 0 0 0 10px; border-collapse: collapse; width: 750px;}
+.tableversion th,.tableversion td{text-align: left;}
+.tableversion th {padding: .1em 4px;}
+.tableversion th td{padding: .4em 4px;}
+.tableversion tr td{padding: .3em 4px;border:1px #AFAFAF solid;}
+.tableversion tr td:first-child{width:100px;}
+.tableversion tr td.cell-icon{width:1%;}
+.tableversion tr:hover {}
+.tableversion td a{text-decoration:underline;}
+.tableversion td a:hover{}

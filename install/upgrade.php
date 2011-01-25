@@ -20,35 +20,34 @@
 # -- END LICENSE BLOCK -----------------------------------
 /**
  * MAGIX CMS
- * @category   Model 
- * @package    magixglobal
+ * @category   exec 
+ * @package    INSTALL
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.0
- * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
- * @name makefilefactory
+ * @version    1.2
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @name index
  *
  */
-class magixglobal_model_makefilefactory{
-	/**
-	 * 
-	 * Lecture d'un fichier
-	 * @param string $filepath
-	 */
-	public function readFile($filepath){
-		if(file_exists($filepath)){
-			if (is_file($filepath) && is_writable($filepath)) {
-				return file_get_contents($filepath);
-			}
-		}else{
-			throw new Exception("Error readfile");
-		}
-		//file_put_contents($path);
-	}
-	private function FileIterator(){}
-	public function fileTree(){}
-	public function saveFile($filepath,$current){
-		file_put_contents($filepath, $current);
-	}
+/**
+ * Charge toutes les Classes de l'application
+ */
+$pathinstall = dirname(realpath( __FILE__ ));
+$arrayinstall = array('install');
+$incinstall = str_replace($arrayinstall,array('') , $pathinstall);
+require(dirname(__FILE__).'/exec/autoload.php');
+$loaderFilename = $incinstall.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'loaderIniclass.php';
+if (!file_exists($loaderFilename)) {
+	print "<p>Loader is not found<br />Contact Webmestre: support@magix-cms.com</p>";
+	exit;
+}else{
+	require $loaderFilename;
 }
+/**
+ * Autoload Frontend
+ */
+exec_Autoloader::register();
+$exec = new exec_controller_upgrade();
+$exec->display_upgrade_page();
+?>

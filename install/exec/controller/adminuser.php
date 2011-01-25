@@ -79,25 +79,11 @@ class exec_controller_adminuser extends dbinstuser{
 }
 class dbinstuser{
 	/**
-	 * protected var ini class magixLayer
-	 *
-	 * @var layer
-	 * @access protected
-	 */
-	protected $layer;
-	/**
 	 * singleton dbnews
 	 * @access public
 	 * @var void
 	 */
 	static public $cuser;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
 	/**
 	 * instance frontend_db_news with singleton
 	 */
@@ -112,6 +98,6 @@ class dbinstuser{
 			'INSERT INTO mc_admin_member (pseudo,email,cryptpass) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'")',
 			'INSERT INTO mc_admin_perms (perms) VALUE("1")'
 		);
-		$this->layer->transaction($sql);
+		magixglobal_model_db::layerDB()->transaction($sql);
 	}
 }
