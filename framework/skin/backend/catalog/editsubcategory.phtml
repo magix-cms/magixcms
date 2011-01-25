@@ -18,9 +18,12 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Edition de sous catégorie</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
-							<form id="forms-catalog-editsubcategory" method="post" enctype="multipart/form-data"  action="" style="margin-left:10px;">
+							<form id="forms-catalog-editsubcategory" method="post" action="" style="margin-left:10px;">
 								<fieldset>
-								<table>
+								<table class="table-tinymce">
+									<tr>
+										<td class="label"><label for="usubcategory" class="inlinelabel">Sous Catégorie :</label></td>
+									</tr>
 									<tr>
 										<td>
 										<input type="hidden" name="usubcategory" id="usubcategory" value="{$smarty.get.upsubcat}" />
@@ -28,21 +31,10 @@
 										</td>
 									</tr>
 									<tr>
-									<td>
-									<table>
-										<tr>
-											<td style="width:250px;">
-												<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-										 		<input type="file" id="update_img_s" name="update_img_s" value="" />
-										 	</td>
-										 	<td>&nbsp;</td>
-										 	<td style="width:250px;" class="errorInput"></td>
-									 	</tr>
-								 	</table>
-									</td>
+										<td class="label"><label for="s_content" class="inlinelabel">Contenu :</label></td>
 									</tr>
 									<tr>
-										<td class="status"></td>
+										<td><textarea name="s_content" id="s_content" class="fulltext mceEditor ui-corner-all" cols="" rows="">{$s_content}</textarea></td>
 									</tr>
 								</table>			
 								</fieldset>
@@ -56,18 +48,37 @@
 						{/if}
 						</div>
 					</div>
-					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Image de sous catégorie</div>
-						<div class="dashboard-widget-content">
-							{if $img_s != null}
-								<div><img src="{geturl}/upload/catalogimg/subcategory/{$img_s}" /></div>
-							{else}
-								<p>Aucune image</p>
-							{/if}
-						</div>
-					</div>
 				</div>
 				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Image de sous catégorie</div>
+						<div class="dashboard-widget-content">
+							<div style="float:left;margin:0 2em;">
+								{if $img_s != null}
+									<img src="/upload/catalogimg/subcategory/{$img_s}" />
+								{else}
+									<img src="/framework/img/no-picture.png" />
+								{/if}
+							</div>
+							<form id="forms-catalog-editsubcategory-img" method="post" enctype="multipart/form-data" action="" style="margin-left:10px;">
+								<fieldset>
+								<table>
+									<tr>
+										<td class="label"><label for="update_img_s" class="update_img_s">Image :</label></td>
+									</tr>
+									<tr>
+										<td>
+										
+											<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+										 	<input type="file" id="update_img_s" name="update_img_s" value="" />
+										</td>
+									</tr>
+								</table>			
+								</fieldset>
+								<div style="margin:5px;"><input type="submit" value="Envoyer" /></div>
+							</form>
+						</div>
+					</div>
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Organisation des produits</div>
 						<div class="dashboard-widget-content">
@@ -81,5 +92,6 @@
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+{include file="common/editor.phtml"}
 </body>
 </html>

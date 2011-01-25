@@ -131,6 +131,7 @@ class frontend_controller_catalog{
 	private function display_category(){
 		$catname = frontend_db_catalog::publicDbCatalog()->s_current_name_category($this->idclc);
 		frontend_config_smarty::getInstance()->assign('clibelle',magixcjquery_string_convert::ucFirst($catname['clibelle']));
+		frontend_config_smarty::getInstance()->assign('c_content',$catname['c_content']);
 		frontend_config_smarty::getInstance()->display('catalog/category.phtml');
 	}
 	/**
@@ -141,6 +142,7 @@ class frontend_controller_catalog{
 		$subcatname = frontend_db_catalog::publicDbCatalog()->s_current_name_subcategory($this->idcls);
 		frontend_config_smarty::getInstance()->assign('clibelle',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
 		frontend_config_smarty::getInstance()->assign('slibelle',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
+		frontend_config_smarty::getInstance()->assign('s_content',$subcatname['s_content']);
 		frontend_config_smarty::getInstance()->display('catalog/subcategory.phtml');
 	}
 	/**

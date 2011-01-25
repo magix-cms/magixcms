@@ -81,7 +81,7 @@ class backend_db_catalog{
      * @param $upcat
      */
 	function s_catalog_category_id($upcat){
-    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,img_c,lang.codelang FROM mc_catalog_c as c 
+    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,img_c,c.c_content,lang.codelang FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE c.idclc = :upcat';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(':upcat'=>$upcat));
@@ -161,12 +161,21 @@ class backend_db_catalog{
 	 * @param $pathclibelle
 	 * @param $upcat
 	 */
-	function u_catalog_category($clibelle,$pathclibelle,$img_c,$upcat){
-		$sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle,pathclibelle = :pathclibelle,img_c = :img_c WHERE idclc = :upcat';
+	function u_catalog_category($clibelle,$pathclibelle,$c_content,$upcat){
+		$sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle,pathclibelle = :pathclibelle,c_content = :c_content WHERE idclc = :upcat';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':clibelle'		=>	$clibelle,
 			':pathclibelle'	=>	$pathclibelle,
+			':c_content'	=>	$c_content,
+			':upcat'		=>	$upcat
+			)
+		);
+	}
+	function u_catalog_category_image($img_c,$upcat){
+		$sql = 'UPDATE mc_catalog_c SET img_c = :img_c WHERE idclc = :upcat';
+		magixglobal_model_db::layerDB()->update($sql,
+			array(
 			':img_c'		=>	$img_c,
 			':upcat'		=>	$upcat
 			)
@@ -198,7 +207,7 @@ class backend_db_catalog{
      * @param $upcat
      */
 	function s_catalog_subcategory_id($upsubcat){
-    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,s.img_s,c.clibelle,lang.codelang 
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,s.s_content,s.img_s,c.clibelle,lang.codelang 
     	FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
@@ -290,12 +299,21 @@ class backend_db_catalog{
 	 * @param $pathclibelle
 	 * @param $upcat
 	 */
-	function u_catalog_subcategory($slibelle,$pathslibelle,$img_s,$upsubcat){
-		$sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle,img_s = :img_s WHERE idcls = :upsubcat';
+	function u_catalog_subcategory($slibelle,$pathslibelle,$s_content,$upsubcat){
+		$sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle,s_content = :s_content WHERE idcls = :upsubcat';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
 			':slibelle'		=>	$slibelle,
 			':pathslibelle'	=>	$pathslibelle,
+			':s_content'	=>	$s_content,
+			':upsubcat'		=>	$upsubcat
+			)
+		);
+	}
+	function u_catalog_subcategory_image($img_s,$upsubcat){
+		$sql = 'UPDATE mc_catalog_s SET img_s = :img_s WHERE idcls = :upsubcat';
+		magixglobal_model_db::layerDB()->update($sql,
+			array(
 			':img_s'		=>	$img_s,
 			':upsubcat'		=>	$upsubcat
 			)

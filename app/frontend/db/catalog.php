@@ -46,7 +46,7 @@ class frontend_db_catalog{
     }
 /*####### CATEGORIE #######*/
     function s_current_name_category($idclc){
-    	$sql = 'SELECT c.clibelle,c.pathclibelle
+    	$sql = 'SELECT c.clibelle,c.pathclibelle,c.c_content
 		FROM mc_catalog_c as c WHERE c.idclc = :idclc';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idclc'=>$idclc
@@ -92,7 +92,7 @@ class frontend_db_catalog{
 	}
 	/*############# SOUS CATEGORIE ###################*/
 	function s_current_name_subcategory($idcls){
-    	$sql = 'SELECT s.slibelle,s.pathslibelle,c.clibelle,c.pathclibelle
+    	$sql = 'SELECT s.slibelle,s.pathslibelle,s.s_content,c.clibelle,c.pathclibelle
     	FROM mc_catalog_s as s 
     	LEFT JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
 		WHERE s.idcls = :idcls';
@@ -300,7 +300,7 @@ class frontend_db_catalog{
 		$sql = 'SELECT c.idclc,c.pathclibelle,c.clibelle,c.img_c,c.idlang, lang.codelang
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		WHERE c.idlang = 0';
+		WHERE c.idlang = 0 ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
@@ -323,7 +323,7 @@ class frontend_db_catalog{
 		$sql = 'SELECT c.idclc,c.pathclibelle,c.clibelle,c.img_c,c.idlang, lang.codelang
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		WHERE lang.codelang = :codelang';
+		WHERE lang.codelang = :codelang ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':codelang'		=>	$codelang)
 		);

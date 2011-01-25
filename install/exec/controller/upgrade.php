@@ -56,13 +56,26 @@ class exec_controller_upgrade extends db_upgrade{
 		}
 		return $v;
 	}
+	/**
+	 * @access private
+	 * retourne la version courante dans la base de donnée
+	 */
 	private function load_current_version(){
 		$set_version = parent::s_setting_version();
 		return $set_version['setting_value'];
 	}
+	/**
+	 * 
+	 * Chemin du fichier SQL 
+	 * @param string $version
+	 */
 	private function load_sql_file_version($version){
-		return magixglobal_model_system::base_path().'install'.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.$version.'.sql';
+		return magixglobal_model_system::base_path().'install'.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'upgrade.'.$version.'.sql';
 	}
+	/**
+	 * @access private
+	 * Compare les versions XML et SQL
+	 */
 	private function compare_version(){
 		/*$compare = strcmp(self::xmlfile_current_version(),self::load_current_version());
 		return $compare;*/

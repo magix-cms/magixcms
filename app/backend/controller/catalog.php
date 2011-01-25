@@ -50,6 +50,12 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	public $corder;
 	/**
+	 * 
+	 * Contenu texte de la catégorie
+	 * @var $c_content
+	 */
+	public $c_content;
+	/**
 	 * libelle de la sous catégorie
 	 * @var slibelle
 	 */
@@ -59,6 +65,12 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @var pathslibelle
 	 */
 	public $pathslibelle;
+	/**
+	 * 
+	 * Contenu texte de la catégorie
+	 * @var $c_content
+	 */
+	public $s_content;
 	/**
 	 * Modification de l'ordre des sous catégories
 	 * @var sorder
@@ -321,6 +333,12 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(magixcjquery_filter_request::isPost('update_subcategory')){
 			$this->update_subcategory = (string) magixcjquery_form_helpersforms::inputClean($_POST['update_subcategory']);
 			$this->update_pathslibelle = (string) magixcjquery_url_clean::rplMagixString($_POST['update_subcategory'],true);
+		}
+		if(magixcjquery_filter_request::isPost('c_content')){
+			$this->c_content =(string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['c_content']);
+		}
+		if(magixcjquery_filter_request::isPost('s_content')){
+			$this->s_content =(string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['s_content']);
 		}
 		if(magixcjquery_filter_request::isPost('idclc')){
 			$this->idclc = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idclc']);
@@ -710,16 +728,20 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function update_category(){
 		if(isset($this->upcat)){
 			if(isset($this->update_category)){
-				$imgc = null;
-				if($this->update_img_c != null){
-					$imgc = self::insert_image_category('update_img_c',$this->update_pathclibelle);
-				}
-				//magixcjquery_debug_magixfire::magixFireLog($this->update_img_c,'Evoi image');
-				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$imgc,$this->upcat);
+				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$this->c_content,$this->upcat);
 				backend_config_smarty::getInstance()->display('request/update-category.phtml');
 			}
 		}
-		
+	}
+	private function update_category_image(){
+		if(isset($this->upcat)){
+			if(isset($this->update_img_c)){
+				$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
+				$imgc = self::insert_image_category('update_img_c',$clibelle['pathclibelle']);
+				backend_db_catalog::adminDbCatalog()->u_catalog_category_image($imgc,$this->upcat);
+				backend_config_smarty::getInstance()->display('request/update-image.phtml');
+			}
+		}
 	}
 	/**
 	 * Post la requête ajax pour la modification de l'ordre des produuits dans la catégorie
@@ -742,6 +764,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
 			backend_config_smarty::getInstance()->assign('clibelle',$clibelle['clibelle']);
 			backend_config_smarty::getInstance()->assign('img_c',$clibelle['img_c']);
+			backend_config_smarty::getInstance()->assign('c_content',$clibelle['c_content']);
 			backend_config_smarty::getInstance()->assign('product_category_order',self::product_in_category_order($this->upcat));
 		}
 		backend_config_smarty::getInstance()->display('catalog/editcategory.phtml');
@@ -842,13 +865,17 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function update_subcategory(){
 		if(isset($this->upsubcat)){
 			if(isset($this->update_subcategory)){
-				$imgs = null;
-				if($this->update_img_s != null){
-					$imgs = self::insert_image_subcategory('update_img_s',$this->update_pathslibelle);
-					//magixcjquery_debug_magixfire::magixFireLog($imgs);
-				}
-				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$imgs,$this->upsubcat);
+				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$this->s_content,$this->upsubcat);
 				backend_config_smarty::getInstance()->display('request/update-subcategory.phtml');
+			}
+		}
+	}
+	private function update_subcategory_image(){
+		if(isset($this->upsubcat)){
+			if(isset($this->update_img_s)){
+				$imgs = self::insert_image_subcategory('update_img_s',$this->update_pathslibelle);
+				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory_image($imgs,$this->upsubcat);
+				backend_config_smarty::getInstance()->display('request/update-image.phtml');
 			}
 		}
 	}
@@ -895,6 +922,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			$slibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
 			backend_config_smarty::getInstance()->assign('slibelle',$slibelle['slibelle']);
 			backend_config_smarty::getInstance()->assign('img_s',$slibelle['img_s']);
+			backend_config_smarty::getInstance()->assign('s_content',$slibelle['s_content']);
 			backend_config_smarty::getInstance()->assign('product_subcategory_order',self::product_in_subcategory_order($this->upsubcat));
 		}
 		backend_config_smarty::getInstance()->display('catalog/editsubcategory.phtml');
@@ -1646,12 +1674,16 @@ EOT;
 		}elseif(magixcjquery_filter_request::isGet('upcat')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::update_category();
+			}elseif(magixcjquery_filter_request::isGet('postimg')){
+				self::update_category_image();
 			}else{
 				self::display_edit_category();
 			}
 		}elseif(magixcjquery_filter_request::isGet('upsubcat')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::update_subcategory();
+			}elseif(magixcjquery_filter_request::isGet('postimg')){
+				self::update_subcategory_image();
 			}else{
 				self::display_edit_subcategory();
 			}

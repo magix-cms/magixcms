@@ -19,34 +19,6 @@ $(function() {
 	var ie7 = ($.browser.msie && $.browser.version > 6);
 	var ie = ($.browser.msie);
 	/**
-	 * Textchange pour les champs avec une information de limitation de caractère
-	 */
-	/*$.event.special.textchange = {
-		setup: function (data, namespaces) {
-			$(this).bind('keyup', $.event.special.textchange.handler);
-			$(this).bind('cut paste input', $.event.special.textchange.delayedHandler);
-		},
-		teardown: function (namespaces) {
-			$(this).unbind('keyup', $.event.special.textchange.keyuphandler);
-			$(this).unbind('cut', $.event.special.textchange.cuthandler);
-		},
-		handler: function (event) {
-			$.event.special.textchange.triggerIfChanged($(this));
-		},
-		delayedHandler: function (event) {
-			var element = $(this);
-			setTimeout(function () {
-				$.event.special.textchange.triggerIfChanged(element);
-			}, 25);
-		},
-		triggerIfChanged: function (element) {
-			if (element.val() !== element.data('lastValue')) {
-				element.trigger('textchange',  element.data('lastValue'));
-				element.data('lastValue', element.val());
-			}
-		}
-	};*/
-	/**
 	 * Effet de survol sur les boutons dans le top sidebar
 	 */
 		$(".topbutton:not(.ui-state-active)").hover(
@@ -1381,8 +1353,23 @@ $(function() {
 	    		typesend: 'post',
 	    		delay: 2800,
 	    		time:2,
-	    		reloadhtml:true,
+	    		reloadhtml:false,
 	    		resetform:false
+			});
+			return false; 
+		});
+		$("#forms-catalog-editcategory-img").submit(function(){
+			var idcategory = $('#ucategory').val();
+			var url = '/admin/catalog.php?catalog&upcat='+idcategory;
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		dom: this,
+	    		uri:  url+"&postimg",
+	    		typesend: 'post',
+	    		delay: 2800,
+	    		time:2,
+	    		reloadhtml:true,
+	    		resetform:true
 			});
 			return false; 
 		});
@@ -1399,7 +1386,22 @@ $(function() {
 	    		typesend: 'post',
 	    		delay: 2800,
 	    		time:2,
-	    		reloadhtml:true,
+	    		reloadhtml:false,
+	    		resetform:false
+			});
+			return false; 
+		});
+		$("#forms-catalog-editsubcategory-img").submit(function(){
+			var idsubcategory = $('#usubcategory').val();
+			var url = '/admin/catalog.php?upsubcat='+idsubcategory;
+			$.notice({
+				ntype: "ajaxsubmit",
+	    		dom: this,
+	    		uri:  url+"&postimg",
+	    		typesend: 'post',
+	    		delay: 2800,
+	    		time:2,
+	    		reloadhtml:false,
 	    		resetform:false
 			});
 			return false; 
