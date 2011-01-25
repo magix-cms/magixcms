@@ -15,9 +15,6 @@ $(function() {
 		window.console = {};
 		for (var i = 0; i < names.length; ++i) window.console[names[i]] = function() {};
 	}
-	var ie6 = ($.browser.msie && $.browser.version < 7);
-	var ie7 = ($.browser.msie && $.browser.version > 6);
-	var ie = ($.browser.msie);
 	/**
 	 * Effet de survol sur les boutons dans le top sidebar
 	 */
@@ -29,23 +26,6 @@ $(function() {
 				$(this).removeClass("ui-state-hover"); 
 			}
 		);
-		//all hover and click logic for buttons
-		$(".fg-button:not(.ui-state-disabled)").hover(
-			function(){ 
-				$(this).addClass("ui-state-hover"); 
-			},
-			function(){ 
-				$(this).removeClass("ui-state-hover"); 
-			}
-		).mousedown(function(){
-				$(this).parents('.fg-buttonset-single:first').find(".fg-button.ui-state-active").removeClass("ui-state-active");
-				if( $(this).is('.ui-state-active.fg-button-toggleable, .fg-buttonset-multi .ui-state-active') ){ $(this).removeClass("ui-state-active"); }
-				else { $(this).addClass("ui-state-active"); }	
-		}).mouseup(function(){
-			if(! $(this).is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
-				$(this).removeClass("ui-state-active");
-			}
-		});
 		/**
 		 * Support input button with jquery ui button
 		 */
@@ -72,135 +52,7 @@ $(function() {
             },
             text: false
         });
-		/**
-		 * Ajout d'une classe spécifique au survol d'un thème
-		 */
-		$(".list-screen:not(.ui-state-highlight)").hover(
-				function(){
-					if($(this).find('ui-state-disabled')){
-						$(this).removeClass("ui-state-disabled");
-					}
-					$(this).addClass("ui-state-hover");
-				},
-				function(){ 
-					if(!$(this).hasClass('ui-state-highlight')){
-						$(this).removeClass("ui-state-hover");
-						$(this).addClass("ui-state-disabled");
-					}
-				}
-		);
-		/**
-		 * Ajout d'une class spécifique si le thème est actif
-		 */
-		$(".list-screen").live("click",function (){
-			$('.list-screen').removeClass("ui-state-highlight");
-			$('.list-screen').addClass("ui-state-disabled");
-			if($(this).find('ui-state-disabled')){
-				$(this).removeClass("ui-state-disabled");
-			}
-			if($(this).find('ui-state-hover')){
-				$(this).removeClass("ui-state-hover");
-			}
-			if($(this).not('ui-state-highlight')){
-				$(this).addClass("ui-state-highlight");
-			}
-		});
-		/**
-		 * Requête ajax pour le changement de thème
-		 */
-		$(".list-screen a").bind("click", function(e){
-			e.preventDefault();
-			var hreftitle = $(this).attr("title");
-				if(hreftitle != null){
-					if(ie){
-						$.post('/admin/templates.php?post', 
-							{ theme: hreftitle}
-						, function(request) {
-							$.notice({
-								ntype: "simple",
-								time:2
-							});
-		        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
-						});
-					}else{
-						$.ajax({
-							type:'post',
-							data: "theme="+hreftitle,
-							url: "/admin/templates.php?post",
-							timeout:5000,
-							error: function(request,error) {
-								  if (error == "timeout") {
-									  $("#error").append("The request timed out, please resubmit");
-								  }
-								  else {
-									  $("#error").append("ERROR: " + error);
-								  }
-							},
-							success:function(request) {
-								$.notice({
-									ntype: "simple",
-									time:2
-								});
-			        			$(".mc-head-request").html(request);
-		        				setTimeout(function(){
-		        					location.reload();
-		        				},2800);
-							}
-						});
-					}
-				}
-		});
-		/**
-		 * Requête ajax pour le changement de thème
-		 */
-		$(".list-editor a").bind("click", function(e){
-			e.preventDefault();
-			var hreftitle = $(this).attr("title");
-				if(hreftitle != null){
-					if(ie){
-						$.post('/admin/config.php?htmleditor=true', 
-							{ editor: hreftitle}
-						, function(request) {
-							$.notice({
-								ntype: "simple",
-								time:2
-							});
-		        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
-						});
-					}else{
-						$.ajax({
-							type:'post',
-							data: "editor="+hreftitle,
-							url: "/admin/config.php?htmleditor=true",
-							timeout:5000,
-							error: function(request,error) {
-								  if (error == "timeout") {
-									  $("#error").append("The request timed out, please resubmit");
-								  }
-								  else {
-									  $("#error").append("ERROR: " + error);
-								  }
-							},
-							success:function(request) {
-								$.notice({
-									ntype: "simple",
-									time:2
-								});
-			        			$(".mc-head-request").html(request);
-		        				setTimeout(function(){
-		        					location.reload();
-		        				},2800);
-							}
-						});
-					}
-				}
-		});
+		
 		/**
 		 * Notification après installation pour le dossier "install"
 		 */
@@ -581,25 +433,6 @@ $(function() {
 	    /**
 	     * ID pour le déplacement des pages CMS
 	     */
-	    /*$('#sortable li').hover(
-				function() { $(this).addClass('ui-state-hover'); },
-				function() { $(this).removeClass('ui-state-hover'); }
-		);
-		$("#sortable").sortable({
-			axis: "y",
-			cursor: "move",
-			update : function () {
-				serial = $('#sortable').sortable('serialize');
-				$.ajax({
-					url: "/admin/index.php?dashboard&cms",
-					type: "post",
-					data: serial,
-					error: function(){
-						alert("theres an error with AJAX");
-					}
-				});
-			}
-		});*/
 		$('#sortable li').hover(
 				function() { $(this).addClass('ui-state-hover'); },
 				function() { $(this).removeClass('ui-state-hover'); }
@@ -1795,90 +1628,6 @@ $(function() {
         			$("#result-search-page").html(request);
         		}
         	});
-			return false; 
-		});
-/*################## Sitemap ##############*/
-		/**
-	     * Requête ajax pour la création, modification de fichier sitemap xml
-	     */
-		$('.create-xml-index').click(function (){
-			$.notice({
-				ntype: "ajax",
-	    		uri: '/admin/sitemap.php?create_xml_index=true',
-	    		typesend: 'get',
-	    		noticedata: null,
-	    		time:2
-			});
-		 });
-		$('.create-xml-url').click(function (){
-			$.notice({
-				ntype: "ajax",
-	    		uri: '/admin/sitemap.php?create_xml_url=true',
-	    		typesend: 'get',
-	    		noticedata: null,
-	    		time:2
-			});
-		 });
-		$('.create-xml-images').click(function (){
-			$.notice({
-				ntype: "ajax",
-	    		uri: '/admin/sitemap.php?create_xml_images=true',
-	    		typesend: 'get',
-	    		noticedata: null,
-	    		time:2
-			});
-		 });
-/*################## Google Tools ##############*/
-		/**
-	     * Requête ajax pour la création de la soumission vers google
-	     */
-		$('.pinggoogle').click(function (){
-			$.notice({
-				ntype: "ajax",
-	    		uri: '/admin/sitemap.php?sitemap&googleping',
-	    		typesend: 'get',
-	    		noticedata: null,
-	    		time:2
-			});
-		});
-		/**
-	     * Requête ajax pour la création du fichier xml compressé au format GZ + soumission du fichier vers google
-	     */
-		$('.compressping').click(function (){
-			$.notice({
-				ntype: "ajax",
-	    		uri: '/admin/sitemap.php?compressionping',
-	    		typesend: 'get',
-	    		noticedata: null,
-	    		time:2
-			});
-		});
-		/**
-		 * Soumission de codes Google webmaster et/ou analytics
-		 */
-		$("#forms-webmaster-tools").submit(function(){
-			$.notice({
-				ntype: "ajaxsubmit",
-	    		dom: this,
-	    		uri: '/admin/googletools.php?pgdata',
-	    		typesend: 'post',
-	    		delay: 2800,
-	    		time:2,
-	    		reloadhtml:true,
-	    		resetform:false
-			});
-			return false; 
-		});
-		$("#forms-analytics-tools").submit(function(){
-			$.notice({
-				ntype: "ajaxsubmit",
-	    		dom: this,
-	    		uri: '/admin/googletools.php?pgdata',
-	    		typesend: 'post',
-	    		delay: 2800,
-	    		time:2,
-	    		reloadhtml:true	
-			});
 			return false; 
 		});
 });

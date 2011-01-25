@@ -13,43 +13,47 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Google Tools</div>
-					<div class="dashboard-content">
-						{widget_googletools}
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Les outils d'analyse Google</div>
+						<div class="dashboard-content">
+							<div id="resultgdata"></div>
+							<form id="forms-webmaster-tools" method="post" action="" style="margin-left:10px;">
+								<fieldset>
+									<table>
+										<tr>
+											<td class="label"><label for="webmaster" class="inlinelabel">Webmaster :</label></td>
+										</tr>
+										<tr>
+											<td><input type="text" id="webmaster" name="webmaster" class="inputtext ui-corner-all" value="{$webmaster}" size="50" /></td>
+											<td><input type="submit" value="envoyer" /></td>
+										</tr>
+									</table>			
+								</fieldset>
+							</form>
+							<form id="forms-analytics-tools" method="post" action="" style="margin-left:10px;">
+								<fieldset>
+									<table>
+										<tr>
+											<td class="label"><label for="analytics" class="inlinelabel">Analytics :</label></td>
+										</tr>
+										<tr>
+											<td><input type="text" id="analytics" name="analytics" class="inputtext ui-corner-all" value="{$analytics}" size="50" /></td>
+											<td><input type="submit" value="envoyer" /></td>
+										</tr>
+									</table>			
+								</fieldset>
+							</form>
+							<br />
+						</div>
 					</div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Les outils d'analyse Google</div>
-					<div class="dashboard-content">
-					<div id="resultgdata"></div>
-					<form id="forms-webmaster-tools" method="post" action="" style="margin-left:10px;">
-						<fieldset>
-							<table>
-								<tr>
-									<td class="label"><label for="webmaster" class="inlinelabel">Webmaster :</label></td>
-								</tr>
-								<tr>
-									<td><input type="text" id="webmaster" name="webmaster" class="inputtext ui-corner-all" value="{$webmaster}" size="50" /></td>
-									<td><input type="submit" value="envoyer" /></td>
-								</tr>
-							</table>			
-						</fieldset>
-					</form>
-					<form id="forms-analytics-tools" method="post" action="" style="margin-left:10px;">
-						<fieldset>
-							<table>
-								<tr>
-									<td class="label"><label for="analytics" class="inlinelabel">Analytics :</label></td>
-								</tr>
-								<tr>
-									<td><input type="text" id="analytics" name="analytics" class="inputtext ui-corner-all" value="{$analytics}" size="50" /></td>
-									<td><input type="submit" value="envoyer" /></td>
-								</tr>
-							</table>			
-						</fieldset>
-					</form>
-					<br />
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Google Tools</div>
+						<div class="dashboard-content">
+							{widget_googletools}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -58,5 +62,10 @@
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/framework/js/backend/jgoogletools.1.0.js');
+});
+</script>
 </body>
 </html>
