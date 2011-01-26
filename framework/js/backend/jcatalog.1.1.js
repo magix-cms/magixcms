@@ -13,9 +13,9 @@ function load_cat_product(){
 			$('#load_cat_product').empty();
 			var tablecat = '<table id="table_cat_product" class="table-widget-product">'
 				+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
-				+'<th><span style="float:left;" class="ui-icon ui-icon-folder-open"></span></th>'
-				+'<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></th>'
-				+'<th class="small-icon"><span style="float:left;" class="ui-icon ui-icon-close"></span></th>'
+				+'<th><span class="lfloat ui-icon ui-icon-folder-open"></span>catégorie</th>'
+				+'<th><span class="lfloat ui-icon ui-icon-folder-collapsed"></span> sous catégorie</th>'
+				+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
 				+'</tr></thead>'
 				+'<tbody>';
 			tablecat += '</tbody></table>';
@@ -25,14 +25,65 @@ function load_cat_product(){
 			}
 			if(j !== null){
 				$.each(j, function(i,item) {
-					return $('<tr><td>'+item.idproduct+'</td><td>'
-					+item.clibelle+'</td><td>'
-					+item.slibelle+'</td><td class="small-icon">'
-					+'<a href="#" class="d-in-product" title="'+item.idproduct+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>'+
+					if(item.slibelle != null){
+						subcat = item.slibelle;
+					}else{
+						subcat = '<span class="lfloat ui-icon ui-icon-minus"></span>';
+					}
+					return $('<tr><td>'+item.idproduct+'</td>'
+					+'<td class="medium-cell">'+item.clibelle+'</td>'
+					+'<td>'+subcat+'</td>'
+					+'<td class="small-icon"><a href="#" class="d-in-product" title="'+item.idproduct+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>'+
 					'</tr>').appendTo('#table_cat_product tbody');
 				});
 			}else{
-				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_cat_product tbody');
+				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_cat_product tbody');
+			}
+		}
+	});
+}
+function load_rel_product(){
+	var idcatalog = $("#idcatalog").val();
+	$.ajax({
+		url: '/admin/catalog.php?product&editproduct='+idcatalog+'&json_rel_product=true',
+		dataType: 'json',
+		type: "get",
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$('#load_rel_product').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+		},
+		success: function(j) {
+			$('#load_rel_product').empty();
+			var tablecat = '<table id="table_rel_product" class="table-widget-product">'
+				+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
+				+'<th><span class="lfloat ui-icon ui-icon-folder-open"></span>catégorie</th>'
+				+'<th><span class="lfloat ui-icon ui-icon-folder-collapsed"></span> sous catégorie</th>'
+				+'<th><span class="lfloat magix-icon magix-icon-h1"></span> Titre</th>'
+				+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+				+'</tr></thead>'
+				+'<tbody>';
+			tablecat += '</tbody></table>';
+			$(tablecat).appendTo('#load_rel_product');
+			if(j === undefined){
+				console.log(j);
+			}
+			if(j !== null){
+				$.each(j, function(i,item) {
+					if(item.slibelle != null){
+						subcat = item.slibelle;
+					}else{
+						subcat = '<span class="lfloat ui-icon ui-icon-minus"></span>';
+					}
+					return $('<tr><td>'+item.idrelproduct+'</td>'
+					+'<td class="medium-cell">'+item.clibelle+'</td>'
+					+'<td class="medium-cell">'+subcat+'</td>'
+					+'<td class="medium-cell">'+item.titlecatalog+'</td>'
+					+'<td class="small-icon"><a href="#" class="d-rel-product" title="'+item.idrelproduct+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></td>'+
+					'</tr>').appendTo('#table_rel_product tbody');
+				});
+			}else{
+				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td><td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td><td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_rel_product tbody');
 			}
 		}
 	});
@@ -124,17 +175,19 @@ $(function(){
 	$("#forms-catalog-product").submit(function(){
 		var productid = $('#idcatalog').val();
 		if(productid != null){
-			$.notice({
-				ntype: "ajaxsubmit",
-	    		delay: 1800,
-	    		dom: this,
-	    		uri: '/admin/catalog.php?product&editproduct='+productid+'&add_product',
-	    		typesend: 'post',
-	    		noticedata: null,
-	    		resetform:false,
-	    		time:1,
-	    		reloadhtml:true	
-			});
+			$(this).ajaxSubmit({
+        		url:'/admin/catalog.php?product&editproduct='+productid+'&add_product',
+        		type:"post",
+        		resetForm: false,
+        		success:function(request) {
+					$.notice({
+						ntype: "simple",
+						time:2
+					});
+        			$(".mc-head-request").html(request);
+        			load_cat_product();
+        		}
+        	});
 			return false; 
 		}else{
 			console.log("%s: %o","productid is null",productid);
@@ -153,9 +206,7 @@ $(function(){
 						time:2
 					});
         			$(".mc-head-request").html(request);
-    				setTimeout(function(){
-    					location.reload();
-    				},2800);
+        			load_rel_product();
         		}
         	});
 			return false; 
@@ -214,6 +265,9 @@ $(function(){
 		});
 		return false; 
 	});
+	/**
+	 * Edition d'une image de sous catégorie
+	 */
 	$("#forms-catalog-editsubcategory-img").submit(function(){
 		var idsubcategory = $('#usubcategory').val();
 		var url = '/admin/catalog.php?upsubcat='+idsubcategory;
@@ -427,7 +481,6 @@ $(function(){
 				},
 				Cancel: function() {
 					$(this).dialog('close');
-					//success : window.location.href = '/admin/catalog.php?category';//window.location.pathname;
 				}
 			}
 		});
@@ -462,7 +515,6 @@ $(function(){
 				},
 				Cancel: function() {
 					$(this).dialog('close');
-					//success: location.reload()
 				}
 			}
 		});
@@ -487,18 +539,24 @@ $(function(){
 			buttons: {
 				'Delete item': function() {
 					$(this).dialog('close');
-					$.notice({
-						ntype: "ajax",
-			    		uri: "/admin/catalog.php?product&editproduct="+productid+"&d_in_product="+inproduct,
-			    		typesend: 'get',
-			    		delay: 1800,
-			    		time:1,
-			    		reloadhtml:true
+					$.ajax({
+						url: "/admin/catalog.php?product&editproduct="+productid+"&d_in_product="+inproduct,
+						type: "get",
+						async: true,
+						cache:false,
+						beforeSend: function(){},
+						success: function(request) {
+							$.notice({
+								ntype: "simple",
+					    		time:2
+							});
+							$(".mc-head-request").html(request);
+							load_cat_product();
+						}
 					});
 				},
 				Cancel: function() {
 					$(this).dialog('close');
-					//success: location.reload()
 				}
 			}
 		});
@@ -506,8 +564,8 @@ $(function(){
 	/**
 	 * Supprime une liaison de produit avec une fiche catalogue
 	 */
-	$('.d-rel-product').click(function (e){
-		e.preventDefault();
+	$('.d-rel-product').live("click",function (event){
+		event.preventDefault();
 		var relproduct = $(this).attr("title");
 		var productid = $('#idcatalog').val();
 		$("#dialog").dialog({
@@ -523,18 +581,24 @@ $(function(){
 			buttons: {
 				'Delete item': function() {
 					$(this).dialog('close');
-					$.notice({
-						ntype: "ajax",
-			    		uri: "/admin/catalog.php?product&editproduct="+productid+"&d_rel_product="+relproduct,
-			    		typesend: 'get',
-			    		delay: 1800,
-			    		time:1,
-			    		reloadhtml:true
+					$.ajax({
+						url: "/admin/catalog.php?product&editproduct="+productid+"&d_rel_product="+relproduct,
+						type: "get",
+						async: true,
+						cache:false,
+						beforeSend: function(){},
+						success: function(request) {
+							$.notice({
+								ntype: "simple",
+					    		time:2
+							});
+							$(".mc-head-request").html(request);
+							load_rel_product();
+						}
 					});
 				},
 				Cancel: function() {
 					$(this).dialog('close');
-					//success: location.reload()
 				}
 			}
 		});

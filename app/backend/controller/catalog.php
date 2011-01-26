@@ -1093,8 +1093,6 @@ EOT;
 				',"slibelle":'.json_encode($list['slibelle']).'}';
 			}
 			print '['.implode(',',$product).']';
-		}else{
-			print '{}';
 		}
 	}
 	/**
@@ -1222,10 +1220,10 @@ EOT;
 	}
 	/**
 	 * @access private
-	 * La liste des produit lié à une fiche
+	 * La liste des produits lié à une fiche
 	 */
 	private function list_rel_product(){
-		$product = <<<EOT
+		/*$product = <<<EOT
 		<table class="clear" style="margin-left:2em;width:50%">
 			<thead>
 				<tr>
@@ -1253,7 +1251,15 @@ EOT;
 			</tbody>
 		</table>
 EOT;
-	return $product;
+	return $product;*/
+		if(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) != null){
+			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) as $list){
+				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($list['idproduct']);
+				$product[]= '{"idrelproduct":'.json_encode($list['idrelproduct']).',"clibelle":'.json_encode($info['clibelle']).
+				',"slibelle":'.json_encode($info['slibelle']).',"titlecatalog":'.json_encode($info['titlecatalog']).'}';
+			}
+			print '['.implode(',',$product).']';
+		}
 	}
 	/**
 	 * @access private
@@ -1303,7 +1309,7 @@ EOT;
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		//backend_config_smarty::getInstance()->assign('list_category_in_product',self::list_category_in_product());
-		backend_config_smarty::getInstance()->assign('list_rel_product',self::list_rel_product());
+		//backend_config_smarty::getInstance()->assign('list_rel_product',self::list_rel_product());
 		//backend_config_smarty::getInstance()->assign('select_product',self::construct_select_product());
 		//$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
 	}
@@ -1729,6 +1735,8 @@ EOT;
 					self::update_specific_product();
 				}elseif(magixcjquery_filter_request::isGet('json_cat_product')){
 					self::list_category_in_product();
+				}elseif(magixcjquery_filter_request::isGet('json_rel_product')){
+					self::list_rel_product();
 				}elseif(magixcjquery_filter_request::isGet('gethtmlprod')){
 					if(magixcjquery_filter_request::isGet('idclc')){
 						$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");

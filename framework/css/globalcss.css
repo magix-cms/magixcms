@@ -405,6 +405,7 @@ input.ui-button { padding: .1em 1em; }
 .hide{display:none;}
 .loader-block {
   position:relative;
+  margin-top:2%;
   left: 50%;
   margin-left: -16px;
 }
