@@ -20,16 +20,12 @@
 						{if $confignews eq 1}
 						<form id="forms-news" method="post" action="" style="margin-left:10px;">
 							<fieldset>
-								<table>
+								<table class="table-tinymce">
 									<tr>
 										<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
 									</tr>
 									<tr>
 										<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="" size="50" /></td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 									{$selectlang}
 									<tr>
@@ -37,10 +33,6 @@
 									</tr>
 									<tr>
 										<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 								</table>			
 							</fieldset>
@@ -62,5 +54,10 @@
 {ajax_notify}
 {include file="common/javascript.phtml"}
 {include file="common/editor.phtml"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/framework/js/backend/jnews.1.0.js');
+});
+</script>
 </body>
 </html>

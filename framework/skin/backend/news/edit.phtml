@@ -31,20 +31,12 @@
 										<td>
 										<input type="hidden" id="idnews" value="{$smarty.get.edit}" />
 										<input type="text" disabled="disabled" readonly="readonly" id="url" name="url" class="inputdisabled ui-corner-all" value="{$url}" size="50" /></td>
-										<td></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 									<tr>
 										<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
 									</tr>
 									<tr>
 										<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 									{if $idlang != 0}
 									<tr>
@@ -55,40 +47,28 @@
 										<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
 										<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
 										</td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 									{/if}
 									<tr>
 										<td>
 										<table>
-										<tr>
-											<td style="width:100px;" class="label"><label for="publish" class="inlinelabel">Publication :</label></td>
-											<td style="width:80px;">
-												Activer <input type="radio" name="publish" {if $publish eq 1}checked="checked"{/if} value="1" />
-											</td>
-											<td>
-												Désactiver <input type="radio" name="publish" {if $publish eq 0}checked="checked"{/if} value="0" />
-											</td>
-										</tr>
+											<tr>
+												<td style="width:100px;" class="label"><label for="publish" class="inlinelabel">Publication :</label></td>
+												<td style="width:80px;">
+													Activer <input type="radio" name="publish" {if $publish eq 1}checked="checked"{/if} value="1" />
+												</td>
+												<td>
+													Désactiver <input type="radio" name="publish" {if $publish eq 0}checked="checked"{/if} value="0" />
+												</td>
+											</tr>
 										</table>
 										</td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 									<tr>
 										<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
 									</tr>
 									<tr>
 										<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows="">{$content}</textarea></td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 								</table>			
 							</fieldset>
@@ -110,5 +90,10 @@
 {ajax_notify}
 {include file="common/javascript.phtml"}
 {include file="common/editor.phtml"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/framework/js/backend/jnews.1.0.js');
+});
+</script>
 </body>
 </html>

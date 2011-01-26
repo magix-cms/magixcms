@@ -403,6 +403,11 @@ input.ui-button { padding: .1em 1em; }
 .clearboth{clear:both;}
 .clearleft{clear:left;}
 .hide{display:none;}
+.loader-block {
+  position:relative;
+  left: 50%;
+  margin-left: -16px;
+}
 /*############## Catalog ##################*/
 #list-image-galery{
 	margin-left:10px;

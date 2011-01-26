@@ -18,7 +18,6 @@
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
 						<div class="dashboard-content">
 						<form id="forms-home" method="post" action="" style="margin-left:10px;">
-						{$msg}
 							<fieldset>
 								<table class="table-tinymce">
 									<tr>
@@ -26,10 +25,6 @@
 									</tr>
 									<tr>
 										<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="" size="50" /></td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 									{$selectlang}
 									<tr>
@@ -37,10 +32,6 @@
 									</tr>
 									<tr>
 										<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 								</table>			
 							</fieldset>
@@ -55,10 +46,6 @@
 											<textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
 											<div id="charactersLeftT" class="wrap">120</div>
 										</td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 									<tr>
 										<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
@@ -68,10 +55,6 @@
 										<textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
 										<div id="charactersLeftD" class="wrap">180</div>
 										</td>
-										<td style="width:150px;" class="errorInput"></td>
-									</tr>
-									<tr>
-										<td class="status"></td>
 									</tr>
 								</table>
 								</div>
@@ -95,22 +78,8 @@
 {ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
-$(function() {
-	$("#meta").click(function(){
-		var visible = $("#forms-metas").toggle().is(":visible");
-		 $(this).html(visible ? "-" : "+");
-	});
-	$.getScript('/framework/js/tools/jquery.textchange.min.js', function() {
-		/**
-		  * Utilisation de textchange pour le compteur informatif des métas
-		  */
-		$('#metatitle').bind('textchange', function (event, previousText) {
-			$('#charactersLeftT').html( 120 - parseInt($(this).val().length) );
-		});
-		$('#metadescription').bind('textchange', function (event, previousText) {
-			$('#charactersLeftD').html( 180 - parseInt($(this).val().length) );
-		});
-	});
+$(function(){
+	$.getScript('/framework/js/backend/jhome.1.0.js');
 });
 </script>
 {include file="common/editor.phtml"}

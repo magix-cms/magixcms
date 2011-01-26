@@ -103,6 +103,7 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
+	$.getScript('/framework/js/backend/jcms.1.1.js');
 	dynamical_select_json(
 		'#move-cms-page',
 		'/admin/cms.php?add&json=true',

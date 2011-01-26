@@ -13,41 +13,12 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-lightbulb"></span>Statistique</div>
-					<div class="dashboard-content">
-					{if $configlang eq 1 AND $perms <= 2}
-					{$countlang}
-					{else}
-						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-							Vous n'avez pas la permission d'administrer ce module
-						</div>
-					{/if}
-					</div>
-				</div>
 				<div class="column">
 				<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-flag"></span>Langues</div>
-					<div class="dashboard-widget-content">
-					{if $configlang eq 1 AND $perms <= 2}
-						{$viewlang}
-					{else}
-						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-							Vous n'avez pas la permission d'administrer ce module
-						</div>
-					{/if}
-					</div>
-				</div>
-				</div>
-				<div class="column">
-				<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
+					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une langue</div>
 					<div class="dashboard-widget-content">
 					{if $configlang eq 1 AND $perms <= 2}
 						<form id="forms-lang" method="post" action="" style="margin-left:10px;">
-						{$msg}
 							<fieldset>
 								<table>
 									<tr>
@@ -83,6 +54,34 @@
 					</div>
 				</div>
 				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-flag"></span>Langues</div>
+						<div class="dashboard-widget-content">
+						{if $configlang eq 1 AND $perms <= 2}
+							{$viewlang}
+						{else}
+							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+								Vous n'avez pas la permission d'administrer ce module
+							</div>
+						{/if}
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-lightbulb"></span>Statistique</div>
+						<div class="dashboard-content">
+						{if $configlang eq 1 AND $perms <= 2}
+						{$countlang}
+						{else}
+							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+								Vous n'avez pas la permission d'administrer ce module
+							</div>
+						{/if}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	{include file="common/footer.phtml"}
@@ -90,5 +89,10 @@
 <div id="update-lang" title="Modifier une langue"></div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/framework/js/backend/jlanguage.1.0.js');
+});
+</script>
 </body>
 </html>

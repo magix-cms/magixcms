@@ -733,6 +733,10 @@ class backend_controller_catalog extends analyzer_catalog{
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * Mise à jour de l'image d'une catégorie
+	 */
 	private function update_category_image(){
 		if(isset($this->upcat)){
 			if(isset($this->update_img_c)){
@@ -870,6 +874,10 @@ class backend_controller_catalog extends analyzer_catalog{
 			}
 		}
 	}
+	/**
+	 * @access private 
+	 * Mise à jour de l'image d'une sous catégorie
+	 */
 	private function update_subcategory_image(){
 		if(isset($this->upsubcat)){
 			if(isset($this->update_img_s)){
@@ -1053,7 +1061,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * Retourne la liste des catégories/et sous catégories dans lequel se trouve le catalogue courant
 	 */
 	private function list_category_in_product(){
-		$product = <<<EOT
+		/*$product = <<<EOT
 		<table class="clear" style="margin-left:2em;width:50%">
 			<thead>
 				<tr>
@@ -1078,7 +1086,16 @@ EOT;
 			</tbody>
 		</table>
 EOT;
-	return $product;
+	return $product;*/
+		if(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) != null){
+			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) as $list){
+				$product[]= '{"idproduct":'.json_encode($list['idproduct']).',"clibelle":'.json_encode($list['clibelle']).
+				',"slibelle":'.json_encode($list['slibelle']).'}';
+			}
+			print '['.implode(',',$product).']';
+		}else{
+			print '{}';
+		}
 	}
 	/**
 	 * @access private
@@ -1124,31 +1141,46 @@ EOT;
 	 */
 	private function construct_select_product(){
 		$admindb =  backend_db_catalog::adminDbCatalog()->s_catalog_product_for_lang($this->selidclc);
-		/*$category = '<select id="idproduct" name="idproduct">';
-		$category .='<option value="">Aucun produits</option>';*/
 		$category ='';
 		$idcls = '';
+		$idclc = '';
+	      if ($admindb != null) {
+	      	/*Boucle pour retourner la catégorie courante*/
+	      	foreach($admindb as $cat){
+      		 if ($cat['clibelle'] != $idclc) {
+			     $category .= '<optgroup label="Categorie:'.$cat['clibelle'].'">';
+			     /* Boucle selection des produits de la categorie START */
+			     foreach ($admindb as $row){
+			       if ($row['idcls'] == 0) {
+			         $category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
+			       }
+			     }
+			     /* Boucle selection des produits de la categorie END */
+			     $category .= "</optgroup>\n";
+      		}
+      		$idclc = $cat['clibelle'];
+      		/*Fin de la boucle des catégories courante*/
+	      	}
+	      }
+		/* Boucle selection des sous-catégories et leurs produits START */    
 		foreach ($admindb as $row){
-			if ($row['slibelle'] != $idcls) {
-				if ($idcls != '') { $category .= "</optgroup>\n"; }
-			       $category .= '<optgroup label="'.$row['slibelle'].'">';
-			}
-			if ($row['idcls'] != 0) {
-				$category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
-			}
-			$idcls = $row['slibelle'];
-		}
-		if ($idcls != '') { $category .= "</optgroup>\n"; }
-		if ($idcls == '') {
-			$category .= '<optgroup label="Pas de sous catégorie">';
-			foreach ($admindb as $row){
-				if ($row['idcls'] == 0) {
-					$category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
-				}
-			}
-		}
+	      if ($row['slibelle'] != $idcls) {
+	        if ($idcls != '') { 
+	        	$category .= "</optgroup>\n"; 
+	        }
+	        $category .= '<optgroup label="Sous catégorie:'.$row['slibelle'].'">';
+	      }
+	        if ($row['idcls'] != 0) {
+	          $category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
+	        }
+	        if ($idcls != '') {
+	              $category .= "</optgroup>\n"; 
+	        }
+	      $idcls = $row['slibelle'];
+	    }
+		/* Boucle selection des sous-catégories et leurs produits END */
 		if ($idcls == '') { $category .= "</optgroup>\n"; }
-		print  $category;
+		print $category;
 	}
 	/**
 	 * @category json request
@@ -1270,7 +1302,7 @@ EOT;
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
-		backend_config_smarty::getInstance()->assign('list_category_in_product',self::list_category_in_product());
+		//backend_config_smarty::getInstance()->assign('list_category_in_product',self::list_category_in_product());
 		backend_config_smarty::getInstance()->assign('list_rel_product',self::list_rel_product());
 		//backend_config_smarty::getInstance()->assign('select_product',self::construct_select_product());
 		//$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
@@ -1695,6 +1727,8 @@ EOT;
 					self::insert_new_product();
 				}elseif(magixcjquery_filter_request::isGet('updateproduct')){
 					self::update_specific_product();
+				}elseif(magixcjquery_filter_request::isGet('json_cat_product')){
+					self::list_category_in_product();
 				}elseif(magixcjquery_filter_request::isGet('gethtmlprod')){
 					if(magixcjquery_filter_request::isGet('idclc')){
 						$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");

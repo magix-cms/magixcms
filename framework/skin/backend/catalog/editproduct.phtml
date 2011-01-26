@@ -119,7 +119,7 @@
 					</div>
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-content">
-							{$list_category_in_product}
+							<div id="load_cat_product"></div>
 							<div style="margin:5px;" class="button-link cat-uri-product" title="{$smarty.get.editproduct}">Voir les liens</div>
 						</div>
 					</div>
@@ -176,6 +176,9 @@
 {include file="common/editor.phtml"}
 <script type="text/javascript">
 $(function(){
+	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
+		load_cat_product();
+	});
 	dynamical_select_html(
 			'#forms-catalog-rel-product',
 			'/admin/catalog.php?product&editproduct=1&gethtmlprod',

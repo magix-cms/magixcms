@@ -16,7 +16,7 @@
  * @param params
  */
 function dynamical_select_html(id,url,params){
-	$.getScript('/framework/js/jquery.relatedselects.min.js', function() {
+	$.getScript('/framework/js/tools/jquery.relatedselects.min.js', function() {
 		$(id).relatedSelects({
 			onChangeLoad: url,
 			dataType: 'html',
@@ -35,7 +35,7 @@ function dynamical_select_html(id,url,params){
  * @param params
  */
 function dynamical_select_json(id,url,params){
-	$.getScript('/framework/js/jquery.relatedselects.min.js', function() {
+	$.getScript('/framework/js/tools/jquery.relatedselects.min.js', function() {
 		$(id).relatedSelects({
 			onChangeLoad: url,
 			dataType: 'json',

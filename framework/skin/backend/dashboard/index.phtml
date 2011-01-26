@@ -101,6 +101,10 @@
 	{include file="common/footer.phtml"}
 </div>
 {include file="common/javascript.phtml"}
-<script type="text/javascript" src="/min/?f=framework/js/backend/dashboard-1.0.0.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.getScript('/min/?f=framework/js/backend/dashboard-1.0.0.js');
+});
+</script>
 </body>
 </html> 

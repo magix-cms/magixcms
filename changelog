@@ -1,3 +1,18 @@
+beta 2.3.42b
+	* Fix bug chemin des plugins pour l'execution de l'admin et public
+	* Ajout du plugin smarty pour l'intégration de script externe javascript
+	* Ajout de textchange compatible jquery 1.4.4 + appel externe
+	* Ajout de l'entête texte dans la classe header de magixglobal
+	* Upgrade tinyMCE 3.3.92 => 3.4b2
+	* Déplacement du dossier cache de pdw_file_browser dans var + Nouvelle configuration (version tinyMCE)
+	* Système pour l'upgrade de la base de données
+	* Correction de l'extension de smarty dans l'install
+	* Ajout du système pour ajouter du texte dans les catégories et sous catégories catalogue.
+	* Début de la séparation des fichiers javascript suivant les modules.
+	* Fix bug d'affichage de l'édition des GoogleTools
+	* Répartition des fonctions ou scripts javascripts suivant le module (backend)
+	* Fix bug du menu déroulant pour la liaison des produits (backend)
+	
 stable 2.3.42
 	* Fix bug menu déroulant des catégories dans l'admin
 	* Modification de l'instance de base de donnée dans le plugin contact
