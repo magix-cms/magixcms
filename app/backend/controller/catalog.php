@@ -986,7 +986,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * Rechercher un catalogue dans les titres
 	 */
 	private function search_title_page(){
-		$search = '';
+		/*$search = '';
 		if($this->post_search != ''){
 			$search .= '<table class="clear" style="width:80%">
 						<thead>
@@ -1014,7 +1014,16 @@ class backend_controller_catalog extends analyzer_catalog{
 			}
 			$search .= '</tbody></table>';
 		}
-		print $search;
+		print $search;*/
+		if($this->post_search != ''){
+			if(backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) != null){
+				foreach (backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) as $s){
+					$search[]= '{"idcatalog":'.json_encode($s['idcatalog']).',"imgcatalog":'.json_encode($s['imgcatalog']).
+					',"pseudo":'.json_encode($s['pseudo']).',"titlecatalog":'.json_encode($s['titlecatalog']).',"codelang":'.json_encode($s['codelang']).'}';
+				}
+				print '['.implode(',',$search).']';
+			}
+		}
 	}
 	/**
 	 * @access private
@@ -1734,8 +1743,20 @@ EOT;
 				}elseif(magixcjquery_filter_request::isGet('updateproduct')){
 					self::update_specific_product();
 				}elseif(magixcjquery_filter_request::isGet('json_cat_product')){
+					$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+					$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+					$header->pragma();
+					$header->cache_control("nocache");
+					$header->getStatus('200');
+					$header->json_header("UTF-8");
 					self::list_category_in_product();
 				}elseif(magixcjquery_filter_request::isGet('json_rel_product')){
+					$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+					$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+					$header->pragma();
+					$header->cache_control("nocache");
+					$header->getStatus('200');
+					$header->json_header("UTF-8");
 					self::list_rel_product();
 				}elseif(magixcjquery_filter_request::isGet('gethtmlprod')){
 					if(magixcjquery_filter_request::isGet('idclc')){
@@ -1794,21 +1815,19 @@ EOT;
 				self::display_product();
 			}
 		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
-			self::search_title_page();
-		}elseif(magixcjquery_filter_request::isGet('order')){
-			self::executeOrderCategory();
-			self::executeOrderSubCategory();
-			self::execute_order_product_category();
-			self::execute_order_product_subcategory();
-		}/*elseif(magixcjquery_filter_request::isGet('json')){
 			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
 			$header->pragma();
 			$header->cache_control("nocache");
 			$header->getStatus('200');
 			$header->json_header("UTF-8");
-			self::get_select_json_construct();
-		}*/elseif(magixcjquery_filter_request::isGet('geturicat')){
+			self::search_title_page();
+		}elseif(magixcjquery_filter_request::isGet('order')){
+			self::executeOrderCategory();
+			self::executeOrderSubCategory();
+			self::execute_order_product_category();
+			self::execute_order_product_subcategory();
+		}elseif(magixcjquery_filter_request::isGet('geturicat')){
 			self::uri_catalog_product();
 		}elseif(magixcjquery_filter_request::isGet('getreluri')){
 			self::uri_rel_product();

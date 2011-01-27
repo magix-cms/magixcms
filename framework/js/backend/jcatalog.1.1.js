@@ -88,6 +88,52 @@ function load_rel_product(){
 		}
 	});
 }
+function result_search_product(j){
+	$('#result-search-page').empty();
+	var tablecat = '<table id="table_search_product" class="table-widget-product">'
+		+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
+		+'<th><span class="lfloat magix-icon magix-icon-h1"></span>Titre</th>'
+		+'<th><span class="lfloat ui-icon ui-icon-image"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-flag"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-person"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-copy"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-pencil"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+		+'</tr></thead>'
+		+'<tbody>';
+	tablecat += '</tbody></table>';
+	$(tablecat).appendTo('#result-search-page');
+	if(j === undefined){
+		console.log(j);
+	}
+	if(j !== null){
+		$.each(j, function(i,item) {
+			if(item.imgcatalog != null){
+				imgcatalog = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+			}else{
+				imgcatalog = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
+			}
+			if(item.codelang != null){
+				flaglang = '<div class="ui-state-error" style="border:none;">'+item.codelang+'</div>';
+			}else{
+				flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
+			}
+			return $('<tr><td>'+item.idcatalog+'</td>'
+			+'<td class="medium-cell"><a href="/admin/catalog.php?product&editproduct='+item.idcatalog+'" class="linkurl">'+item.titlecatalog+'</a></td>'
+			+'<td class="small-icon">'+flaglang+'</td>'
+			+'<td class="small-icon">'+imgcatalog+'</td>'
+			+'<td class="small-icon">'+item.pseudo+'</td>'
+			+'<td class="small-icon"><a href="/admin/catalog.php?product&moveproduct='+item.idcatalog+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>'
+			+'<td class="small-icon"><a href="/admin/catalog.php?product&copyproduct='+item.idcatalog+'" class="linkurl"><span class="lfloat ui-icon ui-icon-copy"></span></a></td>'
+			+'<td class="small-icon"><a href="/admin/catalog.php?product&editproduct='+item.idcatalog+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
+			+'<td class="small-icon"><a href="#" class="deleteproduct" title="'+item.idcatalog+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+			'</tr>').appendTo('#table_search_product tbody');
+		});
+	}else{
+		return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_search_product tbody');
+	}
+}
 $(function(){
 	/*################## Catalog ##############*/
     /**
@@ -162,7 +208,7 @@ $(function(){
 	    		noticedata: null,
 	    		resetform:false,
 	    		time:1,
-	    		reloadhtml:true	
+	    		reloadhtml:false	
 			});
 			return false; 
 		}else{
@@ -417,8 +463,8 @@ $(function(){
 	/**
      * Requête ajax pour la suppression des produits
      */
-	$('.deleteproduct').click(function (e){
-		e.preventDefault();
+	$('.deleteproduct').live("click",function (event){
+		event.preventDefault();
 		var lg = $(this).attr("title");
 		$("#dialog").dialog({
 			bgiframe: true,
@@ -451,8 +497,8 @@ $(function(){
 	/**
      * Requête ajax pour la suppression des catégories
      */
-	$('.delc').click(function(e){
-		e.preventDefault();
+	$('.delc').live("click",function(event){
+		event.preventDefault();
 		var lg = $(this).attr("title");
 		$("#dialog").dialog({
 			bgiframe: true,
@@ -488,8 +534,8 @@ $(function(){
 	/**
      * Requête ajax pour la suppression des sous catégories dans le catalogue
      */
-	$('.dels').click(function (e){
-		e.preventDefault();
+	$('.dels').live("click",function(event){
+		event.preventDefault();
 		var lg = $(this).attr("title");
 		$("#dialog").dialog({
 			bgiframe: true,
@@ -633,9 +679,9 @@ $(function(){
 	    		dom: form,
 	    		uri: '/admin/catalog.php?product&copyproduct='+getcatalog+'&postcopyproduct',
 	    		typesend: 'post',
-	    		delay: 2800,
-	    		time:2,
-	    		reloadhtml:true	
+	    		delay: 1800,
+	    		time:1,
+	    		reloadhtml:false	
 			});
 		}
 	});
@@ -663,9 +709,9 @@ $(function(){
 	    		dom: form,
 	    		uri: '/admin/catalog.php?product&moveproduct='+getcatalog+'&postmoveproduct',
 	    		typesend: 'post',
-	    		delay: 2800,
-	    		time:2,
-	    		reloadhtml:true	
+	    		delay: 1800,
+	    		time:1,
+	    		reloadhtml:false	
 			});
 		}
 	});
@@ -677,9 +723,13 @@ $(function(){
 		$(this).ajaxSubmit({
     		url:'/admin/catalog.php?get_search_page=true',
     		type:"post",
+    		dataType:"json",
     		resetForm: true,
+    		beforeSubmit:function(){
+    			$('#result-search-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+    		},
     		success:function(request) {
-    			$("#result-search-page").html(request);
+    			result_search_product(request);
     		}
     	});
 		return false; 

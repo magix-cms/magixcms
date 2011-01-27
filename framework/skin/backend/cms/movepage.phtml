@@ -25,20 +25,12 @@
 								</tr>
 								<tr>
 									<td><input type="text" disabled="disabled" readonly="readonly" id="idpage" name="idpage" class="inputtext ui-corner-all" value="{$idpage}" size="50" /></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 								<tr>
 									<td class="label"><label for="titlecatalog" class="inlinelabel">Titre :</label></td>
 								</tr>
 								<tr>
 									<td><input type="text" disabled="disabled" readonly="readonly" id="subjectpage" name="subjectpage" class="inputtext ui-corner-all" value="{$subjectpage}" size="50" /></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 								{if $idcategory != 0}
 								<tr>
@@ -48,24 +40,16 @@
 									<td>
 									<input type="text" disabled="disabled" readonly="readonly" id="category" name="category" class="inputdisabled ui-corner-all" value="{$category}" size="25" />
 									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 								{/if}
 								{if $idlang != 0}
 								<tr>
-									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+									<td class="label"><label for="codelang" class="inlinelabel">Langue :</label></td>
 								</tr>
 								<tr>
 									<td>
 									<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
 									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 								{/if}
 								{$selectlang}
@@ -78,10 +62,6 @@
 											<option value="">Aucune catégorie</option>
 										</select>
 									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 							</table>			
 						</fieldset>

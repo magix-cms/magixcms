@@ -48,6 +48,8 @@ select { width: 220px; }
 	.forms-config table tr th{margin:0;padding:0 ;vertical-align:top;}
 	.forms-config table tr td{margin:0;padding:0;vertical-align:top;}
 }
+/*validation jquery*/
+.stateVal{color:#FCA6A6;}
 /*############## plugin password metter ######################*/
 .password-meter {
 	position:relative;

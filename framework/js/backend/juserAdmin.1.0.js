@@ -27,7 +27,7 @@ $(function(){
 		},
 		messages: {
 			pseudo: {
-				required: "Enter a username"
+				required: 'Enter a username'
 			},
 			email: {
 				required: "Enter a email",

@@ -1,3 +1,61 @@
+function result_search_page(j){
+	$('#result-search-page').empty();
+	var tablecat = '<table id="table_search_product" class="table-widget-product">'
+		+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
+		+'<th><span class="lfloat magix-icon magix-icon-h1"></span>Titre</th>'
+		+'<th><span class="lfloat ui-icon ui-icon-folder-collapsed"></span></th>'
+		+'<th><span class="lfloat magix-icon magix-icon-igoogle-t"></span></th>'
+		+'<th><span class="lfloat magix-icon magix-icon-igoogle-d"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-flag"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-person"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-pencil"></span></th>'
+		+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+		+'</tr></thead>'
+		+'<tbody>';
+	tablecat += '</tbody></table>';
+	$(tablecat).appendTo('#result-search-page');
+	if(j === undefined){
+		console.log(j);
+	}
+	if(j !== null){
+		$.each(j, function(i,item) {
+			if(item.idcategory != 0){
+				category = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+			}else{
+				category = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-home"></span></div>';
+			}
+			if(item.metatitle != null & item.metatitle != ""){
+				metaTitle = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+			}else{
+				metaTitle = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
+			}
+			if(item.metadescription != null & item.metadescription != ""){
+				metaDesc = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+			}else{
+				metaDesc = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
+			}
+			if(item.codelang != null){
+				flaglang = '<div class="ui-state-error" style="border:none;">'+item.codelang+'</div>';
+			}else{
+				flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
+			}
+			return $('<tr><td>'+item.idpage+'</td>'
+			+'<td class="medium-cell"><a href="/admin/cms.php?editcms='+item.idpage+'" class="linkurl">'+item.subjectpage+'</a></td>'
+			+'<td class="small-icon">'+category+'</td>'
+			+'<td class="small-icon">'+metaTitle+'</td>'
+			+'<td class="small-icon">'+metaDesc+'</td>'
+			+'<td class="small-icon">'+flaglang+'</td>'
+			+'<td class="small-icon">'+item.pseudo+'</td>'
+			+'<td class="small-icon"><a href="/admin/cms.php?movepage='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>'
+			+'<td class="small-icon"><a href="/admin/cms.php?editcms='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
+			+'<td class="small-icon"><a href="#" class="deletecms" title="'+item.idpage+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+			'</tr>').appendTo('#table_search_product tbody');
+		});
+	}else{
+		return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_search_product tbody');
+	}
+}
 $(function(){
 	/*################## CMS ##############*/
 	$.getScript('/framework/js/tools/jquery.textchange.min.js', function() {
@@ -159,7 +217,7 @@ $(function(){
     /**
      * Requête ajax pour la suppression des pages CMS
      */
-	$('.deletecms').click(function (e){
+	$('.deletecms').live("click",function (e){
 		e.preventDefault();
 		var lg = $(this).attr("title");
 		$("#dialog").dialog({
@@ -231,11 +289,15 @@ $(function(){
 	 */
 	$("#forms-search-page").submit(function(){
 		$(this).ajaxSubmit({
-    		url:'/admin/cms.php?get_search_page',
+    		url:'/admin/cms.php?get_search_page=true',
     		type:"post",
+    		dataType:"json",
     		resetForm: true,
+    		beforeSubmit:function(){
+    			$('#result-search-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+    		},
     		success:function(request) {
-    			$("#result-search-page").html(request);
+    			result_search_page(request);
     		}
     	});
 		return false; 

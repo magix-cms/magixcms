@@ -484,7 +484,7 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('metatitle',$data['metatitle']);
 		backend_config_smarty::getInstance()->assign('metadescription',$data['metadescription']);
-		$uri = magixglobal_model_rewrite::filter_cms_url($data['codelang'],$data['idcategory'],$data['pathcategory'],$data['idpage'],$data['pathpage']);
+		$uri = magixglobal_model_rewrite::filter_cms_url($data['codelang'],$data['idcategory'],$data['pathcategory'],$data['idpage'],$data['pathpage'],true);
 		backend_config_smarty::getInstance()->assign('view',$uri);
 	}
 	private function load_data_cms_move(){
@@ -566,7 +566,7 @@ class backend_controller_cms{
 	 * Rechercher une page CMS dans les titres
 	 */
 	private function search_title_page(){
-		$search = '';
+		/*$search = '';
 		if($this->post_search != ''){
 			$search .= '<table class="clear" style="width:80%">
 						<thead>
@@ -584,7 +584,18 @@ class backend_controller_cms{
 			}
 			$search .= '</tbody></table>';
 		}
-		print $search;
+		print $search;*/
+		if($this->post_search != ''){
+			if(backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) != null){
+				foreach (backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) as $s){
+					$search[]= '{"idpage":'.json_encode($s['idpage']).',"subjectpage":'.json_encode($s['subjectpage']).
+					',"idcategory":'.json_encode($s['idcategory']).',"codelang":'.json_encode($s['codelang']).
+					',"metatitle":'.json_encode($s['metatitle']).',"metadescription":'.json_encode($s['metadescription']).
+					',"pseudo":'.json_encode($s['pseudo']).'}';
+				}
+				print '['.implode(',',$search).']';
+			}
+		}
 	}
 	/**
 	 * @category json request
@@ -734,6 +745,12 @@ class backend_controller_cms{
 		}elseif(magixcjquery_filter_request::isGet('dcmscat')){
 			self::delete_category_cms();
 		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
 			self::search_title_page();
 		}else{
 			self::display_view();

@@ -12,6 +12,9 @@ beta 2.3.42b
 	* Fix bug d'affichage de l'édition des GoogleTools
 	* Répartition des fonctions ou scripts javascripts suivant le module (backend)
 	* Fix bug du menu déroulant pour la liaison des produits (backend)
+	* Fix bug suppression de produits avec liaisons
+	* Suppression du moteur de recherche cms simple par une version ajax plus complète (backend)
+	* Suppression du moteur de recherche catalogue simple par une version ajax plus complète (backend)
 	
 stable 2.3.42
 	* Fix bug menu déroulant des catégories dans l'admin

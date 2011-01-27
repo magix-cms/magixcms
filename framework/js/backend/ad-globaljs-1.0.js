@@ -52,7 +52,7 @@ $(function() {
             },
             text: false
         });
-		
+		$(".btn-decoration:button").button();
 		/**
 		 * Notification après installation pour le dossier "install"
 		 */

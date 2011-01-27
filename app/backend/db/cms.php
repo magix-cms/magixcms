@@ -371,8 +371,11 @@ class backend_db_cms{
 	 * @param $searchpage
 	 */
 	function r_search_cms_title($searchpage){
-		$sql = 'SELECT p.idpage, p.subjectpage
-		FROM mc_cms_page p
+		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription,c.pathcategory, lang.codelang, m.pseudo
+				FROM mc_cms_page AS p
+				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
+				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+				LEFT JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
 		WHERE p.subjectpage LIKE "%'.$searchpage.'%"';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}

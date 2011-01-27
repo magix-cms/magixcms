@@ -620,6 +620,7 @@ class backend_db_catalog{
 	function d_catalog_product($delproduct){
 		$sql = array(
 		'DELETE FROM mc_catalog_img WHERE idcatalog = '.$delproduct,
+		'DELETE FROM mc_catalog_rel_product WHERE idcatalog ='.$delproduct,
 		'DELETE FROM mc_catalog_product WHERE idcatalog = '.$delproduct
 		,'DELETE FROM mc_catalog WHERE idcatalog = '.$delproduct);
 		magixglobal_model_db::layerDB()->transaction($sql); 
