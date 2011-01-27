@@ -54,11 +54,9 @@
 					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Image de catégorie</div>
 						<div class="dashboard-widget-content">
 							<div style="float:left;margin:0 2em;">
-								{if $img_c != null}
-									<img src="/upload/catalogimg/category/{$img_c}" />
-								{else}
-									<img src="/framework/img/no-picture.png" />
-								{/if}
+								<div id="load_img_ucategory">
+									<div id="contener_image"></div>
+								</div>
 							</div>
 							<form id="forms-catalog-editcategory-img" method="post" enctype="multipart/form-data" action="" style="margin-left:10px;">
 								<fieldset>
@@ -95,7 +93,9 @@
 {include file="common/editor.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcatalog.1.1.js');
+	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
+		load_img_category_catalog();
+	});
 });
 </script>
 </body>

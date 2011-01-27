@@ -760,6 +760,18 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
+	 * @access private
+	 * json_img_category
+	 * Retourne l'image de la catégorie avec json
+	 */
+	private function json_img_category(){
+		$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
+		if($clibelle['img_c'] != null){
+			$img = '[{"img_c":'.json_encode($clibelle['img_c']).'}]';
+			print $img;
+		}
+	}
+	/**
 	 * Affiche la pop-up pour l'édition de la catégorie
 	 * @access public
 	 */
@@ -767,7 +779,6 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($this->upcat)){
 			$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
 			backend_config_smarty::getInstance()->assign('clibelle',$clibelle['clibelle']);
-			backend_config_smarty::getInstance()->assign('img_c',$clibelle['img_c']);
 			backend_config_smarty::getInstance()->assign('c_content',$clibelle['c_content']);
 			backend_config_smarty::getInstance()->assign('product_category_order',self::product_in_category_order($this->upcat));
 		}
@@ -1232,35 +1243,6 @@ EOT;
 	 * La liste des produits lié à une fiche
 	 */
 	private function list_rel_product(){
-		/*$product = <<<EOT
-		<table class="clear" style="margin-left:2em;width:50%">
-			<thead>
-				<tr>
-				<th>ID</th>
-				<th><span style="float:left;" class="ui-icon ui-icon-folder-open"></span></th>
-				<th><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span></th>
-				<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-				<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-				</tr>
-			</thead>
-			<tbody>
-EOT;
-		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) as $prod){
-			$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
-			$product .='
-			<tr class="line">
-				<td class="nowrap">'.$prod['idrelproduct'].'</td>
-				<td class="nowrap">'.$info['clibelle'].'</td>
-				<td class="nowrap">'.$info['slibelle'].'</td>
-				<td class="nowrap">'.$info['titlecatalog'].'</td>
-				<td class="minimal"><a href="#" class="d-rel-product" title="'.$prod['idrelproduct'].'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>
-			</tr>';
-		}
-		$product .= <<<EOT
-			</tbody>
-		</table>
-EOT;
-	return $product;*/
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) != null){
 			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) as $list){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($list['idproduct']);
@@ -1344,7 +1326,6 @@ EOT;
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
-		//$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
 	}
 	/**
 	 * Chargement des données d'un produit pour l'insertion d'une image
@@ -1721,6 +1702,14 @@ EOT;
 		}elseif(magixcjquery_filter_request::isGet('upcat')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::update_category();
+			}elseif(magixcjquery_filter_request::isGet('imgcat')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				self::json_img_category();
 			}elseif(magixcjquery_filter_request::isGet('postimg')){
 				self::update_category_image();
 			}else{

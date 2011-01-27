@@ -15,11 +15,10 @@
 				</div>
 				<div class="column">
 				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une réecriture des métas</div>
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Edition d'une réecriture des métas</div>
 					<div class="dashboard-content">
 					{if $rewritenews eq 1 AND $perms eq 1}
 					<form id="forms-config-rewrite-update" method="post" action="" style="margin-left:10px;">
-					{$msg}
 						<fieldset>
 							<table>
 								<tr>
@@ -27,14 +26,14 @@
 								</tr>
 								<tr>
 									<td>
-									<input type="hidden" id="idrewrite" value="{$smarty.get.edit}" />
-									<textarea id="strrewrite" name="strrewrite" class="ui-input ui-widget-content ui-corner-all" cols="48" rows="3">{$strrewrite}</textarea></td>
+										<input type="hidden" id="idrewrite" value="{$smarty.get.edit}" />
+										<textarea id="strrewrite" name="strrewrite" class="ui-input ui-widget-content ui-corner-all" cols="48" rows="3">{$strrewrite}</textarea></td>
 									<td>
-									<ul class="seotags">
-										<li><div id="add-category" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Catégorie</div></li>
-										<li><div id="add-subcategory" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Sous catégorie</div></li>
-										<li><div id="add-product" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Articles</div></li>
-									</ul>
+										<ul class="seotags">
+											<li><div id="add-category" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Catégorie</div></li>
+											<li><div id="add-subcategory" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Sous catégorie</div></li>
+											<li><div id="add-product" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Articles</div></li>
+										</ul>
 									</td>
 								</tr>
 								{if $idlang != 0}
@@ -43,13 +42,9 @@
 								</tr>
 								<tr>
 									<td>
-									<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
-									<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
+										<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
+										<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
 									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 								{/if}
 								<tr>
@@ -57,23 +52,18 @@
 								</tr>
 								<tr>
 									<td>
-									<input type="hidden" id="idconfig" name="idconfig" value="{$idconfig}" />
-									<input type="text" disabled="disabled" readonly="readonly" id="module" name="module" class="inputdisabled ui-corner-all" value="{$module}" size="20" />
+										<input type="hidden" id="idconfig" name="idconfig" value="{$idconfig}" />
+										<input type="text" disabled="disabled" readonly="readonly" id="module" name="module" class="inputdisabled ui-corner-all" value="{$module}" size="20" />
 									</td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 								<tr>
 									<td class="label"><label for="level" class="inlinelabel">Niveau :</label></td>
 								</tr>
 								<tr>
 									<td>
-									<input type="hidden" id="level" name="level" value="{$level}" />
-									<input type="text" disabled="disabled" readonly="readonly" id="hight" name="hight" class="inputdisabled ui-corner-all" value="{$level}" size="5" />
+										<input type="hidden" id="level" name="level" value="{$level}" />
+										<input type="text" disabled="disabled" readonly="readonly" id="hight" name="hight" class="inputdisabled ui-corner-all" value="{$level}" size="5" />
 									</td>
-									<td style="width:150px;" class="errorInput"></td>
 								</tr>
 								<tr>
 									<td class="label"><label for="idmetas" class="inlinelabel">Métas :</label></td>
@@ -87,7 +77,6 @@
 									<input type="text" disabled="disabled" readonly="readonly" id="metatype" name="metatype" class="inputdisabled ui-corner-all" value="DESCRIPTION" size="20" />
 									{/if}
 									</td>
-									<td style="width:150px;" class="errorInput"></td>
 								</tr>
 							</table>			
 						</fieldset>
@@ -104,10 +93,10 @@
 				</div>
 				<div class="column">
 					<div class="dashboard ui-widget-content ui-corner-all">
-						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une réecriture des métas</div>
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Liste des réécritures de métas</div>
 						<div class="dashboard-content">
 						{if $perms <= 2}
-						{$viewmetas}
+							<div id="load_list_metas"></div>
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
 						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
@@ -125,7 +114,9 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jsettingconfig.1.0.js');
+	$.getScript('/framework/js/backend/jsettingconfig.1.0.js',function(){
+		load_list_metas();
+	});
 });
 </script>
 </body>

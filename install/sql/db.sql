@@ -37,16 +37,17 @@ CREATE TABLE IF NOT EXISTS `mc_catalog` (
   KEY `idadmin` (`idadmin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
+CREATE TABLE `mc_catalog_c` (
   `idclc` tinyint(3) NOT NULL AUTO_INCREMENT,
   `clibelle` varchar(125) NOT NULL,
   `pathclibelle` varchar(125) NOT NULL,
   `img_c` varchar(125) DEFAULT NULL,
+  `c_content` text,
   `idlang` tinyint(1) NOT NULL DEFAULT '0',
   `corder` tinyint(3) NOT NULL,
   PRIMARY KEY (`idclc`),
   KEY `idlang` (`idlang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_galery` (
   `idmicro` int(6) NOT NULL AUTO_INCREMENT,
@@ -82,16 +83,17 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_rel_product` (
   KEY `idproduct` (`idproduct`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
+CREATE TABLE `mc_catalog_s` (
   `idcls` tinyint(3) NOT NULL AUTO_INCREMENT,
   `slibelle` varchar(125) NOT NULL,
   `pathslibelle` varchar(125) NOT NULL,
   `img_s` varchar(125) DEFAULT NULL,
+  `s_content` text,
   `idclc` tinyint(3) NOT NULL,
   `sorder` tinyint(3) NOT NULL,
   PRIMARY KEY (`idcls`),
   KEY `idclc` (`idclc`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_cms_category` (
   `idcategory` tinyint(3) NOT NULL AUTO_INCREMENT,
@@ -248,7 +250,8 @@ INSERT INTO `mc_setting` (`setting_id`, `setting_value`, `setting_type`, `settin
 ('sold', 'sold_product', 'string', 'Produit vendu'),
 ('webmaster', '', 'string', 'google webmasterTools'),
 ('analytics', '', 'string', 'google analytics'),
-('editor', 'pdw_file_browser', 'string', 'tinymce');
+('editor', 'pdw_file_browser', 'string', 'tinymce'),
+('magix_version', '2.3.42b', 'string', 'Version Magix CMS');
 
 ALTER TABLE `mc_admin_session`
   ADD CONSTRAINT `mc_admin_session_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `mc_admin_member` (`idadmin`);

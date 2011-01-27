@@ -56,4 +56,18 @@ class magixglobal_model_cryptrsa{
 		$id = uniqid(mt_rand(), true);
 		return base_convert($id, 10, 36);
 	}
+	/**
+	 * Génération de micro id
+	 * @return string
+	 */
+	public static function random_generic_ui() {
+	    return sprintf('%04x%04x',
+	      // 32 bits for "time_low"
+	      mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+	      // 16 bits for "time_mid"
+	      mt_rand(0, 0xffff),
+	      // 48 bits for "node"
+	      mt_rand(0, 0xffff)
+	    );
+	}
 }

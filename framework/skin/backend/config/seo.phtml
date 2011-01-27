@@ -19,37 +19,32 @@
 					<div class="dashboard-content">
 					{if $rewritenews eq 1 AND $perms eq 1}
 					<form id="forms-config-rewrite" method="post" action="" style="margin-left:10px;">
-					{$msg}
 						<fieldset>
 							<table>
 								<tr>
 									<td class="label"><label for="strrewrite" class="inlinelabel">Phrase :</label></td>
-									<td>&nbsp;</td>
 								</tr>
 								<tr>
 									<td><textarea id="strrewrite" name="strrewrite" class="ui-input ui-widget-content ui-corner-all" cols="48" rows="3"></textarea></td>
 									<td>
-									<ul class="seotags">
-										<li><div id="add-category" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Catégorie</div></li>
-										<li><div id="add-subcategory" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Sous catégorie</div></li>
-										<li><div id="add-product" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Articles</div></li>
-									</ul>
+										<ul class="seotags">
+											<li><div id="add-category" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Catégorie</div></li>
+											<li><div id="add-subcategory" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Sous catégorie</div></li>
+											<li><div id="add-product" class="addseo"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>&nbsp;Articles</div></li>
+										</ul>
 									</td>
 								</tr>
 								{$selectlang}
 								<tr>
 									<td class="label"><label for="idlang" class="inlinelabel">Module :</label></td>
-									<td>&nbsp;</td>
 								</tr>
 								<tr>
 									<td>
 									{$selectseoconfig}
 									</td>
-									<td>&nbsp;</td>
 								</tr>
 								<tr>
 									<td class="label"><label for="level" class="inlinelabel">Niveau :</label></td>
-									<td>&nbsp;</td>
 								</tr>
 								<tr>
 									<td>
@@ -60,11 +55,9 @@
 										<option value="3">Niveau 3</option>
 									</select>
 									</td>
-									<td>&nbsp;</td>
 								</tr>
 								<tr>
 									<td class="label"><label for="idmetas" class="inlinelabel">Métas :</label></td>
-									<td>&nbsp;</td>
 								</tr>
 								<tr>
 									<td>
@@ -73,7 +66,6 @@
 										<option value="2">DESCRIPTION</option>
 									</select>
 									</td>
-									<td>&nbsp;</td>
 								</tr>
 							</table>			
 						</fieldset>
@@ -90,10 +82,10 @@
 				</div>
 				<div class="column">
 					<div class="dashboard ui-widget-content ui-corner-all">
-						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une réecriture des métas</div>
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Liste des réécritures de métas</div>
 						<div class="dashboard-content">
 						{if $perms <= 2}
-						{$viewmetas}
+							<div id="load_list_metas"></div>
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
 						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
@@ -111,7 +103,9 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jsettingconfig.1.0.js');
+	$.getScript('/framework/js/backend/jsettingconfig.1.0.js',function(){
+		load_list_metas();
+	});
 });
 </script>
 </body>

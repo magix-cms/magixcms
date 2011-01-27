@@ -416,54 +416,15 @@ EOT;
 	 * Affiche la réécriture des métas trié par langue
 	 * @access private
 	 */
-	private function view_metas(){
-		$title = '<table class="clear">
-						<thead>
-							<tr>
-							<th>Métas</th>
-							<th>Module</th>
-							<th>Phrase</th>
-							<th>Level</th>
-							<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
+	private function json_list_metas(){
 		if(backend_db_config::adminDbConfig()->s_rewrite_meta() != null){
-			foreach(backend_db_config::adminDbConfig()->s_rewrite_meta() as $seo){
-				switch($seo['idmetas']){
-					case 1:
-						$type = 'TITLE';
-						break;
-					case 2:
-						$type = 'DESCRIPTION';
-						break;
-				}
-			 	$title .= '<tr class="line">';
-			 	$title .= '<td class="maximal">'.$type.'</td>';
-			 	$title .= '<td class="nowrap">'.$seo['named'].'</td>';
-			 	$title .= '<td class="nowrap">'.$seo['strrewrite'].'</td>';
-			 	$title .= '<td class="nowrap">'.$seo['level'].'</td>';
-			 	$title .= '<td class="nowrap">'.$seo['codelang'].'</td>';
-			 	$title .= '<td class="nowrap">'.'<a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/config.php?metasrewrite&amp;edit='.$seo['idrewrite'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
-			 	$title .= '<td class="nowrap">'.'<a class="d-config-rmetas" title="'.$seo['idrewrite'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
-			 	$title .= '</tr>';
+			foreach (backend_db_config::adminDbConfig()->s_rewrite_meta() as $s){
+				$title[]= '{"idrewrite":'.json_encode($s['idrewrite']).',"named":'.json_encode($s['named']).
+				',"idmetas":'.json_encode($s['idmetas']).',"strrewrite":'.json_encode($s['strrewrite']).
+				',"level":'.json_encode($s['level']).',"codelang":'.json_encode($s['codelang']).'}';
 			}
-		}else{
-			$title .= '<tr class="line">';
-			$title .= '<td class="maximal"></td>';
-			$title .= '<td class="nowrap"></td>';
-			$title .= '<td class="nowrap"></td>';
-			$title .= '<td class="nowrap"></td>';
-			$title .= '<td class="nowrap"></td>';
-			$title .= '<td class="nowrap"></td>';
-			$title .= '<td class="nowrap"></td>';
-			$title .= '<td class="nowrap"></td>';
-			$title .= '</tr>';
+			print '['.implode(',',$title).']';
 		}
-		$title .= '</tbody></table>';
-		return $title;
 	}
 	/**
 	 * insertion de la réécriture des métas
@@ -528,7 +489,6 @@ EOT;
 	 */
 	private function display_seo(){
 		self::insertion_rewrite();
-		backend_config_smarty::getInstance()->assign('viewmetas',self::view_metas());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->assign('selectseoconfig',self::select_construct_config());
 		backend_config_smarty::getInstance()->display('config/seo.phtml');
@@ -539,10 +499,15 @@ EOT;
 	 */
 	public function display_seo_edit(){
 		self::load_rewrite_for_edit();
-		backend_config_smarty::getInstance()->assign('viewmetas',self::view_metas());
 		backend_config_smarty::getInstance()->display('config/editseo.phtml');
 	}
+	/**
+	 * @access public
+	 * 
+	 * Execution de la configuration
+	 */
 	public function run(){
+		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('metasrewrite')){
 			if(magixcjquery_filter_request::isGet('add')){
 				self::insertion_rewrite();
@@ -552,6 +517,14 @@ EOT;
 				}else{
 					self::display_seo_edit();
 				}
+			}elseif(magixcjquery_filter_request::isGet('load_metas')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				self::json_list_metas();
 			}elseif(magixcjquery_filter_request::isGet('drmetas')){
 				self::d_rewrite();
 			}else{

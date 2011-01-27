@@ -1,3 +1,62 @@
+function load_list_metas(){
+	$.ajax({
+		url: '/admin/config.php?metasrewrite=true&load_metas=true',
+		dataType: 'json',
+		type: "get",
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$('#load_list_metas').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+		},
+		success: function(j) {
+			$('#load_list_metas').empty();
+			var tablecat = '<table id="table_load_metas" class="table-widget-product">'
+				+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header">'
+				+'<th>Métas</th>'
+				+'<th>Module</th>'
+				+'<th>Phrase</th>'
+				+'<th>Level</th>'
+				+'<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>'
+				+'<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>'
+				+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+				+'</tr></thead>'
+				+'<tbody>';
+			tablecat += '</tbody></table>';
+			$(tablecat).appendTo('#load_list_metas');
+			if(j === undefined){
+				console.log(j);
+			}
+			if(j !== null){
+				$.each(j, function(i,item) {
+					if(item.codelang != null){
+						flaglang = '<div class="ui-state-error" style="border:none;">'+item.codelang+'</div>';
+					}else{
+						flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
+					}
+					switch(item.idmetas){
+						case "1":
+							var type = 'TITLE';
+						break;
+						case "2":
+							var type = 'DESCRIPTION';
+						break;
+					}
+					return $('<tr>'
+					+'<td class="medium-cell">'+type+'</td>'
+					+'<td class="medium-cell">'+item.named+'</td>'
+					+'<td class="medium-cell">'+item.strrewrite+'</td>'
+					+'<td class="small-icon">'+item.level+'</td>'
+					+'<td class="small-icon">'+flaglang+'</td>'
+					+'<td class="small-icon"><a href="/admin/config.php?metasrewrite&edit='+item.idrewrite+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
+					+'<td class="small-icon"><a href="#" class="d-config-rmetas" title="'+item.idrewrite+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+					'</tr>').appendTo('#load_list_metas tbody');
+				});
+			}else{
+				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#load_list_metas tbody');
+			}
+		}
+	});
+}
 $(function(){
 	/*################## Configuration ##############*/
 	//Ajoute un ID numérique (boucle) sur la class "spin"
@@ -41,17 +100,22 @@ $(function(){
 	});
 	/*### Config Metas ###*/
 	$("#forms-config-rewrite").submit(function(){
-		$.notice({
-			ntype: "ajaxsubmit",
-    		delay: 2800,
-    		dom: this,
-    		uri: '/admin/config.php?metasrewrite&add',
-    		typesend: 'post',
-    		noticedata: null,
-    		resetform:true,
-    		time:2,
-    		reloadhtml:true	
-		});
+		$(this).ajaxSubmit({
+    		url:'/admin/config.php?metasrewrite&add',
+    		type:"post",
+    		resetForm: true,
+    		beforeSubmit:function(){
+    			$('#result-search-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+    		},
+    		success:function(request) {
+    			$.notice({
+					ntype: "simple",
+					time:2
+				});
+    			$(".mc-head-request").html(request);
+    			load_list_metas(request);
+    		}
+    	});
 		return false; 
 	});
 	/**
@@ -64,15 +128,16 @@ $(function(){
         		url:'/admin/config.php?metasrewrite&edit='+rewriteid+'&post',
         		type:"post",
         		resetForm: false,
+        		beforeSubmit:function(){
+        			$('#result-search-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+        		},
         		success:function(request) {
-					$.notice({
-						ntype: "simple",
-						time:2
-					});
+        			$.notice({
+    					ntype: "simple",
+    					time:2
+    				});
         			$(".mc-head-request").html(request);
-        				setTimeout(function(){
-        					location.reload();
-        				},2800);
+        			load_list_metas(request);
         		}
         	});
 			return false; 

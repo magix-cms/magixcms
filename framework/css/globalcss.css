@@ -422,6 +422,21 @@ input.ui-button { padding: .1em 1em; }
 .img-galery{padding:2px;text-align:center;}
 .title-galery-image{padding:0 5px 0 5px;}
 .ctitle{margin:5px 0 5px 10px;width:97%;padding:0 0 0 10px;}
+/*#### AJAX catalog ####*/
+#load_img_ucategory{
+	margin:0 auto;
+	position:relative;
+	display:block;
+	min-width:120px;
+	min-height:120px;
+}
+#contener_image{
+	width:120px;
+	height:120px;
+	text-align:center;
+	display: table-cell;
+    vertical-align: middle;
+}
 /*############## templates ##################*/
 #viewskin{
 	margin:5px 0 5px 10px;
