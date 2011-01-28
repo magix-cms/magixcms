@@ -654,6 +654,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function insert_image_category($img,$pathclibelle){
 		if(isset($this->$img)){
 			try{
+				$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
 				 */
@@ -667,7 +668,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				$makeFiles = new magixcjquery_files_makefiles();
 				if (backend_model_image::imgSizeMin(self::dir_img_category().$this->$img,50,50)){
 					if(file_exists(self::dir_img_category().$pathclibelle.$fileextends)){
-						$makeFiles->removeFile(self::dir_img_category(),$pathclibelle.$fileextends);
+						$makeFiles->removeFile(self::dir_img_category(),$clibelle['img_c']);
 					}
 					$makeFiles->renameFiles(self::dir_img_category(),self::dir_img_category().$this->$img,self::dir_img_category().$pathclibelle.$fileextends);
 					/**
@@ -701,7 +702,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				}else{
 					$imgc = null;
 					if($this->img_c != null){
-						$imgc = self::insert_image_category('img_c',$this->pathclibelle);
+						$imgc = self::insert_image_category('img_c',$this->pathclibelle.'_'.magixglobal_model_cryptrsa::random_generic_ui());
 					}
 					backend_db_catalog::adminDbCatalog()->i_catalog_category($this->clibelle,$this->pathclibelle,$imgc,$this->idlang);
 					backend_config_smarty::getInstance()->display('catalog/request/success-cat.phtml');
@@ -741,7 +742,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($this->upcat)){
 			if(isset($this->update_img_c)){
 				$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
-				$imgc = self::insert_image_category('update_img_c',$clibelle['pathclibelle']);
+				$imgc = self::insert_image_category('update_img_c',$clibelle['pathclibelle'].'_'.magixglobal_model_cryptrsa::random_generic_ui());
 				backend_db_catalog::adminDbCatalog()->u_catalog_category_image($imgc,$this->upcat);
 				backend_config_smarty::getInstance()->display('request/update-image.phtml');
 			}
