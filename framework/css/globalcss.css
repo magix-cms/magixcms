@@ -423,16 +423,30 @@ input.ui-button { padding: .1em 1em; }
 .title-galery-image{padding:0 5px 0 5px;}
 .ctitle{margin:5px 0 5px 10px;width:97%;padding:0 0 0 10px;}
 /*#### AJAX catalog ####*/
-#load_img_ucategory{
+#load_img_ucategory,#load_img_mini{
 	margin:0 auto;
 	position:relative;
 	display:block;
 	min-width:120px;
 	min-height:120px;
 }
-#contener_image{
+#contener_image,#contener_image_mini{
 	width:120px;
 	height:120px;
+	text-align:center;
+	display: table-cell;
+    vertical-align: middle;
+}
+#load_img_medium,#load_img_product{
+	margin:0 auto;
+	position:relative;
+	display:block;
+	min-width:120px;
+	min-height:120px;
+}
+#contener_image_medium,#contener_image_product{
+	min-width:120px;
+	min-height:120px;
 	text-align:center;
 	display: table-cell;
     vertical-align: middle;

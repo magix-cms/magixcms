@@ -136,43 +136,51 @@
 						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 							<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-image"></span>Image du produit</div>
 							<div class="dashboard-widget-content">
-							{if $imgcatalog != null}
 							<table>
 								<tr>
-									<td><img src="{geturl}/upload/catalogimg/product/{$imgcatalog}" width="{$gwidth}" height="{$gheight}" alt="" /></td>
+									<td>
+										<div id="load_img_product">
+											<div id="contener_image_product"></div>
+										</div>
+									</td>
 								</tr>
 								<tr>
-									<td>Largeur: {$gwidth}</td>
+									<td>Largeur: <span id="gwidth"></span></td>
 								</tr>
 								<tr>
-									<td>Hauteur: {$gheight}</td>
+									<td>Hauteur: <span id="gheight"></span></td>
 								</tr>
 							</table>
 							<table>
 								<tr>
-									<td><img src="{geturl}/upload/catalogimg/medium/{$imgcatalog}" width="{$pwidth}" height="{$pheight}" alt="" /></td>
+									<td>
+										<div id="load_img_medium">
+											<div id="contener_image_medium"></div>
+										</div>
+									</td>
 								</tr>
 								<tr>
-									<td>Largeur: {$pwidth}</td>
+									<td>Largeur: <span id="pwidth"></span></td>
 								</tr>
 								<tr>
-									<td>Hauteur: {$pheight}</td>
+									<td>Hauteur: <span id="pheight"></span></td>
 								</tr>
 							</table>
 							<table>
 								<tr>
-									<td><img src="{geturl}/upload/catalogimg/mini/{$imgcatalog}" width="{$swidth}" height="{$sheight}" alt="" /></td>
+									<td>
+										<div id="load_img_mini">
+											<div id="contener_image_mini"></div>
+										</div>
+									</td>
 								</tr>
 								<tr>
-									<td>Largeur: {$swidth}</td>
+									<td>Largeur: <span id="swidth"></span></td>
 								</tr>
 								<tr>
-									<td>Hauteur: {$sheight}</td>
+									<td>Hauteur: <span id="sheight"></span></td>
 								</tr>
 							</table>
-							{else}
-							<div><div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-close"></span></div>Aucune image pour ce produit</div>
-							{/if}
 							</div>
 						</div>
 					</div>
@@ -184,7 +192,9 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript"> 
 $(function(){
-	$.getScript('/framework/js/backend/jcatalog.1.1.js');
+	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
+		load_img_product_catalog();
+	});
 });
 </script>
 </body>

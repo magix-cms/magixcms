@@ -170,6 +170,50 @@ function load_img_category_catalog(){
 		}
 	});
 }
+function load_img_product_catalog(){
+	var idproduct = $("#idproduct").text();
+	$.ajax({
+		url: '/admin/catalog.php?product&getimg='+idproduct+'&jsonimgproduct=1',
+		dataType: 'json',
+		type: "get",
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$('#contener_image_product,#contener_image_medium,#contener_image_mini').html('<img src="/framework/img/square-circle.gif" />');
+		},
+		success: function(j) {
+			$('#contener_image_product,#contener_image_medium,#contener_image_mini').empty();
+			if(j === undefined){
+				console.log(j);
+			}
+			if(j !== null){
+				$.each(j, function(i,item) { 
+					var img = $('<img src="/upload/catalogimg/product/'+item.imgcatalog+'" width="'+item.gwidth+'" height="'+item.gheight+'" />').appendTo('#contener_image_product');
+					img += $('<img src="/upload/catalogimg/medium/'+item.imgcatalog+'" width="'+item.pwidth+'" height="'+item.pheight+'" />').appendTo('#contener_image_medium');
+					img += $('<img src="/upload/catalogimg/mini/'+item.imgcatalog+'" width="'+item.swidth+'" height="'+item.sheight+'" />').appendTo('#contener_image_mini');
+					img += $('<strong>'+item.gwidth+'</strong>').appendTo('#gwidth');
+					img += $('<strong>'+item.gheight+'</strong>').appendTo('#gheight');
+					img += $('<strong>'+item.pwidth+'</strong>').appendTo('#pwidth');
+					img += $('<strong>'+item.pheight+'</strong>').appendTo('#pheight');
+					img += $('<strong>'+item.swidth+'</strong>').appendTo('#swidth');
+					img += $('<strong>'+item.sheight+'</strong>').appendTo('#sheight');
+					return img;
+				});
+			}else{ 
+				var img = $('<img src="/framework/img/no-picture.png" width="120" height="120" />').appendTo('#contener_image_product');
+				img += $('<img src="/framework/img/no-picture.png" width="120" height="120" />').appendTo('#contener_image_medium');
+				img += $('<img src="/framework/img/no-picture.png" width="120" height="120" />').appendTo('#contener_image_mini');
+				img += $('<strong>0</strong>').appendTo('#gwidth');
+				img += $('<strong>0</strong>').appendTo('#gheight');
+				img += $('<strong>0</strong>').appendTo('#pwidth');
+				img += $('<strong>0</strong>').appendTo('#pheight');
+				img += $('<strong>0</strong>').appendTo('#swidth');
+				img += $('<strong>0</strong>').appendTo('#sheight');
+				return img;
+			}
+		}
+	});
+}
 $(function(){
 	/*################## Catalog ##############*/
     /**
@@ -790,11 +834,18 @@ $(function(){
 			 	url:'/admin/catalog.php?product&getimg='+idcatalog+'&postimgproduct=1',
 			 	type:"post",
 			 	beforeSubmit:function(){
-		 			$("#progressbar").progressbar({ value: 0 });
-			 		setTimeout(updateProgress, 100);
+			 		$('#contener_image_product,#contener_image_medium,#contener_image_mini').html('<img src="/framework/img/square-circle.gif" />');
 			 	},
-		 	success:function(e){}
+			 	success:function(request){
+			 		$.notice({
+						ntype: "simple",
+			    		time:2
+					});
+					$(".mc-head-request").html(request);
+			 		load_img_product_catalog();
+			 	}
 			});
+		 	return false;
 	 	}
 	 });
 	var valgalery = $("#forms-catalog-galery").validate({
