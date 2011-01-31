@@ -1359,6 +1359,8 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function insert_image_product(){
 		if(isset($this->imgcatalog)){
+			//Supprime le fichier original pour gagner en espace
+			$makeFiles = new magixcjquery_files_makefiles();
 			try{
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
@@ -1370,7 +1372,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				 */
 				$fileextends = backend_model_image::image_analyze(self::dir_img_product().$this->imgcatalog);
 				$random_id = magixglobal_model_cryptrsa::random_generic_ui();
-				if (backend_model_image::imgSizeMin(self::dir_img_product().$this->imgcatalog,50,50)){
+				if (backend_model_image::imgSizeMin(self::dir_img_product().$this->imgcatalog,40,40)){
 					// Sélectionne et retourne le nom du produit
 					$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
 					// Charge la classe pour renommer le fichier
@@ -1403,8 +1405,6 @@ class backend_controller_catalog extends analyzer_catalog{
 					$thumb->resize(700)->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$thumb->resize(350,250)->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$thumb->resize(120,100)->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					//Supprime le fichier original pour gagner en espace
-					$makeFiles = new magixcjquery_files_makefiles();
 					if(file_exists(self::dir_img_product().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_img_product(),$getimg['imgcatalog']);
 					}else{
@@ -1445,7 +1445,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				 * @var $fileextends
 				 */
 				$fileextends = backend_model_image::image_analyze(self::dir_micro_galery().$this->imggalery);
-				if (backend_model_image::imgSizeMin(self::dir_micro_galery().$this->imggalery,50,50)){
+				if (backend_model_image::imgSizeMin(self::dir_micro_galery().$this->imggalery,40,40)){
 					// Sélectionne et retourne le nom du produit
 					$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
 					// Compte le nombre d'image dans la galerie et incrémente de un
@@ -1615,26 +1615,6 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function display_product_image(){
 		self::load_data_image_product();
-		$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
-		/*if($getimg['imgcatalog'] != null){
-			if(file_exists(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog'])){
-				$gsize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').DIRECTORY_SEPARATOR.'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-				$psize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').DIRECTORY_SEPARATOR.'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-				$ssize = getimagesize(self::def_dirimg_frontend('upload/catalogimg').DIRECTORY_SEPARATOR.'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-				backend_config_smarty::getInstance()->assign('gwidth',$gsize[0]);
-				backend_config_smarty::getInstance()->assign('gheight',$gsize[1]);
-				backend_config_smarty::getInstance()->assign('pwidth',$psize[0]);
-				backend_config_smarty::getInstance()->assign('pheight',$psize[1]);
-				backend_config_smarty::getInstance()->assign('swidth',$ssize[0]);
-				backend_config_smarty::getInstance()->assign('sheight',$ssize[1]);
-				backend_config_smarty::getInstance()->assign('imgcatalog',$getimg['imgcatalog']);
-			}else{
-				backend_config_smarty::getInstance()->assign('imgcatalog',null);
-				if(M_FIREPHP == true){
-					magixcjquery_debug_magixfire::magixFireError("Not file exist: ".$getimg['imgcatalog']);
-				}
-			}
-		}*/
 		backend_config_smarty::getInstance()->assign('galery',self::view_galery_in_product());
 		backend_config_smarty::getInstance()->display('catalog/image.phtml');
 	}
@@ -1756,6 +1736,12 @@ class backend_controller_catalog extends analyzer_catalog{
 				}elseif(magixcjquery_filter_request::isGet('postimggalery')){
 					self::insert_image_galery();
 				}elseif(magixcjquery_filter_request::isGet('jsonimgproduct')){
+					$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+					$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+					$header->pragma();
+					$header->cache_control("nocache");
+					$header->getStatus('200');
+					$header->json_header("UTF-8");
 					self::json_img_product();
 				}elseif(magixcjquery_filter_request::isGet('delmicro')){
 					self::delete_image_microgalery();

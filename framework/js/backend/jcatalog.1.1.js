@@ -182,7 +182,7 @@ function load_img_product_catalog(){
 			$('#contener_image_product,#contener_image_medium,#contener_image_mini').html('<img src="/framework/img/square-circle.gif" />');
 		},
 		success: function(j) {
-			$('#contener_image_product,#contener_image_medium,#contener_image_mini').empty();
+			$('#contener_image_product,#contener_image_medium,#contener_image_mini,#gwidth,#gheight,#pwidth,#pheight,#swidth,#sheight').empty();
 			if(j === undefined){
 				console.log(j);
 			}
@@ -833,15 +833,16 @@ $(function(){
 		 	$(form).ajaxSubmit({
 			 	url:'/admin/catalog.php?product&getimg='+idcatalog+'&postimgproduct=1',
 			 	type:"post",
+			 	resetForm: true,
 			 	beforeSubmit:function(){
 			 		$('#contener_image_product,#contener_image_medium,#contener_image_mini').html('<img src="/framework/img/square-circle.gif" />');
 			 	},
 			 	success:function(request){
-			 		$.notice({
+			 		/*$.notice({
 						ntype: "simple",
 			    		time:2
 					});
-					$(".mc-head-request").html(request);
+					$(".mc-head-request").html(request);*/
 			 		load_img_product_catalog();
 			 	}
 			});

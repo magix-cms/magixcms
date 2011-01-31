@@ -53,27 +53,13 @@
 							</tr>
 							<tr>
 								<td>
-								<table>
-									<tr>
-										<td style="width:400px;">
-											<div id="progressbar"></div>
-										 	<div id="progressText"></div>
-										 </td>
-									</tr>
-								</table>
-								<table>
-									<tr>
-										<td style="width:250px;">
-											<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-									 		<input type="file" id="imgcatalog" name="imgcatalog" value="" />
-									 	</td>
-								 	</tr>
-								 	<tr>
-								 		<td><input type="submit" value="Envoyer" /></td>
-								 	</tr>
-							 	</table>
-								</td>
-							</tr>
+									<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+							 		<input type="file" id="imgcatalog" name="imgcatalog" value="" />
+							 	</td>
+						 	</tr>
+						 	<tr>
+						 		<td><input type="submit" value="Envoyer" /></td>
+						 	</tr>
 						</table>
 						</fieldset>
 						</form>
@@ -118,7 +104,7 @@
 						</div>
 						</div>
 						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter une image dans la galerie</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>La galerie du produit: {$titlecatalog}</div>
 							<div class="dashboard-widget-content">
 								{$galery}
 							</div>
