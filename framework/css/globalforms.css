@@ -5,13 +5,13 @@ select { width: 220px; }
 /**
  * Table contenu avec jquery ui widget
  */
-#tablecontain {margin: 0 0 0 10px; border-collapse: collapse; width: 95%;}
+#tablecontain {font-size:11px;margin: 0 0 0 10px; border-collapse: collapse; width: 95%;}
 #tablecontain th,#tablecontain td{text-align: left;}
 #tablecontain th {padding: .1em 4px;}
 #tablecontain td{padding: .1em 4px;}
 #tablecontain td a{text-decoration:underline;}
 #tablecontain td a:hover{}
-.tablecontain {margin: 0 0 0 10px; border-collapse: collapse; width: 95%;}
+.tablecontain {font-size:11px;margin: 0 0 0 10px; border-collapse: collapse; width: 95%;}
 .tablecontain th,.tablecontain td{text-align: left;}
 .tablecontain th {padding: .1em 4px;}
 .tablecontain td{padding: .1em 4px;}
@@ -22,7 +22,7 @@ select { width: 220px; }
 .tablecontain td.small-icon{width:20px;}
 .tablecontain th.small-icon{width:20px;}
 /*Product*/
-.table-widget-product {margin: 5px; border-collapse: collapse; min-width: 500px;max-width:600px;}
+.table-widget-product {font-size:11px;margin: 5px; border-collapse: collapse; min-width: 500px;max-width:600px;}
 .table-widget-product th,.table-widget-product td{border: 1px solid #404040;text-align: left;}
 .table-widget-product th {padding: .1em 4px;}
 .table-widget-product td{padding: .1em 4px;}

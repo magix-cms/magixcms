@@ -36,7 +36,7 @@ function result_search_page(j){
 				metaDesc = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
 			}
 			if(item.codelang != null){
-				flaglang = '<div class="ui-state-error" style="border:none;">'+item.codelang+'</div>';
+				flaglang = item.codelang;
 			}else{
 				flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
 			}

@@ -566,30 +566,20 @@ class backend_controller_cms{
 	 * Rechercher une page CMS dans les titres
 	 */
 	private function search_title_page(){
-		/*$search = '';
-		if($this->post_search != ''){
-			$search .= '<table class="clear" style="width:80%">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
-			foreach(backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) as $s){
-				 $search .= '<tr class="line">';
-				 $search .=	'<td class="minimal">'.$s['idpage'].'</td>';
-				 $search .=	'<td class="nowrap"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/cms.php?editcms='.$s['idpage'].'">'.magixcjquery_string_convert::cleanTruncate($s['subjectpage'],100,'').'</a></td>';
-				 $search .= '</tr>';
-			}
-			$search .= '</tbody></table>';
-		}
-		print $search;*/
 		if($this->post_search != ''){
 			if(backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) != null){
 				foreach (backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) as $s){
+					$uricms = magixglobal_model_rewrite::filter_cms_url(
+						$s['codelang'], 
+						$s['idcategory'], 
+						$s['pathcategory'], 
+						$s['idpage'], 
+						$s['pathpage'],
+						true
+					);
 					$search[]= '{"idpage":'.json_encode($s['idpage']).',"subjectpage":'.json_encode($s['subjectpage']).
 					',"idcategory":'.json_encode($s['idcategory']).',"codelang":'.json_encode($s['codelang']).
+					',"uricms":'.json_encode($uricms).',"category":'.json_encode($s['category']).
 					',"metatitle":'.json_encode($s['metatitle']).',"metadescription":'.json_encode($s['metadescription']).
 					',"pseudo":'.json_encode($s['pseudo']).'}';
 				}
