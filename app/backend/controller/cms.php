@@ -223,6 +223,7 @@ class backend_controller_cms{
 		}
 	}
 	/**
+	 * @access private
 	 * Voir les catégories disponible
 	 */
 	private function view_category(){
@@ -244,6 +245,7 @@ class backend_controller_cms{
 		return $category;
 	}
 	/**
+	 * @access private
 	 * Insérer une nouvelle catégorie
 	 */
 	private function insertion_category(){
@@ -257,6 +259,7 @@ class backend_controller_cms{
 		}
 	}
 	/**
+	 * @access private
 	 * Affiche les statistique des catégories
 	 */
 	private function statistic_category(){
@@ -278,6 +281,7 @@ class backend_controller_cms{
 		return $states;
 	}
 	/**
+	 * @access private
 	 * Affiche les statistiques des pages par catégorie
 	 */
 	private function block_statistique(){
@@ -324,6 +328,7 @@ class backend_controller_cms{
 		);
 	}
 	/**
+	 * @access private
 	 * Construction du select pour les catégories
 	 */
 	private function select_category(){
@@ -471,6 +476,25 @@ class backend_controller_cms{
 		}
 	}
 	/**
+	 * @access private
+	 * Chargement JSON des données URL pour information
+	 */
+	private function load_json_uri_cms(){
+		$data = backend_db_cms::adminDbCms()->s_data_forms($this->editcms);
+		if($data['idpage'] != null){
+			$uri = magixglobal_model_rewrite::filter_cms_url(
+				$data['codelang'],
+				$data['idcategory'],
+				$data['pathcategory'],
+				$data['idpage'],
+				$data['pathpage'],
+				true
+			);
+			$cmsurl= '{"cmsuri":'.json_encode(magixcjquery_url_clean::rplMagixString($uri)).'}';
+			print $cmsurl;
+		}
+	}
+	/**
 	 * Charge les données à mettre à jour dans le formulaire
 	 * @access private
 	 */
@@ -484,9 +508,11 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('metatitle',$data['metatitle']);
 		backend_config_smarty::getInstance()->assign('metadescription',$data['metadescription']);
-		$uri = magixglobal_model_rewrite::filter_cms_url($data['codelang'],$data['idcategory'],$data['pathcategory'],$data['idpage'],$data['pathpage'],true);
-		backend_config_smarty::getInstance()->assign('view',$uri);
 	}
+	/**
+	 * @access private
+	 * Charge les données pour le déplacement de la page
+	 */
 	private function load_data_cms_move(){
 		$data = backend_db_cms::adminDbCms()->s_data_forms($this->movepage);
 		backend_config_smarty::getInstance()->assign('idpage',$data['idpage']);
@@ -562,7 +588,7 @@ class backend_controller_cms{
 		}
 	}
 	/**
-	 * 
+	 * @access private
 	 * Rechercher une page CMS dans les titres
 	 */
 	private function search_title_page(){
@@ -623,6 +649,7 @@ class backend_controller_cms{
 		}
 	}
 	/**
+	 * @access private
 	 * Déplace d'une page CMS
 	 */
 	private function move_specific_page(){
@@ -714,6 +741,14 @@ class backend_controller_cms{
 		}elseif(magixcjquery_filter_request::isGet('editcms')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::update_page();
+			}elseif(magixcjquery_filter_request::isGet('load_json_uri_cms')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				self::load_json_uri_cms();
 			}else{
 				self::display_edit_page();
 			}

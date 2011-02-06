@@ -1,3 +1,13 @@
+/**
+ * MAGIX CMS
+ * @copyright  MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.1
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @name jcms.1.1.js
+ *
+ */
 function result_search_page(j){
 	$('#result-search-page').empty();
 	var tablecat = '<table id="table_search_product" class="table-widget-product">'
@@ -40,7 +50,8 @@ function result_search_page(j){
 			}else{
 				flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
 			}
-			return $('<tr><td>'+item.idpage+'</td>'
+			return $('<tr>'
+			+'<td>'+item.idpage+'</td>'
 			+'<td class="medium-cell"><a href="/admin/cms.php?editcms='+item.idpage+'" class="linkurl">'+item.subjectpage+'</a></td>'
 			+'<td class="small-icon">'+category+'</td>'
 			+'<td class="small-icon">'+metaTitle+'</td>'
@@ -55,6 +66,26 @@ function result_search_page(j){
 	}else{
 		return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_search_product tbody');
 	}
+}
+function create_dynamic_cms_uri(){
+	var idpage = $("#idpage").val();
+	$.ajax({
+		url: '/admin/cms.php?editcms='+idpage+'&load_json_uri_cms=true',
+		dataType: 'json',
+		type: "get",
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$("#cmslink").css({"display":"none"}).val('');
+			$('<span class="min-loader"><img src="/framework/img/small_loading.gif" /></span>').insertAfter('#cmslink');
+		},
+		success: function(j) {
+			$('.min-loader').remove();
+			var uri = j.cmsuri;
+			$("#cmslink").css({"display":"block"});
+			$("#cmslink").val(uri);
+		}
+	});
 }
 $(function(){
 	/*################## CMS ##############*/

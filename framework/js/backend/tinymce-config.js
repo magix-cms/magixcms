@@ -1,10 +1,10 @@
 /**
  * MAGIX CMS
  * @category   javascript
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.0
+ * @version    1.2
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @package    TinyMCE
  * @name	   tinymce
@@ -24,8 +24,8 @@ $(function() {
 			theme : "advanced",
 			plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,rj_insertcode,tablegrid,youtube,cmspage,loremipsum"+manager_tinymce_plugin,
 			// Theme options
-			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontsizeselect,fullscreen,code",
-			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,forecolor,backcolor,|,link,unlink,anchor"+manager_tinymce_button+",image,|,insertdate,inserttime,preview",
+			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontsizeselect,fullscreen,preview",
+			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,forecolor,backcolor,|,link,unlink,anchor"+manager_tinymce_button+",image,|,insertdate,inserttime,code",
 			/*tabledraw,convertcelltype,*/
 			theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,tabledraw,convertcelltype,|,hr,removeformat,|,rj_insertcode,loremipsum,youtube,cmspage",
 			//tableextras_col_size: 10, // Optional

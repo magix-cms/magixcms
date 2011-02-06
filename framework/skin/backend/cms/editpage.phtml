@@ -37,7 +37,7 @@
 									</tr>
 									<tr>
 										<td>
-										<input type="text" id="cmslink" name="cmslink" readonly="readonly" class="inputdisabled ui-corner-all" value="{$view}" size="50" /></td>
+										<input type="text" id="cmslink" name="cmslink" readonly="readonly" class="inputdisabled ui-corner-all" value="" size="50" /></td>
 									</tr>
 									{if $idlang != 0}
 									<tr>
@@ -124,7 +124,9 @@
 {include file="common/editor.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcms.1.1.js');
+	$.getScript('/framework/js/backend/jcms.1.1.js',function(){
+		create_dynamic_cms_uri();
+	});
 });
 </script>
 </body>

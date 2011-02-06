@@ -96,12 +96,12 @@ class magixglobal_model_rewrite{
 	 * @param integer $id
 	 * @param string $url
 	 */
-	private function cms_rewrite_uri($lang,$catid,$cat,$idpage,$pathpage){
+	private function cms_rewrite_uri($lang,$catid,$pathcat,$idpage,$pathpage){
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		if($cat != null){
-			$category = $catid.'-'.$cat.'/';
+		if($pathcat != null){
+			$category = $catid.'-'.$pathcat.'/';
 		}else $category = '';
 		return '/'.$language.$category.$idpage.'-'.$pathpage.'.html';
 	}
@@ -114,12 +114,12 @@ class magixglobal_model_rewrite{
 	 * @param integer $id
 	 * @param string $url
 	 */
-	private function cms_uri($lang,$catid,$cat,$idpage,$pathpage){
+	private function cms_uri($lang,$catid,$pathcat,$idpage,$pathpage){
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}else $language = '';
-		if($cat != null){
-			$category = 'getidcategory='.$catid.'&amp;getcat='.$cat.'&amp;';
+		if($pathcat != null){
+			$category = 'getidcategory='.$catid.'&amp;getcat='.$pathcat.'&amp;';
 		}else $category = '';
 		return '/cms.php?'.$language.$category.'getidpage='.$idpage.'&amp;getpurl='.$pathpage;
 	}
@@ -133,13 +133,13 @@ class magixglobal_model_rewrite{
 	 * @param $id
 	 * @param $url
 	 */
-	public static function filter_cms_url($lang,$catid,$cat,$idpage,$pathpage,$rewrite=false){
+	public static function filter_cms_url($lang,$catid,$pathcat,$idpage,$pathpage,$rewrite=false){
 		switch ($rewrite){
 			case true:
-				return self::cms_rewrite_uri($lang, $catid, $cat, $idpage,$pathpage);
+				return self::cms_rewrite_uri($lang, $catid, $pathcat, $idpage,$pathpage);
 			break;
 			case false:
-				return self::cms_uri($lang, $catid, $cat, $idpage,$pathpage);
+				return self::cms_uri($lang, $catid, $pathcat, $idpage,$pathpage);
 			break;
 		}
 		
