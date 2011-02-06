@@ -77,6 +77,10 @@ function create_dynamic_cms_uri(){
 		cache:false,
 		beforeSend: function(){
 			$("#cmslink").css({"display":"none"}).val('');
+			if($("#category").length != 0){
+				$("#category").css({"display":"none"}).val('');
+				$('<span class="min-loader"><img src="/framework/img/small_loading.gif" /></span>').insertAfter('#category');
+			}
 			$('<span class="min-loader"><img src="/framework/img/small_loading.gif" /></span>').insertAfter('#cmslink');
 		},
 		success: function(j) {
@@ -84,6 +88,13 @@ function create_dynamic_cms_uri(){
 			var uri = j.cmsuri;
 			$("#cmslink").css({"display":"block"});
 			$("#cmslink").val(uri);
+			if($("#category").length != 0){
+				$("#category").css({"display":"block"});
+				var cmscategory = j.category;
+				if(cmscategory != null){
+					$("#category").val(cmscategory);
+				}
+			}
 		}
 	});
 }
@@ -191,18 +202,20 @@ $(function(){
 	$("#forms-cms-updatepage").submit(function(){
 		var pageid = $('#idpage').val();
 		if(pageid != null){
-			/*/*tinyMCE.triggerSave(true,true);*/
 			$.editorhtml({editor:_editorConfig});
-			$.notice({
-				ntype: "ajaxsubmit",
-	    		delay: 2800,
-	    		dom: this,
-	    		uri: '/admin/cms.php?editcms='+pageid+'&post',
-	    		typesend: 'post',
-	    		resetform:false,
-	    		time:2,
-	    		reloadhtml:true	
-			});
+			$(this).ajaxSubmit({
+	    		url:'/admin/cms.php?editcms='+pageid+'&post',
+	    		type:"post",
+	    		resetForm: false,
+	    		success:function(request) {
+					$.notice({
+						ntype: "simple",
+						time:2
+					});
+	    			$(".mc-head-request").html(request);
+	    			create_dynamic_cms_uri();
+	    		}
+	    	});
 			return false; 
 		}else{
 			console.log("%s: %o","pageid is null",pageid);

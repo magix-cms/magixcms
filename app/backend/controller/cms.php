@@ -490,8 +490,9 @@ class backend_controller_cms{
 				$data['pathpage'],
 				true
 			);
-			$cmsurl= '{"cmsuri":'.json_encode(magixcjquery_url_clean::rplMagixString($uri)).'}';
-			print $cmsurl;
+			$cmsinput= '{"category":'.json_encode($data['category']).
+			',"cmsuri":'.json_encode(magixcjquery_url_clean::rplMagixString($uri)).'}';
+			print $cmsinput;
 		}
 	}
 	/**
@@ -504,7 +505,6 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->assign('contentpage',$data['contentpage']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('idcategory',$data['idcategory']);
-		backend_config_smarty::getInstance()->assign('category',$data['category']);
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('metatitle',$data['metatitle']);
 		backend_config_smarty::getInstance()->assign('metadescription',$data['metadescription']);
