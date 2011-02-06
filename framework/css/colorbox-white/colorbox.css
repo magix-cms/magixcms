@@ -19,16 +19,16 @@
     order/nesting of the generated HTML, so that the structure easier to understand.
 */
 #cboxOverlay{background:#fff;}
-#cboxPrevious,#cboxNext, #cboxClose{font-size:12px;}
+
 #colorBox{}
-    #cboxTopLeft{width:25px; height:25px; background:url(images/border1.png) 0 0 no-repeat;}
-    #cboxTopCenter{height:25px; background:url(images/border1.png) 0 -50px repeat-x;}
-    #cboxTopRight{width:25px; height:25px; background:url(images/border1.png) -25px 0 no-repeat;}
-    #cboxBottomLeft{width:25px; height:25px; background:url(images/border1.png) 0 -25px no-repeat;}
-    #cboxBottomCenter{height:25px; background:url(images/border1.png) 0 -75px repeat-x;}
-    #cboxBottomRight{width:25px; height:25px; background:url(images/border1.png) -25px -25px no-repeat;}
-    #cboxMiddleLeft{width:25px; background:url(images/border2.png) 0 0 repeat-y;}
-    #cboxMiddleRight{width:25px; background:url(images/border2.png) -25px 0 repeat-y;}
+    #cboxTopLeft{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) no-repeat 0 0;}
+    #cboxTopCenter{height:25px; background:url(/framework/css/colorbox-white/images/border1.png) repeat-x 0 -50px;}
+    #cboxTopRight{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) no-repeat -25px 0;}
+    #cboxBottomLeft{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) no-repeat 0 -25px;}
+    #cboxBottomCenter{height:25px; background:url(/framework/css/colorbox-white/images/border1.png) repeat-x 0 -75px;}
+    #cboxBottomRight{width:25px; height:25px; background:url(/framework/css/colorbox-white/images/border1.png) no-repeat -25px -25px;}
+    #cboxMiddleLeft{width:25px; background:url(/framework/css/colorbox-white/images/border2.png) repeat-y 0 0;}
+    #cboxMiddleRight{width:25px; background:url(/framework/css/colorbox-white/images/border2.png) repeat-y -25px 0;}
     #cboxContent{background:#fff;}
         #cboxLoadedContent{margin-bottom:20px;}
         #cboxTitle{position:absolute; bottom:0px; left:0; text-align:center; width:100%; color:#999;}
@@ -36,7 +36,7 @@
         #cboxSlideshow{position:absolute; bottom:0px; right:42px; color:#444;}
         #cboxPrevious{position:absolute; bottom:0px; left:0; color:#444;}
         #cboxNext{position:absolute; bottom:0px; left:63px; color:#444;}
-        #cboxLoadingOverlay{background:url(images/loading.gif) 5px 5px no-repeat #fff;}
+        #cboxLoadingOverlay{background:#fff url(/framework/css/colorbox-white/images/loading.gif) no-repeat 5px 5px;}
         #cboxClose{position:absolute; bottom:0; right:0; display:block; color:#444;}
 
 /*
@@ -49,11 +49,11 @@
     !! Important Note: AlphaImageLoader src paths are relative to the HTML document,
     while regular CSS background images are relative to the CSS document.
 */
-.cboxIE #cboxTopLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderTopLeft.png, sizingMethod='scale');}
-.cboxIE #cboxTopCenter{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderTopCenter.png, sizingMethod='scale');}
-.cboxIE #cboxTopRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderTopRight.png, sizingMethod='scale');}
-.cboxIE #cboxBottomLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderBottomLeft.png, sizingMethod='scale');}
-.cboxIE #cboxBottomCenter{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderBottomCenter.png, sizingMethod='scale');}
-.cboxIE #cboxBottomRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderBottomRight.png, sizingMethod='scale');}
-.cboxIE #cboxMiddleLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderMiddleLeft.png, sizingMethod='scale');}
-.cboxIE #cboxMiddleRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/internet_explorer/borderMiddleRight.png, sizingMethod='scale');}
+.cboxIE #cboxTopLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderTopLeft.png, sizingMethod='scale');}
+.cboxIE #cboxTopCenter{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderTopCenter.png, sizingMethod='scale');}
+.cboxIE #cboxTopRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderTopRight.png, sizingMethod='scale');}
+.cboxIE #cboxBottomLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderBottomLeft.png, sizingMethod='scale');}
+.cboxIE #cboxBottomCenter{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderBottomCenter.png, sizingMethod='scale');}
+.cboxIE #cboxBottomRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderBottomRight.png, sizingMethod='scale');}
+.cboxIE #cboxMiddleLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderMiddleLeft.png, sizingMethod='scale');}
+.cboxIE #cboxMiddleRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=/framework/css/colorbox-white/images/internet_explorer/borderMiddleRight.png, sizingMethod='scale');}

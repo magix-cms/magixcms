@@ -1,3 +1,20 @@
+beta 2.3.42c
+	* Refonte du système de réécriture des métas avec des méthodes ajax
+	* Chargement et upload de l'image d'une catégorie catalogue avec des méthodes ajax
+	* Correction du fichier d'installation de la base de données (db.sql)
+	* Ajout de l'algorithme pour la création d'identifiant unique pour les images catalogue
+	* Modification de l'envoi et chargement des images de produits.
+	* Fix bug chargement des images du catalogue via ajax (backend)
+	* Ajout du plugin cmspage dans tinyMCE
+	* Construction du moteur de recherche pour le plugin cmspage
+	* Modification dans la requête JSON pour le moteur de recherche CMS interne.
+	* Upgrade jQuery 1.4.4 => jQuery 1.5
+	* Fix bug jquery validate 1.7, application du patch 9aa53f9241224ba349f9 de compatibilité (jquery validate 1.7b)
+	* Upgrade jQuery UI 1.8.6 => 1.8.9 avec adaptation des thèmes intégrés
+	* Upgrade jquery.colorbox-1.3.10.js => jquery.colorbox-1.3.15.js avec adaptation des thèmes
+	* Fix bug chargement du thème colorbox white sous IE 7
+	* Upgrade jQuery UI 1.8.9 dans le skin par defaut
+	
 beta 2.3.42b
 	* Fix bug chemin des plugins pour l'execution de l'admin et public
 	* Ajout du plugin smarty pour l'intégration de script externe javascript

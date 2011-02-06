@@ -37,7 +37,12 @@ function load_cat_product(){
 					'</tr>').appendTo('#table_cat_product tbody');
 				});
 			}else{
-				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_cat_product tbody');
+				return $('<tr>'
+				+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+				+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+				+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+				+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+				+'</tr>').appendTo('#table_cat_product tbody');
 			}
 		}
 	});
@@ -133,7 +138,7 @@ function result_search_product(j){
 	}else{
 		return $('<tr>'
 				+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
-				+'<td class="medium-cell><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+				+'<td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 				+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 				+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 				+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'

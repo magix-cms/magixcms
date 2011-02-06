@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- /*
- * MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * Dual licensed under the MIT or GPL Version 3 licenses.
  * http://jquery.org/license
  *
- * Date: November 24 18:00 2010
+ * Date: February 06 18:00 2011
  */-->
 <version>
-	<number>2.3.42b</number>
+	<number>2.3.42c</number>
 	<phase>stable</phase>
 	<link>http://www.magix-cms.com</link>
 </version>

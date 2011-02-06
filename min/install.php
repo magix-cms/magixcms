@@ -33,13 +33,13 @@
  * minify install
  */
 return array(
-	'installcss' => array('//framework/css/ui/dark-backend-1-8-6/jquery-ui-1.8.6.custom.css','//framework/css/ui/ui.checkbox.1.4.css',
+	'installcss' => array('//framework/css/ui/dark-backend-1-8-9/jquery-ui-1.8.9.custom.css','//framework/css/ui/ui.checkbox.1.4.css',
 	'//framework/css/globalcss.css','//framework/css/colorbox-simple/colorbox.css','//framework/css/ui/ui.selectmenu.1.8.4.css',
 	'//framework/css/globalforms.css','//install/css/nivo-slider.css','//framework/css/notification.css','//install/css/install.css'),
-	'installjs'=> array('//framework/js/jquery-1.4.4.min.js','//framework/js/jquery-ui-1.8.6.custom.min.js',
-	'//framework/js/ui/i18n-1.8/jquery-ui-i18n.js','//framework/js/jquery.form-2.52.js','//framework/js/ui/ui.selectmenu-1-8-4.js',
-	'//framework/js/jquery.validate-1.7.js','//framework/js/jquery.validate.password-1.0.js','//framework/js/ui/ui.checkbox.1.4.js',
-	'//framework/js/jquery.colorbox-min-1.3.10.js','//framework/js/jquery.cookie.js','//framework/js/tools/notice-tpl.js','//framework/js/ad-globalform-1.0.js',
+	'installjs'=> array('//framework/js/jquery-1.5.min.js','//framework/js/jquery-ui-1.8.9.custom.min.js',
+	'//framework/js/ui/i18n-1.8/jquery-ui-i18n.js','//framework/js/jquery.form-2.63.js','//framework/js/ui/ui.selectmenu-1-8-4.js',
+	'//framework/js/jquery.validate-1.7b.js','//framework/js/jquery.validate.password-1.0.js','//framework/js/ui/ui.checkbox.1.4.js',
+	'//framework/js/jquery.colorbox-1.3.15.js','//framework/js/jquery.cookie.js','//framework/js/tools/notice-tpl.js','//framework/js/ad-globalform-1.0.js',
 	'//install/js/jquery.nivo.slider.pack.js','//framework/js/jquery.jfirebug.js','//install/js/install.js'),
 	'maxAge' => 31536000,
 	'setExpires' => time() + 86400 * 365

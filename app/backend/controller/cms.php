@@ -569,6 +569,22 @@ class backend_controller_cms{
 		if($this->post_search != ''){
 			if(backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) != null){
 				foreach (backend_db_cms::adminDbCms()->r_search_cms_title($this->post_search) as $s){
+					switch($s['metatitle']){
+						case null:
+							$metatitle = 0;
+						break;
+						case !null:
+							$metatitle = 1;
+						break;
+					}
+					switch($s['metadescription']){
+						case null:
+							$metadescription = 0;
+						break;
+						case !null:
+							$metadescription = 1;
+						break;
+					}
 					$uricms = magixglobal_model_rewrite::filter_cms_url(
 						$s['codelang'], 
 						$s['idcategory'], 
@@ -580,7 +596,7 @@ class backend_controller_cms{
 					$search[]= '{"idpage":'.json_encode($s['idpage']).',"subjectpage":'.json_encode($s['subjectpage']).
 					',"idcategory":'.json_encode($s['idcategory']).',"codelang":'.json_encode($s['codelang']).
 					',"uricms":'.json_encode($uricms).',"category":'.json_encode($s['category']).
-					',"metatitle":'.json_encode($s['metatitle']).',"metadescription":'.json_encode($s['metadescription']).
+					',"metatitle":'.$metatitle.',"metadescription":'.$metadescription.
 					',"pseudo":'.json_encode($s['pseudo']).'}';
 				}
 				print '['.implode(',',$search).']';

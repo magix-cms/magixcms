@@ -25,12 +25,12 @@ function result_search_page(j){
 			}else{
 				category = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-home"></span></div>';
 			}
-			if(item.metatitle != null & item.metatitle != ""){
+			if(item.metatitle != 0){
 				metaTitle = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
 			}else{
 				metaTitle = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
 			}
-			if(item.metadescription != null & item.metadescription != ""){
+			if(item.metadescription != 0){
 				metaDesc = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
 			}else{
 				metaDesc = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
