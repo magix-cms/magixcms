@@ -1012,6 +1012,35 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
+	 * 
+	 * Rechercher un catalogue dans les titres
+	 */
+	private function search_catalog_ref(){
+		if($this->post_search != ''){
+			if(backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) != null){
+				foreach (backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) as $catalog){
+					$search[]= '{"idcatalog":'.json_encode($catalog['idcatalog']).
+					',"titlecatalog":'.json_encode($catalog['titlecatalog']).',"codelang":'.json_encode($catalog['codelang']).'}';
+				}
+				print '['.implode(',',$search).']';
+			}
+		}
+	}
+	private function json_product_ref_catalog($product_ref_catalog){
+		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_product($product_ref_catalog) as $product){
+			$uriproduct[]= '{uriproduct:'.json_encode('<a class="insert-product-link" href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''
+			.magixglobal_model_rewrite::filter_catalog_product_url(
+				$product['codelang'], 
+				$product['pathclibelle'], 
+				$product['idclc'], 
+				$product['urlcatalog'], 
+				$product['idproduct'],
+				true
+			).'\',\''.$product['titlecatalog'].'\');">'.$product['titlecatalog'].'</a>').'}';
+		}
+		print '['.implode(',',$uriproduct).'}]';
+	}
+	/**
 	 * @access private
 	 * Insertion d'un nouveau produit dans la table mc_catalog
 	 */
@@ -1761,6 +1790,22 @@ class backend_controller_catalog extends analyzer_catalog{
 			$header->getStatus('200');
 			$header->json_header("UTF-8");
 			self::search_title_page();
+		}elseif(magixcjquery_filter_request::isGet('get_search_product')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
+			self::search_catalog_ref();
+		}elseif(magixcjquery_filter_request::isGet('product_ref_catalog')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
+			self::json_product_ref_catalog($_GET['product_ref_catalog']);
 		}elseif(magixcjquery_filter_request::isGet('order')){
 			self::executeOrderCategory();
 			self::executeOrderSubCategory();
