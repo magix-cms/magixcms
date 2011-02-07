@@ -3,18 +3,7 @@ function insert_product_catalog_link(href,name){
 	tinyMCE.execCommand('mceInsertContent',false,'<a href="'+href+'">'+name+'</a>');
 }
 function result_search_product(j){
-	$('#result-search-product').empty();
-	var tablecat = '<table id="table_search_product" class="clean-table">'
-		+'<thead><tr>'
-		+'<th></th>'
-		+'<th style="width:1%;">ID</th>'
-		+'<th>Lang</th>'
-		+'<th>Title Catalog</th>'
-		+'<th style="width:1%;">Link</th>'
-		+'</tr></thead>'
-		+'<tbody>';
-	tablecat += '</tbody></table>';
-	$(tablecat).appendTo('#result-search-product');
+	$('#table_search_product tbody').empty();
 	if(j === undefined){
 		console.log(j);
 	}
@@ -25,55 +14,38 @@ function result_search_product(j){
 			}else{
 				flaglang = '-';
 			}
+			if(item.codelang != null){
+				flaglang = item.codelang;
+			}else{
+				flaglang = '-';
+			}
+			if(item.subcategory != null){
+				scategory = item.subcategory;
+			}else{
+				scategory = '-';
+			}
 			return $('<tr>'
-			+'<td><a href="#" class="open-td" title="'+item.idcatalog+'">Ouvrir</a></td>'
-			+'<td>'+item.idcatalog+'</td>'
+			+'<td>'+item.idproduct+'</td>'
 			+'<td>'+flaglang+'</td>'
-			//+'<td>'+cat+'</td>'
 			+'<td>'+item.titlecatalog+'</td>'
-			//+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uricms+'\',\''+item.subjectpage+'\');">Insert</a></td>'
-			+'</tr><tr class="hidden-uri-tr"><td colspan=4></td></tr>').appendTo('#table_search_product tbody');
+			+'<td>'+item.category+'</td>'
+			+'<td>'+scategory+'</td>'
+			+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uriproduct+'\',\''+item.titlecatalog+'\');">Insert</a></td>'
+			+'</tr>').appendTo('#table_search_product tbody');
 		});
 	}else{
 		return $('<tr>'
 				+'<td>-</td>'
 				+'<td>-</td>'
 				+'<td>-</td>'
+				+'<td>-</td>'
+				+'<td>-</td>'
+				+'<td>-</td>'
 				+'</tr>').appendTo('#table_search_product tbody');
 	}
 }
-function load_ajax_injectlist(idcatalog){
-	$.ajax({
-		url: '/admin/catalog.php?product_ref_catalog='+idcatalog,
-		dataType: 'json',
-		type: "get",
-		async: true,
-		cache:false,
-		beforeSend: function(){},
-		success: function(j) {
-			if(j === undefined){
-				console.log(j);
-			}
-			if(j !== null){
-				$.each(j, function(i,item) {
-					return $('<span>'+item.uriproduct+'</span>').appendTo("#contains");
-				});
-			}
-		}
-	});
-}
 var ProductSearchDialog = {
 	init : function() {
-		$('a.open-td').live("click",function(){
-			var idcatalog = $(this).attr("title");
-			var answer = $(this).parent().parent().next();
-	        if (answer.is(":visible")) {
-	        load_ajax_injectlist(idcatalog);
-	           answer.slideUp();
-	        } else {
-	           answer.slideDown();
-	        }
-		});
 		$("#forms-search-product").submit(function(){
 			$(this).ajaxSubmit({
 	    		url: '/admin/catalog.php?get_search_product=true',
@@ -81,7 +53,8 @@ var ProductSearchDialog = {
 	    		dataType:"json",
 	    		resetForm: true,
 	    		beforeSubmit:function(){
-	    			$('#result-search-product').html('<img src="/framework/img/small_loading.gif" />');
+	    			$('#table_search_product tbody').empty();
+	    			$('#table_search_product tbody').html('<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><img src="/framework/img/small_loading.gif" /></td><td>&nbsp;</td><td>&nbsp;</td></tr>');
 	    		},
 	    		success:function(request) {
 	    			result_search_product(request);
@@ -92,7 +65,7 @@ var ProductSearchDialog = {
 	},
 
 	insert : function() {
-		
+		return null;
 	}
 };
 

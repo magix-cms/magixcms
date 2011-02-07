@@ -1,3 +1,10 @@
+beta 2.3.42 RC1
+	* Ajout du plugin productsearch dans tinyMCE
+	* Construction du moteur de recherche pour le plugin productsearch
+	* Fix bug récupération des résultats avec JSON dans cmspage(tinyMCE)
+	* Ajout de statusCode dans les requêtes ajax JSON dans le catalogue (jQuery 1.5)
+	* Ajout d'une simple validation javascript dans le plugin contact
+	
 beta 2.3.42c
 	* Refonte du système de réécriture des métas avec des méthodes ajax
 	* Chargement et upload de l'image d'une catégorie catalogue avec des méthodes ajax

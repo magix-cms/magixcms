@@ -16,7 +16,7 @@
 			<td valign="middle">{#cmspage_dlg.description}</td>
 		</tr>
 	</table>
-	<div id="cms-window-search">
+	<div id="cms-search-tinymce-plugin">
 		<form id="forms-search-page" method="post" action="">
 			<fieldset>
 				<table border="0" cellspacing="0" cellpadding="0">
@@ -28,7 +28,28 @@
 			</fieldset>
 		</form>
 	</div>
-	<div id="result-search-page"></div>
+	<div id="result-search-page">
+	<table id="table_search_cmspage" class="clean-table">
+		<thead>
+			<tr>
+				<th style="width:1%;">ID</th>
+				<th style="width:16px;">{#cmspage_dlg.lang}</th>
+				<th>{#cmspage_dlg.category}</th>
+				<th>{#cmspage_dlg.subject}</th>
+				<th style="width:1%;">{#cmspage_dlg.link}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
 	<div class="mceActionPanel">
 		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 	</div>

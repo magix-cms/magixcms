@@ -10,7 +10,7 @@
 
 (function() {
 	// Load plugin specific language pack
-	tinymce.PluginManager.requireLangPack('product_search');
+	tinymce.PluginManager.requireLangPack('productsearch');
 
 	tinymce.create('tinymce.plugins.ProductSearch', {
 		/**
@@ -26,8 +26,8 @@
 			ed.addCommand('mceProductSearch', function() {
 				ed.windowManager.open({
 					file : url + '/dialog.htm',
-					width : 400 + parseInt(ed.getLang('product_search.delta_width', 0)),
-					height : 300 + parseInt(ed.getLang('product_search.delta_height', 0)),
+					width : 500 + parseInt(ed.getLang('productsearch.delta_width', 0)),
+					height : 400 + parseInt(ed.getLang('productsearch.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
@@ -36,15 +36,15 @@
 			});
 
 			// Register example button
-			ed.addButton('product_search', {
-				title : 'product_search.desc',
+			ed.addButton('productsearch', {
+				title : 'productsearch.desc',
 				cmd : 'mceProductSearch',
-				image : url + '/img/search_page.png'
+				image : url + '/img/cart_search.gif'
 			});
 
 			// Add a node change handler, selects the button in the UI when a image is selected
 			ed.onNodeChange.add(function(ed, cm, n) {
-				cm.setActive('product_search', n.nodeName == 'IMG');
+				cm.setActive('productsearch', n.nodeName == 'IMG');
 			});
 		},
 
@@ -80,5 +80,5 @@
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('product_search', tinymce.plugins.ProductSearch);
+	tinymce.PluginManager.add('productsearch', tinymce.plugins.ProductSearch);
 })();

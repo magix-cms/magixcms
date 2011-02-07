@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>{#productsearch.title}</title>
+	<title>{#productsearch_dlg.title}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript" src="/framework/js/jquery-1.5.min.js"></script>
 	<script type="text/javascript" src="/framework/js/jquery.form-2.63.js"></script>
@@ -12,24 +12,45 @@
 <body>
 	<table border="0" cellspacing="0" cellpadding="2">
 		<tr>
-			<td valign="top"></td>
-			<td valign="middle">{#productsearch.description}</td>
+			<td valign="top"><img src="img/cart_search.gif" width="24" height="24" /></td>
+			<td valign="middle">{#productsearch_dlg.description}</td>
 		</tr>
 	</table>
-	<div id="cms-window-search">
+	<div id="product-search-tinymce-plugin">
 		<form id="forms-search-product" method="post" action="">
 			<fieldset>
 				<table border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td><input type="text" name="post_search" id="post_search" value="" size="30" /></td>
-						<td><input type="submit" class="button" id="replaceBtn" value="{#productsearch.search}" /></td>
+						<td><input type="submit" class="button" id="replaceBtn" value="{#productsearch_dlg.search}" /></td>
 					</tr>
 				</table>
 			</fieldset>
 		</form>
 	</div>
-	<div id="result-search-product"></div>
-	<div id="contains"></div>
+	<div id="result-search-product">
+	<table id="table_search_product" class="clean-table">
+		<thead><tr>
+			<th style="width:1%;">ID</th>
+			<th style="width:1%;">{#productsearch_dlg.lang}</th>
+			<th style="min-width:80px;">{#productsearch_dlg.titlecatalog}</th>
+			<th>{#productsearch_dlg.category}</th>
+			<th>{#productsearch_dlg.subcategory}</th>
+			<th style="width:1%;">{#productsearch_dlg.link}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
 	<div class="mceActionPanel">
 		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 	</div>

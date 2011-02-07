@@ -479,6 +479,21 @@ class backend_db_catalog{
 		WHERE p.titlecatalog LIKE "%'.$searchpage.'%"';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+	/**
+	 * 
+	 * recherche les produits suivant un mot clé
+	 * @param string $search
+	 */
+	function r_search_complete_product($search){
+		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
+		FROM mc_catalog_product AS p
+		LEFT JOIN mc_catalog as card USING ( idcatalog )
+		LEFT JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
+		WHERE card.titlecatalog LIKE "%'.$search.'%"';
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
     /**
      * Insert un nouveau produit dans la table mc_catalog
      */

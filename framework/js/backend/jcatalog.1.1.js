@@ -14,6 +14,26 @@ function load_cat_product(){
 		url: '/admin/catalog.php?product&editproduct='+idcatalog+'&json_cat_product=true',
 		dataType: 'json',
 		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
 		async: true,
 		cache:false,
 		beforeSend: function(){
@@ -63,6 +83,26 @@ function load_rel_product(){
 		url: '/admin/catalog.php?product&editproduct='+idcatalog+'&json_rel_product=true',
 		dataType: 'json',
 		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
 		async: true,
 		cache:false,
 		beforeSend: function(){
@@ -165,6 +205,26 @@ function load_img_category_catalog(){
 		url: '/admin/catalog.php?upcat='+ucategory+'&imgcat=1',
 		dataType: 'json',
 		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
 		async: true,
 		cache:false,
 		beforeSend: function(){
@@ -191,6 +251,26 @@ function load_img_product_catalog(){
 		url: '/admin/catalog.php?product&getimg='+idproduct+'&jsonimgproduct=1',
 		dataType: 'json',
 		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
 		async: true,
 		cache:false,
 		beforeSend: function(){
@@ -689,6 +769,26 @@ $(function(){
 					$.ajax({
 						url: "/admin/catalog.php?product&editproduct="+productid+"&d_in_product="+inproduct,
 						type: "get",
+						statusCode: {
+							0: function() {
+								console.error("jQuery Error");
+							},
+							401: function() {
+								console.warn("access denied");
+							},
+							404: function() {
+								console.warn("object not found");
+							},
+							403: function() {
+								console.warn("request forbidden");
+							},
+							408: function() {
+								console.warn("server timed out waiting for request");
+							},
+							500: function() {
+								console.error("Internal Server Error");
+							}
+						},
 						async: true,
 						cache:false,
 						beforeSend: function(){},
@@ -731,6 +831,26 @@ $(function(){
 					$.ajax({
 						url: "/admin/catalog.php?product&editproduct="+productid+"&d_rel_product="+relproduct,
 						type: "get",
+						statusCode: {
+							0: function() {
+								console.error("jQuery Error");
+							},
+							401: function() {
+								console.warn("access denied");
+							},
+							404: function() {
+								console.warn("object not found");
+							},
+							403: function() {
+								console.warn("request forbidden");
+							},
+							408: function() {
+								console.warn("server timed out waiting for request");
+							},
+							500: function() {
+								console.error("Internal Server Error");
+							}
+						},
 						async: true,
 						cache:false,
 						beforeSend: function(){},
@@ -904,6 +1024,26 @@ $(function(){
 					$(this).dialog('close');
 					$.ajax({
 						type:'get',
+						statusCode: {
+							0: function() {
+								console.error("jQuery Error");
+							},
+							401: function() {
+								console.warn("access denied");
+							},
+							404: function() {
+								console.warn("object not found");
+							},
+							403: function() {
+								console.warn("request forbidden");
+							},
+							408: function() {
+								console.warn("server timed out waiting for request");
+							},
+							500: function() {
+								console.error("Internal Server Error");
+							}
+						},
 						url: '/admin/catalog.php?product&getimg='+idcatalog+'&delmicro='+lg,
 						async: false,
 						success:function(request) {

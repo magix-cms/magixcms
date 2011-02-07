@@ -3,18 +3,7 @@ function insert_cms_link(href,name){
 	tinyMCE.execCommand('mceInsertContent',false,'<a href="'+href+'">'+name+'</a>');
 }
 function result_search_page(j){
-	$('#result-search-page').empty();
-	var tablecat = '<table id="table_search_product" class="clean-table">'
-		+'<thead><tr>'
-		+'<th style="width:1%;">ID</th>'
-		+'<th style="width:16px;">Lang</th>'
-		+'<th>Category</th>'
-		+'<th>Subject</th>'
-		+'<th style="width:1%;">Link</th>'
-		+'</tr></thead>'
-		+'<tbody>';
-	tablecat += '</tbody></table>';
-	$(tablecat).appendTo('#result-search-page');
+	$('#table_search_cmspage tbody').empty();
 	if(j === undefined){
 		console.log(j);
 	}
@@ -35,7 +24,7 @@ function result_search_page(j){
 			+'<td>'+cat+'</td>'
 			+'<td>'+item.subjectpage+'</td>'
 			+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_cms_link(\''+item.uricms+'\',\''+item.subjectpage+'\');" class="link-cms-page">Insert</a></td>'
-			+'</tr>').appendTo('#table_search_product tbody');
+			+'</tr>').appendTo('#table_search_cmspage tbody');
 		});
 	}else{
 		return $('<tr>'
@@ -56,7 +45,8 @@ var CMSPageDialog = {
 	    		dataType:"json",
 	    		resetForm: true,
 	    		beforeSubmit:function(){
-	    			$('#result-search-page').html('<img src="/framework/img/small_loading.gif" />');
+	    			$('#table_search_cmspage tbody').empty();
+	    			$('#table_search_cmspage tbody').html('<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><img src="/framework/img/small_loading.gif" /></td><td>&nbsp;</td></tr>');
 	    		},
 	    		success:function(request) {
 	    			result_search_page(request);

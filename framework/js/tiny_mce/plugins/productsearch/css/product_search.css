@@ -1,7 +1,3 @@
-#result-search-product table{width:100%;margin:5px 0 0 0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse;overflow:auto; }
+#result-search-product table{width:100%;margin:5px 0 0 0;padding:0;border-width:0px;border-spacing: 0px;border-collapse: collapse;}
 #result-search-product table thead tr th{margin:0;padding:0 5px;vertical-align:top;background-color:#dcdcdc;text-align:left;}
 #result-search-product table tbody tr td{margin:0;padding:0 5px;vertical-align:top;background-color:#fff;}
-.hidden-uri-tr{display:none;}
-.open-td{
-	cursor:pointer;
-}

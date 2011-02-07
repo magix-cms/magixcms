@@ -26,8 +26,8 @@
 			ed.addCommand('mceCMSpage', function() {
 				ed.windowManager.open({
 					file : url + '/dialog.htm',
-					width : 400 + parseInt(ed.getLang('cmspage.delta_width', 0)),
-					height : 300 + parseInt(ed.getLang('cmspage.delta_height', 0)),
+					width : 500 + parseInt(ed.getLang('cmspage.delta_width', 0)),
+					height : 400 + parseInt(ed.getLang('cmspage.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
