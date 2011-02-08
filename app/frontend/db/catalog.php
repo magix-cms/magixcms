@@ -203,7 +203,7 @@ class frontend_db_catalog{
 				FROM mc_catalog_c AS c
 				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idclc = :idclc AND c.idlang =0 ORDER BY corder';
+				WHERE c.idclc = :idclc AND c.idlang =0 ORDER BY sorder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idclc'=>$idclc
 		));
@@ -229,7 +229,7 @@ class frontend_db_catalog{
 				FROM mc_catalog_c AS c
 				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idclc = :idclc AND lang.codelang = :codelang ORDER BY corder';
+				WHERE c.idclc = :idclc AND lang.codelang = :codelang ORDER BY sorder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':codelang'		=>	$codelang,
 			':idclc'		=>	$idclc
