@@ -22,13 +22,14 @@ function load_list_metas(){
 			$('#load_list_metas').empty();
 			var tablecat = '<table id="table_load_metas" class="table-widget-product">'
 				+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header">'
-				+'<th>Métas</th>'
-				+'<th>Module</th>'
-				+'<th>Phrase</th>'
-				+'<th>Level</th>'
-				+'<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>'
-				+'<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>'
-				+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+				+'<th>ID</th>'
+				+'<th class="medium-cell">Métas</th>'
+				+'<th class="medium-cell">Module</th>'
+				+'<th class="medium-cell">Phrase</th>'
+				+'<th class="small-icon">Level</th>'
+				+'<th class="small-icon"><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>'
+				+'<th class="small-icon"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>'
+				+'<th class="small-icon"><span class="lfloat ui-icon ui-icon-close"></span></th>'
 				+'</tr></thead>'
 				+'<tbody>';
 			tablecat += '</tbody></table>';
@@ -52,6 +53,7 @@ function load_list_metas(){
 						break;
 					}
 					return $('<tr>'
+					+'<td>'+item.idrewrite+'</td>'
 					+'<td class="medium-cell">'+type+'</td>'
 					+'<td class="medium-cell">'+item.named+'</td>'
 					+'<td class="medium-cell">'+item.strrewrite+'</td>'
@@ -62,7 +64,15 @@ function load_list_metas(){
 					'</tr>').appendTo('#load_list_metas tbody');
 				});
 			}else{
-				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#load_list_metas tbody');
+				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'</tr>').appendTo('#load_list_metas tbody');
 			}
 		}
 	});

@@ -22,7 +22,7 @@ $(function() {
 			elements : 'absurls',
 			//remove_script_host : false,
 			theme : "advanced",
-			plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,rj_insertcode,tablegrid,youtube,cmspage,loremipsum,productsearch"+manager_tinymce_plugin,
+			plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,wordcount,rj_insertcode,tablegrid,youtube,cmspage,loremipsum,productsearch"+manager_tinymce_plugin,
 			// Theme options
 			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontsizeselect,fullscreen,preview",
 			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,forecolor,backcolor,|,link,unlink,anchor"+manager_tinymce_button+",image,|,insertdate,inserttime,code",
