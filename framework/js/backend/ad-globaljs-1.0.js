@@ -173,39 +173,4 @@ $(function() {
 	    $(".post-preview").colorbox({width:"90%", height:"90%", iframe:true});
 	    //Prévisualisation d'images
 	    $(".imagebox").colorbox();
-/*################## formulaire ##############*/
-		/**
-	     * Requête ajax pour la suppression des formulaires
-	     */
-	   /* $('.deleteinput').click(function (){
-			var lg = $(this).attr("title");
-			$("#dialog").dialog({
-				bgiframe: true,
-				resizable: false,
-				height:140,
-				modal: true,
-				title: 'Suppression de champs',
-				overlay: {
-					backgroundColor: '#000',
-					opacity: 0.5
-				},
-				buttons: {
-					'Delete item': function() {
-						$(this).dialog('close');
-						$.ajax({
-							type:'get',
-							url: "/admin/index.php?dashboard&forms&delinput="+lg,
-							async: false,
-							success : function(){
-								$(this).dialog('close');
-								location.reload()
-				    		}
-					     });
-					},
-					Cancel: function() {
-						$(this).dialog('close');
-					}
-				}
-			});
-		 });*/
 });

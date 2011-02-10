@@ -1,4 +1,15 @@
 {if $editor eq "tinymce"}
+	{if $configcatalog eq 1}
+	<script type="text/javascript">
+		var catalog_tinymce_plugin = ",productsearch";
+		var catalog_tinymce_button = ",productsearch";
+	</script>
+	{else}
+	<script type="text/javascript">
+		var catalog_tinymce_plugin = "";
+		var catalog_tinymce_button = "";
+	</script>
+	{/if}
 	{if $manager_setting eq 'imagemanager'}
 	<script type="text/javascript">
 		var manager_tinymce_plugin = ",imagemanager";

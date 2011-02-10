@@ -39,8 +39,8 @@ return array(
 	'adminjs'=> array('//framework/js/jquery-1.5.min.js','//framework/js/jquery-ui-1.8.9.custom.min.js','//framework/js/ui/i18n-1.8/jquery-ui-i18n.js',
 	'//framework/js/ui/ui.checkbox.1.4.js','//framework/js/jquery.form-2.63.js','//framework/js/jquery.validate-1.7b.js',
 	'//framework/js/jquery.validate.password-1.0.js','//framework/js/jquery.cookie.js','//framework/js/jquery.colorbox-1.3.15.js',
-	'//framework/js/ui/ui.spinner.1-20.min.js','//framework/js/jquery.jfirebug.js','//framework/js/tools/notice-tpl.js','//framework/js/backend/mc_editor_config.js','//framework/js/ad-globalform-1.0.js','//framework/js/backend/ad-globaljs-1.0.js'),
-	'editor'=>array('//framework/js/tiny_mce-3-3-9-2/jquery.tinymce.js','//framework/js/tinymce-config.js'),
+	'//framework/js/ui/ui.spinner.1-20.min.js','//framework/js/jquery.jfirebug.js','//framework/js/tools/notice-tpl.js',
+	'//framework/js/backend/mc_editor_config.js','//framework/js/ad-globalform-1.0.js','//framework/js/backend/ad-globaljs-1.0.js'),
 	'maxAge' => 31536000,
 	'setExpires' => time() + 86400 * 365
 );
