@@ -88,6 +88,9 @@ function create_dynamic_cms_uri(){
 			var uri = j.cmsuri;
 			$("#cmslink").css({"display":"block"});
 			$("#cmslink").val(uri);
+			$(".post-preview").attr({
+				href:uri
+			});
 			if($("#category").length != 0){
 				$("#category").css({"display":"block"});
 				var cmscategory = j.category;
