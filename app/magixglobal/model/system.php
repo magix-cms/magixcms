@@ -73,5 +73,13 @@ class magixglobal_model_system{
         $log->write($str. $e->getMessage(),__FILE__, $e->getLine());
         magixcjquery_debug_magixfire::magixFireError($e);
 	}
+	/**
+	 * extract domain
+	 * exemple: http//www.mydomain.com => mydomain.com
+	 */
+	public function extract_domain(){
+		$parse = parse_url(magixcjquery_html_helpersHtml::getUrl(), PHP_URL_HOST);
+		return substr($parse,4);
+	}
 }
 ?>

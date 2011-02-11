@@ -34,12 +34,6 @@
 class plugins_contact_public extends database_plugins_contact{
 	/**
 	 * 
-	 * @var mail
-	 * @static
-	 */
-	static protected $mail;
-	/**
-	 * 
 	 * @var string
 	 */
 	public $moreinfo;
@@ -108,15 +102,6 @@ class plugins_contact_public extends database_plugins_contact{
 		}
 	}
 	/**
-	 * Instance la classe modele mail (singleton)
-	 */
-	protected function mail(){
-        if (!isset(self::$mail)){
-         	self::$mail = new frontend_model_mail();
-        }
-    	return self::$mail;
-    }
-	/**
 	 * Construction du titre pour la récupération des mails
 	 */
 	protected function subject(){
@@ -165,8 +150,8 @@ class plugins_contact_public extends database_plugins_contact{
 	 */
 	protected function send_email(){
 		if(isset($this->email)){
+			frontend_controller_plugins::configLoad();
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
-				frontend_controller_plugins::configLoad();
 				frontend_controller_plugins::getConfigVars("fields_empty");
 				$fetch = frontend_controller_plugins::append_fetch('empty.phtml');
 				frontend_controller_plugins::append_assign('msg',$fetch);
@@ -174,39 +159,59 @@ class plugins_contact_public extends database_plugins_contact{
 				$fetch = frontend_controller_plugins::append_fetch('mail.phtml');
 				frontend_controller_plugins::append_assign('msg',$fetch);
 			}else{
-				self::mail()->simple_mail_html_head($this->email);
-				self::mail()->mail_subject(self::subject());
-				self::mail()->mail_body(self::body_message());
 				if(isset($_GET['strLangue'])){
 					if(parent::c_show_table() != 0){
 						if(parent::s_register_contact_with_lang($_GET['strLangue']) != null){
-							$s = '';
-							foreach (parent::s_register_contact_with_lang($_GET['strLangue']) as $list) {
-								$s .= self::mail()->mail_add_Address($list['email'],$list['pseudo']);
+							//Instance la classe mail avec le paramètre de transport
+							$core_mail = new magixglobal_model_mail('mail');
+							//Charge dans un tableau les utilisateurs qui reçoivent les mails
+							$lotsOfRecipients = parent::s_register_contact_with_lang($_GET['strLangue']);
+							//Initialisation du contenu du message
+							foreach ($lotsOfRecipients as $recipient){
+								$message = $core_mail->body_mail(
+									self::subject(),
+									array($this->email),
+									array($recipient['email'] => $recipient['pseudo']),
+									self::body_message(),
+									false
+								);
+								$core_mail->batch_send_mail($message);
 							}
+							frontend_controller_plugins::getConfigVars("message_send_success");
+							$fetch = frontend_controller_plugins::append_fetch('success.phtml');
 						}else{
-							self::mail()->select_mail_user();
+							$fetch = frontend_controller_plugins::append_fetch('error_email_config.phtml');
 						}
 					}else{
-						self::mail()->select_mail_user();
+						$fetch = frontend_controller_plugins::append_fetch('error_install.phtml');
 					}
 				}else{
 					if(parent::c_show_table() != 0){
 						if(parent::s_register_contact_no_lang() != null){
-							$s = '';
-							foreach (parent::s_register_contact_no_lang() as $list){
-								$s .= self::mail()->mail_add_Address($list['email'],$list['pseudo']);
+							//Instance la classe mail avec le paramètre de transport
+							$core_mail = new magixglobal_model_mail('mail');
+							//Charge dans un tableau les utilisateurs qui reçoivent les mails
+							$lotsOfRecipients = parent::s_register_contact_no_lang();
+							//Initialisation du contenu du message
+							foreach ($lotsOfRecipients as $recipient){
+								$message = $core_mail->body_mail(
+									self::subject(),
+									array($this->email),
+									array($recipient['email'] => $recipient['pseudo']),
+									self::body_message(),
+									false
+								);
+								$core_mail->batch_send_mail($message);
 							}
+							frontend_controller_plugins::getConfigVars("message_send_success");
+							$fetch = frontend_controller_plugins::append_fetch('success.phtml');
 						}else{
-							self::mail()->select_mail_user();
+							$fetch = frontend_controller_plugins::append_fetch('error_email_config.phtml');
 						}
 					}else{
-						self::mail()->select_mail_user();
+						$fetch = frontend_controller_plugins::append_fetch('error_install.phtml');
 					}
 				}
-				self::mail()->mail_submit();
-				self::mail()->clean_Submit();
-				$fetch = frontend_controller_plugins::append_fetch('success.phtml');
 				frontend_controller_plugins::append_assign('msg',$fetch);
 			}
 		}

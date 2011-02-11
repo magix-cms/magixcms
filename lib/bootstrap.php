@@ -65,9 +65,9 @@ if (file_exists($magixjquery)) {
 	print 'Error lib';
 	exit;
 }
-$phpmailer = dirname(__FILE__).DIRECTORY_SEPARATOR.'phpmailler'.DIRECTORY_SEPARATOR.'class.phpmailer.php';
-if (file_exists($phpmailer)) {
-	require ($phpmailer);
+$mailer = dirname(__FILE__).DIRECTORY_SEPARATOR.'swiftmailer'.DIRECTORY_SEPARATOR.'swift_required.php';
+if (file_exists($mailer)) {
+	require ($mailer);
 }else{
 	print 'Error MAIL Config';
 	exit;
