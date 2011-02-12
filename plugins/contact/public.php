@@ -144,22 +144,37 @@ class plugins_contact_public extends database_plugins_contact{
 		.'</body></html>';
 	}
 	/**
+	 * Charge le fichier de configuration de base de smarty
+	 * @access private
+	 */
+	private function _loadConfigVars(){
+		frontend_controller_plugins::create()->configLoad();
+	}
+	/**
+	 * Retourne les variables de configuration
+	 * @access private
+	 */
+	private function _getVars(){
+		$this->_loadConfigVars();
+		return frontend_controller_plugins::create()->getConfigVars();
+	}
+	/**
 	 * Envoi du mail 
 	 * Si return true retourne success.phtml
 	 * sinon retourne empty.phtml
 	 */
 	protected function send_email(){
 		if(isset($this->email)){
-			frontend_controller_plugins::configLoad();
+			$this->_loadConfigVars();
+			$create = frontend_controller_plugins::create();
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
-				frontend_controller_plugins::getConfigVars("fields_empty");
-				$fetch = frontend_controller_plugins::append_fetch('empty.phtml');
-				frontend_controller_plugins::append_assign('msg',$fetch);
+				$fetch = $create->append_fetch('empty.phtml');
+				$create->append_assign('msg',$fetch);
 			}elseif(!magixcjquery_filter_isVar::isMail($this->email)){
-				$fetch = frontend_controller_plugins::append_fetch('mail.phtml');
-				frontend_controller_plugins::append_assign('msg',$fetch);
+				$fetch = $create->append_fetch('mail.phtml');
+				$create->append_assign('msg',$fetch);
 			}else{
-				if(isset($_GET['strLangue'])){
+				if($create->getLanguage()){
 					if(parent::c_show_table() != 0){
 						if(parent::s_register_contact_with_lang($_GET['strLangue']) != null){
 							//Instance la classe mail avec le paramètre de transport
@@ -177,13 +192,12 @@ class plugins_contact_public extends database_plugins_contact{
 								);
 								$core_mail->batch_send_mail($message);
 							}
-							frontend_controller_plugins::getConfigVars("message_send_success");
-							$fetch = frontend_controller_plugins::append_fetch('success.phtml');
+							$fetch = $create->append_fetch('success.phtml');
 						}else{
-							$fetch = frontend_controller_plugins::append_fetch('error_email_config.phtml');
+							$fetch = $create->append_fetch('error_email_config.phtml');
 						}
 					}else{
-						$fetch = frontend_controller_plugins::append_fetch('error_install.phtml');
+						$fetch = $create->append_fetch('error_install.phtml');
 					}
 				}else{
 					if(parent::c_show_table() != 0){
@@ -203,16 +217,15 @@ class plugins_contact_public extends database_plugins_contact{
 								);
 								$core_mail->batch_send_mail($message);
 							}
-							frontend_controller_plugins::getConfigVars("message_send_success");
-							$fetch = frontend_controller_plugins::append_fetch('success.phtml');
+							$fetch = $create->append_fetch('success.phtml');
 						}else{
-							$fetch = frontend_controller_plugins::append_fetch('error_email_config.phtml');
+							$fetch = $create->append_fetch('error_email_config.phtml');
 						}
 					}else{
-						$fetch = frontend_controller_plugins::append_fetch('error_install.phtml');
+						$fetch = $create->append_fetch('error_install.phtml');
 					}
 				}
-				frontend_controller_plugins::append_assign('msg',$fetch);
+				$create->append_assign('msg',$fetch);
 			}
 		}
 	}
@@ -220,8 +233,9 @@ class plugins_contact_public extends database_plugins_contact{
 	 * Execute le plugin dans la partie public
 	 */
 	public function run(){
-		self::send_email();
-		frontend_controller_plugins::append_display('index.phtml');
+		$this->send_email();
+		$create = frontend_controller_plugins::create();
+		$create->append_display('index.phtml');
     }
 }
 class database_plugins_contact{

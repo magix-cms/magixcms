@@ -22,21 +22,29 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    frontend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.3
- * update 24/11/2010
+ * @version    1.4
+ * update 11/02/2011
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name plugins
  *
  */
 class frontend_controller_plugins{
-/**
-	 * Constante
+	/**
+	 * Constante PATHPLUGINS
+	 * Défini le chemin vers le dossier des plugins
 	 * @var string
 	 */
-	const plugins = 'plugins/';
+	const PATHPLUGINS = 'plugins/';
+	/**
+	 * 
+	 * Define createInstance for Singleton
+	 * @static
+	 * @var $_createInstance
+	 */
+	private static $_createInstance = null;
 	/**
 	 * 
 	 * @var string
@@ -61,18 +69,31 @@ class frontend_controller_plugins{
 		}
 	}
 	/**
+     * instance singleton self (DataObjects)
+     * @access public
+     */
+    public static function create(){
+    	if (!isset(self::$_createInstance)){
+    		if(is_null(self::$_createInstance)){
+    			//$c = __CLASS__;
+				self::$_createInstance = new frontend_controller_plugins();
+			}
+      	}
+		return self::$_createInstance;
+    }
+	/**
 	 * @access private
 	 * return void
 	 * Le chemin du dossier des plugins
 	 */
 	private function directory_plugins(){
-		return magixglobal_model_system::base_path().self::plugins;
+		return magixglobal_model_system::base_path().self::PATHPLUGINS;
 	}
 	/**
 	 * @access protected
 	 * getplugin
 	 */
-	public static function getplugin(){
+	public function getplugin(){
 		if(isset($_GET['magixmod'])){
 			return magixcjquery_filter_isVar::isPostAlpha($_GET['magixmod']);
 		}
@@ -94,9 +115,12 @@ class frontend_controller_plugins{
 	 * @access public 
 	 * @static
 	 */
-	public static function current_Language(){
-		//return !empty($_SESSION['strLangue']) ? magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3) : '';
-		return !empty($_GET['strLangue']) ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3) : '';
+	public function getLanguage(){
+		if(isset($_GET['strLangue'])){
+			if(!empty($_GET['strLangue'])){
+				return magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
+			}
+		}
 	}
 	/**
 	 * Chargement du fichier de configuration suivant la langue en cours de session.
@@ -106,51 +130,55 @@ class frontend_controller_plugins{
 	private function pathConfigLoad($configfile,$filextension=false,$plugin=''){
 		try {
 			$filextends = $filextension ? $filextension : '.conf';
-			return magixglobal_model_system::base_path().'locali18n'.DIRECTORY_SEPARATOR.$configfile.self::current_Language().$filextends;
+			return magixglobal_model_system::base_path().'locali18n'.DIRECTORY_SEPARATOR.$configfile.self::getLanguage().$filextends;
 		} catch (Exception $e) {
 			magixglobal_model_system::magixlog("Error path config", $e);
 		}
 	}
 	/**
+	 * @access public
 	 * Affiche les pages du plugin
 	 * @param void $page
+	 * @param void $plugin
 	 */
-	public static function append_display($page,$plugin=''){
+	public function append_display($page,$plugin=''){
 		return frontend_config_smarty::getInstance()->display(self::directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page);
 	}
 	/**
 	 * Affiche les pages du plugin
 	 * @param void $page
+	 * @param void $plugin
 	 */
-	public static function append_fetch($page,$plugin=''){
+	public function append_fetch($page,$plugin=''){
 		return frontend_config_smarty::getInstance()->fetch(self::directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page);
 	}
 	/**
 	 * Affiche les pages du plugin
 	 * @param void $page
+	 * @param void $fetch
 	 */
-	public static function append_assign($assign,$fetch){
+	public function append_assign($assign,$fetch){
 		return frontend_config_smarty::getInstance()->assign($assign,$fetch);
 	}
 	/**
 	 * Charge les variables du fichier de config dans le site
 	 * @param string $varname
 	 */
-	public static function getConfigVars($varname){
+	public function getConfigVars($varname = null){
 		return frontend_config_smarty::getInstance()->getConfigVars($varname);
 	}
 	/**
 	 * Charge le fichier de configuration associer à la langue
 	 * @param string $sections (optionnel) :la section à charger
 	 */
-	public static function configLoad($sections = false){
+	public function configLoad($sections = false){
 		return frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $sections = false);
 	}
 	/**
 	 * Affiche les pages phtml supplémentaire
 	 * @param void $page
 	 */
-	public static function isCached($page){
+	public function isCached($page){
 		return frontend_config_smarty::getInstance()->isCached($page);
 	}
 	/**
@@ -191,7 +219,7 @@ class frontend_controller_plugins{
 	 * @static
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
-	public static function display_plugins(){
+	public function display_plugins(){
 		if(self::getplugin()){
 			try{
 				self::load_plugin();
