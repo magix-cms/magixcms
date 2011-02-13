@@ -5,10 +5,10 @@
  * Dual licensed under the MIT or GPL Version 3 licenses.
  * http://jquery.org/license
  *
- * Date: February 06 18:00 2011
+ * Date: February 12 14:00 2011
  */-->
 <version>
-	<number>2.3.42 RC1</number>
-	<phase>Beta</phase>
+	<number>2.3.42 RC2</number>
+	<phase>Release Candidate</phase>
 	<link>http://www.magix-cms.com</link>
 </version>

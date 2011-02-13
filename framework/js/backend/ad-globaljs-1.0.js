@@ -8,6 +8,34 @@
  * @name ad-globaljs
  *
  */
+/**
+ * Plugins dashboardWidget
+ */
+(function($) { 
+	$.dashboardWidget = function(settings) { 
+		var options = {};
+	    $.extend(options, settings);
+	    $(".dashboard-widget").find(".dashboard-widget-header a").prepend('<span style="float:left;" class="ui-icon ui-icon-circle-minus"></span>').end();
+	    if($(".dashboard-widget").find(".dashboard-hidden")){
+	    	$(".dashboard-hidden").hide();
+	    	$(".dashboard-hidden").prev().find('.dashboard-open span').toggleClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
+	    }
+	    $(".dashboard-open").click(function(event) {
+	    	var icons = $("span",this);
+	    	event.preventDefault();
+			var dashboard = $(this).parents(".dashboard-widget:first").find(".dashboard-widget-content");
+			if (dashboard.is(":visible")) {
+				icons.toggleClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
+				dashboard.hide();
+				dashboard.addClass("dashboard-hidden");
+			}else{
+				icons.toggleClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
+				dashboard.show();
+				dashboard.removeClass("dashboard-hidden");
+			}
+		});
+	};
+})(jQuery);
 $(function() {
 	//In case you don't have firebug...
 	if (!window.console || !console.firebug) {
@@ -30,6 +58,9 @@ $(function() {
 		 * Support input button with jquery ui button
 		 */
 		$("input:submit").button();
+		/**
+		 * Bouton de recherche
+		 */
 		$("button.search").button({
             icons: {
                 primary: 'ui-icon-search'
@@ -52,6 +83,12 @@ $(function() {
             },
             text: false
         });
+		$(".btnwrench").button({
+	        icons: {
+	            primary: 'ui-icon-wrench'
+	        },
+	        text: false
+	    });
 		$(".btn-decoration:button").button();
 		/**
 		 * Notification après installation pour le dossier "install"
@@ -129,38 +166,12 @@ $(function() {
 					$('span',this).addClass("ui-icon ui-icon-circle-minus");
 		        }
 		 });
-		// sortable portlets ou déplacement et loking des widgets
-		// les colonnes qui contiennet les widget déplaçable
-		/*$(".column").sortable({
-			connectWith: '.column'
-		});
-		$(".column").disableSelection();*/
-		/*$(".dashboard-widget").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
-			.find(".dashboard-widget-header")
-				.addClass("ui-widget-header ui-corner-all")
-				.prepend('<span class="ui-icon ui-icon-plusthick"></span>')
-				.end()
-			.find(".portlet-content");*/
-		$(".dashboard-widget").find(".dashboard-widget-header").prepend('<span class="ui-icon ui-icon-plusthick"></span>').end().find(".portlet-content");
-		$(".dashboard-widget-header .ui-icon").click(function() {
-			$(this).toggleClass("ui-icon-minusthick");
-			$(this).parents(".dashboard-widget:first").find(".dashboard-widget-content").toggle();
-		});
-		/*$(".forms-cms-navigation").each(function(n){
-			var newid = $(this).attr("class")+"_" + n;
-			this.id = newid;  
-			$(this).attr("id",newid);
-		});*/
+		// Les widgets ou utilitaire dashboard
+		$.dashboardWidget();
 		$('#addvarprofil').bind("click", function(){
 	 		$('#varprofil').show("drop", {direction:"up"}, 500);
 	 		return false;
 		});
-		// Ajoute un look jquery UI au block
-		/*$(".dashboard").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
-		.find(".dashboard-header")
-			.addClass("ui-widget-header ui-corner-all")
-			.end()
-		.find(".portlet-content");*/
 	  //function replace targetblank for valid w3c
 	    $('a.targetblank').click( function() {
 			 window.open($(this).attr('href'));

@@ -67,7 +67,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	 */
 	private function install_table(){
 		if(parent::c_show_table() == 0){
-			backend_controller_plugins::db_install_table('db.sql', 'request/install.phtml');
+			backend_controller_plugins::create()->db_install_table('db.sql', 'request/install.phtml');
 		}else{
 			magixcjquery_debug_magixfire::magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
 			return true;
@@ -158,7 +158,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	private function delete_contact(){
 		if(isset($this->dcontact)){
 			parent::d_contact($this->dcontact);
-			backend_controller_plugins::append_display('delete.phtml');
+			backend_controller_plugins::create()->append_display('delete.phtml');
 		}
 	}
 	/**
@@ -166,8 +166,8 @@ class plugins_contact_admin extends database_plugins_contact{
 	 * Assign les listes
 	 */
 	private function display_list(){
-		backend_controller_plugins::append_assign('list_member_admin',self::list_member());
-		backend_controller_plugins::append_assign('list_member_contact',self::list_member_contact());
+		backend_controller_plugins::create()->append_assign('list_member_admin',self::list_member());
+		backend_controller_plugins::create()->append_assign('list_member_contact',self::list_member_contact());
 	}
 	/**
 	 * @access private
@@ -176,10 +176,10 @@ class plugins_contact_admin extends database_plugins_contact{
 	private function insert_contact(){
 		if(isset($this->idadmin)){
 			if(empty($this->idadmin) AND empty($this->idlang)){
-				backend_controller_plugins::append_display('request/empty.phtml');
+				backend_controller_plugins::create()->append_display('request/empty.phtml');
 			}else {
 				parent::i_contact($this->idadmin,$this->idlang);
-				backend_controller_plugins::append_display('request/success.phtml');
+				backend_controller_plugins::create()->append_display('request/success.phtml');
 			}
 		}
 	}
@@ -214,18 +214,18 @@ class plugins_contact_admin extends database_plugins_contact{
 	 */
 	public function run(){
 		if(isset($_GET['add'])){
-			self::insert_contact();
+			$this->insert_contact();
 		}elseif(isset($_GET['dcontact'])){
-			self::delete_contact();
+			$this->delete_contact();
 		}else{
 			//Installation des tables mysql
 			if(self::install_table() == true){
-				self::display_list();
-				backend_controller_plugins::append_assign('selectlang',backend_model_blockDom::select_language());
-				backend_controller_plugins::append_assign('selectusers',backend_model_blockDom::select_users());
+				$this->display_list();
+				backend_controller_plugins::create()->append_assign('selectlang',backend_model_blockDom::select_language());
+				backend_controller_plugins::create()->append_assign('selectusers',backend_model_blockDom::select_users());
 			}
 			// Retourne la page index.phtml
-			backend_controller_plugins::append_display('index.phtml');
+			backend_controller_plugins::create()->append_display('index.phtml');
 		}
 	}
 }

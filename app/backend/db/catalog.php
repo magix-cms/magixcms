@@ -195,12 +195,22 @@ class backend_db_catalog{
 	/**
      * Selectionne les sous catégories suivant l'ordre défini dans l'administration
      */
-	function s_catalog_subcategory_sorder(){
+	/*function s_catalog_subcategory_sorder(){
     	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
 		ORDER BY c.idlang,s.sorder';
 		return magixglobal_model_db::layerDB()->select($sql);
+    }*/
+	function s_catalog_subcategory_sorder($idclc){
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
+		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
+		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+		WHERE s.idclc = :idclc
+		ORDER BY s.sorder';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':idclc'=>$idclc
+		));
     }
 	/**
      * Requête pour récupérer le contenu d'une sous catégorie

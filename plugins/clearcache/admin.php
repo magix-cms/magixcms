@@ -67,7 +67,7 @@ class plugins_clearcache_admin{
 				$clean .= $makefile->removeFile(self::path_var_dir($dir),$file);
 			}
 		}
-		backend_controller_plugins::append_display('success.phtml');
+		backend_controller_plugins::create()->append_display('success.phtml');
 	}
 	/**
 	 * Execute le suppression du/des caches
@@ -93,11 +93,11 @@ class plugins_clearcache_admin{
 	public function run(){
 		//Si on veut supprimer les caches
 		if(isset($this->clear)){
-			self::exec_clear();
+			$this->exec_clear();
 		//Si on veut modifier un onglet catalogue
 		}else{
 			// Retourne la page index.phtml
-			backend_controller_plugins::append_display('index.phtml');
+			backend_controller_plugins::create()->append_display('index.phtml');
 		}
 	}
 }

@@ -33,10 +33,18 @@
  */
 class backend_controller_plugins{
 	/**
-	 * Cosntante
+	 * Constante PATHPLUGINS
+	 * Défini le chemin vers le dossier des plugins
 	 * @var string
 	 */
-	const plugins = 'plugins';
+	const PATHPLUGINS = 'plugins/';
+	/**
+	 * 
+	 * Define createInstance for Singleton
+	 * @static
+	 * @var $_createInstance
+	 */
+	private static $_createInstance = null;
 	/**
 	 * 
 	 * @var string
@@ -61,11 +69,24 @@ class backend_controller_plugins{
 		}
 	}
 	/**
+     * instance singleton self (DataObjects)
+     * @access public
+     */
+    public static function create(){
+    	if (!isset(self::$_createInstance)){
+    		if(is_null(self::$_createInstance)){
+    			//$c = __CLASS__;
+				self::$_createInstance = new backend_controller_plugins();
+			}
+      	}
+		return self::$_createInstance;
+    }
+	/**
 	 * @access private
 	 * return void
 	 */
 	private function directory_plugins(){
-		return magixglobal_model_system::base_path().self::plugins.DIRECTORY_SEPARATOR;
+		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
 	}
 	/**
 	 * @access protected
@@ -174,7 +195,7 @@ class backend_controller_plugins{
 	 * @static
 	 * pluginName
 	 */
-	public static function pluginName(){
+	public function pluginName(){
 		return self::getplugin();
 	}
 	/**
@@ -183,13 +204,13 @@ class backend_controller_plugins{
 	 * @static
 	 * pluginUrl
 	 */
-	public static function pluginUrl(){
+	public function pluginUrl(){
 		return magixcjquery_html_helpersHtml::getUrl().'/admin/plugins.php?name='.self::pluginName();
 	}
 	/**
 	 * Retourne le chemin du dossier du plugin courant
 	 */
-	public static function pluginDir(){
+	public function pluginDir(){
 		return self::directory_plugins().self::getplugin().DIRECTORY_SEPARATOR;
 	}
 	/**
@@ -198,8 +219,12 @@ class backend_controller_plugins{
 	 * @access public 
 	 * @static
 	 */
-	public static function current_Language(){
-		return !empty($_SESSION['mc_adminlangue']) ? magixcjquery_filter_join::getCleanAlpha($_SESSION['mc_adminlangue'],3) : '';
+	public function sessionLanguage(){
+		if(isset($_SESSION['mc_adminlangue'])){
+			if(!empty($_SESSION['mc_adminlangue'])){
+				return magixcjquery_filter_join::getCleanAlpha($_SESSION['mc_adminlangue'],3);
+			}
+		}
 	}
 	/**
 	 * Chargement du fichier de configuration suivant la langue.
@@ -208,7 +233,7 @@ class backend_controller_plugins{
 	 */
 	private function pathConfigLoad($configfile){
 		try {
-			return $configfile.self::current_Language().'.conf';
+			return $configfile.self::sessionLanguage().'.conf';
 		} catch (Exception $e) {
 			magixglobal_model_system::magixlog("Error path config", $e);
 		}
@@ -217,7 +242,7 @@ class backend_controller_plugins{
 	 * Affiche les pages du plugin
 	 * @param void $page
 	 */
-	public static function append_display($page){
+	public function append_display($page){
 		backend_config_smarty::getInstance()->addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
 		return backend_config_smarty::getInstance()->display($page);
 	}
@@ -225,7 +250,7 @@ class backend_controller_plugins{
 	 * Retourne les pages du plugin
 	 * @param void $page
 	 */
-	public static function append_fetch($page){
+	public function append_fetch($page){
 		backend_config_smarty::getInstance()->addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
 		return backend_config_smarty::getInstance()->fetch($page);
 	}
@@ -233,21 +258,21 @@ class backend_controller_plugins{
 	 * Assign une variable pour smarty
 	 * @param void $page
 	 */
-	public static function append_assign($assign,$fetch){
+	public function append_assign($assign,$fetch){
 		return backend_config_smarty::getInstance()->assign($assign,$fetch);
 	}
 	/**
 	 * Charge le fichier de configuration associer à la langue
 	 * @param string $sections (optionnel) :la section à charger
 	 */
-	public static function configLoad($sections = false){
+	public function configLoad($sections = false){
 		return backend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $sections = false);
 	}
 	/**
 	 * Affiche les pages phtml supplémentaire
 	 * @param void $page
 	 */
-	public static function isCached($page){
+	public function isCached($page){
 		return backend_config_smarty::getInstance()->isCached($page);
 	}
 	/**
@@ -281,7 +306,7 @@ class backend_controller_plugins{
 	 * @static
 	 * Installation des tables mysql du plugin
 	 */
-	public static function db_install_table($filename,$fetchFile){
+	public function db_install_table($filename,$fetchFile){
 		try{
 			if(file_exists(self::load_sql_file($filename))){
 				if(magixglobal_model_db::create_new_sqltable(self::load_sql_file($filename))){

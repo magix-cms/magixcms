@@ -13,64 +13,57 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Statistique</div>
-					<div class="dashboard-content">
-						<div class="column">
-							<div class="dashboard ui-widget-content ui-corner-all">
-							<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Nombre total de membres</div>
-								<div class="dashboard-content">
-									{if $perms <= 3}
-									{$block_states_users}
-									{else}
-									<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-									<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-										Vous n'avez pas la permission d'administrer ce module
-									</div>
-									{/if}
-								</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Nombre total de membres</div>
+						<div class="dashboard-widget-content">
+							{if $perms <= 3}
+							{$block_states_users}
+							{else}
+							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+								Vous n'avez pas la permission d'administrer ce module
 							</div>
-							<div class="dashboard ui-widget-content ui-corner-all">
-							<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>News</div>
-								<div class="dashboard-content">
-								{if $perms <= 3}
-									{$block_news_members}
-								{else}
-								<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-								<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-									Vous n'avez pas la permission d'administrer ce module
-								</div>
-								{/if}
-								</div>
-							</div>
+							{/if}
 						</div>
-						<div class="column">
-							<div class="dashboard ui-widget-content ui-corner-all">
-							<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Membres par hierarchie</div>
-								<div class="dashboard-content">
-								{if $perms <= 3}
-									{$block_members_perms}
-								{else}
-								<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-								<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-									Vous n'avez pas la permission d'administrer ce module
-								</div>
-								{/if}
-								</div>
-							</div>
-							<div class="dashboard ui-widget-content ui-corner-all">
-							<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Cms</div>
-								<div class="dashboard-content">
-								{if $perms <= 3}
-									{$block_cms_members}
-								{else}
-								<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-								<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-									Vous n'avez pas la permission d'administrer ce module
-								</div>
-								{/if}
-								</div>
-							</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>News</div>
+						<div class="dashboard-widget-content">
+						{if $perms <= 3}
+							{$block_news_members}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Membres par hierarchie</div>
+						<div class="dashboard-widget-content">
+						{if $perms <= 3}
+							{$block_members_perms}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Cms</div>
+						<div class="dashboard-widget-content">
+						{if $perms <= 3}
+							{$block_cms_members}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
 						</div>
 					</div>
 				</div>
@@ -91,7 +84,7 @@
 				</div>
 				<div class="column">
 				<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter</div>
+					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Ajouter un utilisateur</a></div>
 					<div class="dashboard-widget-content">
 					{if $perms <= 3}
 						<form id="forms-users" method="post" action="" style="margin-left:10px;">
@@ -114,7 +107,7 @@
 									</tr>
 									<tr>
 										<td><input type="text" id="cryptpass" name="cryptpass" class="inputtext password ui-corner-all" value="" size="20" />
-										<button id="randPassword" class="btn-decoration">genere</button></td>
+										<button id="randPassword" class="btnwrench">genere</button></td>
 									 </tr>
 									 <tr>
 										<td>

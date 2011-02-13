@@ -8,6 +8,83 @@
  * @name jcatalog.1.1.js
  *
  */
+function load_subcategory(){
+	var upcat = $("#ucategory").val();
+	$.ajax({
+		url: '/admin/catalog.php?upcat='+upcat+'&json_sub_cat=true',
+		dataType: 'json',
+		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$('#list-sub-category').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+		},
+		success: function(j) {
+			$('#list-sub-category').empty();
+			var sortcat = '<ul id="sortsubcat">';
+			sortcat += '</ul>';
+			$(sortcat).appendTo('#list-sub-category');
+			if(j === undefined){
+				console.log(j);
+			}
+			if(j !== null){
+				$.each(j, function(i,item) {
+					return $('<li class="ui-state-default" id="sorder_'+item.idcls+'">'
+					+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.slibelle
+					+'<div style="float:right">'
+					+'<a href="/admin/catalog.php?upsubcat='+item.idcls+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
+					+'<a href="#" class="aspanfloat dels" title="'+item.idcls+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a>'+
+					'</li>').appendTo('#sortsubcat');
+				});
+			}
+			/**
+		     * Initialisation du drag and drop pour les sous catégories (catalogue uniquement)
+		     * Requête ajax pour l'enregistrement du déplacement
+		     */
+			$('#sortsubcat li').hover(
+				function() { $(this).addClass('ui-state-hover'); },
+				function() { $(this).removeClass('ui-state-hover'); }
+			);
+			$('#sortsubcat').sortable({
+				placeholder: 'ui-state-highlight',
+				cursor: "move",
+				axis: "y",
+				update : function () {
+					serial = $('#sortsubcat').sortable('serialize');
+					$.ajax({
+						url: "/admin/catalog.php?order",
+						type: "post",
+						data: serial,
+						error: function(){
+							alert("theres an error with AJAX");
+						}
+					});
+				}
+			});
+			$("#sortsubcat").disableSelection();
+		}
+	});
+}
 function load_cat_product(){
 	var idcatalog = $("#idcatalog").val();
 	$.ajax({
@@ -319,7 +396,7 @@ $(function(){
 			ntype: "ajaxsubmit",
     		delay: 2800,
     		dom: this,
-    		uri: '/admin/catalog.php?category&post',
+    		uri: '/admin/catalog.php?category&post=1',
     		typesend: 'post',
     		noticedata: null,
     		resetform:true,
@@ -336,7 +413,7 @@ $(function(){
 			ntype: "ajaxsubmit",
     		delay: 2800,
     		dom: this,
-    		uri: '/admin/catalog.php?category&post',
+    		uri: '/admin/catalog.php?category&post=1',
     		typesend: 'post',
     		noticedata: null,
     		resetform:true,
@@ -352,7 +429,7 @@ $(function(){
 		/*tinyMCE.triggerSave(true,true);*/
 		$.editorhtml({editor:_editorConfig});
 		$(this).ajaxSubmit({
-    		url:'/admin/catalog.php?product&add_card_product',
+    		url:'/admin/catalog.php?product&add_card_product=1',
     		type:"post",
     		resetForm: true,
     		success:function(request) {
@@ -378,7 +455,7 @@ $(function(){
 				ntype: "ajaxsubmit",
 	    		delay: 1800,
 	    		dom: this,
-	    		uri: '/admin/catalog.php?product&editproduct='+productid+'&updateproduct',
+	    		uri: '/admin/catalog.php?product&editproduct='+productid+'&updateproduct=1',
 	    		typesend: 'post',
 	    		noticedata: null,
 	    		resetform:false,
@@ -397,7 +474,7 @@ $(function(){
 		var productid = $('#idcatalog').val();
 		if(productid != null){
 			$(this).ajaxSubmit({
-        		url:'/admin/catalog.php?product&editproduct='+productid+'&add_product',
+        		url:'/admin/catalog.php?product&editproduct='+productid+'&add_product=1',
         		type:"post",
         		resetForm: false,
         		success:function(request) {
@@ -418,7 +495,7 @@ $(function(){
 		var productid = $('#idcatalog').val();
 		if(productid != null){
 			$(this).ajaxSubmit({
-        		url:'/admin/catalog.php?product&editproduct='+productid+'&post_rel_product',
+        		url:'/admin/catalog.php?product&editproduct='+productid+'&post_rel_product=1',
         		type:"post",
         		resetForm: false,
         		success:function(request) {
@@ -455,7 +532,7 @@ $(function(){
 	});
 	$("#forms-catalog-editcategory-img").submit(function(){
 		var idcategory = $('#ucategory').val();
-		var urleditcat = '/admin/catalog.php?catalog&upcat='+idcategory;
+		var urleditcat = '/admin/catalog.php?catalog=true&upcat='+idcategory;
 		$(this).ajaxSubmit({
     		url: urleditcat+"&postimg",
     		type:"post",
@@ -612,27 +689,6 @@ $(function(){
 			serial = $('#sortcat').sortable('serialize');
 			$.ajax({
 				url: "/admin/catalog.php?catalog&order",
-				type: "post",
-				data: serial,
-				error: function(){
-					alert("theres an error with AJAX");
-				}
-			});
-		}
-	});
-	/**
-     * Initialisation du drag and drop pour les sous catégories (catalogue uniquement)
-     * Requête ajax pour l'enregistrement du déplacement
-     */
-	$("#sortsubcat").sortable({
-		placeholder: 'ui-state-highlight',
-		dropOnEmpty: false,
-		axis: "y",
-		cursor: "move",
-		update : function () {
-			serial = $('#sortsubcat').sortable('serialize');
-			$.ajax({
-				url: "/admin/catalog.php?order",
 				type: "post",
 				data: serial,
 				error: function(){

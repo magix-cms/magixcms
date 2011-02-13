@@ -82,8 +82,8 @@ class backend_controller_lang{
 		$lang .= '<table class="clear">
 						<thead>
 							<tr>
-							<th>code Langue</th>
-							<th>Langue</th>
+							<th>ISO</th>
+							<th>Nom</th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 							</tr>

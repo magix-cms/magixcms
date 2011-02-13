@@ -595,7 +595,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access private
 	 * Affiche le menu "sortable" avec les éléments des sous catégorie
 	 */
-	private function catalog_sub_category_order(){
+	/*private function catalog_sub_category_order(){
 		$category = null;
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() != null){
 			$category = '<ul id="sortsubcat">';
@@ -620,6 +620,14 @@ class backend_controller_catalog extends analyzer_catalog{
 			$category .= '</ul>';
 		}
 		return $category;
+	}*/
+	private function json_list_idcls($idclc){
+		if(backend_db_catalog::adminDbCatalog()->s_json_subcategory($idclc) != null){
+			foreach (backend_db_catalog::adminDbCatalog()->s_json_subcategory($idclc) as $list){
+				$subcat[]= '{"idcls":'.json_encode($list['idcls']).',"slibelle":'.json_encode($list['slibelle']).'}';
+			}
+			print '['.implode(',',$subcat).']';
+		}
 	}
 	/**
 	 * Execute Update AJAX FOR order sub category
@@ -651,7 +659,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access private
 	 * @return string
 	 */
-	private function insert_image_category($img,$pathclibelle,$img_c){
+	private function insert_image_category($img,$pathclibelle,$img_c=null){
 		if(isset($this->$img)){
 			try{
 				/**
@@ -701,7 +709,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				}else{
 					$imgc = null;
 					if($this->img_c != null){
-						$imgc = self::insert_image_category('img_c',$this->pathclibelle.'_'.magixglobal_model_cryptrsa::random_generic_ui());
+						$imgc = self::insert_image_category('img_c',$this->pathclibelle.'_'.magixglobal_model_cryptrsa::random_generic_ui(),null);
 					}
 					backend_db_catalog::adminDbCatalog()->i_catalog_category($this->clibelle,$this->pathclibelle,$imgc,$this->idlang);
 					backend_config_smarty::getInstance()->display('catalog/request/success-cat.phtml');
@@ -1175,12 +1183,12 @@ class backend_controller_catalog extends analyzer_catalog{
 	/**
 	 * @category json request
 	 * @access private
-	 * Requête json pour le chargement des sous catégories associé à une catégorie
+	 * Requête json pour le chargement des sous catégories associé à une catégorie dans le menu déroulant
 	 */
-	private function json_idcls(){
-		if(backend_db_catalog::adminDbCatalog()->s_json_subcategory($this->selidclc) != null){
+	private function json_idcls($idclc){
+		if(backend_db_catalog::adminDbCatalog()->s_json_subcategory($idclc) != null){
 			//print_r(backend_db_catalog::adminDbCatalog()->s_json_subcategory(2));
-			foreach (backend_db_catalog::adminDbCatalog()->s_json_subcategory($this->selidclc) as $list){
+			foreach (backend_db_catalog::adminDbCatalog()->s_json_subcategory($idclc) as $list){
 				if($list['idcls'] != 0){
 					$subcat[]= json_encode($list['idcls']).':'.json_encode($list['slibelle']);
 				}else{
@@ -1189,9 +1197,6 @@ class backend_controller_catalog extends analyzer_catalog{
 			}
 			print '{'.implode(',',$subcat).'}';
 		}
-		/*}else{
-			print '{"0":""}';
-		}*/
 	}
 	/**
 	 * @access private
@@ -1596,9 +1601,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access public
 	 */
 	private function display_category(){
-		backend_config_smarty::getInstance()->assign('selectcategory',self::catalog_select_category());
 		backend_config_smarty::getInstance()->assign('category_order',self::catalog_category_order());
-		backend_config_smarty::getInstance()->assign('subcategory_order',self::catalog_sub_category_order());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/category.phtml');
 	}
@@ -1678,7 +1681,17 @@ class backend_controller_catalog extends analyzer_catalog{
 			}elseif(magixcjquery_filter_request::isGet('postimg')){
 				self::update_category_image();
 			}else{
-				self::display_edit_category();
+				if(magixcjquery_filter_request::isGet('json_sub_cat')){
+					$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+					$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+					$header->pragma();
+					$header->cache_control("nocache");
+					$header->getStatus('200');
+					$header->json_header("UTF-8");
+					self::json_list_idcls($this->upcat);
+				}else{
+					self::display_edit_category();	
+				}
 			}
 		}elseif(magixcjquery_filter_request::isGet('upsubcat')){
 			if(magixcjquery_filter_request::isGet('post')){
@@ -1730,7 +1743,7 @@ class backend_controller_catalog extends analyzer_catalog{
 						$header->cache_control("nocache");
 						$header->getStatus('200');
 						$header->json_header("UTF-8");
-						self::json_idcls();
+						self::json_idcls($this->selidclc);
 					}
 				}elseif(magixcjquery_filter_request::isGet('post_rel_product')){
 					self::insert_rel_product();
