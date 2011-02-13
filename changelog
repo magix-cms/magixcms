@@ -1,3 +1,20 @@
+beta 2.3.42 RC3
+	* Suppression des sous catégories dans la page ROOT des catégories
+	* Construction du système ajax pour la liste des sous catégories dans l'édition des catégories
+	* Modification de la requête SQL pour le listing des sous catégories
+	* Ajout du plugin dashboardWidget pour la gestion des widgets de l'admin
+	* Ajout d'une icône pour le générateur de mot de passe.
+	* Modification du système micro galerie dans l'admin pour une récupération via JSON.
+	* Ajout de la génération automatique de l'identifiant des images dans la micro galerie.
+	* Fix bug positionnement des images micro galerie (backend)
+
+beta 2.3.42 RC2
+	* Suppression de phpmailer
+	* Ajout de swiftmailer 4.0.6
+	* Ajout de la classe hériter de swiftmailer dans magixglobal (magixglobal_model_mail)
+	* Adaptation du plugin contact avec la nouvelle API mail (magixglobal_model_mail)
+	* Modification de la classe frontend des plugins avec un singleton (instance create)
+
 beta 2.3.42 RC1
 	* Ajout du plugin productsearch dans tinyMCE
 	* Construction du moteur de recherche pour le plugin productsearch

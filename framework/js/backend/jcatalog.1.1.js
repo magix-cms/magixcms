@@ -386,6 +386,66 @@ function load_img_product_catalog(){
 		}
 	});
 }
+function load_micro_galery_catalog(){
+	var idproduct = $("#idproduct").text();
+	$.ajax({
+		url: '/admin/catalog.php?product&getimg='+idproduct+'&json_micro_galery=1',
+		dataType: 'json',
+		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$('#contener_micro_galery').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+		},
+		success: function(j) {
+			$('#contener_micro_galery').empty();
+			var listimg = '<div id="list-image-galery">';
+			listimg += '</div>';
+			$(listimg).appendTo('#contener_micro_galery');
+			if(j === undefined){
+				console.log(j);
+			}
+			if(j !== null){
+				$.each(j, function(i,item) {
+					return $('<div class="list-img ui-widget-content">'
+					+'<div class="title-galery-image ui-state-default">'
+					+'<a href="#" class="delmicro" title="'+item.idmicro+'"><span style="float:right;" class="ui-icon ui-icon-trash"></span></a>'
+					+'</div>'
+					+'<div class="img-galery"><img src="/upload/catalogimg/galery/mini/'+item.imgcatalog+'" /></div></div>'
+					).appendTo('#list-image-galery');
+				});
+			}
+			$('.delmicro').hover(
+				function() { 
+					$(this).parent().addClass('ui-state-hover'); 
+				},
+				function() { 
+					$(this).parent().removeClass('ui-state-hover'); 
+				}
+			);
+		}
+	});
+}
 $(function(){
 	/*################## Catalog ##############*/
     /**
@@ -1054,10 +1114,11 @@ $(function(){
 			 	url:'/admin/catalog.php?product&getimg='+idcatalog+'&postimggalery=1',
 			 	type:"post",
 			 	beforeSubmit:function(){
-		 			$("#progressbar2").progressbar({ value: 0 });
-			 		setTimeout(updateProgress2, 100);
+			 		$('#contener_micro_galery').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
 			 	},
-			 	success:function(e){}
+			 	success:function(e){
+			 		load_micro_galery_catalog();
+			 	}
 			});
 	 	}
 	 });
@@ -1108,9 +1169,7 @@ $(function(){
 								time:2
 							});
 	        				$(".mc-head-request").html(request);
-							setTimeout(function(){
-								location.reload();
-							},2800);
+	        				load_micro_galery_catalog();
 						}
 				     });
 				},

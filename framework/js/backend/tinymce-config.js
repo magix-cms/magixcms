@@ -48,6 +48,7 @@ $(function() {
 			cleanup : true,
 			cleanup_on_startup : true,
 			valid_elements : "*[*]",
+			extended_valid_elements : "pre[name|class]",
 			skin : "o2k7",
 			skin_variant : "silver",
 			width: '98%',

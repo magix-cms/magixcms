@@ -43,7 +43,7 @@
 						</div>
 					</div>
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter ou modifer une image d'accueil</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Ajouter ou modifer une image d'accueil</a></div>
 						<div class="dashboard-widget-content">
 					<form method="post" action="" enctype="multipart/form-data" id="forms-catalog-image">
 						<fieldset>
@@ -67,46 +67,37 @@
 						</div>
 						{if $configmicrogalery eq 1}
 						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter ou modifer une image dans la galerie</div>
-						<div class="dashboard-widget-content">
-						<form method="post" action="" enctype="multipart/form-data" id="forms-catalog-galery">
-						<fieldset>
-							<table>
-							<tr>
-								<td class="label"><label for="imggalery">Image :</label></td>
-							</tr>
-							<tr>
-								<td>
-								<table>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Ajouter ou modifer une image dans la galerie</a></div>
+							<div class="dashboard-widget-content">
+								<form method="post" action="" enctype="multipart/form-data" id="forms-catalog-galery">
+								<fieldset>
+									<table>
 									<tr>
-										<td style="width:400px;">
-											<div id="progressbar2"></div>
-										 	<div id="progressText2"></div>
-										 </td>
+										<td class="label"><label for="imggalery">Image :</label></td>
 									</tr>
-								</table>
-								<table>
 									<tr>
-										<td style="width:250px;">
+									<td>
+										<div id="progressbar2"></div>
+									 	<div id="progressText2"></div>
+									 </td>
+									<tr>
+										<td>
 											<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
 									 		<input type="file" id="imggalery" name="imggalery" value="" />
 									 	</td>
 								 	</tr>
 								 	<tr>
-								 	<td><input type="submit" value="Envoyer" /></td>
+								 		<td><input type="submit" value="Envoyer" /></td>
 								 	</tr>
-							 	</table>
-								</td>
-							</tr>
-						</table>
-						</fieldset>
-						</form>
-						</div>
+								</table>
+								</fieldset>
+								</form>
+							</div>
 						</div>
 						<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plus"></span>La galerie du produit: {$titlecatalog}</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">La galerie du produit: {$titlecatalog}</a></div>
 							<div class="dashboard-widget-content">
-								{$galery}
+								<div id="contener_micro_galery"></div>
 							</div>
 						</div>
 						{else}
@@ -180,6 +171,7 @@
 $(function(){
 	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
 		load_img_product_catalog();
+		load_micro_galery_catalog();
 	});
 });
 </script>

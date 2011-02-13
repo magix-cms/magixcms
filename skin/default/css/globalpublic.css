@@ -293,7 +293,7 @@ h1{
 #product-tabs ul li a.tabslink{ font-size:12px;}
 /*############## Micro galery ##################*/
 #list-image-galery{
-	margin-left:30px;
+	/*margin-left:30px;*/
 	width:700px;
 }
 .list-img{
