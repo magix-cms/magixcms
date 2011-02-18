@@ -58,6 +58,7 @@ function smarty_function_google_tools($params, $template){
 		case 'analytics':
 		$analyticsdata = frontend_model_setting::select_uniq_setting('analytics');
 		$analytics = $analyticsdata['setting_value'];
+		if($analytics != null){
 		$tools = <<<EOT
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
@@ -70,6 +71,9 @@ function smarty_function_google_tools($params, $template){
 		  })();
 		</script>
 EOT;
+		}else{
+			$tools = '';
+		}
 			break;
 		case 'webmaster':
 			$webmasterdata = frontend_model_setting::select_uniq_setting('webmaster');

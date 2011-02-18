@@ -94,13 +94,17 @@ class frontend_controller_catalog{
 				$imgc .= '<a href="'.magixglobal_model_rewrite::filter_catalog_product_url($this->getlang,$products['pathclibelle'],$products['idclc'],$products['urlcatalog'],$products['idproduct'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$products['titlecatalog'].'" /></a>';
 			}
 			$imgc .= '</div>';
+			$uri = magixglobal_model_rewrite::filter_catalog_product_url($this->getlang, $products['pathclibelle'], $products['idclc'], $products['urlcatalog'], $products['idproduct'],true);
 			$page = frontend_config_smarty::getInstance()->assign('idcatalog',$products['idcatalog']);
+			$page = frontend_config_smarty::getInstance()->assign('idproduct',$products['idproduct']);
 			$page .= frontend_config_smarty::getInstance()->assign('date_catalog',$products['date_catalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('titlecatalog',$products['titlecatalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('category',$products['clibelle']);
 			$page .= frontend_config_smarty::getInstance()->assign('subcategory',$products['slibelle']);
+			$page .= frontend_config_smarty::getInstance()->assign('price',$products['price']);
 			$page .= frontend_config_smarty::getInstance()->assign('imgcatalog',$imgc);
 			$page .= frontend_config_smarty::getInstance()->assign('desccatalog',$products['desccatalog']);
+			$page .= frontend_config_smarty::getInstance()->assign('urlcatalog',$uri);
 		}else{
 			$products = frontend_db_catalog::publicDbCatalog()->s_product_page_no_language($this->idclc,$this->idproduct);
 			/**
@@ -114,13 +118,17 @@ class frontend_controller_catalog{
 
 			}
 			$imgc .= '</div>';
+			$uri = magixglobal_model_rewrite::filter_catalog_product_url($this->getlang, $products['pathclibelle'], $products['idclc'], $products['urlcatalog'], $products['idproduct'],true);
 			$page = frontend_config_smarty::getInstance()->assign('idcatalog',$products['idcatalog']);
+			$page = frontend_config_smarty::getInstance()->assign('idproduct',$products['idproduct']);
 			$page .= frontend_config_smarty::getInstance()->assign('date_catalog',$products['date_catalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('titlecatalog',$products['titlecatalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('category',$products['clibelle']);
 			$page .= frontend_config_smarty::getInstance()->assign('subcategory',$products['slibelle']);
+			$page .= frontend_config_smarty::getInstance()->assign('price',$products['price']);
 			$page .= frontend_config_smarty::getInstance()->assign('imgcatalog',$imgc);
 			$page .= frontend_config_smarty::getInstance()->assign('desccatalog',$products['desccatalog']);
+			$page .= frontend_config_smarty::getInstance()->assign('urlcatalog',$uri);
 		}
 		return $page;
 	}
