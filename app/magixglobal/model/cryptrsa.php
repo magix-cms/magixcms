@@ -57,6 +57,13 @@ class magixglobal_model_cryptrsa{
 		return base_convert($id, 10, 36);
 	}
 	/**
+	 * 
+	 * Génération de token ou jeton
+	 */
+	public function tokenId(){
+		return md5(session_id() . time() . $_SERVER['HTTP_USER_AGENT']);
+	}
+	/**
 	 * Génération de micro id
 	 * @return string
 	 */

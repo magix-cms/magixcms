@@ -46,9 +46,80 @@ class magixglobal_model_makefilefactory{
 		}
 		//file_put_contents($path);
 	}
+	public function fileTree($dirPath){   
+		try {      
+		    $filtre = new RecursiveDirectoryIterator($dirPath);      
+		    try { 
+		        // ne filtre que les fichiers         
+		        $filtres = new FiltreRecursif($filtre,array('phtml','css'),array(),false); 
+		        // filtre les fichiers et les dossiers, içi thumbs sera ignoré ainsi que les fichiers 
+		        //et dossiers qu'il contient 
+		        //$filtres = new FiltreRecursif($filtre,array('jp*g','gif','png'),array('thumbs'));          
+		        /*  
+		         * RecursiveIteratorIterator::SELF_FIRST pour que les dossiers soit pris en compte 
+		         * retirer cette constante ne retourne que les fichiers. 
+		         */    
+		        foreach (new RecursiveIteratorIterator($filtres,RecursiveIteratorIterator::SELF_FIRST) as $v) { 
+		            /* 
+		             * // pour tester la sortie 
+		             * echo '<pre>'; 
+		             * print_r($v); 
+		             * echo '</pre>'; 
+		             */ 
+		            if ($v->isDir())       
+		                echo 'Dossier : '.strtr($v,'\\','/').'<br />';  
+		            else echo 'Fichier : '.strtr($v,'\\','/').'<br />';  
+		        }      
+		    } catch (InvalidArgumentException $spl) { echo $spl->__toString(); }  
+		} catch (Exception $e) { echo $e->__toString(); }  
+	}
 	private function FileIterator(){}
-	public function fileTree(){}
 	public function saveFile($filepath,$current){
 		file_put_contents($filepath, $current);
 	}
 }
+class FiltreRecursif extends RecursiveFilterIterator { 
+    /** 
+     * Attend un objet implémentant l'interface RecursiveIterator, un tableau 
+     * d'extensions sans le point et un tableau de dossiers à filtrer. 
+     *  
+     * @param $iterateur 
+     * @param $tab_extensions 
+     * @param $tab_dossier 
+     */ 
+    function  __construct(RecursiveIterator $iterateur, array $tab_extensions, array $tab_dossier, $bool_dossier = true) { 
+        if ($iterateur instanceof RecursiveIterator) 
+            $this->_Iterateur = $iterateur; 
+        else throw new InvalidArgumentException('Cet objet n\'est pas une instance de RecursiveIterator'); 
+        if (is_array($tab_extensions)) 
+            $this->_TabExtensions = $tab_extensions; 
+        else throw new InvalidArgumentException('Le paramètre 2 n\'est pas un tableau'); 
+        if (is_array($tab_dossier)) 
+            $this->_TabDossierAFiltrer = $tab_dossier; 
+        else throw new InvalidArgumentException('Le paramètre 3 n\'est pas un tableau'); 
+        if (is_bool($bool_dossier)) 
+            $this->_BoolFiltreDossier = $bool_dossier; 
+        else $this->_BoolFiltreDossier = true; 
+        parent::__construct($this->_Iterateur); 
+    } 
+     
+    /** 
+     * Filtre qui n'accepte que les extensions du tableau et les dossiers. 
+     * Les dossiers à exclure sont compris dans un tableau.
+     */ 
+    function  accept() { 
+        if ($this->_BoolFiltreDossier === true) { 
+            if ($this->hasChildren() && !in_array(pathinfo($this->current(),PATHINFO_BASENAME),$this->_TabDossierAFiltrer)) 
+                return true; 
+            else return in_array(pathinfo($this->current(), PATHINFO_EXTENSION), $this->_TabExtensions); 
+        } else return ($this->hasChildren() || in_array(pathinfo($this->current(), PATHINFO_EXTENSION), $this->_TabExtensions)); 
+    } 
+     
+    /** 
+     * Si l'élément courant contient des enfants sur lesquels itérer, appel récursif 
+     * de la classe avec ses paramètres. 
+     */ 
+    function  getChildren() { 
+        return new self($this->getInnerIterator()->getChildren(), $this->_TabExtensions, $this->_TabDossierAFiltrer,$this->_BoolFiltreDossier); 
+    } 
+} 
