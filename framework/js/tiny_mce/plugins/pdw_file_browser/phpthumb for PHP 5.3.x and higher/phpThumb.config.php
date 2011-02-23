@@ -17,7 +17,7 @@ if (!file_exists(dirname(__FILE__).'/phpthumb.functions.php') || !include_once(d
 }
 ob_end_clean();
 $pdw_thumb_dir = dirname(realpath( __FILE__ ));
-$pdw_thumb_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'pdw_file_browser'.DIRECTORY_SEPARATOR.'phpthumb');
+$pdw_thumb_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'pdw_file_browser'.DIRECTORY_SEPARATOR.'phpthumb for PHP 5.3.x and higher');
 $pdw_thumb = str_replace($pdw_thumb_array_dir,array('var'.DIRECTORY_SEPARATOR.'pdw_file_cache') , $pdw_thumb_dir);
 // START USER CONFIGURATION SECTION:
 
