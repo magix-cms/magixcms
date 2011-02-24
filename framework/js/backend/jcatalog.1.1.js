@@ -3,11 +3,93 @@
  * @copyright  MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.1
+ * @version    1.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name jcatalog.1.1.js
  *
  */
+function load_category(){
+	$.ajax({
+		url: '/admin/catalog.php?category=true&json_cat=true',
+		dataType: 'json',
+		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$('#list-category').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+		},
+		success: function(j) {
+			$('#list-category').empty();
+			var sortcat = '<ul id="sortcat">';
+			sortcat += '</ul>';
+			$(sortcat).appendTo('#list-category');
+			if(j === undefined){
+				console.log(j);
+			}
+			if(j !== null){
+				$.each(j, function(i,item) {
+					if(item.codelang != null){
+						langspan = '<span class="lfloat">'+item.codelang+'</span>';
+					}else{
+						langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
+					}
+					return $('<li class="ui-state-default" id="corder_'+item.idclc+'">'
+					+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.clibelle
+					+'<div style="float:right">'+langspan
+					+'<a href="/admin/catalog.php?upcat='+item.idclc+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
+					+'<a href="#" class="aspanfloat delc" title="'+item.idclc+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a>'+
+					'</li>').appendTo('#sortcat');
+				});
+			}
+			/**
+		     * Initialisation du drag and drop pour les catégories (catalogue ou cms)
+		     * Requête ajax pour l'enregistrement du déplacement
+		     */
+			$('#sortcat li').hover(
+				function() { $(this).addClass('ui-state-hover'); },
+				function() { $(this).removeClass('ui-state-hover'); }
+			);
+			$('#sortcat').sortable({
+				placeholder: 'ui-state-highlight',
+				cursor: "move",
+				axis: "y",
+				update : function () {
+					serial = $('#sortcat').sortable('serialize');
+					$.ajax({
+						url: "/admin/catalog.php?order",
+						type: "post",
+						cache:false,
+						data: serial,
+						error: function(){
+							alert("theres an error with AJAX");
+						}
+					});
+				}
+			});
+			$("#sortcat").disableSelection();
+		}
+	});
+}
 function load_subcategory(){
 	var upcat = $("#ucategory").val();
 	$.ajax({
@@ -74,6 +156,7 @@ function load_subcategory(){
 					$.ajax({
 						url: "/admin/catalog.php?order",
 						type: "post",
+						cache:false,
 						data: serial,
 						error: function(){
 							alert("theres an error with AJAX");
@@ -322,6 +405,52 @@ function load_img_category_catalog(){
 		}
 	});
 }
+function load_img_subcategory_catalog(){
+	var usubcategory = $("#usubcategory").val();
+	$.ajax({
+		url: '/admin/catalog.php?upsubcat='+usubcategory+'&imgsubcat=1',
+		dataType: 'json',
+		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
+		async: true,
+		cache:false,
+		beforeSend: function(){
+			$('#contener_image').html('<img src="/framework/img/square-circle.gif" />');
+		},
+		success: function(j) {
+			$('#contener_image').empty();
+			if(j === undefined){
+				console.log(j);
+			}
+			if(j !== null){
+				$.each(j, function(i,item) {
+					return $('<img src="/upload/catalogimg/subcategory/'+item.img_s+'" />').appendTo('#contener_image');
+				});
+			}else{
+				return $('<img src="/framework/img/no-picture.png" />').appendTo('#contener_image');
+			}
+		}
+	});
+}
 function load_img_product_catalog(){
 	var idproduct = $("#idproduct").text();
 	$.ajax({
@@ -452,35 +581,45 @@ $(function(){
 	 * Soumission d'une nouvelle catégorie dans le catalogue
 	 */
 	$("#forms-catalog-category").submit(function(){
-		$.notice({
-			ntype: "ajaxsubmit",
-    		delay: 2800,
-    		dom: this,
-    		uri: '/admin/catalog.php?category&post=1',
-    		typesend: 'post',
-    		noticedata: null,
-    		resetform:true,
-    		time:2,
-    		reloadhtml:true	
-		});
-		return false; 
+		$(this).ajaxSubmit({
+    		url: '/admin/catalog.php?category&post=1',
+    		type:"post",
+    		resetForm: true,
+    		beforeSubmit:function(){
+    			$('#list-category').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+    		},
+    		success:function(request) {
+    			$.notice({
+					ntype: "simple",
+					time:2
+				});
+    			$(".mc-head-request").html(request);
+    			load_category();
+    		}
+    	});
+		return false;
 	});
 	/**
 	 * Soumission d'une nouvelle sous catégorie dans le catalogue
 	 */
 	$("#forms-catalog-subcategory").submit(function(){
-		$.notice({
-			ntype: "ajaxsubmit",
-    		delay: 2800,
-    		dom: this,
-    		uri: '/admin/catalog.php?category&post=1',
-    		typesend: 'post',
-    		noticedata: null,
-    		resetform:true,
-    		time:2,
-    		reloadhtml:true	
-		});
-		return false; 
+		$(this).ajaxSubmit({
+    		url: '/admin/catalog.php?category&post=1',
+    		type:"post",
+    		resetForm: true,
+    		beforeSubmit:function(){
+    			$('#list-sub-category').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+    		},
+    		success:function(request) {
+    			$.notice({
+					ntype: "simple",
+					time:2
+				});
+    			$(".mc-head-request").html(request);
+    			load_subcategory();
+    		}
+    	});
+		return false;
 	});
 	/**
 	 * Soumission ajax d'un produit dans le catalogue
@@ -592,7 +731,7 @@ $(function(){
 	});
 	$("#forms-catalog-editcategory-img").submit(function(){
 		var idcategory = $('#ucategory').val();
-		var urleditcat = '/admin/catalog.php?catalog=true&upcat='+idcategory;
+		var urleditcat = '/admin/catalog.php?upcat='+idcategory;
 		$(this).ajaxSubmit({
     		url: urleditcat+"&postimg",
     		type:"post",
@@ -616,35 +755,41 @@ $(function(){
 	 */
 	$("#forms-catalog-editsubcategory").submit(function(){
 		var idsubcategory = $('#usubcategory').val();
-		var url = '/admin/catalog.php?upsubcat='+idsubcategory;
+		var urleditsubcat = '/admin/catalog.php?upsubcat='+idsubcategory;
 		$.notice({
 			ntype: "ajaxsubmit",
     		dom: this,
-    		uri:  url+"&post",
+    		uri:  urleditsubcat+"&post",
     		typesend: 'post',
     		delay: 2800,
     		time:2,
     		reloadhtml:false,
     		resetform:false
 		});
-		return false; 
+		return false;
 	});
 	/**
 	 * Edition d'une image de sous catégorie
 	 */
 	$("#forms-catalog-editsubcategory-img").submit(function(){
 		var idsubcategory = $('#usubcategory').val();
-		var url = '/admin/catalog.php?upsubcat='+idsubcategory;
-		$.notice({
-			ntype: "ajaxsubmit",
-    		dom: this,
-    		uri:  url+"&postimg",
-    		typesend: 'post',
-    		delay: 2800,
-    		time:2,
-    		reloadhtml:false,
-    		resetform:false
-		});
+		var urleditsubcat = '/admin/catalog.php?upsubcat='+idsubcategory;
+		$(this).ajaxSubmit({
+    		url: urleditsubcat+"&postimg",
+    		type:"post",
+    		resetForm: true,
+    		beforeSubmit:function(){
+    			$('#contener_image').html('<img src="/framework/img/square-circle.gif" />');
+    		},
+    		success:function(request) {
+    			$.notice({
+					ntype: "simple",
+					time:2
+				});
+    			$(".mc-head-request").html(request);
+    			load_img_subcategory_catalog();
+    		}
+    	});
 		return false; 
 	});
 	/**
@@ -726,27 +871,6 @@ $(function(){
 		cursor: "move",
 		update : function () {
 			serial = $('#sortproduct').sortable('serialize');
-			$.ajax({
-				url: "/admin/catalog.php?catalog&order",
-				type: "post",
-				data: serial,
-				error: function(){
-					alert("theres an error with AJAX");
-				}
-			});
-		}
-	});
-    /**
-     * Initialisation du drag and drop pour les catégories (catalogue ou cms)
-     * Requête ajax pour l'enregistrement du déplacement
-     */
-	$("#sortcat").sortable({
-		placeholder: 'ui-state-highlight',
-		dropOnEmpty: false,
-		axis: "y",
-		cursor: "move",
-		update : function () {
-			serial = $('#sortcat').sortable('serialize');
 			$.ajax({
 				url: "/admin/catalog.php?catalog&order",
 				type: "post",

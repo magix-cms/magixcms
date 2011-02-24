@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
   `idrewrite` tinyint(2) NOT NULL AUTO_INCREMENT,
   `idconfig` tinyint(1) NOT NULL,
   `idlang` tinyint(1) NOT NULL DEFAULT '0',
-  `strrewrite` varchar(255) DEFAULT NULL,
+  `strrewrite` tinytext,
   `idmetas` tinyint(1) NOT NULL,
   `level` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idrewrite`),

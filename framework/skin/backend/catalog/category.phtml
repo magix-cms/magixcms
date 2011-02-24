@@ -69,7 +69,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Catégorie</div>
 						<div class="dashboard-widget-content">
-						{$category_order}
+							<div id="list-category"></div>
 						</div>
 					</div>
 				</div>
@@ -81,7 +81,9 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcatalog.1.1.js');
+	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
+		load_category();
+	});
 });
 </script>
 </body>

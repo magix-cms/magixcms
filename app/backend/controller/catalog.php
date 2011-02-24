@@ -516,6 +516,15 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 		return $category;
 	}
+	private function json_list_category(){
+		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
+			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $list){
+				$cat[]= '{"idclc":'.json_encode($list['idclc']).',"clibelle":'.json_encode($list['clibelle']).
+				',"codelang":'.json_encode($list['codelang']).'}';
+			}
+			print '['.implode(',',$cat).']';
+		}
+	}
 	/**
 	 * @access private
 	 * Construction du select pour les catégories
@@ -813,7 +822,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access private
 	 * @return string
 	 */
-	private function insert_image_subcategory($img,$pathslibelle){
+	private function insert_image_subcategory($img,$pathslibelle,$img_s=null){
 		if(isset($this->$img)){
 			try{
 				/**
@@ -829,7 +838,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				$fileextends = backend_model_image::image_analyze(self::dir_img_subcategory().$this->$img);
 				if (backend_model_image::imgSizeMin(self::dir_img_subcategory().$this->$img,50,50)){
 					if(file_exists(self::dir_img_subcategory().$pathslibelle.$fileextends)){
-						$makeFiles->removeFile(self::dir_img_subcategory(),$pathslibelle.$fileextends);
+						$makeFiles->removeFile(self::dir_img_subcategory(),$img_s);
 					}
 					$makeFiles->renameFiles(self::dir_img_subcategory(),self::dir_img_subcategory().$this->$img,self::dir_img_subcategory().$pathslibelle.$fileextends);
 					/**
@@ -865,7 +874,8 @@ class backend_controller_catalog extends analyzer_catalog{
 				}else{
 					$imgs = null;
 					if($this->img_s != null){
-						$imgs = self::insert_image_subcategory('img_s',$this->pathslibelle);
+						//$imgs = self::insert_image_subcategory('img_s',$this->pathslibelle);
+						$imgs = self::insert_image_subcategory('img_s',$this->pathslibelle.'_'.magixglobal_model_cryptrsa::random_generic_ui(),null);
 					}
 					backend_db_catalog::adminDbCatalog()->i_catalog_subcategory($this->slibelle,$this->pathslibelle,$imgs,$this->idclc);
 					backend_config_smarty::getInstance()->display('catalog/request/success-subcat.phtml');
@@ -898,13 +908,30 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
+	 * @access private
+	 * json_img_subcategory
+	 * Retourne l'image de la sous catégorie avec json
+	 */
+	private function json_img_subcategory(){
+		$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
+		if($clibelle['img_s'] != null){
+			$img = '[{"img_s":'.json_encode($clibelle['img_s']).'}]';
+			print $img;
+		}
+	}
+	/**
 	 * @access private 
 	 * Mise à jour de l'image d'une sous catégorie
 	 */
 	private function update_subcategory_image(){
 		if(isset($this->upsubcat)){
 			if(isset($this->update_img_s)){
-				$imgs = self::insert_image_subcategory('update_img_s',$this->update_pathslibelle);
+				$slibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
+				$imgs = self::insert_image_subcategory(
+					'update_img_s',
+					$slibelle['pathslibelle'].'_'.magixglobal_model_cryptrsa::random_generic_ui(),
+					$slibelle['img_s']
+				);
 				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory_image($imgs,$this->upsubcat);
 				backend_config_smarty::getInstance()->display('request/update-image.phtml');
 			}
@@ -1020,7 +1047,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
-	 * 
+	 * @access private
 	 * Rechercher un catalogue dans les titres
 	 */
 	private function search_catalog_ref(){
@@ -1587,7 +1614,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access public
 	 */
 	private function display_category(){
-		backend_config_smarty::getInstance()->assign('category_order',self::catalog_category_order());
+		//backend_config_smarty::getInstance()->assign('category_order',self::catalog_category_order());
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/category.phtml');
 	}
@@ -1651,6 +1678,14 @@ class backend_controller_catalog extends analyzer_catalog{
 				self::delete_catalog_subcategory();
 			}elseif(magixcjquery_filter_request::isGet('post')){
 				self::post_category();
+			}elseif(magixcjquery_filter_request::isGet('json_cat')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				self::json_list_category();
 			}else{
 				self::display_category();
 			}
@@ -1683,6 +1718,14 @@ class backend_controller_catalog extends analyzer_catalog{
 		}elseif(magixcjquery_filter_request::isGet('upsubcat')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::update_subcategory();
+			}elseif(magixcjquery_filter_request::isGet('imgsubcat')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				self::json_img_subcategory();
 			}elseif(magixcjquery_filter_request::isGet('postimg')){
 				self::update_subcategory_image();
 			}else{
