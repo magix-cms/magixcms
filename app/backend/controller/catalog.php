@@ -734,8 +734,14 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function delete_catalog_category(){
 		if(isset($this->delc)){
-			backend_db_catalog::adminDbCatalog()->d_catalog_category($this->delc);
-			backend_config_smarty::getInstance()->display('catalog/request/s-cat-delete.phtml');
+			$cproduct = backend_db_catalog::adminDbCatalog()->s_count_product_in_category($this->delc);
+			$csubcat = backend_db_catalog::adminDbCatalog()->s_count_catalog_subcategory_in_category($this->delc);
+			if($csubcat['csubcat']!= 0 OR $cproduct['cproduct']!= 0){
+				backend_config_smarty::getInstance()->display('catalog/request/verify_category.phtml');
+			}else{
+				backend_db_catalog::adminDbCatalog()->d_catalog_category($this->delc);
+				backend_config_smarty::getInstance()->display('catalog/request/s-cat-delete.phtml');
+			}
 		}
 	}
 	/**
@@ -1223,6 +1229,8 @@ class backend_controller_catalog extends analyzer_catalog{
 				}
 			}
 			print '{'.implode(',',$subcat).'}';
+		}else{
+			print '{"0":"Aucune sous catégorie"}';
 		}
 	}
 	/**

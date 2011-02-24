@@ -106,6 +106,12 @@ class backend_db_catalog{
 		WHERE p.idclc = :upcat AND p.idcls = 0 ORDER BY p.orderproduct';
 		return magixglobal_model_db::layerDB()->select($sql,array(':upcat'=>$upcat));
     }
+	function s_count_product_in_category($idclc){
+    	$sql = 'SELECT count( pr.idcls ) AS cproduct
+		FROM mc_catalog_product pr
+		WHERE pr.idclc =:idclc';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(':idclc'=>$idclc));
+	}
     /**
      * insertion d'une nouvelle catégorie
      * @param $clibelle
@@ -230,6 +236,15 @@ class backend_db_catalog{
     function s_max_order_catalog_subcategory(){
     	$sql = 'SELECT max(s.sorder) as clsorder FROM mc_catalog_s as s';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
+    }
+	/**
+    * 
+    */
+    function s_count_catalog_subcategory_in_category($idclc){
+    	$sql = 'SELECT count(s.idcls) as csubcat FROM mc_catalog_s as s WHERE s.idclc = :idclc';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':idclc'=>$idclc
+		));
     }
 	/**
 	 * Selectionne les sous catégorie d'une catégorie
