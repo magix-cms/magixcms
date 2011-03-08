@@ -136,10 +136,13 @@ $(document).ready(function(){
 				error.insertAfter(element);
 			else if ( element.is("select") )
 				error.insertAfter(element.next());
-			else if ( element.next().is(":button") )
-				error.insertAfter(element.next());
 			else
-				error.insertAfter(element);
+				if(element.next().is(":submit") || element.next().is(":button") || element.next().is(":file")){
+					error.insertAfter(element.next());
+					$("<br />").insertBefore(error);
+				}else{
+					error.insertAfter(element);
+				}
 		},
 		errorClass: "stateVal",
 		errorElement:"div",

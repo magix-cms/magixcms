@@ -73,6 +73,26 @@ function create_dynamic_cms_uri(){
 		url: '/admin/cms.php?editcms='+idpage+'&load_json_uri_cms=true',
 		dataType: 'json',
 		type: "get",
+		statusCode: {
+			0: function() {
+				console.error("jQuery Error");
+			},
+			401: function() {
+				console.warn("access denied");
+			},
+			404: function() {
+				console.warn("object not found");
+			},
+			403: function() {
+				console.warn("request forbidden");
+			},
+			408: function() {
+				console.warn("server timed out waiting for request");
+			},
+			500: function() {
+				console.error("Internal Server Error");
+			}
+		},
 		async: true,
 		cache:false,
 		beforeSend: function(){

@@ -53,7 +53,7 @@ $(function(){
 		var hreftitle = $(this).attr("title");
 			if(hreftitle != null){
 				if(ie){
-					$.post('/admin/templates.php?post', 
+					$.post('/admin/templates.php?post=1', 
 						{ theme: hreftitle}
 					, function(request) {
 						$.notice({
@@ -61,15 +61,15 @@ $(function(){
 							time:2
 						});
 	        			$(".mc-head-request").html(request);
-        				setTimeout(function(){
+        				/*setTimeout(function(){
         					location.reload();
-        				},2800);
+        				},2800);*/
 					});
 				}else{
 					$.ajax({
 						type:'post',
 						data: "theme="+hreftitle,
-						url: "/admin/templates.php?post",
+						url: "/admin/templates.php?post=1",
 						timeout:5000,
 						error: function(request,error) {
 							  if (error == "timeout") {
@@ -85,60 +85,12 @@ $(function(){
 								time:2
 							});
 		        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
+	        				/*setTimeout(function(){
 	        					location.reload();
-	        				},2800);
+	        				},2800);*/
 						}
 					});
 				}
 			}
 	});
-	/**
-	 * Requête ajax pour le changement de thème
-	 */
-	$(".list-editor a").bind("click", function(e){
-		e.preventDefault();
-		var hreftitle = $(this).attr("title");
-			if(hreftitle != null){
-				if(ie){
-					$.post('/admin/config.php?htmleditor=true', 
-						{ editor: hreftitle}
-					, function(request) {
-						$.notice({
-							ntype: "simple",
-							time:2
-						});
-	        			$(".mc-head-request").html(request);
-        				setTimeout(function(){
-        					location.reload();
-        				},2800);
-					});
-				}else{
-					$.ajax({
-						type:'post',
-						data: "editor="+hreftitle,
-						url: "/admin/config.php?htmleditor=true",
-						timeout:5000,
-						error: function(request,error) {
-							  if (error == "timeout") {
-								  $("#error").append("The request timed out, please resubmit");
-							  }
-							  else {
-								  $("#error").append("ERROR: " + error);
-							  }
-						},
-						success:function(request) {
-							$.notice({
-								ntype: "simple",
-								time:2
-							});
-		        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
-						}
-					});
-				}
-			}
-	});
-})
+});

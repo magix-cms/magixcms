@@ -3,6 +3,12 @@ beta 2.3.42 RC4
 	* Fix bug mise à jour d'une image de sous catégorie
 	* Fix bug chargement des images de sous catégorie
 	* Liste les catégories catalogue dans une requête JSON + refonte du système "sortable"
+	* Upgrade jQuery ui 1.8.9 => 1.8.10
+	* Upgrade tinyMCE 3.4b2 => 3.4b3 (Fix bug insertion de liens)
+	* Upgrade jQuery 1.5 => 1.5.1 (Voir changelog jQuery)
+	* Correction graphique dans l'administration
+	* Fix bug changement d'éditeur dans l'administration (Evènement rétabli)
+	* Minify : move cc-checking to constructor
 	
 beta 2.3.42 RC3
 	* Suppression des sous catégories dans la page ROOT des catégories

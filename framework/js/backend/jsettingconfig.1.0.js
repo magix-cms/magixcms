@@ -79,6 +79,9 @@ function load_list_metas(){
 }
 $(function(){
 	/*################## Configuration ##############*/
+	var ie6 = ($.browser.msie && $.browser.version < 7);
+	var ie7 = ($.browser.msie && $.browser.version > 6);
+	var ie = ($.browser.msie);
 	//Ajoute un ID numérique (boucle) sur la class "spin"
 	$(".spin").each(function(i){
 		var newid = $(this).attr("class")+"_" + i;
@@ -112,12 +115,12 @@ $(function(){
 	/**
 	 * Initialisation de jQuery UI tabs pour la configuration de Magix CMS
 	 */
-    $("#tabsFormsConfig").tabs({
+    $("#tabsFormsConfig").tabs(/*{
 		cookie: {
 			expires: 1,
 			name:"FormsConfig"
 		}
-	});
+	}*/);
 	/*### Config Metas ###*/
 	$("#forms-config-rewrite").submit(function(){
 		$(this).ajaxSubmit({
@@ -267,6 +270,88 @@ $(function(){
 			type:"post",
 			success:function(e) {$(".configupdate").html(e);}
 		});
+	});
+	/*################# Editor ###################*/
+	/**
+	 * Ajout d'une classe spécifique au survol d'un éditeur
+	 */
+	$(".list-editor:not(.ui-state-highlight)").hover(
+		function(){
+			if($(this).find('ui-state-disabled')){
+				$(this).removeClass("ui-state-disabled");
+			}
+			$(this).addClass("ui-state-hover");
+		},
+		function(){ 
+			if(!$(this).hasClass('ui-state-highlight')){
+				$(this).removeClass("ui-state-hover");
+				$(this).addClass("ui-state-disabled");
+			}
+		}
+	);
+	/**
+	 * Ajout d'une class spécifique si le thème est actif
+	 */
+	$(".list-editor").live("click",function (){
+		$('.list-editor').removeClass("ui-state-highlight");
+		$('.list-editor').addClass("ui-state-disabled");
+		if($(this).find('ui-state-disabled')){
+			$(this).removeClass("ui-state-disabled");
+		}
+		if($(this).find('ui-state-hover')){
+			$(this).removeClass("ui-state-hover");
+		}
+		if($(this).not('ui-state-highlight')){
+			$(this).addClass("ui-state-highlight");
+		}
+	});
+	/**
+	 * Requête ajax pour le changement d'éditeur
+	 */
+	$(".list-editor a").bind("click", function(e){
+		e.preventDefault();
+		var hreftitle = $(this).attr("title");
+			if(hreftitle != null){
+				if(ie){
+					$.post('/admin/config.php?htmleditor=true', 
+						{ editor: hreftitle}
+					, function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+        				setTimeout(function(){
+        					location.reload();
+        				},2800);
+					});
+				}else{
+					$.ajax({
+						type:'post',
+						data: "editor="+hreftitle,
+						url: "/admin/config.php?htmleditor=true",
+						timeout:5000,
+						error: function(request,error) {
+							  if (error == "timeout") {
+								  $("#error").append("The request timed out, please resubmit");
+							  }
+							  else {
+								  $("#error").append("ERROR: " + error);
+							  }
+						},
+						success:function(request) {
+							$.notice({
+								ntype: "simple",
+								time:2
+							});
+		        			$(".mc-head-request").html(request);
+	        				setTimeout(function(){
+	        					location.reload();
+	        				},2800);
+						}
+					});
+				}
+			}
 	});
 	$("#manager-editor-settings :radio").click(function(){
 		$.notice({

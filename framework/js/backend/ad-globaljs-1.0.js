@@ -36,6 +36,28 @@
 		});
 	};
 })(jQuery);
+/**
+ * Plugin for IETester
+ */
+(function($) { 
+	$.ieTester = function(settings) { 
+		var options = {
+			version: '7'
+		};
+	    $.extend(options, settings);
+	    var ua = $.browser;
+	    if(ua.msie){
+	    	var ieVersion = parseFloat(ua.version, 10) || 0;
+	    	if(isNaN(ieVersion)){
+	    		console.error("The version is not a number");
+	    	}
+	    	if(ieVersion == options.version){
+	    		//alert(ua.version.slice(0,3));
+	    		return true;	
+	    	}
+	    }
+	};
+})(jQuery);
 $(function() {
 	//In case you don't have firebug...
 	if (!window.console || !console.firebug) {
@@ -184,4 +206,15 @@ $(function() {
 	    $(".post-preview").colorbox({width:"90%", height:"90%", iframe:true});
 	    //Prévisualisation d'images
 	    $(".imagebox").colorbox();
+	    /**
+	     * Sidebar
+	     */
+	    $("#sidebar ul li a").hover(
+		    function () {
+		        $(this).addClass('ui-state-hover');
+		    }, 
+		    function () {
+		      $(this).removeClass('ui-state-hover');
+		    }
+	    );
 });

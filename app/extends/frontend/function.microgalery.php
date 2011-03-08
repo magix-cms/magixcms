@@ -76,6 +76,30 @@ function smarty_function_microgalery($params, $template){
 			$galery .= '<div style="clear:both;"></div></div>';
 			}
 		break;
+		case 'cloud-zoom':
+			$identifier =  frontend_db_catalog::publicDbCatalog()->s_identifier_catalog($idproduct);
+			$count = frontend_db_catalog::publicDbCatalog()->count_image_in_galery_product($identifier['idcatalog']);
+			$galery = null;		
+			if($count['cimage'] != 0){
+			$galery .= '<div id="list-image-galery">';
+			foreach(frontend_db_catalog::publicDbCatalog()->s_microgalery_product($identifier['idcatalog']) as $img){
+				if($ui){
+					$galery .= '<div class="list-img ui-widget-content ui-corner-all">';
+					$galery .= '<div class="img-galery"><a class="cloud-zoom-gallery" rel="useZoom: \'zoom1\', smallImage: \' '. magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog']. ' \' " href='.'"'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'].'">'.'<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/mini/'.$img['imgcatalog'].'" alt="'.$img['imgcatalog'].'" /></a>'.'</div>';
+					$galery .= '</div>';			
+				
+				}else{
+					$galery .= '<div class="list-img">';
+					$galery .= '<div class="img-galery"><a class="cloud-zoom-gallery" rel="useZoom: \'zoom1\', smallImage: \' '. magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog']. ' \' " href='.'"'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'].'">'.'<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/mini/'.$img['imgcatalog'].'" alt="'.$img['imgcatalog'].'" /></a>'.'</div>';
+					$galery .= '</div>';
+				}
+			}
+			$galery .= '<div style="clear:both;"></div></div>';					
+			$galery .= 	'<a href="'. magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'] . '" class = \'cloud-zoom\' id=\'zoom1\' rel="adjustX: 6, adjustY:0, zoomWidth:410">
+    					<img src="'.  magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'] .' " alt="'.$img['imgcatalog'].'" width="240" class="cible" />
+    					</a>' ;
+			}
+		break;
 	}
 	return $galery;
 }

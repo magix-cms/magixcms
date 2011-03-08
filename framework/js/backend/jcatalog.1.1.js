@@ -53,12 +53,21 @@ function load_category(){
 					}else{
 						langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
 					}
-					return $('<li class="ui-state-default" id="corder_'+item.idclc+'">'
-					+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.clibelle
-					+'<div style="float:right">'+langspan
-					+'<a href="/admin/catalog.php?upcat='+item.idclc+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
-					+'<a href="#" class="aspanfloat delc" title="'+item.idclc+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a>'+
-					'</li>').appendTo('#sortcat');
+					if($.ieTester()){
+						return $('<li class="ui-state-default" id="corder_'+item.idclc+'">'
+						+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.clibelle
+						+'<div style="float:right;margin-top:-15px;top:0;margin-right:10px;">'+langspan
+						+'<a href="/admin/catalog.php?upcat='+item.idclc+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
+						+'<a href="#" class="aspanfloat delc" title="'+item.idclc+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></div>'+
+						'<div style="clear:both;"></div></li>').appendTo('#sortcat');
+					}else{
+						return $('<li class="ui-state-default" id="corder_'+item.idclc+'">'
+						+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.clibelle
+						+'<div style="float:right;">'+langspan
+						+'<a href="/admin/catalog.php?upcat='+item.idclc+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
+						+'<a href="#" class="aspanfloat delc" title="'+item.idclc+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></div>'+
+						'</li>').appendTo('#sortcat');
+					}
 				});
 			}
 			/**
@@ -131,12 +140,21 @@ function load_subcategory(){
 			}
 			if(j !== null){
 				$.each(j, function(i,item) {
-					return $('<li class="ui-state-default" id="sorder_'+item.idcls+'">'
-					+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.slibelle
-					+'<div style="float:right">'
-					+'<a href="/admin/catalog.php?upsubcat='+item.idcls+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
-					+'<a href="#" class="aspanfloat dels" title="'+item.idcls+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a>'+
-					'</li>').appendTo('#sortsubcat');
+					if($.ieTester()){
+						return $('<li class="ui-state-default" id="sorder_'+item.idcls+'">'
+						+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.slibelle
+						+'<div style="float:right;margin-top:-15px;top:0;margin-right:10px;">'
+						+'<a href="/admin/catalog.php?upsubcat='+item.idcls+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
+						+'<a href="#" style="cursor:pointer;" class="aspanfloat dels" title="'+item.idcls+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></div>'+
+						'<div style="clear:both;"></div></li>').appendTo('#sortsubcat');
+					}else{
+						return $('<li class="ui-state-default" id="sorder_'+item.idcls+'">'
+						+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.slibelle
+						+'<div style="float:right">'
+						+'<a href="/admin/catalog.php?upsubcat='+item.idcls+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
+						+'<a href="#" class="aspanfloat dels" title="'+item.idcls+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a>'+
+						'</li>').appendTo('#sortsubcat');
+					}
 				});
 			}
 			/**
