@@ -130,8 +130,10 @@
 <script type="text/javascript">
 $(function(){
 	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
-		load_img_category_catalog();
-		load_subcategory();
+		setTimeout(function(){
+			load_img_category_catalog();
+			load_subcategory();
+		},1000);
 	});
 });
 </script>

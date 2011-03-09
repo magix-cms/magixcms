@@ -95,7 +95,9 @@
 $(function(){
 	$(function(){
 		$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
-			load_img_subcategory_catalog();
+			setTimeout(function(){
+				load_img_subcategory_catalog();
+			},1000);
 		});
 	});
 });
