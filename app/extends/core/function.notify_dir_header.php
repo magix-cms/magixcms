@@ -52,7 +52,7 @@ function smarty_function_notify_dir_header($params, $template){
 	$arraydir = array('app\extends\core', 'app/extends/core');
 	if(file_exists(magixglobal_model_system::root_path($arraydir,array("install","install") , $pathdir))){
 		$dom = '<div id="notify-install">
-				<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>
+				<a href="#" class="close-notify ui-state-default ui-corner-all">Close</a>
 				<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	
 				<div id="message-notification">
 					<div class="mc-rep-request">
@@ -62,7 +62,7 @@ function smarty_function_notify_dir_header($params, $template){
 		</div>';
 	}elseif (!is_writable(magixglobal_model_system::root_path($arraydir,array("upload","upload") , $pathdir))){
 		$dom = '<div id="notify-folder">
-				<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>
+				<a href="#" class="close-notify ui-state-default ui-corner-all">Close</a>
 				<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	
 				<div id="message-notification">
 					<div class="mc-rep-request">
@@ -72,7 +72,7 @@ function smarty_function_notify_dir_header($params, $template){
 		</div>';
 	}elseif(!is_writable(magixglobal_model_system::root_path($arraydir,array("var","var") , $pathdir))){
 		$dom = '<div id="notify-folder">
-				<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>
+				<a href="#" class="close-notify ui-state-default ui-corner-all">Close</a>
 				<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	
 				<div id="message-notification">
 					<div class="mc-rep-request">
@@ -82,7 +82,7 @@ function smarty_function_notify_dir_header($params, $template){
 		</div>';
 	}elseif(!is_writable(magixglobal_model_system::root_path($arraydir,array("media","media") , $pathdir))){
 		$dom = '<div id="notify-folder">
-				<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>
+				<a href="#" class="close-notify ui-state-default ui-corner-all">Close</a>
 				<a class="dont-notify ui-state-default ui-corner-all">Don\'t Show Again</a>	
 				<div id="message-notification">
 					<div class="mc-rep-request">

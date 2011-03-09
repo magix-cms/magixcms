@@ -9,6 +9,12 @@ beta 2.3.42 RC4
 	* Correction graphique dans l'administration
 	* Fix bug changement d'éditeur dans l'administration (Evènement rétabli)
 	* Minify : move cc-checking to constructor
+	* Fix bug notification (position du bouton de fermeture)
+	* Fix bug ajout et modification d'une image de catégorie et sous catégorie catalogue
+	* Fix bug affichage des images d'un produit (microgalerie) dans l'administration
+	* Fix bug taille des boutons jQuery dans l'administration
+	* Fix bug positionnement des icônes dans les listes "sortable" avec IE7 !
+	
 	
 beta 2.3.42 RC3
 	* Suppression des sous catégories dans la page ROOT des catégories

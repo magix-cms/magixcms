@@ -58,6 +58,34 @@
 	    }
 	};
 })(jQuery);
+/**
+ * plugins pour afficher/cacher un container depuis un style de bouton
+ * @param visible
+ * @param container
+ */
+(function($) { 
+    $.openDiv = function(settings) { 
+    	var options =  { 
+    		visible: "",
+    		container: ""
+    	};
+        $.extend(options, settings);
+      //Hide (Collapse) the toggle containers on load
+ 	   $(options.container).hide();
+ 	   //Switch the "Open" and "Close" state per click (+ ou - dans le CSS)
+ 	   $(options.visible).toggle(function(){ // on pourrais aussi utiliser toggleClass
+ 	      //$(this).addClass("active");
+ 		   	$(options.visible).button({ icons: {primary:'ui-icon-minusthick'} });
+ 	      }, function () {
+ 	     // $(this).removeClass("active");
+ 	    	$(options.visible).button({ icons: {primary:'ui-icon-plusthick'} });
+ 	   });
+ 	   //ouverture et fermeture par glissé
+ 	   $(options.visible).click(function(){
+ 	      $(this).next(options.container).slideToggle("slow");
+ 	   });
+    }; 
+})(jQuery);
 $(function() {
 	//In case you don't have firebug...
 	if (!window.console || !console.firebug) {
@@ -112,6 +140,14 @@ $(function() {
 	        text: false
 	    });
 		$(".btn-decoration:button").button();
+		/**
+		 * Construction du bouton de fermeture de la notification
+		 */
+		$(".close-notify").button({
+	        icons: {
+	            primary: "ui-icon-closethick"
+	        }
+	    });
 		/**
 		 * Notification après installation pour le dossier "install"
 		 */
@@ -175,7 +211,7 @@ $(function() {
 		/**
 		 * Affiche ou non le module d'ajout des métas dans une div
 		 */
-		$("#showmetas span").addClass("ui-icon ui-icon-circle-plus");
+		/*$("#showmetas span").addClass("ui-icon ui-icon-circle-plus");
 		 $("#showmetas").click(function(){
 		 	 var answer = $('#metas');
 		        if (answer.is(":visible")) {
@@ -187,7 +223,12 @@ $(function() {
 		            $('span',this).removeClass("ui-icon ui-icon-circle-plus");
 					$('span',this).addClass("ui-icon ui-icon-circle-minus");
 		        }
-		 });
+		 });*/
+		$('#showmetas').button({ icons: {primary:'ui-icon-plusthick'} });
+		$.openDiv({
+			visible:'#showmetas',
+			container:'#metascontener'
+		});
 		// Les widgets ou utilitaire dashboard
 		$.dashboardWidget();
 		$('#addvarprofil').bind("click", function(){

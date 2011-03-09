@@ -316,7 +316,13 @@ function load_rel_product(){
 					'</tr>').appendTo('#table_rel_product tbody');
 				});
 			}else{
-				return $('<tr><td><span class="lfloat ui-icon ui-icon-minus"></span></td><td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td><td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td><td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td><td><span class="lfloat ui-icon ui-icon-minus"></span></td></tr>').appendTo('#table_rel_product tbody');
+				return $('<tr>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+						+'</tr>').appendTo('#table_rel_product tbody');
 			}
 		}
 	});
@@ -566,30 +572,33 @@ function load_micro_galery_catalog(){
 		},
 		success: function(j) {
 			$('#contener_micro_galery').empty();
-			var listimg = '<div id="list-image-galery">';
-			listimg += '</div>';
-			$(listimg).appendTo('#contener_micro_galery');
+			var contener_images = '<div id="list-image-galery">';
+			contener_images += '</div>';
+			$(contener_images).appendTo('#contener_micro_galery');
 			if(j === undefined){
 				console.log(j);
 			}
 			if(j !== null){
+				var listimg = '';
 				$.each(j, function(i,item) {
-					return $('<div class="list-img ui-widget-content">'
-					+'<div class="title-galery-image ui-state-default">'
+					listimg += $('<div class="list-img ui-widget-content">'
+					+'<div class="title-galery-image ui-widget-content">'
 					+'<a href="#" class="delmicro" title="'+item.idmicro+'"><span style="float:right;" class="ui-icon ui-icon-trash"></span></a>'
 					+'</div>'
-					+'<div class="img-galery"><img src="/upload/catalogimg/galery/mini/'+item.imgcatalog+'" /></div></div>'
-					).appendTo('#list-image-galery');
+					+'<div class="img-galery"><img src="/upload/catalogimg/galery/mini/'+item.imgcatalog+'" /></div>'
+					+'</div>').appendTo('#list-image-galery');
 				});
+				listimg +=$('<div style="clear:left;"></div>').appendTo('#list-image-galery');
+				$('.title-galery-image .delmicro').hover(
+					function() { 
+						$(this).parent().addClass('ui-state-active'); 
+					},
+					function() { 
+						$(this).parent().removeClass('ui-state-active'); 
+					}
+				);
+				return listimg;
 			}
-			$('.delmicro').hover(
-				function() { 
-					$(this).parent().addClass('ui-state-hover'); 
-				},
-				function() { 
-					$(this).parent().removeClass('ui-state-hover'); 
-				}
-			);
 		}
 	});
 }
@@ -646,7 +655,7 @@ $(function(){
 		/*tinyMCE.triggerSave(true,true);*/
 		$.editorhtml({editor:_editorConfig});
 		$(this).ajaxSubmit({
-    		url:'/admin/catalog.php?product&add_card_product=1',
+    		url:'/admin/catalog.php?product=true&add_card_product=1',
     		type:"post",
     		resetForm: true,
     		success:function(request) {
@@ -655,9 +664,6 @@ $(function(){
 					time:2
 				});
     			$(".mc-head-request").html(request);
-    				setTimeout(function(){
-    					location.reload();
-    				},2800);
     		}
     	});
 		return false; 
@@ -676,7 +682,7 @@ $(function(){
 	    		typesend: 'post',
 	    		noticedata: null,
 	    		resetform:false,
-	    		time:1,
+	    		time:2,
 	    		reloadhtml:false	
 			});
 			return false; 
@@ -691,7 +697,7 @@ $(function(){
 		var productid = $('#idcatalog').val();
 		if(productid != null){
 			$(this).ajaxSubmit({
-        		url:'/admin/catalog.php?product&editproduct='+productid+'&add_product=1',
+        		url:'/admin/catalog.php?product=true&editproduct='+productid+'&add_product=1',
         		type:"post",
         		resetForm: false,
         		success:function(request) {
@@ -712,7 +718,7 @@ $(function(){
 		var productid = $('#idcatalog').val();
 		if(productid != null){
 			$(this).ajaxSubmit({
-        		url:'/admin/catalog.php?product&editproduct='+productid+'&post_rel_product=1',
+        		url:'/admin/catalog.php?product=true&editproduct='+productid+'&post_rel_product=1',
         		type:"post",
         		resetForm: false,
         		success:function(request) {
@@ -734,11 +740,11 @@ $(function(){
 	 */
 	$("#forms-catalog-editcategory").submit(function(){
 		var idcategory = $('#ucategory').val();
-		var url = '/admin/catalog.php?catalog&upcat='+idcategory;
+		var url = '/admin/catalog.php?upcat='+idcategory;
 		$.notice({
 			ntype: "ajaxsubmit",
     		dom: this,
-    		uri:  url+"&post",
+    		uri:  url+"&post=1",
     		typesend: 'post',
     		delay: 2800,
     		time:2,
@@ -751,7 +757,7 @@ $(function(){
 		var idcategory = $('#ucategory').val();
 		var urleditcat = '/admin/catalog.php?upcat='+idcategory;
 		$(this).ajaxSubmit({
-    		url: urleditcat+"&postimg",
+    		url: urleditcat+"&postimg=1",
     		type:"post",
     		resetForm: true,
     		beforeSubmit:function(){
@@ -777,7 +783,7 @@ $(function(){
 		$.notice({
 			ntype: "ajaxsubmit",
     		dom: this,
-    		uri:  urleditsubcat+"&post",
+    		uri:  urleditsubcat+"&post=1",
     		typesend: 'post',
     		delay: 2800,
     		time:2,
@@ -793,7 +799,7 @@ $(function(){
 		var idsubcategory = $('#usubcategory').val();
 		var urleditsubcat = '/admin/catalog.php?upsubcat='+idsubcategory;
 		$(this).ajaxSubmit({
-    		url: urleditsubcat+"&postimg",
+    		url: urleditsubcat+"&postimg=1",
     		type:"post",
     		resetForm: true,
     		beforeSubmit:function(){

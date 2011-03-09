@@ -8,8 +8,8 @@
 	text-decoration: none;
 	padding: 3px 3px 1px 3px;
 	cursor: pointer;
-	font-size: 12px;
 }
+a.close-notify {font-size:0.8em;}
 .dont-notify {
 	position: absolute;
 	right: 10px;

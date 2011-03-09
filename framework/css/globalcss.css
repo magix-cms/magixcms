@@ -220,6 +220,8 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 .clear .maximal, table.maximal {
 	width : 100%;
 }
+/*IE7 FIX BUG ESPACEMENT */
+*+html .clear .maximal,*+html table.maximal{width:200px;}
 .clear .minimal {
 	width : 1px;
 }
@@ -230,7 +232,7 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 /*IE7 FIX BUG ESPACEMENT */
 *+html .clear .nowrap {
 	white-space : nowrap;
-	width:2%;
+	width:3%;
 }
 .clear .nowrap a {
 	color:white;
@@ -332,6 +334,9 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 	background:transparent url(/framework/img/pagination_a.gif) repeat scroll left 28px;
 	color:#222222;
 }
+/* Component containers
+----------------------------------*/
+.ui-widget { font-family: Helvetica, Arial, sans-serif; font-size: 1.1em; }
 /*############## Accordion ###########*/
 /*@media screen, projection, tv {
 	.ui-accordion .ui-accordion-content {margin:0;padding:0;}
@@ -344,16 +349,6 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
  .ui-accordion .ui-accordion-content { padding:0;left:0;margin-left:0;position:relative;border-top: 0; margin-top: -2px; top: 1px; margin-bottom: 2px; overflow: auto; display: none; }
  .ui-accordion .ui-accordion-content ul{margin:5px 0 5px 5px;padding:0;}
 }
-/*.ui-accordion .ui-accordion-content {left:0;}
-.ui-accordion .ui-accordion-header{}
-.ui-accordion .ui-accordion-header a{display: block; font-size: 1em; padding: .2em .2em .2em 2.0em;}
-/* IE7-/Win - Fix extra vertical space in lists */
-/*.ui-accordion a { zoom: 1; }
-.ui-accordion-icons .ui-accordion-header a { padding-left: 2.2em; }
-.ui-accordion .ui-accordion-header .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
-.ui-accordion .ui-accordion-content { padding: 1em 0.2em; border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow: auto; display: none; zoom: 1; }
-.ui-accordion .ui-accordion-content-active { display: block; }/* Autocomplete
-*/
 .ui-accordion { width: 100%; }
 .ui-accordion .ui-accordion-header { cursor: pointer; position: relative; margin-top: 1px; zoom: 1; }
 .ui-accordion .ui-accordion-li-fix { display: inline; }
@@ -364,27 +359,41 @@ div.wrap{color:#666;background:#eee;display:inline-block;margin:0 0 14px;padding
 .ui-accordion .ui-accordion-content { padding: 1em 0.2em; border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow: auto; display: none; zoom: 1; }
 .ui-accordion .ui-accordion-content-active { display: block; }
 /*--------------------
-UI BUTTON--------------*/
-.ui-button { display: inline-block; position: relative; padding: 0; margin-right: .1em; text-decoration: none !important; cursor: pointer; text-align: center; zoom: 1; overflow: visible; } /* the overflow property removes extra width in IE */
+/*--------------------
+/*
+ * jQuery UI Button 1.8.10
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Button#theming
+ */
 .ui-button-icon-only { width: 2.2em; } /* to make room for the icon, a width needs to be set here */
-button.ui-button-icon-only { width: 2.0em; } /* button elements seem to need a little more width */
+button.ui-button-icon-only { width: 1.4em; } /* button elements seem to need a little more width */
 .ui-button-icons-only { width: 3.4em; } 
 button.ui-button-icons-only { width: 3.7em; } 
+
 /*button text element */
-.ui-button .ui-button-text { display: block; line-height: 1.0;  }
+.ui-button .ui-button-text { display: block; line-height: 0.8;  }
 .ui-button-text-only .ui-button-text { padding: .4em 1em; }
-.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: .1em; text-indent: -9999999px; }
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text { padding: .4em; text-indent: -9999999px; }
 .ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em 1em .2em 2.1em; }
 .ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text { padding: .2em 1em .2em 2.1em; }
 .ui-button-text-icons .ui-button-text { padding-left: 2.1em; padding-right: 2.1em; }
 /* no icon support for input elements, provide padding by default */
 input.ui-button { padding: .1em 1em; }
+
 /*button icon element(s) */
 .ui-button-icon-only .ui-icon, .ui-button-text-icon-primary .ui-icon, .ui-button-text-icon-secondary .ui-icon, .ui-button-text-icons .ui-icon, .ui-button-icons-only .ui-icon { position: absolute; top: 50%; margin-top: -8px; }
 .ui-button-icon-only .ui-icon { left: 50%; margin-left: -8px; }
 .ui-button-text-icon-primary .ui-button-icon-primary, .ui-button-text-icons .ui-button-icon-primary, .ui-button-icons-only .ui-button-icon-primary { left: .5em; }
 .ui-button-text-icon-secondary .ui-button-icon-secondary, .ui-button-text-icons .ui-button-icon-secondary, .ui-button-icons-only .ui-button-icon-secondary { right: .5em; }
 .ui-button-text-icons .ui-button-icon-secondary, .ui-button-icons-only .ui-button-icon-secondary { right: .5em; }
+
+/*button sets*/
+.ui-buttonset { margin-right: 7px; }
+.ui-buttonset .ui-button { margin-left: 0; margin-right: -.3em; }
 /*----------------UI Sortable
 ------------------*/
 #sortable,#sortproduct,#sortcat,#sortsubcat,.globalsort{ list-style-type: none; margin: 5px 0 5px 5px; padding: 0; width: 97%; }
@@ -400,6 +409,24 @@ input.ui-button { padding: .1em 1em; }
 .sortdivfloat{float:left;min-width:120px;font-weight:600;}
 .aspanfloat{float:left;/*margin-left:20px;*/}
 .ui-sortable li a{cursor:pointer;}
+/*
+ * jQuery UI Tabs 1.8.10
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Tabs#theming
+ */
+.ui-tabs { position: relative; padding: .2em; zoom: 1; } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav { margin: 0; padding: .2em .2em 0; }
+.ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 1px; margin: 0 .2em 1px 0; border-bottom: 0 !important; padding: 0; white-space: nowrap; }
+.ui-tabs .ui-tabs-nav li a { float: left; padding: .5em 1em; text-decoration: none; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 1px; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; }
+.ui-tabs .ui-tabs-hide { display: none !important; }
 /*#################### magixicon ######################*/
 .magix-icon { width: 16px; height: 16px; background-image: url(/framework/img/magixicon_256x240.png); }
 /* positioning */
@@ -440,16 +467,26 @@ input.ui-button { padding: .1em 1em; }
 /*############## Catalog ##################*/
 #list-image-galery{
 	margin-left:1px;
+	margin:1px 0 1px 1px;
 }
 .list-img{
-	margin:0 2px;
+	margin:0 3px;
 	width:100px;
 	height:100px;
-	display:inline-block;
+	/*display:inline-block;*/
+	float:left;
+	overflow:hidden;
+	background:#696969;
+	position:relative;
+}
+.img-galery{
+	padding:2px 0;
+	text-align:center;
 	overflow:hidden;
 }
-.img-galery{padding:2px;text-align:center;}
-.title-galery-image{padding:0 5px 0 5px;}
+.title-galery-image{position:absolute;height:16px;width:16px;margin:2px;padding:1px;}
+.img-galery img{}
+.delmicro{cursor:pointer;}
 .ctitle{margin:5px 0 5px 10px;width:97%;padding:0 0 0 10px;}
 /*#### AJAX catalog ####*/
 #load_img_ucategory,#load_img_usubcategory,#load_img_mini{

@@ -50,7 +50,7 @@
 function smarty_function_ajax_notify($params, $template){
 	return <<<EOT
 	<div id="notify-header">
-		<a href="#" class="close-notify ui-state-default ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-closethick"></span>Close</a>	
+		<a href="#" class="close-notify ui-state-default ui-corner-all">Close</a>	
 		<div id="message-notification">
 			<div class="mc-head-request"></div>
 		</div>

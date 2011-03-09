@@ -671,35 +671,44 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function insert_image_category($img,$pathclibelle,$img_c=null){
 		if(isset($this->$img)){
 			try{
-				/**
-				 * Envoi une image dans le dossier "racine" catalogimg
-				 */
-				backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."category");
-				/**
-				 * Analyze l'extension du fichier en traitement
-				 * @var $fileextends
-				 */
-				$fileextends = backend_model_image::image_analyze(self::dir_img_category().$this->$img);
-				// Charge la classe pour renommer le fichier
+				// Charge la classe pour le traitement du fichier
 				$makeFiles = new magixcjquery_files_makefiles();
-				if (backend_model_image::imgSizeMin(self::dir_img_category().$this->$img,50,50)){
-					if(file_exists(self::dir_img_category().$pathclibelle.$fileextends)){
-						$makeFiles->removeFile(self::dir_img_category(),$img_c);
-					}
-					$makeFiles->renameFiles(self::dir_img_category(),self::dir_img_category().$this->$img,self::dir_img_category().$pathclibelle.$fileextends);
+				if(!empty($this->$img)){
 					/**
-					 * Initialisation de la classe phpthumb 
-					 * @var void
+					 * Envoi une image dans le dossier "racine" catalogimg
 					 */
-					$thumb = PhpThumbFactory::create(self::dir_img_category().$pathclibelle.$fileextends);
-					$thumb->resize(120,100)->save(self::dir_img_category().$pathclibelle.$fileextends);
-					return $pathclibelle.$fileextends;
-				}else{
-					if(file_exists(self::dir_img_category().$this->$img)){
-						$makeFiles->removeFile(self::dir_img_category().$this->$img);
+					backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."category");
+					/**
+					 * Analyze l'extension du fichier en traitement
+					 * @var $fileextends
+					 */
+					$fileextends = backend_model_image::image_analyze(self::dir_img_category().$this->$img);
+					if (backend_model_image::imgSizeMin(self::dir_img_category().$this->$img,50,50)){
+						if(file_exists(self::dir_img_category().$pathclibelle.$fileextends)){
+							$makeFiles->removeFile(self::dir_img_category(),$img_c);
+						}
+						$makeFiles->renameFiles(self::dir_img_category(),self::dir_img_category().$this->$img,self::dir_img_category().$pathclibelle.$fileextends);
+						/**
+						 * Initialisation de la classe phpthumb 
+						 * @var void
+						 */
+						$thumb = PhpThumbFactory::create(self::dir_img_category().$pathclibelle.$fileextends);
+						$thumb->resize(120,100)->save(self::dir_img_category().$pathclibelle.$fileextends);
+						return $pathclibelle.$fileextends;
 					}else{
-						throw new Exception('file: '.$this->$img.' is not found');
+						if(file_exists(self::dir_img_category().$this->$img)){
+							$makeFiles->removeFile(self::dir_img_category().$this->$img);
+						}else{
+							throw new Exception('file: '.$this->$img.' is not found');
+						}
 					}
+				}else{
+					if(!empty($img_c)){
+						if(file_exists(self::dir_img_category().$img_c)){
+							$makeFiles->removeFile(self::dir_img_category(),$img_c);
+						}
+					}
+					return null;
 				}
 			}catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -831,35 +840,44 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function insert_image_subcategory($img,$pathslibelle,$img_s=null){
 		if(isset($this->$img)){
 			try{
-				/**
-				 * Envoi une image dans le dossier "racine" catalogimg
-				 */
-				backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."subcategory");
-				/**
-				 * Analyze l'extension du fichier en traitement
-				 * @var $fileextends
-				 */
-				// Charge la classe pour renommer le fichier
+				// Charge la classe pour le traitement du fichier
 				$makeFiles = new magixcjquery_files_makefiles();
-				$fileextends = backend_model_image::image_analyze(self::dir_img_subcategory().$this->$img);
-				if (backend_model_image::imgSizeMin(self::dir_img_subcategory().$this->$img,50,50)){
-					if(file_exists(self::dir_img_subcategory().$pathslibelle.$fileextends)){
-						$makeFiles->removeFile(self::dir_img_subcategory(),$img_s);
-					}
-					$makeFiles->renameFiles(self::dir_img_subcategory(),self::dir_img_subcategory().$this->$img,self::dir_img_subcategory().$pathslibelle.$fileextends);
+				if(!empty($this->$img)){
 					/**
-					 * Initialisation de la classe phpthumb 
-					 * @var void
+					 * Envoi une image dans le dossier "racine" catalogimg
 					 */
-					$thumb = PhpThumbFactory::create(self::dir_img_subcategory().$pathslibelle.$fileextends);
-					$thumb->resize(120,100)->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
-					return $pathslibelle.$fileextends;
-				}else{
-					if(file_exists(self::dir_img_subcategory().$this->$img)){
-						$makeFiles->removeFile(self::dir_img_subcategory(),$this->$img);
+					backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."subcategory");
+					/**
+					 * Analyze l'extension du fichier en traitement
+					 * @var $fileextends
+					 */
+					$fileextends = backend_model_image::image_analyze(self::dir_img_subcategory().$this->$img);
+					if (backend_model_image::imgSizeMin(self::dir_img_subcategory().$this->$img,50,50)){
+						if(file_exists(self::dir_img_subcategory().$pathslibelle.$fileextends)){
+							$makeFiles->removeFile(self::dir_img_subcategory(),$img_s);
+						}
+						$makeFiles->renameFiles(self::dir_img_subcategory(),self::dir_img_subcategory().$this->$img,self::dir_img_subcategory().$pathslibelle.$fileextends);
+						/**
+						 * Initialisation de la classe phpthumb 
+						 * @var void
+						 */
+						$thumb = PhpThumbFactory::create(self::dir_img_subcategory().$pathslibelle.$fileextends);
+						$thumb->resize(120,100)->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
+						return $pathslibelle.$fileextends;
 					}else{
-						throw new Exception('file: '.$this->$img.' is not found');
+						if(file_exists(self::dir_img_subcategory().$this->$img)){
+							$makeFiles->removeFile(self::dir_img_subcategory(),$this->$img);
+						}else{
+							throw new Exception('file: '.$this->$img.' is not found');
+						}
 					}
+				}else{
+					if(!empty($img_s)){
+						if(file_exists(self::dir_img_subcategory().$img_s)){
+							$makeFiles->removeFile(self::dir_img_subcategory(),$img_s);
+						}
+					}
+					return null;
 				}
 			}catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
