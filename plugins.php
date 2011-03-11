@@ -56,7 +56,8 @@ ini_set('session.hash_function',1);
 session_start();
 $lang = new frontend_model_IniLang();
 $lang->autoLangSession();
-if(frontend_controller_plugins::getplugin()){
-	frontend_controller_plugins::display_plugins();
+$plugins = new frontend_controller_plugins();
+if($plugins->getplugin()){
+	$plugins->display_plugins();
 }
 ?>

@@ -1,6 +1,6 @@
 tinyMCEPopup.requireLangPack();
 function insert_cms_link(href,name){
-	tinyMCE.execCommand('mceInsertContent',false,'<a href="'+href+'">'+name+'</a>');
+	tinyMCE.execCommand('mceInsertContent',false,'<a title="'+name+'" href="'+href+'">'+name+'</a>');
 }
 function result_search_page(j){
 	$('#table_search_cmspage tbody').empty();

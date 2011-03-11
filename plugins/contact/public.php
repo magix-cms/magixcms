@@ -155,8 +155,9 @@ class plugins_contact_public extends database_plugins_contact{
 	 * @access private
 	 */
 	private function _getVars(){
-		$this->_loadConfigVars();
-		return frontend_controller_plugins::create()->getConfigVars();
+		$loadConfig = frontend_controller_plugins::create();
+		$loadConfig->configLoad();
+		return $loadConfig->getConfigVars();
 	}
 	/**
 	 * Envoi du mail 
@@ -176,11 +177,11 @@ class plugins_contact_public extends database_plugins_contact{
 			}else{
 				if($create->getLanguage()){
 					if(parent::c_show_table() != 0){
-						if(parent::s_register_contact_with_lang($_GET['strLangue']) != null){
+						if(parent::s_register_contact_with_lang($create->getLanguage()) != null){
 							//Instance la classe mail avec le paramètre de transport
 							$core_mail = new magixglobal_model_mail('mail');
 							//Charge dans un tableau les utilisateurs qui reçoivent les mails
-							$lotsOfRecipients = parent::s_register_contact_with_lang($_GET['strLangue']);
+							$lotsOfRecipients = parent::s_register_contact_with_lang($create->getLanguage());
 							//Initialisation du contenu du message
 							foreach ($lotsOfRecipients as $recipient){
 								$message = $core_mail->body_mail(
@@ -234,6 +235,7 @@ class plugins_contact_public extends database_plugins_contact{
 	 */
 	public function run(){
 		$this->send_email();
+		$this->_loadConfigVars();
 		$create = frontend_controller_plugins::create();
 		$create->append_display('index.phtml');
     }

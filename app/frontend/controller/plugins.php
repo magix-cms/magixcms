@@ -37,7 +37,11 @@ class frontend_controller_plugins{
 	 * Défini le chemin vers le dossier des plugins
 	 * @var string
 	 */
-	const PATHPLUGINS = 'plugins/';
+	const PATHPLUGINS = 'plugins';
+	/**
+	 * Constante pour le dossier de traductions du plugin
+	 */
+	const I18N = 'i18n';
 	/**
 	 * 
 	 * Define createInstance for Singleton
@@ -54,12 +58,12 @@ class frontend_controller_plugins{
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
 	 * @var string
 	 */
-	private static $ConfigFile = 'local';
+	private static $ConfigFile = 'public_local_';
 	/**
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour les emails
 	 * @var string
 	 */
-	private static $MailConfigFile = 'mail';
+	private static $MailConfigFile = 'public_mail_';
 	/**
 	 * Constructor
 	 */
@@ -87,7 +91,7 @@ class frontend_controller_plugins{
 	 * Le chemin du dossier des plugins
 	 */
 	private function directory_plugins(){
-		return magixglobal_model_system::base_path().self::PATHPLUGINS;
+		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
 	}
 	/**
 	 * @access protected
@@ -98,14 +102,11 @@ class frontend_controller_plugins{
 			return magixcjquery_filter_isVar::isPostAlpha($_GET['magixmod']);
 		}
 	}
-	/*public static function addTemplate($plugin){
-		frontend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.$plugin.'/');
-	}*/
 	private function controlGetPlugin($plugin=''){
 		if(!$plugin == ''){
 			$pluginName = $plugin;
 		}else{
-			$pluginName = self::getplugin();
+			$pluginName = $this->getplugin();
 		}
 		return $pluginName;
 	}
@@ -123,6 +124,17 @@ class frontend_controller_plugins{
 		}
 	}
 	/**
+	 * @access private
+	 * Retourne le chemin vers le dossier I18N du plugin
+	 * @return string
+	 */
+	private function path_dir_i18n(){
+		return $this->directory_plugins().self::controlGetPlugin().DIRECTORY_SEPARATOR.self::I18N.DIRECTORY_SEPARATOR;
+	}
+	/*public static function addTemplate($plugin){
+		frontend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.$plugin.'/');
+	}*/
+	/**
 	 * Chargement du fichier de configuration suivant la langue en cours de session.
 	 * @access private
 	 * return string
@@ -130,7 +142,17 @@ class frontend_controller_plugins{
 	private function pathConfigLoad($configfile,$filextension=false,$plugin=''){
 		try {
 			$filextends = $filextension ? $filextension : '.conf';
-			return magixglobal_model_system::base_path().'locali18n'.DIRECTORY_SEPARATOR.$configfile.self::getLanguage().$filextends;
+			if($this->getLanguage() == ''){
+				$lang = '';
+			}else{
+				$lang = $this->getLanguage();
+			}
+			if(file_exists($this->path_dir_i18n())){
+				$translate = !empty($lang) ? $lang : 'fr';
+				return $this->path_dir_i18n().$configfile.$translate.$filextends;
+			}else{
+				return frontend_config_smarty::getInstance()->config_dir.'local'.$lang.$filextends;
+			}
 		} catch (Exception $e) {
 			magixglobal_model_system::magixlog("Error path config", $e);
 		}
@@ -141,16 +163,24 @@ class frontend_controller_plugins{
 	 * @param void $page
 	 * @param void $plugin
 	 */
-	public function append_display($page,$plugin=''){
-		return frontend_config_smarty::getInstance()->display(self::directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page);
+	public function append_display($page,$plugin='',$cache_id = null,$compile_id = null){
+		return frontend_config_smarty::getInstance()->display(
+			$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page,
+			$cache_id,
+			$compile_id
+		);
 	}
 	/**
 	 * Affiche les pages du plugin
 	 * @param void $page
 	 * @param void $plugin
 	 */
-	public function append_fetch($page,$plugin=''){
-		return frontend_config_smarty::getInstance()->fetch(self::directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page);
+	public function append_fetch($page,$plugin='',$cache_id = null,$compile_id = null){
+		return frontend_config_smarty::getInstance()->fetch(
+			$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page,
+			$cache_id,
+			$compile_id
+		);
 	}
 	/**
 	 * Affiche les pages du plugin
@@ -158,7 +188,11 @@ class frontend_controller_plugins{
 	 * @param void $fetch
 	 */
 	public function append_assign($assign,$fetch){
-		return frontend_config_smarty::getInstance()->assign($assign,$fetch);
+		if($assign){
+			return frontend_config_smarty::getInstance()->assign($assign,$fetch);
+		}else{
+			throw new Exception('Unable to assign a variable in template');
+		}
 	}
 	/**
 	 * Charge les variables du fichier de config dans le site
@@ -172,7 +206,20 @@ class frontend_controller_plugins{
 	 * @param string $sections (optionnel) :la section à charger
 	 */
 	public function configLoad($sections = false){
-		return frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $sections = false);
+		return frontend_config_smarty::getInstance()->configLoad(
+			$this->pathConfigLoad(self::$ConfigFile), 
+			$sections
+		);
+	}
+	/**
+	 * Charge le fichier de configuration pour les mails associer à la langue
+	 * @param string $sections (optionnel) :la section à charger
+	 */
+	public function configLoadMail($sections = false){
+		return frontend_config_smarty::getInstance()->configLoad(
+			$this->pathConfigLoad(self::$MailConfigFile), 
+			$sections
+		);
 	}
 	/**
 	 * Affiche les pages phtml supplémentaire
@@ -180,6 +227,20 @@ class frontend_controller_plugins{
 	 */
 	public function isCached($page){
 		return frontend_config_smarty::getInstance()->isCached($page);
+	}
+	/**
+	 * @access public
+	 * Active le système de debug de smarty 3
+	 */
+	public function getDebugging(){
+		return frontend_config_smarty::getInstance()->getDebugging();
+	}
+	/**
+	 * @access public
+	 * Active le test de l'installation de smarty 3
+	 */
+	public function testInstall(){
+		return frontend_config_smarty::getInstance()->testInstall();
 	}
 	/**
 	 * execute ou instance la class du plugin
@@ -200,14 +261,14 @@ class frontend_controller_plugins{
 	private function load_plugin(){
 		try{
 			plugins_Autoloader::register();
-			if(file_exists(magixglobal_model_system::base_path().'plugins/'.self::getplugin().'/public.php')){
-				if(class_exists('plugins_'.self::getplugin().'_public')){
-					$load = self::execute_plugins('plugins_'.self::getplugin().'_public');
+			if(file_exists($this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR.'public.php')){
+				if(class_exists('plugins_'.$this->getplugin().'_public')){
+					$load = $this->execute_plugins('plugins_'.$this->getplugin().'_public');
 					if(method_exists($load,'run')){
 						$load->run();
 					}
 				}else{
-					throw new Exception ('Class '.self::getplugin().' not define');
+					throw new Exception ('Class '.$this->getplugin().' not define');
 				}
 			}
 		}catch(Exception $e) {
@@ -220,9 +281,9 @@ class frontend_controller_plugins{
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
 	public function display_plugins(){
-		if(self::getplugin()){
+		if($this->getplugin()){
 			try{
-				self::load_plugin();
+				$this->load_plugin();
 			}catch(Exception $e) {
 				magixglobal_model_system::magixlog("Error plugins execute", $e);
 			}
