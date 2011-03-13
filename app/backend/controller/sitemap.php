@@ -32,10 +32,11 @@
  */
 class backend_controller_sitemap{
 	/**
-	 * Constante
-	 * string
-	 **/
-	const plugins = 'plugins';
+	 * Constante PATHPLUGINS
+	 * Défini le chemin vers le dossier des plugins
+	 * @var string
+	 */
+	const PATHPLUGINS = 'plugins';
 	/**
 	 * Creation du fichier xml index (get)
 	 * @var void
@@ -91,52 +92,64 @@ class backend_controller_sitemap{
 	 * Ouverture du fichier XML pour ecriture de l'entête
 	 **/
 	private function createXMLFile(){
-		/*instance la classe*/
-        $sitemap = new magixcjquery_xml_sitemap();
-		/*Crée le fichier xml s'il n'existe pas*/
-        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-url.xml');
-		/*Ouvre le fichier xml s'il existe*/
-        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-url.xml');
-		/*indente les lignes (optionnel)*/
-        $sitemap->indentXML(true);
-		/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
-    	$sitemap->headSitemap("UTF-8");
-        /*Ecrit les éléments*/
-    	$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
+		try{
+			/*instance la classe*/
+	        $sitemap = new magixcjquery_xml_sitemap();
+			/*Crée le fichier xml s'il n'existe pas*/
+	        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-url.xml');
+			/*Ouvre le fichier xml s'il existe*/
+	        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-url.xml');
+			/*indente les lignes (optionnel)*/
+	        $sitemap->indentXML(true);
+			/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
+	    	$sitemap->headSitemap("UTF-8");
+	        /*Ecrit les éléments*/
+	    	$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 	}
 	/**
 	 * @access private
 	 * Ouverture du fichier XML pour ecriture de l'entête
 	 **/
 	private function createXMLImgFile(){
-		/*instance la classe*/
-        $sitemap = new magixcjquery_xml_sitemap();
-		/*Crée le fichier xml s'il n'existe pas*/
-        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-images.xml');
-		/*Ouvre le fichier xml s'il existe*/
-        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-images.xml');
-		/*indente les lignes (optionnel)*/
-        $sitemap->indentXML(true);
-		/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
-    	$sitemap->headSitemapImage("UTF-8");
-        /*Ecrit les éléments*/
-    	//$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
+		try{
+			/*instance la classe*/
+	        $sitemap = new magixcjquery_xml_sitemap();
+			/*Crée le fichier xml s'il n'existe pas*/
+	        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-images.xml');
+			/*Ouvre le fichier xml s'il existe*/
+	        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-images.xml');
+			/*indente les lignes (optionnel)*/
+	        $sitemap->indentXML(true);
+			/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
+	    	$sitemap->headSitemapImage("UTF-8");
+	        /*Ecrit les éléments*/
+	    	//$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 	}
 	/**
 	 * @access private
 	 * Création du fichier sitemap.xml ainsi que l'entête sitemapindex 
 	 */
 	private function createXMLIndexFile(){
-		/*instance la classe*/
-        $sitemap = new magixcjquery_xml_sitemap();
-		/*Crée le fichier xml s'il n'existe pas*/
-        $sitemap->createXML(self::dir_XML_FILE(),'sitemap.xml');
-		/*Ouvre le fichier xml s'il existe*/
-        $sitemap->openFile(self::dir_XML_FILE(),'sitemap.xml');
-		/*indente les lignes (optionnel)*/
-        $sitemap->indentXML(true);
-		/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
-    	$sitemap->headSitemapIndex("UTF-8");
+		try{
+			/*instance la classe*/
+	        $sitemap = new magixcjquery_xml_sitemap();
+			/*Crée le fichier xml s'il n'existe pas*/
+	        $sitemap->createXML(self::dir_XML_FILE(),'sitemap.xml');
+			/*Ouvre le fichier xml s'il existe*/
+	        $sitemap->openFile(self::dir_XML_FILE(),'sitemap.xml');
+			/*indente les lignes (optionnel)*/
+	        $sitemap->indentXML(true);
+			/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
+	    	$sitemap->headSitemapIndex("UTF-8");
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 	}
 	/**
 	 * @access private
@@ -327,20 +340,100 @@ class backend_controller_sitemap{
 	 * execute ou instance la class du plugin
 	 * @param void $className
 	 */
-	private function execute_plugins($className){
+	private function get_call_class($module){
 		try{
-			$class =  new $className;
-		}catch (Exception $e){
-			magixglobal_model_system::magixlog('An error has occured :',$e);
+			$class =  new $module;
+			if($class instanceof $module){
+				return $class;
+			}else{
+				throw new Exception('not instantiate the class: '.$module);
+			}
+		}catch(Exception $e) {
+			magixglobal_model_system::magixlog("Error plugins execute", $e);
 		}
-		return $class;
+	}
+	/**
+	 * Récupération des options pour la génération
+	 * @param string $module
+	 */
+	private function ini_options_mod($module){
+		if(method_exists($this->get_call_class($module),'sitemap_rewrite_options')){
+			/* Appelle la  fonction utilisateur sitemap_rewrite_options contenue dans le module */
+			$call_options = call_user_func(
+				array($this->get_call_class($module),'sitemap_rewrite_options')
+			);
+			if(is_array($call_options)){
+				return $call_options;
+			}else{
+				throw new Exception('ini_options_mod '.$module.' is not array');
+			}
+		}else{
+			throw new Exception('Method "sitemap_rewrite_options" does not exist');
+		}
 	}
 	/**
 	 * @access private
 	 * return void
 	 */
 	private function directory_plugins(){
-		return self::dir_XML_FILE().self::plugins.DIRECTORY_SEPARATOR;
+		return self::dir_XML_FILE().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
+	}
+	/**
+	 * 
+	 * Création/Ecriture dans le fichier sitemap correspondant
+	 * @param string $lang
+	 * @param string $module
+	 */
+	private function writeFile($lang,$module){
+		$options_mod = $this->ini_options_mod($module);
+		// Génération de l'index
+		switch($options_mod['index']){
+			case 0:
+				null;
+			break;
+			case 1:
+				call_user_func_array(
+					array($this->get_call_class($module),'sitemap_uri_index'), 
+					array($lang)
+				);
+			break;
+		}
+		// Génération du niveau 1
+		switch($options_mod['level1']){
+			case 0:
+				null;
+			break;
+			case 1:
+				call_user_func_array(
+					array($this->get_call_class($module),'sitemap_uri_category'), 
+					array($lang)
+				);
+			break;
+		}
+		// Génération du niveau 2
+		switch($options_mod['level2']){
+			case 0:
+				null;
+			break;
+			case 1:
+				call_user_func_array(
+					array($this->get_call_class($module),'sitemap_uri_subcategory'), 
+					array($lang)
+				);
+			break;
+		}
+		// Génération du dernier niveau
+		switch($options_mod['records']){
+			case 0:
+				null;
+			break;
+			case 1:
+				call_user_func_array(
+					array($this->get_call_class($module),'sitemap_uri_record'), 
+					array($lang)
+				);
+			break;
+		}
 	}
 	/**
 	 * Scanne les plugins et vérifie si la fonction createSitemap 
@@ -363,7 +456,7 @@ class backend_controller_sitemap{
 					$pluginPath = self::directory_plugins().$d;
 					if($makefiles->scanDir($pluginPath) != null){
 						if(class_exists('plugins_'.$d.'_admin')){
-							$create = self::execute_plugins('plugins_'.$d.'_admin');
+							$create = self::get_call_class('plugins_'.$d.'_admin');
 							//Si la méthode existe on execute la fonction createSitemap du plugin
 							if(method_exists($create,'createSitemap')){
 								$create->createSitemap();
@@ -407,22 +500,22 @@ class backend_controller_sitemap{
 		 * scanne les dossiers du dossier plugins
 		 * @var array()
 		 */
-		$dir = $makefiles->scanRecursiveDir(self::directory_plugins());
+		$dir = $makefiles->scanRecursiveDir($this->directory_plugins());
 		if($dir != null){
 			foreach($dir as $d){
 				/**
 				 * Si le fichier exist on continue
 				 */
-				if(file_exists(self::directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
+				if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
 					/**
 					 * Retourne le dossier ou chemin vers le dossier du plugin
 					 * @var string
 					 */
-					$pluginPath = self::directory_plugins().$d;
+					$pluginPath = $this->directory_plugins().$d;
 					if($makefiles->scanDir($pluginPath) != null){
 						//Si la classe exist on recherche la fonction createSitemap
 						if(class_exists('plugins_'.$d.'_admin')){
-							$create = self::execute_plugins('plugins_'.$d.'_admin');
+							$create = $this->get_call_class('plugins_'.$d.'_admin');
 							//Si la méthode existe on ajoute le plugin dans le sitemap
 							if(method_exists($create,'createSitemap')){
 								$register .= '<tr class="line">

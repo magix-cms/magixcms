@@ -94,7 +94,7 @@ class frontend_controller_plugins{
 		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
 	}
 	/**
-	 * @access protected
+	 * @access public
 	 * getplugin
 	 */
 	public function getplugin(){
@@ -102,6 +102,11 @@ class frontend_controller_plugins{
 			return magixcjquery_filter_isVar::isPostAlpha($_GET['magixmod']);
 		}
 	}
+	/**
+	 * @access private
+	 * Retourne le nom du plugin
+	 * @param string $plugin
+	 */
 	private function controlGetPlugin($plugin=''){
 		if(!$plugin == ''){
 			$pluginName = $plugin;
@@ -243,16 +248,21 @@ class frontend_controller_plugins{
 		return frontend_config_smarty::getInstance()->testInstall();
 	}
 	/**
+	 * @access private
 	 * execute ou instance la class du plugin
 	 * @param void $className
 	 */
-	private function execute_plugins($className){
+	private function get_call_class($module){
 		try{
-			$class =  new $className;
+			$class =  new $module;
+			if($class instanceof $module){
+				return $class;
+			}else{
+				throw new Exception('not instantiate the class: '.$module);
+			}
 		}catch(Exception $e) {
 			magixglobal_model_system::magixlog("Error plugins execute", $e);
 		}
-		return $class;
 	}
 	/**
 	 * Chargement d'un plugin dans la partie public
@@ -263,7 +273,7 @@ class frontend_controller_plugins{
 			plugins_Autoloader::register();
 			if(file_exists($this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR.'public.php')){
 				if(class_exists('plugins_'.$this->getplugin().'_public')){
-					$load = $this->execute_plugins('plugins_'.$this->getplugin().'_public');
+					$load = $this->get_call_class('plugins_'.$this->getplugin().'_public');
 					if(method_exists($load,'run')){
 						$load->run();
 					}

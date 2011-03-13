@@ -25,9 +25,9 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.5
- * update 24/11/2010
- * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @version    1.6
+ * update 13/03/2011
+ * @author Gérits Aurélien <aurelien@magix-cms.com> 
  * @name plugins
  *
  */
@@ -37,11 +37,11 @@ class backend_controller_plugins{
 	 * Défini le chemin vers le dossier des plugins
 	 * @var string
 	 */
-	const PATHPLUGINS = 'plugins/';
+	const PATHPLUGINS = 'plugins';
 	/**
 	 * Constante pour le dossier de traductions du plugin
 	 */
-	const I18N = 'i18n/';
+	const I18N = 'i18n';
 	/**
 	 * 
 	 * Define createInstance for Singleton

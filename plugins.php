@@ -36,7 +36,7 @@
 require(dirname(realpath( __FILE__ )).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR.'autoload.php');
 $loaderFilename = dirname(realpath( __FILE__ )).DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'loaderIniclass.php';
 if (!file_exists($loaderFilename)) {
-	print "<p>Loader is not found<br />Contact Support Magix CMS: support@cms-site.com</p>";
+	print "<p>Loader is not found<br />Contact Support Magix CMS: support@magix-cms.com</p>";
 	exit;
 }else{
 	require $loaderFilename;
