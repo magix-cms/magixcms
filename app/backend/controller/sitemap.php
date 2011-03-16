@@ -75,6 +75,11 @@ class backend_controller_sitemap{
 			$this->googleping = $_GET['googleping'];
 		}
 	}
+	//SITEMAP
+	private function lastmod_dateFormat(){
+		$dateformat = new magixglobal_model_dateformat();
+		return $dateformat->sitemap_lastmod_dateFormat();
+	}
 	/**
 	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
 	 * @access private
@@ -104,7 +109,7 @@ class backend_controller_sitemap{
 			/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
 	    	$sitemap->headSitemap("UTF-8");
 	        /*Ecrit les éléments*/
-	    	$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),date('d-m-Y'),'always',0.8);
+	    	$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),$this->lastmod_dateFormat(),'always',0.8);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
@@ -160,14 +165,14 @@ class backend_controller_sitemap{
         $sitemap = new magixcjquery_xml_sitemap();
         $sitemap->writeMakeNodeIndex(
         	magixcjquery_html_helpersHtml::getUrl().'/sitemap-url.xml',
-        	date('d-m-Y')
+        	$this->lastmod_dateFormat()
         );
         ///magixcjquery_debug_magixfire::magixFireLog(magixcjquery_html_helpersHtml::getUrl().'/sitemap-url.xml');
         $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
 		if($config['status'] == 1){
         	$sitemap->writeMakeNodeIndex(
         		magixcjquery_html_helpersHtml::getUrl().'/sitemap-images.xml',
-        		date('d-m-Y')
+        		$this->lastmod_dateFormat()
         	);
 		}
 	}
@@ -188,7 +193,7 @@ class backend_controller_sitemap{
 	        	$curl = date_create($data['date_sent']);
 	        	 $sitemap->writeMakeNode(
 	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_root_url($islang,true),
-		        	 $data['date_sent'],
+		        	$this->lastmod_dateFormat(),
 		        	 'always',
 		        	 0.8
 	        	 );
@@ -201,7 +206,7 @@ class backend_controller_sitemap{
 	        	$curl = date_create($data['date_sent']);
 	        	 $sitemap->writeMakeNode(
 	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_url($islang,date_format($curl,'Y/m/d'),$data['rewritelink'],true),
-		        	 $data['date_sent'],
+		        	 $this->lastmod_dateFormat(),
 		        	 'always',
 		        	 0.8
 	        	 );

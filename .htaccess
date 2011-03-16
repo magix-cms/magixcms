@@ -10,26 +10,29 @@
   ExpiresByType text/css "access plus 604800 seconds"
   ExpiresByType text/javascript "access plus 216000 seconds"
   ExpiresByType application/x-javascript "access plus 216000 seconds"
-  ExpiresByType text/html "access plus 600 seconds"
-  ExpiresByType application/xhtml+xml "access plus 600 seconds"
+  ExpiresByType text/html "access plus 7200 seconds"
+  ExpiresByType application/xhtml+xml "access plus 7200 seconds"
 </IfModule>
 # END Expire headers
 # BEGIN Cache-Control Headers
 <IfModule mod_headers.c>
-  <FilesMatch "\\.(ico|jpe?g|png|gif|swf)$">
+  <FilesMatch "\\.(ico|jpe?g|png|gif|swf|gz)$">
     Header set Cache-Control "max-age=2592000, public"
   </FilesMatch>
   <FilesMatch "\\.(css)$">
     Header set Cache-Control "max-age=604800, public"
   </FilesMatch>
   <FilesMatch "\\.(js)$">
-    Header set Cache-Control "max-age=604800, public"
+    Header set Cache-Control "max-age=2592000, private"
   </FilesMatch>
   <FilesMatch "\\.(x?html?)$">
-    Header set Cache-Control "max-age=600, public, must-revalidate"
+    Header set Cache-Control "max-age=604800, public"
+    #Header set Pragma "cache"
   </FilesMatch>
-  <FilesMatch "\\.(json|php)$">
-    Header set Cache-Control "no-cache,max-age=0, private, must-revalidate"
+  <FilesMatch "\.(php)$">
+    #Header set Cache-Control "max-age=600, private, must-revalidate"
+    Header unset Cache-Control
+    #Header set Pragma "no-cache"
   </FilesMatch>
 </IfModule>
 # END Cache-Control Headers
