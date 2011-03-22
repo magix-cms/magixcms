@@ -19,11 +19,13 @@ function result_search_page(j){
 			}else{
 				cat = '-';
 			}
+			var insertLink = insert_cms_link(item.uricms,item.subjectpage);
 			return $('<tr><td>'+item.idpage+'</td>'
 			+'<td>'+flaglang+'</td>'
 			+'<td>'+cat+'</td>'
 			+'<td>'+item.subjectpage+'</td>'
-			+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_cms_link(\''+item.uricms+'\',\''+item.subjectpage+'\');" class="link-cms-page">Insert</a></td>'
+			//+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_cms_link(\''+item.uricms+'\',\''+item.subjectpage+'\');" class="link-cms-page">Insert</a></td>'
+			+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="'+insertLink+'" class="link-cms-page">Insert</a></td>'
 			+'</tr>').appendTo('#table_search_cmspage tbody');
 		});
 	}else{

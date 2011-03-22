@@ -24,13 +24,15 @@ function result_search_product(j){
 			}else{
 				scategory = '-';
 			}
+			var insertLink = insert_product_catalog_link(item.uriproduct,item.titlecatalog);
 			return $('<tr>'
 			+'<td>'+item.idproduct+'</td>'
 			+'<td>'+flaglang+'</td>'
 			+'<td>'+item.titlecatalog+'</td>'
 			+'<td>'+item.category+'</td>'
 			+'<td>'+scategory+'</td>'
-			+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uriproduct+'\',\''+item.titlecatalog+'\');">Insert</a></td>'
+			//+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uriproduct+'\',\''+item.titlecatalog+'\');">Insert</a></td>'
+			+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="'+insertLink+'">Insert</a></td>'
 			+'</tr>').appendTo('#table_search_product tbody');
 		});
 	}else{
