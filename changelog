@@ -1,3 +1,6 @@
+beta 2.3.42 RC5
+	* Fix bug plugin tinyMCE cmspage, productsearch (insertion de lien)
+	
 beta 2.3.42 RC4
 	* Fix bug ajout des sous catégories dans le catalogue
 	* Fix bug mise à jour d'une image de sous catégorie
@@ -14,8 +17,7 @@ beta 2.3.42 RC4
 	* Fix bug affichage des images d'un produit (microgalerie) dans l'administration
 	* Fix bug taille des boutons jQuery dans l'administration
 	* Fix bug positionnement des icônes dans les listes "sortable" avec IE7 !
-	
-	
+		
 beta 2.3.42 RC3
 	* Suppression des sous catégories dans la page ROOT des catégories
 	* Construction du système ajax pour la liste des sous catégories dans l'édition des catégories
