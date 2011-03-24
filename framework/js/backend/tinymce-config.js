@@ -4,7 +4,7 @@
  * @copyright  MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.2
+ * @version    1.3
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
  * @package    TinyMCE
  * @name	   tinymce
@@ -22,12 +22,12 @@ $(function() {
 			elements : 'absurls',
 			//remove_script_host : false,
 			theme : "advanced",
-			plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,wordcount,syntaxhl,tablegrid,youtube,cmspage,loremipsum"+catalog_tinymce_plugin+manager_tinymce_plugin,
+			plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,wordcount,codehighlight,tablegrid,youtube,cmspage,loremipsum"+catalog_tinymce_plugin+manager_tinymce_plugin,
 			// Theme options
 			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontsizeselect,fullscreen,preview",
 			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,forecolor,backcolor,|,link,unlink,anchor"+manager_tinymce_button+",image,|,insertdate,inserttime,code",
 			/*tabledraw,convertcelltype,*/
-			theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,hr,removeformat,|,syntaxhl,loremipsum,youtube,|,cmspage"+catalog_tinymce_button,
+			theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,hr,removeformat,|,codehighlight,loremipsum,youtube,|,cmspage"+catalog_tinymce_button,
 			//tabledraw,convertcelltype,|
 			//tableextras_col_size: 10, // Optional
 			//tableextras_row_size: 10, // Optional
