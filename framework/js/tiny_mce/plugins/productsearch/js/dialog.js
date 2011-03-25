@@ -26,6 +26,12 @@ var ProductSearchDialog = {
 			return false; 
 		});
 	},
+	_addslashes: function(ch) {
+		ch = ch.replace(/\\/g,"\\\\");
+		ch = ch.replace(/\'/g,"\\'");
+		ch = ch.replace(/\"/g,"\\\"");
+		return ch;
+	},
 	_result :function(j){
 		var t = this;
 		$('#table_search_product tbody').empty();
@@ -49,6 +55,7 @@ var ProductSearchDialog = {
 				}else{
 					scategory = '-';
 				}
+				var titleproduct = t._addslashes(item.titlecatalog);
 				//tinyMCEPopup.editor
 				//tinyMCEPopup.restoreSelection();
 				$('<tr>'
@@ -57,7 +64,7 @@ var ProductSearchDialog = {
 				+'<td>'+item.titlecatalog+'</td>'
 				+'<td>'+item.category+'</td>'
 				+'<td>'+scategory+'</td>'
-				+'<td><a href="javascript:;" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uriproduct+'\',\''+item.titlecatalog+'\');">Insert</a></td>'
+				+'<td><a href="javascript:;" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uriproduct+'\',\''+titleproduct+'\');">Insert</a></td>'
 				+'</tr>').appendTo('#table_search_product tbody');
 			});
 		}else{
