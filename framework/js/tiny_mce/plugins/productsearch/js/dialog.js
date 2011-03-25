@@ -1,53 +1,14 @@
 tinyMCEPopup.requireLangPack();
 function insert_product_catalog_link(href,name){
-	tinyMCE.execCommand('mceInsertContent',false,'<a title="'+name+'" href="'+href+'">'+name+'</a>');
-}
-function result_search_product(j){
-	$('#table_search_product tbody').empty();
-	if(j === undefined){
-		console.log(j);
-	}
-	if(j !== null){
-		$.each(j, function(i,item) {
-			if(item.codelang != null){
-				flaglang = item.codelang;
-			}else{
-				flaglang = '-';
-			}
-			if(item.codelang != null){
-				flaglang = item.codelang;
-			}else{
-				flaglang = '-';
-			}
-			if(item.subcategory != null){
-				scategory = item.subcategory;
-			}else{
-				scategory = '-';
-			}
-			var insertLink = insert_product_catalog_link(item.uriproduct,item.titlecatalog);
-			return $('<tr>'
-			+'<td>'+item.idproduct+'</td>'
-			+'<td>'+flaglang+'</td>'
-			+'<td>'+item.titlecatalog+'</td>'
-			+'<td>'+item.category+'</td>'
-			+'<td>'+scategory+'</td>'
-			//+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uriproduct+'\',\''+item.titlecatalog+'\');">Insert</a></td>'
-			+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="'+insertLink+'">Insert</a></td>'
-			+'</tr>').appendTo('#table_search_product tbody');
-		});
-	}else{
-		return $('<tr>'
-				+'<td>-</td>'
-				+'<td>-</td>'
-				+'<td>-</td>'
-				+'<td>-</td>'
-				+'<td>-</td>'
-				+'<td>-</td>'
-				+'</tr>').appendTo('#table_search_product tbody');
-	}
+	tinyMCE.execCommand('mceInsertContent',false,'<a href="'+href+'">'+name+'</a>');
 }
 var ProductSearchDialog = {
 	init : function() {
+		var t = this;
+		t._search();
+	},
+	_search : function(){
+		var t = this;
 		$("#forms-search-product").submit(function(){
 			$(this).ajaxSubmit({
 	    		url: '/admin/catalog.php?get_search_product=true',
@@ -59,14 +20,58 @@ var ProductSearchDialog = {
 	    			$('#table_search_product tbody').html('<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><img src="/framework/img/small_loading.gif" /></td><td>&nbsp;</td><td>&nbsp;</td></tr>');
 	    		},
 	    		success:function(request) {
-	    			result_search_product(request);
+	    			t._result(request);
 	    		}
 	    	});
 			return false; 
 		});
 	},
-
-	insert : function() {
+	_result :function(j){
+		var t = this;
+		$('#table_search_product tbody').empty();
+		if(j === undefined){
+			console.log(j);
+		}
+		if(j !== null){
+			$.each(j, function(i,item) {
+				if(item.codelang != null){
+					flaglang = item.codelang;
+				}else{
+					flaglang = '-';
+				}
+				if(item.codelang != null){
+					flaglang = item.codelang;
+				}else{
+					flaglang = '-';
+				}
+				if(item.subcategory != null){
+					scategory = item.subcategory;
+				}else{
+					scategory = '-';
+				}
+				//tinyMCEPopup.editor
+				//tinyMCEPopup.restoreSelection();
+				$('<tr>'
+				+'<td>'+item.idproduct+'</td>'
+				+'<td>'+flaglang+'</td>'
+				+'<td>'+item.titlecatalog+'</td>'
+				+'<td>'+item.category+'</td>'
+				+'<td>'+scategory+'</td>'
+				+'<td><a href="javascript:;" onclick="tinyMCEPopup.close();" onmousedown="insert_product_catalog_link(\''+item.uriproduct+'\',\''+item.titlecatalog+'\');">Insert</a></td>'
+				+'</tr>').appendTo('#table_search_product tbody');
+			});
+		}else{
+			$('<tr>'
+				+'<td>-</td>'
+				+'<td>-</td>'
+				+'<td>-</td>'
+				+'<td>-</td>'
+				+'<td>-</td>'
+				+'<td>-</td>'
+				+'</tr>').appendTo('#table_search_product tbody');
+		}
+	},
+	insert: function () {
 		return null;
 	}
 };
