@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#cmspage_dlg.title}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="/framework/js/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="/framework/js/jquery.form-2.67.js"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="js/dialog.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/cmspage.css" />
+</head>
+<body>
+	<table border="0" cellspacing="0" cellpadding="2">
+		<tr>
+			<td valign="top"><img src="img/search_page.png" width="24" height="24" /></td>
+			<td valign="middle">{#cmspage_dlg.description}</td>
+		</tr>
+	</table>
+	<div id="cms-search-tinymce-plugin">
+		<form id="forms-search-page" method="post" action="">
+			<fieldset>
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><input type="text" name="post_search" id="post_search" value="" size="30" /></td>
+						<td><input type="submit" class="button" id="replaceBtn" value="{#cmspage_dlg.search}" /></td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
+	</div>
+	<div id="result-search-page">
+	<table id="table_search_cmspage" class="clean-table">
+		<thead>
+			<tr>
+				<th style="width:1%;">ID</th>
+				<th style="width:16px;">{#cmspage_dlg.lang}</th>
+				<th>{#cmspage_dlg.category}</th>
+				<th>{#cmspage_dlg.subject}</th>
+				<th style="width:1%;">{#cmspage_dlg.link}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div class="mceActionPanel">
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+	</div>
+</body>
+</html>
