@@ -23,6 +23,7 @@
 			var t = this;
 
 			t.editor = ed;
+			var dom = ed.dom;
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('mceCodeHighLight', function() {
 				ed.windowManager.open({
@@ -48,15 +49,23 @@
 				cm.setActive('codehighlight', n.nodeName == 'IMG');
 			});
 			ed.onVisualAid.add(t._visualAid, t);
+			
 			/*if (name == 'class' && value)
 				value = value.replace(/mceItem.+ ?/g, '');*/
+			
+			
 		},
 		// Private methods
 
 		_visualAid : function(ed, e, s) {
 			var dom = ed.dom;
-			tinymce.each(dom.select('pre', e), function(e) {
-				dom.addClass(e, 'mceItemMedia mceItem');
+			tinymce.each(dom.select('pre.codehighlight', e), function(e) {
+				/*if (s)
+					dom.addClass(e, 'mceItemMedia mceItem');
+				else
+					dom.removeClass(e, 'mceItemMedia mceItem');	*/
+				//getClasses();
+				dom.setStyles(e, {'border' : '1px solid #cccccc', 'padding': '2px'});
 			});
 		},
 		/**

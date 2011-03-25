@@ -37,7 +37,7 @@ var CodeHighLightDialog = {
 		if(f.codehighlight_highlight.value != '') {
 		  options += 'highlight: [' + f.codehighlight_highlight.value + ']; ';
 		}
-		var objectCode = '<pre class="brush: ';
+		var objectCode = '<pre class="codehighlight brush: ';
 		objectCode += f.codehighlight_language.value + ';' + options + '">';
 		objectCode +=  tinyMCEPopup.editor.dom.encode(f.codehighlight_code.value);
 		objectCode += '</pre> ';
