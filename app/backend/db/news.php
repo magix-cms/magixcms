@@ -132,6 +132,19 @@ class backend_db_news{
 		WHERE idnews ='.$idnews,'UPDATE mc_news_publication SET date_publication="'.$date_publication.'",publish="'.$publish.'" WHERE idnews ='.$idnews);
 		magixglobal_model_db::layerDB()->transaction($sql);
 	}
+	function u_status_publication_of_news($idnews,$published){
+		switch($published){
+			case 0:
+				$sql = 'UPDATE mc_news_publication SET date_publication = "0000-00-00 00:00:00",publish = 0 WHERE idnews = :idnews';
+			break;
+			case 1:
+				$sql = 'UPDATE mc_news_publication SET date_publication = NOW(),publish = 1 WHERE idnews = :idnews';
+			break;
+		}
+		magixglobal_model_db::layerDB()->update($sql,array(
+			':idnews' 	 => $idnews
+		));
+	}
 	/**
 	 * selectionne le sujet suivant la langue pour la réecriture des métas
 	 * @param $codelang

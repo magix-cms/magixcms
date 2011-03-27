@@ -27,11 +27,32 @@ $(function(){
 		$.ajax({
 			type:'get',
 			url: '/admin/version.php',
+			statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},
+				401: function() {
+					console.warn("access denied");
+				},
+				404: function() {
+					console.warn("object not found");
+				},
+				403: function() {
+					console.warn("request forbidden");
+				},
+				408: function() {
+					console.warn("server timed out waiting for request");
+				},
+				500: function() {
+					console.error("Internal Server Error");
+				}
+			},
 			async: false,
 			beforeSend :function(){
-				$('#version').html('<img src="/framework/img/small_loading.gif" width="20" height="20" alt="...loading" />');
+				$('#version').html('<span class="min-loader"><img src="/framework/img/small_loading.gif" /></span>');
 			},
 			success: function(e) {
+				$('.min-loader').remove();
 				$('#version').html(e);
 			}
 		});

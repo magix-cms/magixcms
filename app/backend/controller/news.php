@@ -71,6 +71,7 @@ class backend_controller_news{
 	 * @var intéger
 	 */
 	public $delnews;
+	public $status_news,$get_news_publication;
 	/**
 	 * 
 	 * 
@@ -105,6 +106,12 @@ class backend_controller_news{
 		}
 		if(isset($_GET['delnews'])){
 			$this->delnews = magixcjquery_filter_isVar::isPostNumeric($_GET['delnews']);
+		}
+		if(magixcjquery_filter_request::isGet('status_news')) {
+			$this->status_news = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['status_news']);
+		}
+		if(magixcjquery_filter_request::isGet('get_news_publication')) {
+			$this->get_news_publication = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['get_news_publication']);
 		}
 	}
 	/**
@@ -145,6 +152,20 @@ class backend_controller_news{
 		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/news.php?',false,false,'page');
 		
 	}
+	private function load_json_uri_news(){
+		$data = backend_db_news::adminDbNews()->s_news_record($this->getnews);
+		if($data['idnews'] != null){
+			$curl = date_create($data['date_sent']);
+			$uri = magixglobal_model_rewrite::filter_news_url(
+				$data['codelang'], 
+				date_format($curl,'Y/m/d'), 
+				$data['rewritelink'],
+				true
+			);
+			$input= '{"newsuri":'.json_encode(magixcjquery_url_clean::rplMagixString($uri)).'}';
+			print $input;
+		}
+	}
 	/**
 	 * Charge les données du formulaire pour la mise à jour
 	 */
@@ -160,10 +181,6 @@ class backend_controller_news{
 		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
 		backend_config_smarty::getInstance()->assign('date_sent',$data['date_sent']);
 		backend_config_smarty::getInstance()->assign('publish',$data['publish']);
-		$curl = date_create($data['date_sent']);
-		$islang = $data['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$data['codelang']: '';
-		backend_config_smarty::getInstance()->assign('url',$islang.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$data['rewritelink'].'.html');
-		backend_config_smarty::getInstance()->assign('view',magixcjquery_html_helpersHtml::getUrl().$islang.magixcjquery_html_helpersHtml::unixSeparator().'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$data['rewritelink'].'.html');
 	}
 	/**
 	 * POST le formulaire de mise à jour des données
@@ -197,9 +214,19 @@ class backend_controller_news{
 		}
 	}
 	/**
+	 * @access private
+	 * Modifie le status de la news
+	 */
+	private function update_status_publication(){
+		if(isset($this->status_news)){
+			backend_db_news::adminDbNews()->u_status_publication_of_news($this->get_news_publication,$this->status_news);
+			backend_controller_rss::instance()->exec();
+		}
+	}
+	/**
 	 * Supprime une news
 	 */
-	public function del_news(){
+	private function del_news(){
 		if(isset($this->delnews)){
 			backend_db_news::adminDbNews()->d_news($this->delnews);
 		}
@@ -207,21 +234,21 @@ class backend_controller_news{
 	/**
 	 * La page d'edition d'une news
 	 */
-	public function edit(){
+	private function edit(){
 		self::load_data_forms();
 		backend_config_smarty::getInstance()->display('news/edit.phtml');
 	}
 	/**
 	 * affiche la page des news
 	 */
-	function display_addnews(){
+	private function display_addnews(){
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('news/addnews.phtml');
 	}
 	/**
 	 * affiche la page des news
 	 */
-	function display_news(){
+	private function display_news(){
 		backend_config_smarty::getInstance()->display('news/index.phtml');
 	}
 	/**
@@ -229,12 +256,23 @@ class backend_controller_news{
 	 * @access public
 	 */
 	public function run(){
+		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('edit')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::update_data_forms();
+			}elseif(magixcjquery_filter_request::isGet('load_json_uri_news')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				self::load_json_uri_news();
 			}else{
 				self::edit();
 			}
+		}elseif(magixcjquery_filter_request::isGet('get_news_publication')){
+			self::update_status_publication();
 		}elseif(magixcjquery_filter_request::isGet('add')){
 			if(magixcjquery_filter_request::isGet('post')){
 				self::insert_data_forms();

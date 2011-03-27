@@ -3,12 +3,11 @@
  * MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * Dual licensed under the MIT or GPL Version 3 licenses.
- * http://jquery.org/license
  *
- * Date: February 24 00:19 2011
+ * Date: March 26 00:19 2011
  */-->
 <version>
-	<number>2.3.42 RC4</number>
+	<number>2.3.42 RC5</number>
 	<phase>Release Candidate</phase>
 	<link>http://www.magix-cms.com</link>
 </version>

@@ -43,6 +43,15 @@
 			ed.onNodeChange.add(function(ed, cm, n) {
 				cm.setActive('youtube', n.nodeName == 'IMG');
 			});
+			ed.onVisualAid.add(t._visualAid, t);
+		},
+		// Private methods
+
+		_visualAid : function(ed, e, s) {
+			var dom = ed.dom;
+			tinymce.each(dom.select('div.youtube', e), function(e) {
+				dom.setStyles(e, {'border' : '1px solid #cccccc', 'padding': '2px'});
+			});
 		},
 		/**
 		 * Creates control instances based in the incomming name. This method is normally not

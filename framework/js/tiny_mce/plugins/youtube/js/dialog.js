@@ -29,7 +29,7 @@ var YouTubeDialog = {
             break;
 		}
 		// Insert the contents from the input into the document
-		var objectCode = '<div style="width:'+document.forms[0].youtubeWidth.value+';height:'+document.forms[0].youtubeHeight.value+';">';
+		var objectCode = '<div class="youtube" style="width:'+document.forms[0].youtubeWidth.value+';height:'+document.forms[0].youtubeHeight.value+';">';
 		objectCode +='<object type="application/x-shockwave-flash" width="'+document.forms[0].youtubeWidth.value+'" height="'+document.forms[0].youtubeHeight.value+'" data="http://www.youtube.com/v/'+document.forms[0].youtubeID.value+insertedRel+insertedHD+'">';
 		objectCode += '<param name="movie" value="http://www.youtube.com/v/'+document.forms[0].youtubeID.value+insertedRel+insertedHD+'" />';
 		objectCode += '<param name="wmode" value="transparent" />';

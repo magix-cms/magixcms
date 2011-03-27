@@ -538,7 +538,7 @@ input.ui-button { padding: .1em 1em; }
 #viewskin .title-skin{padding:4px 5px 4px 5px;margin:0;}
 .skin-name{float:left;width:100px;display:block;}
 .template-delete,.template-edit{border:none;height:16px;width:16px;}
-#version{font-size:15px;margin-left:20px;}
+#version{font-size:12px;padding-top:3px;}
 /**
  *  ########### Editors ##########
  */

@@ -92,10 +92,10 @@ function smarty_function_widget_news($params, $template){
 			$curl = date_create($pnews['date_sent']);
 			switch($pnews['publish']){
 				case 0:
-					$publisher = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-close"></span></div>';
+					$publisher = '<div class="ui-state-error" style="border:none;"><a title="Modifier l\'état de cette news" href="/admin/news.php?get_news_publication='.$pnews['idnews'].'" class="u-news-published"><span style="float:left" class="ui-icon ui-icon-close"></span></a></div>';
 				break;
 				case 1: 
-					$publisher = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+					$publisher = '<div class="ui-state-highlight" style="border:none;"><a title="Modifier l\'état de cette news" href="/admin/news.php?get_news_publication='.$pnews['idnews'].'" class="u-news-published"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
 				break;
 			}
 			switch($pnews['idlang']){
