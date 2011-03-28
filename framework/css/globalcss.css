@@ -429,24 +429,142 @@ input.ui-button { padding: .1em 1em; }
 .ui-tabs .ui-tabs-hide { display: none !important; }
 /*#################### magixicon ######################*/
 .magix-icon { width: 16px; height: 16px; background-image: url(/framework/img/magixicon_256x240.png); }
-/* positioning */
+/* positioning column 1*/
 .magix-icon-igoogle-t { background-position: 0 0; }
 .magix-icon-igoogle-d { background-position: -16px 0; }
-.magix-icon-h1 		  { background-position: -34px 0; }
-.magix-icon-online 	  { background-position: -50px 0; }
-.magix-icon-perms     { background-position: -66px 0; }
+.magix-icon-h1 		  { background-position: -32px 0; }
+.magix-icon-online 	  { background-position: -48px 0; }
+.magix-icon-perms     { background-position: -64px 0; }
 .magix-icon-webmaster { background-position: -80px 0; }
 .magix-icon-analytics { background-position: -96px 0; }
 .magix-icon-youtube   { background-position: -112px 0; }
 .magix-icon-shutdown  { background-position: -128px 0;}
 .magix-icon-help	  { background-position: -144px 0;}
-.magix-icon-info	  { background-position: -160px 0;}
-.magix-icon-lightbulb { background-position: -176px 0;}
-.magix-icon-tools	  { background-position: -192px 0;}
-.magix-icon-home      { background-position: -208px 0; }
-.magix-icon-organ 	  { background-position: -224px 0; }
-.magix-icon-process   { background-position: -240px 0; }
-.magix-icon-cart 	{ background-position: 0 -16px; }
+.magix-icon-info-white	  { background-position: -160px 0;}
+.magix-icon-info { background-position: -176px 0;}
+.magix-icon-exclamation	  { background-position: -192px 0;}
+.magix-icon-exclamation-red{ background-position: -208px 0; }
+.magix-icon-lightbulb{ background-position: -224px 0; }
+.magix-icon-lightbulb-alert{ background-position: -240px 0; }
+/* positioning column 2*/
+.magix-icon-lightbulb-off{ background-position: 0 -16px; }
+.magix-icon-gear{ background-position: -16px -16px; }
+.magix-icon-bug{ background-position: -32px -16px; }
+.magix-icon-bug-plus{ background-position: -48px -16px; }
+.magix-icon-bug-alert{ background-position: -64px -16px; }
+.magix-icon-plugin{ background-position: -80px -16px; }
+.magix-icon-plugin-arrow{ background-position: -96px -16px; }
+.magix-icon-plugin-plus{ background-position: -112px -16px; }
+.magix-icon-sitemap{ background-position: -128px -16px; }
+.magix-icon-sitemap-grey{ background-position: -144px -16px; }
+.magix-icon-sitemap-blue{ background-position: -160px -16px; }
+.magix-icon-sitemap-image{ background-position: -176px -16px; }
+.magix-icon-image{ background-position: -192px -16px; }
+.magix-icon-image-plus{ background-position: -208px -16px; }
+.magix-icon-image-pencil{ background-position: -224px -16px; }
+.magix-icon-image-alert{ background-position: -240px -16px; }
+/* positioning column 3*/
+.magix-icon-images{ background-position: 0 -32px; }
+.magix-icon-images-stack{ background-position: -16px -32px; }
+.magix-icon-image-resize{ background-position: -32px -32px; }
+.magix-icon-image-album{ background-position: -48px -32px; }
+.magix-icon-database{ background-position: -64px -32px; }
+.magix-icon-database-alert{ background-position: -80px -32px; }
+.magix-icon-database-export{ background-position: -96px -32px; }
+.magix-icon-database-import{ background-position: -112px -32px; }
+.magix-icon-feed{ background-position: -128px -32px; }
+.magix-icon-feed-plus{ background-position: -144px -32px; }
+.magix-icon-small-feed{ background-position: -160px -32px; }
+.magix-icon-block{ background-position: -176px -32px; }
+.magix-icon-block-arrow{ background-position: -192px -32px; }
+.magix-icon-block-plus{ background-position: -208px -32px; }
+.magix-icon-magnifier{ background-position: -224px -32px; }
+.magix-icon-small-magnifier{ background-position: -240px -32px; }
+/* positioning column 4*/
+.magix-icon-lock{ background-position: 0 -48px; }
+.magix-icon-unlock{ background-position: -16px -48px; }
+.magix-icon-network-status{ background-position: -32px -48px; }
+.magix-icon-network-status-busy{ background-position: -48px -48px; }
+.magix-icon-store{ background-position: -64px -48px; }
+.magix-icon-cart{ background-position: -80px -48px; }
+.magix-icon-credit-card{ background-position: -96px -48px; }
+.magix-icon-credit-cards{ background-position: -112px -48px; }
+.magix-icon-credit-card-plus{ background-position: -128px -48px; }
+.magix-icon-credit-card-alert{ background-position: -144px -48px; }
+.magix-icon-highlighter-text{ background-position: -160px -48px; }
+.magix-icon-highlighter-color{ background-position: -176px -48px; }
+.magix-icon-locale{ background-position: -192px -48px; }
+.magix-icon-news{ background-position: -208px -48px; }
+.magix-icon-news-plus{ background-position: -224px -48px; }
+.magix-icon-news-pencil{ background-position: -240px -48px; }
+/* positioning column 4*/
+.magix-icon-wallpaper{ background-position: 0 -66px; }
+.magix-icon-sidebar{ background-position: -16px -66px; }
+.magix-icon-color-swatch{ background-position: -32px -66px; }
+.magix-icon-color-swatches{ background-position: -48px -66px; }
+.magix-icon-plug-connect{ background-position: -64px -66px; }
+.magix-icon-plug-disconnect{ background-position: -80px -66px; }
+.magix-icon-plug-exclamation{ background-position: -96px -66px; }
+.magix-icon-tag{ background-position: -112px -66px; }
+.magix-icon-tag-plus{ background-position: -128px -66px; }
+.magix-icon-support{ background-position: -144px -66px; }
+.magix-icon-upload{ background-position: -160px -66px; }
+.magix-icon-download{ background-position: -176px -66px; }
+.magix-icon-note{ background-position: -192px -66px; }
+.magix-icon-note-plus{ background-position: -208px -66px; }
+.magix-icon-brench{ background-position: -224px -66px; }
+.magix-icon-tools	  { background-position: -240px -66px;}
+/* positioning column 5*/
+.magix-icon-document{ background-position: 0 -80px; }
+.magix-icon-document-copy{ background-position: -16px -80px; }
+.magix-icon-document-convert{ background-position: -32px -80px; }
+.magix-icon-document-excel{ background-position: -48px -80px; }
+.magix-icon-document-powerpoint{ background-position: -64px -80px; }
+.magix-icon-document-word{ background-position: -80px -80px; }
+.magix-icon-document-image{ background-position: -96px -80px; }
+.magix-icon-code-php{ background-position: -112px -80px; }
+.magix-icon-code-json{ background-position: -128px -80px; }
+.magix-icon-code-html{ background-position: -144px -80px; }
+.magix-icon-code-js{ background-position: -160px -80px; }
+.magix-icon-code-xml{ background-position: -176px -80px; }
+.magix-icon-broom{ background-position: -192px -80px; }
+.magix-icon-broom-arrow{ background-position: -208px -80px; }
+.magix-icon-home { background-position: -224px -80px; }
+.magix-icon-small-home { background-position: -240px -80px; }
+/* positioning column 6*/
+.magix-icon-dashboard{ background-position: 0 -96px; }
+.magix-icon-dashboard-arrow{ background-position: -16px -96px; }
+.magix-icon-dashboard-network{ background-position: -32px -96px; }
+.magix-icon-w3c-html{ background-position: -48px -96px; }
+.magix-icon-w3c-valid{ background-position: -64px -96px; }
+.magix-icon-w3c-invalid{ background-position: -80px -96px; }
+.magix-icon-check{ background-position: -96px -96px; }
+.magix-icon-cross{ background-position: -112px -96px; }
+.magix-icon-sliders{ background-position: -128px -96px; }
+.magix-icon-slider{ background-position: -144px -96px; }
+.magix-icon-slider-plus{ background-position: -160px -96px; }
+.magix-icon-slider-pencil{ background-position: -176px -96px; }
+.magix-icon-licence-key{ background-position: -192px -96px; }
+.magix-icon-microformats{ background-position: -208px -96px; }
+.magix-icon-open-source { background-position: -224px -96px; }
+.magix-icon-print { background-position: -240px -96px; }
+/* positioning column 7*/
+.magix-icon-layout{ background-position: 0 -96px; }
+.magix-icon-layout-pencil{ background-position: -16px -112px; }
+.magix-icon-layout-header{ background-position: -32px -112px; }
+.magix-icon-layout-footer{ background-position: -48px -112px; }
+.magix-icon-layout-content{ background-position: -64px -112px; }
+.magix-icon-layout-sidebar{ background-position: -80px -112px; }
+.magix-icon-layer{ background-position: -96px -112px; }
+.magix-icon-layer-stack{ background-position: -112px -112px; }
+.magix-icon-layer-pencil{ background-position: -128px -112px; }
+.magix-icon-layer-plus{ background-position: -144px -112px; }
+.magix-icon-ui-layout{ background-position: -160px -112px; }
+.magix-icon-ui-menu{ background-position: -176px -112px; }
+.magix-icon-ui-combo-box{ background-position: -192px -112px; }
+.magix-icon-ui-list-box{ background-position: -208px -112px; }
+.magix-icon-ui-check-boxes { background-position: -224px -112px; }
+.magix-icon-ui-radio-buttons { background-position: -240px -112px; }
 /**
  * ############################## Utility class
  * 
