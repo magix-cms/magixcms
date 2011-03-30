@@ -228,6 +228,12 @@ class backend_controller_plugins{
 		return $this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR;
 	}
 	/**
+	 * Retourne le chemin du dossier du plugin courant
+	 */
+	public function pluginPath(){
+		return self::PATHPLUGINS.'/'.$this->getplugin();
+	}
+	/**
 	 * Retourne la langue courante
 	 * @return string
 	 * @access public 
@@ -327,6 +333,7 @@ class backend_controller_plugins{
 			try{
 				backend_config_smarty::getInstance()->assign('pluginName',$this->pluginName());
 				backend_config_smarty::getInstance()->assign('pluginUrl',$this->pluginUrl());
+				backend_config_smarty::getInstance()->assign('pluginPath',$this->pluginPath());
 				$this->load_plugin();
 			}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);

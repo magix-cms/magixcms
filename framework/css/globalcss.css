@@ -134,7 +134,8 @@ body,
 }*/
 /*######################### dashboard wuidget UI ########################*/
 .dashboard-widget-h2{padding:0;color:#696969;}
-.column { width:50%;float: left; padding:0; }
+.column { width:50%; float: left;padding:0; /*display:block-inline;*/}
+.dashboard-content .column .dashboard-widget{margin:5px;}
 .dashboard-widget { margin: 0 0.4em 0.4em 0; }
 .dashboard-widget-header { margin: 0.3em; padding-top:5px;padding-bottom: 5px; padding-left: 0.2em; }
 .dashboard-widget-header .ui-icon { float: right; }
@@ -549,7 +550,7 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-open-source { background-position: -224px -96px; }
 .magix-icon-print { background-position: -240px -96px; }
 /* positioning column 7*/
-.magix-icon-layout{ background-position: 0 -96px; }
+.magix-icon-layout{ background-position: 0 -112px; }
 .magix-icon-layout-pencil{ background-position: -16px -112px; }
 .magix-icon-layout-header{ background-position: -32px -112px; }
 .magix-icon-layout-footer{ background-position: -48px -112px; }
@@ -565,6 +566,10 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-ui-list-box{ background-position: -208px -112px; }
 .magix-icon-ui-check-boxes { background-position: -224px -112px; }
 .magix-icon-ui-radio-buttons { background-position: -240px -112px; }
+/* positioning column 7*/
+.magix-icon-subversion{ background-position: 0 -128px; }
+.magix-icon-person{ background-position: -16px -128px; }
+.magix-icon-person-shape{ background-position: -32px -128px; }
 /**
  * ############################## Utility class
  * 

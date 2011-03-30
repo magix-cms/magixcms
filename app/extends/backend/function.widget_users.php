@@ -53,7 +53,7 @@ function smarty_function_widget_users($params, $template){
 							<tr>
 							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-mail-closed"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-key"></span></th>
+							<th><span style="float:left;" class="magix-icon magix-icon-perms"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 							</tr>
