@@ -34,7 +34,7 @@
  */
 return array(
 	'publiccss' => array('//framework/css/notification.css'),
-	'publicjs'=> array('//framework/js/jquery-1.5.1.min.js','//framework/js/jquery-ui-1.8.10.custom.min.js',
+	'publicjs'=> array('//framework/js/jquery-1.5.2.min.js','//framework/js/jquery-ui-1.8.10.custom.min.js',
 	'//framework/js/ui/i18n-1.8/jquery-ui-i18n.js','//framework/js/jquery.form-2.67.js',
 	'//framework/js/jquery.validate.1.8.min.js','//framework/js/additional-methods.1.8.min.js','//framework/js/jquery.colorbox-1.3.15.js',
 	'//framework/js/tools/notice-tpl.js','//framework/js/jquery.cookie.js','//framework/js/jquery.jfirebug.js'),
