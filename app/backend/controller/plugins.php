@@ -120,7 +120,7 @@ class backend_controller_plugins{
 		if(file_exists($this->directory_plugins().$plugin.DIRECTORY_SEPARATOR.'icon.png')){
 			$icon = '<img src="/plugins/'.$plugin.'/icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
 		}else{
-			$icon = '<span style="float:left;" class="ui-icon ui-icon-wrench"></span>';
+			$icon = '<span style="float:left;" class="magix-icon magix-icon-plugin-arrow"></span>';
 		}
 		return $icon;
 	}

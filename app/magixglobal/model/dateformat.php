@@ -30,23 +30,78 @@
  * @name dateformat
  *
  */
-class magixglobal_model_dateformat{
+class magixglobal_model_dateformat extends DateTime{
 	/**
-	 * @access public
-	 * Retourne la date actuelle et l'heure formatée Y-m-d H:i:s
+	 * 
+	 * Constructor
+	 * @param $time
 	 */
-	public function sitemap_lastmod_dateFormat(){
-		$datenow = new DateTime('now');
-		return $datenow->format('Y-m-d H:i:s');
+	public function __construct($time='now') {
+        parent::__construct($time);
+    }
+    /**
+     * @access public
+     * Test la validité de la date
+     * @param integer $y
+     * @param integer $m
+     * @param integer $d
+     * @static
+     */
+	static public function isValid( $y = null, $m = null, $d = null ){
+		if ( $y === null || $m === null || $d === null ) return false ;
+		return checkdate( $m, $d, $y ) ;
 	}
 	/**
 	 * @access public
-	 * Retourne la date au format européen avec slash
-	 * @param timestamp $date
+	 * Retourne la date actuelle et l'heure formatée Y-m-d H:i:s
+	 * @example 
+	 * $datecreate = new magixglobal_model_dateformat();
+	 * echo $datecreate->sitemap_lastmod_dateFormat();
 	 */
-	public function date_europeen_format($date){
-		$date_create = date_create($date);
-		return date_format($date_create,'Y/m/d');
+	public function sitemap_lastmod_dateFormat(){
+		return $this->format('Y-m-d H:i:s');
+	}
+	/**
+	 * @access public
+	 * Retourne la date au format européen avec slash (2000/01/01)
+	 * @param timestamp $date
+	 * * @example 
+	 * $datecreate = new magixglobal_model_dateformat();
+	 * echo $datecreate->date_europeen_format('2000-01-01');
+	 */
+	public function date_europeen_format(){
+		return $this->format('Y/m/d');
+	}
+	/**
+	 * @access public
+	 * Retourne la date au format W3C
+	 * $datecreate = new magixglobal_model_dateformat();
+	 * echo $datecreate->date_w3c('2005-08-15');
+	 * 2005-08-15T15:52:01+00:00
+	 */
+	public function date_w3c(){ 
+		return $this->format(DATE_W3C);
+	}
+	/**
+	 * @access public
+	 * Retourne le timestamp au format unix
+	 */
+	public function getTimestamp(){
+	    return $this->format ("U");
+	}
+	/**
+	 * @access public
+	 * Retourne la date au format SQL
+	 */
+	public function SQLDate(){
+		return $this->format("Y-m-d");
+	}
+	/**
+	 * @access public
+	 * Retourne la date et l'heure au format SQL
+	 */
+	public function SQLDateTime(){
+		return $this->format( 'Y-m-d H:i:s' ) ;
 	}
 }
 ?>

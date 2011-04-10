@@ -94,12 +94,12 @@ class backend_controller_rss{
 		$config = backend_db_config::adminDbConfig()->s_config_named('news');
 		if($config['status'] == 1){
 		   foreach(backend_db_sitemap::adminDbSitemap()->s_news_rss() as $data){
-		   		$islang = $data['codelang'] ? $data['codelang'].magixcjquery_html_helpersHtml::unixSeparator(): '';
-		        $curl = date_create($data['date_sent']);
+		   		$islang = $data['codelang'] ? $data['codelang'].'/': '';
+		        $datecreate = new magixglobal_model_dateformat($data['date_sent']);
 		        self::xmlRssInstance()->elementWriteAtom(
 			        $data['subject'],
 			        $data['date_sent'],
-			        $islang.'news'.magixcjquery_html_helpersHtml::unixSeparator().date_format($curl,'Y/m/d').magixcjquery_html_helpersHtml::unixSeparator().$data['rewritelink'],
+			        $islang.'news/'.$datecreate->date_europeen_format().'/'.$data['rewritelink'],
 			        '.html',
 			        $data['content']
 		        );

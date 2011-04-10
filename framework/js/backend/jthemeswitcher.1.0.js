@@ -61,9 +61,6 @@ $(function(){
 							time:2
 						});
 	        			$(".mc-head-request").html(request);
-        				/*setTimeout(function(){
-        					location.reload();
-        				},2800);*/
 					});
 				}else{
 					$.ajax({
@@ -85,9 +82,6 @@ $(function(){
 								time:2
 							});
 		        			$(".mc-head-request").html(request);
-	        				/*setTimeout(function(){
-	        					location.reload();
-	        				},2800);*/
 						}
 					});
 				}
