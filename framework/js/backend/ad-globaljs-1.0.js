@@ -94,6 +94,21 @@ $(function() {
 		for (var i = 0; i < names.length; ++i) window.console[names[i]] = function() {};
 	}
 	/**
+	 * Le sous menu
+	 */
+	var submenu = $('#submenu ul');
+	submenu.find("li:first-child").prepend('<span class="lfloat ui-icon ui-icon-home"></span>');
+	submenu.find("li:not(:first-child)").prepend('<span class="lfloat ui-icon ui-icon-arrowthickstop-1-e"></span>');
+	submenu.find("li").addClass('ui-state-default ui-corner-all');
+	submenu.find("li").hover(
+		function(){ 
+			$(this).addClass("ui-state-hover"); 
+		},
+		function(){ 
+			$(this).removeClass("ui-state-hover"); 
+		}
+	);
+	/**
 	 * Effet de survol sur les boutons dans le top sidebar
 	 */
 		$(".topbutton:not(.ui-state-active)").hover(

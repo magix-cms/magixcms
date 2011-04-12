@@ -132,6 +132,14 @@ body,
 /*@media screen, projection, tv {
 	#sidebar ul li{margin:0;padding:0;}
 }*/
+/** 
+* Sous menu pour chaque onglet
+*/
+#submenu{border:none;margin-bottom:2px;margin-left:5px;}
+#submenu ul li:first-child{margin-left:0;}
+#submenu ul li{padding:2px;float:left;margin-left:10px;}
+#submenu ul li a{font-size:12px;color:#696969;text-decoration:none;}
+#submenu ul li a:hover{}
 /*######################### dashboard wuidget UI ########################*/
 .dashboard-widget-h2{padding:0;color:#696969;}
 .column { width:50%; float: left;padding:0; /*display:block-inline;*/}
