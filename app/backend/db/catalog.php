@@ -254,7 +254,8 @@ class backend_db_catalog{
 	function s_json_subcategory($getidclc){
 		$sql='SELECT s.idcls,s.slibelle FROM mc_catalog_c as c
 		JOIN mc_catalog_s as s USING (idclc)
-		where idclc = :idclc';
+		where idclc = :idclc
+		ORDER BY s.sorder';
 		return magixglobal_model_db::layerDB()->select($sql,array(':idclc'=>$getidclc));
 	}
 	/**
