@@ -77,4 +77,27 @@ class magixglobal_model_cryptrsa{
 	      mt_rand(0, 0xffff)
 	    );
 	}
+	/**
+	 * @access public
+	 * @static
+	 * Génération d'un identifiant alphanumérique
+	 * @param integer $numStr
+	 */
+	public static function short_alphanumeric_id($numStr){
+		$uId = '';
+		srand( (double)microtime()*rand(1000000,9999999) ); // Genere un nombre aléatoire
+		$arrChar = array(); // Nouveau tableau
+		for( $i=65; $i<90; $i++ ) {
+			array_push( $arrChar, chr($i) ); // Ajoute A-Z au tableau
+			array_push( $arrChar, strtolower( chr( $i ) ) ); // Ajouter a-z au tableau
+		}
+		for( $i=48; $i<57; $i++ ) {
+			array_push( $arrChar, chr( $i ) ); // Ajoute 0-9 au tableau
+		}
+		for( $i=0; $i< $numStr; $i++ ) {
+			//$uId .= $arrChar[rand( 0, count( $arrChar ) )]; // Ecrit un aléatoire
+			$uId .= $arrChar[rand( 0,count($arrChar)-1)];// Ecrit un aléatoire
+		}
+		return $uId;
+	}
 }

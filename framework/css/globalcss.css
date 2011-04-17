@@ -137,7 +137,7 @@ body,
 */
 #submenu{border:none;margin-bottom:2px;margin-left:5px;}
 #submenu ul li:first-child{margin-left:0;}
-#submenu ul li{padding:2px;float:left;margin-left:10px;}
+#submenu ul li{padding:4px 2px 2px 2px;float:left;margin-left:10px;}
 #submenu ul li a{font-size:12px;color:#696969;text-decoration:none;}
 #submenu ul li a:hover{}
 /*######################### dashboard wuidget UI ########################*/

@@ -140,6 +140,9 @@ $(document).ready(function(){
 				if(element.next().is(":submit") || element.next().is(":button") || element.next().is(":file")){
 					error.insertAfter(element.next());
 					$("<br />").insertBefore(error);
+				}else if(element.next().is(".ui-datepicker-trigger")){
+					error.insertAfter(element.next());
+					$("<br />").insertBefore(error);
 				}else{
 					error.insertAfter(element);
 				}
