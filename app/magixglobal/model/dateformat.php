@@ -87,7 +87,7 @@ class magixglobal_model_dateformat extends DateTime{
 	 * Retourne le timestamp au format unix
 	 */
 	public function getTimestamp(){
-	    return $this->format ("U");
+	    return $this->format("U");
 	}
 	/**
 	 * @access public
