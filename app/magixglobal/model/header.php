@@ -223,6 +223,17 @@ class magixglobal_model_header{
 		}
 	}
 	/**
+	 * 
+	 * Retourne
+	 * @param unknown_type $debug
+	 */
+	public function insight_header($debug=false){
+		header('x-insight: inspect');
+		if($debug == true){
+			magixcjquery_debug_magixfire::magixFireLog("Headers:", headers_list());
+		}
+	}
+	/**
 	 * @param string $method
 	 * @param  $arguments
 	 * @throws Exception

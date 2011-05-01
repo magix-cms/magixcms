@@ -51,7 +51,13 @@ class plugins_clearcache_admin{
 	 * @param nom du dossier de caches dossier $dir
 	 */
 	protected function path_var_dir($dir){
-		return magixglobal_model_system::base_path().'var'.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR;
+		$vardir = magixglobal_model_system::base_path().'var'.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR;
+		if(file_exists($vardir)){
+			return $vardir;
+		} else{
+			$magixfire = new magixcjquery_debug_magixfire();
+			$magixfire->magixFireError(new Exception('Error: var is not exist'));
+		}
 	}
 	/**
 	 * @access private
@@ -60,11 +66,11 @@ class plugins_clearcache_admin{
 	 */
 	private function clear_dir_caches($dir){
 		$makefile = new magixcjquery_files_makefiles();
-		$scandir = $makefile->scanDir(self::path_var_dir($dir),'.htaccess');
+		$scandir = $makefile->scanDir($this->path_var_dir($dir),'.htaccess');
 		$clean = '';
 		if($scandir != null){
 			foreach($scandir as $file){
-				$clean .= $makefile->removeFile(self::path_var_dir($dir),$file);
+				$clean .= $makefile->removeFile($this->path_var_dir($dir),$file);
 			}
 		}
 		backend_controller_plugins::create()->append_display('success.phtml');
@@ -76,13 +82,13 @@ class plugins_clearcache_admin{
 	private function exec_clear(){
 		switch($this->clear){
 			case "caches":
-				self::clear_dir_caches('caches');
+				$this->clear_dir_caches('caches');
 			break;
 			case "tpl":
-				self::clear_dir_caches('templates_c');
+				$this->clear_dir_caches('templates_c');
 			break;
 			case "admin":
-				self::clear_dir_caches('tpl_admin');
+				$this->clear_dir_caches('tpl_admin');
 			break;
 		}
 	}

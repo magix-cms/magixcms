@@ -69,7 +69,8 @@ class plugins_contact_admin extends database_plugins_contact{
 		if(parent::c_show_table() == 0){
 			backend_controller_plugins::create()->db_install_table('db.sql', 'request/install.phtml');
 		}else{
-			magixcjquery_debug_magixfire::magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
+			$magixfire = new magixcjquery_debug_magixfire();
+			$magixfire->magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
 			return true;
 		}
 	}

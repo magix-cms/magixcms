@@ -66,8 +66,8 @@ class magixglobal_model_dateformat extends DateTime{
 	 * Retourne la date au format européen avec slash (2000/01/01)
 	 * @param timestamp $date
 	 * * @example 
-	 * $datecreate = new magixglobal_model_dateformat();
-	 * echo $datecreate->date_europeen_format('2000-01-01');
+	 * $datecreate = new magixglobal_model_dateformat('2000-01-01');
+	 * echo $datecreate->date_europeen_format();
 	 */
 	public function date_europeen_format(){
 		return $this->format('Y/m/d');
@@ -75,8 +75,8 @@ class magixglobal_model_dateformat extends DateTime{
 	/**
 	 * @access public
 	 * Retourne la date au format W3C
-	 * $datecreate = new magixglobal_model_dateformat();
-	 * echo $datecreate->date_w3c('2005-08-15');
+	 * $datecreate = new magixglobal_model_dateformat('2005-08-15');
+	 * echo $datecreate->date_w3c();
 	 * 2005-08-15T15:52:01+00:00
 	 */
 	public function date_w3c(){ 

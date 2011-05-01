@@ -697,7 +697,7 @@ class backend_controller_catalog extends analyzer_catalog{
 						return $pathclibelle.$fileextends;
 					}else{
 						if(file_exists(self::dir_img_category().$this->$img)){
-							$makeFiles->removeFile(self::dir_img_category().$this->$img);
+							$makeFiles->removeFile(self::dir_img_category(),$this->$img);
 						}else{
 							throw new Exception('file: '.$this->$img.' is not found');
 						}
