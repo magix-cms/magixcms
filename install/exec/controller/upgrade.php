@@ -51,10 +51,10 @@ class exec_controller_upgrade extends db_upgrade{
 		try {
 			$xml = new SimpleXMLElement(self::load_local_file(),0, TRUE);
 			$v = $xml->number;
+			return $v;
 		} catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
-		return $v;
 	}
 	/**
 	 * @access private
@@ -72,6 +72,17 @@ class exec_controller_upgrade extends db_upgrade{
 	private function load_sql_file_version($version){
 		return magixglobal_model_system::base_path().'install'.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'upgrade.'.$version.'.sql';
 	}
+	private function sql_execute($version){
+		try{
+			if(file_exists($this->load_sql_file_version($version))){
+				if(magixglobal_model_db::create_new_sqltable($this->load_sql_file_version($version))){
+					return true;
+				}
+			}
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('Error update table :',$e);
+		}
+	}
 	/**
 	 * @access private
 	 * Compare les versions XML et SQL
@@ -79,13 +90,14 @@ class exec_controller_upgrade extends db_upgrade{
 	private function compare_version(){
 		/*$compare = strcmp(self::xmlfile_current_version(),self::load_current_version());
 		return $compare;*/
-		$xml_file_version = self::xmlfile_current_version();
-		$current_version = self::load_current_version();
-		if(is_null($current_version)){
-			
+		if(is_null($this->load_current_version())){
+			return $this->load_current_version();
 		}else{
-			if (version_compare($current_version,$xml_file_version,'<')){
-				
+			if (version_compare($this->load_current_version(),$this->xmlfile_current_version(),'<')){
+				return $this->load_current_version();
+			}else{
+				//return $this->load_current_version();
+				return $this->load_current_version();
 			}
 		}
 	}
@@ -120,8 +132,8 @@ class exec_controller_upgrade extends db_upgrade{
 		if(magixcjquery_filter_request::isGet('upgrade_version')){
 			exec_config_smarty::getInstance()->display('update.phtml');
 		}else{
-			print self::compare_version();
-			//exec_config_smarty::getInstance()->assign('current_version',self::read_current_version());
+			magixcjquery_debug_magixfire::magixFireLog($this->compare_version());
+			//exec_config_smarty::getInstance()->assign('current_version',$this->compare_version());
 			exec_config_smarty::getInstance()->display('version_select.phtml');
 		}
 		

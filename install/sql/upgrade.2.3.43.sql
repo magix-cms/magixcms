@@ -8,5 +8,5 @@ INSERT INTO `mc_setting` (
 `setting_label`
 )
 VALUES (
-'magix_version', '2.3.42b', 'string', 'Version Magix CMS'
+'magix_version', '2.3.43', 'string', 'Version Magix CMS'
 );
