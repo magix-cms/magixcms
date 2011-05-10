@@ -160,10 +160,10 @@ class exec_controller_config{
 			}
 		}
 	}
-	public function createConfig(){
+	private function createConfig(){
 		self::writeConfigFile();
 	}
-	public function display_config_page(){
+	private function display_config_page(){
 		$dom = null;
 		if(!is_writable(self::dir_config_file().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config')){
 			$dom = '<div id="notify-folder">

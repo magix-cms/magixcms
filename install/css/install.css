@@ -17,12 +17,10 @@ body{
 	font-family: Helvetica,sans-serif;
 	font-size:12px;
 } 
-h1 { font-size: 180%; }
-h2 { font-size: 140%; }
-h3 { font-size: 120%; }
-h4 { font-size: 100%; }
-h5 { font-size: 90%; }
-h6 { font-size: 80%; }
+h1 { font-size: 16px; }
+h2 { font-size: 14px; }
+h3 { font-size: 12px; }
+h4 { font-size: 11px; }
 p {}
 h1,h2,h3,h4,h5, h6 {
 	font-weight: bold;
@@ -47,7 +45,7 @@ body,
 	color: #fff;
 }
 #page {
-	margin:0 auto;
+	margin:10px auto 0 auto;
 }
 #content{
 	margin:0;
@@ -60,8 +58,10 @@ body,
 #install{position:relative;margin:0 auto;width:800px;}
 /*HEADER*/
 #achead {
-	background:#042139 url(/framework/img/logo.jpg) no-repeat;
-	height: 82px;
+	background: url(/framework/img/logo-login.png) no-repeat;
+	height: 45px;
+	width: 200px;
+	margin:5px 0 0 10px;
 }
 #footer{
 	padding: 15px;
@@ -193,8 +193,8 @@ a.widget-links{text-decoration:underline;}
 }
 #phpversion,#mbstr,#iconv,#obst,#simple,#dom,#spl{height:16px;}
 .tdrequest{height:16px;}
-#install-check,#upgrade-check{font-weight:bold;font-size:22px;width:185px;height:35px;margin:5px;}
-#install-config{font-weight:bold;width:185px;height:30px;margin:5px;}
+/*#install-check,#upgrade-check{font-weight:bold;font-size:22px;width:185px;height:35px;margin:5px;}
+#install-config{font-weight:bold;width:185px;height:30px;margin:5px;}*/
 /**
  * pagination
  */

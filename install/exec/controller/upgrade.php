@@ -62,7 +62,11 @@ class exec_controller_upgrade extends db_upgrade{
 	 */
 	private function load_current_version(){
 		$set_version = parent::s_setting_version();
-		return $set_version['setting_value'];
+		if($set_version['setting_value'] != null){
+			return $set_version['setting_value'];
+		}else{
+			return '2.3.42';
+		}
 	}
 	/**
 	 * 
@@ -90,15 +94,11 @@ class exec_controller_upgrade extends db_upgrade{
 	private function compare_version(){
 		/*$compare = strcmp(self::xmlfile_current_version(),self::load_current_version());
 		return $compare;*/
-		if(is_null($this->load_current_version())){
+		if (version_compare($this->load_current_version(),$this->xmlfile_current_version(),'<')){
 			return $this->load_current_version();
 		}else{
-			if (version_compare($this->load_current_version(),$this->xmlfile_current_version(),'<')){
-				return $this->load_current_version();
-			}else{
-				//return $this->load_current_version();
-				return $this->load_current_version();
-			}
+			//return $this->load_current_version();
+			return $this->load_current_version();
 		}
 	}
 	/*function http_fetch_url($url, $timeout = 10, $userpwd = ''){
@@ -132,8 +132,13 @@ class exec_controller_upgrade extends db_upgrade{
 		if(magixcjquery_filter_request::isGet('upgrade_version')){
 			exec_config_smarty::getInstance()->display('update.phtml');
 		}else{
-			magixcjquery_debug_magixfire::magixFireLog($this->compare_version());
-			//exec_config_smarty::getInstance()->assign('current_version',$this->compare_version());
+			if(parent::s_t() != false){
+				magixcjquery_debug_magixfire::magixFireLog('ok');
+			}else{
+				magixcjquery_debug_magixfire::magixFireLog('pas ok');
+			}
+			$this->compare_version();
+			exec_config_smarty::getInstance()->assign('current_version',$this->compare_version());
 			exec_config_smarty::getInstance()->display('version_select.phtml');
 		}
 		
@@ -144,4 +149,11 @@ class db_upgrade{
     	$sql = 'SELECT setting_value FROM mc_setting WHERE setting_id = "magix_version"';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
+	protected function s_show_database(){
+		$database = 'cms';
+		return magixglobal_model_db::layerDB()->showDatabase($database,true);
+	}
+	protected function s_t(){
+		return magixglobal_model_db::layerDB()->PDOConnexion();
+	}
 }

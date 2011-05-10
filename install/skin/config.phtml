@@ -6,20 +6,19 @@
 <div id="page">
 	<div id="content">
 		<div id="install">
-		{include file="common/top.phtml"}
 		<div class="dashboard ui-widget-content ui-corner-all">
+		{include file="common/top.phtml"}
 				<div class="dashboard-content">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><h1>Création du fichier de configuration</h1></div>
-					<div class="ui-widget-header ui-corner-all" style="float:right;width:220px;height:250px;padding:5px;margin-right:20px;margin-top:40px;">
-						<div style="margin-top:10px;margin-left:10px;">
-						<p style="text-align:center;">Créez votre configuration avant d'installer la base de donnée</p>
-						<p style="text-align:center;"><img src="/install/img/database-install.png" alt="" /></p>
-						<p style="text-align:center;"><button id="install-database" class="fg-button ui-state-disabled ui-corner-all">Continuer</button></p>
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-note"></span><h1>Création du fichier de configuration</h1></div>
+					<div class="ui-widget-header ui-corner-all" style="float:right;width:200px;height:80px;padding:5px;margin-right:20px;margin-top:10px;">
+						<div style="margin:10px;">
+							<p style="text-align:center;">Créez votre configuration avant d'installer la base de donnée</p>
+							<p style="text-align:center;"><a style="margin-top:10px;" href="#" id="install-database" class="inst-button">Continuer</a></p>
 						</div>
 					</div>
 					<form id="forms-install-config" action="" method="post">
 						<fieldset>
-							<table style="margin-left:10px;width:500px;">
+							<table style="margin-left:15px;width:500px;">
 								<tr>
 									<td class="label"><label for="M_DBHOST" class="inlinelabel">Host :</label></td>
 								</tr>
@@ -80,7 +79,7 @@
 								<tr>
 									<td>
 										<div style="margin:5px;">
-											<input type="submit" id="i-config" class="ud-button ui-state-default ui-corner-all" value="Enregistrer" />
+											<input type="submit" id="i-config" class="submit" value="Enregistrer" />
 										</div>
 									</td>
 								</tr>

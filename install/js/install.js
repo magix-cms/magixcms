@@ -28,12 +28,6 @@ $(function() {
 		 */
 		$("input:submit").button();
 		$(".inst-button").button();
-		$('#install-check').live('click',function(){
-			window.location = "/install/check.php";
-		});
-		$('#upgrade-check').live('click',function(){
-			window.location = "/install/upgrade.php";
-		});
 		/**
 		 * Notification après installation pour le dossier "install"
 		 */
@@ -143,10 +137,11 @@ $(function() {
 			},1200);
 			//Active le bouton "continuer" une fois les requêtes terminé
 			setTimeout(function(){
-				$('#install-config').removeClass("ui-state-disabled");
-				$('#install-config').addClass("ui-state-active");
-				$('#install-config').live('click',function(){
-					window.location = "/install/config.php";
+				$('#install-config').live('click',function(e){
+					e.preventDefault();
+					$(this).removeClass("ui-state-disabled");
+					$(this).addClass("ui-state-active");
+					$(this).attr("href","/install/config.php");
 				});
 			},1400);
 		});
@@ -207,10 +202,8 @@ $(function() {
 		    		reloadhtml:false
 				});
 				$(':submit',form).attr("disabled","disabled");
-				$('#install-database').removeClass("ui-state-disabled");
-				$('#install-database').addClass("ui-state-active");
 				$('#install-database').live('click',function(){
-					window.location = "/install/database.php";
+					$(this).attr("href","/install/database.php");
 				});
 				return false; 
 			}
