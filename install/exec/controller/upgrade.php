@@ -31,6 +31,12 @@
  *
  */
 class exec_controller_upgrade extends db_upgrade{
+	public $p_version;
+	public function __construct(){
+		if(magixcjquery_filter_request::isPost('p_version')){
+			$this->p_version = magixcjquery_form_helpersforms::inputClean($_POST['p_version']);
+		}
+	}
 	/**
 	 * Charge le fichier version.xml courant
 	 * @return string
@@ -80,7 +86,9 @@ class exec_controller_upgrade extends db_upgrade{
 		try{
 			if(file_exists($this->load_sql_file_version($version))){
 				if(magixglobal_model_db::create_new_sqltable($this->load_sql_file_version($version))){
-					return true;
+					
+				}else{
+					
 				}
 			}
 		}catch (Exception $e){
@@ -132,11 +140,12 @@ class exec_controller_upgrade extends db_upgrade{
 		if(magixcjquery_filter_request::isGet('upgrade_version')){
 			exec_config_smarty::getInstance()->display('update.phtml');
 		}else{
-			if(parent::s_t() != false){
+			/*if(parent::s_t() != false){
 				magixcjquery_debug_magixfire::magixFireLog('ok');
 			}else{
 				magixcjquery_debug_magixfire::magixFireLog('pas ok');
-			}
+			}*/
+			
 			$this->compare_version();
 			exec_config_smarty::getInstance()->assign('current_version',$this->compare_version());
 			exec_config_smarty::getInstance()->display('version_select.phtml');
@@ -150,7 +159,7 @@ class db_upgrade{
 		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
 	protected function s_show_database(){
-		$database = 'cms';
+		$database = M_DBNAME;
 		return magixglobal_model_db::layerDB()->showDatabase($database,true);
 	}
 	protected function s_t(){

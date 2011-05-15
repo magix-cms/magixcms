@@ -61,48 +61,61 @@ class exec_controller_testconnexion extends database_connex{
 	 */
 	function __construct(){
 		if(magixcjquery_filter_request::isPost('M_DBDRIVER')){
-			$this->M_DBDRIVER = !empty($_POST['M_DBDRIVER']) ? $_POST['M_DBDRIVER'] : 'mysql';
+			$this->M_DBDRIVER = $_POST['M_DBDRIVER'];
 		}
 		if(magixcjquery_filter_request::isPost('M_DBHOST')){
-			$this->M_DBHOST = !empty($_POST['M_DBHOST']) ? $_POST['M_DBHOST'] : '';
+			$this->M_DBHOST = $_POST['M_DBHOST'];
 		}
 		if(magixcjquery_filter_request::isPost('M_DBUSER')){
-			$this->M_DBUSER = !empty($_POST['M_DBUSER']) ? $_POST['M_DBUSER'] : '';
+			$this->M_DBUSER = $_POST['M_DBUSER'];
 		}
 		if(magixcjquery_filter_request::isPost('M_DBPASSWORD')){
-			$this->M_DBPASSWORD = !empty($_POST['M_DBPASSWORD']) ? $_POST['M_DBPASSWORD'] : '';
+			$this->M_DBPASSWORD = $_POST['M_DBPASSWORD'];
 		}
 		if(magixcjquery_filter_request::isPost('M_DBNAME')){
-			$this->M_DBNAME = !empty($_POST['M_DBNAME']) ? $_POST['M_DBNAME'] : '';
+			$this->M_DBNAME = $_POST['M_DBNAME'];
 		}
 	}
 	private function test_database_connexion(){
-		if(isset($this->M_DBNAME)){
-			define('M_DBDRIVER',$this->M_DBDRIVER);
-			// Database hostname (usually "localhost")
-			define('M_DBHOST',$this->M_DBHOST);
-			// Database user
-			define('M_DBUSER',$this->M_DBUSER);
-			// Database password
-			define('M_DBPASSWORD',$this->M_DBPASSWORD);
-			// Database name
-			define('M_DBNAME',$this->M_DBNAME);
+		if(isset($this->M_DBUSER)){
+			if(empty($this->M_DBDRIVER) OR empty($this->M_DBHOST) OR empty($this->M_DBUSER) OR empty($this->M_DBPASSWORD) OR empty($this->M_DBNAME)){
+				exec_config_smarty::getInstance()->display('request/empty.phtml');
+			}else{
+				$fileconfig = magixglobal_model_system::base_path().'app'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
+				if(file_exists($fileconfig)){
+					exec_config_smarty::getInstance()->display('request/file_exist.phtml');
+				}else{
+					if(!defined('M_DBDRIVER') OR !defined('M_DBHOST') OR !defined('M_DBUSER') OR !defined('M_DBPASSWORD') OR !defined('M_DBNAME')){
+						define('M_DBDRIVER',$this->M_DBDRIVER);
+						// Database hostname (usually "localhost")
+						define('M_DBHOST',$this->M_DBHOST);
+						// Database user
+						define('M_DBUSER',$this->M_DBUSER);
+						// Database password
+						define('M_DBPASSWORD',$this->M_DBPASSWORD);
+						// Database name
+						define('M_DBNAME',$this->M_DBNAME);
+					}
+					if(parent::testconnex()){
+						exec_config_smarty::getInstance()->display('request/result_testconnexion.phtml');
+					}
+				}
+			}
 		}
 	}
 	/**
 	 * Execution 
 	 */
 	public function run(){
-		if(isset($this->M_DBNAME)){
-			
-		}else{
-			
-		}
+		$this->test_database_connexion();
 	}
 }
 class database_connex{
 	protected function s_show_database(){
 		$database = 'cms';
 		return magixglobal_model_db::layerDB()->showDatabase($database,true);
+	}
+	protected function testconnex(){
+		return magixglobal_model_db::layerDB()->PDOConnexion();
 	}
 }

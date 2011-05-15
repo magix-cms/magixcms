@@ -13,7 +13,10 @@
 					<div class="ui-widget-header ui-corner-all" style="float:right;width:200px;height:80px;padding:5px;margin-right:20px;margin-top:10px;">
 						<div style="margin:10px;">
 							<p style="text-align:center;">Créez votre configuration avant d'installer la base de donnée</p>
-							<p style="text-align:center;"><a style="margin-top:10px;" href="#" id="install-database" class="inst-button">Continuer</a></p>
+							<p style="text-align:center;">
+								<a href="/install/check.php" class="inst-button"><span class="ui-icon ui-icon-seek-first"></span></a>
+								<a href="#" id="install-database" class="inst-button"><span class="ui-icon ui-icon-seek-end"></span></a>
+							</p>
 						</div>
 					</div>
 					<form id="forms-install-config" action="" method="post">
@@ -79,7 +82,8 @@
 								<tr>
 									<td>
 										<div style="margin:5px;">
-											<input type="submit" id="i-config" class="submit" value="Enregistrer" />
+											<input type="submit" id="i-config" class="submit" value="Création du fichier" />
+											<input type="button" id="testconfig" class="inst-button" value="Test de connexion" />
 										</div>
 									</td>
 								</tr>

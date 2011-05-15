@@ -28,6 +28,12 @@ $(function() {
 		 */
 		$("input:submit").button();
 		$(".inst-button").button();
+		$(".btnwrench").button({
+	        icons: {
+	            primary: 'ui-icon-wrench'
+	        },
+	        text: false
+	    });
 		/**
 		 * Notification après installation pour le dossier "install"
 		 */
@@ -137,8 +143,8 @@ $(function() {
 			},1200);
 			//Active le bouton "continuer" une fois les requêtes terminé
 			setTimeout(function(){
-				$('#install-config').live('click',function(e){
-					e.preventDefault();
+				$('#install-config').live('click',function(){
+					//e.preventDefault();
 					$(this).removeClass("ui-state-disabled");
 					$(this).addClass("ui-state-active");
 					$(this).attr("href","/install/config.php");
@@ -209,6 +215,26 @@ $(function() {
 			}
 		});
 		$("#forms-install-config").formsCreateFile;
+		$("#testconfig").live('click',function(){
+			$.ajax({
+				url: "/install/testconnexion.php",
+				type: "post",
+				data: {
+					M_DBDRIVER:$('#M_DBDRIVER').val(),
+					M_DBHOST:$('#M_DBHOST').val(),
+					M_DBUSER:$('#M_DBUSER').val(),
+					M_DBPASSWORD:$('#M_DBPASSWORD').val(),
+					M_DBNAME:$('#M_DBNAME').val()
+				},
+				success: function(request){
+					$.notice({
+						ntype: "simple",
+						time:2
+					});
+	    			$(".mc-head-request").html(request);
+				}
+			});
+		});
 		/**
 		 * Installe les tables SQL de magix cms
 		 * Requête ajax tous les 200 micros S 
@@ -297,11 +323,11 @@ $(function() {
 /**
  * Initialisation de nivoslider pour le défilement d'images
  */
-$(window).load(function() {
+/*$(window).load(function() {
 	$('#slider').nivoSlider({
 		effect:'random',
 		pauseTime:5000, 
 		pauseOnHover:true,
 		captionOpacity:0.8 //Universal caption opacity
 	});
-});
+});*/
