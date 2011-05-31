@@ -22,12 +22,16 @@ $(function() {
 			elements : 'absurls',
 			//remove_script_host : false,
 			theme : "advanced",
-			plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,wordcount,codehighlight,tablegrid,youtube,cmspage,loremipsum"+catalog_tinymce_plugin+manager_tinymce_plugin,
+			plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,wordcount,codehighlight,tablegrid,youtube,cmspage,loremipsum,pdw"+catalog_tinymce_plugin+manager_tinymce_plugin,
 			// Theme options
-			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontsizeselect,fullscreen,preview",
-			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,forecolor,backcolor,|,link,unlink,anchor"+manager_tinymce_button+",image,|,insertdate,inserttime,code",
+			//pdw_toggle
+			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontsizeselect",
+			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,forecolor,backcolor,|,link,unlink,anchor",
+			theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,hr,removeformat,|,code,preview,fullscreen",
+			theme_advanced_buttons4 : "insertdate,inserttime,|,image"+manager_tinymce_button+",|,codehighlight,loremipsum,youtube,|,cmspage"+catalog_tinymce_button,
+			pdw_toggle_on : 1,
+	        pdw_toggle_toolbars : "2,3,4",
 			/*tabledraw,convertcelltype,*/
-			theme_advanced_buttons3 : "tablegrid,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells,|,hr,removeformat,|,codehighlight,loremipsum,youtube,|,cmspage"+catalog_tinymce_button,
 			//tabledraw,convertcelltype,|
 			//tableextras_col_size: 10, // Optional
 			//tableextras_row_size: 10, // Optional
@@ -49,8 +53,10 @@ $(function() {
 			cleanup_on_startup : true,
 			valid_elements : "*[*]",
 			extended_valid_elements : "pre[name|class]",
-			skin : "o2k7",
+			/*skin : "o2k7",
 			skin_variant : "silver",
+			*/
+			skin : "cirkuit",
 			width: '98%',
 			height:'300px',
 			theme_advanced_resizing_min_width : 320,
