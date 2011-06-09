@@ -1,9 +1,10 @@
 tinyMCE.addI18n('en.youtube_dlg',{
     title : "Insert a YouTube Video",
-    instr : "Insert the YouTube video ID of the video you want to appear.",
-    ytID : "ID",
+    instr : "Link format for sharing : http://youtu.be/xxxxxxxx",
+    ytID : "Link Sharing",
     ytW : "Width",
     ytH : "Height",
+    autoplay: "Autoplay",
     relvideo: "Include related videos",
     hd:"Watch in HD",
     yes:"Yes",

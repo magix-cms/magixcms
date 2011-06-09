@@ -6,32 +6,59 @@ var YouTubeDialog = {
 
 	insert : function() {
 		// Insert the contents from the input into the document
-		//SELECT Include related videos
-        var insertedRel = '';
-		var relvideo = document.getElementById("youtubeREL");
-		switch (relvideo.value)        {
-	        case '0': 
-	            insertedRel = '';
+		var f = document.forms[0], objectCode, videoSize = '', domSize = '', options = '';
+		//If no code just return.
+		if(f.youtubeID.value == '') {
+		  tinyMCEPopup.close();
+		  return false;
+		}
+		//SELECT AUTOPLY
+		switch (f.youtubeAutoplay.value){
+	        case '0':
+	        	options += '';
 	        break;
 	        case '1':
-	        	insertedRel = '&amp;rel=0';
+	        	options += '&amp;autoplay=1';
+            break;
+		}
+		//SELECT Include related videos
+		//var relvideo = document.getElementById("youtubeREL");
+		switch (f.youtubeREL.value)        {
+	        case '0': 
+	        	options += '';
+	            break;
+	        case '1':
+	        	options += '&amp;rel=0';
                 break;
 		}
 		//SELECT Watch in HD
-		var insertedHD = '';
-		var HD = document.getElementById("youtubeHD");
-		switch (HD.value)        {
+		//var HD = document.getElementById("youtubeHD");
+		switch (f.youtubeHD.value){
 	        case '0':
-	        	insertedHD = '';
+	        	options += '';
 	        break;
 	        case '1':
-	        	insertedHD = '&amp;hd=1';
+	        	options += '&amp;hd=1';
             break;
 		}
+		//Config Size Video
+		if(f.youtubeWidth.value != ''){
+			domSize += 'width: ' + f.youtubeWidth.value + ';';
+			videoSize += 'width="' + f.youtubeWidth.value + '"';
+		}
+		if(f.youtubeWidth.value != ''){
+			domSize += 'height: ' + f.youtubeHeight.value + ';';
+			videoSize += 'height="' + f.youtubeHeight.value + '"';
+		}
+		//Replace http://youtu.be/xxxxxxxx for http://www.youtube.com/v/xxxxxxxxxx
+		var youtubeuri = f.youtubeID.value.replace("http://youtu.be/","http://www.youtube.com/v/");
+		//Construct URL
+		var constructUri = youtubeuri+options;
+		//width="'+document.forms[0].youtubeWidth.value+'" height="'+document.forms[0].youtubeHeight.value+'"
 		// Insert the contents from the input into the document
-		var objectCode = '<div class="youtube" style="width:'+document.forms[0].youtubeWidth.value+';height:'+document.forms[0].youtubeHeight.value+';">';
-		objectCode +='<object type="application/x-shockwave-flash" width="'+document.forms[0].youtubeWidth.value+'" height="'+document.forms[0].youtubeHeight.value+'" data="http://www.youtube.com/v/'+document.forms[0].youtubeID.value+insertedRel+insertedHD+'">';
-		objectCode += '<param name="movie" value="http://www.youtube.com/v/'+document.forms[0].youtubeID.value+insertedRel+insertedHD+'" />';
+		var objectCode = '<div class="youtube" style="'+domSize+'">';
+		objectCode +='<object type="application/x-shockwave-flash" '+videoSize+' data="'+constructUri+'">';
+		objectCode += '<param name="movie" value="'+constructUri+'" />';
 		objectCode += '<param name="wmode" value="transparent" />';
 		objectCode += '</object>';
 		objectCode += '</div>';

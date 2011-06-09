@@ -1,7 +1,7 @@
 /**
  * You Tube plug-in for TinyMCE version 3.x
  * @author     Gerits Aurelien
- * @version    $Rev: 10 $
+ * @version    $Rev: 12 $
  * @package    YouTube
  */
 
@@ -19,12 +19,16 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
+			var t = this;
+
+			t.editor = ed;
+			var dom = ed.dom;
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceYouTube');
 			ed.addCommand('mceYouTube', function() {
 				ed.windowManager.open({
 					file : url + '/youtube.htm',
-					width : 320 + parseInt(ed.getLang('youtube.delta_width', 0)),
-					height : 220 + parseInt(ed.getLang('youtube.delta_height', 0)),
+					width : 360 + parseInt(ed.getLang('youtube.delta_width', 0)),
+					height : 280 + parseInt(ed.getLang('youtube.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
@@ -50,7 +54,14 @@
 		_visualAid : function(ed, e, s) {
 			var dom = ed.dom;
 			tinymce.each(dom.select('div.youtube', e), function(e) {
-				dom.setStyles(e, {'border' : '1px solid #cccccc', 'padding': '2px'});
+				dom.setStyles(e, {'background-color' : '#dcdcdc', 'padding': '2px'});
+				/*if (s){
+					dom.addClass(e, 'mceItemMedia');
+					dom.addClass(e, 'mceItem');
+				}else{
+					dom.removeClass(e, 'mceItemMedia');
+					dom.removeClass(e, 'mceItem');
+				}*/
 			});
 		},
 		/**
@@ -79,7 +90,7 @@
 				author : 'Gerits Aurelien',
 				authorurl : 'http://www.magix-cms.com',
 				infourl : 'http://www.magix-cms.com',
-				version : "1.0"
+				version : "1.2"
 			};
 		}
 	});
