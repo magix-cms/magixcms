@@ -31,37 +31,21 @@
  *
  */
 class backend_db_plugins{
-	/**
-	 * ini class magixLayer
-	 * singleton dbplugins
-	 * @access public
-	 * @var void
-	 */
-	static public $layerPlugins;
-	/**
-	 * instance backend_controller_plugins with singleton
-	 */
-	public static function layerPlugins(){
-        if (!isset(self::$layerPlugins)){
-         	self::$layerPlugins = new magixcjquery_magixdb_layer();
-        }
-    	return self::$layerPlugins;
-    }
     /**
      * Requête pour la construction du menu des plugins disponible
      */
-	function s_plugins_navigation_construct(){
+	public function s_plugins_navigation_construct(){
     	$sql = 'SELECT p.idplugin,p.pname FROM mc_plugins_module AS p WHERE p.pageadmin = 1';
-		return self::layerPlugins()->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
     } 
     /**
      * 
      * @param $getplugin
      */
-    function s_plugins_page_index($getplugin){
+    /*public function s_plugins_page_index($getplugin){
     	$sql = 'SELECT p.idplugin,p.pname FROM mc_plugins_module AS p WHERE pname = :getplugin';
-		return self::layerPlugins()->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getplugin'=>$getplugin
 		));
-    } 
+    } */
 }

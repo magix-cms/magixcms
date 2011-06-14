@@ -1,5 +1,62 @@
+2.3.44
+	* Suppression de tinymce 3.4.2
+	* Mise à jour de tinymce 3.4.3
+	* Ajout du fichier jrewritemetas
+	* Ajout du fichier jsettingeditor
+	* Ajout du fichier jsettingimage
+	* Ajout du fichier jsettingparams
+	* Ajout du fichier jsitemap
+	* Ajout du menu "paramètres" dans la configuration
+	* Ajout du menu "Editeur Wysiwyg" dans la configuration
+	* Ajout du menu "Taille des images" dans la configuration
+	* Modification du module "Réécriture des métas" dans l'administration (Adaptation avec la nouvelle table SQL).
+	
+2.3.43
+	* Fix bug dans le skin cirkuit de tinyMCE (adaptation pour plus de confort)
+	* Modification du plugin youtube dans tinyMCE (utilisation des URLS de partage plutôt qu'un identifiant)
+	* Ajout de l'option autoplay dans le plugin youtube pour tinyMCE
+	* Fix bug quote dans productsearch + restructuration du plugin cmspage (tinyMCE)
+	* Ajout de tinyMCE 3.4.2 avec un nouveau thème (cirkuit)
+	* Suppression du slider dans l'installation + préparation du système de mise à jour SQL
+	* Réaménagement de l'installation (CSS + JS)
+	* Ajout du système pour le test de connexion SQL
+	* Modification du comportement de l'installation
+	* Préparation pour le système d'upgrade
+	* Modification de la mise en page de l'installation.
+	
+2.3.42 RC6
+	* Suppression du menu "administrer" dans la configuration
+	* Upgrade tinymce 3.4.1
+	* Ajout du style pour le plugin tinyMCE codehighlight
+	* Fix bug des quote dans les plugins cmspage et productsearch
+	* Suppression de tinymce 3.4
+	* Ajout de le publication des news depuis le widget (backend)
+	* Fix bug quote dans l'affichage d'un emplacement vidéo
+	* Retourne l'url de la news dans l'édition
+	* Ajout de la fragmentation du module seo (début de la refonte)
+	* Ajout du nouveau widget seo pour les réécritures de métas (début de la refonte)
+	* Ajout de 112 icônes dans magix icon
+	* Ajout de nouveau formatage pour les manipulations de dates
+	* Upgrade la classe RSS pour correspondre au formatage des dates
+	* Modification de l'icône des plugins par défault
+	* Ajout de la variable pour la gestion des images de plugin côté admin
+	* Upgrade jquery 1.5.1 => 1.5.2
+	* Modification des plugins tinymce avec jquery 1.5.2
+	* Ajout d'un paramètre dans blockdom dans la liste des langues pour ajouter le bouton sur la droite
+	* Ajout de submenu afin d'analyser l'ergonomie des plugins et modules intégré
+	* Fix bug modification de la position d'une sous catégorie dans le catalogue
+	* Ajout de l'algorithme short_alphanumeric_id dans magixglobal
+	* Ajout de datepicker avec image dans globalform
+	
 beta 2.3.42 RC5
 	* Fix bug plugin tinyMCE cmspage, productsearch (insertion de lien)
+	* Ajout de codehighlight dans tinyMCE
+	* Upgrade jQuery validate 1.7=>1.8
+	* Upgrade jquery form 2.64=>2.67
+	* Début de la modification de magixicon
+	* Nettoyage de la css pour les formulaires frontend (default)
+	* Suppression tinymce 3.4b3
+	* Upgrade tinymce 3.4 stable
 	
 beta 2.3.42 RC4
 	* Fix bug ajout des sous catégories dans le catalogue

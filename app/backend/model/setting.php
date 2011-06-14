@@ -30,7 +30,7 @@
  * @name setting
  * Model setting
  */
-class backend_model_setting{
+class backend_model_setting extends db_setting{
 	/**
 	 * Constructor
 	 */
@@ -56,4 +56,68 @@ class backend_model_setting{
 			backend_db_setting::adminDbSetting()->u_uniq_setting_value($setting_id,$setting_value);
 		}
 	}
+	/**
+	 * @access public
+	 * Retourne la valeur unique dans un tableau
+	 * @param string $attr_name
+	 */
+	public static function tabs_load_config($attr_name){
+		return parent::array_data_config($attr_name);
+	}
+	/**
+	 * @access private
+	 * Assign les variables pour les paramètres des tailles images
+	 */
+	public function assign_img_size($attr_name){
+		if(!is_null($attr_name)){
+			foreach (parent::s_all_img_size_config($attr_name) as $conf){
+				backend_controller_template::assign($conf['name_size'],$conf['num_size']);
+			}
+		}
+	}
+	public function load_img_size($name_size){
+		if(!is_null($name_size)){
+			$db = parent::s_load_img_size($name_size);
+			return $db['num_size'];
+		}
+	}
+}
+/**
+ * 
+ * Classe pour les requêtes SQL vers les tables de configuration
+ * @author aureliengerits
+ *
+ */
+class db_setting{
+	/**
+	 * @access protected
+	 * Retourne les données de configuration suivant sont attribut
+	 * @param string $attr_name
+	 */
+	protected function array_data_config($attr_name){
+		$sql = 'SELECT * FROM mc_config WHERE attr_name = :attr_name';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':attr_name' =>	$attr_name
+		));
+	}
+	/**
+	 * @access protected
+	 * Charge la configuration de la taille des images suivant sont attribut
+	 * @param string $attr_name
+	 */
+	protected function s_all_img_size_config($attr_name){
+    	$sql = 'SELECT ci.* FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name';
+    	return magixglobal_model_db::layerDB()->select($sql,array(
+    		':attr_name'=>$attr_name
+    	));
+    }
+	protected function s_load_img_size($name_size){
+    	$sql = 'SELECT ci.* FROM mc_config_size_img as ci
+    	WHERE ci.name_size = :name_size';
+    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
+    		':name_size'=>$name_size
+    	));
+    }
 }

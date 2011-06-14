@@ -105,6 +105,10 @@ class frontend_controller_catalog{
 			$page .= frontend_config_smarty::getInstance()->assign('imgcatalog',$imgc);
 			$page .= frontend_config_smarty::getInstance()->assign('desccatalog',$products['desccatalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('urlcatalog',$uri);
+			$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($this->getlang, $products['pathclibelle'],$products['idclc'],true);			
+			$uri_subcat = magixglobal_model_rewrite::filter_catalog_subcategory_url($this->getlang, $products['pathclibelle'],$products['idclc'],$products['pathslibelle'],$products['idcls'],true);	
+			$page .= frontend_config_smarty::getInstance()->assign('uri_cat',$uri_cat);
+			$page .= frontend_config_smarty::getInstance()->assign('uri_subcat',$uri_subcat);
 		}else{
 			$products = frontend_db_catalog::publicDbCatalog()->s_product_page_no_language($this->idclc,$this->idproduct);
 			/**
@@ -129,6 +133,10 @@ class frontend_controller_catalog{
 			$page .= frontend_config_smarty::getInstance()->assign('imgcatalog',$imgc);
 			$page .= frontend_config_smarty::getInstance()->assign('desccatalog',$products['desccatalog']);
 			$page .= frontend_config_smarty::getInstance()->assign('urlcatalog',$uri);
+			$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($this->getlang, $products['pathclibelle'],$products['idclc'],true);			
+			$uri_subcat = magixglobal_model_rewrite::filter_catalog_subcategory_url($this->getlang, $products['pathclibelle'],$products['idclc'],$products['pathslibelle'],$products['idcls'],true);	
+			$page .= frontend_config_smarty::getInstance()->assign('uri_cat',$uri_cat);
+			$page .= frontend_config_smarty::getInstance()->assign('uri_subcat',$uri_subcat);
 		}
 		return $page;
 	}
@@ -151,6 +159,8 @@ class frontend_controller_catalog{
 		frontend_config_smarty::getInstance()->assign('clibelle',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
 		frontend_config_smarty::getInstance()->assign('slibelle',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
 		frontend_config_smarty::getInstance()->assign('s_content',$subcatname['s_content']);
+		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($this->getlang, $subcatname['pathclibelle'],$subcatname['idclc'],true);			
+		frontend_config_smarty::getInstance()->assign('uri_cat',$uri_cat);
 		frontend_config_smarty::getInstance()->display('catalog/subcategory.phtml');
 	}
 	/**

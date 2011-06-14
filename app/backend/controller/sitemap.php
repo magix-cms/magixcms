@@ -56,23 +56,26 @@ class backend_controller_sitemap{
 	 * Ping Google (get)
 	 * @var void
 	 **/
-	public $googleping;
+	public $googleping,$compressionping;
 	/**
 	 * @access public
 	 * Constructor
 	 */
 	public function  __construct(){
-		if(magixcjquery_filter_request::isGet('create_xml_index')) {
-			$this->create_xml_index = $_GET['create_xml_index'];
+		if(magixcjquery_filter_request::isPost('create_xml_index')) {
+			$this->create_xml_index = magixcjquery_form_helpersforms::inputClean($_POST['create_xml_index']);
 		}
-		if(magixcjquery_filter_request::isGet('create_xml_url')) {
-			$this->create_xml_url = $_GET['create_xml_url'];
+		if(magixcjquery_filter_request::isPost('create_xml_url')) {
+			$this->create_xml_url = magixcjquery_form_helpersforms::inputClean($_POST['create_xml_url']);
 		}
-		if(magixcjquery_filter_request::isGet('create_xml_images')) {
-			$this->create_xml_images = $_GET['create_xml_images'];
+		if(magixcjquery_filter_request::isPost('create_xml_images')) {
+			$this->create_xml_images = magixcjquery_form_helpersforms::inputClean($_POST['create_xml_images']);
 		}
-		if(magixcjquery_filter_request::isGet('googleping')) {
-			$this->googleping = $_GET['googleping'];
+		if(magixcjquery_filter_request::isPost('googleping')) {
+			$this->googleping = magixcjquery_form_helpersforms::inputClean($_POST['googleping']);
+		}
+		if(magixcjquery_filter_request::isPost('compressionping')) {
+			$this->compressionping = magixcjquery_form_helpersforms::inputClean($_POST['compressionping']);
 		}
 	}
 	//SITEMAP
@@ -168,7 +171,7 @@ class backend_controller_sitemap{
         	$this->lastmod_dateFormat()
         );
         ///magixcjquery_debug_magixfire::magixFireLog(magixcjquery_html_helpersHtml::getUrl().'/sitemap-url.xml');
-        $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
+        $config = backend_model_setting::tabs_load_config('catalog');
 		if($config['status'] == 1){
         	$sitemap->writeMakeNodeIndex(
         		magixcjquery_html_helpersHtml::getUrl().'/sitemap-images.xml',
@@ -183,7 +186,7 @@ class backend_controller_sitemap{
 	private function writeNews(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
-        $config = backend_db_config::adminDbConfig()->s_config_named('news');
+        $config = backend_model_setting::tabs_load_config('news');
 		if($config['status'] == 1){
 			/**
 			 * La racine des news par langue
@@ -220,7 +223,7 @@ class backend_controller_sitemap{
 	private function writeCms(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
-        $config = backend_db_config::adminDbConfig()->s_config_named('cms');
+        $config = backend_model_setting::tabs_load_config('cms');
 		if($config['status'] == 1){
 	        foreach(backend_db_sitemap::adminDbSitemap()->s_cms_sitemap() as $data){
 	        	if($data['date_page'] == '0000-00-00 00:00:00'){
@@ -251,7 +254,7 @@ class backend_controller_sitemap{
 	private function writeCatalog(){
 		/*instance la classe*/
         $sitemap = new magixcjquery_xml_sitemap();
-        $config = backend_db_config::adminDbConfig()->s_config_named('catalog');
+        $config = backend_model_setting::tabs_load_config('catalog');
 		if($config['status'] == 1){
 			foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_category_sitemap() as $data){
 		       	$sitemap->writeMakeNode(
@@ -543,7 +546,7 @@ class backend_controller_sitemap{
 		$statnews = backend_db_news::adminDbNews()->s_count_news_max();
 		$statcms = backend_db_cms::adminDbCms()->s_count_cms_max();
 		$statcatalog = backend_db_catalog::adminDbCatalog()->s_count_catalog_max();
-		$confignews = backend_db_config::adminDbConfig()->s_config_named('news');
+		$confignews = backend_model_setting::tabs_load_config('news');
 		/**
 		 * Statistique des news
 		 * @var $statnews void
@@ -555,7 +558,7 @@ class backend_controller_sitemap{
 		 * Statistique du CMS
 		 * @var $statcms void
 		 */
-		$configcms = backend_db_config::adminDbConfig()->s_config_named('cms');
+		$configcms = backend_model_setting::tabs_load_config('cms');
 		if($configcms['status'] == 1){
 			backend_config_smarty::getInstance()->assign('statcms',$statcms['total']);
 		}
@@ -563,7 +566,7 @@ class backend_controller_sitemap{
 		 * Statistique du catalogue
 		 * @var $statcatalog void
 		 */
-		$configcatalog = backend_db_config::adminDbConfig()->s_config_named('catalog');
+		$configcatalog = backend_model_setting::tabs_load_config('catalog');
 		if($configcatalog['status'] == 1){
 			backend_config_smarty::getInstance()->assign('statcatalog',$statcatalog['total']);
 		}
@@ -632,7 +635,7 @@ class backend_controller_sitemap{
 	 * Execution de la création du sitemap des images
 	 */
 	private function execImages(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('catalog');
+		$config = backend_model_setting::tabs_load_config('catalog');
 		if($config['status'] == 1){
 			self::createXMLImgFile();
 			self::writeImagesCatalog();
@@ -647,15 +650,15 @@ class backend_controller_sitemap{
 	 * @access public
 	 */
 	public function run(){
-		if(magixcjquery_filter_request::isGet('create_xml_index')){
+		if($this->create_xml_index){
 			self::execIndex();
-		}elseif(magixcjquery_filter_request::isGet('create_xml_url')){
+		}elseif($this->create_xml_url){
 			self::exec();
-		}elseif(magixcjquery_filter_request::isGet('create_xml_images')){
+		}elseif($this->create_xml_images){
 			self::execImages();
-		}elseif(magixcjquery_filter_request::isGet('googleping')){
+		}elseif($this->googleping){
 			self::execPing();
-		}elseif(magixcjquery_filter_request::isGet('compressionping')){
+		}elseif($this->compressionping){
 			self::execCompressionPing();
 		}else{
 			self::display();

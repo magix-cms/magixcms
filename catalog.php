@@ -33,35 +33,7 @@
 /**
  * Charge toutes les Classes de l'application
  */
-$loaderFilename = dirname(realpath( __FILE__ )).DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'loaderIniclass.php';
-if (!file_exists($loaderFilename)) {
-	print "<p>Loader is not found<br />Contact Support Magix CMS: support@magix-cms.com</p>";
-	exit;
-}else{
-	require $loaderFilename;
-}
-$loadfrontend = magixglobal_model_system::base_path().'app'.DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR.'autoload.php';
-if (!file_exists($loadfrontend)) {
-	print "<p>Loader is not found<br />Contact Support Magix CMS: support@magix-cms.com</p>";
-	exit;
-}else{
-	require $loadfrontend;
-}
-$config = magixglobal_model_system::base_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
-if (!file_exists($config)) {
-	//Header("Location: /install/index.php");
-	print '<p>La base de donnée n\'existe pas, veuillez suivre la procédure pour faire l\'<a href="/install/">installation</a> de Magix CMS</p>';
-	exit;
-}
-/**
- * Autoload Frontend
- */
-frontend_Autoloader::register();
-session_name('lang');
-ini_set('session.hash_function',1);
-session_start();
-$lang = new frontend_model_IniLang();
-$lang->autoLangSession();
+require('lib/mcfrontend.php');
 $ini = new frontend_controller_catalog();
 $ini->run();
 ?>

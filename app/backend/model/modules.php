@@ -1,5 +1,5 @@
 <?php
-class dcbackend_model_modules{
+class backend_model_modules{
 	/**
 	 * Tableau des modules
 	 * @access public
@@ -7,7 +7,7 @@ class dcbackend_model_modules{
 	 */
 	private static $_array_module;
 	private static $options_default = array(
-		'News'=>'news','CMS'=>'cms','Catalogue'=>'catalog'
+		'News'=>'news','Catalogue'=>'catalog'
 	);
 	/**
 	 * 
@@ -31,7 +31,7 @@ class dcbackend_model_modules{
 	 */
 	public static function select_menu_module(){
 		$arrayMod = self::_tab_module();
-		$module = '<select name="getmodule" id="getmodule" class="ui-widget-content">';
+		$module = '<select name="attribute" id="attribute" class="ui-widget-content">';
 		$module .= '<option value="">Choisir un module</option>';
 		foreach($arrayMod as $md => $key){
 			$module .='<option value="'.$key.'">'.$md.'</option>';

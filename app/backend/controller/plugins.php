@@ -240,9 +240,9 @@ class backend_controller_plugins{
 	 * @static
 	 */
 	public function sessionLanguage(){
-		if(isset($_SESSION['mc_adminlangue'])){
-			if(!empty($_SESSION['mc_adminlangue'])){
-				return magixcjquery_filter_join::getCleanAlpha($_SESSION['mc_adminlangue'],3);
+		if(isset($_SESSION['mc_adminlanguage'])){
+			if(!empty($_SESSION['mc_adminlanguage'])){
+				return magixcjquery_filter_join::getCleanAlpha($_SESSION['mc_adminlanguage'],3);
 			}
 		}
 	}

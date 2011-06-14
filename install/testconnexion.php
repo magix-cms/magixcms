@@ -33,19 +33,9 @@
 /**
  * Charge toutes les Classes de l'application
  */
-$pathinstall = dirname(realpath( __FILE__ ));
-$arrayinstall = array('install');
-$incinstall = str_replace($arrayinstall,array('') , $pathinstall);
-require(dirname(__FILE__).'/exec/autoload.php');
-$loaderFilename = $incinstall.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'loaderIniclass.php';
-if (!file_exists($loaderFilename)) {
-	print "<p>Loader is not found<br />Contact Webmestre: support@magix-cms.com</p>";
-	exit;
-}else{
-	require $loaderFilename;
-}
+require('../lib/mcinstall.php');
 /**
- * Autoload Frontend
+ * Autoload Exec install
  */
 exec_Autoloader::register();
 $exec = new exec_controller_testconnexion();

@@ -61,12 +61,7 @@ class backend_controller_admin{
 	 *
 	 * @var string
 	 */
-	protected $achpass;
-	/**
-	 * 
-	 * @var hash
-	 */
-	static protected $hash;
+	public $hashtoken;
 	/**
 	 * private var password re-genere
 	 *
@@ -80,17 +75,18 @@ class backend_controller_admin{
 	 * @var void
 	 */
 	function __construct(){
-		if(isset($_POST['acpass']) && isset($_POST['achpass'])){
-			$this->achpass = $_POST['achpass'];
-		    $this->acpass = (string) sha1(magixcjquery_filter_var::escapeHTML($_POST['acpass']));
+		if(magixcjquery_filter_request::isPost('acpass')){
+		    $this->acpass = (string) sha1(magixcjquery_form_helpersforms::inputClean($_POST['acpass']));
           }
-          if (isset($_GET['acsclose'])) {
-          	$this->acsclose = magixcjquery_filter_isVar::isPostAlpha($_GET['acsclose']);
-          }
-          if(isset($_POST['acmail'])){
-         	 $this->acmail = (string) magixcjquery_filter_var::escapeHTML($_POST['acmail']); 
-          }
-          self::$hash = uniqid('',true);
+		if(magixcjquery_filter_request::isPost('hashtoken')){
+          	$this->hashtoken = magixcjquery_filter_var::escapeHTML($_POST['hashtoken']);
+        }
+        if (magixcjquery_filter_request::isGet('acsclose')) {
+        	$this->acsclose = magixcjquery_filter_isVar::isPostAlpha($_GET['acsclose']);
+        }
+		if(magixcjquery_filter_request::isPost('acmail')){
+         	 $this->acmail = magixcjquery_filter_isVar::isMail($_POST['acmail']); 
+        }
 	}
 	/**
 	 * Crypt md5
@@ -102,45 +98,78 @@ class backend_controller_admin{
 		return md5($hash);
 	}
 	/**
-	 * function Send session and redirect page
-	 *
+	 * @access private
+	 * Initialisation du token de session
 	 */
-	function authSession(){
-		$token = self::hashPassCreate(self::$hash);
-		backend_config_smarty::getInstance()->assign('hashpass',$token);
-		if (isset($this->acpass) AND isset($this->acmail) AND isset($this->achpass)) {
-			if(strcasecmp($this->achpass,$token) == true){
+	private function tokenInitSession(){
+		if (empty($_SESSION['mc_auth_token'])){
+			return $_SESSION['mc_auth_token'] = magixglobal_model_cryptrsa::tokenId();
+		}else{
+			if (isset($_SESSION['mc_auth_token'])){
+				return $_SESSION['mc_auth_token'];
+			}
+		}
+	}
+	/**
+	 * @access private
+	 * SESSION START
+	 */
+	private function start_session(){
+		session_name('adminlang');
+		ini_set('session.hash_function',1);
+		session_start();
+	}
+	/**
+	 * @access private
+	 * Vérification de la session pour accèder à l'administration
+	 * @param bool $debug
+	 */
+	private function authSession($debug = false){
+		$token = isset($_SESSION['mc_auth_token']) ? $_SESSION['mc_auth_token'] : magixglobal_model_cryptrsa::tokenId();
+		$tokentools = $this->hashPassCreate($token);
+		backend_config_smarty::getInstance()->assign('hashpass',$tokentools);
+		if (isset($this->acpass) AND isset($this->acmail) AND isset($this->hashtoken)) {
+			if(strcasecmp($this->hashtoken,$tokentools) == 0){
+				if($debug == true){
+					$firebug = new magixcjquery_debug_magixfire();
+					$firebug->magixFireGroup('tokentest');
+					if($this->hashtoken){
+						if(strcasecmp($this->hashtoken,$tokentools) == 0){
+							$firebug->magixFireLog('session compatible');
+						}else{
+							$firebug->magixFireError('session incompatible');
+						}
+					}
+					$firebug->magixFireLog($_SESSION);
+					$firebug->magixFireGroupEnd();
+				}
 				if(count(backend_db_admin::adminDbMember()->s_auth_exist($this->acmail,$this->acpass)) == true){
 					$session = new backend_model_sessions();
 					$string = $_SERVER['HTTP_USER_AGENT'];
 					$string .= 'SHIFLETT';
 					/* Add any other data that is consistent */
 					$fingerprint = md5($string);
-					session_name('adminlang');
-					ini_set('session.hash_function',1);
-					session_start();
+					//Fermeture de la première session, ses données sont sauvegardées.
+					session_write_close();
+					$this->start_session();
 					$const_url = backend_db_admin::adminDbMember()->s_t_profil_url($this->acmail);
 					if (!isset($_SESSION['useradmin'])) {
 						$session->openSession($const_url['idadmin'],session_regenerate_id(true));
 						//session_regenerate_id(true);
 		    			$_SESSION['useradmin'] = $this->acmail;
-		    			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard.php');	
+		    			magixglobal_model_redirect::backend_redirect_login(false);	
 					}else{
 						$session->openSession($const_url['idadmin'],null);
 						$_SESSION['useradmin'] = $this->acmail;
-						header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/dashboard.php');	
+						magixglobal_model_redirect::backend_redirect_login(false);	
 					}
 				}else{
-					backend_config_smarty::getInstance()->assign('msg',
-					'<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all"> 
-						<strong>Alert:</strong> Login failed
-					</div>');
+					$fetch = backend_config_smarty::getInstance()->fetch('login/request/failed.phtml');
+					backend_config_smarty::getInstance()->assign('msg',$fetch);
 				}
 			}else{
-					backend_config_smarty::getInstance()->assign('msg',
-					'<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all"> 
-						<strong>Alert:</strong> Error hashed conflict
-					</div>');
+					$fetch = backend_config_smarty::getInstance()->fetch('login/request/hash.phtml');
+					backend_config_smarty::getInstance()->assign('msg',$fetch);
 			}
 		}
 	}
@@ -148,24 +177,22 @@ class backend_controller_admin{
 	 * function secure page with session verif
 	 * @return header
 	 */
-	function securePage(){
+	public function securePage(){
 		//ini_set("session.cookie_lifetime",1800);
-		session_name('adminlang');
-		ini_set('session.hash_function',1);
-		session_start();
+		$this->start_session();
 		if (!isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
 			if (!isset($this->acmail)) {
-				header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login.php');	
+				magixglobal_model_redirect::backend_redirect_login(true);	
 			}
 		}elseif(!backend_model_sessions::compareSessionId()){
-			header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login.php');	
+			magixglobal_model_redirect::backend_redirect_login(true);	
 		}
 	}
 	/**
 	* function close Session in erase cookies
 	* @return header
 	*/
-	function closeSession(){
+	public function closeSession(){
 		if (isset($this->acsclose)) {
 			if (isset($_SESSION['useradmin'])){	
 				$session = new backend_model_sessions();
@@ -174,7 +201,7 @@ class backend_controller_admin{
 				$_SESSION = array();
 				session_destroy();
 				session_start();
-				header('location: '.magixcjquery_html_helpersHtml::getUrl().'/admin/login.php');	
+				magixglobal_model_redirect::backend_redirect_login(true);	
 			}
 		}
 	}
@@ -182,8 +209,10 @@ class backend_controller_admin{
 	 * Affiche le formulaire d'identification
 	 * @return void
 	 */
-	function login(){
-		self::authSession();
+	public function login($debug){
+		$this->start_session();
+		$this->tokenInitSession();
+		$this->authSession($debug);
 		backend_config_smarty::getInstance()->display('login/index.phtml');
 	}
 }

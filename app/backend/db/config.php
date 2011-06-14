@@ -31,33 +31,18 @@
  *
  */
 class backend_db_config{
-	/**
-	 * singleton dbconfig
-	 * @access public
-	 * @var void
-	 */
-	static public $admindbconfig;
-	/**
-	 * instance backend_db_config with singleton
-	 */
-	public static function adminDbConfig(){
-        if (!isset(self::$admindbconfig)){
-         	self::$admindbconfig = new backend_db_config();
-        }
-    	return self::$admindbconfig;
-    }
-    function s_config_named_all(){
+    /*protected function s_config_named_all(){
     	$sql = 'SELECT * FROM mc_global_config WHERE idconfig >= 5';
     	return magixglobal_model_db::layerDB()->select($sql);
-    }
+    }*/
     /**
      * Selectionne la configuration global suivant la variable
      * @param $named
      */
-    function s_config_named($named){
-    	$sql = 'SELECT named,status FROM mc_global_config WHERE named = :named';
+    protected function s_config_named($attr_name){
+    	$sql = 'SELECT attr_name,status FROM mc_config WHERE attr_name = :attr_name';
     	return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':named' =>	$named
+			':attr_name' =>	$attr_name
 		));
     }
     /**
@@ -65,133 +50,26 @@ class backend_db_config{
      * @param $status
      * @param $named
      */
-    function u_config_states($status,$named){
-    	$sql = 'UPDATE mc_global_config SET status = :status WHERE named = :named';
+    protected function u_config_states($status,$attr_name){
+    	$sql = 'UPDATE mc_config SET status = :status WHERE attr_name = :attr_name';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':status'  =>	$status,
-			':named'   =>	$named
+			':attr_name'  => $attr_name
 		));
     }
-    /**
-     * selectionne la métas suivant la catégorie, la langue et le type (title ou description)
-     * @param $codelang (langue)
-     * @param $idconfig (module ex: rewritenews = 5)
-     * @param $idmetas (1 ou 2) (title ou description)
-     */
-	function s_rewrite_meta($idconfig=null){
-		if($idconfig != null){
-			$id = 'WHERE r.idconfig = '.$idconfig;
-		}else{
-			$id = null;
-		}
-		$sql = 'SELECT r.idrewrite,r.idmetas,lang.codelang,r.strrewrite,r.level,conf.named FROM mc_metas_rewrite as r
-		LEFT JOIN mc_global_config AS conf ON(r.idconfig = conf.idconfig)
-		LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
-		'.$id.'
-		ORDER BY lang.codelang';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
-	/**
-	 * selectionne les données suivant la langue
-	 * @param $idlang
-	 */
-	function s_rewrite_v_lang($idconfig,$idlang,$idmetas,$level){
-		$sql ='SELECT idrewrite
-				FROM mc_metas_rewrite AS r
-				WHERE r.idconfig =:idconfig AND r.idmetas =:idmetas AND r.level =:level AND r.idlang =:idlang';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-		':idconfig'	=>	$idconfig,	
-		':idlang' 	=>	$idlang,
-		':idmetas'	=>	$idmetas,
-		':level'	=>	$level
-		));
-	}
-	/**
-	 * selectionne les données suivant la langue
-	 * @param $idlang
-	 */
-	function s_rewrite_for_edit($idrewrite){
-		$sql ='SELECT lang.idlang,lang.codelang,r.idconfig,r.idrewrite,r.strrewrite,r.idmetas,r.level,conf.named
-				FROM mc_metas_rewrite AS r
-				LEFT JOIN mc_global_config as conf ON(r.idconfig = conf.idconfig)
-				LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
-				WHERE r.idrewrite =:idrewrite';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idrewrite'	=>	$idrewrite
-		));
-	}
-	/**
-	 * insertion d'une réecriture des métas
-	 * @param $idconfig
-	 * @param $idlang
-	 * @param $strrewrite
-	 * @param $idmetas
-	 * @param $level
-	 */
-	function i_rewrite_metas($idconfig,$idlang,$strrewrite,$idmetas,$level){
-    	$sql = 'INSERT INTO mc_metas_rewrite (idconfig,idlang,strrewrite,idmetas,level) 
-				VALUE(:idconfig,:idlang,:strrewrite,:idmetas,:level)';
-		magixglobal_model_db::layerDB()->insert($sql,
-		array(
-			':idconfig'			=>	$idconfig,
-			':idlang'			=>	$idlang,
-			':strrewrite'		=>	$strrewrite,
-			':idmetas'			=>	$idmetas,
-			':level'			=>	$level
-		));
-    }
-    /**
-     * mise à jour de la métas
-     * @param $idconfig
-     * @param $idlang
-     * @param $strrewrite
-     * @param $idmetas
-     * @param $level
-     * @param $idrewrite
-     */
-	function u_rewrite_metas($idconfig,$idlang,$strrewrite,$idmetas,$level,$idrewrite){
-    	$sql = 'UPDATE mc_metas_rewrite 
-    	SET idconfig = :idconfig,
-    	idlang  = :idlang,
-    	strrewrite = :strrewrite,
-    	idmetas = :idmetas,
-    	level = :level
-    	WHERE idrewrite = :idrewrite';
-		magixglobal_model_db::layerDB()->update($sql,
-		array(
-			':idconfig'			=>	$idconfig,
-			':idlang'			=>	$idlang,
-			':strrewrite'		=>	$strrewrite,
-			':idmetas'			=>	$idmetas,
-			':level'			=>	$level,
-			':idrewrite'		=>	$idrewrite
-		));
-    }
-    /**
-     * supprime une réecriture des métas
-     * @param $delconfig
-     */
-	function d_rewrite_metas($delconfig){
-		$sql = 'DELETE FROM mc_metas_rewrite WHERE idrewrite = :delconfig';
-			magixglobal_model_db::layerDB()->delete($sql,
-			array(
-				':delconfig'	=>	$delconfig
-		)); 
-	}
-	function config_limited_module(){}
 	/**
 	 * Vérifie que le module exist dans la table
 	 */
-	function s_limited_module_exist(){
-		$sql = 'SELECT idconfig FROM mc_config_limited_module WHERE idconfig = 3';
+	protected function s_limited_module_exist(){
+		$sql = 'SELECT attribute FROM mc_config_limited_module WHERE attribute = "cms"';
     	return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * Sélectionne le nombre de limitation de page par module
 	 */
-	function s_config_number_module(){
-		$sql = 'SELECT idconfig,number FROM mc_config_limited_module WHERE idconfig = 3';
+	protected function s_config_number_module(){
+		$sql = 'SELECT attribute,number FROM mc_config_limited_module WHERE attribute = "cms"';
     	return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
@@ -199,12 +77,12 @@ class backend_db_config{
 	 * @param $idconfig
 	 * @param $number
 	 */
-	function u_limited_module($idconfig,$number){
-		$sql = 'UPDATE mc_config_limited_module SET number = :number WHERE idconfig = :idconfig';
+	protected function u_limited_module($attribute,$number){
+		$sql = 'UPDATE mc_config_limited_module SET number = :number WHERE attribute = :attribute';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
-			':idconfig'			=>	$idconfig,
-			':number'			=>	$number
+			':attribute' =>	$attribute,
+			':number'	 =>	$number
 		));
 	}
 }

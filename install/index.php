@@ -33,25 +33,7 @@
 /**
  * Charge toutes les Classes de l'application
  */
-$pathinstall = dirname(realpath( __FILE__ ));
-$arrayinstall = array('install');
-$incinstall = str_replace($arrayinstall,array('') , $pathinstall);
-require(dirname(__FILE__).'/exec/autoload.php');
-$loaderFilename = $incinstall.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'loaderIniclass.php';
-if (!file_exists($loaderFilename)) {
-	print "<p>Loader is not found<br />Contact Webmestre: support@magix-cms.com</p>";
-	exit;
-}else{
-	require $loaderFilename;
-}
-/*$config_in = $_SERVER['DOCUMENT_ROOT'].'/app/config/common.inc.php';
-if (is_file($config_in)) {
-	exit(sprintf('Configuration file does not exist. Please create one first. '.
-		'You may use the <a href="%s">wizard</a>.','check.php'));
-	exit;
-}else{
-	header('location: '.magixcjquery_html_helpersHtml::getUrl()); 
-}*/
+require('../lib/mcinstall.php');
 /**
  * Autoload Frontend
  */

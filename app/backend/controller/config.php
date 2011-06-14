@@ -30,7 +30,7 @@
  * @name config
  *
  */
-class backend_controller_config{
+class backend_controller_config extends backend_db_config{
 	/**
 	 * @access public
 	 * @var string
@@ -65,127 +65,70 @@ class backend_controller_config{
 	 * @access public
 	 * @var string
 	 */
-	public $rewritenews;
-	/**
-	 * @access public
-	 * @var string
-	 */
-	public $rewritecms;
-	/**
-	 * @access public
-	 * @var string
-	 */
-	public $rewritecatalog;
-	/**
-	 * 
-	 * @var intéger
-	 */
-	public $idmetas;
-	/**
-	 * 
-	 * @var intéger
-	 */
-	public $idlang;
-	/**
-	 * Identifiant de la configuration
-	 * @var integer
-	 */
-	public $idconfig;
-	/**
-	 * Phrase pour la réécriture des métas
-	 * @var string
-	 */
-	public $strrewrite;
-	/**
-	 * Niveau de la réécriture des métas
-	 * @var integer
-	 */
-	public $level;
+	public $configrmetas;
 	/**
 	 * intéger number for limited configuration
 	 * @var number
 	 */
 	public $number;
 	/**
-	 * Edition d'une réécriture des métas
-	 * @var integer
+	 * 
+	 * Attribut
+	 * @var Attribut
 	 */
-	public $edit;
-	/**
-	 * Supprime une réécriture via l'identifiant
-	 * @var drmetas
-	 */
-	public $drmetas;
-	/**
-	 * Sélectionne l'éditeur html
-	 * @var string
-	 */
-	public $editor;
-	/**
-	 * Sélectionne le manager des fichiers de l'éditeur html
-	 * @var string
-	 */
-	public $manager_setting;
+	public $attribute;
 	/**
 	 * function construct
 	 */
 	function __construct(){
-		if(isset($_POST['configlang'])){
+		if(magixcjquery_filter_request::isPost('configlang')){
 			$this->configlang = magixcjquery_filter_isVar::isPostNumeric($_POST['configlang']);
 		}
-		if(isset($_POST['configcms'])){
+		if(magixcjquery_filter_request::isPost('configcms')){
 			$this->configcms = magixcjquery_filter_isVar::isPostNumeric($_POST['configcms']);
 		}
-		if(isset($_POST['confignews'])){
+		if(magixcjquery_filter_request::isPost('confignews')){
 			$this->confignews = magixcjquery_filter_isVar::isPostNumeric($_POST['confignews']);
 		}
-		if(isset($_POST['configcatalog'])){
+		if(magixcjquery_filter_request::isPost('configcatalog')){
 			$this->configcatalog = magixcjquery_filter_isVar::isPostNumeric($_POST['configcatalog']);
 		}
-		if(isset($_POST['configforms'])){
+		if(magixcjquery_filter_request::isPost('configforms')){
 			$this->configforms = magixcjquery_filter_isVar::isPostNumeric($_POST['configforms']);
 		}
-		if(isset($_POST['configmicrogalery'])){
+		if(magixcjquery_filter_request::isPost('configmicrogalery')){
 			$this->configmicrogalery = magixcjquery_filter_isVar::isPostNumeric($_POST['configmicrogalery']);
 		}
-		if(isset($_POST['rewritenews'])){
-			$this->rewritenews = magixcjquery_filter_isVar::isPostNumeric($_POST['rewritenews']);
+		if(magixcjquery_filter_request::isPost('configrmetas')){
+			$this->configrmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['configrmetas']);
 		}
-		if(isset($_POST['rewritecms'])){
-			$this->rewritecms = magixcjquery_filter_isVar::isPostNumeric($_POST['rewritecms']);
-		}
-		if(isset($_POST['rewritecatalog'])){
-			$this->rewritecatalog = magixcjquery_filter_isVar::isPostNumeric($_POST['rewritecatalog']);
-		}
-		if(isset($_POST['idlang'])){
-			$this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
-		}
-		if(isset($_POST['idconfig'])){
-			$this->idconfig = magixcjquery_filter_isVar::isPostNumeric($_POST['idconfig']);
-		}
-		if(isset($_POST['idmetas'])){
-			$this->idmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['idmetas']);
-		}
-		if(isset($_POST['strrewrite'])){
-			$this->strrewrite = magixcjquery_form_helpersforms::inputClean($_POST['strrewrite']);
-		}
-		if(isset($_POST['level'])){
-			$this->level = magixcjquery_filter_isVar::isPostNumeric($_POST['level']);
-		}
-		if(isset($_POST['number'])){
+		if(magixcjquery_filter_request::isPost('number')){
 			$this->number = magixcjquery_filter_isVar::isPostNumeric($_POST['number']);
 		}
-		if(isset($_GET['edit'])){
-			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+		if(magixcjquery_filter_request::isPost('attribute')){
+			$this->attribute = magixcjquery_form_helpersforms::inputClean($_POST['attribute']);
 		}
-		if(isset($_GET['drmetas'])){
-			$this->drmetas = magixcjquery_filter_isVar::isPostNumeric($_GET['drmetas']);
-		}
-		if(isset($_POST['editor'])){
-			$this->editor = magixcjquery_form_helpersforms::inputClean($_POST['editor']);
-		}
-		if(isset($_POST['manager_setting'])){
-			$this->manager_setting = magixcjquery_form_helpersforms::inputClean($_POST['manager_setting']);
+	}
+	/**
+	 * @access public
+	 * @static
+	 * Retourne la valeur de la configuration suivant l'identifiant
+	 * @param (string) $setting_id
+	 */
+	private function select_uniq_setting($setting_id){
+		if(!is_null($setting_id));
+		$set = backend_db_setting::adminDbSetting()->s_uniq_setting_value($setting_id);
+		return $set['setting_value'];
+	}
+	/**
+	 * @access public
+	 * @static
+	 * @param (string) $setting_id
+	 * @param (string) $setting_value
+	 */
+	private function update_setting_value($setting_id,$setting_value){
+		if(isset($setting_id)){
+			backend_db_setting::adminDbSetting()->u_uniq_setting_value($setting_id,$setting_value);
 		}
 	}
 	/**
@@ -194,8 +137,9 @@ class backend_controller_config{
 	 * @string
 	 */
 	private function load_config_lang(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('lang');
-		backend_config_smarty::getInstance()->assign('configlang',$config['status']);
+		$config = backend_model_setting::tabs_load_config('lang');
+		//$config = backend_db_config::adminDbConfig()->s_config_named('lang');
+		backend_controller_template::assign('configlang',$config['status']);
 	}
 	/**
 	 * @access private
@@ -203,8 +147,8 @@ class backend_controller_config{
 	 * @string
 	 */
 	private function load_config_cms(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('cms');
-		backend_config_smarty::getInstance()->assign('configcms',$config['status']);
+		$config = backend_model_setting::tabs_load_config('cms');
+		backend_controller_template::assign('configcms',$config['status']);
 	}
 	/**
 	 * @access private
@@ -212,8 +156,8 @@ class backend_controller_config{
 	 * @string
 	 */
 	private function load_config_news(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('news');
-		backend_config_smarty::getInstance()->assign('confignews',$config['status']);
+		$config = backend_model_setting::tabs_load_config('news');
+		backend_controller_template::assign('confignews',$config['status']);
 	}
 	/**
 	 * @access private
@@ -221,53 +165,17 @@ class backend_controller_config{
 	 * @string
 	 */
 	private function load_config_catalog(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('catalog');
-		backend_config_smarty::getInstance()->assign('configcatalog',$config['status']);
+		$config = backend_model_setting::tabs_load_config('catalog');
+		backend_controller_template::assign('configcatalog',$config['status']);
 	}
 	/**
 	 * @access private
-	 * function load configuration forms
+	 * function load rewrite metas
 	 * @string
 	 */
-	private function load_config_forms(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('forms');
-		backend_config_smarty::getInstance()->assign('configforms',$config['status']);
-	}
-	/**
-	 * @access protected
-	 * function load configuration microgalery
-	 * @string
-	 */
-	private function load_config_microgalery(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('microgalery');
-		backend_config_smarty::getInstance()->assign('configmicrogalery',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function load rewrite news
-	 * @string
-	 */
-	private function load_rewrite_news(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('rewritenews');
-		backend_config_smarty::getInstance()->assign('rewritenews',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function load rewrite cms
-	 * @string
-	 */
-	private function load_rewrite_cms(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('rewritecms');
-		backend_config_smarty::getInstance()->assign('rewritecms',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function load rewrite catalog
-	 * @string
-	 */
-	private function load_rewrite_catalog(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('rewritecatalog');
-		backend_config_smarty::getInstance()->assign('rewritecatalog',$config['status']);
+	private function load_config_metasrewrite(){
+		$config = backend_model_setting::tabs_load_config('metasrewrite');
+		backend_controller_template::assign('configmetasrewrite',$config['status']);
 	}
 	/**
 	 * @access private
@@ -276,7 +184,7 @@ class backend_controller_config{
 	 */
 	private function admin_config(){
 		$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
-		backend_config_smarty::getInstance()->assign('perms',$perms['perms']);
+		backend_controller_template::assign('perms',$perms['perms']);
 	}
 	/**
 	 * @access private
@@ -284,55 +192,17 @@ class backend_controller_config{
 	 * @intégrer
 	 */
 	private function load_limited_cms_number(){
-		$config = backend_db_config::adminDbConfig()->s_config_number_module();
-		backend_config_smarty::getInstance()->assign('idconfig',$config['idconfig']);
-		backend_config_smarty::getInstance()->assign('numbcmspage',$config['number']);
+		$config = parent::s_config_number_module();
+		backend_controller_template::assign('attribute',$config['attribute']);
+		backend_controller_template::assign('numbcmspage',$config['number']);
 	}
 	/**
 	 * Charge les données concernant l'éditeur wysiwyg
 	 */
-	private function load_wysiwyg_editor(){
+	private function load_wysiwyg_config_editor(){
 		$config = backend_db_setting::adminDbSetting()->s_uniq_complete_setting('editor');
-		backend_config_smarty::getInstance()->assign('editor',$config['setting_label']);
-		if($config['setting_value'] == "pdw_file_browser"){
-			$checked_filebrowser = 'checked="checked"';
-		}else{
-			$checked_filebrowser = '';
-		}
-		$m_setting = <<<EOT
-		<ul>
-				<li>pdw_file_browser <input type="radio" name="manager_setting" $checked_filebrowser value="pdw_file_browser" /> (Intégrer)</li>
-EOT;
-
-		if(file_exists(magixglobal_model_system::base_path().'framework/js/tiny_mce/plugins/imagemanager/')){
-			if($config['setting_value'] == "imagemanager"){
-				$checked_imagemanager = 'checked="checked" ';
-			}else{
-				$checked_imagemanager = '';
-			}
-			$m_setting .= <<<EOT
-			<li>Imagemanager <input type="radio" name="manager_setting" $checked_imagemanager value="imagemanager" /> (Payant)</li>
-EOT;
-		}
-		$m_setting .= '</ul>';
-		backend_config_smarty::getInstance()->assign('list_manager_setting',$m_setting);
-		backend_config_smarty::getInstance()->assign('manager_setting',$config['setting_value']);
-	}
-	/**
-	 * Update les données concernant l'éditeur wysiwyg
-	 */
-	private function send_wysiwyg_editor(){
-		if($this->editor){
-			backend_db_setting::adminDbSetting()->u_uniq_setting_label('editor',$this->editor);
-			backend_db_setting::adminDbSetting()->u_uniq_setting_value('editor','pdw_file_browser');
-			backend_config_smarty::getInstance()->display('config/request/success.phtml');
-		}
-	}
-	private function send_manager_editor(){
-		if($this->manager_setting){
-			backend_db_setting::adminDbSetting()->u_uniq_setting_value('editor',$this->manager_setting);
-			backend_config_smarty::getInstance()->display('config/request/success.phtml');
-		}
+		backend_controller_template::assign('editor',$config['setting_label']);
+		backend_controller_template::assign('manager_setting',$config['setting_value']);
 	}
 	/**
 	 * @access public
@@ -344,13 +214,9 @@ EOT;
 		self::load_config_cms();
 		self::load_config_news();
 		self::load_config_catalog();
-		self::load_config_forms();
-		self::load_config_microgalery();
-		self::load_rewrite_news();
-		self::load_rewrite_cms();
-		self::load_rewrite_catalog();
+		self::load_config_metasrewrite();
 		self::load_limited_cms_number();
-		self::load_wysiwyg_editor();
+		self::load_wysiwyg_config_editor();
 		self::admin_config();
 	}
 	/**
@@ -359,34 +225,22 @@ EOT;
 	 */
 	private function update_states(){
 		if(isset($this->configlang)){
-			backend_db_config::adminDbConfig()->u_config_states($this->configlang,'lang');
+			parent::u_config_states($this->configlang,'lang');
 		}
 		if(isset($this->configcms)){
-			backend_db_config::adminDbConfig()->u_config_states($this->configcms,'cms');
+			parent::u_config_states($this->configcms,'cms');
 		}
 		if(isset($this->confignews)){
-			backend_db_config::adminDbConfig()->u_config_states($this->confignews,'news');
+			parent::u_config_states($this->confignews,'news');
 		}
 		if(isset($this->configcatalog)){
-			backend_db_config::adminDbConfig()->u_config_states($this->configcatalog,'catalog');
+			parent::u_config_states($this->configcatalog,'catalog');
 		}
-		if(isset($this->configforms)){
-			backend_db_config::adminDbConfig()->u_config_states($this->configforms,'forms');
-		}
-		if(isset($this->configmicrogalery)){
-			backend_db_config::adminDbConfig()->u_config_states($this->configmicrogalery,'microgalery');
-		}
-		if(isset($this->rewritenews)){
-			backend_db_config::adminDbConfig()->u_config_states($this->rewritenews,'rewritenews');
-		}
-		if(isset($this->rewritecms)){
-			backend_db_config::adminDbConfig()->u_config_states($this->rewritecms,'rewritecms');
-		}
-		if(isset($this->rewritecatalog)){
-			backend_db_config::adminDbConfig()->u_config_states($this->rewritecatalog,'rewritecatalog');
+		if(isset($this->configrmetas)){
+			parent::u_config_states($this->configrmetas,'metasrewrite');
 		}
 		if(isset($this->number)){
-			backend_db_config::adminDbConfig()->u_limited_module($this->idconfig,$this->number);
+			parent::u_limited_module($this->attribute,$this->number);
 		}
 	}
 	/**
@@ -394,112 +248,8 @@ EOT;
 	 * function display configuration
 	 */
 	private function display(){
-		self::update_states();
-		backend_config_smarty::getInstance()->display('config/index.phtml');
-	}
-	/**
-	 * Menu de sélection pour la réécriture des métas
-	 * @access private
-	 */
-	private function select_construct_config(){
-		$config = '<select id="idconfig" name="idconfig" class="select">';
-		$config .= '<option value="">Aucune sélection</option>';
-		/*foreach(backend_db_config::adminDbConfig()->s_config_named_all() as $c){
-			$config .= '<option value="'.$c['idconfig'].'">'.$c['named'].'</option>';
-		}*/
-		$config .= '<option value="5">News</option>';
-		$config .= '<option value="7">Catalogue</option>';
-		$config .='</select>';
-		return $config;
-	}
-	/**
-	 * Affiche la réécriture des métas trié par langue
-	 * @access private
-	 */
-	private function json_list_metas(){
-		if(backend_db_config::adminDbConfig()->s_rewrite_meta() != null){
-			foreach (backend_db_config::adminDbConfig()->s_rewrite_meta() as $s){
-				$title[]= '{"idrewrite":'.json_encode($s['idrewrite']).',"named":'.json_encode($s['named']).
-				',"idmetas":'.json_encode($s['idmetas']).',"strrewrite":'.json_encode($s['strrewrite']).
-				',"level":'.json_encode($s['level']).',"codelang":'.json_encode($s['codelang']).'}';
-			}
-			print '['.implode(',',$title).']';
-		}
-	}
-	/**
-	 * insertion de la réécriture des métas
-	 * @access private
-	 */
-	private function insertion_rewrite(){
-		if(isset($this->strrewrite)){
-			if(empty($this->idconfig) OR empty($this->idmetas)){
-				backend_config_smarty::getInstance()->display('request/empty.phtml');
-			}elseif(backend_db_config::adminDbConfig()->s_rewrite_v_lang($this->idconfig,$this->idlang,$this->idmetas,$this->level) == null){
-				backend_db_config::adminDbConfig()->i_rewrite_metas($this->idconfig,$this->idlang,$this->strrewrite,$this->idmetas,$this->level);
-				backend_config_smarty::getInstance()->display('request/success.phtml');
-			}else{
-				backend_config_smarty::getInstance()->display('request/element-exist.phtml');
-			}
-		}
-	}
-	/**
-	 * Mise à jour de la réécriture suivant l'identifiant
-	 * @access private
-	 */
-	private function update_rewrite(){
-		if(isset($this->edit)){
-			if(isset($this->strrewrite)){
-				if(empty($this->idconfig) OR empty($this->idmetas)){
-					backend_config_smarty::getInstance()->display('request/empty.phtml');
-				}else{
-					backend_db_config::adminDbConfig()->u_rewrite_metas($this->idconfig,$this->idlang,$this->strrewrite,$this->idmetas,$this->level,$this->edit);
-					backend_config_smarty::getInstance()->display('request/success.phtml');
-				}
-			}
-		}
-	}
-	/**
-	 * Supprime la réécriture suivant l'identifiant
-	 * @access public
-	 */
-	private function d_rewrite(){
-		if(isset($this->drmetas)){
-			backend_db_config::adminDbConfig()->d_rewrite_metas($this->drmetas);
-		}
-	}
-	/**
-	 * Charge les données dans le formulaire d'édition
-	 * @access private
-	 */
-	private function load_rewrite_for_edit(){
-		if(isset($this->edit)){
-			$load = backend_db_config::adminDbConfig()->s_rewrite_for_edit($this->edit);
-			backend_config_smarty::getInstance()->assign('strrewrite',$load['strrewrite']);
-			backend_config_smarty::getInstance()->assign('idlang',$load['idlang']);
-			backend_config_smarty::getInstance()->assign('codelang',$load['codelang']);
-			backend_config_smarty::getInstance()->assign('idconfig',$load['idconfig']);
-			backend_config_smarty::getInstance()->assign('module',$load['named']);
-			backend_config_smarty::getInstance()->assign('level',$load['level']);
-			backend_config_smarty::getInstance()->assign('idmetas',$load['idmetas']);
-		}
-	}
-	/**
-	 * Affiche le formulaire et une liste des réécritures disponible
-	 * @access public
-	 */
-	private function display_seo(){
-		self::insertion_rewrite();
-		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->assign('selectseoconfig',self::select_construct_config());
-		backend_config_smarty::getInstance()->display('config/seo.phtml');
-	}
-	/**
-	 * Affiche le fomulaire de modification ainsi que la liste des réécritures disponible
-	 * @access public
-	 */
-	public function display_seo_edit(){
-		self::load_rewrite_for_edit();
-		backend_config_smarty::getInstance()->display('config/editseo.phtml');
+		$this->update_states();
+		backend_controller_template::display('config/params.phtml');
 	}
 	/**
 	 * @access public
@@ -508,34 +258,6 @@ EOT;
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
-		if(magixcjquery_filter_request::isGet('metasrewrite')){
-			if(magixcjquery_filter_request::isGet('add')){
-				self::insertion_rewrite();
-			}elseif(magixcjquery_filter_request::isGet('edit')){
-				if(magixcjquery_filter_request::isGet('post')){
-					self::update_rewrite();
-				}else{
-					self::display_seo_edit();
-				}
-			}elseif(magixcjquery_filter_request::isGet('load_metas')){
-				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-				$header->pragma();
-				$header->cache_control("nocache");
-				$header->getStatus('200');
-				$header->json_header("UTF-8");
-				self::json_list_metas();
-			}elseif(magixcjquery_filter_request::isGet('drmetas')){
-				self::d_rewrite();
-			}else{
-				self::display_seo();
-			}
-		}elseif(magixcjquery_filter_request::isGet('htmleditor')){
-			self::send_wysiwyg_editor();
-		}elseif(magixcjquery_filter_request::isGet('manager_editor_setting')){
-			self::send_manager_editor();
-		}else{
-			self::display();
-		}
+		self::display();
 	}
 }

@@ -13,9 +13,10 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
-				<div class="dashboard ui-widget-content ui-corner-all">
-					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-organ"></span>Sitemap</div>
-					<div class="dashboard-content">
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open"><span class="lfloat magix-icon magix-icon-sitemap-grey"></span>Sitemap</a></div>
+						<div class="dashboard-widget-content">
 						<div id="reponse">{$msg}</div>
 						<table class="clear">
 							<thead>
@@ -62,15 +63,21 @@
 							{$statplugins}
 							</tbody>
 						</table>
-						<table>
-							<tr>
-								<td><div class="fg-button ui-state-default ui-corner-all" style="margin:5px;width:120px;"><a class="create-xml-index" href="#">Sitemap Index</a></div></td>
-								<td><div class="fg-button ui-state-default ui-corner-all" style="margin:5px;width:120px;"><a class="create-xml-url" href="#">Sitemap URL</a></div></td>
-								<td><div class="fg-button ui-state-default ui-corner-all" style="margin:5px;width:120px;"><a class="create-xml-images" href="#">Sitemap images</a></div></td>
-								<td><div class="fg-button ui-state-default ui-corner-all" style="margin:5px;width:100px;"><a class="pinggoogle" href="#">Pinguer google</a></div></td>
-								<td><div class="fg-button ui-state-default ui-corner-all" style="margin:5px;width:120px;"><a class="compressping" href="#">Pinguer GZ Google</a></div></td>
-							</tr>
-						</table>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span class="lfloat magix-icon magix-icon-sitemap-blue"></span>Création de sitemap</div>
+						<div class="dashboard-widget-content">
+						<ul class="ul-underline">
+							<li><a class="create-xml-index" href="#"><span class="lfloat ui-icon ui-icon-circle-plus"></span>Sitemap Index</a></li>
+							<li><a class="create-xml-url" href="#"><span class="lfloat ui-icon ui-icon-circle-plus"></span>Sitemap URL</a></li>
+							<li><a class="create-xml-images" href="#"><span class="lfloat ui-icon ui-icon-circle-plus"></span>Sitemap images</a></li>
+							<li><a class="pinggoogle" href="#"><span class="lfloat ui-icon ui-icon-circle-plus"></span>Pinguer google</a></li>
+							<li><a class="compressping" href="#"><span class="lfloat ui-icon ui-icon-circle-plus"></span>Pinguer GZ Google</a></li>
+						</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -81,7 +88,14 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jgmap.1.0.js');
+	$.getScript('/framework/js/backend/ns/jsitemap.0.1.js',function(){
+		if (typeof ns_jsitemap == "undefined") {
+		  console.log("ns_jsitemap is not defined");
+		}else{
+			ns_jsitemap._createXML();
+			ns_jsitemap._execPing();
+		}
+	});
 });
 </script>
 </body>

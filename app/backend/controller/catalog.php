@@ -488,6 +488,9 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function def_dirimg_frontend($pathupload){
 		return magixglobal_model_system::base_path().$pathupload;
 	}
+	private function load_img_size_config(){
+		
+	}
 	/**
 	 * catalog_category_order
 	 * Affiche le menu "sortable" avec les éléments de catégorie

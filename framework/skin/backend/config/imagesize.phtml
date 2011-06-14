@@ -1,0 +1,136 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>{widget_titlepage}</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					{include file="common/topmicrobar.phtml"}
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Tailles des images catalogue</a></div>
+						<div class="dashboard-widget-content">
+						{if $perms <= 2}
+							{if {admin_level_config config_param=['module'=>'catalog']} eq 1}
+								<h3>Catégories :</h3>
+								<form class="forms-config" method="post" action="" id="cat_category_image_size">
+									<div style="margin-bottom:5px;">
+										<label>Largeur :</label>
+										<input type="text" name="size_w_cat" class="spincount" id="size_w_cat" value="{$size_w_cat}" size="5" />
+										<label>Hauteur :</label>
+										<input type="text" name="size_h_cat" class="spincount" id="size_h_cat" value="{$size_h_cat}" size="5" />
+										<input type="submit" value="Save" />
+									</div>
+								</form>
+								<h3>Sous catégories :</h3>
+								<form class="forms-config" method="post" action="" id="cat_subcategory_image_size">
+									<div style="margin-bottom:5px;">
+										<label>Largeur :</label>
+										<input type="text" name="size_w_subcat" class="spincount" id="size_w_subcat" value="{$size_w_subcat}" size="5" />
+										<label>Hauteur :</label>
+										<input type="text" name="size_h_subcat" class="spincount" id="size_h_subcat" value="{$size_h_subcat}" size="5" />
+										<input type="submit" value="Save" />
+									</div>
+								</form>
+								<h3>Produits :</h3>
+								<h4>Mini</h4>
+								<form class="forms-config" method="post" action="" id="mini_product_image_size">
+									<div style="margin-bottom:5px;">
+										<label>Largeur :</label>
+										<input type="text" name="size_w_small_product" class="spincount" id="size_w_small_product" value="{$size_w_small_product}" size="5" />
+										<label>Hauteur :</label>
+										<input type="text" name="size_h_small_product" class="spincount" id="size_h_small_product" value="{$size_h_small_product}" size="5" />
+										<input type="submit" value="Save" />
+									</div>
+								</form>
+								<h4>Moyenne</h4>
+								<form class="forms-config" method="post" action="" id="medium_product_image_size">
+									<div style="margin-bottom:5px;">
+										<label>Largeur :</label>
+										<input type="text" name="size_w_medium_product" class="spincount" id="size_w_medium_product" value="{$size_w_medium_product}" size="5" />
+										<label>Hauteur :</label>
+										<input type="text" name="size_h_medium_product" class="spincount" id="size_h_medium_product" value="{$size_h_medium_product}" size="5" />
+										<input type="submit" value="Save" />
+									</div>
+								</form>
+								<h4>Grande</h4>
+								<form class="forms-config" method="post" action="" id="large_product_image_size">
+									<div style="margin-bottom:5px;">
+										<label>Largeur :</label>
+										<input type="text" name="size_w_large_product" class="spincount" id="size_w_large_product" value="{$size_w_large_product}" size="5" />
+										<label>Hauteur :</label>
+										<input type="text" name="size_h_large_product" class="spincount" id="size_h_large_product" value="{$size_h_large_product}" size="5" />
+										<input type="submit" value="Save" />
+									</div>
+								</form>
+							{/if}
+							</div>
+						{else}
+							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+								Vous n'avez pas la permission d'administrer ce module
+							</div>
+						{/if}
+					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Tailles des images microgalerie</a></div>
+						<div class="dashboard-widget-content">
+						{if {admin_level_config config_param=['module'=>'catalog']} eq 1}
+							<h3>Micro galerie :</h3>
+							<h4>Mini</h4>
+							<form class="forms-config" method="post" action="" id="mini_microgalery_image_size">
+								<div style="margin-bottom:5px;">
+									<label>Largeur :</label>
+									<input type="text" name="size_w_small_microgalery" class="spincount" id="size_w_small_microgalery" value="{$size_w_small_microgalery}" size="5" />
+									<label>Hauteur :</label>
+									<input type="text" name="size_h_small_microgalery" class="spincount" id="size_h_small_microgalery" value="{$size_h_small_microgalery}" size="5" />
+									<input type="submit" value="Save" />
+								</div>
+							</form>
+							<h4>Large</h4>
+							<form class="forms-config" method="post" action="" id="large_microgalery_image_size">
+								<div style="margin-bottom:5px;">
+									<label>Largeur :</label>
+									<input type="text" name="size_w_large_microgalery" class="spincount" id="size_w_large_microgalery" value="{$size_w_large_microgalery}" size="5" />
+									<label>Hauteur :</label>
+									<input type="text" name="size_h_large_microgalery" class="spincount" id="size_h_large_microgalery" value="{$size_h_large_microgalery}" size="5" />
+									<input type="submit" value="Save" />
+								</div>
+							</form>
+							{else}
+							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+								Vous n'avez pas la permission d'administrer ce module
+							</div>
+						{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{ajax_notify}
+{include file="common/javascript.phtml"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/framework/js/backend/ns/jsettingimage.0.1.js',function(){
+		if (typeof ns_jsettingimage == "undefined") {
+		  console.log("ns_jsettingimage is not defined");
+		}else{
+			ns_jsettingimage._loadingConfig();
+		}
+	});
+});
+</script>
+</body>
+</html>

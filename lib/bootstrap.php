@@ -41,18 +41,14 @@ if (version_compare(phpversion(), '5.2.0', '<')) {
 	echo  'Votre version de PHP n\'est pas supporté';
 	exit;
 }*/
-$pathdir = dirname(realpath( __FILE__ ));
-$arraydir = array('lib', 'lib');
-$bootpath = str_replace($arraydir,array('','') , $pathdir);
-# Does config.php.in exist?
-$config_in = $bootpath.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'common.inc.php';
+$config_in = dirname(__FILE__).'/../app/config/common.inc.php';
 if (file_exists($config_in)) {
 	require $config_in;
 }else{
-	print 'Error config Files';
+	throw new Exception('Error Ini Common Files');
 	exit;
 }
-$magixjquery = dirname(__FILE__).DIRECTORY_SEPARATOR.'magixcjquery'.DIRECTORY_SEPARATOR.'_common.php';
+$magixjquery = dirname(__FILE__).'/magixcjquery/_common.php';
 if (file_exists($magixjquery)) {
 	require $magixjquery;
 	$errorHandler = new magixcjquery_error_errorHandler;
@@ -62,31 +58,27 @@ if (file_exists($magixjquery)) {
 		echo get_class($writer);
 	}
 }else{
-	print 'Error lib';
+	throw new Exception('Error load library');
 	exit;
 }
-$mailer = dirname(__FILE__).DIRECTORY_SEPARATOR.'swiftmailer'.DIRECTORY_SEPARATOR.'swift_required.php';
+$mailer = dirname(__FILE__).'/swiftmailer/swift_required.php';
 if (file_exists($mailer)) {
 	require ($mailer);
 }else{
 	print 'Error MAIL Config';
 	exit;
 }
-$phpthumb = dirname(__FILE__).DIRECTORY_SEPARATOR.'phpthumb'.DIRECTORY_SEPARATOR.'ThumbLib.inc.php';
+$phpthumb = dirname(__FILE__).'/phpthumb/ThumbLib.inc.php';
 if (file_exists($phpthumb)) {
 	require ($phpthumb);
 }else{
 	print 'Error thumbnail Config';
 	exit;
 }
-$loadglobal = $bootpath.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'magixglobal'.DIRECTORY_SEPARATOR.'autoload.php';
-if (file_exists($loadglobal)) {
-	require ($loadglobal);
-}
 /*
  * Chargement automatique des classes plugins
  */
-$loadplugin = $bootpath.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'autoload.php';
+$loadplugin = dirname(__FILE__).'/../plugins/autoload.php';
 if (file_exists($loadplugin)) {
 	require ($loadplugin);
 }
@@ -95,5 +87,4 @@ if(defined('M_FIREPHP')){
 		magixcjquery_debug_magixfire::configErrorHandler();
 	}
 }
-magixglobal_Autoloader::register();
 ?>

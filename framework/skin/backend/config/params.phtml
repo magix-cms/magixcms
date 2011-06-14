@@ -1,0 +1,66 @@
+{include file="common/head.phtml"}
+<meta name="description" content="" />
+    <title>{widget_titlepage}</title>
+</head>
+<body>
+<div id="page">
+	{include file="common/top.phtml"}
+		<div id="content">
+			{include file="common/sidebar.phtml"}
+			<div id="main">
+				<div id="mainbar" class="ui-widget-header ui-corner-all">
+					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
+					{include file="common/topmicrobar.phtml"}
+					<div class="fariane"><ul>{admin_ariane}</ul></div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Activation des modules</a></div>
+						<div class="dashboard-widget-content">
+						{if $perms <= 2}
+							{include file="config/forms/blockparams_left.phtml"}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Pages Maximum</a></div>
+						<div class="dashboard-widget-content">
+						{if $perms <= 2}
+							{include file="config/forms/blockparams_right.phtml"}
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
+						{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{include file="common/footer.phtml"}
+</div>
+{ajax_notify}
+{include file="common/javascript.phtml"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/framework/js/backend/ns/jsettingparams.0.1.js',function(){
+		if (typeof ns_jsettingparams == "undefined") {
+		  console.log("ns_jsettingparams is not defined");
+		}else{
+			ns_jsettingparams._loadingConfig();
+			ns_jsettingparams._radioConfig();
+			ns_jsettingparams._maxNumber();
+		}
+	});
+});
+</script>
+</body>
+</html>

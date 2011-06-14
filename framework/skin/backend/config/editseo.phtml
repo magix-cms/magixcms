@@ -17,7 +17,7 @@
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Edition d'une réecriture des métas</div>
 					<div class="dashboard-content">
-					{if $rewritenews eq 1 AND $perms eq 1}
+					{if $configmetasrewrite eq 1 AND $perms eq 1}
 					<form id="forms-config-rewrite-update" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>
@@ -48,12 +48,11 @@
 								</tr>
 								{/if}
 								<tr>
-									<td class="label"><label for="idconfig" class="inlinelabel">Module :</label></td>
+									<td class="label"><label for="attribute" class="inlinelabel">Module :</label></td>
 								</tr>
 								<tr>
 									<td>
-										<input type="hidden" id="idconfig" name="idconfig" value="{$idconfig}" />
-										<input type="text" disabled="disabled" readonly="readonly" id="module" name="module" class="inputdisabled ui-corner-all" value="{$module}" size="20" />
+										<input type="text" readonly="readonly" id="attribute" name="attribute" class="inputdisabled ui-corner-all" value="{$attribute}" size="20" />
 									</td>
 								</tr>
 								<tr>
@@ -114,8 +113,15 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jsettingconfig.1.0.js',function(){
-		load_list_metas();
+	$.getScript('/framework/js/backend/ns/jrewritemetas.0.1.js',function(){
+		if (typeof ns_jrewritemetas == "undefined") {
+		  console.log("ns_jrewritemetas is not defined");
+		}else{
+			ns_jrewritemetas._loadingConfig();
+			ns_jrewritemetas._listingRecords();
+			ns_jrewritemetas._updateMetas();
+			ns_jrewritemetas._deleteMetas();
+		}
 	});
 });
 </script>

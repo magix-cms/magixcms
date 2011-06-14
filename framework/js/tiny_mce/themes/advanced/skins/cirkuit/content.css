@@ -1,7 +1,7 @@
 body, td, pre {color:#000; font: 12px/1.5em "Lucida Grande", Helvetica, Arial, sans-serif; margin:8px;}
 /*body, td, pre {color:#000; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px; margin:8px;}*/
 /*html,body {padding: 0 !important; margin: 0 !important; background:#fff !important;}*/
-body {height: 94% !important; padding: 0 !important;background:#fff !important;}
+body {/*height: 94% !important;*/ padding: 0 !important;background:#fff !important;}
 body.mceForceColors {background:#FFF; color:#000;}
 h1 {font-size: 2em}
 h2 {font-size: 1.5em}

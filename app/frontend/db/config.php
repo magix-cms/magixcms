@@ -86,10 +86,10 @@ class frontend_db_config{
      * Selectionne la configuration global suivant la variable
      * @param $named
      */
-    function s_public_config_named($named){
-    	$sql = 'SELECT named,status FROM mc_global_config WHERE named = :named';
-    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':named' =>	$named
+    function s_public_config_named($attr_name){
+    	$sql = 'SELECT * FROM mc_config WHERE attr_name = :attr_name';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':attr_name' =>	$attr_name
 		));
     }
 }

@@ -20,166 +20,26 @@
 						<div id="tabsFormsConfig">
 						<ul>
 							<li><a href="#tabs-1">Paramètres globaux</a></li>
-							<li><a href="#tabs-2">Réecriture métas</a></li>
-							<li><a href="#tabs-3">Limitation</a></li>
-							<li><a href="#tabs-4">Editeurs wysiwyg</a></li>
+							{*<li><a href="#tabs-2">Réecriture métas</a></li>*}
+							<li><a href="#tabs-2">Limitation</a></li>
+							<li><a href="#tabs-3">Editeurs wysiwyg</a></li>
 						</ul>
 						<div id="tabs-1">
-						<form class="forms-config" method="post" action="" id="global-config-lang">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">Langue :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="configlang" {if $configlang eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="configlang" {if $configlang eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						<form class="forms-config" method="post" action="" id="global-config-news">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">News :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="confignews" {if $confignews eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="confignews" {if $confignews eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						<form class="forms-config" method="post" action="" id="global-config-cms">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">CMS :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="configcms" {if $configcms eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="configcms" {if $configcms eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						<form class="forms-config" method="post" action="" id="global-config-catalog">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">Catalogue :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="configcatalog" {if $configcatalog eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="configcatalog" {if $configcatalog eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						<form class="forms-config" method="post" action="" id="global-config-microgalery">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">Micro galery catalogue :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="configmicrogalery" {if $configmicrogalery eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="configmicrogalery" {if $configmicrogalery eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						<form class="forms-config" method="post" action="" id="global-config-forms">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">Formulaires :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="configforms" {if $configforms eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="configforms" {if $configforms eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
+						{include file="config/forms/tabs1.phtml"}
 						</div>
-						<div id="tabs-2">
-						<form class="forms-config" method="post" action="" id="global-rewritenews">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">News :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="rewritenews" {if $rewritenews eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="rewritenews" {if $rewritenews eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						<form class="forms-config" method="post" action="" id="global-rewritecms">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">CMS :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="rewritecms" {if $rewritecms eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="rewritecms" {if $rewritecms eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						<form class="forms-config" method="post" action="" id="global-rewritecatalog">
-							<fieldset>
-								<table>
-									<tr>
-										<td style="width:150px;">Catalogue :</td>
-										<td style="width:80px;">
-											Activer <input type="radio" name="rewritecatalog" {if $rewritecatalog eq 1}checked="checked"{/if} value="1" />
-										</td>
-										<td style="width:100px;">
-											Désactiver <input type="radio" name="rewritecatalog" {if $rewritecatalog eq 0}checked="checked"{/if} value="0" />
-										</td>
-									</tr>
-								</table>
-							</fieldset>
-						</form>
-						</div>
-						<div id="tabs-3">
+						<div id="tabs-2" class="ui-tabs ui-tabs-hide">
 							<form class="forms-config" method="post" action="" id="limited-cms-module">
 								<fieldset>
-									<table>
-										<tr>
-											<td style="width:150px;">Nombre de page CMS :</td>
-											<td style="width:80px;">
-												<input type="hidden" name="idconfig" id="idconfig" value="{$idconfig}" size="4" />
-												<input type="text" name="number" class="spin inputtext" id="cmsnumber" value="{$numbcmspage}" size="4" />
-											</td>
-											<td><input type="button" id="snumbCms" name="snumbCms" class="ud-button ui-state-default ui-corner-all" value="update" /></td>
-										</tr>
-									</table>
+								<p>
+									<label>Nombre de page CMS :</label>
+									<input type="hidden" name="idconfig" id="idconfig" value="{$idconfig}" size="4" />
+									<input type="text" name="number" class="spin inputtext" id="cmsnumber" value="{$numbcmspage}" size="4" />
+									<input type="button" id="snumbCms" name="snumbCms" class="btn-decoration" value="update" />
+								</p>
 								</fieldset>
 							</form>
 						</div>
-						<div id="tabs-4">
+						<div id="tabs-3" class="ui-tabs ui-tabs-hide">
 							<div id="vieweditor">
 								<div class="list-editor ui-widget-content{if $editor eq 'tinymce'} ui-state-highlight{else} ui-state-disabled{/if}">
 									<div class="title-editor ui-widget-header"><div class="editor-name">TinyMCE</div></div>

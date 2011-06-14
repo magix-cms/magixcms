@@ -17,7 +17,7 @@
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une réecriture des métas</div>
 					<div class="dashboard-content">
-					{if $rewritenews eq 1 AND $perms eq 1}
+					{if $configmetasrewrite eq 1 AND $perms eq 1}
 					<form id="forms-config-rewrite" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>
@@ -40,7 +40,7 @@
 								</tr>
 								<tr>
 									<td>
-									{$selectseoconfig}
+									{$select_module}
 									</td>
 								</tr>
 								<tr>
@@ -103,8 +103,15 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jsettingconfig.1.0.js',function(){
-		load_list_metas();
+	$.getScript('/framework/js/backend/ns/jrewritemetas.0.1.js',function(){
+		if (typeof ns_jrewritemetas == "undefined") {
+		  console.log("ns_jrewritemetas is not defined");
+		}else{
+			ns_jrewritemetas._loadingConfig();
+			ns_jrewritemetas._listingRecords();
+			ns_jrewritemetas._addNewMetas();
+			ns_jrewritemetas._deleteMetas();
+		}
 	});
 });
 </script>
