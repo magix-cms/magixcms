@@ -57,7 +57,7 @@ class backend_db_lang{
      * retourne la liste des langues disponible
      */
     public function s_full_lang_data(){
-    	$sql = 'SELECT lang.codelang,lang.idlang,lang.desclang FROM mc_lang AS lang';
+    	$sql = 'SELECT lang.codelang,lang.idlang,lang.desclang,lang.default FROM mc_lang AS lang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**
@@ -70,7 +70,7 @@ class backend_db_lang{
 		));
     }
 	public function s_lang_edit($idlang){
-    	$sql = 'SELECT lang.idlang,lang.codelang,lang.desclang FROM mc_lang AS lang WHERE idlang = :idlang';
+    	$sql = 'SELECT lang.idlang,lang.codelang,lang.desclang,lang.default FROM mc_lang AS lang WHERE idlang = :idlang';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idlang'	=>	$idlang
 		));
@@ -80,12 +80,13 @@ class backend_db_lang{
      * @param $codelang
      * @param $desclang
      */
-	public function i_new_lang($codelang,$desclang){
-		$sql = 'INSERT INTO mc_lang (codelang,desclang) VALUE(:codelang,:desclang)';
+	public function i_new_lang($codelang,$desclang,$default){
+		$sql = 'INSERT INTO mc_lang (codelang,desclang,default) VALUE(:codelang,:desclang,:default)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
-			':codelang'			=>	$codelang,
-			':desclang'			=>	$desclang
+			':codelang'	=>	$codelang,
+			':desclang'	=>	$desclang,
+			':default'	=>	$default
 		));
 	}
 	/*

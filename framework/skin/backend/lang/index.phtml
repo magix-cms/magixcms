@@ -33,6 +33,11 @@
 									<tr>
 										<td><input type="text" id="desclang" name="desclang" class="inputtext ui-corner-all" value="" size="20" /></td>
 									</tr>
+									<tr>
+										<td>
+											Langue par défaut<input type="checkbox" id="lang_default" name="default" value="1" />
+										</td>
+									</tr>
 								</table>			
 							</fieldset>
 							<div style="margin:5px;"><input type="submit" value="Envoyer" /></div>
@@ -61,7 +66,7 @@
 						</div>
 					</div>
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-lightbulb"></span>Statistique</div>
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-lightbulb"></span>Statistiques</div>
 						<div class="dashboard-content">
 						{if $configlang eq 1 AND $perms <= 2}
 						{$countlang}

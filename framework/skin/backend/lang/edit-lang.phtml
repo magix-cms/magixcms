@@ -7,6 +7,16 @@
 		<tr>
 			<td><input type="text" name="udesclang" id="udesclang" class="inputtext ui-corner-all" value="{$udesclang}" size="20" /></td>
 		</tr>
+		<tr>
+			<td>
+				Langue par défaut
+				{if $udefault eq '1'}
+				<input type="checkbox" id="udefault" name="udefault" checked="checked" value="1" />
+				{else}
+				<input type="checkbox" id="udefault" name="udefault" value="1" />
+				{/if}
+			</td>
+		</tr>
 	</table>			
 	</fieldset>
 </form>

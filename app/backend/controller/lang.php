@@ -84,6 +84,7 @@ class backend_controller_lang{
 							<tr>
 							<th>ISO</th>
 							<th>Nom</th>
+							<th>Defaut</th>
 							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
 							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
 							</tr>
@@ -95,12 +96,19 @@ class backend_controller_lang{
 			$lang .='<td class="nowrap"></td>';
 			$lang .='<td class="nowrap"></td>';
 			$lang .='<td class="nowrap"></td>';
+			$lang .='<td class="nowrap"></td>';
 			$lang .= '</tr>';
 		}else{
 			foreach(backend_db_lang::dblang()->s_full_lang_data() as $slang){
+				 if($slang['default'] == '1'){
+				 	$default = '<span style="float:left;" class="ui-icon ui-icon-check"></span>';
+				 }else{
+				 	$default = '<span style="float:left;" class="ui-icon ui-icon-close"></span>';
+				 }
 				 $lang .= '<tr class="line">';
 				 $lang .=	'<td class="maximal">'.$slang['codelang'].'</td>';
 				 $lang .=	'<td class="nowrap">'.$slang['desclang'].'</td>';
+				 $lang .=	'<td class="nowrap">'.$default.'</td>';
 				 $lang .= 	'<td class="nowrap"><a class="edit-lang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 				 $lang .= 	'<td class="nowrap"><a class="dellang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 				 $lang .= '</tr>';
@@ -208,6 +216,7 @@ class backend_controller_lang{
 			$data = backend_db_lang::dblang()->s_lang_edit($this->ulang);
 			backend_config_smarty::getInstance()->assign('ucodelang',$data['codelang']);
 			backend_config_smarty::getInstance()->assign('udesclang',$data['desclang']);
+			backend_config_smarty::getInstance()->assign('udefault',$data['default']);
 			backend_config_smarty::getInstance()->display('lang/edit-lang.phtml');
 		}
 	}
