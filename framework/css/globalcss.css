@@ -592,6 +592,8 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-subversion{ background-position: 0 -128px; }
 .magix-icon-person{ background-position: -16px -128px; }
 .magix-icon-person-shape{ background-position: -32px -128px; }
+.magix-icon-rewritemetas{ background-position: -48px -128px; }
+.magix-icon-wysiwyg{ background-position: -64px -128px; }
 /**
  * ############################## Utility class
  * 
