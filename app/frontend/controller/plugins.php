@@ -169,11 +169,19 @@ class frontend_controller_plugins{
 	 * @param void $plugin
 	 */
 	public function append_display($page,$plugin='',$cache_id = null,$compile_id = null){
-		return frontend_config_smarty::getInstance()->display(
-			$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page,
-			$cache_id,
-			$compile_id
-		);
+		if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
+			return frontend_config_smarty::getInstance()->display(
+				'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$page,
+				$cache_id,
+				$compile_id
+			);
+		}else{
+			return frontend_config_smarty::getInstance()->display(
+				$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page,
+				$cache_id,
+				$compile_id
+			);
+		}
 	}
 	/**
 	 * Affiche les pages du plugin
@@ -181,11 +189,19 @@ class frontend_controller_plugins{
 	 * @param void $plugin
 	 */
 	public function append_fetch($page,$plugin='',$cache_id = null,$compile_id = null){
-		return frontend_config_smarty::getInstance()->fetch(
-			$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page,
-			$cache_id,
-			$compile_id
-		);
+		if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
+			return frontend_config_smarty::getInstance()->fetch(
+				'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$page,
+				$cache_id,
+				$compile_id
+			);
+		}else{
+			return frontend_config_smarty::getInstance()->fetch(
+				$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$page,
+				$cache_id,
+				$compile_id
+			);
+		}
 	}
 	/**
 	 * Affiche les pages du plugin
