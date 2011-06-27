@@ -528,8 +528,8 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-plug-connect{ background-position: -64px -64px; }
 .magix-icon-plug-disconnect{ background-position: -80px -64px; }
 .magix-icon-plug-exclamation{ background-position: -96px -64px; }
-.magix-icon-tag{ background-position: -112px -64px; }
-.magix-icon-tag-plus{ background-position: -128px -64px; }
+.magix-icon-git{ background-position: -112px -64px; }
+.magix-icon-subversion{ background-position: -128px -64px; }
 .magix-icon-support{ background-position: -144px -64px; }
 .magix-icon-upload{ background-position: -160px -64px; }
 .magix-icon-download{ background-position: -176px -64px; }
@@ -589,11 +589,36 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-ui-check-boxes { background-position: -224px -112px; }
 .magix-icon-ui-radio-buttons { background-position: -240px -112px; }
 /* positioning column 7*/
-.magix-icon-subversion{ background-position: 0 -128px; }
-.magix-icon-person{ background-position: -16px -128px; }
+.magix-icon-person{ background-position: 0 -128px; }
+.magix-icon-person-plus{ background-position: -16px -128px; }
 .magix-icon-person-shape{ background-position: -32px -128px; }
 .magix-icon-rewritemetas{ background-position: -48px -128px; }
 .magix-icon-wysiwyg{ background-position: -64px -128px; }
+.magix-icon-script{ background-position: -80px -128px; }
+.magix-icon-script-plus{ background-position: -96px -128px; }
+.magix-icon-script-edit{ background-position: -112px -128px; }
+.magix-icon-script-import{ background-position: -128px -128px; }
+.magix-icon-script-export{ background-position: -144px -128px; }
+.magix-icon-script-code{ background-position: -160px -128px; }
+.magix-icon-script-php{ background-position: -176px -128px; }
+.magix-icon-script-binary{ background-position: -192px -128px; }
+.magix-icon-script-block{ background-position: -208px -128px; }
+.magix-icon-pencil{ background-position: -224px -128px; }
+.magix-icon-robots{ background-position: -240px -128px; }
+/* positioning column 8*/
+.magix-icon-tag{ background-position: -0 -144px; }
+.magix-icon-tag-plus{ background-position: -16px -144px; }
+.magix-icon-tag-edit{ background-position: -32px -144px; }
+.magix-icon-tag-small{ background-position: -48px -144px; }
+.magix-icon-tag-medium{ background-position: -64px -144px; }
+.magix-icon-tag-blue{ background-position: -80px -144px; }
+.magix-icon-tag-black{ background-position: -96px -144px; }
+.magix-icon-tag-gray{ background-position: -112px -144px; }
+.magix-icon-tag-green{ background-position: -128px -144px; }
+.magix-icon-tag-pink{ background-position: -144px -144px; }
+.magix-icon-tag-purple{ background-position: -160px -144px; }
+.magix-icon-tag-red{ background-position: -176px -144px; }
+.magix-icon-tag-yellow{ background-position: -192px -144px; }
 /**
  * ############################## Utility class
  * 

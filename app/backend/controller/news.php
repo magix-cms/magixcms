@@ -30,7 +30,7 @@
  * @name news
  *
  */
-class backend_controller_news{
+class backend_controller_news extends backend_db_news{
 	/**
 	 * 
 	 * @var integer
@@ -77,17 +77,17 @@ class backend_controller_news{
 	 * 
 	 */
 	function __construct(){
-		if(isset($_GET['edit'])){
+		if(magixcjquery_filter_request::isGet('edit')){
 			$this->getnews = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
-		if(isset($_POST['subject'])){
+		if(magixcjquery_filter_request::isPost('subject')){
 			$this->subject = magixcjquery_form_helpersforms::inputClean($_POST['subject']);
 			$this->rewritelink = magixcjquery_url_clean::rplMagixString($_POST['subject']);
 		}
-		if(isset($_POST['content'])){
+		if(magixcjquery_filter_request::isPost('content')){
 			$this->content = ($_POST['content']);
 		}
-		if(isset($_POST['idlang'])){
+		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
 		}
 		if(magixcjquery_filter_request::isGet('page')) {
@@ -101,10 +101,10 @@ class backend_controller_news{
 		 }else {
 		    $this->getpage = 1;
 		}
-		if(isset($_POST['publish'])){
+		if(magixcjquery_filter_request::isPost('publish')){
 			$this->publish = magixcjquery_filter_isVar::isPostNumeric($_POST['publish']);
 		}
-		if(isset($_GET['delnews'])){
+		if(magixcjquery_filter_request::isGet('delnews')){
 			$this->delnews = magixcjquery_filter_isVar::isPostNumeric($_GET['delnews']);
 		}
 		if(magixcjquery_filter_request::isGet('status_news')) {
@@ -115,6 +115,7 @@ class backend_controller_news{
 		}
 	}
 	/**
+	 * @access private
 	 * insertion d'une nouvelle news
 	 */
 	private function insert_data_forms(){
@@ -122,7 +123,7 @@ class backend_controller_news{
 			if(empty($this->subject) OR empty($this->content)){
 				backend_config_smarty::getInstance()->display('request/empty.phtml');
 			}else{
-					backend_db_news::adminDbNews()->i_new_news(
+					parent::i_new_news(
 						$this->subject,
 						$this->rewritelink,
 						$this->content,
@@ -148,17 +149,28 @@ class backend_controller_news{
 	 */
 	public function news_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
-		$request = backend_db_news::adminDbNews()->s_count_news_pager_max();
-		return $pagination->pagerData($request,'total',$max,$this->getpage,'/admin/news.php?',false,false,'page');
-		
+		$request = parent::s_count_news_pager_max();
+		return $pagination->pagerData(
+			$request,
+			'total',
+			$max,$this->getpage,
+			'/admin/news.php?',
+			false,
+			false,
+			'page'
+		);
 	}
+	/**
+	 * @access private
+	 * Chargement de l'url public courante avec JSON
+	 */
 	private function load_json_uri_news(){
-		$data = backend_db_news::adminDbNews()->s_news_record($this->getnews);
+		$data = parent::s_news_record($this->getnews);
 		if($data['idnews'] != null){
-			$curl = date_create($data['date_sent']);
+			$dateformat = new magixglobal_model_dateformat($data['date_sent']);
 			$uri = magixglobal_model_rewrite::filter_news_url(
 				$data['codelang'], 
-				date_format($curl,'Y/m/d'), 
+				$dateformat->date_europeen_format(), 
 				$data['rewritelink'],
 				true
 			);
@@ -167,6 +179,7 @@ class backend_controller_news{
 		}
 	}
 	/**
+	 * @access private
 	 * Charge les données du formulaire pour la mise à jour
 	 */
 	private function load_data_forms(){
@@ -174,7 +187,7 @@ class backend_controller_news{
 		 * Retourne un tableau des données
 		 * @var 
 		 */
-		$data = backend_db_news::adminDbNews()->s_news_record($this->getnews);
+		$data = parent::s_news_record($this->getnews);
 		backend_config_smarty::getInstance()->assign('subject',$data['subject']);
 		backend_config_smarty::getInstance()->assign('content',$data['content']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
@@ -183,6 +196,7 @@ class backend_controller_news{
 		backend_config_smarty::getInstance()->assign('publish',$data['publish']);
 	}
 	/**
+	 * @access private
 	 * POST le formulaire de mise à jour des données
 	 */
 	private function update_data_forms(){
@@ -195,10 +209,11 @@ class backend_controller_news{
 							$date_publication = null;
 						break;
 						case 1:
-							$date_publication = date("Y-m-d H:i:s");
+							$dateformat = new magixglobal_model_dateformat();
+							$date_publication = $dateformat->SQLDateTime();
 						break;
 					}
-					backend_db_news::adminDbNews()->u_news_page(
+					parent::u_news_page(
 						$this->subject,
 						$this->rewritelink,
 						$this->content,
@@ -208,7 +223,8 @@ class backend_controller_news{
 						$date_publication,
 						$this->publish
 					);
-					backend_controller_rss::instance()->exec();
+					$rss = new backend_controller_rss();
+					$rss->run();
 					backend_config_smarty::getInstance()->display('request/success.phtml');
 			}
 		}
@@ -219,16 +235,17 @@ class backend_controller_news{
 	 */
 	private function update_status_publication(){
 		if(isset($this->status_news)){
-			backend_db_news::adminDbNews()->u_status_publication_of_news($this->get_news_publication,$this->status_news);
+			parent::u_status_publication_of_news($this->get_news_publication,$this->status_news);
 			backend_controller_rss::instance()->exec();
 		}
 	}
 	/**
+	 * @access private
 	 * Supprime une news
 	 */
 	private function del_news(){
 		if(isset($this->delnews)){
-			backend_db_news::adminDbNews()->d_news($this->delnews);
+			parent::d_news($this->delnews);
 		}
 	}
 	/**

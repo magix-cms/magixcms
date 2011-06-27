@@ -32,37 +32,18 @@
  */
 class backend_controller_rss{
 	/**
-	 * singleton 
-	 * @access public
-	 * @var void
+	 * @access private
+	 * variable d'instance la class magixcjquery_xml_rss
+	 * @var $rss
 	 */
-	public static $instance;
-	/**
-	 * singleton 
-	 * @access protected
-	 * @var void
-	 */
-	protected static $xmlRssInstance;
+	private $rss;
 	/**
 	 * 
+	 * Constructor
 	 */
-	public static function instance(){
-        if (!isset(self::$instance)){
-         	self::$instance = new backend_controller_rss();
-        }
-    	return self::$instance;
-    }
-    /**
-     * protected function instance xml_rss in magixcjquery
-     * @access protected
-     * 
-     */
-    private static function xmlRssInstance(){
-    	if (!isset(self::$xmlRssInstance)){
-         	self::$xmlRssInstance = new magixcjquery_xml_rss();
-        }
-    	return self::$xmlRssInstance;
-    }
+	public function __construct(){
+		$this->rss = new magixcjquery_xml_rss();
+	}
 	/**
 	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
 	 * @access private
@@ -79,24 +60,24 @@ class backend_controller_rss{
 	 **/
 	private function createXMLFile(){
 		/*On demande de vérifier si le fichier existe et si pas on le crée*/
-		self::xmlRssInstance()->createRSS(self::dir_XML_FILE(),'rss.xml');
+		$this->rss->createRSS($this->dir_XML_FILE(),'rss.xml');
 		/*On ouvre le fichier*/
-		self::xmlRssInstance()->openFileRSS(self::dir_XML_FILE(),'rss.xml');
+		$this->rss->openFileRSS($this->dir_XML_FILE(),'rss.xml');
 		/*On demande une indentation automatique (optionnelle)*/
-		self::xmlRssInstance()->indentRSS(true);
+		$this->rss->indentRSS(true);
 		/*On écrit l'entête avec l'encodage souhaité*/
-		self::xmlRssInstance()->startWriteAtom('utf-8','fr');
+		$this->rss->startWriteAtom('utf-8','fr');
 	}
 	/**
 	 * Création d'un noeud dans le fichier XML
 	 */
 	private function CreateNodeXML(){
-		$config = backend_db_config::adminDbConfig()->s_config_named('news');
+		$config = backend_model_setting::tabs_load_config('news');
 		if($config['status'] == 1){
 		   foreach(backend_db_sitemap::adminDbSitemap()->s_news_rss() as $data){
 		   		$islang = $data['codelang'] ? $data['codelang'].'/': '';
 		        $datecreate = new magixglobal_model_dateformat($data['date_sent']);
-		        self::xmlRssInstance()->elementWriteAtom(
+		        $this->rss->elementWriteAtom(
 			        $data['subject'],
 			        $data['date_sent'],
 			        $islang.'news/'.$datecreate->date_europeen_format().'/'.$data['rewritelink'],
@@ -111,14 +92,14 @@ class backend_controller_rss{
 	 */
 	private function endNodeXML(){
 		/*On ferme les noeuds*/
-		self::xmlRssInstance()->endWriteRSS();
+		$this->rss->endWriteRSS();
 	}
 	/**
 	 * Exécution de la création du fichier RSS
 	 */
-	public function exec(){
-		self::createXMLFile();
-		self::CreateNodeXML();
-		self::endNodeXML();
+	public function run(){
+		$this->createXMLFile();
+		$this->CreateNodeXML();
+		$this->endNodeXML();
 	}
 }

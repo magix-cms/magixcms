@@ -86,8 +86,8 @@ function smarty_function_widget_news($params, $template){
 						</tr>
 					</thead>
 					<tbody>';
-	if(backend_db_news::adminDbNews()->s_news_plugin($limit,$max,$offset)){
-		foreach(backend_db_news::adminDbNews()->s_news_plugin($limit,$max,$offset) as $pnews){
+	if(backend_db_block_news::s_news_plugin($limit,$max,$offset)){
+		foreach(backend_db_block_news::s_news_plugin($limit,$max,$offset) as $pnews){
 			$islang = $pnews['codelang'] ? $pnews['codelang']: '';
 			$curl = date_create($pnews['date_sent']);
 			switch($pnews['publish']){
