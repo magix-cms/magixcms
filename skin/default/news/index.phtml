@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{rewrite_metas_news type='description' param=$subject level='1'}"}
-    <title>{rewrite_metas_news type='title' param=$subject level='1'}</title>
+{headmeta meta="description" content="{rewrite_metas_news type='description' param=#seo_d_static_news# level='0'}"}
+    <title>{rewrite_metas_news type='title' param=#seo_t_static_news# level='0'}</title>
 {include file="common/css.phtml"}
 </head>
 <body>
@@ -9,23 +9,8 @@
 <div id="content">
 {include file="common/sidebar.phtml"}
 	<div id="principal" class="principal">
-		<div class="sdate">
-			<table>
-				<tr>
-					<td><span style="float:left;" class="ui-icon ui-icon-calendar"></span></td>
-					<td>{$date_sent}</td>
-				</tr>
-				{*
-				La date de publication de l'article
-				<tr>
-					<td><span style="float:left;" class="ui-icon ui-icon-calendar"></span></td>
-					<td>{$date_publication|date_format}</td>
-				</tr>
-				*}
-			</table>
-		</div>
-		<h1>{$subject}</h1>
-		{$content}
+		{$listnews}
+		{$npagination}
 	</div>
 	<hr class="clear" />
 </div>

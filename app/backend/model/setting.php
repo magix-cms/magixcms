@@ -71,7 +71,7 @@ class backend_model_setting extends db_setting{
 	public function assign_img_size($attr_name){
 		if(!is_null($attr_name)){
 			foreach (parent::s_all_img_size_config($attr_name) as $conf){
-				backend_controller_template::assign($conf['name_size'],$conf['num_size']);
+				backend_controller_template::assign($conf['config_size_attr'],$conf['width'],$conf['height']);
 			}
 		}
 	}
@@ -81,6 +81,10 @@ class backend_model_setting extends db_setting{
 			return $db['num_size'];
 		}
 	}
+	public function allSizeImg(){
+		return parent::s_config_img_size();
+	}
+	public function dataSizeImg(){}
 }
 /**
  * 
@@ -119,5 +123,9 @@ class db_setting{
     	return magixglobal_model_db::layerDB()->selectOne($sql,array(
     		':name_size'=>$name_size
     	));
+    }
+	protected function s_config_img_size(){
+    	$sql = 'SELECT ci.* FROM mc_config_size_img as ci';
+    	return magixglobal_model_db::layerDB()->select($sql);
     }
 }

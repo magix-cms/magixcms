@@ -488,9 +488,6 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function def_dirimg_frontend($pathupload){
 		return magixglobal_model_system::base_path().$pathupload;
 	}
-	private function load_img_size_config(){
-		
-	}
 	/**
 	 * catalog_category_order
 	 * Affiche le menu "sortable" avec les éléments de catégorie
@@ -667,6 +664,30 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
+	 * @access private
+	 * Charge la taille des images de catégorie
+	 * @param string $type
+	 */
+	private function size_img_category($type){
+		$imgsetting = new backend_model_setting();
+		switch($type){
+			case 'w':
+				if($imgsetting->load_img_size('size_'+$type+'_cat') != null){
+					return $imgsetting->load_img_size('size_'+$type+'_cat');
+				}else{
+					return 120;
+				}	
+			break;
+			case 'h':
+				if($imgsetting->load_img_size('size_'+$type+'_cat') != null){
+					return $imgsetting->load_img_size('size_'+$type+'_cat');
+				}else{
+					return 100;
+				}	
+			break;
+		}
+	}
+	/**
 	 * Insertion d'une image por la catégorie du catalogue
 	 * @access private
 	 * @return string
@@ -696,7 +717,7 @@ class backend_controller_catalog extends analyzer_catalog{
 						 * @var void
 						 */
 						$thumb = PhpThumbFactory::create(self::dir_img_category().$pathclibelle.$fileextends);
-						$thumb->resize(120,100)->save(self::dir_img_category().$pathclibelle.$fileextends);
+						$thumb->resize($this->size_img_category('w'),$this->size_img_category('h'))->save(self::dir_img_category().$pathclibelle.$fileextends);
 						return $pathclibelle.$fileextends;
 					}else{
 						if(file_exists(self::dir_img_category().$this->$img)){
@@ -836,6 +857,30 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
+	 * @access private
+	 * Charge la taille des images de sous catégorie
+	 * @param string $type
+	 */
+	private function size_img_subcategory($type){
+		$imgsetting = new backend_model_setting();
+		switch($type){
+			case 'w':
+				if($imgsetting->load_img_size('size_'+$type+'_subcat') != null){
+					return $imgsetting->load_img_size('size_'+$type+'_subcat');
+				}else{
+					return 120;
+				}	
+			break;
+			case 'h':
+				if($imgsetting->load_img_size('size_'+$type+'_subcat') != null){
+					return $imgsetting->load_img_size('size_'+$type+'_subcat');
+				}else{
+					return 100;
+				}	
+			break;
+		}
+	}
+	/**
 	 * Insertion d'une image por la catégorie du catalogue
 	 * @access private
 	 * @return string
@@ -865,7 +910,7 @@ class backend_controller_catalog extends analyzer_catalog{
 						 * @var void
 						 */
 						$thumb = PhpThumbFactory::create(self::dir_img_subcategory().$pathslibelle.$fileextends);
-						$thumb->resize(120,100)->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
+						$thumb->resize($this->size_img_subcategory('w'),$this->size_img_subcategory('h'))->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
 						return $pathslibelle.$fileextends;
 					}else{
 						if(file_exists(self::dir_img_subcategory().$this->$img)){
@@ -1439,6 +1484,42 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
+	 * @access private
+	 * Charge la taille des images de sous catégorie
+	 * @param string $type
+	 */
+	private function size_img_product($type,$size){
+		$imgsetting = new backend_model_setting();
+		switch($type){
+			case 'w':
+				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_product') != null){
+					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_product');
+				}else{
+					if($size == 'large'){
+						return 700;
+					}elseif($size == 'medium'){
+						return 350;
+					}elseif($size == 'small'){
+						return 120;
+					}
+				}
+			break;
+			case 'h':
+				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_product') != null){
+					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_product');
+				}else{
+					if($size == 'large'){
+						return 700;
+					}elseif($size == 'medium'){
+						return 250;
+					}elseif($size == 'small'){
+						return 100;
+					}
+				}
+			break;
+		}
+	}
+	/**
 	 * Insertion d'une image à un produit spécifique
 	 */
 	private function insert_image_product(){
@@ -1486,9 +1567,9 @@ class backend_controller_catalog extends analyzer_catalog{
 					 * Création des images et miniatures utile.
 					 * 3 tailles !!!
 					 */
-					$thumb->resize(700)->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$thumb->resize(350,250)->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$thumb->resize(120,100)->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize($this->size_img_product('w','large'),$this->size_img_product('h','large'))->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize($this->size_img_product('w','medium'),$this->size_img_product('h','medium'))->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize($this->size_img_product('w','small'),$this->size_img_product('h','small'))->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					if(file_exists(self::dir_img_product().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_img_product(),$getimg['imgcatalog']);
 					}else{
@@ -1513,6 +1594,38 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function dir_micro_galery(){
 		return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."galery".DIRECTORY_SEPARATOR);
+	}
+	/**
+	 * @access private
+	 * Charge la taille des images de sous catégorie
+	 * @param string $type
+	 */
+	private function size_img_microgalery($type,$size){
+		$imgsetting = new backend_model_setting();
+		switch($type){
+			case 'w':
+				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery') != null){
+					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery');
+				}else{
+					if($size == 'maxi'){
+						return 700;
+					}elseif($size == 'mini'){
+						return 120;
+					}
+				}
+			break;
+			case 'h':
+				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery') != null){
+					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery');
+				}else{
+					if($size == 'maxi'){
+						return 700;
+					}elseif($size == 'mini'){
+						return 100;
+					}
+				}
+			break;
+		}
 	}
 	/**
 	 * Insertion d'une image dans la galerie spécifique à un produit
@@ -1554,8 +1667,8 @@ class backend_controller_catalog extends analyzer_catalog{
 					 * Création des images et miniatures utile.
 					 * 2 tailles !!!
 					 */
-					$thumb->resize(700)->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$thumb->resize(120,100)->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize($this->size_img_microgalery('w','maxi'),$this->size_img_microgalery('h','maxi'))->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize($this->size_img_microgalery('w','mini'),$this->size_img_microgalery('h','mini'))->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$makeFiles = new magixcjquery_files_makefiles();
 					if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_micro_galery(),$getimg['imgcatalog']);
@@ -1660,6 +1773,10 @@ class backend_controller_catalog extends analyzer_catalog{
 		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
 		backend_config_smarty::getInstance()->display('catalog/product.phtml');
 	}
+	/**
+	 * 
+	 * Enter description here ...
+	 */
 	private function json_img_product(){
 		$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
 		if($getimg['imgcatalog'] != null){

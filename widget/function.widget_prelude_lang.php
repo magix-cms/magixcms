@@ -52,25 +52,25 @@
 function smarty_function_widget_prelude_lang($params, $template){
 	$display = !empty($params['display'])? "true" : "false";
 	$icons = !empty($params['icons'])? "true" : "false";
-	$default = !empty($params['default'])? $params['default'] : "fr";
-	$separator = !empty($params['separator'])? $params['separator'] : "";
+	/*$default = !empty($params['default'])? $params['default'] : "fr";
+	$separator = !empty($params['separator'])? $params['separator'] : "";*/
 	if($display == "true"){
 		$menu = '<div id="prelude">';
 		switch($icons){
 			case "true":
-				$menu .= '<a href="/" hreflang="'.$default.'">';
+				/*$menu .= '<a href="/" hreflang="'.$default.'">';
 				$menu .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/lang/'.$default.'.png" alt="'.$default.'" />';
-				$menu .= '</a>';
-				foreach (fetch_all_lang() as $l){
-					$menu .= $separator.'<a href="/'.$l['codelang'].'/" hreflang="'.$l['codelang'].'">';
-					$menu .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/lang/'.$l['codelang'].'.png" alt="'.$l['desclang'].'" />';
+				$menu .= '</a>';*/
+				foreach (frontend_db_lang::s_fetch_all_lang() as $l){
+					$menu .= '<a href="/'.$l['iso'].'/" hreflang="'.$l['iso'].'">';
+					$menu .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/lang/'.$l['iso'].'.png" alt="'.$l['language'].'" />';
 					$menu .= '</a>';
 				}
 			break;
 			case "false":
-				$menu .= '<a href="/">'.$default.'</a>';
-				foreach (fetch_all_lang() as $l){
-					$menu .= $separator.'<a href="/'.$l['codelang'].'/">'.$l['codelang'].'</a>';
+				//$menu .= '<a href="/">'.$default.'</a>';
+				foreach (frontend_db_lang::s_fetch_all_lang() as $l){
+					$menu .= '<a href="/'.$l['iso'].'/">'.$l['iso'].'</a>';
 				}
 			break;
 		}
@@ -78,11 +78,4 @@ function smarty_function_widget_prelude_lang($params, $template){
 	}
 	return $menu;
 }
-function fetch_all_lang(){
-    $sql = 'SELECT l.idlang, l.codelang, l.desclang
-           FROM mc_lang AS l
-           ORDER BY l.idlang';
-    return magixglobal_model_db::layerDB()->select($sql);
-}
-
 ?>

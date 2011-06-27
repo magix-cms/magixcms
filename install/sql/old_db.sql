@@ -176,13 +176,14 @@ INSERT INTO `mc_config_size_img` VALUES
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
   `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,
-  `iso` varchar(3) NOT NULL,
-  `language` varchar(30) NOT NULL,
+  `codelang` varchar(2) NOT NULL,
+  `desclang` varchar(20) NOT NULL,
   `default` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1);
+INSERT INTO `mc_lang` VALUES
+(1, 'fr', 'francais', 0);
 
 CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
   `idrewrite` tinyint(2) NOT NULL AUTO_INCREMENT,
@@ -196,19 +197,25 @@ CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_news` (
-  `idnews` int(7) NOT NULL AUTO_INCREMENT,
-  `keynews` varchar(40) NOT NULL,
-  `n_uri` varchar(125) NOT NULL,
-  `idadmin` tinyint(1) NOT NULL,
-  `idlang` tinyint(3) NOT NULL,
-  `n_title` varchar(125) NOT NULL,
-  `n_image` varchar(25) DEFAULT NULL,
-  `n_content` text NOT NULL,
-  `date_register` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_publish` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `published` tinyint(1) NOT NULL,
-  PRIMARY KEY (`idnews`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `idnews` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `subject` varchar(125) NOT NULL,
+  `rewritelink` varchar(125) NOT NULL,
+  `content` text NOT NULL,
+  `idlang` tinyint(1) NOT NULL,
+  `idadmin` tinyint(2) NOT NULL,
+  `date_sent` date NOT NULL,
+  `postdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idnews`),
+  KEY `idlang` (`idlang`),
+  KEY `idadmin` (`idadmin`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `mc_news_publication` (
+  `idnews` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `date_publication` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish` tinyint(4) NOT NULL DEFAULT '0',
+  KEY `idnews` (`idnews`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_page_home` (
   `idhome` tinyint(1) NOT NULL AUTO_INCREMENT,

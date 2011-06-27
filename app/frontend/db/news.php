@@ -30,25 +30,54 @@
  */
 class frontend_db_news{
 	/**
-	 * singleton dbnews
-	 * @access public
-	 * @var void
+	 * 
+	 * Enter description here ...
+	 * @param string $iso
 	 */
-	static public $publicdbnews;
+	protected function s_count_news($iso){
+		$sql = 'SELECT count(n.idnews) total FROM mc_news AS n
+		LEFT JOIN mc_lang AS lang USING(idlang)
+		WHERE lang.iso = :iso';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':iso'=>$iso
+		));
+	}
 	/**
-	 * instance frontend_db_news with singleton
+	 * Sélectionne les news par langue avec options pour une pagination
 	 */
-	public static function publicDbNews(){
-        if (!isset(self::$publicdbnews)){
-         	self::$publicdbnews = new frontend_db_news();
-        }
-    	return self::$publicdbnews;
-    }
-/**
+	protected function s_list_news($iso,$limit=false,$max=null,$offset=null){
+		$limit = $limit ? ' LIMIT '.$max : '';
+    	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
+		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
+		LEFT JOIN mc_lang AS lang USING(idlang) 
+		WHERE lang.iso = :iso AND published = 1 ORDER BY date_register DESC'.$limit.$offset;
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':iso'=>$iso
+		));
+	}
+	protected function s_home_list_news($iso,$limit){
+		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
+		LEFT JOIN mc_lang AS lang USING(idlang) 
+		WHERE lang.iso = :iso AND published = 1 ORDER BY date_register DESC LIMIT 0,'.$limit;
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':iso'=>$iso
+		));
+	}
+	protected function s_specific_news($keynews,$date_register){
+		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
+		LEFT JOIN mc_lang AS lang USING(idlang)
+		WHERE n.keynews = :keynews AND CAST(n.date_register AS DATE) = CAST(:date_register AS DATE) AND published = 1';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':keynews' 	 	=> $keynews,
+			':date_register'=> $date_register
+		));
+	}
+	//////
+	/**
 	 * Affiche les données d'une news
 	 * @param $getsubject
 	 */
-	function s_news_page($getdate,$getnews){
+	/*function s_news_page($getdate,$getnews){
 		$sql = 'SELECT n.subject,n.content,lang.codelang,n.idlang,n.date_sent,pub.date_publication
 				FROM mc_news AS n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
@@ -63,7 +92,7 @@ class frontend_db_news{
 	 * Retourne le nombre maximum de news publié
 	 * @return void
 	 */
-	function s_count_news_publish_max(){
+	/*function s_count_news_publish_max(){
 		$sql = 'SELECT count(pub.idnews) as total 
 		FROM mc_news_publication as pub
 		WHERE pub.publish = 1';
@@ -82,7 +111,7 @@ class frontend_db_news{
 	/**
 	 * Sélectionne toutes les news publié trié par date
 	 */
-	function s_news_plugins_lang($codelang,$limit=false,$max=null,$offset=null){
+	/*function s_news_plugins_lang($codelang,$limit=false,$max=null,$offset=null){
 		$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
 		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,pub.date_publication,lang.codelang
@@ -95,7 +124,7 @@ class frontend_db_news{
 	/**
 	 * Sélectionne la dernière news publié
 	 */
-	function s_lastnews_plugins(){
+	/*function s_lastnews_plugins(){
 		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,pub.date_publication,lang.codelang
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
@@ -106,12 +135,12 @@ class frontend_db_news{
 	/**
 	 * Sélectionne la dernière news publié dans une langue spécifique
 	 */
-	function s_lastnews_lang_plugins($codelang){
+	/*function s_lastnews_lang_plugins($codelang){
 		$sql = 'SELECT n.subject,n.content,n.rewritelink,n.idlang,n.date_sent,pub.date_publication,lang.codelang
 				FROM mc_news as n
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_news_publication as pub ON(pub.idnews = n.idnews)
 				WHERE pub.publish = 1 AND lang.codelang = :codelang ORDER BY n.idnews DESC LIMIT 1';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(':codelang' =>$codelang));
-	}
+	}*/
 }

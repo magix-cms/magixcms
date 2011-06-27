@@ -130,7 +130,8 @@ class backend_controller_news extends backend_db_news{
 						$this->idlang,
 						backend_model_member::s_idadmin()
 					);
-					backend_controller_rss::instance()->exec();
+					$rss = new backend_controller_rss();
+					$rss->run();
 					backend_config_smarty::getInstance()->display('request/success.phtml');
 				}
 			}

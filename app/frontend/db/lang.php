@@ -30,13 +30,26 @@
  */
 class frontend_db_lang{
 	/**
+	 * @access public
+	 * @static
 	 * selectionne l'identifiant correspondant au code de la langue
-	 * @param $codelang
+	 * @param $iso
 	 */
-	function s_lang($codelang){
-		$sql = 'SELECT idlang FROM mc_lang WHERE codelang = :codelang';
+	public static function s_id_current_lang($iso){
+		$sql = 'SELECT idlang,iso FROM mc_lang WHERE iso = :iso';
 		return magixglobal_model_db::layerDB()->selectOne($sql,
-			array(':codelang' => $codelang)
+			array(':iso' => $iso)
 		);
+	}
+	/**
+	 * @access public
+	 * @static
+	 * Retourne la liste des langues disponible
+	 */
+	public static function s_fetch_all_lang(){
+	    $sql = 'SELECT l.idlang, l.iso, l.language
+	           FROM mc_lang AS l
+	           ORDER BY l.idlang';
+	    return magixglobal_model_db::layerDB()->select($sql);
 	}
 }

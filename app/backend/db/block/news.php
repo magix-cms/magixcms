@@ -45,6 +45,6 @@ class backend_db_block_news{
 				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				LEFT JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin) ORDER BY n.idnews DESC'.$limit.$offset;
-		return magixglobal_model_db::layerDB()->select($sql,false,'assoc');
+		return magixglobal_model_db::layerDB()->select($sql);
     }
 }

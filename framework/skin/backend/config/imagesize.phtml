@@ -19,7 +19,8 @@
 						<div class="dashboard-widget-content">
 						{if $perms <= 2}
 							{if {admin_level_config config_param=['module'=>'catalog']} eq 1}
-								<h3>Catégories :</h3>
+							
+								{*<h3>Catégories :</h3>
 								<form class="forms-config" method="post" action="" id="cat_category_image_size">
 									<div style="margin-bottom:5px;">
 										<label>Largeur :</label>
@@ -69,7 +70,8 @@
 										<input type="text" name="size_h_large_product" class="spincount" id="size_h_large_product" value="{$size_h_large_product}" size="5" />
 										<input type="submit" value="Save" />
 									</div>
-								</form>
+								</form>*}
+								{$img_size_forms}
 							{/if}
 							</div>
 						{else}
@@ -128,6 +130,7 @@ $(function(){
 		  console.log("ns_jsettingimage is not defined");
 		}else{
 			ns_jsettingimage._loadingConfig();
+			ns_jsettingimage.exeUpdate();
 		}
 	});
 });

@@ -65,7 +65,7 @@ class magixglobal_model_dateformat extends DateTime{
 	 * @access public
 	 * Retourne la date au format européen avec slash (2000/01/01)
 	 * @param timestamp $date
-	 * * @example 
+	 * @example 
 	 * $datecreate = new magixglobal_model_dateformat('2000-01-01');
 	 * echo $datecreate->date_europeen_format();
 	 */
@@ -102,6 +102,17 @@ class magixglobal_model_dateformat extends DateTime{
 	 */
 	public function SQLDateTime(){
 		return $this->format( 'Y-m-d H:i:s' ) ;
+	}
+	/**
+	 * @access public
+	 * Retourne la différence entre deux dates
+	 * @param string $dateTime
+	 */
+	public function dateDiff($dateTime){
+		$datetime1 = $this;
+		$datetime2 = $dateTime;
+		$interval = $datetime1->diff($datetime2);
+		return $interval->format('%R%a days');
 	}
 }
 ?>

@@ -1,0 +1,27 @@
+{include file="common/header.phtml" section="prepend"}
+{*{headmeta meta="description" content="{rewrite_metas_news type='description' param=$subject level='1'}"}
+    <title>{rewrite_metas_news type='title' param=$subject level='1'}</title>*}
+{include file="common/css.phtml"}
+</head>
+<body>
+<div id="page">
+{include file="common/top.phtml"}
+<div id="content">
+{*{include file="common/sidebar.phtml"}*}
+	<div id="principal" class="principal">
+		<div class="sdate">
+			<table>
+				<tr>
+					<td><span style="float:left;" class="ui-icon ui-icon-calendar"></span></td>
+					<td>{$date_publish|date_format:"%d-%m-%y"}</td>
+				</tr>
+			</table>
+		</div>
+		<h1>{$n_title}</h1>
+		{$n_content}
+	</div>
+	<hr class="clear" />
+</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

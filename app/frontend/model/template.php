@@ -60,6 +60,38 @@ class frontend_model_template extends db_theme{
 		}
 		return self::frontendTheme()->load_theme();
 	}
+	/**
+	 * Affiche les pages phtml
+	 * @param void $page
+	 */
+	public static function display($page,$plugin=''){
+		return frontend_config_smarty::getInstance()->display($page);
+	}
+	/**
+	 * Affiche les pages phtml supplémentaire
+	 * @param void $page
+	 */
+	public static function fetch($page,$plugin=''){
+		return frontend_config_smarty::getInstance()->fetch($page);
+	}
+	/**
+	 * Assign les variables dans les fichiers phtml
+	 * @param void $page
+	 */
+	public static function assign($assign,$fetch){
+		return frontend_config_smarty::getInstance()->assign($assign,$fetch);
+	}
+	/**
+	 * Charge les variables du fichier de config dans le site
+	 * @param string $varname
+	 */
+	public static function getConfigVars($varname){
+		if($varname != null){
+			return frontend_config_smarty::getInstance()->getConfigVars($varname);
+		}else{
+			throw new Exception("getConfigVars is null");
+		}
+	}
 }
 /**
  * Class db theme

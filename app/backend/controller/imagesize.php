@@ -31,6 +31,16 @@
  *
  */
 class backend_controller_imagesize extends database_imagesize{
+	public $id_size_img,$config_size_attr,$width,$height;
+	public function __construct(){
+		if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
+			$this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
+			$this->height = magixcjquery_filter_isVar::isPostNumeric($_POST['height']);
+		}
+		if(magixcjquery_filter_request::isPost('id_size_img')){
+			$this->id_size_img = magixcjquery_filter_isVar::isPostNumeric($_POST['id_size_img']); 
+		}
+	}
 	/**
 	 * @access private
 	 * Assign les variables pour les paramètres des tailles images
@@ -39,13 +49,41 @@ class backend_controller_imagesize extends database_imagesize{
 		$setting = new backend_model_setting();
 		$setting->assign_img_size($attr_name);
 	}
+	private function load_img_forms(){
+		$setting = new backend_model_setting();
+		$input = '';
+		foreach($setting->allSizeImg() as $row){
+			$input .= '<h4>'.$row['config_size_attr'].'&nbsp;'.$row['type'].'</h4>';
+			$input .= '<div style="margin-bottom:5px;">';
+			$input .= '<form class="forms-config" method="post" action="" id="'.$row['config_size_attr'].'">';
+			$input .= '<input type="hidden" name="id_size_img" value="'.$row['id_size_img'].'" />';
+			$input .= '<label>Largeur :</label>';
+			$input .= '<input type="text" name="width" class="spincount" value="'.$row['width'].'" size="5" />';
+			$input .= '<label>Hauteur :</label>';
+			$input .= '<input type="text" name="height" class="spincount" value="'.$row['height'].'" size="5" />&nbsp;';
+			$input .= '<input type="submit" value="Save" />';
+			$input .= '</div>';
+			$input .= '</form>';
+		}
+		return $input;
+	}
+	/**
+	 * @access private
+	 * Mise à jour des tailles images des catégories catalogue 
+	 */
+	private function update_img(){
+		if(isset($this->id_size_img)){
+			parent::u_size_img_config($this->width, $this->height, $this->id_size_img);	
+		}
+	}
 	/**
 	 * @access public 
 	 * Execute la classe
 	 */
 	public function run(){
-		$this->catalog_assign_img_size('catalog');
-		backend_controller_template::display('config/imagesize.phtml');
+		//$this->catalog_assign_img_size('catalog');
+		backend_controller_template::assign('img_size_forms', $this->load_img_forms());
+		backend_controller_template::display('config/imagesize.phtml');	
 	}
 }
 class database_imagesize{
@@ -55,13 +93,14 @@ class database_imagesize{
 	 * @param integer $num_size
 	 * @param string $name_size
 	 */
-	protected function update_size_img_config($num_size,$name_size){
+	protected function u_size_img_config($width,$height,$id_size_img){
 		$sql = 'UPDATE mc_config_size_img 
-		SET num_size = :num_size WHERE name_size = :name_size';
+		SET width = :width,height = :height WHERE id_size_img = :id_size_img';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
-			':num_size'  =>	$num_size,
-			':name_size' =>	$name_size
+			':width'  =>	$width,
+			':height'  =>	$height,
+			':id_size_img' =>	$id_size_img
 		));
 	}
 }

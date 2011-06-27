@@ -30,7 +30,7 @@
  * @name news
  *
  */
-class frontend_controller_news{
+class frontend_controller_news extends frontend_db_news{
 	/**
 	 * parametre GET de la langue
 	 * @var string
@@ -52,19 +52,28 @@ class frontend_controller_news{
 	 */
 	public $getdate;
 	/**
+	 * 
+	 * URL de la news
+	 * @var $uri_get_news
+	 */
+	public $uri_get_news;
+	/**
 	 * function construct
 	 *
 	 */
 	function __construct(){
-		if(isset($_GET['strLangue'])){
+		if(magixcjquery_filter_request::isGet('strLangue')){
 			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-			$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
+			//$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
 		}
-		if(isset($_GET['getnews'])){
-			$this->getnews = ($_GET['getnews']);
+		if(magixcjquery_filter_request::isGet('getnews')){
+			$this->getnews = magixcjquery_filter_var::clean($_GET['getnews']);
 		}
-		if(isset($_GET['getdate'])){
+		if(magixcjquery_filter_request::isGet('getdate')){
 			$this->getdate = ($_GET['getdate']);
+		}
+		if(magixcjquery_filter_request::isGet('uri_get_news')){
+			$this->uri_get_news = magixcjquery_url_clean::rplMagixString($_GET['uri_get_news']);
 		}
 		if(magixcjquery_filter_request::isGet('page')) {
 				// si numéric
@@ -139,32 +148,31 @@ class frontend_controller_news{
 				$news .= '</div>';
 			}
 		}
-		frontend_config_smarty::getInstance()->assign('listnews',$news);
+		frontend_model_template::assign('listnews',$news);
 		$cnews = frontend_db_news::publicDbNews()->s_count_news_publish_max();
 		if($cnews['total'] >= $max){
-			frontend_config_smarty::getInstance()->assign('npagination',self::news_pagination($max));
+			frontend_model_template::assign('npagination',self::news_pagination($max));
 		}else{
-			frontend_config_smarty::getInstance()->assign('npagination',null);
+			frontend_model_template::assign('npagination',null);
 		}
-	}
-	/**
-	 * Retourne le contenu de la news courante
-	 * @access public
-	 */
-	private function load_news_content(){
-		$news = frontend_db_news::publicDbNews()->s_news_page($this->getdate,$this->getnews);
-		frontend_config_smarty::getInstance()->assign('subject',magixcjquery_string_convert::ucFirst($news['subject']));
-		frontend_config_smarty::getInstance()->assign('content',$news['content']);
-		frontend_config_smarty::getInstance()->assign('date_sent',$news['date_sent']);
-		frontend_config_smarty::getInstance()->assign('date_publication',$news['date_publication']);
 	}
 	/**
 	 * Retourne la page de la news courante
 	 * @access public
 	 */
-	private function display_getnews(){
-		self::load_news_content();
-		frontend_config_smarty::getInstance()->display('news/index.phtml');
+	private function display_getnews($getnews,$date_register){
+		if(isset($getnews) AND isset($date_register)){
+			$plitdate = explode('/', $this->getdate);
+			$page = parent::s_specific_news($getnews,$date_register);
+			if($page['idnews'] != null){
+					frontend_model_template::assign('date_publish',$page['date_publish']);
+					frontend_model_template::assign('n_title',$page['n_title']);
+					frontend_model_template::assign('n_content',$page['n_content']);
+					frontend_model_template::assign('n_image',$page['n_image']);
+			}else{
+				
+			}
+		}
 	}
 	/**
 	 * Retourne la page qui liste les news avec pagination
@@ -172,11 +180,12 @@ class frontend_controller_news{
 	 */
 	private function display_list(){
 		self::s_all_linknews();
-		frontend_config_smarty::getInstance()->display('news/list.phtml');
+		frontend_model_template::display('news/index.phtml');
 	}
 	public function run(){
 		if(isset($this->getnews)){
-			self::display_getnews();
+			$this->display_getnews($this->getnews,$this->getdate);
+			frontend_model_template::display('news/record.phtml');
 		}else{
 			self::display_list();
 		}
