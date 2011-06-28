@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `mc_news` (
   `n_content` text NOT NULL,
   `date_register` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_publish` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `published` tinyint(1) NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idnews`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -222,14 +222,7 @@ CREATE TABLE IF NOT EXISTS `mc_page_home` (
   PRIMARY KEY (`idhome`),
   KEY `idlang` (`idlang`),
   KEY `idadmin` (`idadmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `mc_page_home_config` (
-  `idhome` tinyint(4) NOT NULL,
-  `slideshow` tinyint(1) NOT NULL DEFAULT '0',
-  `news` tinyint(1) NOT NULL DEFAULT '0',
-  KEY `idhome` (`idhome`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_setting` (
   `setting_id` varchar(255) NOT NULL,
@@ -270,9 +263,6 @@ ALTER TABLE `mc_cms_page`
 
 ALTER TABLE `mc_news`
   ADD CONSTRAINT `mc_news_ibfk_1` FOREIGN KEY (`idadmin`) REFERENCES `mc_admin_member` (`idadmin`);
-
-ALTER TABLE `mc_news_publication`
-  ADD CONSTRAINT `mc_news_publication_ibfk_1` FOREIGN KEY (`idnews`) REFERENCES `mc_news` (`idnews`);
 
 ALTER TABLE `mc_page_home_config`
   ADD CONSTRAINT `mc_page_home_config_ibfk_1` FOREIGN KEY (`idhome`) REFERENCES `mc_page_home` (`idhome`);

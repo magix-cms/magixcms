@@ -50,14 +50,14 @@ class backend_db_cms{
      * Affiche le block "sortable" des categories
      */
     function s_block_category(){
-    	$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder,lang.codelang,c.idlang FROM mc_cms_category AS c 
+    	$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder,lang.iso,c.idlang FROM mc_cms_category AS c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.idlang,c.idorder';
 		//return $this->layer->select($sql);
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 	function s_json_category($idlang){
-    	$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder,lang.codelang,c.idlang FROM mc_cms_category AS c 
+    	$sql = 'SELECT c.idcategory,c.category,c.pathcategory,c.idorder,lang.iso,c.idlang FROM mc_cms_category AS c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE c.idlang= :idlang';
 		//return $this->layer->select($sql);
@@ -75,7 +75,7 @@ class backend_db_cms{
      * @return
      */
 	function s_count_category(){
-    	$sql = 'SELECT count(c.idcategory) as countcat,lang.codelang
+    	$sql = 'SELECT count(c.idcategory) as countcat,lang.iso
     	FROM mc_cms_category AS c
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	GROUP BY c.idlang';
@@ -153,7 +153,7 @@ class backend_db_cms{
 	 * Compte le nombre de page par catégorie groupé par langue
 	 */
 	function statistic_category_page(){
-		$sql = 'SELECT count( page.idcategory ) AS cat, lang.codelang
+		$sql = 'SELECT count( page.idcategory ) AS cat, lang.iso
 				FROM mc_cms_page page
 				LEFT JOIN mc_lang AS lang ON(page.idlang = lang.idlang)
 				GROUP BY page.idlang';
@@ -185,7 +185,7 @@ class backend_db_cms{
     function s_cms_plugin($limit=false,$max=null,$offset=null){
     	$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-    	$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription,c.pathcategory, lang.codelang, m.pseudo
+    	$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription,c.pathcategory, lang.iso, m.pseudo
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
@@ -233,7 +233,7 @@ class backend_db_cms{
 	 * Charge les données de la table cms page pour la construction du menu
 	 */
 	function s_cms_navigation(){
-    	$sql = 'SELECT p.idpage, p.subjectpage,p.orderpage,p.viewpage,lang.codelang
+    	$sql = 'SELECT p.idpage, p.subjectpage,p.orderpage,p.viewpage,lang.iso
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 				ORDER BY p.orderpage';
@@ -243,7 +243,7 @@ class backend_db_cms{
      * Charge les identifiants de la vue d'une page CMS
      */
 	function s_cms_form_navigation(){
-    	$sql = 'SELECT p.idpage, p.subjectpage,p.orderpage,p.viewpage,lang.codelang
+    	$sql = 'SELECT p.idpage, p.subjectpage,p.orderpage,p.viewpage,lang.iso
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )';
 		return magixglobal_model_db::layerDB()->select($sql);
@@ -293,7 +293,7 @@ class backend_db_cms{
 	 * @param $getpage
 	 */
 	function s_data_forms($getpage){
-		$sql = 'SELECT p.idpage,p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription, lang.codelang,c.category,c.pathcategory
+		$sql = 'SELECT p.idpage,p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription, lang.iso,c.category,c.pathcategory
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
@@ -371,7 +371,7 @@ class backend_db_cms{
 	 * @param $searchpage
 	 */
 	function r_search_cms_title($searchpage){
-		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription,c.category,c.pathcategory, lang.codelang, m.pseudo
+		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription,c.category,c.pathcategory, lang.iso, m.pseudo
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )

@@ -2,6 +2,7 @@ fieldset{border-width:0;}
 select,.ui-select-menu { float: left; margin-right: 10px; }
 select { width: 220px; }
 .table-tinymce{width:100%;}
+.table-btn-preview{width:100%;color:black;}
 /**
  * Table contenu avec jquery ui widget
  */

@@ -107,7 +107,7 @@ function smarty_function_widget_cms($params, $template){
 					$codelang = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
 				break;
 				default: 
-					$codelang = $pcms['codelang'];
+					$codelang = $pcms['iso'];
 				break;
 			}
 			switch($pcms['idcategory']){

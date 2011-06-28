@@ -50,7 +50,7 @@ class backend_db_lang{
      * retourne la liste des langues disponible
      */
     public function s_full_lang(){
-    	$sql = 'SELECT lang.codelang,lang.idlang FROM mc_lang AS lang';
+    	$sql = 'SELECT lang.iso,lang.idlang FROM mc_lang AS lang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**

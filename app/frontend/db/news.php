@@ -66,7 +66,7 @@ class frontend_db_news{
 	protected function s_specific_news($keynews,$date_register){
 		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
 		LEFT JOIN mc_lang AS lang USING(idlang)
-		WHERE n.keynews = :keynews AND CAST(n.date_register AS DATE) = CAST(:date_register AS DATE) AND published = 1';
+		WHERE n.keynews = :keynews AND CAST(n.date_register AS DATE) = CAST(:date_register AS DATE)';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':keynews' 	 	=> $keynews,
 			':date_register'=> $date_register

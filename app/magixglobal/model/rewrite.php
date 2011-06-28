@@ -68,22 +68,34 @@ class magixglobal_model_rewrite{
 	 * Identification de la traduction des urls du module news
 	 * @param string $lang
 	 */
+	private function mod_cms_lang($lang){
+		switch($lang){
+			default:
+			$langsession = '/pages/';	
+		}
+		return $langsession;
+	}
+	/**
+	 * @access private
+	 * Identification de la traduction des urls du module news
+	 * @param string $lang
+	 */
 	private function mod_news_lang($lang){
 		switch($lang){
 				case 'fr':
-				$langsession = 'actualites';
+				$langsession = '/actualites/';
 					break;
 				case 'en':
-				$langsession = 'news';
+				$langsession = '/news/';
 					break;	
 				case 'de':
-				$langsession = 'news';
+				$langsession = '/news/';
 					break;
 				case 'nl':
-				$langsession = 'nieuws';
+				$langsession = '/nieuws/';
 					break;	
 				default:
-				$langsession = 'actualites';	
+				$langsession = '/actualites/';	
 		}
 		return $langsession;
 	}
@@ -98,12 +110,13 @@ class magixglobal_model_rewrite{
 	 */
 	private function cms_rewrite_uri($lang,$catid,$pathcat,$idpage,$pathpage){
 		if($lang != null){
-			$language = $lang.'/';
-		}else $language = '';
-		if($pathcat != null){
-			$category = $catid.'-'.$pathcat.'/';
-		}else $category = '';
-		return '/'.$language.$category.$idpage.'-'.$pathpage.'.html';
+			if($pathcat != null){
+				$category = $catid.'-'.$pathcat.'/';
+			}else{
+				$category = '';
+			}
+			return '/'.$lang.self::mod_cms_lang($lang).$category.$idpage.'-'.$pathpage.'/';
+		}
 	}
 	/**
 	 * 
@@ -116,12 +129,14 @@ class magixglobal_model_rewrite{
 	 */
 	private function cms_uri($lang,$catid,$pathcat,$idpage,$pathpage){
 		if($lang != null){
+			if($pathcat != null){
+				$category = 'getidcategory='.$catid.'&amp;getcat='.$pathcat.'&amp;';
+			}else{
+				$category = '';
+			}
 			$language = 'strLangue='.$lang.'&amp;';
-		}else $language = '';
-		if($pathcat != null){
-			$category = 'getidcategory='.$catid.'&amp;getcat='.$pathcat.'&amp;';
-		}else $category = '';
-		return '/cms.php?'.$language.$category.'getidpage='.$idpage.'&amp;getpurl='.$pathpage;
+			return '/cms.php?'.$language.$category.'getidpage='.$idpage.'&amp;getpurl='.$pathpage;
+		}
 	}
 	/**
 	 * @access public
@@ -338,9 +353,9 @@ class magixglobal_model_rewrite{
 	 */
 	private function news_uri_root($lang){
 		if($lang != null){
-			$language = 'strLangue='.$lang.'&amp;';
-		}else $language = '';
-		return '/news.php?'.$language.'news';
+			$language = 'strLangue='.$lang;
+			return '/news.php?'.$language;
+		}
 	}
 	/**
 	 * @access private
@@ -349,9 +364,8 @@ class magixglobal_model_rewrite{
 	 */
 	private function news_rewrite_uri_root($lang){
 		if($lang != null){
-			$language = $lang.'/';
-		}else $language = '';
-		return '/'.$language.self::mod_news_lang($lang).'.html';
+			return '/'.$lang.self::mod_news_lang($lang);
+		}
 	}
 	/**
 	 * La réécriture des urls pour afficher toutes les news
@@ -375,11 +389,11 @@ class magixglobal_model_rewrite{
 	 * @param numeric $getdate
 	 * @param string $getnews
 	 */
-	private function news_uri($lang,$getdate,$getnews){
+	private function news_uri($lang,$getdate,$uri_get_news,$keynews){
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
-		}else $language = '';
-		return '/news.php?'.$language.'&amp;'.'getdate='.$getdate.'&amp;'.'getnews='.$getnews;
+			return '/news.php?'.$language.'getdate='.$getdate.'&amp;'.'uri_get_news='.$uri_get_news.'&amp;'.'getnews='.$keynews;
+		}
 	}
 	/**
 	 * URL public des news avec réécriture
@@ -387,11 +401,10 @@ class magixglobal_model_rewrite{
 	 * @param $getdate
 	 * @param $getnews
 	 */
-	private function news_rewrite_uri($lang,$getdate,$getnews){
+	private function news_rewrite_uri($lang,$getdate,$uri_get_news,$keynews){
 		if($lang != null){
-			$language = $lang.'/';
-		}else $language = '';
-		return '/'.$language.self::mod_news_lang($lang).'/'.$getdate.'/'.$getnews.'.html';
+			return '/'.$lang.self::mod_news_lang($lang).$getdate.'/'.$uri_get_news.'/'.$keynews.'/';
+		}
 	}
 	/**
 	 * La réécriture des URL des news
@@ -400,16 +413,15 @@ class magixglobal_model_rewrite{
 	 * @param string $getnews
 	 * @param bool $rewrite
 	 */
-	public static function filter_news_url($lang,$getdate,$getnews,$rewrite=false){
+	public static function filter_news_url($lang,$getdate,$uri_get_news,$keynews,$rewrite=false){
 		switch ($rewrite){
 			case true:
-				return self::news_rewrite_uri($lang,$getdate,$getnews);
+				return self::news_rewrite_uri($lang,$getdate,$uri_get_news,$keynews);
 			break;
 			case false:
-				return self::news_uri($lang,$getdate,$getnews);
+				return self::news_uri($lang,$getdate,$uri_get_news,$keynews);
 			break;
 		}
-		
 	}
 	/**
 	 * URL public d'un plugin sans réécriture

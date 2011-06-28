@@ -52,7 +52,7 @@ class frontend_db_cms{
 	 * @param $getpurl
 	 */
 	public function s_cms_page($getidpage){
-		$sql = 'SELECT p.subjectpage,p.contentpage,p.idlang,lang.codelang,c.pathcategory,c.category,p.date_page
+		$sql = 'SELECT p.subjectpage,p.contentpage,p.idlang,lang.iso,c.pathcategory,c.category,p.date_page
 				FROM mc_cms_page as p
 				LEFT JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
 				LEFT JOIN mc_cms_category as c ON(c.idcategory = p.idcategory)
@@ -81,11 +81,11 @@ class frontend_db_cms{
 	 * @param $codelang
 	 */
 	/*function s_page_cms($codelang){
-		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory,c.category, p.pathpage,c.pathcategory, lang.codelang
+		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory,c.category, p.pathpage,c.pathcategory, lang.iso
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory != 0
+				WHERE viewpage = 1 AND lang.iso =:codelang AND p.idcategory != 0
 				ORDER BY p.orderpage,c.idorder';
 		return magixglobal_model_db::layerDB()->select($sql,array('codelang'=>$codelang));
 	}*/
@@ -105,10 +105,10 @@ class frontend_db_cms{
 	 * sélectionne les pages avec une langue et sans catégorie
 	 */
 	public function s_root_page_cms($codelang){
-		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang, p.pathpage,p.idcategory,lang.codelang
+		$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang, p.pathpage,p.idcategory,lang.iso
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory = 0
+				WHERE viewpage = 1 AND lang.iso =:codelang AND p.idcategory = 0
 				ORDER BY p.orderpage';
 		return magixglobal_model_db::layerDB()->select($sql,array('codelang'=>$codelang));
 	}
@@ -146,7 +146,7 @@ class frontend_db_cms{
 				FROM mc_cms_page AS p
 				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
 				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-				WHERE viewpage = 1 AND lang.codelang =:codelang AND p.idcategory = :idcategory
+				WHERE viewpage = 1 AND lang.iso =:codelang AND p.idcategory = :idcategory
 				ORDER BY p.orderpage';
 		return magixglobal_model_db::layerDB()->select($sql,array(':idcategory'=>$idcategory,'codelang'=>$codelang));
 	}
@@ -179,11 +179,11 @@ class frontend_db_cms{
 	 * @param $codelang
 	 */
 	public function s_category_cms($codelang){
-		$sql = 'SELECT c.idcategory,c.category,c.pathcategory,lang.codelang,c.idorder
+		$sql = 'SELECT c.idcategory,c.category,c.pathcategory,lang.iso,c.idorder
 				FROM mc_cms_category AS c
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE lang.codelang = :codelang
+				WHERE lang.iso = :iso
 				ORDER BY c.idorder';
-		return magixglobal_model_db::layerDB()->select($sql,array('codelang'=>$codelang));
+		return magixglobal_model_db::layerDB()->select($sql,array(':iso'=>$codelang));
 	}
 }

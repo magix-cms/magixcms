@@ -40,11 +40,11 @@ class backend_db_block_news{
     public static function s_news_plugin($limit=false,$max=null,$offset=null){
     	$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-    	$sql = 'SELECT n.idnews,n.subject,n.content,lang.codelang,n.idlang,n.date_sent,n.rewritelink,m.pseudo,pub.date_publication,pub.publish
+    	$sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_content,lang.iso,n.idlang,n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
 				FROM mc_news AS n
-				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-				LEFT JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin) ORDER BY n.idnews DESC'.$limit.$offset;
+				LEFT JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin) 
+				ORDER BY n.idnews DESC'.$limit.$offset;
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 }

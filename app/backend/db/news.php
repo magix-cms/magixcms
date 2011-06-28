@@ -40,11 +40,22 @@ class backend_db_news{
 	 * @param $idlang
 	 * @param $idadmin
 	 */
-	protected function i_new_news($subject,$rewritelink,$content,$idlang,$idadmin){
-		$sql = array('INSERT INTO mc_news (subject,rewritelink,content,idlang,idadmin,date_sent) 
+	protected function i_new_news($keynews,$idlang,$idadmin,$n_title,$n_uri,$n_content){
+		/*$sql = array('INSERT INTO mc_news (subject,rewritelink,content,idlang,idadmin,date_sent) 
 				VALUE('.magixglobal_model_db::layerDB()->escape_string($subject).','.magixglobal_model_db::layerDB()->escape_string($rewritelink).','.magixglobal_model_db::layerDB()->escape_string($content).',"'.$idlang.'","'.$idadmin.'",NOW())',
 		'INSERT INTO mc_news_publication (date_publication,publish) VALUE("0000-00-00 00:00:00","0")');
-		magixglobal_model_db::layerDB()->transaction($sql);
+		magixglobal_model_db::layerDB()->transaction($sql);*/
+		$sql = 'INSERT INTO mc_news (keynews,idlang,idadmin,n_title,n_uri,n_content)
+		VALUE (:keynews,:idlang,:idadmin,:n_title,:n_uri,:n_content)';
+		magixglobal_model_db::layerDB()->update($sql,
+		array(
+			':keynews'		=>	$keynews,
+			':idlang'		=>	$idlang,
+			':idadmin'		=>	$idadmin,
+			':n_title'		=>	$n_title,
+			':n_uri'		=>	$n_uri,
+			':n_content'	=>	$n_content
+		));
 	}
 	/**
 	 * Retourne le nombre maximum de news
@@ -69,14 +80,13 @@ class backend_db_news{
 	 * @param $getnews
 	 */
 	protected function s_news_record($getnews){
-		$sql = 'SELECT n.idnews, n.subject, n.rewritelink, n.content, pub.publish, lang.codelang, n.idlang, n.date_sent, m.pseudo
+		$sql = 'SELECT n.idnews,n.keynews, n.n_title,n.n_uri, n.n_image, n.n_content, n.published, lang.iso, n.idlang, n.date_register, m.pseudo
 				FROM mc_news AS n
-				LEFT JOIN mc_news_publication AS pub ON ( n.idnews = pub.idnews )
 				LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
 				LEFT JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
 				WHERE n.idnews = :getnews';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-		':getnews'=>$getnews
+			':getnews'=>$getnews
 		));
 	}
 	/**
@@ -87,30 +97,31 @@ class backend_db_news{
 	 * @param $idadmin
 	 * @param $idnews
 	 */
-	protected function u_news_page($subject,$rewritelink,$content,$idlang,$idadmin,$idnews,$date_publication,$publish){
-		/*$sql = 'UPDATE mc_news 
-		SET subject=:subject,rewritelink = :rewritelink,content=:content,idlang=:idlang,idadmin=:idadmin
+	protected function u_news_page($n_title,$n_uri,$n_content,$idadmin,$date_publish,$published,$idnews){
+		/*$sql = array('UPDATE mc_news SET subject='.magixglobal_model_db::layerDB()->escape_string($subject).',rewritelink ='.magixglobal_model_db::layerDB()->escape_string($rewritelink).',content='.magixglobal_model_db::layerDB()->escape_string($content).',idlang="'.$idlang.'",idadmin="'.$idadmin.'" 
+		WHERE idnews ='.$idnews,'UPDATE mc_news_publication SET date_publication="'.$date_publication.'",publish="'.$publish.'" WHERE idnews ='.$idnews);
+		magixglobal_model_db::layerDB()->transaction($sql);*/
+		$sql = 'UPDATE mc_news 
+		SET n_title=:n_title,n_uri=:n_uri, n_content = :n_content,idadmin = :idadmin,date_publish = :date_publish, published=:published 
 		WHERE idnews = :idnews';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
-			':subject'			=>	$subject,
-			':rewritelink'		=>	$rewritelink,
-			':content'			=>	$content,
-			':idlang'			=>	$idlang,
-			':idadmin'			=>	$idadmin,
-			':idnews'			=>	$idnews
-		));*/
-		$sql = array('UPDATE mc_news SET subject='.magixglobal_model_db::layerDB()->escape_string($subject).',rewritelink ='.magixglobal_model_db::layerDB()->escape_string($rewritelink).',content='.magixglobal_model_db::layerDB()->escape_string($content).',idlang="'.$idlang.'",idadmin="'.$idadmin.'" 
-		WHERE idnews ='.$idnews,'UPDATE mc_news_publication SET date_publication="'.$date_publication.'",publish="'.$publish.'" WHERE idnews ='.$idnews);
-		magixglobal_model_db::layerDB()->transaction($sql);
+			':n_title'		=>	$n_title,
+			':n_uri'		=>	$n_uri,
+			':n_content'	=>	$n_content,
+			':idadmin'		=>	$idadmin,
+			':date_publish'	=>	$date_publish,
+			':published'	=>	$published,
+			':idnews'		=>	$idnews
+		));
 	}
 	protected function u_status_publication_of_news($idnews,$published){
 		switch($published){
 			case 0:
-				$sql = 'UPDATE mc_news_publication SET date_publication = "0000-00-00 00:00:00",publish = 0 WHERE idnews = :idnews';
+				$sql = 'UPDATE mc_news SET date_publish = "0000-00-00 00:00:00",published = 0 WHERE idnews = :idnews';
 			break;
 			case 1:
-				$sql = 'UPDATE mc_news_publication SET date_publication = NOW(),publish = 1 WHERE idnews = :idnews';
+				$sql = 'UPDATE mc_news SET date_publish = NOW(),published = 1 WHERE idnews = :idnews';
 			break;
 		}
 		magixglobal_model_db::layerDB()->update($sql,array(
@@ -148,10 +159,9 @@ class backend_db_news{
 	 * @param $idnews
 	 */
 	protected function d_news($idnews){
-		$sql = array(
-		'DELETE FROM mc_news_publication WHERE idnews = "'.$idnews.'"',
-		'DELETE FROM mc_news WHERE idnews = "'.$idnews.'"'
-		);
-		magixglobal_model_db::layerDB()->transaction($sql);
+		$sql = 'DELETE FROM mc_news WHERE idnews = :idnews';
+		magixglobal_model_db::layerDB()->delete($sql,array(
+			':idnews' 	=> $idnews
+		));
 	}
 }

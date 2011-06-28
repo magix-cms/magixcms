@@ -53,6 +53,23 @@ function create_dynamic_news_uri(){
 }
 $(function(){
 	/*################## article / news #################*/
+	$('#n_uri').attr("readonly","readonly");
+	$('.unlocked').live('click',function(event){
+		event.preventDefault();
+		var uri = $('#n_uri');
+		uri.removeClass('inputdisabled').addClass('inputtext').attr("readonly","");
+		$(this).fadeOut(400);
+	});
+	/*$('.unlocked').hover(
+	  function () {
+		  $(this).find("span").removeClass('magix-icon-lock');
+		  $(this).find("span").addClass('magix-icon-unlock');
+	  }, 
+	  function () {
+	    $(this).find("span").removeClass('magix-icon-unlock');
+	    $(this).find("span").addClass('magix-icon-lock');
+	  }
+	);*/
     $("#forms-news").submit(function(){
     	$.editorhtml({editor:_editorConfig});
 		$.notice({
@@ -76,7 +93,7 @@ $(function(){
 			/*tinyMCE.triggerSave(true,true);*/
 			$.editorhtml({editor:_editorConfig});
 			$(this).ajaxSubmit({
-        		url:'/admin/news.php?edit='+newsid+'&post',
+        		url:'/admin/news.php?edit='+newsid,
         		type:"post",
         		resetForm: false,
         		success:function(request) {
@@ -156,12 +173,13 @@ $(function(){
 				'Delete News': function() {
 					$(this).dialog('close');
 					$.ajax({
-						type:'get',
-						url: "/admin/news.php?delnews="+lg,
+						type:'post',
+						url: "/admin/news.php",
+						data: "delnews="+lg,
 						async: false,
 						cache:false,
 						success: function(){
-							location.reload();
+							//location.reload();
 						}
 				     });
 				},

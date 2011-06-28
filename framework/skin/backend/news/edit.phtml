@@ -17,62 +17,69 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Edition d'une news</div>
 						<div class="dashboard-widget-content">
-						{if $confignews eq 1}
+						{if {admin_level_config config_param=['module'=>'news']} eq 1}
 						<form id="forms-news-update" method="post" action="" style="margin-left:10px;">
-						<div style="margin:5px;float:right;">
-							<a class="post-preview button-link" href="#">Preview</a>
+						<div style="margin-right:5px;float:right;width:200px;padding:5px;" class="ui-widget-header ui-corner-all">
+							<table class="table-btn-preview">
+								<tr>
+									<td>
+										En ligne <input type="radio" name="published" {if $published eq 1}checked="checked"{/if} value="1" />
+									</td>
+									<td>
+										Hors ligne <input type="radio" name="published" {if $published eq 0}checked="checked"{/if} value="0" />
+									</td>
+								</tr>
+							</table>
+							<div style="text-align:center;"><a class="post-preview button-link" href="#">Preview</a></div>
 						</div>
 							<fieldset>
 								<table>
 									<tr>
-										<td class="label"><label for="subject" class="inlinelabel">Url :</label></td>
+										<td class="label"><label for="newsurl" class="inlinelabel">Url :</label></td>
 									</tr>
 									<tr>
 										<td>
-										<input type="hidden" id="idnews" value="{$smarty.get.edit}" />
-										<input type="text" id="newsurl" name="newsurl" readonly="readonly" class="inputdisabled ui-corner-all" value="" size="50" /></td>
-									</tr>
-									<tr>
-										<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
-									</tr>
-									<tr>
-										<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
-									</tr>
-									{if $idlang != 0}
-									<tr>
-										<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
-									</tr>
-									<tr>
-										<td>
-										<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
-										<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
+											<input type="hidden" id="idnews" value="{$smarty.get.edit}" />
+											<input type="text" id="newsurl" name="newsurl" readonly="readonly" class="inputdisabled ui-corner-all" value="" size="70" />
 										</td>
 									</tr>
-									{/if}
+									<tr>
+										<td class="label"><label for="n_title" class="inlinelabel">Titre :</label></td>
+									</tr>
+									<tr>
+										<td><input type="text" id="n_title" name="n_title" class="inputtext ui-corner-all" value="{$n_title}" size="50" /></td>
+									</tr>
 									<tr>
 										<td>
 										<table>
 											<tr>
-												<td style="width:100px;" class="label"><label for="publish" class="inlinelabel">Publication :</label></td>
-												<td style="width:80px;">
-													Activer <input type="radio" name="publish" {if $publish eq 1}checked="checked"{/if} value="1" />
+												<td class="label"><label for="iso" class="inlinelabel">Langue :</label></td>
+												<td class="label"><label for="n_uri" class="inlinelabel">URL simplifié :</label></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>
+													<input type="text" disabled="disabled" readonly="readonly" id="iso" name="iso" class="inputdisabled ui-corner-all" value="{$iso}" size="4" />
 												</td>
 												<td>
-													Désactiver <input type="radio" name="publish" {if $publish eq 0}checked="checked"{/if} value="0" />
+													<input type="text" id="n_uri" name="n_uri" class="inputdisabled ui-corner-all" value="{$n_uri}" size="50" />
+												</td>
+												<td>
+													<a class="unlocked" title="Editer l'url simplifié" href="#"><span class="lfloat magix-icon magix-icon-lock"></span></a>
 												</td>
 											</tr>
 										</table>
 										</td>
 									</tr>
 									<tr>
-										<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
+										<td class="label"><label for="n_content" class="inlinelabel">Contenu :</label></td>
 									</tr>
 									<tr>
-										<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows="">{$content}</textarea></td>
+										<td><textarea name="n_content" id="n_content" class="fulltext mceEditor ui-corner-all" cols="" rows="">{$n_content}</textarea></td>
 									</tr>
 								</table>			
 							</fieldset>
-							<div style="margin:5px;"><input type="submit" name="snom" value="envoyer" /></div>
+							<div style="margin:5px;"><input type="submit" value="envoyer" /></div>
 						</form>
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">

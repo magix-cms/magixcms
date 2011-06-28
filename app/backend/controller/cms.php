@@ -229,8 +229,8 @@ class backend_controller_cms{
 	private function view_category(){
 		$category = null;
 		foreach(backend_db_cms::adminDbCms()->s_block_category() as $block){
-			if($block['codelang'] != null){
-				$langspan = '<span class="lfloat">'.$block['codelang'].'</span>';
+			if($block['iso'] != null){
+				$langspan = '<span class="lfloat">'.$block['iso'].'</span>';
 			}else{
 				$langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
 			}
@@ -274,7 +274,7 @@ class backend_controller_cms{
 		foreach(backend_db_cms::adminDbCms()->s_count_category() as $cp){
 			$states .= '<tr class="line">';
 		 	$states .= '<td class="nowrap">'.$cp['countcat'].'</td>';
-		 	$states .= '<td class="nowrap">'.$cp['codelang'].'</td>';
+		 	$states .= '<td class="nowrap">'.$cp['iso'].'</td>';
 		 	$states .= '</tr>';
 		}
 		$states .= '</tbody></table>';
@@ -296,7 +296,7 @@ class backend_controller_cms{
 		foreach(backend_db_cms::adminDbCms()->statistic_category_page() as $cp){
 			$states .= '<tr class="line">';
 		 	$states .= '<td class="nowrap">'.$cp['cat'].'</td>';
-		 	$states .= '<td class="nowrap">'.$cp['codelang'].'</td>';
+		 	$states .= '<td class="nowrap">'.$cp['iso'].'</td>';
 		 	$states .= '</tr>';
 		}
 		$states .= '</tbody></table>';
@@ -338,13 +338,13 @@ class backend_controller_cms{
 		$category = '<select id="idcategory" name="idcategory" class="select">';
 		$category .='<option value="0">Aucune catégorie</option>';
 		foreach ($admindb as $row){
-			//si codelang pas = à $lang
-			if ($row['codelang'] != $lang) {
+			//si iso pas = à $lang
+			if ($row['iso'] != $lang) {
 			       if ($lang != '') { $category .= "</optgroup>\n"; }
-			       $category .= '<optgroup label="'.$row['codelang'].'">';
+			       $category .= '<optgroup label="'.$row['iso'].'">';
 			}
 			$category .= '<option value="'.$row['idcategory'].'">'.$row['category'].'</option>';
-			$lang = $row['codelang'];
+			$lang = $row['iso'];
 		}
 		if ($lang != '') { $category .= "</optgroup>\n"; }
 		$category .='</select>';
@@ -435,7 +435,7 @@ class backend_controller_cms{
 	private function navigation_order(){
 		$page = null;
 		foreach(backend_db_cms::adminDbCms()->s_cms_navigation() as $nav){
-			$page .= '<li class="ui-state-default" id="orderpage_'.$nav['idpage'].'"><span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'.$nav['subjectpage'].'<div style="float:right;">'.$nav['codelang'].'</div>'.'</li>';
+			$page .= '<li class="ui-state-default" id="orderpage_'.$nav['idpage'].'"><span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'.$nav['subjectpage'].'<div style="float:right;">'.$nav['iso'].'</div>'.'</li>';
 		}
 		return $page;
 	}
@@ -483,7 +483,7 @@ class backend_controller_cms{
 		$data = backend_db_cms::adminDbCms()->s_data_forms($this->editcms);
 		if($data['idpage'] != null){
 			$uri = magixglobal_model_rewrite::filter_cms_url(
-				$data['codelang'],
+				$data['iso'],
 				$data['idcategory'],
 				$data['pathcategory'],
 				$data['idpage'],
@@ -505,7 +505,7 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->assign('contentpage',$data['contentpage']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('idcategory',$data['idcategory']);
-		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
 		backend_config_smarty::getInstance()->assign('metatitle',$data['metatitle']);
 		backend_config_smarty::getInstance()->assign('metadescription',$data['metadescription']);
 	}
@@ -520,7 +520,7 @@ class backend_controller_cms{
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
 		backend_config_smarty::getInstance()->assign('idcategory',$data['idcategory']);
 		backend_config_smarty::getInstance()->assign('category',$data['category']);
-		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
 	}
 	/**
 	 * mise à jour d'une page
@@ -612,7 +612,7 @@ class backend_controller_cms{
 						break;
 					}
 					$uricms = magixglobal_model_rewrite::filter_cms_url(
-						$s['codelang'], 
+						$s['iso'], 
 						$s['idcategory'], 
 						$s['pathcategory'], 
 						$s['idpage'], 
@@ -620,7 +620,7 @@ class backend_controller_cms{
 						true
 					);
 					$search[]= '{"idpage":'.json_encode($s['idpage']).',"subjectpage":'.json_encode($s['subjectpage']).
-					',"idcategory":'.json_encode($s['idcategory']).',"codelang":'.json_encode($s['codelang']).
+					',"idcategory":'.json_encode($s['idcategory']).',"codelang":'.json_encode($s['iso']).
 					',"uricms":'.json_encode($uricms).',"category":'.json_encode($s['category']).
 					',"metatitle":'.$metatitle.',"metadescription":'.$metadescription.
 					',"pseudo":'.json_encode($s['pseudo']).'}';

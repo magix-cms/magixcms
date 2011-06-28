@@ -53,7 +53,7 @@ class backend_db_catalog{
      * Selectionne les catégories suivant l'ordre défini dans l'administration
      */
 	function s_catalog_category_corder(){
-    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
+    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.iso FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.idlang,c.corder';
 		return magixglobal_model_db::layerDB()->select($sql);
@@ -62,7 +62,7 @@ class backend_db_catalog{
      * Requête de construction du menu select avec optgroup
      */
 	function s_catalog_category_select_construct(){
-    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.codelang FROM mc_catalog_c as c 
+    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.iso FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	ORDER BY c.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
@@ -81,7 +81,7 @@ class backend_db_catalog{
      * @param $upcat
      */
 	function s_catalog_category_id($upcat){
-    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,img_c,c.c_content,lang.codelang FROM mc_catalog_c as c 
+    	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,img_c,c.c_content,lang.iso FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE c.idclc = :upcat';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(':upcat'=>$upcat));
@@ -202,14 +202,14 @@ class backend_db_catalog{
      * Selectionne les sous catégories suivant l'ordre défini dans l'administration
      */
 	/*function s_catalog_subcategory_sorder(){
-    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.iso FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
 		ORDER BY c.idlang,s.sorder';
 		return magixglobal_model_db::layerDB()->select($sql);
     }*/
 	function s_catalog_subcategory_sorder($idclc){
-    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.codelang FROM mc_catalog_s as s
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,c.clibelle,lang.iso FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
 		WHERE s.idclc = :idclc
@@ -223,7 +223,7 @@ class backend_db_catalog{
      * @param $upcat
      */
 	function s_catalog_subcategory_id($upsubcat){
-    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,s.s_content,s.img_s,c.clibelle,lang.codelang 
+    	$sql = 'SELECT s.idcls,s.slibelle,s.pathslibelle,s.s_content,s.img_s,c.clibelle,lang.iso 
     	FROM mc_catalog_s as s
 		LEFT JOIN mc_catalog_c AS c ON(c.idclc = s.idclc)
 		LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
@@ -393,7 +393,7 @@ class backend_db_catalog{
     function s_catalog_plugin($limit=false,$max=null,$offset=null,$sort){
     	$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-    	$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,img.imgcatalog, lang.codelang, m.pseudo
+    	$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,img.imgcatalog, lang.iso, m.pseudo
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
@@ -406,7 +406,7 @@ class backend_db_catalog{
      * @param $editproduct
      */
 	function s_catalog_product($editproduct){
-    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.iso
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog as card USING ( idcatalog )
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
@@ -433,7 +433,7 @@ class backend_db_catalog{
 	 * @param $editproduct
 	 */
 	function s_data_forms($editproduct){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.price, lang.codelang
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.price, lang.iso
 		FROM mc_catalog AS p
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		WHERE p.idcatalog = :editproduct';
@@ -474,7 +474,7 @@ class backend_db_catalog{
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	function s_catalog_product_info($idproduct){
-		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
+		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.iso
 				FROM mc_catalog_product AS p
 				LEFT JOIN mc_catalog AS card USING ( idcatalog )
 				LEFT JOIN mc_catalog_c AS c USING ( idclc )
@@ -497,7 +497,7 @@ class backend_db_catalog{
 	 * @param $searchpage
 	 */
 	function r_search_catalog_title($searchpage){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,img.imgcatalog, lang.codelang, m.pseudo
+		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang,img.imgcatalog, lang.iso, m.pseudo
 		FROM mc_catalog AS p
 		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
@@ -511,7 +511,7 @@ class backend_db_catalog{
 	 * @param string $search
 	 */
 	function r_search_complete_product($search){
-		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
+		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.iso
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog as card USING ( idcatalog )
 		LEFT JOIN mc_catalog_c as c USING ( idclc )

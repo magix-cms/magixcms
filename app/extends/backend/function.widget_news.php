@@ -76,7 +76,8 @@ function smarty_function_widget_news($params, $template){
 					<thead>
 						<tr>
 						<th><span style="float:left;" class="magix-icon magix-icon-h1"></span></th>
-						<th><span style="float:left;" class="ui-icon ui-icon-calendar"></span></th>
+						<th><span style="float:left;" class="magix-icon magix-icon-calendar"></span></th>
+						<th><span style="float:left;" class="magix-icon magix-icon-calendar-insert"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-suitcase"></span></th>
 						<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
 						'.$thuser.'
@@ -88,9 +89,9 @@ function smarty_function_widget_news($params, $template){
 					<tbody>';
 	if(backend_db_block_news::s_news_plugin($limit,$max,$offset)){
 		foreach(backend_db_block_news::s_news_plugin($limit,$max,$offset) as $pnews){
-			$islang = $pnews['codelang'] ? $pnews['codelang']: '';
-			$dateformat = new magixglobal_model_dateformat($pnews['date_sent']);
-			switch($pnews['publish']){
+			$islang = $pnews['iso'] ? $pnews['iso']: '';
+			$dateformat = new magixglobal_model_dateformat($pnews['date_register']);
+			switch($pnews['published']){
 				case 0:
 					$publisher = '<div class="ui-state-error" style="border:none;"><a title="Modifier l\'état de cette news" href="/admin/news.php?get_news_publication='.$pnews['idnews'].'" class="u-news-published"><span style="float:left" class="ui-icon ui-icon-close"></span></a></div>';
 				break;
@@ -103,16 +104,17 @@ function smarty_function_widget_news($params, $template){
 					$codelang = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
 				break;
 				default: 
-					$codelang = $pnews['codelang'];
+					$codelang = $pnews['iso'];
 				break;
 			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['subject'],100,'...').'</a></td>':'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['subject'],100,'...').'</a></td>';
-			 $plugin .=	'<td class="nowrap">'.$pnews['date_sent'].'</td>';
+			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['n_title'],100,'...').'</a></td>':'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['n_title'],100,'...').'</a></td>';
+			 $plugin .=	'<td class="nowrap">'.$dateformat->SQLDate().'</td>';
+			 $plugin .=	'<td class="nowrap">'.$pnews['date_publish'].'</td>';
 			 $plugin .=	'<td class="nowrap">'.$publisher.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pnews['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_news_url($islang,$dateformat->SQLDate(),$pnews['rewritelink'],false).'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_news_url($islang,$dateformat->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/news.php?edit='.$pnews['idnews'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deletenews" title="'.$pnews['idnews'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
@@ -120,6 +122,7 @@ function smarty_function_widget_news($params, $template){
 	}else{
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	'<td class="maximal"></td>';
+			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';

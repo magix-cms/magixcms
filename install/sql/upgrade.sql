@@ -74,3 +74,34 @@ INSERT INTO `mc_config_size_img` VALUES
 (12, 4, 'size_h_small_microgalery', 100),
 (13, 4, 'size_w_large_microgalery', 700),
 (14, 4, 'size_h_large_microgalery', 700);
+
+DROP TABLE `mc_lang`
+
+CREATE TABLE IF NOT EXISTS `mc_lang` (
+  `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `iso` varchar(3) NOT NULL,
+  `language` varchar(30) NOT NULL,
+  `default` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idlang`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1);
+
+DROP TABLE `mc_news_publication`;
+
+DROP TABLE `mc_news`;
+
+CREATE TABLE IF NOT EXISTS `mc_news` (
+  `idnews` int(7) NOT NULL AUTO_INCREMENT,
+  `keynews` varchar(40) NOT NULL,
+  `n_uri` varchar(125) NOT NULL,
+  `idadmin` tinyint(1) NOT NULL,
+  `idlang` tinyint(3) NOT NULL,
+  `n_title` varchar(125) NOT NULL,
+  `n_image` varchar(25) DEFAULT NULL,
+  `n_content` text NOT NULL,
+  `date_register` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_publish` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idnews`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

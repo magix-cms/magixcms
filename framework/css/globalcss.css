@@ -619,6 +619,11 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-tag-purple{ background-position: -160px -144px; }
 .magix-icon-tag-red{ background-position: -176px -144px; }
 .magix-icon-tag-yellow{ background-position: -192px -144px; }
+
+/* positioning column 9*/
+.magix-icon-calendar{ background-position: -0 -160px; }
+.magix-icon-calendar-insert{ background-position: -16px -160px; }
+.magix-icon-calendar-select{ background-position: -32px -160px; }
 /**
  * ############################## Utility class
  * 
@@ -745,6 +750,7 @@ ul.plugin-list li{}
 .addseo:hover{font-weight:700px;text-decoration:underline;}
 /*######################## link preview ##########################*/
 .linkurl{text-decoration:underline;}
+.post-preview{margin:5px;}
 /*######################## POP UP ##########################*/
 /*######################## SEARCH ##########################*/
 #cms-window-search{margin:5px;}

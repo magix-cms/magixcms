@@ -44,7 +44,7 @@ class backend_model_blockDom{
 			$block .= '<select id="idlang" name="idlang">';
 			$block .= '<option value="0">Défaut</option>';
 			foreach(backend_db_lang::dblang()->s_full_lang() as $slang){
-				$block .= '<option value="'.$slang['idlang'].'">'.$slang['codelang'].'</option>';
+				$block .= '<option value="'.$slang['idlang'].'">'.$slang['iso'].'</option>';
 			}
 			$block .='</select>';
 			$block .= '</td>';
