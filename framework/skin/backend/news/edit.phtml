@@ -19,8 +19,8 @@
 						<div class="dashboard-widget-content">
 						{if {admin_level_config config_param=['module'=>'news']} eq 1}
 						<form id="forms-news-update" method="post" action="" style="margin-left:10px;">
-						<div style="margin-right:5px;float:right;width:200px;padding:5px;" class="ui-widget-header ui-corner-all">
-							<table class="table-btn-preview">
+						<div style="margin-right:5px;float:right;">
+							{*<table class="table-btn-preview">
 								<tr>
 									<td>
 										En ligne <input type="radio" name="published" {if $published eq 1}checked="checked"{/if} value="1" />
@@ -29,7 +29,7 @@
 										Hors ligne <input type="radio" name="published" {if $published eq 0}checked="checked"{/if} value="0" />
 									</td>
 								</tr>
-							</table>
+							</table>*}
 							<div style="text-align:center;"><a class="post-preview button-link" href="#">Preview</a></div>
 						</div>
 							<fieldset>
@@ -40,7 +40,7 @@
 									<tr>
 										<td>
 											<input type="hidden" id="idnews" value="{$smarty.get.edit}" />
-											<input type="text" id="newsurl" name="newsurl" readonly="readonly" class="inputdisabled ui-corner-all" value="" size="70" />
+											<input type="text" id="newsurl" name="newsurl" readonly="readonly" class="inputdisabled ui-corner-all" value="" size="60" />
 										</td>
 									</tr>
 									<tr>
@@ -62,7 +62,7 @@
 													<input type="text" disabled="disabled" readonly="readonly" id="iso" name="iso" class="inputdisabled ui-corner-all" value="{$iso}" size="4" />
 												</td>
 												<td>
-													<input type="text" id="n_uri" name="n_uri" class="inputdisabled ui-corner-all" value="{$n_uri}" size="50" />
+													<input type="text" id="n_uri" name="n_uri" class="inputdisabled ui-corner-all" value="{$n_uri}" size="51" />
 												</td>
 												<td>
 													<a class="unlocked" title="Editer l'url simplifié" href="#"><span class="lfloat magix-icon magix-icon-lock"></span></a>

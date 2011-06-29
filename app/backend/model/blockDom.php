@@ -37,12 +37,12 @@ class backend_model_blockDom{
 	public static function select_language($cellbutton=false){
 		if(backend_db_lang::dblang()->s_full_lang() != null){
 			$block = '<tr>
-						<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+						<td class="label"><label for="idlang">Langue :</label></td>
 					</tr>
 					<tr>
 						<td>';
 			$block .= '<select id="idlang" name="idlang">';
-			$block .= '<option value="0">Défaut</option>';
+			//$block .= '<option value="0">Défaut</option>';
 			foreach(backend_db_lang::dblang()->s_full_lang() as $slang){
 				$block .= '<option value="'.$slang['idlang'].'">'.$slang['iso'].'</option>';
 			}
@@ -52,22 +52,22 @@ class backend_model_blockDom{
 				$block .= '<td><div style="margin:5px;"><input type="submit" value="Envoyer" /></div></td>';
 			}
 			$block .= '</tr>';
-		}else{
+			return $block;
+		}/*else{
 			$block = '<tr>
 						<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
 					</tr>
 					<tr>
 						<td>';
 			$block .= '<select id="idlang" name="idlang">';
-			$block .= '<option value="0">Défaut</option>';
+			//$block .= '<option value="0">Défaut</option>';
 			$block .='</select>';
 			$block .= '</td>';
 			if($cellbutton == true){
 				$block .= '<td><div style="margin:5px;"><input type="submit" value="Envoyer" /></div></td>';
 			}
 			$block .= '</tr>';
-		}
-		return $block;
+		}*/
 	}
 	/**
 	 * Construction du menu select des utilisateurs 
