@@ -35,10 +35,10 @@ class frontend_db_news{
 	 * @param string $iso
 	 */
 	protected function s_count_news($iso){
-		$sql = 'SELECT count(n.idnews) total FROM mc_news AS n
-		LEFT JOIN mc_lang AS lang USING(idlang)
+		$sql = 'SELECT count(n.idnews) as total FROM mc_news AS n
+		JOIN mc_lang AS lang USING(idlang)
 		WHERE lang.iso = :iso';
-		return magixglobal_model_db::layerDB()->select($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':iso'=>$iso
 		));
 	}
@@ -71,6 +71,15 @@ class frontend_db_news{
 			':keynews' 	 	=> $keynews,
 			':date_register'=> $date_register
 		));
+	}
+	function s_news_listing($limit=false,$max=null,$offset=null){
+		$limit = $limit ? ' LIMIT '.$max : '';
+    	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
+		$sql = 'SELECT n.n_title,n.n_content,n.n_uri,n.idlang,n.date_register,n.date_publish,lang.iso
+				FROM mc_news as n
+				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+				WHERE n.published = 1 AND n.idlang = 0 ORDER BY n.date_register DESC'.$limit.$offset;
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	//////
 	/**

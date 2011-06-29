@@ -210,6 +210,15 @@ class plugins_contact_admin extends database_plugins_contact{
         }
 	}
 	/**
+	 * @access public
+	 * Options de reecriture des sitemaps NEWS
+	 */
+	public function seo_options(){
+		return $options_string = array(
+			'plugins'=>true
+		);
+	}
+	/**
 	 * Affiche les pages de l'administration du plugin
 	 * @access public
 	 */

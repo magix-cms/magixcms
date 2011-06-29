@@ -32,6 +32,12 @@
  */
 class backend_controller_rewritemetas extends backend_db_rewritemetas{
 	/**
+	 * Constante PATHPLUGINS
+	 * Défini le chemin vers le dossier des plugins
+	 * @var string
+	 */
+	const PATHPLUGINS = 'plugins';
+	/**
 	 * 
 	 * @var intéger
 	 */
@@ -178,12 +184,91 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 		backend_controller_template::display('config/editseo.phtml');
 	}
 	/**
+	 * execute ou instance la class du plugin
+	 * @param void $className
+	 */
+	private function get_call_class($module){
+		try{
+			$class =  new $module;
+			if($class instanceof $module){
+				return $class;
+			}else{
+				throw new Exception('not instantiate the class: '.$module);
+			}
+		}catch(Exception $e) {
+			magixglobal_model_system::magixlog("Error plugins execute", $e);
+		}
+	}
+	/**
+	 * Récupération des options pour la génération
+	 * @param string $module
+	 */
+	private function ini_options_mod($module){
+		if(method_exists($this->get_call_class('plugins_'.$module.'_admin'),'seo_options')){
+			/* Appelle la  fonction utilisateur sitemap_rewrite_options contenue dans le module */
+			$call_options = call_user_func(
+				array($this->get_call_class('plugins_'.$module.'_admin'),'seo_options')
+			);
+			if(is_array($call_options)){
+				return $call_options;
+			}else{
+				throw new Exception('ini_options_mod '.$module.' is not array');
+			}
+		}else{
+			throw new Exception('Method "seo_options" does not exist');
+		}
+	}
+/**
+	 * @access private
+	 * return void
+	 */
+	private function directory_plugins(){
+		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
+	}
+	/**
+	 * @access private
+	 * listing plugin
+	 */
+	private function load_listing_plugin(){
+		/**
+		 * Si le dossier est accessible en lecture
+		 */
+		if(!is_readable($this->directory_plugins())){
+			throw new exception('Plugin dir is not minimal permission');
+		}
+		$makefiles = new magixcjquery_files_makefiles();
+		$dir = $makefiles->scanRecursiveDir($this->directory_plugins());
+		if($dir != null){
+			plugins_Autoloader::register();
+			$list = '';
+			foreach($dir as $d){
+				if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
+					$pluginPath = $this->directory_plugins().$d;
+					if($makefiles->scanDir($pluginPath) != null){
+						//Nom de la classe pour le test de la méthode
+						$class = 'plugins_'.$d.'_admin';
+						//Si la méthode run existe on ajoute le plugin dans le menu
+						if(method_exists($class,'seo_options')){
+							$options_mod = $this->ini_options_mod($d);
+							if($options_mod['plugins'] == true){
+								print_r(explode(',','plugins_'.$d));
+							}
+						}
+					}
+				}
+			}
+		}
+		return $list;
+	}
+	/**
 	 * Affiche le formulaire et une liste des réécritures disponible
 	 * @access public
 	 */
 	private function display(){
 		$this->insertion_rewrite();
 		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+		print_r($this->load_listing_plugin());
+		//array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->ini_options_mod())));
 		$iniModules = new backend_model_modules();
 		backend_controller_template::assign('select_module', $iniModules->select_menu_module());
 		backend_controller_template::display('config/seo.phtml');

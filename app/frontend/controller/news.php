@@ -102,8 +102,8 @@ class frontend_controller_news extends frontend_db_news{
 	 */
 	private function news_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
-		$request = frontend_db_news::publicDbNews()->s_count_news_publish_max();
-		return $pagination->pagerData($request,'total',$max,$this->getpage,'/news/','.html',false,'page');
+		$request = parent::s_count_news($this->getlang);
+		return $pagination->pagerData($request,'total',$max,$this->getpage,'/news/','/',false,'page');
 	}
 	/**
 	 * Retourne la pagination des news
@@ -122,34 +122,21 @@ class frontend_controller_news extends frontend_db_news{
 		$news = '';
 		$offset = self::news_offset_pager($max);
 		if(isset($this->getlang)){
-			foreach(frontend_db_news::publicDbNews()->s_news_plugins_lang($this->getlang,true,$max,$offset) as $pnews){
-				$islang = $pnews['codelang'] ? $pnews['codelang']: '';
-				$curl = date_create($pnews['date_sent']);
+			foreach(parent::s_news_listing($this->getlang,true,$max,$offset) as $pnews){
+				$islang = $pnews['iso'];
+				$curl = date_create($pnews['date_register']);
 				$news .= '<div class="listnews">';
 				$news .='<div class="listnews-header">';
-				$news .= '<a class="listnews-header-link" href="'.magixglobal_model_rewrite::filter_news_url($this->getlang,date_format($curl,'Y/m/d'),$pnews['rewritelink'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
-				$news .='<div style="float:right;"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>'.$pnews['date_sent'].'</div></div>';
+				$news .= '<a class="listnews-header-link" href="'.magixglobal_model_rewrite::filter_news_url($this->getlang,date_format($curl,'Y/m/d'),$pnews['n_uri'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
+				$news .='<div style="float:right;"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>'.$pnews['date_register'].'</div></div>';
 				$news .= '<div class="listnews-content">';
-				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],240,''));
-				$news .= '</div>';
-				$news .= '</div>';
-			}
-		}else{
-			foreach(frontend_db_news::publicDbNews()->s_news_plugins(true,$max,$offset) as $pnews){
-				$islang = $pnews['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$pnews['codelang']: '';
-				$curl = date_create($pnews['date_sent']);
-				$news .= '<div class="listnews">';
-				$news .='<div class="listnews-header">';
-				$news .= '<a class="listnews-header-link" href="'.magixglobal_model_rewrite::filter_news_url($this->getlang,date_format($curl,'Y/m/d'),$pnews['rewritelink'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['subject']).'</a>';
-				$news .='<div style="float:right;"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>'.$pnews['date_sent'].'</div></div>';
-				$news .= '<div class="listnews-content">';
-				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['content'],240,''));
+				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],240,''));
 				$news .= '</div>';
 				$news .= '</div>';
 			}
 		}
 		frontend_model_template::assign('listnews',$news);
-		$cnews = frontend_db_news::publicDbNews()->s_count_news_publish_max();
+		$cnews = parent::s_count_news($this->getlang);
 		if($cnews['total'] >= $max){
 			frontend_model_template::assign('npagination',self::news_pagination($max));
 		}else{
