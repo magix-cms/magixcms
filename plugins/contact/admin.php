@@ -215,7 +215,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	 */
 	public function seo_options(){
 		return $options_string = array(
-			'plugins'=>true
+			'plugins'=>'plugins_contact'
 		);
 	}
 	/**

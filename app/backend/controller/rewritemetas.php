@@ -104,7 +104,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 			foreach (parent::s_rewrite_meta() as $s){
 				$title[]= '{"idrewrite":'.json_encode($s['idrewrite']).',"attribute":'.json_encode($s['attribute']).
 				',"idmetas":'.json_encode($s['idmetas']).',"strrewrite":'.json_encode($s['strrewrite']).
-				',"level":'.json_encode($s['level']).',"codelang":'.json_encode($s['codelang']).'}';
+				',"level":'.json_encode($s['level']).',"codelang":'.json_encode($s['iso']).'}';
 			}
 			print '['.implode(',',$title).']';
 		}
@@ -169,7 +169,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 			$load = parent::s_rewrite_for_edit($this->edit);
 			backend_controller_template::assign('strrewrite',$load['strrewrite']);
 			backend_controller_template::assign('idlang',$load['idlang']);
-			backend_controller_template::assign('codelang',$load['codelang']);
+			backend_controller_template::assign('codelang',$load['iso']);
 			backend_controller_template::assign('attribute',$load['attribute']);
 			backend_controller_template::assign('level',$load['level']);
 			backend_controller_template::assign('idmetas',$load['idmetas']);
@@ -250,9 +250,11 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 						//Si la méthode run existe on ajoute le plugin dans le menu
 						if(method_exists($class,'seo_options')){
 							$options_mod = $this->ini_options_mod($d);
-							if($options_mod['plugins'] == true){
-								print_r(explode(',','plugins_'.$d));
-							}
+							$list[$options_mod['plugins']]='plugins_'.$d;
+							//$list[$options_mod[0]]='plugins_'.$d;
+							/*if($options_mod['plugins'] == true){
+								$ini[]='plugins_'.$d;
+							}*/
 						}
 					}
 				}
@@ -267,9 +269,8 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 	private function display(){
 		$this->insertion_rewrite();
 		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-		print_r($this->load_listing_plugin());
-		//array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->ini_options_mod())));
-		$iniModules = new backend_model_modules();
+		$t = array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->load_listing_plugin());
+		$iniModules = new backend_model_modules($t);
 		backend_controller_template::assign('select_module', $iniModules->select_menu_module());
 		backend_controller_template::display('config/seo.phtml');
 	}

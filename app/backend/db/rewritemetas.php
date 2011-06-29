@@ -43,11 +43,11 @@ class backend_db_rewritemetas{
 		}else{
 			$id = null;
 		}
-		$sql = 'SELECT r.idrewrite,r.idmetas,lang.codelang,r.strrewrite,r.level,r.attribute 
+		$sql = 'SELECT r.idrewrite,r.idmetas,lang.iso,r.strrewrite,r.level,r.attribute 
 		FROM mc_metas_rewrite as r
 		LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 		'.$id.'
-		ORDER BY lang.codelang';
+		ORDER BY lang.iso';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
@@ -70,7 +70,7 @@ class backend_db_rewritemetas{
 	 * @param $idlang
 	 */
 	protected function s_rewrite_for_edit($idrewrite){
-		$sql ='SELECT lang.idlang,lang.codelang,r.attribute,r.idrewrite,r.strrewrite,r.idmetas,r.level
+		$sql ='SELECT lang.idlang,lang.iso,r.attribute,r.idrewrite,r.strrewrite,r.idmetas,r.level
 				FROM mc_metas_rewrite AS r
 				LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 				WHERE r.idrewrite =:idrewrite';
