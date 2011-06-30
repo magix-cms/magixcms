@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{cms_seo config='description' default=$subjectpage}"}
-    <title>{cms_seo config='title' default="{$subjectpage}"}</title>
+{headmeta meta="description" content="{cms_seo config_param=['seo'=>$seo_desc_page,'default'=>$title_page]}"}
+    <title>{cms_seo config_param=['seo'=>$seo_title_page,'default'=>$title_page]}</title>
 {include file="common/css.phtml"}
 </head>
 <body>
@@ -9,9 +9,10 @@
 <div id="content">
 {include file="common/sidebar.phtml"}
 	<div id="principal" class="principal">
-		<div class="sdate"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>{$date_page|date_format:"%d-%m-%y"}</div>
-		<h1>{$subjectpage}</h1>
-		{$contentpage}
+	{if $uri_page_p != null}<a href="{$uri_page_p}">{$title_page_p}</a>{/if} {$title_page}
+		<div class="sdate"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>{$last_update|date_format:"%d-%m-%y"}</div>
+		<h1>{$title_page}</h1>
+		{$content_page}
 	</div>
 	<hr class="clear" />
 </div>

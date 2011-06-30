@@ -89,7 +89,7 @@ class backend_controller_plugins{
 	 * @access private
 	 * return void
 	 */
-	private function directory_plugins(){
+	public function directory_plugins(){
 		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
 	}
 	/**

@@ -17,7 +17,7 @@
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Edition d'une réecriture des métas</div>
 					<div class="dashboard-content">
-					{if $configmetasrewrite eq 1 AND $perms eq 1}
+					{if {admin_level_config config_param=['module'=>'metasrewrite']} eq 1 AND $perms eq 1}
 					<form id="forms-config-rewrite-update" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>
@@ -36,17 +36,15 @@
 										</ul>
 									</td>
 								</tr>
-								{if $idlang != 0}
 								<tr>
 									<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
 								</tr>
 								<tr>
 									<td>
 										<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
-										<input type="text" disabled="disabled" readonly="readonly" id="codelang" name="codelang" class="inputdisabled ui-corner-all" value="{$codelang}" size="5" />
+										<input type="text" disabled="disabled" readonly="readonly" id="iso" name="iso" class="inputdisabled ui-corner-all" value="{$iso}" size="5" />
 									</td>
 								</tr>
-								{/if}
 								<tr>
 									<td class="label"><label for="attribute" class="inlinelabel">Module :</label></td>
 								</tr>

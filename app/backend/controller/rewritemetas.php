@@ -32,12 +32,6 @@
  */
 class backend_controller_rewritemetas extends backend_db_rewritemetas{
 	/**
-	 * Constante PATHPLUGINS
-	 * Défini le chemin vers le dossier des plugins
-	 * @var string
-	 */
-	const PATHPLUGINS = 'plugins';
-	/**
 	 * 
 	 * @var intéger
 	 */
@@ -91,8 +85,8 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
-		if(magixcjquery_filter_request::isGet('drmetas')){
-			$this->drmetas = magixcjquery_filter_isVar::isPostNumeric($_GET['drmetas']);
+		if(magixcjquery_filter_request::isPost('drmetas')){
+			$this->drmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['drmetas']);
 		}
 	}
 	/**
@@ -104,7 +98,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 			foreach (parent::s_rewrite_meta() as $s){
 				$title[]= '{"idrewrite":'.json_encode($s['idrewrite']).',"attribute":'.json_encode($s['attribute']).
 				',"idmetas":'.json_encode($s['idmetas']).',"strrewrite":'.json_encode($s['strrewrite']).
-				',"level":'.json_encode($s['level']).',"codelang":'.json_encode($s['iso']).'}';
+				',"level":'.json_encode($s['level']).',"iso":'.json_encode($s['iso']).'}';
 			}
 			print '['.implode(',',$title).']';
 		}
@@ -117,11 +111,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 		if(isset($this->strrewrite)){
 			if(empty($this->attribute) OR empty($this->idmetas)){
 				backend_controller_template::display('request/empty.phtml');
-			}elseif(parent::s_rewrite_v_lang(
-				$this->attribute,
-				$this->idlang,
-				$this->idmetas,
-				$this->level) == null){
+			}elseif(parent::s_rewrite_v_lang($this->attribute,$this->idlang,$this->idmetas,$this->level) == null){
 				parent::i_rewrite_metas(
 					$this->attribute,
 					$this->idlang,
@@ -129,7 +119,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 					$this->idmetas,
 					$this->level
 				);
-				backend_controller_template::display('request/add_seo.phtml');
+				backend_controller_template::display('config/request/add_seo.phtml');
 			}else{
 				backend_controller_template::display('request/element-exist.phtml');
 			}
@@ -169,7 +159,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 			$load = parent::s_rewrite_for_edit($this->edit);
 			backend_controller_template::assign('strrewrite',$load['strrewrite']);
 			backend_controller_template::assign('idlang',$load['idlang']);
-			backend_controller_template::assign('codelang',$load['iso']);
+			backend_controller_template::assign('iso',$load['iso']);
 			backend_controller_template::assign('attribute',$load['attribute']);
 			backend_controller_template::assign('level',$load['level']);
 			backend_controller_template::assign('idmetas',$load['idmetas']);
@@ -218,39 +208,35 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 			throw new Exception('Method "seo_options" does not exist');
 		}
 	}
-/**
-	 * @access private
-	 * return void
-	 */
-	private function directory_plugins(){
-		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
-	}
 	/**
 	 * @access private
 	 * listing plugin
 	 */
 	private function load_listing_plugin(){
+		$pathplugins = new backend_controller_plugins();
 		/**
 		 * Si le dossier est accessible en lecture
 		 */
-		if(!is_readable($this->directory_plugins())){
+		if(!is_readable($pathplugins->directory_plugins())){
 			throw new exception('Plugin dir is not minimal permission');
 		}
 		$makefiles = new magixcjquery_files_makefiles();
-		$dir = $makefiles->scanRecursiveDir($this->directory_plugins());
+		$dir = $makefiles->scanRecursiveDir($pathplugins->directory_plugins());
 		if($dir != null){
 			plugins_Autoloader::register();
 			$list = '';
 			foreach($dir as $d){
-				if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
-					$pluginPath = $this->directory_plugins().$d;
+				if(file_exists($pathplugins->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
+					$pluginPath = $pathplugins->directory_plugins().$d;
 					if($makefiles->scanDir($pluginPath) != null){
 						//Nom de la classe pour le test de la méthode
 						$class = 'plugins_'.$d.'_admin';
 						//Si la méthode run existe on ajoute le plugin dans le menu
 						if(method_exists($class,'seo_options')){
 							$options_mod = $this->ini_options_mod($d);
-							$list[$options_mod['plugins']]='plugins_'.$d;
+							if($options_mod['plugins'] == true){
+								$list['plugins:'.$d]='plugins:'.$d;
+							}
 							//$list[$options_mod[0]]='plugins_'.$d;
 							/*if($options_mod['plugins'] == true){
 								$ini[]='plugins_'.$d;
@@ -269,8 +255,8 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 	private function display(){
 		$this->insertion_rewrite();
 		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-		$t = array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->load_listing_plugin());
-		$iniModules = new backend_model_modules($t);
+		$tabsModule = array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->load_listing_plugin());
+		$iniModules = new backend_model_modules($tabsModule);
 		backend_controller_template::assign('select_module', $iniModules->select_menu_module());
 		backend_controller_template::display('config/seo.phtml');
 	}
@@ -283,7 +269,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 		if(magixcjquery_filter_request::isGet('add')){
 			self::insertion_rewrite();
 		}elseif(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isGet('post')){
+			if(magixcjquery_filter_request::isPost('strrewrite')){
 				self::update_rewrite();
 			}else{
 				self::display_seo_edit();
@@ -296,7 +282,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 			$header->getStatus('200');
 			$header->json_header("UTF-8");
 			self::json_list_metas();
-		}elseif(magixcjquery_filter_request::isGet('drmetas')){
+		}elseif(magixcjquery_filter_request::isPost('drmetas')){
 			self::d_rewrite();
 		}else{
 			self::display();

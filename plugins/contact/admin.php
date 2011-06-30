@@ -140,11 +140,11 @@ class plugins_contact_admin extends database_plugins_contact{
 					$codelang = $list['codelang'];
 				break;
 			}
-			if ($list['codelang'] != $lang) {
+			if ($list['iso'] != $lang) {
 				//if ($lang != '') { $m .= "</tr>\n"; }
-			       $m .= '<tr class="ui-widget-content"><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;text-transform:uppercase;"><span style="font-weight:bold;">'.$list['codelang'].'</span></td><td>&nbsp;</td></tr>';
+			       $m .= '<tr class="ui-widget-content"><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;text-transform:uppercase;"><span style="font-weight:bold;">'.$list['iso'].'</span></td><td>&nbsp;</td></tr>';
 			}
-			$lang = $list['codelang'];
+			$lang = $list['iso'];
 			$m .='<tr class="line">';
 			$m .='<td class="minimal">'.$list['idadmin'].'</td>';
 			$m .='<td class="minimal">'.$codelang.'</td>';
@@ -215,7 +215,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	 */
 	public function seo_options(){
 		return $options_string = array(
-			'plugins'=>'plugins_contact'
+			'plugins'=>true
 		);
 	}
 	/**

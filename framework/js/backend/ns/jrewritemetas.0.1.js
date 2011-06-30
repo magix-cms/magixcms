@@ -26,6 +26,26 @@ var ns_jrewritemetas = {
 			url: '/admin/rewritemetas.php?load_metas=true',
 			dataType: 'json',
 			type: "get",
+			statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},
+				401: function() {
+					console.warn("access denied");
+				},
+				404: function() {
+					console.warn("object not found");
+				},
+				403: function() {
+					console.warn("request forbidden");
+				},
+				408: function() {
+					console.warn("server timed out waiting for request");
+				},
+				500: function() {
+					console.error("Internal Server Error");
+				}
+			},
 			async: true,
 			cache:false,
 			beforeSend: function(){
@@ -52,8 +72,8 @@ var ns_jrewritemetas = {
 				}
 				if(j !== null){
 					$.each(j, function(i,item) {
-						if(item.codelang != null){
-							flaglang = '<div class="ui-state-error" style="border:none;">'+item.codelang+'</div>';
+						if(item.iso != null){
+							flaglang = item.iso;
 						}else{
 							flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
 						}
@@ -93,7 +113,7 @@ var ns_jrewritemetas = {
 	_addNewMetas:function(){
 		$("#forms-config-rewrite").submit(function(){
 			$(this).ajaxSubmit({
-	    		url:'/admin/rewritemetas.php?add',
+	    		url:'/admin/rewritemetas.php?add=1',
 	    		type:"post",
 	    		resetForm: true,
 	    		beforeSubmit:function(){
@@ -157,8 +177,29 @@ var ns_jrewritemetas = {
 					'Delete item': function() {
 						$(this).dialog('close');
 						$.ajax({
-							type:'get',
-							url: "/admin/rewritemetas.php?drmetas="+lg,
+							type:'post',
+							url: "/admin/rewritemetas.php",
+							data: "drmetas="+lg,
+							statusCode: {
+								0: function() {
+									console.error("jQuery Error");
+								},
+								401: function() {
+									console.warn("access denied");
+								},
+								404: function() {
+									console.warn("object not found");
+								},
+								403: function() {
+									console.warn("request forbidden");
+								},
+								408: function() {
+									console.warn("server timed out waiting for request");
+								},
+								500: function() {
+									console.error("Internal Server Error");
+								}
+							},
 							async: false,
 							success: function(){
 								ns_jrewritemetas._listingRecords();

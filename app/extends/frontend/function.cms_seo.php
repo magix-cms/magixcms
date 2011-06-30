@@ -36,8 +36,9 @@
  * Type:     function
  * Name:     SEO CMS (pages)
  * Date:     December 7, 2009
+ * Update    Juny 30 2011
  * Purpose:  
- * Examples: {cms_seo config="title"} or {cms_seo config="description"}
+ * Examples: {cms_seo config_param=['seo'=>,'default'=>$title_page]}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
@@ -47,28 +48,17 @@
  * @return string
  */
 function smarty_function_cms_seo($params, $template){
-	$config = $params['config'];
-	$default = $params['default'];
-	if (!isset($params['config'])) {
-	 	trigger_error("config: missing 'config' parameter");
+	if (!isset($params['config_param'])) {
+	 	trigger_error("config_param: missing 'config_param' parameter");
 		return;
 	}
-	$seo = frontend_db_cms::publicDbCms()->s_cms_seo($_GET['getidpage']);
-	switch($config){
-		case 'title':
-			if($seo['metatitle'] != null){
-				$seo = $seo['metatitle'];
-			}else{
-				$seo = $default;
-			}
-		break;
-		case 'description':
-			if($seo['metadescription'] != null){
-				$seo = $seo['metadescription'];
-			}else{
-				$seo = $default;
-			}
-		break;
+	if(is_array($params['config_param'])){
+		$tabs = $params['config_param'];
+	}
+	if($tabs['seo'] != null){
+		$seo = $tabs['seo'];
+	}else{
+		$seo = $tabs['default'];
 	}
 	return $seo;
 }

@@ -22,64 +22,51 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    frontend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2011 -2012 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.4
+ * @version    2.0 $Id$
+ * @id $Rev$
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name cms
  *
  */
-class frontend_controller_cms{
+class frontend_controller_cms extends frontend_db_cms{
 	/**
-	 * Langue
-	 * @var string
+	 * Identifiant de la catégorie (page parente)
+	 * @var $getidpage_p (integer)
 	 */
-	public $getlang;
+	public $getidpage_p;
 	/**
-	 * variable de sessions deslangues
-	 * @var string
+	 * URL de la catégorie (page parente)
+	 * @var $geturi_page_p
 	 */
-	public $slang;
-	/**
-	 * Identifiant de la catégorie
-	 * @var $getidcategory (integer)
-	 */
-	public $getidcategory;
-	/**
-	 * URL de la catégorie
-	 * @var $getcat
-	 */
-	public $getcat;
-	/**
-	 * Url de la page
-	 * @var $getpurl (integer)
-	 */
-	public $getpurl;
+	public $geturi_page_p;
 	/**
 	 * Identifiant de la page
 	 * @var $getidpage (integer)
 	 */
 	public $getidpage;
 	/**
+	 * Url de la page
+	 * @var $geturi_page (string)
+	 */
+	public $geturi_page;
+	/**
 	 * function construct
 	 *
 	 */
 	function __construct(){
-		if(isset($_GET['strLangue'])){
-			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-			$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
+		if(magixcjquery_filter_request::isGet('getidpage_p')){
+			$this->getidpage_p = magixcjquery_filter_isVar::isPostAlphaNumeric($_GET['getidpage_p']);
 		}
-		if(isset($_GET['getcat'])){
-			$this->getcat = magixcjquery_filter_isVar::isPostAlphaNumeric($_GET['getcat']);
+		if(magixcjquery_filter_request::isGet('geturi_page')){
+			$this->geturi_page = magixcjquery_filter_isVar::isPostAlphaNumeric($_GET['geturi_page']);
 		}
-		if(isset($_GET['getpurl'])){
-			$this->getpurl = magixcjquery_filter_isVar::isPostAlphaNumeric($_GET['getpurl']);
+		if(magixcjquery_filter_request::isGet('getidpage_p')){
+			$this->getidpage_p = magixcjquery_filter_isVar::isPostNumeric($_GET['getidpage_p']);
 		}
-		if(isset($_GET['getidcategory'])){
-			$this->getidcategory = magixcjquery_filter_isVar::isPostNumeric($_GET['getidcategory']);
-		}
-		if(isset($_GET['getidpage'])){
+		if(magixcjquery_filter_request::isGet('getidpage')){
 			$this->getidpage = magixcjquery_filter_isVar::isPostNumeric($_GET['getidpage']);
 		}
 	}
@@ -88,22 +75,56 @@ class frontend_controller_cms{
 	 * @access public
 	 */
 	private function load_cms_content_page(){
-		$cms = frontend_db_cms::publicDbCms()->s_cms_page($this->getidpage);
-		frontend_config_smarty::getInstance()->assign('date_page',$cms['date_page']);
-		frontend_config_smarty::getInstance()->assign('subjectpage',magixcjquery_string_convert::ucFirst($cms['subjectpage']));
-		frontend_config_smarty::getInstance()->assign('contentpage',$cms['contentpage']);
+		$cms = parent::s_data_current_page(frontend_model_template::getLanguage(),$this->getidpage);
+		if(isset($this->getidpage_p)){
+			$parent_page = parent::s_data_parent_page($cms['idcat_p']);
+			$uri_page_p = magixglobal_model_rewrite::filter_cms_url(
+				$parent_page['iso'], 
+				null, 
+				null, 
+				$parent_page['idpage'], 
+				$parent_page['uri_page'],
+				true
+			);
+			$uri_page = magixglobal_model_rewrite::filter_cms_url(
+				$cms['iso'], 
+				$parent_page['idpage'], 
+				$parent_page['uri_page'],
+				$cms['idpage'], 
+				$cms['uri_page'],
+				true
+			);
+			$title_page_p = $parent_page['title_page'];
+		}else{
+			$uri_page_p = null;
+			$title_page_p = null;
+			$uri_page = magixglobal_model_rewrite::filter_cms_url(
+				$cms['iso'], 
+				null, 
+				null,
+				$cms['idpage'], 
+				$cms['uri_page'],
+				true
+			);
+		}
+		frontend_model_template::assign('uri_page',$uri_page);
+		frontend_model_template::assign('title_page_p',$title_page_p);
+		frontend_model_template::assign('uri_page_p',$uri_page_p);
+		frontend_model_template::assign('last_update',$cms['last_update']);
+		frontend_model_template::assign('date_register',$cms['date_register']);
+		frontend_model_template::assign('title_page',magixcjquery_string_convert::ucFirst($cms['title_page']));
+		frontend_model_template::assign('content_page',$cms['content_page']);
+		frontend_model_template::assign('seo_title_page',$cms['seo_title_page']);
+		frontend_model_template::assign('seo_desc_page',$cms['seo_desc_page']);
 	}
 	/**
-	 * Retourne et affiche la page CMS avec le contenu dynamique
-	 * @access public
+	 * 
+	 * Fonction d'execution de la classe
 	 */
-	private function display(){
-		self::load_cms_content_page();
-		frontend_config_smarty::getInstance()->display('cms/index.phtml');
-	}
 	public function run(){
-		if(isset($this->getpurl)){
-			self::display();
+		if(isset($this->getidpage)){
+			$this->load_cms_content_page();
+			frontend_model_template::display('cms/index.phtml');
 		}
 	}
 }

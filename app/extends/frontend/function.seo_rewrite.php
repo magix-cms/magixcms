@@ -16,7 +16,7 @@
  * Name:     SEO REWRITE METAS
  * Date:     JUNY 29, 2011
  * Purpose:  
- * Examples: {seo_rewrite config_param=['level'=>'3','idmetas'=>'1'] category="" subcategory="" record=""}
+ * Examples: {seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>''] category="" subcategory="" record=""}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
@@ -44,11 +44,14 @@ function smarty_function_seo_rewrite($params, $template){
 	}else{
 		$alias_lang = 'fr';
 	}
+	if(isset($_GET['magixmod'])){
+		$magixmod = magixcjquery_filter_var::clean($_GET['magixmod']);
+	}
 	$filename = substr($_SERVER['SCRIPT_NAME'],1);
 	$position = strpos($filename, '.');
 	$attribute = substr($filename, 0, $position);
 	if($attribute == 'plugins'){
-		$module = $attribute.'_'.$_GET['magixmod'];
+		$module = $attribute.':'.$magixmod;
 	}else{
 		$module = $attribute;
 	}

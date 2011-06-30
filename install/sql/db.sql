@@ -123,6 +123,24 @@ CREATE TABLE IF NOT EXISTS `mc_cms_page` (
   KEY `idadmin` (`idadmin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `mc_cms_pages` (
+  `idpage` int(7) NOT NULL AUTO_INCREMENT,
+  `idadmin` tinyint(3) NOT NULL,
+  `idlang` tinyint(3) NOT NULL,
+  `idcat_p` int(7) NOT NULL,
+  `idlang_p` int(7) NOT NULL,
+  `title_page` varchar(125) NOT NULL,
+  `uri_page` varchar(125) NOT NULL,
+  `content_page` text NOT NULL,
+  `seo_title_page` tinytext NOT NULL,
+  `seo_desc_page` tinytext NOT NULL,
+  `order_page` tinyint(1) NOT NULL DEFAULT '0',
+  `sidebar_page` tinyint(1) NOT NULL DEFAULT '0',
+  `date_register` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idpage`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `mc_config_limited_module` (
   `idconfig` tinyint(1) NOT NULL,
   `number` tinyint(1) NOT NULL,

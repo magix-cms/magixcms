@@ -28,6 +28,24 @@ class frontend_model_template extends db_theme{
     	return self::$frontendtheme;
     }
 	/**
+	 * Retourne la langue en cours de session sinon retourne fr par défaut
+	 * @return string
+	 * @access public 
+	 * @static
+	 */
+	public static function current_Language(){
+		if(!empty($_SESSION['strLangue'])){
+			return magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
+		}else{
+			return magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
+		}
+	}
+	public static function getLanguage(){
+		if(magixcjquery_filter_request::isGet('strLangue')){
+			return magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
+		}
+	}
+	/**
 	 * Charge le theme selectionné ou le theme par défaut
 	 */
 	public function load_theme(){

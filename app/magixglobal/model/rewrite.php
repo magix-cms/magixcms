@@ -108,14 +108,14 @@ class magixglobal_model_rewrite{
 	 * @param integer $id
 	 * @param string $url
 	 */
-	private function cms_rewrite_uri($lang,$catid,$pathcat,$idpage,$pathpage){
+	private function cms_rewrite_uri($lang,$getidpage_p,$geturi_page_p,$getidpage,$geturi_page){
 		if($lang != null){
-			if($pathcat != null){
-				$category = $catid.'-'.$pathcat.'/';
+			if($getidpage_p != null){
+				$category = $getidpage_p.'-'.$geturi_page_p.'/';
 			}else{
 				$category = '';
 			}
-			return '/'.$lang.self::mod_cms_lang($lang).$category.$idpage.'-'.$pathpage.'/';
+			return '/'.$lang.self::mod_cms_lang($lang).$category.$getidpage.'-'.$geturi_page.'/';
 		}
 	}
 	/**
@@ -127,15 +127,15 @@ class magixglobal_model_rewrite{
 	 * @param integer $id
 	 * @param string $url
 	 */
-	private function cms_uri($lang,$catid,$pathcat,$idpage,$pathpage){
+	private function cms_uri($lang,$getidpage_p,$geturi_page_p,$getidpage,$geturi_page){
 		if($lang != null){
-			if($pathcat != null){
-				$category = 'getidcategory='.$catid.'&amp;getcat='.$pathcat.'&amp;';
+			if($getidpage_p != null){
+				$category = 'getidpage_p='.$getidpage_p.'&amp;geturi_page_p='.$geturi_page_p.'&amp;';
 			}else{
 				$category = '';
 			}
 			$language = 'strLangue='.$lang.'&amp;';
-			return '/cms.php?'.$language.$category.'getidpage='.$idpage.'&amp;getpurl='.$pathpage;
+			return '/cms.php?'.$language.$category.'getidpage='.$getidpage.'&amp;geturi_page='.$geturi_page;
 		}
 	}
 	/**
@@ -148,13 +148,13 @@ class magixglobal_model_rewrite{
 	 * @param $id
 	 * @param $url
 	 */
-	public static function filter_cms_url($lang,$catid,$pathcat,$idpage,$pathpage,$rewrite=false){
+	public static function filter_cms_url($lang,$getidpage_p,$geturi_page_p,$getidpage,$geturi_page,$rewrite=false){
 		switch ($rewrite){
 			case true:
-				return self::cms_rewrite_uri($lang, $catid, $pathcat, $idpage,$pathpage);
+				return self::cms_rewrite_uri($lang,$getidpage_p,$geturi_page_p,$getidpage,$geturi_page);
 			break;
 			case false:
-				return self::cms_uri($lang, $catid, $pathcat, $idpage,$pathpage);
+				return self::cms_uri($lang,$getidpage_p,$geturi_page_p,$getidpage,$geturi_page);
 			break;
 		}
 		

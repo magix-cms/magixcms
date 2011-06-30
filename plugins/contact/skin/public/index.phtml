@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{static_metas param=#seo_d_static_plugin_contact#}"}
-    <title>{static_metas param=#seo_t_static_plugin_contact#}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>#seo_d_static_plugin_contact#]}}
+    <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_plugin_contact#]}</title>
 {include file="common/css.phtml"}
 </head>
 <body>
