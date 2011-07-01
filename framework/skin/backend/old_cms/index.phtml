@@ -18,7 +18,7 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">CMS</a></div>
 						<div class="dashboard-widget-content">
 						{if {admin_level_config config_param=['module'=>'cms']} eq 1}
-							{$list_language}
+							{widget_cms limit="true" max=20 getpage=true}
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
 							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
@@ -32,7 +32,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Chercher une page CMS</a></div>
 						<div class="dashboard-widget-content">
-						
+						{include file="cms/search.phtml"}
 						</div>
 					</div>
 				</div>
@@ -42,7 +42,6 @@
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
-{include file="common/editor.phtml"}
 <script type="text/javascript">
 $(function(){
 	$.getScript('/framework/js/backend/jcms.1.1.js');
