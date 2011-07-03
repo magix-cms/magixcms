@@ -1,15 +1,22 @@
-<form id="forms_cms_add_parent" method="post" action="" style="margin-left:10px;">
+<form id="forms_cms_add_child" method="post" action="" style="margin-left:10px;">
 	<fieldset>
 		<table class="table-tinymce">
+			<tr>
+				<td class="label"><label for="cat_p" class="inlinelabel">Page parente :</label></td>
+			</tr>
+			<tr>
+				<td><input type="text" readonly="readonly" id="cat_p" name="cat_p" class="inputdisabled ui-corner-all" value="{$parent_page}" size="25" /></td>
+			</tr>
 			<tr>
 				<td class="label"><label for="title_page" class="inlinelabel">Titre :</label></td>
 			</tr>
 			<tr>
 				<td>
 					<input type="text" id="title_page" name="title_page" class="inputtext ui-corner-all" value="" size="50" />
+					<input type="hidden" name="idlang" id="idlang" value="{$smarty.get.getlang}" />
+					<input type="hidden" name="idcat_p" id="idcat_p" value="{$smarty.get.get_page_p}" />
 				</td>
 			</tr>
-			{$selectlang}
 			<tr>
 				<td class="label"><label for="content_page" class="inlinelabel">Contenu :</label></td>
 			</tr>

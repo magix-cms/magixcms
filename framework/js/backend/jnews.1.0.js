@@ -53,13 +53,14 @@ function create_dynamic_news_uri(){
 }
 $(function(){
 	/*################## article / news #################*/
-	$('#n_uri').attr("readonly","readonly");
-	$('.unlocked').live('click',function(event){
+	//$('#n_uri').attr("readonly","readonly");
+	/*$('.unlocked').live('click',function(event){
 		event.preventDefault();
 		var uri = $('#n_uri');
 		uri.removeClass('inputdisabled').addClass('inputtext').attr("readonly","");
 		$(this).fadeOut(400);
-	});
+	});*/
+	$('#n_uri').inputLock();
 	/*$('.unlocked').hover(
 	  function () {
 		  $(this).find("span").removeClass('magix-icon-lock');

@@ -32,13 +32,118 @@
  */
 class backend_db_cms{
 	protected function s_parent_p($getlang){
-    	$sql = 'SELECT *
+    	$sql = 'SELECT cms.*,lang.iso
     	FROM mc_cms_pages AS cms 
-    	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
     	WHERE cms.idlang = :getlang AND cms.idcat_p = 0
     	ORDER BY cms.order_page';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getlang' => $getlang
+		));
+	}
+	protected function s_child_page($get_page_p){
+		$sql = 'SELECT cms.*,lang.iso
+    	FROM mc_cms_pages AS cms 
+    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+    	WHERE cms.idcat_p = :get_page_p
+    	ORDER BY cms.order_page';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':get_page_p' => $get_page_p
+		));
+	}
+	private function s_max_parent_order_page($idlang){
+    	$sql = 'SELECT max(cms.order_page) porder 
+    	FROM mc_cms_pages AS cms
+    	WHERE cms.idlang = :idlang AND cms.idcat_p = 0';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':idlang'	=>	$idlang
+		));
+    }
+	private function s_max_child_order_page($get_page_p){
+    	$sql = 'SELECT max(cms.order_page) porder 
+    	FROM mc_cms_pages AS cms
+    	WHERE cms.idcat_p = :get_page_p';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':get_page_p' => $get_page_p
+		));
+    }
+	protected function s_current_page_p($get_page_p){
+    	$sql = 'SELECT cms.*,lang.iso
+    	FROM mc_cms_pages AS cms 
+    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+    	WHERE cms.idpage = :get_page_p';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':get_page_p' => $get_page_p
+		));
+	}
+	protected function s_edit_page($edit){
+    	$sql = 'SELECT cms.*,lang.iso
+    	FROM mc_cms_pages AS cms 
+    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+    	WHERE cms.idpage = :edit';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':edit' => $edit
+		));
+	}
+	/**
+	 * Affiche les données d'une page CMS
+	 * @param $getidpage
+	 */
+	protected function s_data_parent_page($get_page_p){
+		$sql = 'SELECT p.idpage,title_page,uri_page,lang.iso
+				FROM mc_cms_pages as p
+				JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
+				WHERE p.idpage = :get_page_p';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':get_page_p'=>$get_page_p
+		));
+	}
+	protected function i_new_parent_page($idadmin,$idlang,$title_page,$uri_page,$content_page,$seo_title_page,$seo_desc_page){
+		$order_page = $this->s_max_parent_order_page($idlang);
+		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,title_page,uri_page,content_page,seo_title_page,seo_desc_page,order_page) 
+		VALUE(:idadmin,:idlang,:title_page,:uri_page,:content_page,:seo_title_page,:seo_desc_page,:order_page)';
+		magixglobal_model_db::layerDB()->insert($sql,
+		array(
+			':idadmin'			=>	$idadmin,
+			':idlang'			=>	$idlang,
+			':title_page'		=>	$title_page,
+			':uri_page'			=>	$uri_page,
+			':content_page'		=>	$content_page,
+			':seo_title_page'	=>	$seo_title_page,
+			':seo_desc_page'	=>	$seo_desc_page,
+			':order_page'		=>	$order_page['porder'] + 1
+		));
+	}
+	protected function i_new_child_page($idadmin,$idlang,$idcat_p,$title_page,$uri_page,$content_page,$seo_title_page,$seo_desc_page){
+		$order_page = $this->s_max_child_order_page($idlang);
+		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,idcat_p,title_page,uri_page,content_page,seo_title_page,seo_desc_page,order_page) 
+		VALUE(:idadmin,:idlang,:idcat_p,:title_page,:uri_page,:content_page,:seo_title_page,:seo_desc_page,:order_page)';
+		magixglobal_model_db::layerDB()->insert($sql,
+		array(
+			':idadmin'			=>	$idadmin,
+			':idlang'			=>	$idlang,
+			':idcat_p'			=>	$idcat_p,
+			':title_page'		=>	$title_page,
+			':uri_page'			=>	$uri_page,
+			':content_page'		=>	$content_page,
+			':seo_title_page'	=>	$seo_title_page,
+			':seo_desc_page'	=>	$seo_desc_page,
+			':order_page'		=>	$order_page['porder'] + 1
+		));
+	}
+	protected function u_page($idadmin,$title_page,$uri_page,$content_page,$seo_title_page,$seo_desc_page,$edit){
+		$sql = 'UPDATE mc_cms_pages 
+		SET idadmin=:idadmin,title_page=:title_page,uri_page=:uri_page,content_page=:content_page,seo_title_page=:seo_title_page,seo_desc_page=:seo_desc_page
+		WHERE idpage = :edit';
+		magixglobal_model_db::layerDB()->insert($sql,
+		array(
+			':idadmin'			=>	$idadmin,
+			':title_page'		=>	$title_page,
+			':uri_page'			=>	$uri_page,
+			':content_page'		=>	$content_page,
+			':seo_title_page'	=>	$seo_title_page,
+			':seo_desc_page'	=>	$seo_desc_page,
+			':edit'				=>	$edit
 		));
 	}
 }

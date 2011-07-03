@@ -58,6 +58,19 @@
 	    }
 	};
 })(jQuery);
+(function($) { 
+	$.fn.inputLock = function(settings) { 
+		var options = {};
+	    $.extend(options, settings);
+	    var inputElement = $(this);
+	    inputElement.attr("readonly","readonly");
+	    $('.unlocked').live('click',function(event){
+			event.preventDefault();
+			inputElement.removeClass('inputdisabled').addClass('inputtext').attr("readonly","");
+			$(this).fadeOut(400);
+		});
+	};
+})(jQuery);
 /**
  * plugins pour afficher/cacher un container depuis un style de bouton
  * @param visible

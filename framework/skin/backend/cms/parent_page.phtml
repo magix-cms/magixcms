@@ -13,29 +13,29 @@
 					{include file="common/topmicrobar.phtml"}
 					<div class="fariane"><ul>{admin_ariane}</ul></div>
 				</div>
+				{if {admin_level_config config_param=['module'=>'cms']} eq 1}
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Page parente CMS ({$language})</a></div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Ajouter une page parente CMS ({$language})</a></div>
 						<div class="dashboard-widget-content">
-						{if {admin_level_config config_param=['module'=>'cms']} eq 1}
-							{include file="cms/forms/add_p.phtml"}
-						{else}
-						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-							Vous n'avez pas la permission d'administrer ce module
-						</div>
-						{/if}
+							{include file="cms/forms/add_page_p.phtml"}
 						</div>
 					</div>
 				</div>
-				{*<div class="column">
+				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Chercher une page CMS</a></div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Pages parente ({$language})</a></div>
 						<div class="dashboard-widget-content">
-						{include file="cms/search.phtml"}
+							<div id="list_page_p"></div>
 						</div>
 					</div>
-				</div>*}
+				</div>
+				{else}
+				<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+					<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+					Vous n'avez pas la permission d'administrer ce module
+				</div>
+				{/if}
 			</div>
 		</div>
 	{include file="common/footer.phtml"}
@@ -45,7 +45,13 @@
 {include file="common/editor.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcms.1.1.js');
+	$.getScript('/framework/js/backend/ns/jcms.0.2.js',function(){
+		if (typeof ns_jcms == "undefined") {
+		  console.log("ns_jcms is not defined");
+		}else{
+			ns_jcms.runParentPage();
+		}
+	});
 });
 </script>
 </body>

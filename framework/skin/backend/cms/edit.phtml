@@ -16,23 +16,17 @@
 				{if {admin_level_config config_param=['module'=>'cms']} eq 1}
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Ajouter une page parente rapide</a></div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Edition de la page {$idpage}</a></div>
 						<div class="dashboard-widget-content">
-							{include file="cms/forms/add_page_p.phtml"}
+							{include file="cms/forms/edit_page.phtml"}
 						</div>
 					</div>
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-locale"></span>Langues CMS</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Chercher une page CMS</a></div>
 						<div class="dashboard-widget-content">
-							{$list_language}
-						</div>
-					</div>
-					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Statistiques</a></div>
-						<div class="dashboard-widget-content">
-							
+						{include file="cms/forms/search.phtml"}
 						</div>
 					</div>
 				</div>
@@ -55,7 +49,7 @@ $(function(){
 		if (typeof ns_jcms == "undefined") {
 		  console.log("ns_jcms is not defined");
 		}else{
-			ns_jcms.run();
+			ns_jcms.runEditPage();
 		}
 	});
 });

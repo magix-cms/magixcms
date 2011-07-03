@@ -419,16 +419,16 @@ input.ui-button { padding: .1em 1em; }
 .ui-buttonset .ui-button { margin-left: 0; margin-right: -.3em; }
 /*----------------UI Sortable
 ------------------*/
-#sortable,#sortproduct,#sortcat,#sortsubcat,.globalsort{ list-style-type: none; margin: 5px 0 5px 5px; padding: 0; width: 97%; }
+#sortable,#sortproduct,#sortcat,#sortsubcat,.globalsort,#sort_page_p,#sort_child_page{ list-style-type: none; margin: 5px 0 5px 5px; padding: 0; width: 97%; }
 /*#sortable li,#sortcat li,#sortsubcat li,.globalsort li { margin: 0 3px 3px 3px; padding: 0.3em; padding-left: 1.5em; font-size: 1.0em; height: 12px; }*/
-#sortable li,#sortproduct li, #sortcat li, #sortsubcat li, .globalsort li {
+#sortable li,#sortproduct li, #sortcat li, #sortsubcat li, .globalsort li,#sort_page_p li,#sort_child_page li {
 	font-size:12px;
 	height:12px;
 	margin:0 3px 3px;
 	padding:0.1em 0.3em 0.3em 1.5em;
 }
-#sortable li span.arrowthick,#sortproduct li span.arrowthick,#sortcat li span.arrowthick,#sortsubcat li span.arrowthick,.globalsort li span.arrowthick { position: absolute; margin-left: -1.3em; }
-#sortable li:hover,#sortproduct li:hover,#sortcat li:hover,#sortsubcat li:hover,.globalsort li:hover{cursor: move;}
+#sortable li span.arrowthick,#sortproduct li span.arrowthick,#sortcat li span.arrowthick,#sortsubcat li span.arrowthick,.globalsort li span.arrowthick,#sort_page_p li span.arrowthick,#sort_child_page li span.arrowthick{ position: absolute; margin-left: -1.3em; }
+#sortable li:hover,#sortproduct li:hover,#sortcat li:hover,#sortsubcat li:hover,.globalsort li:hover,#sort_page_p li:hover,#sort_child_page li:hover{cursor: move;}
 .sortdivfloat{float:left;min-width:120px;font-weight:600;}
 .aspanfloat{float:left;/*margin-left:20px;*/}
 .ui-sortable li a{cursor:pointer;}

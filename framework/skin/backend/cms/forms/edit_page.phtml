@@ -1,0 +1,74 @@
+<form id="forms_cms_edit_page" method="post" action="" style="margin-left:10px;">
+	<fieldset>
+		<table class="table-tinymce">
+			<tr>
+				<td class="label"><label for="cmslink" class="inlinelabel">URL :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" id="cmslink" readonly="readonly" class="inputdisabled ui-corner-all" value="" size="60" />
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label for="title_page" class="inlinelabel">Titre :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="hidden" name="idpage" id="idpage" value="{$idpage}" />
+					<input type="text" id="title_page" name="title_page" class="inputtext ui-corner-all" value="{$title_page}" size="50" />
+					<input type="hidden" name="idlang" id="idlang" value="{$idlang}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<table>
+					<tr>
+						<td class="label"><label for="iso" class="inlinelabel">Langue :</label></td>
+						<td class="label"><label for="uri_page" class="inlinelabel">URL simplifié :</label></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>
+							<input type="text" disabled="disabled" readonly="readonly" id="iso" class="inputdisabled ui-corner-all" value="{$iso}" size="4" />
+						</td>
+						<td>
+							<input type="text" id="uri_page" name="uri_page" class="inputdisabled ui-corner-all" value="{$uri_page}" size="51" />
+						</td>
+						<td>
+							<a class="unlocked" title="Editer l'url simplifié" href="#"><span class="lfloat magix-icon magix-icon-lock"></span></a>
+						</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label for="content_page" class="inlinelabel">Contenu :</label></td>
+			</tr>
+			<tr>
+				<td><textarea name="content_page" id="content_page" class="fulltext mceEditor ui-corner-all" cols="" rows="">{$content_page}</textarea></td>
+			</tr>
+		</table>			
+	</fieldset>
+	<div id="showmetas"><span style="float:left;"></span> Voir les métas</div>
+		<div id="metascontener">
+		<table class="table-tinymce">
+			<tr>
+				<td class="label"><label for="seo_title_page" class="inlinelabel">Title :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="seo_title_page" name="seo_title_page" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$seo_title_page}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label for="seo_desc_page" class="inlinelabel">Description :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<textarea name="seo_desc_page" id="seo_desc_page" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$seo_desc_page}</textarea>
+				</td>
+			</tr>
+		</table>
+		</div>
+	<div style="margin:5px;"><input type="submit" value="Envoyer" /></div>
+</form>
