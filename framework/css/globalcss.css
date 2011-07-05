@@ -624,6 +624,14 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-calendar{ background-position: -0 -160px; }
 .magix-icon-calendar-insert{ background-position: -16px -160px; }
 .magix-icon-calendar-select{ background-position: -32px -160px; }
+.magix-icon-calendar-select-day{ background-position: -48px -160px; }
+.magix-icon-event{ background-position: -64px -160px; }
+.magix-icon-event-plus{ background-position: -80px -160px; }
+.magix-icon-event-delete{ background-position: -96px -160px; }
+.magix-icon-page-plus{ background-position: -112px -160px; }
+.magix-icon-page-delete{ background-position: -128px -160px; }
+.magix-icon-page-gear{ background-position: -144px -160px; }
+.magix-icon-page-edit{ background-position: -160px -160px; }
 /**
  * ############################## Utility class
  * 

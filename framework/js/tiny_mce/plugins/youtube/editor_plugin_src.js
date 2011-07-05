@@ -28,7 +28,7 @@
 				ed.windowManager.open({
 					file : url + '/youtube.htm',
 					width : 360 + parseInt(ed.getLang('youtube.delta_width', 0)),
-					height : 280 + parseInt(ed.getLang('youtube.delta_height', 0)),
+					height : 230 + parseInt(ed.getLang('youtube.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL

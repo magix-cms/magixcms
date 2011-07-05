@@ -257,7 +257,7 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
-/**
+	/**
 	 * @access private
 	 * Rechercher une page CMS dans les titres
 	 */
@@ -282,16 +282,24 @@ class backend_controller_cms extends backend_db_cms{
 						break;
 					}
 					if($s['idcat_p'] != 0){
-						
+						$uricms = magixglobal_model_rewrite::filter_cms_url(
+							$s['iso'], 
+							$s['idcat_p'], 
+							$s['uri_category'], 
+							$s['idpage'], 
+							$s['uri_page'],
+							true
+						);
+					}else{
+						$uricms = magixglobal_model_rewrite::filter_cms_url(
+							$s['iso'], 
+							null, 
+							null, 
+							$s['idpage'], 
+							$s['uri_page'],
+							true
+						);
 					}
-					$uricms = magixglobal_model_rewrite::filter_cms_url(
-						$s['iso'], 
-						$s['idcat_p'], 
-						$s['uri_category'], 
-						$s['idpage'], 
-						$s['uri_page'],
-						true
-					);
 					$search[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
 					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode($s['iso']).
 					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).

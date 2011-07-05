@@ -5,7 +5,7 @@ tinyMCE.addI18n('en.youtube_dlg',{
     ytW : "Width",
     ytH : "Height",
     autoplay: "Autoplay",
-    relvideo: "Include related videos",
+    relvideo: "Related videos",
     hd:"Watch in HD",
     yes:"Yes",
     no:"No"

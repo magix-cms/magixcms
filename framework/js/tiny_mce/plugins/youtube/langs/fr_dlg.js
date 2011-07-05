@@ -5,7 +5,7 @@ tinyMCE.addI18n('fr.youtube_dlg',{
     ytW : "Largeur",
     ytH : "Hauteur",
     autoplay: "Autoplay",
-    relvideo: "Inclure les vidéos similaires",
+    relvideo: "Vidéos similaires",
     hd:"Visionner en HD",
     yes:"Oui",
     no:"Non"

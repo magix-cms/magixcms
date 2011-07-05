@@ -23,7 +23,7 @@ select { width: 220px; }
 .tablecontain td.small-icon{width:20px;}
 .tablecontain th.small-icon{width:20px;}
 /*Product*/
-.table-widget-product {font-size:11px;margin: 5px; border-collapse: collapse; min-width: 500px;max-width:90%;}
+.table-widget-product {font-size:11px;margin: 5px; border-collapse: collapse; min-width: 520px;max-width:90%;}
 .table-widget-product th,.table-widget-product td{border: 1px solid #404040;text-align: left;}
 .table-widget-product th {padding: .1em 4px;}
 .table-widget-product td{padding: .1em 4px;}
@@ -33,7 +33,7 @@ select { width: 220px; }
 .table-widget-product th.small-icon,.table-widget-product td.small-icon{width:20px;}
 .table-widget-product td.medium-cell{min-width:100px;}
 /*Table plugin*/
-.table-widget-plugin {font-size:11px;margin: 5px; border-collapse: collapse; min-width: 500px;max-width:90%;}
+.table-widget-plugin {font-size:11px;margin: 5px; border-collapse: collapse; min-width: 520px;max-width:90%;}
 .table-widget-plugin th,.table-widget-plugin td{border: 1px solid #404040;text-align: left;}
 .table-widget-plugin th {padding: .1em 4px;}
 .table-widget-plugin td{padding: .1em 4px;}

@@ -306,10 +306,103 @@ var ns_jcms = {
 			return false;
 		});
 	},
+	_resultSearch:function(j){
+		$('#result-search-page').empty();
+		var tablecat = '<table id="table_search_product" class="table-widget-product">'
+			+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
+			+'<th><span class="lfloat magix-icon magix-icon-h1"></span>Titre</th>'
+			+'<th><span class="lfloat ui-icon ui-icon-folder-collapsed"></span></th>'
+			+'<th><span class="lfloat magix-icon magix-icon-igoogle-t"></span></th>'
+			+'<th><span class="lfloat magix-icon magix-icon-igoogle-d"></span></th>'
+			+'<th><span class="lfloat ui-icon ui-icon-flag"></span></th>'
+			+'<th><span class="lfloat ui-icon ui-icon-person"></span></th>'
+			+'<th><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></th>'
+			+'<th><span class="lfloat ui-icon ui-icon-pencil"></span></th>'
+			+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+			+'</tr></thead>'
+			+'<tbody>';
+		tablecat += '</tbody></table>';
+		$(tablecat).appendTo('#result-search-page');
+		if(j === undefined){
+			console.log(j);
+		}
+		if(j !== null){
+			$.each(j, function(i,item) {
+				if(item.uri_category != null){
+					category = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+					movepage = '<td class="small-icon"><a href="/admin/cms.php?movepage='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>';
+				}else{
+					category = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-home"></span></div>';
+					movepage = '<td class="small-icon"> - </td>';
+				}
+				if(item.seo_title_page != 0){
+					metaTitle = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+				}else{
+					metaTitle = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
+				}
+				if(item.seo_desc_page != 0){
+					metaDesc = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+				}else{
+					metaDesc = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
+				}
+				if(item.iso != null){
+					flaglang = item.iso;
+				}else{
+					flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
+				}
+				return $('<tr>'
+				+'<td>'+item.idpage+'</td>'
+				+'<td class="medium-cell"><a href="/admin/cms.php?edit='+item.idpage+'" class="linkurl">'+item.title_page+'</a></td>'
+				+'<td class="small-icon">'+category+'</td>'
+				+'<td class="small-icon">'+metaTitle+'</td>'
+				+'<td class="small-icon">'+metaDesc+'</td>'
+				+'<td class="small-icon">'+flaglang+'</td>'
+				+'<td class="small-icon">'+item.pseudo+'</td>'
+				+movepage
+				+'<td class="small-icon"><a href="/admin/cms.php?edit='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
+				+'<td class="small-icon"><a href="#" class="deletecms" title="'+item.idpage+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+				'</tr>').appendTo('#table_search_product tbody');
+			});
+		}else{
+			return $('<tr>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'</tr>').appendTo('#table_search_product tbody');
+		}
+	},
+	_initSearchPage:function(){
+		/**
+		 * Recherche simple dans les titres des pages CMS
+		 */
+		$("#forms-search-page").submit(function(){
+			$(this).ajaxSubmit({
+	    		url:'/admin/cms.php?get_search_page=true',
+	    		type:"post",
+	    		dataType:"json",
+	    		resetForm: true,
+	    		beforeSubmit:function(){
+	    			$('#result-search-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+	    		},
+	    		success:function(request) {
+	    			ns_jcms._resultSearch(request);
+	    		}
+	    	});
+			return false; 
+		});
+	},
 	run:function(){
 		this._initTextChange();
 		this._addParentPage(false,false);
 		this._loadParentPage($("#idlang").val());
+		this._initSearchPage();
 	},
 	runParentPage:function(){
 		this._initTextChange();
@@ -322,8 +415,10 @@ var ns_jcms = {
 		this._loadChildPage($("#idlang").val(),$('#idcat_p').val());
 	},
 	runEditPage:function(){
+		this._initTextChange();
 		$('#uri_page').inputLock();
 		this._load_page_uri($("#idpage").val());
 		this._editPage($("#idpage").val());
+		this._initSearchPage();
 	}
 };

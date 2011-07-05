@@ -18,52 +18,51 @@
  <div class="mceActionPanel">
  <table>
  <tr>
- 	<td>{#youtube_dlg.ytID}</td>
+ 	<td><strong>{#youtube_dlg.ytID}</strong></td>
  </tr>
  <tr>
  	<td><input id="youtubeID" name="youtubeID" type="text" class="text" size="37" value="" /></td>
  </tr>
  <tr>
- 	<td>{#youtube_dlg.relvideo}</td>
- </tr>
- <tr>
-	<td>
-		<select name="youtubeREL" id="youtubeREL" style="width: 80px;">
-		  <option value="0">{#youtube_dlg.yes}</option>
-		  <option value="1">{#youtube_dlg.no}</option>
-		</select>
-	</td>
-  </tr>
- <tr>
- 	<td>{#youtube_dlg.hd}</td>
- </tr>
- <tr>
-	<td>
-		<select name="youtubeHD" id="youtubeHD" style="width: 80px;">
-			<option value="0">{#youtube_dlg.no}</option>
-			<option value="1">{#youtube_dlg.yes}</option>
-		</select>
-	</td>
- </tr>
- <tr>
- 	<td>{#youtube_dlg.autoplay}</td>
- </tr>
- <tr>
-	<td>
-		<select name="youtubeAutoplay" id="youtubeAutoplay" style="width: 80px;">
-			<option value="0">{#youtube_dlg.no}</option>
-			<option value="1">{#youtube_dlg.yes}</option>
-		</select>
-	</td>
- </tr>
- <tr>
  	<td>
- 	{#youtube_dlg.ytW} <input id="youtubeWidth" name="youtubeWidth" type="text" class="text" size="3" value="350" />&nbsp;
- 	{#youtube_dlg.ytH} <input id="youtubeHeight" name="youtubeHeight" type="text" class="text" size="3" value="300" />
+ 		<strong>{#youtube_dlg.ytW}</strong> <input id="youtubeWidth" name="youtubeWidth" type="text" class="text" size="3" value="350" />&nbsp;
+ 		<strong>{#youtube_dlg.ytH}</strong> <input id="youtubeHeight" name="youtubeHeight" type="text" class="text" size="3" value="300" />
  	</td>
- <td>&nbsp;</td>
+</tr>
+ </table>
+ <table>
+ <tr>
+  	<td>
+  		<table class="youtube-table-child">
+  			<tr>
+  				<td><strong>{#youtube_dlg.relvideo}</strong></td>
+			 	<td><strong>{#youtube_dlg.hd}</strong></td>
+			 	<td><strong>{#youtube_dlg.autoplay}</strong></td>
+			 </tr>
+			 <tr>
+			 	<td>
+					<select name="youtubeREL" id="youtubeREL" style="width: 80px;">
+					  <option value="0">{#youtube_dlg.yes}</option>
+					  <option value="1">{#youtube_dlg.no}</option>
+					</select>
+				</td>
+				<td>
+					<select name="youtubeHD" id="youtubeHD" style="width: 80px;">
+						<option value="0">{#youtube_dlg.no}</option>
+						<option value="1">{#youtube_dlg.yes}</option>
+					</select>
+				</td>
+				<td>
+					<select name="youtubeAutoplay" id="youtubeAutoplay" style="width: 80px;">
+						<option value="0">{#youtube_dlg.no}</option>
+						<option value="1">{#youtube_dlg.yes}</option>
+					</select>
+				</td>
+			 </tr>
+  		</table>
+  	</td>
  </tr>
-   </table>
+ </table>
   </div>
   <div class="mceActionPanel">
     <div style="float:left;padding-top:5px">
@@ -72,6 +71,5 @@
     </div>
   </div>
 </form>
-
 </body>
 </html>
