@@ -98,6 +98,31 @@ class backend_db_cms{
 			':get_page_p'=>$get_page_p
 		));
 	}
+	/*###################### SEARCH #####################*/
+	/**
+     * @access public
+     * Recherche le ou les mots dans le titre des pages
+     * @param $searchpage
+     */
+    public function s_search_page($searchpage){
+    	$sql = 'SELECT * FROM mc_cms_pages WHERE title_page LIKE "%:searchpage%"';
+    	return magixglobal_model_db::layerDB()->select($sql,array(
+			'searchpage' => $searchpage
+		));
+    }
+	/**
+	 * Fonctions de recherche de page cms dans les titres
+	 * @param $searchpage
+	 */
+	function r_search_cms_title($searchpage){
+		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
+		FROM mc_cms_pages AS p
+		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
+		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
+		WHERE p.title_page LIKE "%'.$searchpage.'%"';
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
 	protected function i_new_parent_page($idadmin,$idlang,$title_page,$uri_page,$content_page,$seo_title_page,$seo_desc_page){
 		$order_page = $this->s_max_parent_order_page($idlang);
 		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,title_page,uri_page,content_page,seo_title_page,seo_desc_page,order_page) 

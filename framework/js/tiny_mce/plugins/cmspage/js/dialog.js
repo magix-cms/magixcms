@@ -40,22 +40,22 @@ var CMSPageDialog = {
 		}
 		if(j !== null){
 			$.each(j, function(i,item) {
-				if(item.codelang != null){
-					flaglang = item.codelang;
+				if(item.iso != null){
+					flaglang = item.iso;
 				}else{
 					flaglang = '-';
 				}
-				if(item.category != null){
-					cat = item.category;
+				if(item.uri_category != null){
+					cat = item.uri_category;
 				}else{
 					cat = '-';
 				}
-				var titlepage = t._addslashes(item.subjectpage);
-				//var insertLink = insert_cms_link(item.uricms,item.subjectpage);
+				var titlepage = t._addslashes(item.title_page);
+				//var insertLink = insert_cms_link(item.uricms,item.title_page);
 				return $('<tr><td>'+item.idpage+'</td>'
 				+'<td>'+flaglang+'</td>'
 				+'<td>'+cat+'</td>'
-				+'<td>'+item.subjectpage+'</td>'
+				+'<td>'+item.title_page+'</td>'
 				+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="insert_cms_link(\''+item.uricms+'\',\''+titlepage+'\');" class="link-cms-page">Insert</a></td>'
 				//+'<td><a href="#" onclick="tinyMCEPopup.close();" onmousedown="'+insertLink+'" class="link-cms-page">Insert</a></td>'
 				+'</tr>').appendTo('#table_search_cmspage tbody');

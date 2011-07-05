@@ -44,6 +44,7 @@ class backend_controller_cms extends backend_db_cms{
 	$order_page,
 	$sidebar_page;
 	public $getlang,$get_page_p,$edit;
+	public $post_search,$get_search_page;
 	/**
 	 * function construct class
 	 */
@@ -86,6 +87,12 @@ class backend_controller_cms extends backend_db_cms{
 		}
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+		}
+		if(isset($_POST['post_search'])){
+			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
+		}
+		if(isset($_GET['get_search_page'])){
+			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
 		}
 	}
 	/**
@@ -250,11 +257,57 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+/**
+	 * @access private
+	 * Rechercher une page CMS dans les titres
+	 */
+	private function search_title_page(){
+		if($this->post_search != ''){
+			if(parent::r_search_cms_title($this->post_search) != null){
+				foreach (parent::r_search_cms_title($this->post_search) as $s){
+					switch($s['seo_title_page']){
+						case null:
+							$metatitle = 0;
+						break;
+						case !null:
+							$metatitle = 1;
+						break;
+					}
+					switch($s['seo_desc_page']){
+						case null:
+							$metadescription = 0;
+						break;
+						case !null:
+							$metadescription = 1;
+						break;
+					}
+					if($s['idcat_p'] != 0){
+						
+					}
+					$uricms = magixglobal_model_rewrite::filter_cms_url(
+						$s['iso'], 
+						$s['idcat_p'], 
+						$s['uri_category'], 
+						$s['idpage'], 
+						$s['uri_page'],
+						true
+					);
+					$search[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
+					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode($s['iso']).
+					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).
+					',"seo_title_page":'.$metatitle.',"seo_desc_page":'.$metadescription.
+					',"pseudo":'.json_encode($s['pseudo']).'}';
+				}
+				print '['.implode(',',$search).']';
+			}
+		}
+	}
 	/**
 	 * execute la fonction run pour l'administration CMS
 	 * @access public 
 	 */
 	public function run(){
+		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('getlang')){
 			if(magixcjquery_filter_request::isGet('json_page_p')){
 				$this->json_parent_p();
@@ -284,6 +337,14 @@ class backend_controller_cms extends backend_db_cms{
 				$this->load_edit_page($this->edit);
 				backend_controller_template::display('cms/edit.phtml');
 			}
+		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
+			self::search_title_page();
 		}else{
 			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
 			backend_controller_template::assign('list_language', $this->listing_index_language());
