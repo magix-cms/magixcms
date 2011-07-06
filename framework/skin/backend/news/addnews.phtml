@@ -56,7 +56,13 @@
 {include file="common/editor.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jnews.1.0.js');
+	$.getScript('/framework/js/backend/ns/jnews.0.2.js',function(){
+		if (typeof ns_jnews == "undefined") {
+		  console.log("ns_jnews is not defined");
+		}else{
+			ns_jnews.runAddNews();
+		}
+	});
 });
 </script>
 </body>

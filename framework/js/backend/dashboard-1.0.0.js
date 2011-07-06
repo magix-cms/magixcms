@@ -198,4 +198,47 @@ $(function(){
 			}
 		});
 	 });
+	$('.u-news-published').live("click",function (event){
+		event.preventDefault();
+		var uri_news_publish = $(this).attr("href");
+		$("#confirm_published").dialog({
+			resizable: false,
+			height:140,
+			width:320,
+			modal: true,
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'En ligne': function() {
+					$(this).dialog('close');
+					$.ajax({
+						type:'get',
+						url: uri_news_publish+'&status_news=1',
+						async: false,
+						success:function(e){
+							location.reload();
+						}
+				     });
+					return false;
+				},
+				'Hors ligne': function() {
+					$(this).dialog('close');
+					$.ajax({
+						type:'get',
+						url: uri_news_publish+'&status_news=0',
+						async: false,
+						success:function(e){
+							location.reload();
+						}
+				     });
+					return false;
+				},
+				Cancel: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	 });
 });

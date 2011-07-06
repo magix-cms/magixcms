@@ -146,12 +146,23 @@ class backend_controller_cms extends backend_db_cms{
 		$db = backend_db_lang::dblang()->s_language_data($idlang);
 		return '<img src="/upload/iso_lang/'.$db['iso'].'.png" alt="'.$db['iso'].'" /> '.magixcjquery_string_convert::ucFirst($db['language']);
 	}
+	/**
+	 * @access private
+	 * Retourne le nom de la page parente
+	 * @param integer $get_page_p
+	 */
 	private function parent_page($get_page_p){
 		if(isset($get_page_p)){
 			$db = parent::s_current_page_p($get_page_p);
 			return $db['title_page'];
 		}
 	}
+	/**
+	 * @access private
+	 * Insertion d'une nouvelle page parent
+	 * @param string $title_page
+	 * @param integer $idlang
+	 */
 	private function insert_new_page_p($title_page,$idlang){
 		if(isset($title_page) AND isset($idlang)){
 			if(empty($title_page) OR empty($idlang)){
@@ -171,6 +182,12 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * Insertion d'une page enfant
+	 * @param string $title_page
+	 * @param integer $idlang
+	 */
 	private function insert_new_child_page($title_page,$idlang){
 		if(isset($title_page) AND isset($idlang)){
 			if(empty($title_page) OR empty($idlang)){
@@ -191,6 +208,11 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * Chargement des données pour édition
+	 * @param integer $edit
+	 */
 	private function load_edit_page($edit){
 		if(isset($edit)){
 			$db = parent::s_edit_page($edit);
@@ -234,6 +256,11 @@ class backend_controller_cms extends backend_db_cms{
 			print $cmsinput;
 		}
 	}
+	/**
+	 * @access private
+	 * Procédure de mise à jour de la page en édition
+	 * @param string $title_page
+	 */
 	private function update_page($title_page){
 		if(isset($title_page)){
 			if(empty($title_page)){
@@ -259,7 +286,59 @@ class backend_controller_cms extends backend_db_cms{
 	}
 	/**
 	 * @access private
-	 * Rechercher une page CMS dans les titres
+	 * Retourne les pages dans les autres langues de la page courante
+	 * @param integer $edit
+	 */
+	private function json_other_language_page($edit){
+		if(parent::s_child_lang_current_page($edit) != null){
+				foreach (parent::s_child_lang_current_page($edit) as $s){
+				switch($s['seo_title_page']){
+						case null:
+							$metatitle = 0;
+						break;
+						case !null:
+							$metatitle = 1;
+						break;
+					}
+					switch($s['seo_desc_page']){
+						case null:
+							$metadescription = 0;
+						break;
+						case !null:
+							$metadescription = 1;
+						break;
+					}
+					if($s['idcat_p'] != 0){
+						$uricms = magixglobal_model_rewrite::filter_cms_url(
+							$s['iso'], 
+							$s['idcat_p'], 
+							$s['uri_category'], 
+							$s['idpage'], 
+							$s['uri_page'],
+							true
+						);
+					}else{
+						$uricms = magixglobal_model_rewrite::filter_cms_url(
+							$s['iso'], 
+							null, 
+							null, 
+							$s['idpage'], 
+							$s['uri_page'],
+							true
+						);
+					}
+					$search[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
+					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode($s['iso']).
+					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).
+					',"seo_title_page":'.$metatitle.',"seo_desc_page":'.$metadescription.
+					',"pseudo":'.json_encode($s['pseudo']).'}';
+				}
+				print '['.implode(',',$search).']';
+			}
+	}
+	/**
+	 * @access private
+	 * Rechercher une page CMS via les titres et retourne sous forme JSON
 	 */
 	private function search_title_page(){
 		if($this->post_search != ''){
@@ -310,6 +389,14 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+	private function json_parent_p_chart(){
+		if(parent::count_lang_parent_p() != null){
+			foreach (parent::count_lang_parent_p() as $s){
+				$row[]= '{"iso":'.json_encode($s['iso']).',"parent_p_count":'.json_encode($s['parent_p_count']).'}';
+			}
+			print '['.implode(',',$row).']';
+		}
+	}
 	/**
 	 * execute la fonction run pour l'administration CMS
 	 * @access public 
@@ -341,6 +428,8 @@ class backend_controller_cms extends backend_db_cms{
 				$this->update_page($this->title_page);
 			}elseif(magixcjquery_filter_request::isGet('load_json_uri_cms')){
 				$this->load_json_uri_cms($this->edit);
+			}elseif(magixcjquery_filter_request::isGet('json_child_lang_page')){
+				$this->json_other_language_page($this->edit);
 			}else{
 				$this->load_edit_page($this->edit);
 				backend_controller_template::display('cms/edit.phtml');
@@ -354,9 +443,19 @@ class backend_controller_cms extends backend_db_cms{
 			$header->json_header("UTF-8");
 			self::search_title_page();
 		}else{
-			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-			backend_controller_template::assign('list_language', $this->listing_index_language());
-			backend_controller_template::display('cms/index.phtml');
+			if(magixcjquery_filter_request::isGet('json_cat_p_chart')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				$this->json_parent_p_chart();
+			}else{
+				backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+				backend_controller_template::assign('list_language', $this->listing_index_language());
+				backend_controller_template::display('cms/index.phtml');
+			}
 		}
 	}
 }

@@ -34,14 +34,20 @@
 </div>
 <div id="confirm_published" title="Publication d'une news" class="hide">
 	<p style="font-size:14px;">
-		Voulez-vous changer le status cette news ?
+		Voulez-vous changer le status cette page ?
 	</p>
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jnews.1.0.js');
+	$.getScript('/framework/js/backend/ns/jnews.0.2.js',function(){
+		if (typeof ns_jnews == "undefined") {
+		  console.log("ns_jnews is not defined");
+		}else{
+			ns_jnews.run();
+		}
+	});
 });
 </script>
 </body>

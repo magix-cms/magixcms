@@ -306,6 +306,110 @@ var ns_jcms = {
 			return false;
 		});
 	},
+	_child_lang_page:function(edit){
+		$.ajax({
+			url: '/admin/cms.php?edit='+edit+'&json_child_lang_page=true',
+			dataType: 'json',
+			type: "get",
+			statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},
+				401: function() {
+					console.warn("access denied");
+				},
+				404: function() {
+					console.warn("object not found");
+				},
+				403: function() {
+					console.warn("request forbidden");
+				},
+				408: function() {
+					console.warn("server timed out waiting for request");
+				},
+				500: function() {
+					console.error("Internal Server Error");
+				}
+			},
+			async: true,
+			cache:false,
+			beforeSend: function(){
+				$('#child-lang-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+			},
+			success: function(j) {
+				$('#child-lang-page').empty();
+				if(j === undefined){
+					console.log(j);
+				}
+				if(j !== null){
+					var tablecat = '<table id="table-child-lang-page" class="table-widget-product">'
+						+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
+						+'<th><span class="lfloat magix-icon magix-icon-h1"></span>Titre</th>'
+						+'<th><span class="lfloat ui-icon ui-icon-folder-collapsed"></span></th>'
+						+'<th><span class="lfloat magix-icon magix-icon-igoogle-t"></span></th>'
+						+'<th><span class="lfloat magix-icon magix-icon-igoogle-d"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-flag"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-person"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-pencil"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+						+'</tr></thead>'
+						+'<tbody>';
+					tablecat += '</tbody></table>';
+					$(tablecat).appendTo('#child-lang-page');
+					$.each(j, function(i,item) {
+						if(item.uri_category != null){
+							category = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+							movepage = '<td class="small-icon"><a href="/admin/cms.php?movepage='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>';
+						}else{
+							category = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-home"></span></div>';
+							movepage = '<td class="small-icon"> - </td>';
+						}
+						if(item.seo_title_page != 0){
+							metaTitle = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+						}else{
+							metaTitle = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
+						}
+						if(item.seo_desc_page != 0){
+							metaDesc = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
+						}else{
+							metaDesc = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-alert"></span></div>';
+						}
+						if(item.iso != null){
+							flaglang = item.iso;
+						}else{
+							flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
+						}
+						return $('<tr>'
+						+'<td>'+item.idpage+'</td>'
+						+'<td class="medium-cell"><a href="/admin/cms.php?edit='+item.idpage+'" class="linkurl">'+item.title_page+'</a></td>'
+						+'<td class="small-icon">'+category+'</td>'
+						+'<td class="small-icon">'+metaTitle+'</td>'
+						+'<td class="small-icon">'+metaDesc+'</td>'
+						+'<td class="small-icon">'+flaglang+'</td>'
+						+'<td class="small-icon">'+item.pseudo+'</td>'
+						+movepage
+						+'<td class="small-icon"><a href="/admin/cms.php?edit='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
+						+'<td class="small-icon"><a href="#" class="deletecms" title="'+item.idpage+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+						'</tr>').appendTo('#table-child-lang-page tbody');
+					});
+				}else{
+					return $('<tr>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+					+'</tr>').appendTo('#table-child-lang-page tbody');
+				}
+			}
+		});		
+	},
 	_resultSearch:function(j){
 		$('#result-search-page').empty();
 		var tablecat = '<table id="table_search_product" class="table-widget-product">'
@@ -398,9 +502,58 @@ var ns_jcms = {
 			return false; 
 		});
 	},
+	_chart_language_parent_p:function(){
+		$.ajax({
+			url: '/admin/cms.php?json_cat_p_chart=true',
+			dataType: 'json',
+			type: "get",
+			statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},
+				401: function() {
+					console.warn("access denied");
+				},
+				404: function() {
+					console.warn("object not found");
+				},
+				403: function() {
+					console.warn("request forbidden");
+				},
+				408: function() {
+					console.warn("server timed out waiting for request");
+				},
+				500: function() {
+					console.error("Internal Server Error");
+				}
+			},
+			async: true,
+			cache:false,
+			beforeSend: function(){
+				$('#chart-cat_p').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+			},
+			success: function(j) {
+				$('#chart-cat_p').empty();
+				if(j === undefined){
+					console.log(j);
+				}
+				if(j !== null){
+					var chart_page_p = '<ul id="list_chart_page_p">';
+					chart_page_p += '</ul>';
+					$(chart_page_p).appendTo('#chart-cat_p');
+					$.each(j, function(i,item) {
+						return $('<li>'
+						+item.iso
+						+'</li>').appendTo('#list_chart_page_p');
+					});
+				}
+			}
+		});		
+	},
 	run:function(){
 		this._initTextChange();
 		this._addParentPage(false,false);
+		this._chart_language_parent_p();
 		this._loadParentPage($("#idlang").val());
 		this._initSearchPage();
 	},
@@ -420,5 +573,6 @@ var ns_jcms = {
 		this._load_page_uri($("#idpage").val());
 		this._editPage($("#idpage").val());
 		this._initSearchPage();
+		this._child_lang_page($("#idpage").val());
 	}
 };

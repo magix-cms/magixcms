@@ -85,6 +85,17 @@ class backend_db_cms{
 			':edit' => $edit
 		));
 	}
+	protected function s_child_lang_current_page($getlang_p){
+    	$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
+		FROM mc_cms_pages AS p
+		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
+		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin )
+    	WHERE p.idlang_p = :getlang_p';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':getlang_p' => $getlang_p
+		));
+	}
 	/**
 	 * Affiche les données d'une page CMS
 	 * @param $getidpage
@@ -114,7 +125,7 @@ class backend_db_cms{
 	 * Fonctions de recherche de page cms dans les titres
 	 * @param $searchpage
 	 */
-	function r_search_cms_title($searchpage){
+	public function r_search_cms_title($searchpage){
 		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
 		FROM mc_cms_pages AS p
 		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
@@ -123,6 +134,27 @@ class backend_db_cms{
 		WHERE p.title_page LIKE "%'.$searchpage.'%"';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+	//Statistiques
+	protected function count_lang_parent_p(){
+		$sql = 'SELECT lang.iso,count(cms.idpage) as parent_p_count 
+		FROM mc_cms_pages AS cms
+		JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+		WHERE cms.idcat_p = 0
+		GROUP BY cms.idlang';
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
+	//Insertion
+	/**
+	 * 
+	 * Insertion d'une nouvelle page parent
+	 * @param integer $idadmin
+	 * @param integer $idlang
+	 * @param string $title_page
+	 * @param string $uri_page
+	 * @param string $content_page
+	 * @param string $seo_title_page
+	 * @param string $seo_desc_page
+	 */
 	protected function i_new_parent_page($idadmin,$idlang,$title_page,$uri_page,$content_page,$seo_title_page,$seo_desc_page){
 		$order_page = $this->s_max_parent_order_page($idlang);
 		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,title_page,uri_page,content_page,seo_title_page,seo_desc_page,order_page) 

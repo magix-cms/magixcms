@@ -272,7 +272,7 @@ $(function() {
 	     * Initialisation de colorbox dans l'administration pour la prévisualisation
 	     */
 	    //Prévisualisation dans une iframe
-	    $(".post-preview").colorbox({width:"90%", height:"90%", iframe:true});
+	    $(".post-preview").colorbox({width:"95%", height:"95%", iframe:true});
 	    //Prévisualisation d'images
 	    $(".imagebox").colorbox();
 	    /**

@@ -51,7 +51,7 @@ class backend_db_home{
 	 *
 	 */
 	function s_home_page_plugin(){
-		$sql = 'SELECT h.idhome,h.subject,h.content,h.metatitle,h.metadescription,lang.codelang,h.idlang,m.pseudo
+		$sql = 'SELECT h.idhome,h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang,m.pseudo
 				FROM mc_page_home AS h
 				LEFT JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
 				LEFT JOIN mc_admin_member AS m ON(h.idadmin = m.idadmin)';
@@ -62,7 +62,7 @@ class backend_db_home{
 	 * @param $gethome
 	 */
 	function s_home_page_record($gethome){
-		$sql = 'SELECT h.subject,h.content,h.metatitle,h.metadescription,lang.codelang,lang.idlang
+		$sql = 'SELECT h.subject,h.content,h.metatitle,h.metadescription,lang.iso,lang.idlang
 				FROM mc_page_home AS h
 				LEFT JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
 				WHERE idhome = :gethome';

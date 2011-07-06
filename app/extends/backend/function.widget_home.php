@@ -70,7 +70,7 @@ function smarty_function_widget_home($params, $template){
 					<tbody>';
 	if(backend_db_home::adminDbHome()->s_home_page_plugin() != null){
 		foreach(backend_db_home::adminDbHome()->s_home_page_plugin() as $phome){
-			$islang = $phome['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$phome['codelang'].magixcjquery_html_helpersHtml::unixSeparator(): '';
+			$islang = $phome['iso'] ? magixcjquery_html_helpersHtml::unixSeparator().$phome['iso'].magixcjquery_html_helpersHtml::unixSeparator(): '';
 			if($phome['metatitle'] == null){
 				$icons_t = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-alert"></span></div>';
 			}else{
@@ -83,17 +83,17 @@ function smarty_function_widget_home($params, $template){
 			}
 			switch($phome['idlang']){
 				case 0:
-					$codelang = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
+					$iso = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
 				break;
 				default: 
-					$codelang = $phome['codelang'];
+					$iso = $phome['iso'];
 				break;
 			}
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	'<td class="maximal"><a class="linkurl" href="/admin/home.php?edit='.$phome['idhome'].'">'.magixcjquery_string_convert::cleanTruncate($phome['subject'],40,"").'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$icons_t.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_d.'</td>';
-			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
+			 $plugin .= '<td class="nowrap">'.$iso.'</td>';
 			 $plugin .=	$viewuser ? '<td class="nowrap">'.$phome['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/home.php?edit='.$phome['idhome'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
