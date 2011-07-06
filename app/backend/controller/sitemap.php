@@ -231,15 +231,27 @@ class backend_controller_sitemap{
 	        	}else{
 	        		$date_page = $data['date_page'];
 	        	}
+	        	if($data['idcat_p'] != 0){
+					$uricms = magixglobal_model_rewrite::filter_cms_url(
+						$data['iso'], 
+						$data['idcat_p'], 
+						$data['uri_category'], 
+						$data['idpage'], 
+						$data['uri_page'],
+						true
+					);
+				}else{
+					$uricms = magixglobal_model_rewrite::filter_cms_url(
+						$data['iso'], 
+						null, 
+						null, 
+						$data['idpage'], 
+						$data['uri_page'],
+						true
+					);
+				}
 		       	$sitemap->writeMakeNode(
-				     magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_cms_url(
-				    	$data['codelang'],
-				    	$data['idcategory'],
-				    	$data['pathcategory'],
-				    	$data['idpage'],
-				    	$data['pathpage'],
-				    	true
-				    ),
+				    $uricms,
 				    $date_page,
 				    'always',
 				     0.9
@@ -543,8 +555,8 @@ class backend_controller_sitemap{
 	 * Affiche la page d'administration des sitemaps
 	 */
 	private function display(){
-		$statnews = backend_db_news::adminDbNews()->s_count_news_max();
-		$statcms = backend_db_cms::adminDbCms()->s_count_cms_max();
+		$statnews = backend_db_sitemap::adminDbSitemap()->s_count_news_max();
+		$statcms = backend_db_sitemap::adminDbSitemap()->s_count_cms_max();
 		$statcatalog = backend_db_catalog::adminDbCatalog()->s_count_catalog_max();
 		$confignews = backend_model_setting::tabs_load_config('news');
 		/**

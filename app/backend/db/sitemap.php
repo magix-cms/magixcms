@@ -50,7 +50,7 @@ class backend_db_sitemap{
      * Sélections dans les news pour la construction du sitemap
      */
     function s_root_news_sitemap(){
-    	$sql = 'SELECT count(n.idnews) AS numbnews,n.date_sent,lang.codelang
+    	$sql = 'SELECT count(n.idnews) AS numbnews,n.date_sent,lang.iso
 				FROM mc_news AS n
 				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
@@ -61,30 +61,47 @@ class backend_db_sitemap{
      * Sélections dans les news pour la construction du sitemap
      */
     function s_news_sitemap(){
-    	$sql = 'SELECT n.idnews,n.subject,n.content,lang.codelang,n.idlang,n.date_sent,n.rewritelink,pub.date_publication,pub.publish
+    	$sql = 'SELECT n.idnews,n.subject,n.content,lang.iso,n.idlang,n.date_sent,n.rewritelink,pub.date_publication,pub.publish
 				FROM mc_news AS n
 				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				WHERE pub.publish = 1 ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
+	/**
+	 * Retourne le nombre maximum de news
+	 * @return void
+	 */
+	function s_count_news_max(){
+		$sql = 'SELECT count(n.idnews) as total
+		FROM mc_news AS n';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
+	}
     /**
      * Sélections dans les pages CMS pour la construction du sitemap
      */
     function s_cms_sitemap(){
-    	$sql = 'SELECT p.idpage, p.subjectpage, p.contentpage,p.idlang,p.idcategory, p.pathpage,p.metatitle,p.metadescription,p.date_page,
-    	c.pathcategory, lang.codelang
-				FROM mc_cms_page AS p
-				LEFT JOIN mc_cms_category AS c ON ( c.idcategory = p.idcategory )
-				LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-				ORDER BY lang.idlang';
+    	$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, subp.uri_page as uri_category
+		FROM mc_cms_pages AS p
+		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
+		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
+	/**
+	 * Retourne le nombre maximum de pages
+	 * @return void
+	 */
+	function s_count_cms_max(){
+		$sql = 'SELECT count(p.idpage) as total
+		FROM mc_cms_page AS p';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
+	}
     /*
      * Selectionne les catégories du catalogue
      */
 	function s_catalog_category_sitemap(){
-    	$sql = 'SELECT c.idclc, c.clibelle, c.pathclibelle, lang.codelang, c.idlang, c.img_c
+    	$sql = 'SELECT c.idclc, c.clibelle, c.pathclibelle, lang.iso, c.idlang, c.img_c
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
 		ORDER BY lang.idlang';
@@ -94,7 +111,7 @@ class backend_db_sitemap{
      * Selectionne les sous catégories du catalogue
      */
 	function s_catalog_subcategory_sitemap(){
-    	$sql = 'SELECT c.idclc, c.clibelle, c.pathclibelle,s.idcls, s.slibelle, s.pathslibelle, lang.codelang
+    	$sql = 'SELECT c.idclc, c.clibelle, c.pathclibelle,s.idcls, s.slibelle, s.pathslibelle, lang.iso
 		FROM mc_catalog_s AS s
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
@@ -105,7 +122,7 @@ class backend_db_sitemap{
      * Sélections les produits pour la construction du sitemap
      */
     function s_catalog_sitemap(){
-    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.codelang
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.iso
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog as card USING ( idcatalog )
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
@@ -119,7 +136,7 @@ class backend_db_sitemap{
      * Compte le nombre de catégorie par langue + compte le nombre d'image
      */
 	function count_catalog_category_sitemap_by_lang(){
-    	$sql = 'SELECT count(c.idclc) as category,count(c.img_c) as catimg, lang.codelang, c.idlang
+    	$sql = 'SELECT count(c.idclc) as category,count(c.img_c) as catimg, lang.iso, c.idlang
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
 		GROUP BY lang.idlang';
@@ -130,7 +147,7 @@ class backend_db_sitemap{
      * @param $idlang
      */
     function s_catalog_category_images_by_lang($idlang){
-    	$sql ='SELECT c.idclc, c.clibelle, c.pathclibelle, c.img_c, lang.codelang
+    	$sql ='SELECT c.idclc, c.clibelle, c.pathclibelle, c.img_c, lang.iso
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
 		WHERE c.idlang = :idlang';
@@ -141,7 +158,7 @@ class backend_db_sitemap{
      * @param $idclc
      */
     function s_catalog_subcategory_images_by_lang($idclc){
-    	$sql ='SELECT c.idclc, c.clibelle, c.pathclibelle,s.idcls, s.slibelle,s.img_s ,s.pathslibelle, lang.codelang
+    	$sql ='SELECT c.idclc, c.clibelle, c.pathclibelle,s.idcls, s.slibelle,s.img_s ,s.pathslibelle, lang.iso
 		FROM mc_catalog_s AS s
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
@@ -162,7 +179,7 @@ class backend_db_sitemap{
      * Retourne les images produits du catalogue
      */
  	function s_catalog_product_images(){
-    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, img.imgcatalog,lang.codelang
+    	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, img.imgcatalog,lang.iso
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog as card USING ( idcatalog )
         LEFT JOIN mc_catalog_img as img USING ( idcatalog)
@@ -184,7 +201,7 @@ class backend_db_sitemap{
      * Sélections dans les news pour la construction du RSS
      */
     function s_news_rss(){
-    	$sql = 'SELECT n.idnews,n.subject,n.content,lang.codelang,n.idlang,n.date_sent,n.rewritelink,pub.date_publication,pub.publish
+    	$sql = 'SELECT n.idnews,n.subject,n.content,lang.iso,n.idlang,n.date_sent,n.rewritelink,pub.date_publication,pub.publish
 				FROM mc_news AS n
 				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
 				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)

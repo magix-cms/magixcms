@@ -534,17 +534,23 @@ var ns_jcms = {
 			},
 			success: function(j) {
 				$('#chart-cat_p').empty();
+				var tablecat = '<table id="table_chart_parent_p" class="table-widget-product">'
+					+'<thead><tr class="ui-widget ui-widget-header">'
+					+'<th>Langue</th>'
+					+'<th>Pages parente</th>'
+					+'</tr></thead>'
+					+'<tbody>';
+				tablecat += '</tbody></table>';
+				$(tablecat).appendTo('#chart-cat_p');
 				if(j === undefined){
 					console.log(j);
 				}
 				if(j !== null){
-					var chart_page_p = '<ul id="list_chart_page_p">';
-					chart_page_p += '</ul>';
-					$(chart_page_p).appendTo('#chart-cat_p');
 					$.each(j, function(i,item) {
-						return $('<li>'
-						+item.iso
-						+'</li>').appendTo('#list_chart_page_p');
+						return $('<tr>'
+						+'<td>'+item.iso+'</td>'
+						+'<td>'+item.parent_p_count+'</td>'
+						+'</tr>').appendTo('#table_chart_parent_p tbody');
 					});
 				}
 			}
@@ -553,8 +559,8 @@ var ns_jcms = {
 	run:function(){
 		this._initTextChange();
 		this._addParentPage(false,false);
-		this._chart_language_parent_p();
-		this._loadParentPage($("#idlang").val());
+		//this._chart_language_parent_p();
+		//this._loadParentPage($("#idlang").val());
 		this._initSearchPage();
 	},
 	runParentPage:function(){
