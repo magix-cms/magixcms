@@ -389,13 +389,19 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
-	private function json_parent_p_chart(){
-		if(parent::count_lang_parent_p() != null){
-			foreach (parent::count_lang_parent_p() as $s){
-				$row[]= '{"iso":'.json_encode($s['iso']).',"parent_p_count":'.json_encode($s['parent_p_count']).'}';
-			}
-			print '['.implode(',',$row).']';
+	private function json_google_chart(){
+		//if(parent::count_lang_parent_p() != null){
+		foreach (parent::count_lang_parent_p() as $s){
+			$rowParent[]= $s['parent_p_count'];
 		}
+		//}
+		foreach (parent::count_lang_child_p() as $s){
+			$rowChild[]= $s['child_p_count'];
+		}
+		foreach (parent::s_iso_lang() as $s){
+			$rowLang[]= json_encode($s['iso']);
+		}
+		print '{"parent_p_count":['.implode(',',$rowParent).'],"child_p_count":['.implode(',',$rowChild).'],"lang":['.implode(',',$rowLang).']}';
 	}
 	/**
 	 * execute la fonction run pour l'administration CMS
@@ -443,14 +449,14 @@ class backend_controller_cms extends backend_db_cms{
 			$header->json_header("UTF-8");
 			self::search_title_page();
 		}else{
-			if(magixcjquery_filter_request::isGet('json_cat_p_chart')){
+			if(magixcjquery_filter_request::isGet('json_google_chart_pages')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
 				$header->pragma();
 				$header->cache_control("nocache");
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
-				$this->json_parent_p_chart();
+				$this->json_google_chart();
 			}else{
 				backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
 				backend_controller_template::assign('list_language', $this->listing_index_language());

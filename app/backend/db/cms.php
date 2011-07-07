@@ -143,6 +143,18 @@ class backend_db_cms{
 		GROUP BY cms.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+	protected function count_lang_child_p(){
+		$sql = 'SELECT lang.iso,count(cms.idpage) as child_p_count 
+		FROM mc_cms_pages AS cms
+		JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+		WHERE cms.idcat_p != 0
+		GROUP BY cms.idlang';
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
+	protected function s_iso_lang(){
+    	$sql = 'SELECT lang.iso FROM mc_lang AS lang';
+		return magixglobal_model_db::layerDB()->select($sql);
+    }
 	//Insertion
 	/**
 	 * 

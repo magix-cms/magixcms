@@ -38,6 +38,8 @@ var ns_jcms = {
 	    			$(".mc-head-request").html(request);
 	    			if(getlang==true){
 	    				ns_jcms._loadParentPage(idlang);
+	    			}else{
+	    				ns_jcms._google_chart_language();
 	    			}
 	    		}
 	    	});
@@ -502,9 +504,9 @@ var ns_jcms = {
 			return false; 
 		});
 	},
-	_chart_language_parent_p:function(){
+	_google_chart_language:function(){
 		$.ajax({
-			url: '/admin/cms.php?json_cat_p_chart=true',
+			url: '/admin/cms.php?json_google_chart_pages=true',
 			dataType: 'json',
 			type: "get",
 			statusCode: {
@@ -530,38 +532,73 @@ var ns_jcms = {
 			async: true,
 			cache:false,
 			beforeSend: function(){
-				$('#chart-cat_p').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+				$('#chart-google-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
 			},
 			success: function(j) {
-				$('#chart-cat_p').empty();
-				var tablecat = '<table id="table_chart_parent_p" class="table-widget-product">'
-					+'<thead><tr class="ui-widget ui-widget-header">'
-					+'<th>Langue</th>'
-					+'<th>Pages parente</th>'
-					+'</tr></thead>'
-					+'<tbody>';
-				tablecat += '</tbody></table>';
-				$(tablecat).appendTo('#chart-cat_p');
-				if(j === undefined){
-					console.log(j);
-				}
-				if(j !== null){
-					$.each(j, function(i,item) {
-						return $('<tr>'
-						+'<td>'+item.iso+'</td>'
-						+'<td>'+item.parent_p_count+'</td>'
-						+'</tr>').appendTo('#table_chart_parent_p tbody');
-					});
-				}
+				 $('#chart-google-page').empty();
+				 var optionsObj = {
+					title: 'CMS Statistics',
+					series: [{label:'Pages parente'},{label:'Pages enfants'}],
+					legend: {
+						show: true,
+						location: 'ne',
+						placement: 'outsideGrid'
+					},
+					seriesDefaults:{
+						min: 1,
+						shadow: true,
+						renderer:$.jqplot.BarRenderer,
+						rendererOptions:{
+			 	           barPadding: 8,
+				           barMargin: 10,
+				           fillToZero: true,
+				           barWidth: 25
+				       }
+					},
+					axesDefaults: {
+				        tickOptions: {
+				          fontFamily: 'Georgia',
+				          fontSize: '10pt'
+				        }
+				    },
+					axes: {
+			            // Use a category axis on the x axis and use our custom ticks.
+			            xaxis: {
+			                renderer: $.jqplot.CategoryAxisRenderer,
+			                ticks: j.lang
+			            },
+			            // Pad the y axis just a little so bars can get close to, but
+			            // not touch, the grid boundaries.  1.2 is the default padding.
+			            yaxis: {
+			                pad: 1.2
+			            }
+					}
+				};
+				 $.jqplot('chart-google-page', [j.parent_p_count,j.child_p_count], optionsObj);
 			}
 		});		
+	},
+	_googlevChart:function(){
+		/*$.getScript('/framework/js/tools/jquery.gvChart-1.0.1.min.js', function() {
+			$('#google-chart-pages').gvChart({
+				chartType: 'BarChart',
+				gvSettings: {
+					vAxis: {title: 'No of players'},
+					hAxis: {title: 'Month'},
+					width: 400,
+					height: 300
+					}
+			});
+		});*/
+		
 	},
 	run:function(){
 		this._initTextChange();
 		this._addParentPage(false,false);
-		//this._chart_language_parent_p();
+		//this._googlevChart();
+		this._google_chart_language();
 		//this._loadParentPage($("#idlang").val());
-		this._initSearchPage();
+		//this._initSearchPage();
 	},
 	runParentPage:function(){
 		this._initTextChange();

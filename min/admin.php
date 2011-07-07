@@ -35,7 +35,7 @@
 return array(
 	'admincss'=>array('//framework/css/ui/dark-backend-1.8.10/jquery-ui-1.8.10.custom.css',
 	'//framework/css/colorbox-simple/colorbox.css','//framework/css/ui/ui.checkbox.1.4.css',
-	'//framework/css/ui/ui.spinner.1-20.css','//framework/css/notification.css','//framework/css/globalforms.css','//framework/css/globalcss.css'),
+	'//framework/css/ui/ui.spinner.1-20.css','//framework/css/notification.css','//framework/css/jquery.jqplot.css','//framework/css/globalforms.css','//framework/css/globalcss.css'),
 	'adminjs'=> array('//framework/js/jquery-1.5.2.min.js','//framework/js/jquery-ui-1.8.10.custom.min.js','//framework/js/ui/i18n-1.8/jquery-ui-i18n.js',
 	'//framework/js/ui/ui.checkbox.1.4.js','//framework/js/jquery.form-2.67.js','//framework/js/jquery.validate.1.8.min.js','//framework/js/additional-methods.1.8.min.js',
 	'//framework/js/jquery.validate.password-1.0.js','//framework/js/jquery.cookie.js','//framework/js/jquery.colorbox-1.3.15.js',
