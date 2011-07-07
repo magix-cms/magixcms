@@ -4,48 +4,60 @@
 {include file="common/css.phtml"}
 </head>
 <body>
-<div id="page">
-{include file="common/top.phtml"}
-<div id="content">
-{include file="common/sidebar.phtml"}
-	<div id="principal" class="principal">
-		<div id="catalog-product">
-		<div class="sdate"><span style="float:left;" class="ui-icon ui-icon-calendar"></span>{$date_catalog|date_format:"%d-%m-%y"}</div>
-			<h1>{$titlecatalog}</h1>
-			<div id="product-tabs">
-				<ul style="height:30px;">
-					<li><a class="tabslink" href="#product-tabs-1">Produits</a></li>
-					<li><a class="tabslink" href="#product-tabs-2">Images</a></li>
-					<li><a class="tabslink" href="#product-tabs-3">Autres produits</a></li>
-				</ul>
-				<div id="product-tabs-1">
-					<table>
-						<tr>
-							<td>{$imgcatalog}</td>
-							<td style="width:100%;"></td>
-							<td>
-							<form action="{geturl}{getlang}/magixmod/contact/" method="post">
-						      <div><input type="hidden" name="moreinfo" value="{$titlecatalog}"/></div>
-						      <div><input type="image" src="{geturl}/skin/{template}/img/catalog/more-product.png" /></div>
-					      	</form>
-							</td>
-						</tr>
-					</table>
-					<div class="catalog-product-content ui-widget-content ui-corner-all">
-						{$desccatalog}
-					</div>
-				</div>
-				<div id="product-tabs-2">
-					{microgalery type="imagebox" ui=true}
-				</div>
-				<div id="product-tabs-3">
-					{catalog_rel_product idcatalog=$idcatalog ui=true}
-				</div>
-			</div>
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
 		</div>
 	</div>
-	<hr class="clear" />
-</div>
-{include file="common/footer.phtml"}
+	<div id="content" class="full">
+		<div id="contentContener" class="container">
+			<div class="bg-top w16-16"></div>
+				<div class="bg-repeat w16-16">	
+					<div id="contentCol" class="text-content block w11-16 lfloat">			
+				    	<ul class="ariane">
+				   			<li class="first"><a href="{geturl}{getlang}/catalog" title="Catalogue de voitures">Catalogue</a></li>
+					    	<li>></li>
+					    	<li><a href="{$uri_cat}" title="{#catalog_nav_cat#} {$category}">{$category}</a></li>
+					    	<li>></li>
+					    	{if $subcategory eq !null}
+					    		<li><a href="{$uri_subcat}" title="{#catalog_nav_cat#} {$subcategory}">{$subcategory}</a></li>
+					    		<li>></li>
+					    	{/if}
+					    	<li>{$titlecatalog}</li>
+					    </ul>    	
+				    	<span class="date rfloat">Ajouté le {$date_catalog|date_format:"%d-%m-%y"}</span>		
+
+						<h1>{$titlecatalog}</h1>
+						<div id="product-img" class="block w4-16 rfloat last bg dark">
+							{$imgcatalog}
+							<p class="title">Intéressé par {$titlecatalog} ?</p>
+							<form action="{geturl}{getlang}/magixmod/contact/" method="post">
+							<p>
+								<input type="hidden" name="moreinfo" value="{$titlecatalog}"/>
+								<input id="more-info" type="image" src="{geturl}/skin/{template}/img/catalog/more-product.png" />
+							</p>
+							</form>						
+						</div>
+						<span class="price">{$price} €</span>
+						{$desccatalog}
+						<div class="clear"></div>
+						<div id="galery" class="block w11-32 lfloat">
+							<p class="title">Photos</p>
+							{widget_catalog_microgalery type="imagebox" ui=true col="3"}
+						</div>
+						<div id="rel-product" class="block w11-32 lfloat last">
+							<p class="title">Voir aussi</p>
+							{widget_catalog_rel_product idcatalog=$idcatalog ui=false description=true contentlength="124" size="medium" tposition="bottom"}
+						</div>
+						<div class="clear"></div>					
+					</div>
+					<div id="rightCol" class="block w5-16 lfloat last">
+						{include file="common/colright.phtml"}
+					</div>
+				</div>
+				<div class="bg-bottom w16-16"></div>
+		</div>
+	</div>
+	{include file="common/footer.phtml"}
 </body>
 </html>

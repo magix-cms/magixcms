@@ -3,18 +3,36 @@
     <title>{rewrite_metas_catalog type='title' category=$clibelle subcategory=$slibelle level='2'}</title>
 {include file="common/css.phtml"}
 </head>
-<body>
-<div id="page">
-{include file="common/top.phtml"}
-<div id="content">
-{include file="common/sidebar.phtml"}
-	<div id="principal" class="principal">
-		<h1>{$slibelle}</h1>
-		{$s_content}
-		{load_catalog_subcategory ui=true tposition="top" description=false}
+<body class="catalog subcat">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
 	</div>
-	<hr class="clear" />
-</div>
-{include file="common/footer.phtml"}
+	<div id="content" class="full">
+		<div id="contentContener" class="container">
+			<div class="bg-top w16-16"></div>
+				<div class="bg-repeat w16-16">	
+					<div id="contentCol" class="text-content block w11-16 lfloat">
+						<ul class="ariane">
+							<li><a href="{geturl}{getlang}/catalog" title="Catalogue de voitures">Catalogue</a></li>
+							<li>></li>
+							<li><a href="{$uri_cat}" title="{$clibelle}">{$clibelle}</a></li>
+							<li>></li>
+							<li>{$slibelle}</li>
+						</ul>  	  	
+						<h1>{$slibelle}</h1>
+						{$s_content}
+						{widget_catalog_load_products ui=false tposition="bottom" description=true size=medium col="2"}
+					</div>
+					<div id="rightCol" class="block w5-16 lfloat last">
+						{include file="common/colright.phtml"}
+					</div>
+				</div>
+				<div class="bg-bottom w16-16"></div>
+		</div>
+	</div>
+	{include file="common/footer.phtml"}
+
 </body>
 </html>

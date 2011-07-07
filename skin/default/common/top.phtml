@@ -1,5 +1,11 @@
-<div id="entete">
-	{widget_prelude_lang display=true icons=true separator="|"}
-	<div class="top"></div>
- </div>
-{include file="common/headmenu.phtml"}
+	{*widget_prelude_lang display=true icons=true separator="|"*}
+	<div id="last-news" class="block w5-16 rfloat bg dark last">
+		{widget_news_last contentlength="125" delimiter="..." ui=false newsall="Voir les news"}
+	</div>
+	<div id="logo" class="block lfloat">
+		<a href="/" title="Magix CMS: le CMS dédié au référencement">
+			<img src="/skin/default/img/logo-magix_cms.png" title="Magix CMS: le CMS dédié au référencement" alt="Logo Magix CMS" />
+		</a>
+	</div>
+	<div class="clear"></div>
+	{include file="common/topmenu.phtml"}

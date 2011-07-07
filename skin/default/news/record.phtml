@@ -3,25 +3,30 @@
     <title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$n_title] record=$n_title}</title>
 {include file="common/css.phtml"}
 </head>
-<body>
-<div id="page">
-{include file="common/top.phtml"}
-<div id="content">
-{*{include file="common/sidebar.phtml"}*}
-	<div id="principal" class="principal">
-		<div class="sdate">
-			<table>
-				<tr>
-					<td><span style="float:left;" class="ui-icon ui-icon-calendar"></span></td>
-					<td>{$date_publish|date_format:"%d-%m-%y"}</td>
-				</tr>
-			</table>
+<body class="news record">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
 		</div>
-		<h1>{$n_title}</h1>
-		{$n_content}
 	</div>
-	<hr class="clear" />
-</div>
-{include file="common/footer.phtml"}
+	<div id="content" class="full">
+		<div id="contentContener" class="container">
+			<div class="bg-top w16-16"></div>
+				<div class="bg-repeat w16-16">	
+					<div id="contentCol" class="text-content block w11-16 lfloat">
+						<div class="date rfloat">
+							{$date_publish|date_format:"%d-%m-%y"}
+						</div>
+						<h1>{$n_title}</h1>
+						{$n_content}
+					</div>
+					<div id="rightCol" class="block w5-16 lfloat last">
+						{include file="common/colright.phtml"}
+					</div>
+				</div>
+				<div class="bg-bottom w16-16"></div>
+		</div>
+	</div>
+	{include file="common/footer.phtml"}
 </body>
 </html>

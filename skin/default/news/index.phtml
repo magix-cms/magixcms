@@ -3,17 +3,29 @@
     <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_news#]}</title>
 {include file="common/css.phtml"}
 </head>
-<body>
-<div id="page">
-{include file="common/top.phtml"}
-<div id="content">
-{*{include file="common/sidebar.phtml"}*}
-	<div id="principal" class="principal">
-		{$listnews}
-		{$npagination}
+<body class="news list">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
 	</div>
-	<hr class="clear" />
-</div>
-{include file="common/footer.phtml"}
+	<div id="content" class="full">
+		<div id="contentContener" class="container">
+			<div class="bg-top w16-16"></div>
+				<div class="bg-repeat w16-16">	
+					<div id="contentCol" class="text-content block w11-16 lfloat">
+						<h1>Actualités</h1>
+						{$listnews}
+						{$npagination}
+					</div>
+					<div id="rightCol" class="block w5-16 lfloat last">
+						{include file="common/colright.phtml"}
+					</div>
+				</div>
+				<div class="bg-bottom w16-16"></div>
+		</div>
+	</div>
+	{include file="common/footer.phtml"}
+
 </body>
 </html>

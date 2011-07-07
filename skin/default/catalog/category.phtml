@@ -3,19 +3,35 @@
     <title>{rewrite_metas_catalog type='title' category=$clibelle level='1'}</title>
 {include file="common/css.phtml"}
 </head>
-<body>
-<div id="page">
-{include file="common/top.phtml"}
-<div id="content">
-{include file="common/sidebar.phtml"}
-	<div id="principal" class="principal">
-		<h1>{$clibelle}</h1>
-		{$c_content}
-		{load_catalog_category size="mini" tposition="top" ui=true price=false description=false}
-		{block_sub_category_catalog title="Voir aussi:"}
+<body class="catalog cat">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
 	</div>
-	<hr class="clear" />
-</div>
-{include file="common/footer.phtml"}
+	<div id="content" class="full">
+		<div id="contentContener" class="container">
+			<div class="bg-top w16-16"></div>
+				<div class="bg-repeat w16-16">	
+					<div id="contentCol" class="text-content block w11-16 lfloat">
+					    <ul class="ariane">
+					   		<li class="first"><a href="{geturl}{getlang}/catalog" title="Catalogue">Catalogue</a></li>
+							<li>></li>
+							<li>{$clibelle}</li>
+						</ul>          						
+						<h1>{$clibelle}</h1>
+						{$c_content}
+						{widget_catalog_cat_load_products tposition="bottom" ui=false price=false description=true size=medium col="2"}
+						{widget_catalog_subcategory_display tposition=bottom col="2"}
+
+					</div>
+					<div id="rightCol" class="block w5-16 lfloat last">
+						{include file="common/colright.phtml"}
+					</div>
+				</div>
+				<div class="bg-bottom w16-16"></div>
+		</div>
+	</div>
+	{include file="common/footer.phtml"}
 </body>
 </html>
