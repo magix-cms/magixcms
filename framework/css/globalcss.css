@@ -632,6 +632,9 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-page-delete{ background-position: -128px -160px; }
 .magix-icon-page-gear{ background-position: -144px -160px; }
 .magix-icon-page-edit{ background-position: -160px -160px; }
+.magix-icon-flash{ background-position: -176px -160px; }
+.magix-icon-flash-plus{ background-position: -192px -160px; }
+.magix-icon-flash-edit{ background-position: -208px -160px; }
 /**
  * ############################## Utility class
  * 

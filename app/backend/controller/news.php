@@ -302,7 +302,7 @@ class backend_controller_news extends backend_db_news{
 		}elseif(magixcjquery_filter_request::isGet('get_news_publication')){
 			self::update_status_publication();
 		}elseif(magixcjquery_filter_request::isGet('add')){
-			if(magixcjquery_filter_request::isGet('post')){
+			if(magixcjquery_filter_request::isPost('n_title')){
 				self::insert_data_forms();
 			}else{
 				backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());

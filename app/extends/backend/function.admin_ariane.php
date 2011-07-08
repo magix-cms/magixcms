@@ -48,19 +48,27 @@
  * @return string
  */
 function smarty_function_admin_ariane($params, $template){
+	/*if (!isset($params['config_param'])) {
+	 	trigger_error("config_param: missing 'config_param' parameter");
+		return;
+	}*/
+	if(is_array($params['config_param'])){
+		$tabs = $params['config_param'];
+	}
 	$url = $_SERVER['REQUEST_URI'];
 	//print $_SERVER['QUERY_STRING'];
 	//print_r(parse_url($url,PHP_URL_PATH));
 	$segment =  explode('&',parse_url($url,PHP_URL_QUERY));
-	$segment = str_replace('=',' - ',$segment);
+	//$segment = str_replace('=',' - ',$segment);
 	//print_r($equal = explode('=', $segment[2]));
-	$root = magixcjquery_html_helpersHtml::getUrl().parse_url($url,PHP_URL_PATH);
-	$fil = null;
+	$root = parse_url($url,PHP_URL_PATH);
 	$fil .= '<li><a href="'.$root.'"><span style="float:left;" class="magix-icon magix-icon-home"></span></a></li>';
-	$fil .= empty($segment[0])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[0]).'</li>';
-	$fil .= empty($segment[1])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[1]).'</li>';
-	$fil .= empty($segment[2])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[2]).'</li>';
-	$fil .= empty($segment[3])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($segment[3]).'</li>';
+	if (isset($params['config_param'])) {
+		$fil .= empty($segment[0])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;<a href="'.$root.'?'.$segment[0].'">'.magixcjquery_string_convert::ucfirst($tabs['level1']).'</a></li>';
+		$fil .= empty($segment[1])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;<a href="'.$root.'?'.$segment[0].'&amp;'.$segment[1].'">'.magixcjquery_string_convert::ucfirst($tabs['level2']).'</a></li>';
+		$fil .= empty($segment[2])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($tabs['level3']).'</li>';
+		$fil .= empty($segment[3])? null: '<li><span style="float:left;" class="ui-icon ui-icon-arrow-1-e"></span>&nbsp;'.magixcjquery_string_convert::ucfirst($tabs['level4']).'</li>';
+	}
 	return $fil;
 }
 ?>

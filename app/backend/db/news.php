@@ -98,9 +98,6 @@ class backend_db_news{
 	 * @param $idnews
 	 */
 	protected function u_news_page($n_title,$n_uri,$n_content,$idadmin,$date_publish,$published,$idnews){
-		/*$sql = array('UPDATE mc_news SET subject='.magixglobal_model_db::layerDB()->escape_string($subject).',rewritelink ='.magixglobal_model_db::layerDB()->escape_string($rewritelink).',content='.magixglobal_model_db::layerDB()->escape_string($content).',idlang="'.$idlang.'",idadmin="'.$idadmin.'" 
-		WHERE idnews ='.$idnews,'UPDATE mc_news_publication SET date_publication="'.$date_publication.'",publish="'.$publish.'" WHERE idnews ='.$idnews);
-		magixglobal_model_db::layerDB()->transaction($sql);*/
 		$sql = 'UPDATE mc_news 
 		SET n_title=:n_title,n_uri=:n_uri, n_content = :n_content,idadmin = :idadmin,date_publish = :date_publish, published=:published 
 		WHERE idnews = :idnews';

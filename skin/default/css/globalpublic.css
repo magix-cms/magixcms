@@ -1107,7 +1107,6 @@ h1.title, h2.title, h3.title, h4.title, h5.title, h6.title, p.title, span.title,
 	
 	.list-div-elem .date {
 		display:block;
-		float:left;
 		font-size: 11px;
 		font-weight: normal;
 		margin-bottom: 5px;

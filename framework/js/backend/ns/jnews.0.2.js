@@ -1,34 +1,38 @@
 var ns_jnews = {
 	_addNews:function(){
-		$("#forms-news").submit(function(){
-	    	$.editorhtml({editor:_editorConfig});
-			$.notice({
-				ntype: "ajaxsubmit",
-	    		delay: 2800,
-	    		dom: this,
-	    		uri: '/admin/news.php?add&post=1',
-	    		typesend: 'post',
-	    		resetform:true,
-	    		time:2,
-	    		reloadhtml:true	
-			});
-			return false; 
+		$("#forms-news-add").submit(function(){
+			$(this).ajaxSubmit({
+	    		url: '/admin/news.php?add=true',
+	    		type:"post",
+	    		resetForm: true,
+	    		success:function(request) {
+	    			$.notice({
+						ntype: "simple",
+						time:2
+					});
+	    			$(".mc-head-request").html(request);
+	    		}
+	    	});
+			return false;
 		});
 	},
-	_editNews:function(){
-		$("#forms-news").submit(function(){
-	    	$.editorhtml({editor:_editorConfig});
-			$.notice({
-				ntype: "ajaxsubmit",
-	    		delay: 2800,
-	    		dom: this,
-	    		uri: '/admin/news.php?add&post=1',
-	    		typesend: 'post',
-	    		resetform:true,
-	    		time:2,
-	    		reloadhtml:true	
-			});
-			return false; 
+	_editNews:function(idnews){
+		$("#forms-news-update").submit(function(){
+			//$.editorhtml({editor:_editorConfig});
+			$(this).ajaxSubmit({
+	    		url: '/admin/news.php?edit='+idnews,
+	    		type:"post",
+	    		resetForm: true,
+	    		success:function(request) {
+	    			$.notice({
+						ntype: "simple",
+						time:2
+					});
+	    			ns_jnews._load_page_uri(idnews);
+	    			$(".mc-head-request").html(request);
+	    		}
+	    	});
+			return false;
 		});
 	},
 	_load_page_uri:function(idnews){
@@ -163,9 +167,9 @@ var ns_jnews = {
 	runAddNews:function(){
 		this._addNews();
 	},
-	runEditNews:function(){
+	runEditNews:function(idnews){
 		$('#n_uri').inputLock();
-		this._load_page_uri($("#idnews").val());
-		this._editNews();
+		this._load_page_uri(idnews);
+		this._editNews(idnews);
 	}
 };
