@@ -128,7 +128,6 @@ CREATE TABLE IF NOT EXISTS `mc_cms_pages` (
   `idadmin` tinyint(3) NOT NULL,
   `idlang` tinyint(3) NOT NULL,
   `idcat_p` int(7) NOT NULL DEFAULT '0',
-  `idlang_p` int(7) NOT NULL DEFAULT '0',
   `title_page` varchar(125) NOT NULL,
   `uri_page` varchar(125) NOT NULL,
   `content_page` text,
@@ -139,6 +138,14 @@ CREATE TABLE IF NOT EXISTS `mc_cms_pages` (
   `date_register` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idpage`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `mc_cms_rel_lang` (
+  `idrel_lang` int(7) NOT NULL AUTO_INCREMENT,
+  `idpage` int(7) NOT NULL,
+  `idlang_p` int(7) NOT NULL,
+  PRIMARY KEY (`idrel_lang`),
+  KEY `idpage` (`idpage`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_config_limited_module` (

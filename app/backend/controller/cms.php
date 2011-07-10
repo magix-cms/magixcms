@@ -42,9 +42,12 @@ class backend_controller_cms extends backend_db_cms{
 	$seo_title_page,
 	$seo_desc_page,
 	$order_page,
-	$sidebar_page;
+	$sidebar_page,
+	$rel_title_page;
 	public $getlang,$get_page_p,$edit;
-	public $post_search,$get_search_page;
+	public $post_search,$get_search_page,$title_p_lang,$callback;
+	public $cat_p_lang;
+	public $del_relang_p,$delpage;
 	/**
 	 * function construct class
 	 */
@@ -93,6 +96,26 @@ class backend_controller_cms extends backend_db_cms{
 		}
 		if(isset($_GET['get_search_page'])){
 			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
+		}
+		if(magixcjquery_filter_request::isPost('delpage')){
+			$this->delpage = magixcjquery_filter_isVar::isPostNumeric($_POST['delpage']);
+		}
+		//Page relative dans une autre langue
+		if(magixcjquery_filter_request::isPost('rel_title_page')){
+			$this->rel_title_page = magixcjquery_form_helpersforms::inputClean($_POST['rel_title_page']);
+		}
+		if(magixcjquery_filter_request::isGet('title_p_lang')){
+			$this->title_p_lang = magixcjquery_form_helpersforms::inputClean($_GET['title_p_lang']);
+		}
+		if(magixcjquery_filter_request::isPost('cat_p_lang')){
+			$this->cat_p_lang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['cat_p_lang']);
+		}
+		if(magixcjquery_filter_request::isPost('del_relang_p')){
+			$this->del_relang_p = magixcjquery_filter_isVar::isPostNumeric($_POST['del_relang_p']);
+		}
+		//JQUERY CALLBACK
+		if(magixcjquery_filter_request::isGet('callback')){
+			$this->callback = (string) magixcjquery_form_helpersforms::inputClean($_GET['callback']);
 		}
 	}
 	/**
@@ -223,6 +246,7 @@ class backend_controller_cms extends backend_db_cms{
 			backend_controller_template::assign('content_page', $db['content_page']);
 			backend_controller_template::assign('seo_title_page', $db['seo_title_page']);
 			backend_controller_template::assign('seo_desc_page', $db['seo_desc_page']);
+			backend_controller_template::assign('selectexcludelang',backend_model_blockDom::select_other_lang($db['idlang']));
 		}
 	}
 	/**
@@ -327,7 +351,7 @@ class backend_controller_cms extends backend_db_cms{
 							true
 						);
 					}
-					$search[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
+					$search[]= '{"idrel_lang":'.json_encode($s['idrel_lang']).',"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
 					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode($s['iso']).
 					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).
 					',"seo_title_page":'.$metatitle.',"seo_desc_page":'.$metadescription.
@@ -335,6 +359,65 @@ class backend_controller_cms extends backend_db_cms{
 				}
 				print '['.implode(',',$search).']';
 			}
+	}
+	/**
+	 * @access private
+	 * Autocomplete des pages dans la langue sélectionnée
+	 */
+	private function json_cat_p_lang(){
+		if(parent::s_cat_p_lang($this->title_p_lang,$this->getlang) != null){
+			foreach(parent::s_cat_p_lang($this->title_p_lang,$this->getlang) as $value){
+				$j[]= '{"id":'.json_encode($value['idpage']).',"value":'.json_encode($value['title_page']).'}';
+			}
+			print $this->callback.'(['.implode(',',$j).'])';
+		}else{
+			print $this->callback.'([{"id":"0","value":"Aucune valeur"}])';
+		}
+	}
+	/**
+	 * @access private
+	 * Insertion d'une relation linguistique
+	 * @param integer $idlang_p
+	 */
+	private function insert_new_rel_lang_p($idlang_p){
+		if(isset($idlang_p)){
+			$verify = parent::verify_rel_lang($this->edit, $idlang_p);
+			if(empty($idlang_p)){
+				backend_controller_template::display('request/empty.phtml');
+			}elseif($verify['rel_lang_count'] == '1'){
+				backend_controller_template::display('request/element-exist.phtml');
+			}else{
+				
+				parent::i_new_rel_lang(
+					$this->edit, 
+					$idlang_p
+				);
+				backend_controller_template::display('request/success_conf.phtml');
+			}
+		}
+	}
+	/**
+	 * Suppression d'une relation de langue
+	 * @access private
+	 */
+	private function delete_related_lang(){
+		if(isset($this->del_relang_p)){
+			parent::d_rel_lang_p($this->del_relang_p);
+		}
+	}
+	/**
+	 * Suppression d'une relation de langue
+	 * @access private
+	 */
+	private function delete_page(){
+		if(isset($this->delpage)){
+			$verify = parent::verify_idcat_p($this->delpage);
+			if($verify['childpages'] == '0'){
+				parent::d_page($this->delpage);
+			}else{
+				backend_controller_template::display('cms/request/element-child-exist.phtml');
+			}
+		}
 	}
 	/**
 	 * @access private
@@ -390,18 +473,35 @@ class backend_controller_cms extends backend_db_cms{
 		}
 	}
 	private function json_google_chart(){
-		//if(parent::count_lang_parent_p() != null){
-		foreach (parent::count_lang_parent_p() as $s){
-			$rowParent[]= $s['parent_p_count'];
+		if(parent::count_lang_parent_p() != null){
+			foreach (parent::count_lang_parent_p() as $s){
+				$rowParent[]= $s['parent_p_count'];
+			}
+		}else{
+			$rowParent = array(0);
 		}
-		//}
-		foreach (parent::count_lang_child_p() as $s){
-			$rowChild[]= $s['child_p_count'];
+		if(parent::count_lang_child_p() != null){
+			foreach (parent::count_lang_child_p() as $s){
+				$rowChild[]= $s['child_p_count'];
+			}
+		}else{
+			$rowChild = array(0);
 		}
-		foreach (parent::s_iso_lang() as $s){
-			$rowLang[]= json_encode($s['iso']);
+		if(parent::s_iso_lang() != null){
+			foreach (parent::s_iso_lang() as $s){
+				$rowLang[]= json_encode($s['iso']);
+			}
+		}else{
+			$rowLang = array(0);
 		}
-		print '{"parent_p_count":['.implode(',',$rowParent).'],"child_p_count":['.implode(',',$rowChild).'],"lang":['.implode(',',$rowLang).']}';
+		if(parent::count_related_lang() != null){
+			foreach (parent::count_related_lang() as $s){
+				$relatedLang[]= $s['rel_lang_child'];
+			}
+		}else{
+			$relatedLang = array(0);
+		}
+		print '{"parent_p_count":['.implode(',',$rowParent).'],"child_p_count":['.implode(',',$rowChild).'],"rel_lang_child":['.implode(',',$relatedLang).'],"lang":['.implode(',',$rowLang).']}';
 	}
 	/**
 	 * execute la fonction run pour l'administration CMS
@@ -412,6 +512,14 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isGet('getlang')){
 			if(magixcjquery_filter_request::isGet('json_page_p')){
 				$this->json_parent_p();
+			}elseif(magixcjquery_filter_request::isGet('title_p_lang')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				$this->json_cat_p_lang();
 			}elseif(magixcjquery_filter_request::isGet('get_page_p')){
 				if(magixcjquery_filter_request::isGet('json_child_p')){
 					$this->json_child_page();
@@ -430,8 +538,12 @@ class backend_controller_cms extends backend_db_cms{
 		}elseif(magixcjquery_filter_request::isGet('add_parent_p')){
 			$this->insert_new_page_p($this->title_page,$this->idlang);
 		}elseif(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isPost('title_page')){
+			if(magixcjquery_filter_request::isPost('idlang_p')){
+				$this->insert_new_rel_lang_p($this->idlang_p);
+			}elseif(magixcjquery_filter_request::isPost('title_page')){
 				$this->update_page($this->title_page);
+			}elseif(magixcjquery_filter_request::isPost('del_relang_p')){
+				$this->delete_related_lang();
 			}elseif(magixcjquery_filter_request::isGet('load_json_uri_cms')){
 				$this->load_json_uri_cms($this->edit);
 			}elseif(magixcjquery_filter_request::isGet('json_child_lang_page')){
@@ -448,6 +560,8 @@ class backend_controller_cms extends backend_db_cms{
 			$header->getStatus('200');
 			$header->json_header("UTF-8");
 			self::search_title_page();
+		}elseif(magixcjquery_filter_request::isPost('delpage')){
+			$this->delete_page();
 		}else{
 			if(magixcjquery_filter_request::isGet('json_google_chart_pages')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");

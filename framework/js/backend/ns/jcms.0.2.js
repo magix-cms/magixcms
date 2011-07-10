@@ -135,7 +135,7 @@ var ns_jcms = {
 							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
 							+'<a title="Gestion de la page parente" href="/admin/cms.php?getlang='+idlang+'&get_page_p='+item.idpage+'"><span class="lfloat ui-icon ui-icon-gear"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
-							+'<a title="Suppression" href="#" class="delpage" title="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
+							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
 							'<div style="clear:both;"></div></li>').appendTo('#sort_page_p');
 						}else{
 							return $('<li class="ui-state-default" id="pageorderp_'+item.idpage+'">'
@@ -144,7 +144,7 @@ var ns_jcms = {
 							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
 							+'<a title="Gestion de la page parente" href="/admin/cms.php?getlang='+idlang+'&get_page_p='+item.idpage+'"><span class="lfloat ui-icon ui-icon-gear"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
-							+'<a title="Suppression" href="#" class="delpage" title="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
+							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
 							'</li>').appendTo('#sort_page_p');
 						}
 					});
@@ -224,7 +224,7 @@ var ns_jcms = {
 							+'<div style="float:right;margin-top:-15px;top:0;margin-right:10px;">'
 							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
-							+'<a title="Suppression" href="#" class="delpage" title="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
+							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
 							'<div style="clear:both;"></div></li>').appendTo('#sort_child_page');
 						}else{
 							return $('<li class="ui-state-default" id="pageorderp_'+item.idpage+'">'
@@ -232,7 +232,7 @@ var ns_jcms = {
 							+'<div style="float:right;">'
 							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
-							+'<a title="Suppression" href="#" class="delpage" title="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
+							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
 							'</li>').appendTo('#sort_child_page');
 						}
 					});
@@ -302,7 +302,28 @@ var ns_jcms = {
 						time:2
 					});
 	    			$(".mc-head-request").html(request);
-	    			//ns_jcms._loadChildPage(idlang,idcat_p);
+	    			ns_jcms._load_page_uri(edit);
+	    		}
+	    	});
+			return false;
+		});
+	},
+	_addRelLangPage:function(edit){
+		/**
+		 * Soumission d'une nouvelle page CMS
+		 */
+		$("#forms-add-relatedlang-pages").submit(function(){
+			$(this).ajaxSubmit({
+	    		url: '/admin/cms.php?edit='+edit,
+	    		type:"post",
+	    		resetForm: true,
+	    		success:function(request) {
+	    			$.notice({
+						ntype: "simple",
+						time:2
+					});
+	    			$(".mc-head-request").html(request);
+	    			ns_jcms._child_lang_page(edit);
 	    		}
 	    	});
 			return false;
@@ -345,15 +366,13 @@ var ns_jcms = {
 				}
 				if(j !== null){
 					var tablecat = '<table id="table-child-lang-page" class="table-widget-product">'
-						+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
+						+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th><th>Idpage</th>'
 						+'<th><span class="lfloat magix-icon magix-icon-h1"></span>Titre</th>'
 						+'<th><span class="lfloat ui-icon ui-icon-folder-collapsed"></span></th>'
 						+'<th><span class="lfloat magix-icon magix-icon-igoogle-t"></span></th>'
 						+'<th><span class="lfloat magix-icon magix-icon-igoogle-d"></span></th>'
 						+'<th><span class="lfloat ui-icon ui-icon-flag"></span></th>'
 						+'<th><span class="lfloat ui-icon ui-icon-person"></span></th>'
-						+'<th><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></th>'
-						+'<th><span class="lfloat ui-icon ui-icon-pencil"></span></th>'
 						+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
 						+'</tr></thead>'
 						+'<tbody>';
@@ -362,10 +381,8 @@ var ns_jcms = {
 					$.each(j, function(i,item) {
 						if(item.uri_category != null){
 							category = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
-							movepage = '<td class="small-icon"><a href="/admin/cms.php?movepage='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>';
 						}else{
 							category = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-home"></span></div>';
-							movepage = '<td class="small-icon"> - </td>';
 						}
 						if(item.seo_title_page != 0){
 							metaTitle = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
@@ -383,6 +400,7 @@ var ns_jcms = {
 							flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
 						}
 						return $('<tr>'
+						+'<td>'+item.idrel_lang+'</td>'
 						+'<td>'+item.idpage+'</td>'
 						+'<td class="medium-cell"><a href="/admin/cms.php?edit='+item.idpage+'" class="linkurl">'+item.title_page+'</a></td>'
 						+'<td class="small-icon">'+category+'</td>'
@@ -390,14 +408,11 @@ var ns_jcms = {
 						+'<td class="small-icon">'+metaDesc+'</td>'
 						+'<td class="small-icon">'+flaglang+'</td>'
 						+'<td class="small-icon">'+item.pseudo+'</td>'
-						+movepage
-						+'<td class="small-icon"><a href="/admin/cms.php?edit='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
-						+'<td class="small-icon"><a href="#" class="deletecms" title="'+item.idpage+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+						+'<td class="small-icon"><a href="#" class="drelangpage" rel="'+item.idrel_lang+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
 						'</tr>').appendTo('#table-child-lang-page tbody');
 					});
 				}else{
 					return $('<tr>'
-					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
@@ -538,12 +553,14 @@ var ns_jcms = {
 				 $('#chart-google-page').empty();
 				 var optionsObj = {
 					title: 'CMS Statistics',
-					series: [{label:'Pages parente'},{label:'Pages enfants'}],
+					series: [{label:'Pages parente'},{label:'Pages enfants'},{label:'Langues relative'}],
 					legend: {
 						show: true,
 						location: 'ne',
 						placement: 'outsideGrid'
 					},
+					seriesColors: [ "#4bb2c5", "#EAA228", "#c5b47f", "#579575", "#839557", "#958c12",
+					                "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
 					seriesDefaults:{
 						min: 1,
 						shadow: true,
@@ -570,45 +587,175 @@ var ns_jcms = {
 			            // Pad the y axis just a little so bars can get close to, but
 			            // not touch, the grid boundaries.  1.2 is the default padding.
 			            yaxis: {
-			                pad: 1.2
+			                //pad: 1.2
 			            }
 					}
 				};
-				 $.jqplot('chart-google-page', [j.parent_p_count,j.child_p_count], optionsObj);
+				 $.jqplot('chart-google-page', [j.parent_p_count,j.child_p_count,j.rel_lang_child], optionsObj);
 			}
 		});		
 	},
-	_googlevChart:function(){
-		/*$.getScript('/framework/js/tools/jquery.gvChart-1.0.1.min.js', function() {
-			$('#google-chart-pages').gvChart({
-				chartType: 'BarChart',
-				gvSettings: {
-					vAxis: {title: 'No of players'},
-					hAxis: {title: 'Month'},
-					width: 400,
-					height: 300
+	_autoComplete_cat_p_lang:function(){
+		$("#title_p_lang").autocomplete({
+		    minLength: 2,
+		    scrollHeight: 220, 
+	        source: function(req, add){
+	        	$.ajax({
+	            	url:"/admin/cms.php?callback=?",
+	            	type:"get",
+	            	dataType: 'json',
+	            	data: 'getlang='+$('#idlang option:selected').val()+'&title_p_lang='+req.term,
+	            	async: true,
+	    			cache:false,
+	    			success: function(data){
+	    				var suggestions = [];  
+	                    //process response  
+	                    $.each(data, function(i, val){  
+	                    	suggestions.push({"id": val.id, "value": val.value});  
+	                	});  
+	                	//pass array to callback  
+	                	add(suggestions); 
+	    			}
+	            });
+	    	},
+            select: function(event, ui) {
+                $('#idlang_p').val(ui.item.id);
+            }
+		});
+	},
+	_deletePage:function(child){
+		/**
+	     * Requête ajax pour la suppression des pages CMS
+	     */
+		$('.delpage').live("click",function (e){
+			e.preventDefault();
+			var idpage = $(this).attr("rel");
+			$("#dialog_delete").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:140,
+				modal: true,
+				buttons: {
+					'Delete': function() {
+						$(this).dialog('close');
+						$.ajax({
+							type:'post',
+							statusCode: {
+								0: function() {
+									console.error("jQuery Error");
+								},
+								401: function() {
+									console.warn("access denied");
+								},
+								404: function() {
+									console.warn("object not found");
+								},
+								403: function() {
+									console.warn("request forbidden");
+								},
+								408: function() {
+									console.warn("server timed out waiting for request");
+								},
+								500: function() {
+									console.error("Internal Server Error");
+								}
+							},
+							url: '/admin/cms.php',
+							data: 'delpage='+idpage,
+							async: false,
+							cache:false,
+							success: function(request){
+								//ns_jcms._child_lang_page(edit);
+								if(child == true){
+									ns_jcms._loadChildPage($("#idlang").val(),$('#idcat_p').val());
+								}else{
+									$.notice({
+										ntype: "simple",
+										time:2
+									});
+					    			$(".mc-head-request").html(request);
+									ns_jcms._loadParentPage($("#idlang").val());
+								}
+							}
+					     });
+					},
+					Cancel: function() {
+						$(this).dialog('close');
 					}
+				}
 			});
-		});*/
-		
+		 });
+	},
+	_deleteRelLangPage:function(edit){
+		/**
+	     * Requête ajax pour la suppression des pages CMS
+	     */
+		$('.drelangpage').live("click",function (e){
+			e.preventDefault();
+			var idrel_lang = $(this).attr("rel");
+			$("#dialog_delete").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:140,
+				modal: true,
+				buttons: {
+					'Delete': function() {
+						$(this).dialog('close');
+						$.ajax({
+							type:'post',
+							statusCode: {
+								0: function() {
+									console.error("jQuery Error");
+								},
+								401: function() {
+									console.warn("access denied");
+								},
+								404: function() {
+									console.warn("object not found");
+								},
+								403: function() {
+									console.warn("request forbidden");
+								},
+								408: function() {
+									console.warn("server timed out waiting for request");
+								},
+								500: function() {
+									console.error("Internal Server Error");
+								}
+							},
+							url: '/admin/cms.php?edit='+edit,
+							data: 'del_relang_p='+idrel_lang,
+							async: false,
+							cache:false,
+							success: function(){
+								ns_jcms._child_lang_page(edit);
+							}
+					     });
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+					}
+				}
+			});
+		 });
 	},
 	run:function(){
 		this._initTextChange();
 		this._addParentPage(false,false);
-		//this._googlevChart();
 		this._google_chart_language();
-		//this._loadParentPage($("#idlang").val());
-		//this._initSearchPage();
+		this._initSearchPage();
 	},
 	runParentPage:function(){
 		this._initTextChange();
 		this._addParentPage(true,$("#idlang").val());
 		this._loadParentPage($("#idlang").val());
+		this._deletePage(false);
 	},
 	runChildPage:function(){
 		this._initTextChange();
 		this._addChildPage($("#idlang").val(),$('#idcat_p').val());
 		this._loadChildPage($("#idlang").val(),$('#idcat_p').val());
+		this._deletePage(true);
 	},
 	runEditPage:function(){
 		this._initTextChange();
@@ -616,6 +763,9 @@ var ns_jcms = {
 		this._load_page_uri($("#idpage").val());
 		this._editPage($("#idpage").val());
 		this._initSearchPage();
+		this._autoComplete_cat_p_lang();
+		this._addRelLangPage($("#idpage").val());
 		this._child_lang_page($("#idpage").val());
+		this._deleteRelLangPage($("#idpage").val());
 	}
 };

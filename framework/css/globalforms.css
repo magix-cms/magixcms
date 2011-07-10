@@ -1,6 +1,7 @@
 fieldset{border-width:0;}
 select,.ui-select-menu { float: left; margin-right: 10px; }
 select { width: 220px; }
+.readonly{margin:0;background:#ccc;padding:4px;color:#696969;}
 .table-tinymce{width:100%;}
 .table-btn-preview{width:100%;color:black;}
 /**

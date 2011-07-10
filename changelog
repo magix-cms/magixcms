@@ -1,3 +1,29 @@
+2.3.46
+	* Ajout du système de création de relation linguistique entre les pages CMS
+	* Ajout de la suppression des pages CMS avec contrôle des niveaux.
+	* Mise à jour du fichier SQL d'installation pour accueillir la nouvelle table des relations entre les pages dans différentes langues
+	* Ajout de l'autocomplete pour trouver des pages dans d'autres langues (voir le système de création de relation linguistique)
+	* Ajout de nouvelles icônes dans magix icône
+	
+2.3.45
+	* Début de l'intégration du framework CSS sur le nouveau template
+	* Création des requêtes block pour les news (frontend)
+	* Ajout des statistiques pour les pages CMS (admin)
+	* Suppression de tinymce 3.4.3
+	* Ajout de tinymce 3.4.3.2
+	* Changement des requêtes pour le widget CMS (admin)
+	* Adaptation du moteur de recherche interne des pages dans la structure
+	* Fix bug dans le plugin tinyMCE cmspage (adaptation avec le nouveau moteur de recherches)
+	* Amélioration de l'affichage du plugin youtube dans tinyMCE.
+	* Ajout de la Prévisualisation dans l'édition des pages CMS
+	* Organisation des blocks dans chaque niveau du module CMS (admin)
+	* Ajout de l'édition des pages CMS (module CMS de la version 2.3.5)
+	* Système pour l'ajout de pages parentes (module CMS de la version 2.3.5)
+	* Système pour l'ajout de pages enfants (module CMS de la version 2.3.5)
+	* Ajout du namespace javascript pour le module CMS (admin)
+	* Nouveau plugin pour la gestion des compteurs de champs (easychar)
+	* Correction de la table SQL mc_cms_pages (attribut par défaut dans certain champs)
+	
 2.3.44
 	* Suppression de tinymce 3.4.2
 	* Mise à jour de tinymce 3.4.3
@@ -10,6 +36,12 @@
 	* Ajout du menu "Editeur Wysiwyg" dans la configuration
 	* Ajout du menu "Taille des images" dans la configuration
 	* Modification du module "Réécriture des métas" dans l'administration (Adaptation avec la nouvelle table SQL).
+	* Analyse de la structure des pages CMS dans l'administration.
+	* Analyse du système de langue
+	* Nouvelle structure de base de données pour le module CMS
+	* Ajout des nouvelles réécriture d'url pour le module CMS
+	* Fix bug listing des réécritures de métas (admin)
+	* Ajout du système pour permettre la réécriture des métas dans les plugins
 	
 2.3.43
 	* Fix bug dans le skin cirkuit de tinyMCE (adaptation pour plus de confort)

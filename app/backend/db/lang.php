@@ -60,6 +60,13 @@ class backend_db_lang{
 			':getlang'			=>	$getlang
 		));
     }
+	public function s_exclude_language_data($getlang){
+    	$sql = 'SELECT lang.idlang,lang.iso,lang.language 
+    	FROM mc_lang AS lang WHERE idlang != :getlang';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':getlang'	=>	$getlang
+		));
+    }
 	/**
      * retourne la liste des langues disponible
      */

@@ -30,6 +30,12 @@
 						</div>
 					</div>
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Créer une relation linguistique</a></div>
+						<div class="dashboard-widget-content">
+						{include file="cms/forms/add_related_lang.phtml"}
+						</div>
+					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span class="lfloat magix-icon magix-icon-locale"></span> La page dans une autre langue</div>
 						<div class="dashboard-widget-content">
 							<div id="child-lang-page"></div>
@@ -45,6 +51,9 @@
 			</div>
 		</div>
 	{include file="common/footer.phtml"}
+</div>
+<div id="dialog_delete" style="display:none;">
+	<p>Etes-vous sur de vouloir supprimer cet élément ?</p>
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}

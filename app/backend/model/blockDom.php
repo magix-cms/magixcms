@@ -53,21 +53,27 @@ class backend_model_blockDom{
 			}
 			$block .= '</tr>';
 			return $block;
-		}/*else{
+		}
+	}
+	/**
+	 * Construction du menu select pour la langue avec exclusion
+	 */
+	public static function select_other_lang($idlang){
+		if(backend_db_lang::dblang()->s_exclude_language_data($idlang) != null){
 			$block = '<tr>
-						<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+						<td class="label"><label for="idlang">Langue :</label></td>
 					</tr>
 					<tr>
 						<td>';
 			$block .= '<select id="idlang" name="idlang">';
-			//$block .= '<option value="0">Défaut</option>';
+			foreach(backend_db_lang::dblang()->s_exclude_language_data($idlang) as $slang){
+				$block .= '<option value="'.$slang['idlang'].'">'.$slang['iso'].'</option>';
+			}
 			$block .='</select>';
 			$block .= '</td>';
-			if($cellbutton == true){
-				$block .= '<td><div style="margin:5px;"><input type="submit" value="Envoyer" /></div></td>';
-			}
 			$block .= '</tr>';
-		}*/
+			return $block;
+		}
 	}
 	/**
 	 * Construction du menu select des utilisateurs 

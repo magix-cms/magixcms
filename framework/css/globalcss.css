@@ -761,7 +761,8 @@ ul.plugin-list li{}
 .addseo:hover{font-weight:700px;text-decoration:underline;}
 /*######################## link preview ##########################*/
 .linkurl{text-decoration:underline;}
-.post-preview{margin:5px;}
+.post-preview{margin:2px;}
+.block-preview{min-width:48px;min-height:48px;}
 /*######################## POP UP ##########################*/
 /*######################## SEARCH ##########################*/
 #cms-window-search{margin:5px;}

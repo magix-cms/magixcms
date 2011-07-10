@@ -276,6 +276,23 @@ $(function() {
 	    //Prévisualisation d'images
 	    $(".imagebox").colorbox();
 	    /**
+		 * Ajout d'une classe spécifique au survol d'un éditeur
+		 */
+		$(".block-preview:not(.ui-state-highlight)").hover(
+			function(){
+				if($(this).find('ui-widget-content')){
+					$(this).removeClass("ui-widget-content");
+				}
+				$(this).addClass("ui-state-hover");
+			},
+			function(){ 
+				if(!$(this).hasClass('ui-state-highlight')){
+					$(this).removeClass("ui-state-hover");
+					$(this).addClass("ui-widget-content");
+				}
+			}
+		);
+	    /**
 	     * Sidebar
 	     */
 	    $("#sidebar ul li a").hover(
