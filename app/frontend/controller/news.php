@@ -64,7 +64,6 @@ class frontend_controller_news extends frontend_db_news{
 	function __construct(){
 		if(magixcjquery_filter_request::isGet('strLangue')){
 			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-			//$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
 		}
 		if(magixcjquery_filter_request::isGet('getnews')){
 			$this->getnews = magixcjquery_filter_var::clean($_GET['getnews']);
@@ -91,7 +90,7 @@ class frontend_controller_news extends frontend_db_news{
 	 * offset for pager in pagination
 	 * @param $max
 	 */
-	private function news_offset_pager($max){
+	public function news_offset_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
 		return $pagination->pageOffset($max,$this->getpage);
 	}
@@ -102,59 +101,17 @@ class frontend_controller_news extends frontend_db_news{
 	 */
 	private function news_pager($max){
 		$pagination = new magixcjquery_pager_pagination();
-		$request = parent::s_count_news($this->getlang);
-		return $pagination->pagerData($request,'total',$max,$this->getpage,'/news/','/',false,'page');
+		$request = frontend_db_block_news::s_count_news($this->getlang);
+		$rewrite = new magixglobal_model_rewrite();
+		return $pagination->pagerData($request,'total',$max,$this->getpage,'/'.$this->getlang.$rewrite->mod_news_lang($this->getlang),false,true,'page');
 	}
 	/**
 	 * Retourne la pagination des news
 	 * @param $max
 	 * @access public
 	 */
-	private function news_pagination($max){
+	public function news_pagination($max){
 		return '<div class="pagination"><div class="middle">'.self::news_pager($max).'</div></div>';
-	}
-	/**
-	 * Affiche la liste des news avec la pagination
-	 * @access public
-	 */
-	private function s_all_linknews(){
-		$limit = 5;
-		$max = 5;
-		$news = '';
-		$offset = self::news_offset_pager($max);
-		if(isset($this->getlang)){
-			$news .= '<div class="list-div medium">';
-			foreach(parent::s_news_listing($this->getlang,$limit,$max,$offset) as $pnews){
-				$islang = $pnews['iso'];
-				$curl = new magixglobal_model_dateformat($pnews['date_register']);
-				$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
-				$news .= '<div class="list-div-elem">';
-				$news .='<a class="img">';
-						$news .='<img src="/skin/default/img/catalog/no-picture.png" />';
-					$news .='</a>';
-					
-					$news .='<p class="name">';
-						$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($this->getlang,$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
-					$news .= '</p>';
-					$news .= '<span class="descr">';
-						$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],240,''));
-					$news .= '</span>';
-					$news .= '<div class="clear"></div>';
-					$news .='<div class="date rfloat">'.$datepublish->SQLDate().'</div>';
-					$news .= '<span class="tag">';
-						$news .= '<a href="#">Mon tag</a>, <a href="#">Mon tag</a>, <a href="#">Mon tag</a>, <a href="#">Mon tag</a>, ';
-					$news .= '</span>';
-					$news .= '</div>';
-			}
-			$news .= '</div>';
-		}
-		frontend_model_template::assign('listnews',$news);
-		/*$cnews = parent::s_count_news($this->getlang);
-		if($cnews['total'] >= $max){
-			frontend_model_template::assign('npagination',self::news_pagination($max));
-		}else{
-			frontend_model_template::assign('npagination',null);
-		}*/
 	}
 	/**
 	 * Retourne la page de la news courante
@@ -174,20 +131,12 @@ class frontend_controller_news extends frontend_db_news{
 			}
 		}
 	}
-	/**
-	 * Retourne la page qui liste les news avec pagination
-	 * @access public
-	 */
-	private function display_list(){
-		self::s_all_linknews();
-		frontend_model_template::display('news/index.phtml');
-	}
 	public function run(){
 		if(isset($this->getnews)){
 			$this->display_getnews($this->getnews,$this->getdate);
 			frontend_model_template::display('news/record.phtml');
 		}else{
-			self::display_list();
+			frontend_model_template::display('news/index.phtml');
 		}
 	}
 }

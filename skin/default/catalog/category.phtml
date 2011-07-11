@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content="{rewrite_metas_catalog type='description' category=$clibelle level='1'}"}
-    <title>{rewrite_metas_catalog type='title' category=$clibelle level='1'}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>$clibelle] subcategory=$slibelle category=$clibelle}}
+    <title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>$clibelle] subcategory=$slibelle category=$clibelle}</title>
 {include file="common/css.phtml"}
 </head>
 <body class="catalog cat">

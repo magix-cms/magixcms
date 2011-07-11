@@ -33,6 +33,7 @@
  */
 class backend_controller_cms extends backend_db_cms{
 	public 
+	$idpage,
 	$idlang,
 	$idcat_p,
 	$idlang_p,
@@ -41,11 +42,11 @@ class backend_controller_cms extends backend_db_cms{
 	$content_page,
 	$seo_title_page,
 	$seo_desc_page,
-	$order_page,
+	$pageorderp,
 	$sidebar_page,
 	$rel_title_page;
 	public $getlang,$get_page_p,$edit;
-	public $post_search,$get_search_page,$title_p_lang,$callback;
+	public $post_search,$get_search_page,$title_p_lang,$title_p_move,$callback;
 	public $cat_p_lang;
 	public $del_relang_p,$delpage,$movepage;
 	/**
@@ -76,8 +77,8 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isPost('seo_desc_page')){
 			$this->seo_desc_page = magixcjquery_form_helpersforms::inputClean($_POST['seo_desc_page']);
 		}
-		if(magixcjquery_filter_request::isPost('order_page')){
-			$this->order_page = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['order_page']);
+		if(magixcjquery_filter_request::isPost('pageorderp')){
+			$this->pageorderp = magixcjquery_form_helpersforms::arrayClean($_POST['pageorderp']);
 		}
 		if(magixcjquery_filter_request::isPost('sidebar_page')){
 			$this->sidebar_page = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['sidebar_page']);
@@ -90,6 +91,9 @@ class backend_controller_cms extends backend_db_cms{
 		}
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+		}
+		if(magixcjquery_filter_request::isPost('idpage')){
+			$this->idpage = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idpage']);
 		}
 		if(isset($_POST['post_search'])){
 			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
@@ -117,6 +121,9 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isGet('movepage')){
 			$this->movepage = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['movepage']);
 		}
+		if(magixcjquery_filter_request::isGet('title_p_move')){
+			$this->title_p_move = magixcjquery_form_helpersforms::inputClean($_GET['title_p_move']);
+		}
 		//JQUERY CALLBACK
 		if(magixcjquery_filter_request::isGet('callback')){
 			$this->callback = (string) magixcjquery_form_helpersforms::inputClean($_GET['callback']);
@@ -129,7 +136,7 @@ class backend_controller_cms extends backend_db_cms{
 	private function json_parent_p(){
 		if(parent::s_parent_p($this->getlang) != null){
 			foreach (parent::s_parent_p($this->getlang) as $s){
-				$json[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).'}';
+				$json[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).',"sidebar_page":'.json_encode($s['sidebar_page']).'}';
 			}
 			print '['.implode(',',$json).']';
 		}
@@ -141,7 +148,7 @@ class backend_controller_cms extends backend_db_cms{
 	private function json_child_page(){
 		if(parent::s_child_page($this->get_page_p) != null){
 			foreach (parent::s_child_page($this->get_page_p) as $s){
-				$json[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).'}';
+				$json[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).',"sidebar_page":'.json_encode($s['sidebar_page']).'}';
 			}
 			print '['.implode(',',$json).']';
 		}
@@ -424,6 +431,42 @@ class backend_controller_cms extends backend_db_cms{
 		}
 	}
 	/**
+	 * Execute Update AJAX FOR order
+	 * @access private
+	 *
+	 */
+	private function update_order_page(){
+		if(isset($this->pageorderp)){
+			$p = $this->pageorderp;
+			for ($i = 0; $i < count($p); $i++) {
+				parent::u_orderpage($i,$p[$i]);
+			}
+		}
+	}
+	/**
+	 * @access private
+	 * Modification du status d'une page CMS dans la sidebar
+	 */
+	private function update_sidebar_status(){
+		if(isset($this->idpage) AND isset($this->sidebar_page)){
+			parent::u_status_sidebar_page($this->sidebar_page, $this->idpage);
+		}
+	}
+	/**
+	 * @access private
+	 * Retourne les pages CMS suivant la langue pour l'autocomplete
+	 */
+	private function json_parent_cat_p(){
+		if(parent::s_parent_cat_p($this->title_p_move,$this->getlang) != null){
+			foreach(parent::s_parent_cat_p($this->title_p_move,$this->getlang) as $value){
+				$j[]= '{"id":'.json_encode($value['idpage']).',"value":'.json_encode($value['title_page']).'}';
+			}
+			print $this->callback.'(['.implode(',',$j).'])';
+		}else{
+			print $this->callback.'([{"id":"0","value":"Aucune valeur"}])';
+		}
+	}
+	/**
 	 * @access private
 	 * Rechercher une page CMS via les titres et retourne sous forme JSON
 	 */
@@ -476,6 +519,10 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * Requête JSON pour les statistiques du CMS
+	 */
 	private function json_google_chart(){
 		if(parent::count_lang_parent_p() != null){
 			foreach (parent::count_lang_parent_p() as $s){
@@ -507,6 +554,11 @@ class backend_controller_cms extends backend_db_cms{
 		}
 		print '{"parent_p_count":['.implode(',',$rowParent).'],"child_p_count":['.implode(',',$rowChild).'],"rel_lang_child":['.implode(',',$relatedLang).'],"lang":['.implode(',',$rowLang).']}';
 	}
+	/**
+	 * @access private
+	 * Charge les données pour le déplacement d'une page CMS
+	 * @param integer $movepage
+	 */
 	protected function load_data_move_page($movepage){
 		$db = parent::s_edit_page($movepage);
 			backend_controller_template::assign('idpage', $db['idpage']);
@@ -514,6 +566,26 @@ class backend_controller_cms extends backend_db_cms{
 			backend_controller_template::assign('iso', $db['iso']);
 			backend_controller_template::assign('uri_page', $db['uri_page']);
 			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+	}
+	/**
+	 * @access private
+	 * Modifie l'emplacement d'une page CMS
+	 */
+	protected function update_move_page(){
+		if(isset($this->idlang) AND isset($this->movepage)){
+			$verify = parent::verify_idcat_p($this->movepage);
+			if($verify['childpages'] == '0'){
+				if($this->idcat_p != null){
+				$idcat_p = $this->idcat_p;
+				}else{
+					$idcat_p = 0;
+				}
+				parent::u_move_page($this->idlang, $idcat_p, $this->movepage);
+				backend_controller_template::display('request/success_conf.phtml');
+			}else{
+				backend_controller_template::display('cms/request/element-child-exist.phtml');
+			}
+		}
 	}
 	/**
 	 * execute la fonction run pour l'administration CMS
@@ -532,6 +604,14 @@ class backend_controller_cms extends backend_db_cms{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				$this->json_cat_p_lang();
+			}elseif(magixcjquery_filter_request::isGet('title_p_move')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				$this->json_parent_cat_p();
 			}elseif(magixcjquery_filter_request::isGet('get_page_p')){
 				if(magixcjquery_filter_request::isGet('json_child_p')){
 					$this->json_child_page();
@@ -565,8 +645,12 @@ class backend_controller_cms extends backend_db_cms{
 				backend_controller_template::display('cms/edit.phtml');
 			}
 		}elseif(magixcjquery_filter_request::isGet('movepage')){
-			$this->load_data_move_page($this->movepage);
-			backend_controller_template::display('cms/movepage.phtml');
+			if(magixcjquery_filter_request::isPost('idlang')){
+				$this->update_move_page();
+			}else{
+				$this->load_data_move_page($this->movepage);
+				backend_controller_template::display('cms/movepage.phtml');
+			}
 		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
 			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
@@ -577,6 +661,10 @@ class backend_controller_cms extends backend_db_cms{
 			self::search_title_page();
 		}elseif(magixcjquery_filter_request::isPost('delpage')){
 			$this->delete_page();
+		}elseif(magixcjquery_filter_request::isPost('idpage')){
+			$this->update_sidebar_status();
+		}elseif(magixcjquery_filter_request::isGet('order_page')){
+			$this->update_order_page();
 		}else{
 			if(magixcjquery_filter_request::isGet('json_google_chart_pages')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");

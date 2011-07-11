@@ -80,7 +80,7 @@ class magixglobal_model_rewrite{
 	 * Identification de la traduction des urls du module news
 	 * @param string $lang
 	 */
-	private function mod_news_lang($lang){
+	public function mod_news_lang($lang){
 		switch($lang){
 				case 'fr':
 				$langsession = '/actualites/';

@@ -31,6 +31,11 @@
  *
  */
 class backend_db_cms{
+	/**
+	 * @access protected
+	 * Sélectionne les pages parentes dans la langue
+	 * @param integer $getlang
+	 */
 	protected function s_parent_p($getlang){
     	$sql = 'SELECT cms.*,lang.iso
     	FROM mc_cms_pages AS cms 
@@ -41,6 +46,11 @@ class backend_db_cms{
 			':getlang' => $getlang
 		));
 	}
+	/**
+	 * @access protected
+	 * Sélectionne les pages enfants du parent
+	 * @param integer $get_page_p
+	 */
 	protected function s_child_page($get_page_p){
 		$sql = 'SELECT cms.*,lang.iso
     	FROM mc_cms_pages AS cms 
@@ -51,6 +61,11 @@ class backend_db_cms{
 			':get_page_p' => $get_page_p
 		));
 	}
+	/**
+	 * @access protected
+	 * Compte le nombre de page parente dans la langue
+	 * @param integer $idlang
+	 */
 	private function s_max_parent_order_page($idlang){
     	$sql = 'SELECT count(cms.order_page) porder 
     	FROM mc_cms_pages AS cms
@@ -59,6 +74,11 @@ class backend_db_cms{
 			':idlang'	=>	$idlang
 		));
     }
+    /**
+     * @access protected
+     * Compte le nombre de page enfant du parent
+     * @param integer $get_page_p
+     */
 	private function s_max_child_order_page($get_page_p){
     	$sql = 'SELECT count(cms.order_page) porder 
     	FROM mc_cms_pages AS cms
@@ -75,6 +95,11 @@ class backend_db_cms{
 			':idlang'	=>	$idlang
 		));
     }*/
+    /**
+     * @access protected
+     * Retourne les données de la page parente pour la page courante
+     * @param integer $get_page_p
+     */
 	protected function s_current_page_p($get_page_p){
     	$sql = 'SELECT cms.*,lang.iso
     	FROM mc_cms_pages AS cms 
@@ -84,6 +109,11 @@ class backend_db_cms{
 			':get_page_p' => $get_page_p
 		));
 	}
+	/**
+	 * @access protected
+	 * Retourne les données pour l'édition de la page
+	 * @param integer $edit
+	 */
 	protected function s_edit_page($edit){
     	$sql = 'SELECT cms.*,lang.iso
     	FROM mc_cms_pages AS cms 
@@ -93,6 +123,11 @@ class backend_db_cms{
 			':edit' => $edit
 		));
 	}
+	/**
+	 * @access protected
+	 * Retourne les pages relative dans une autre langue
+	 * @param integer $getlang_p
+	 */
 	protected function s_child_lang_current_page($getlang_p){
     	$sql = 'SELECT relang.idrel_lang,p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
 		FROM mc_cms_rel_lang AS relang
@@ -105,6 +140,12 @@ class backend_db_cms{
 			':getlang_p' => $getlang_p
 		));
 	}
+	/**
+	 * @access protected
+	 * Vérifie si la page contient une relation dans cette langue
+	 * @param integer $edit
+	 * @param integer $idlang_p
+	 */
 	protected function verify_rel_lang($edit,$idlang_p){
 		$sql = 'SELECT count(relang.idrel_lang) as rel_lang_count 
 		FROM mc_cms_rel_lang AS relang
@@ -114,6 +155,11 @@ class backend_db_cms{
 			':idlang_p'=>$idlang_p
 		));
 	}
+	/**
+	 * @access protected
+	 * Compte le nombre d'enfant de la page parente
+	 * @param integer $idpage
+	 */
 	protected function verify_idcat_p($idpage){
 		$sql = 'SELECT count(p.idcat_p) as childpages 
 		FROM mc_cms_pages AS p
@@ -134,6 +180,7 @@ class backend_db_cms{
 		));
 	}*/
 	/**
+	 * @access protected
 	 * Affiche les données d'une page CMS
 	 * @param $getidpage
 	 */
@@ -171,7 +218,11 @@ class backend_db_cms{
 		WHERE p.title_page LIKE "%'.$searchpage.'%"';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
-	//Statistiques
+	/*######################## Statistiques ##############################*/
+	/**
+	 * @access protected
+	 * Compte le nombre de page parente par langue
+	 */
 	protected function count_lang_parent_p(){
 		$sql = 'SELECT lang.iso,count(cms.idpage) as parent_p_count 
 		FROM mc_cms_pages AS cms
@@ -180,6 +231,10 @@ class backend_db_cms{
 		GROUP BY cms.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+	/**
+	 * @access protected
+	 * Compte le nombre de page enfant par langue
+	 */
 	protected function count_lang_child_p(){
 		$sql = 'SELECT lang.iso,count(cms.idpage) as child_p_count 
 		FROM mc_cms_pages AS cms
@@ -188,19 +243,48 @@ class backend_db_cms{
 		GROUP BY cms.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+	/**
+	 * @access protected
+	 * Compte le nombre de page relative dans chaque langue
+	 */
 	protected function count_related_lang(){
-		$sql = 'SELECT lang.iso,count(cms.idpage) as rel_lang_child 
-		FROM mc_cms_pages AS cms
-		JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
-		WHERE cms.idlang_p != 0
-		GROUP BY cms.idlang';
+		$sql = 'SELECT count(relang.idpage) as rel_lang_child 
+		FROM mc_cms_rel_lang AS relang
+		GROUP BY relang.idpage';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+	/**
+	 * @access protected
+	 * Retourne les langues pour la constitution des statistiques
+	 */
 	protected function s_iso_lang(){
     	$sql = 'SELECT lang.iso FROM mc_lang AS lang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
-    //SEARCH
+    /*###################### AUTOCOMPLETE #########################*/
+	/**
+     * 
+     * Recherche une page dans la langue sélectionner n'appartenant à aucune page
+     * @param string $title_p_move
+     * @param integer $idlang
+     */
+	protected function s_parent_cat_p($title_p_move,$idlang){
+		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
+		FROM mc_cms_pages AS p
+		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
+		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
+		WHERE p.idlang = :idlang AND p.title_page LIKE "%'.$title_p_move.'%" AND p.idcat_p = 0';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':idlang'=>$idlang
+		));
+	}
+    /**
+     * 
+     * Recherche une page dans la langue sélectionner
+     * @param string $title_p_lang
+     * @param integer $idlang
+     */
 	protected function s_cat_p_lang($title_p_lang,$idlang){
 		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
 		FROM mc_cms_pages AS p
@@ -212,7 +296,7 @@ class backend_db_cms{
 			':idlang'=>$idlang
 		));
 	}
-	//Insertion
+	/* ########################### Insertion #############################*/
 	/**
 	 * 
 	 * Insertion d'une nouvelle page parent
@@ -240,6 +324,18 @@ class backend_db_cms{
 			':order_page'		=>	$order_page['porder'] + 1
 		));
 	}
+	/**
+	 * @access protected
+	 * insertion d'une nouvelle page enfant dans un parent
+	 * @param integer $idadmin
+	 * @param integer $idlang
+	 * @param integer $idcat_p
+	 * @param string $title_page
+	 * @param string $uri_page
+	 * @param string $content_page
+	 * @param string $seo_title_page
+	 * @param string $seo_desc_page
+	 */
 	protected function i_new_child_page($idadmin,$idlang,$idcat_p,$title_page,$uri_page,$content_page,$seo_title_page,$seo_desc_page){
 		$order_page = $this->s_max_child_order_page($idlang);
 		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,idcat_p,title_page,uri_page,content_page,seo_title_page,seo_desc_page,order_page) 
@@ -257,6 +353,12 @@ class backend_db_cms{
 			':order_page'		=>	$order_page['porder'] + 1
 		));
 	}
+	/**
+	 * @access protected
+	 * Insertion d'une nouvelle relation de langue
+	 * @param integer $edit
+	 * @param integer $idlang_p
+	 */
 	protected function i_new_rel_lang($edit,$idlang_p){
 		$sql = 'INSERT INTO mc_cms_rel_lang (idpage,idlang_p) 
 		VALUE(:edit,:idlang_p)';
@@ -266,6 +368,17 @@ class backend_db_cms{
 			':idlang_p'			=>	$idlang_p,
 		));
 	}
+	/**
+	 * @access protected
+	 * Modifie une page CMS
+	 * @param integer $idadmin
+	 * @param string $title_page
+	 * @param string $uri_page
+	 * @param string $content_page
+	 * @param string $seo_title_page
+	 * @param string $seo_desc_page
+	 * @param integer $edit
+	 */
 	protected function u_page($idadmin,$title_page,$uri_page,$content_page,$seo_title_page,$seo_desc_page,$edit){
 		$sql = 'UPDATE mc_cms_pages 
 		SET idadmin=:idadmin,title_page=:title_page,uri_page=:uri_page,content_page=:content_page,seo_title_page=:seo_title_page,seo_desc_page=:seo_desc_page
@@ -281,6 +394,51 @@ class backend_db_cms{
 			':edit'				=>	$edit
 		));
 	}
+	/**
+	 * Met à jour l'ordre d'affichage des pages
+	 * @param $i
+	 * @param $id
+	 */
+	protected function u_orderpage($i,$id){
+		$sql = 'UPDATE mc_cms_pages SET order_page = :i WHERE idpage = :id';
+		magixglobal_model_db::layerDB()->update($sql,
+			array(
+			':i'=>$i,
+			':id'=>$id
+			)
+		);
+	}
+	/**
+	 * @access protected
+	 * Mise à jour du status de la page CMS
+	 * @param integer $sidebar_page
+	 * @param integer $idpage
+	 */
+	protected function u_status_sidebar_page($sidebar_page,$idpage){
+		$sql = 'UPDATE mc_cms_pages SET sidebar_page = :sidebar_page WHERE idpage = :idpage';
+		magixglobal_model_db::layerDB()->update($sql,
+			array(
+			':sidebar_page'	=>	$sidebar_page,
+			':idpage'		=>	$idpage
+			)
+		);
+	}
+	protected function u_move_page($idlang,$idcat_p,$movepage){
+		$sql = 'UPDATE mc_cms_pages 
+		SET idlang=:idlang,idcat_p=:idcat_p
+		WHERE idpage=:movepage';
+		magixglobal_model_db::layerDB()->update($sql,
+		array(
+			':idlang'		=>	$idlang,
+			':idcat_p'		=>	$idcat_p,
+			':movepage'		=>	$movepage
+		));
+	}
+	/**
+	 * @access protected
+	 * Supprime une relation de page
+	 * @param integer $delrelangpage
+	 */
 	protected function d_rel_lang_p($delrelangpage){
 		$sql = 'DELETE FROM mc_cms_rel_lang WHERE idrel_lang = :delrelangpage';
 		magixglobal_model_db::layerDB()->delete($sql,
@@ -288,6 +446,11 @@ class backend_db_cms{
 			':delrelangpage'=>$delrelangpage
 		));
 	}
+	/**
+	 *  @access protected
+	 * Supprime une page CMS
+	 * @param integer $delpage
+	 */
 	protected function d_page($delpage){
 		$sql = 'DELETE FROM mc_cms_pages WHERE idpage = :delpage';
 		magixglobal_model_db::layerDB()->delete($sql,

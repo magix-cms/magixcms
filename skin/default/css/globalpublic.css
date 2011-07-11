@@ -817,9 +817,22 @@ h1.title, h2.title, h3.title, h4.title, h5.title, h6.title, p.title, span.title,
 	margin-left:0;
 	margin-right: 0;
 	margin-top: 0;
+    overflow: hidden;	
 	padding:0;
 	width: auto;
 }	
+
+.list-div.bg, .list-div.border, .list-div.border.dark, .list-div.border.light, .list-div.bg.dark, .list-div.bg.light  {
+	background: none;
+	border:none;
+	margin-left:0;
+	margin-right: 0;
+	margin-top: 0;
+    overflow: hidden;
+	padding:0;
+	width: auto;
+}
+
 
 *+html .list-div {
 	margin-left:0;
@@ -830,308 +843,319 @@ h1.title, h2.title, h3.title, h4.title, h5.title, h6.title, p.title, span.title,
 }	
 	
 .list-div-elem {
-	background-color: transparent;
-	background-image: url(/skin/default/img/framework-css/list-div/list-div-elem-bg.png);
-	background-position: left bottom;
-	background-repeat: repeat-x;
-    border-bottom: 1px solid #EEEEEE;
     display:block;
-    margin: 0;
-    overflow: auto;
-	padding: 5px 0px 11px 5px;
+    margin: 0 0 11px 0;
+    overflow: hidden;
+    padding: 0 5px;
 	text-decoration: none;
 	width: auto;
 }
 
-	.bg.dark .list-div-elem {
-		background-image: url(/skin/default/img/framework-css/list-div/list-div-elem-bg-dark.png);
-	    border-bottom: 1px solid #951B81;
+	.list-div-elem:hover{
+		background-color: #FFFFFF;
+		z-index:1;
+	}
+	/*+html .list-div-elem:hover{
+		z-index:1;
+	}*/
+
+
+	/* default bg et border */
+	.list-div.bg .list-div-elem {
+		background-color: #CCCCCC;
+		background-position: left bottom;
+		background-repeat: repeat-x;
+		padding: 5px 5px 11px 5px;
 	}
 
-/**+html .list-div .list-div-elem {
-	background-color: #E5E5E7; /* Fix hover issue with bg-color 
-    border-bottom: 1px solid #CCCCCC;
-    display:block;
-    margin: 0;
-    min-width: 1px;
-	padding: 2px 5px 5px 0px; /* Half-fix issue with size 
-	text-decoration: none;
-}*/
-	/* 1/2 de 11/16*/
-
-	.list-div.w11-32.medium .list-div-elem {
-	    min-height: 100px;
-	}
-
-	.list-div.w11-32 .list-div-elem {
-	    float:left;
-	    min-height: 105px;
-		margin-right: 11px;
-		width: 327px;
-	}
-	
-	.col.bg.list-div.w11-32 .list-div-elem {
-		width: 322px;
-	}
-
-	.col.border.list-div.w11-32 .list-div-elem {
-		width: 321px;
-	}
-	
-		/* 1/2 de 1/6 dans des block bg */
-	
-		.bg .list-div.w11-32 .list-div-elem {
-			width: 322px;
+		.list-div.bg .list-div-elem:hover {
+			background-color: #FFFFFF;	
 		}
 
-		.bg .col.bg.list-div.w11-32 .list-div-elem {
+	.list-div.border .list-div-elem {
+		border: 1px solid #CCCCCC;
+		padding: 5px 5px 11px 5px;
+	}
+
+		.list-div.border .list-div-elem:hover {
+			border: 1px solid #FFFFFF;	
+		}
+
+
+/* 1/2 de 11/16*/
+
+.list-div.w11-32 .list-div-elem {
+    float:left;
+    min-height: 90px;
+    margin-bottom: 11px;
+	margin-right: 11px;
+	width: 322px;
+}
+
+.list-div.w11-32.medium .list-div-elem {
+    min-height: 105px;
+}
+
+	/* 1/2 de 11-16 avec bg et boder */	
+	.list-div.w11-32.bg .list-div-elem {
+		width: 322px;
+	}
+	
+	.list-div.w11-32.border .list-div-elem {
+		width: 320px;
+	}
+	
+		/* 1/2 de 11/6 dans des block bg */
+	
+		.bg .list-div.w11-32 .list-div-elem {
 			width: 317px;
 		}
 
-		.bg .col.border.list-div.w11-32 .list-div-elem {
-			width: 316px;
+		.bg .list-div.w11-32.bg .list-div-elem {
+			width: 317px;
+		}
+
+		.bg .list-div.w11-32.border .list-div-elem {
+			width: 315px;
 		}		
 		
 		/* 1/2 de 1/6 dans des block border */
 		.border .list-div.w11-32 .list-div-elem {
-			width: 321px;
+			width: 316px;
 		}
 		
-		.border .col.bg.list-div.w11-32 .list-div-elem {
+		.border .list-div.w11-32.bg .list-div-elem {
 			width: 316px;
 		}
 
-		.border .col.border.list-div.w11-32 .list-div-elem {
+		.border .list-div.w11-32.border .list-div-elem {
 			width: 315px;
-		}		
+		}
+	
+/* 1/4 de 11/16 */
+.list-div.w11-64.medium .list-div-elem {
+    min-height: 245px;
+}
 
+.list-div.w11-64 .list-div-elem {
+    float:left;
+    min-height: 140px;
+	margin-right: 11px;
+	width: 150px;
+}
 	
-	/* 1/4 de 11/16 */
-	
-	.list-div.w11-64.medium .list-div-elem {
-	    min-height: 330px;
+	/* 1/4 de 11-16 avec bg et boder */	
+	.list-div.w11-64.bg .list-div-elem {
+		width: 150px;
 	}
 
-	.list-div.w11-64 .list-div-elem {
-	    float:left;
-	    min-height: 105px;
-		margin-right: 11px;
-		width: 155px;
-	}
-	
-	.col.bg.list-div.w11-64 .list-div-elem {
-		width: 153px;
-	}
-
-	.col.border.list-div.w11-64 .list-div-elem {
-		width: 152px;
+	.list-div.w11-64.border .list-div-elem {
+		width: 148px;
 	}
 
 		/* 1/4 de 11/16  dans des block bg*/
 		.bg .list-div.w11-64 .list-div-elem {
-			width: 153px;
+			width: 148px;
 		}
 
-		.bg  .col.bg.list-div.w11-64 .list-div-elem {
-			width: 150px;
+		.bg  .list-div.w11-64.bg .list-div-elem {
+			width: 148px;
 		}
 
-		.bg .col.border.list-div.w11-64 .list-div-elem {
-			width: 150px;
+		.bg .list-div.w11-64.border .list-div-elem {
+			width: 146px;
 		}
 
-		/* 1/4 de 11/16  dans des block ou col border*/
+		/* 1/4 de 11/16  dans des block border*/
 		.border .list-div.w11-64 .list-div-elem {
-			width: 152px;
+			width: 147px;
 		}
 
-		.border  .col.bg.list-div.w11-64 .list-div-elem {
-			width: 150px;
+		.border  .list-div.w11-64.bg .list-div-elem {
+			width: 147px;
 		}
 
-		.border .col.border.list-div.w11-64 .list-div-elem {
-			width: 149px;
+		.border .list-div.w11-64.border .list-div-elem {
+			width: 145px;
 		}
 
 
-	/* 1/2 de 5/16 */
-	.list-div.w5-32 .list-div-elem {
-	    float:left;
-	    min-height: 235px;
-		margin-right: 11px;
-		width: 140px;
-	}
-	
-	.list-div.w5-32.medium .list-div-elem {
-	    min-height: 330px;
-	}
-	
-	.col.bg.list-div.w5-32 .list-div-elem {
+/* 1/2 de 5/16 */
+.list-div.w5-32 .list-div-elem {
+    float:left;
+	margin-right: 11px;
+    min-height: 128px;
+	width: 135px;
+}
+
+.list-div.w5-32.medium .list-div-elem {
+    min-height: 290px;
+}
+
+	/* 1/2 de 5-16 avec bg et border */	
+	.list-div.w5-32.bg .list-div-elem {
 		width: 135px;
 	}
-
-	.col.border.list-div.w5-32 .list-div-elem {
-		width: 134px;
+	
+	.list-div.w5-32.border .list-div-elem {
+		width: 133px;
 	}
 
 		/* 1/2 de 5/16 avec parent bg */
 		.bg .list-div.w5-32 .list-div-elem {
-			width: 135px;
-		}
-
-		.bg .list-div.bg.w5-32 .list-div-elem {
 			width: 130px;
 		}
-
-		.bg .list-div.border.w5-32 .list-div-elem {
-			width: 129px;
+	
+		.bg .list-div.w5-32.bg .list-div-elem {
+			width: 130px;
 		}
-
-		/* 1/2 de 5/16 avec parent border */
-		.border .list-div.w5-32 .list-div-elem {
-			width: 133px;
-		}
-
-		.border .list-div.bg.w5-32 .list-div-elem {
-			width: 129px;
-		}
-
-		.border .list-div.border.w5-32 .list-div-elem {
+	
+		.bg .list-div.w5-32.border .list-div-elem {
 			width: 128px;
 		}
+	
+		/* 1/2 de 5/16 avec parent border */
+		.border .list-div.w5-32 .list-div-elem {
+			width: 128px;
+		}
+	
+		.border .list-div.w5-32.bg .list-div-elem {
+			width: 128px;
+		}
+	
+		.border .list-div.w5-32.border .list-div-elem {
+			width: 126px;
+		}
 
-.list-div-elem:hover{
-	background-color: #FFFFFF;
-	z-index:1;
-}
-
-+html .list-div-elem:hover{
-	z-index:1;
-}
 
 .list-div .list-div-elem.last {
 	margin-right: 0px;
 }
 
-	/** inside list-div-elem START **/
-	.list-div-elem .name {	
-	   font-size: 15px;
-	   line-height: 17px;
-	   margin: 0 0 6px 0;
-	   text-decoration: none;
-	}       
-	
-		.list-div.medium.w11-32 .list-div-elem .name {
-			min-height: 30px;
-		}
-	
-		.list-div.medium.w11-64 .list-div-elem .name {
-			min-height: 65px;
-		}
-	
-		.list-div.w5-32 .list-div-elem  .name {
-			min-height: 65px;
-		}
-	
-	.list-div .list-div-elem .name a {
-		color: #662483;
-	   font-size: 16px;
-	   margin: 0;
-	   text-decoration: underline;
-	}       
-	
-	.list-div-elem .name a:hover {
-	   text-decoration: underline;
+/** DESIGN list-div-elem inside START **/
+/*default*/	
+
+/* .list-div-elem .name start */
+.list-div-elem .name {	
+	margin: 0 0 6px 0;
+	text-decoration: none;
+}       
+
+.list-div .list-div-elem .name a {
+	color: #662483;
+	font-size: 14px;
+	line-height: 17px;
+	margin: 0;
+	text-decoration: none;
+} 
+	.list-div.medium .list-div-elem .name a {
+		font-size: 17px;
+		line-height: 22px;
 	}
-	
-		.list-div.medium .list-div-elem .name a {
-		   font-size: 16px;
-		   line-height: 21px;
-		   text-decoration: none;
-		}       
-	
-	.list-div-elem  a.img {
-		display: block;
+
+	.list-div.w11-32 .list-div-elem .name {
+		min-height: 30px;
+	}
+
+	.list-div.w11-64 .list-div-elem .name {
+		min-height: 45px;
+	}
+
+	.list-div.w5-32 .list-div-elem  .name {
+   		min-height: 45px;	
+   }
+
+.list-div-elem .name a:hover {
+   text-decoration: underline;
+}
+/* .list-div-elem .name END */
+
+/* .list-div-elem a.img start */
+.list-div-elem  a.img {
+	display: block;
+	float:right;
+	margin-left: 6px;
+	margin-bottom: 5px;
+	max-height: 50px;
+	overflow: hidden;
+	width: 50px;
+}
+
+.list-div-elem  a.img img {
+	min-height: 50px;
+	min-width: 50px;
+	max-height: 70px;
+	max-width: 70px;
+
+}
+
+	/* Medium display*/
+	.list-div.medium .list-div-elem  a.img {
 		float:right;
-		margin-left: 6px;
-		max-height: 50px;
-		overflow: hidden;
-		width: 50px;
+		margin-left: 0;
+		max-height: 88px;
+		width: 88px;
 	}
 	
-	.list-div-elem  a.img img {
-		min-height: 50px;
-		min-width: 50px;
-		max-height: 70px;
-		max-width: 70px;
-	
+	.list-div.medium .list-div-elem  a.img img {
+		min-height: 88px;
+		min-width: 88px;
+		max-height: 145px;
+		max-width: 145px;
 	}
 	
-		.list-div.medium .list-div-elem  a.img {
-			float:right;
-			margin-left: 6px;
-			max-height: 88px;
-			width: 88px;
-		}
-		
-		.list-div.medium .list-div-elem  a.img img {
-			min-height: 88px;
-			min-width: 88px;
-			max-height: 145px;
-			max-width: 145px;
-		}
-	
-		.list-div.medium.w11-64 .list-div-elem a.img {
-			float: none;
-			margin-bottom: 5px;
-			text-align: center;
-			width: 147px;
-		}
-	
-		.list-div.medium.w5-32 .list-div-elem a.img {
-			float: none;
-			margin-bottom: 5px;
-			text-align: center;
-			width: 127px;
-		}
-	
-	.list-div-elem .descr {
-		font-size: 12px;
-	    line-height: 14px;   
-	} 
-	
-		.list-div.medium .list-div-elem .descr {
-		   font-size: 11px;
-	       line-height: 14px;
-		} 
-	
-	.list-div-elem .date {
-		display:block;
-		font-size: 11px;
-		font-weight: normal;
+	/* Medium display w11-64 and w5-32 */
+	.list-div.medium.w11-64 .list-div-elem a.img {
+		float: none;
+		text-align: center;
+		width: 147px;
+	}
+
+	.list-div.medium.w5-32 .list-div-elem a.img {
+		float: none;
 		margin-bottom: 5px;
+		text-align: center;
+		width: 127px;
 	}
-	
-	.list-div-elem .place {
-		font-weight: normal;
-		font-size: 11px;
-	}
-	
-	.list-div-elem .user {
-		font-weight: normal;
-		font-size: 11px;
-	}
-	
+/* .list-div-elem a.img end */
+
+.list-div-elem .descr {
+	font-size: 11px;
+    line-height: 14px;   
+} 
+
+	.list-div.medium .list-div-elem .descr {
+	   font-size: 13px;
+       line-height: 14px;
+	} 
+
+.list-div-elem .date {
+	display:block;
+	font-size: 11px;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+
+.list-div-elem .place {
+	font-weight: normal;
+	font-size: 11px;
+}
+
+.list-div-elem .user {
+	font-weight: normal;
+	font-size: 11px;
+}
+
 	.list-div-elem .user a {
 		font-weight: normal;
 		font-size: 11px;
 	}
-	
-	.list-div-elem .tag {
-		display:block;
-		margin: 5px 0;
-	}
-	/** inside list-div-elem END **/
+
+.list-div-elem .tag {
+	display:block;
+	margin: 5px 0;
+}
+/** inside list-div-elem END **/
 /** LIST_DIV END**/
 /** LIST UL LI START **/
 .list-li,
@@ -1490,7 +1514,6 @@ ul#catalog-hierarchy {
 	background: transparent;
 	padding: 3px 0 1px 5px;
 }
-
 /* list navigation treeview END */
 /** LIST UL LI END **/	
 
@@ -1505,7 +1528,6 @@ ul#catalog-hierarchy {
 /** pagination END **/
 	
 /** Fil d'ariane START **/	
-
 ul.ariane {
 	border-bottom: 1px solid #CCCCCC ;
 	margin: 0 0 11px 0;
@@ -1525,7 +1547,6 @@ ul.ariane span {
 	color: #4c4c4c;
 	font-size: 11px;
 }
-
 /** Fil d'ariane END **/	
 
 .last {
@@ -1533,7 +1554,6 @@ ul.ariane span {
 }
 /** CLASS POSITIONEMENTS END */
 /** CLASS DESIGN START **/
-
 /*Date*/
 .date {
 	color: #4c4c4c;
@@ -1611,12 +1631,22 @@ p.dark {
 	}
 
 
-/* list-div dark*/
-.bg.dark .list-div-elem:hover,
+/* list-div dark START*/
+.list-div.bg.dark .list-div-elem {
+	background-color: #662483;
+	background-image: url(/skin/default/img/framework-css/list-div/list-div-elem-bg-dark.png);
+    border-bottom: 1px solid #951B81;
+}
+
 .list-div.bg.dark .list-div-elem:hover {
 	background-color: #000000;
 	z-index:1;
 }
+
+.list-div.bg.dark, .list-div.bg.dark .name, .list-div.bg.dark .name a, .list-div.bg.dark .descr, .list-div.bg.dark .price, .list-div.bg.dark .date, .list-div.bg.dark .place, .list-div.bg.dark .user, .list-div.bg.dark .user a{
+	color:#FFFFFF;
+}
+/*list-div dark END*/
 
 .bg.dark .button,
 .bg.dark .button span {
@@ -1654,7 +1684,6 @@ p.dark {
 	background-position: right -49px;
 	color: #FFFFFF;
 	}
-
 
 
 /* Style light */
@@ -1704,6 +1733,21 @@ p.dark {
 		background-color: transparent;
 		background-image: url(/skin/default/img/framework-css/block/bg-bottom-light-w5-16.png);
 	}
+/*list-div light START*/
+.list-div.bg.light .list-div-elem {
+	background-image: url(/skin/default/img/framework-css/list-div/list-div-elem-bg.png);
+	background-color: #FFFFFF;
+}
+
+.list-div.bg.light .list-div-elem:hover {
+	background-color: #EEEEEE;
+	z-index:1;
+}
+
+.list-div.bg.light, .list-div.bg.light .name, .list-div.bg.light .name a, .list-div.bg.light .descr, .list-div.bg.light .price, .list-div.bg.light .date, .list-div.bg.light .place, .list-div.bg.light .user, .list-div.bg.light .user a{
+	color: #4c4c4c;
+}
+/*list-div light END*/
 
 /*list ul li light */
 .list-li.bg.light li .date {
@@ -1714,17 +1758,6 @@ p.dark {
 	background-color: #CCCCCC;
 }
 
-/*list-div light*/
-.bg.light .list-div .list-div-elem:hover,
-.list-div.bg.light .list-div-elem:hover {
-	background-color: #CCCCCC;
-	z-index:1;
-}
-
-.list-div.bg.light .list-div-elem {
-	background: transparent;
-	border: none;
-}
 
 /*title light */
 .title.bg.light  {
@@ -1745,8 +1778,6 @@ p.dark {
 	background-position: left top;
 	color: #222;
 }
-
-		
 
 /* Boutton light */
 .button.light {
@@ -2022,11 +2053,6 @@ p.dark {
 #rightcol .bg-top {display:block;}
 .bg-bottom {display:none;}
 #rightcol .bg-bottom {display:block;}
-
-.catalog .text-content .list-div.w11-32 .list-div-elem {
-	border: 1px solid #c4c4c4;
-	width: 325px;
-}
 
 .ui-widget-content { background-color: transparent;}
 

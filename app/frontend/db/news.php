@@ -30,19 +30,6 @@
  */
 class frontend_db_news{
 	/**
-	 * 
-	 * Enter description here ...
-	 * @param string $iso
-	 */
-	protected function s_count_news($iso){
-		$sql = 'SELECT count(n.idnews) as total FROM mc_news AS n
-		JOIN mc_lang AS lang USING(idlang)
-		WHERE lang.iso = :iso';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':iso'=>$iso
-		));
-	}
-	/**
 	 * Sélectionne les news par langue avec options pour une pagination
 	 */
 	protected function s_list_news($iso,$limit=false,$max=null,$offset=null){
@@ -50,7 +37,7 @@ class frontend_db_news{
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
 		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
 		LEFT JOIN mc_lang AS lang USING(idlang) 
-		WHERE lang.iso = :iso AND published = 1 ORDER BY date_register DESC'.$limit.$offset;
+		WHERE lang.iso = :iso AND n.published = 1 ORDER BY n.date_register DESC'.$limit.$offset;
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':iso'=>$iso
 		));
@@ -70,18 +57,6 @@ class frontend_db_news{
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':keynews' 	 	=> $keynews,
 			':date_register'=> $date_register
-		));
-	}
-	function s_news_listing($iso,$limit=false,$max=null,$offset=null){
-		$limit = $limit ? ' LIMIT '.$max : '';
-    	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-		$sql = 'SELECT n.n_title,n.n_content,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
-				FROM mc_news as n
-				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-				WHERE n.published = 1 AND lang.iso = :iso 
-				ORDER BY n.date_register DESC'.$limit.$offset;
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':iso'=>$iso
 		));
 	}
 	//////

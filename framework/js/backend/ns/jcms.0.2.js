@@ -128,11 +128,17 @@ var ns_jcms = {
 					sort_page_p += '</ul>';
 					$(sort_page_p).appendTo('#list_page_p');
 					$.each(j, function(i,item) {
+						if(item.sidebar_page != '0'){
+							sidebar_states = '<span class="lfloat magix-icon magix-icon-network-status-busy"></span>';
+						}else{
+							sidebar_states = '<span class="lfloat magix-icon magix-icon-network-status"></span>';
+						}
 						if($.ieTester()){
 							return $('<li class="ui-state-default" id="pageorderp_'+item.idpage+'">'
 							+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.title_page
 							+'<div style="float:right;margin-top:-15px;top:0;margin-right:10px;">'
-							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
+							+'<a title="Publication" class="u_sidebar_pages" href="#" rel="'+item.idpage+'">'+sidebar_states+'</a>'
+							+'<a title="Déplacement" href="/admin/cms.php?movepage='+item.idpage+'"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a>'
 							+'<a title="Gestion de la page parente" href="/admin/cms.php?getlang='+idlang+'&get_page_p='+item.idpage+'"><span class="lfloat ui-icon ui-icon-gear"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
 							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
@@ -141,7 +147,8 @@ var ns_jcms = {
 							return $('<li class="ui-state-default" id="pageorderp_'+item.idpage+'">'
 							+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.title_page
 							+'<div style="float:right;">'
-							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
+							+'<a title="Publication" class="u_sidebar_pages" href="#" rel="'+item.idpage+'">'+sidebar_states+'</a>'
+							+'<a title="Déplacement" href="/admin/cms.php?movepage='+item.idpage+'"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a>'
 							+'<a title="Gestion de la page parente" href="/admin/cms.php?getlang='+idlang+'&get_page_p='+item.idpage+'"><span class="lfloat ui-icon ui-icon-gear"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
 							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
@@ -164,7 +171,7 @@ var ns_jcms = {
 					update : function () {
 						serial = $('#sort_page_p').sortable('serialize');
 						$.ajax({
-							url: "/admin/cms.php?order_page_p",
+							url: "/admin/cms.php?order_page=true",
 							type: "post",
 							cache:false,
 							data: serial,
@@ -218,11 +225,17 @@ var ns_jcms = {
 					sort_page_p += '</ul>';
 					$(sort_page_p).appendTo('#list_child_page');
 					$.each(j, function(i,item) {
+						if(item.sidebar_page != '0'){
+							sidebar_states = '<span class="lfloat magix-icon magix-icon-network-status-busy"></span>';
+						}else{
+							sidebar_states = '<span class="lfloat magix-icon magix-icon-network-status"></span>';
+						}
 						if($.ieTester()){
 							return $('<li class="ui-state-default" id="pageorderp_'+item.idpage+'">'
 							+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.title_page
 							+'<div style="float:right;margin-top:-15px;top:0;margin-right:10px;">'
-							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
+							+'<a title="Publication" class="u_sidebar_pages" href="#" rel="'+item.idpage+'">'+sidebar_states+'</a>'
+							+'<a title="Déplacement" href="/admin/cms.php?movepage='+item.idpage+'"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
 							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
 							'<div style="clear:both;"></div></li>').appendTo('#sort_child_page');
@@ -230,7 +243,8 @@ var ns_jcms = {
 							return $('<li class="ui-state-default" id="pageorderp_'+item.idpage+'">'
 							+'<span class="arrowthick ui-icon ui-icon-arrowthick-2-n-s"></span>'+item.title_page
 							+'<div style="float:right;">'
-							+'<a title="Publication" href="#"><span class="lfloat ui-icon ui-icon-pin-w"></span></a>'
+							+'<a title="Publication" class="u_sidebar_pages" href="#" rel="'+item.idpage+'">'+sidebar_states+'</a>'
+							+'<a title="Déplacement" href="/admin/cms.php?movepage='+item.idpage+'"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a>'
 							+'<a title="Edition" href="/admin/cms.php?edit='+item.idpage+'"><span class="lfloat ui-icon ui-icon-pencil"></span></a>'
 							+'<a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span class="lfloat ui-icon ui-icon-close"></span></a></div>'+
 							'</li>').appendTo('#sort_child_page');
@@ -252,7 +266,7 @@ var ns_jcms = {
 					update : function () {
 						serial = $('#sort_child_page').sortable('serialize');
 						$.ajax({
-							url: "/admin/cms.php?order_child_page",
+							url: "/admin/cms.php?order_page=true",
 							type: "post",
 							cache:false,
 							data: serial,
@@ -454,7 +468,7 @@ var ns_jcms = {
 					movepage = '<td class="small-icon"><a href="/admin/cms.php?movepage='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>';
 				}else{
 					category = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-home"></span></div>';
-					movepage = '<td class="small-icon"> - </td>';
+					movepage = '<td class="small-icon"><a href="/admin/cms.php?movepage='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>';
 				}
 				if(item.seo_title_page != 0){
 					metaTitle = '<div class="ui-state-highlight" style="border:none;"><span style="float:left" class="ui-icon ui-icon-check"></span></div>';
@@ -739,6 +753,107 @@ var ns_jcms = {
 			});
 		 });
 	},
+	_sidebarPage:function(child){
+		$('.u_sidebar_pages').live("click",function (event){
+			event.preventDefault();
+			var idpage = $(this).attr("rel");
+			$("#confirm_published").dialog({
+				resizable: false,
+				height:140,
+				width:320,
+				modal: true,
+				buttons: {
+					'Afficher': function() {
+						$(this).dialog('close');
+						$.ajax({
+							type:'post',
+							url: '/admin/cms.php',
+							data: 'idpage='+idpage+'&sidebar_page=1',
+							async: false,
+							success:function(e){
+								if(child == true){
+									ns_jcms._loadChildPage($("#idlang").val(),$('#idcat_p').val());
+								}else{
+									ns_jcms._loadParentPage($("#idlang").val());
+								}
+							}
+					     });
+						return false;
+					},
+					'Cacher': function() {
+						$(this).dialog('close');
+						$.ajax({
+							type:'post',
+							url: '/admin/cms.php',
+							data: 'idpage='+idpage+'&sidebar_page=0',
+							async: false,
+							success:function(e){
+								if(child == true){
+									ns_jcms._loadChildPage($("#idlang").val(),$('#idcat_p').val());
+								}else{
+									ns_jcms._loadParentPage($("#idlang").val());
+								}
+							}
+					     });
+						return false;
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+					}
+				}
+			});
+		 });
+	},
+	_autoComplete_parent_cat_p:function(){
+		$("#title_p_move").autocomplete({
+		    minLength: 2,
+		    scrollHeight: 220, 
+	        source: function(req, add){
+	        	$.ajax({
+	            	url:"/admin/cms.php?callback=?",
+	            	type:"get",
+	            	dataType: 'json',
+	            	data: 'getlang='+$('#idlang option:selected').val()+'&title_p_move='+req.term,
+	            	async: true,
+	    			cache:false,
+	    			success: function(data){
+	    				var suggestions = [];  
+	                    //process response  
+	                    $.each(data, function(i, val){  
+	                    	suggestions.push({"id": val.id, "value": val.value});  
+	                	});  
+	                	//pass array to callback  
+	                	add(suggestions); 
+	    			}
+	            });
+	    	},
+            select: function(event, ui) {
+                $('#idcat_p').val(ui.item.id);
+            }
+		});
+	},
+	_updateMovePage:function(movepage){
+		/**
+		 * Soumission d'une nouvelle page CMS
+		 */
+		$("#forms_cms_move_page").submit(function(){
+			$(this).ajaxSubmit({
+	    		url: '/admin/cms.php?movepage='+movepage,
+	    		type:"post",
+	    		resetForm: false,
+	    		success:function(request) {
+	    			$('#idcat_p,#title_p_move').val('');
+	    			$.notice({
+						ntype: "simple",
+						time:2
+					});
+	    			$(".mc-head-request").html(request);
+	    			ns_jcms._load_page_uri(movepage);
+	    		}
+	    	});
+			return false;
+		});
+	},
 	run:function(){
 		this._initTextChange();
 		this._addParentPage(false,false);
@@ -749,13 +864,21 @@ var ns_jcms = {
 		this._initTextChange();
 		this._addParentPage(true,$("#idlang").val());
 		this._loadParentPage($("#idlang").val());
+		this._sidebarPage(false);
 		this._deletePage(false);
 	},
 	runChildPage:function(){
 		this._initTextChange();
 		this._addChildPage($("#idlang").val(),$('#idcat_p').val());
 		this._loadChildPage($("#idlang").val(),$('#idcat_p').val());
+		this._sidebarPage(true);
 		this._deletePage(true);
+	},
+	runMovePage:function(){
+		this._load_page_uri($("#idpage").val());
+		this._autoComplete_parent_cat_p();
+		this._initSearchPage();
+		this._updateMovePage($("#idpage").val());
 	},
 	runEditPage:function(){
 		this._initTextChange();

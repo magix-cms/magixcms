@@ -40,7 +40,7 @@ class frontend_db_cms{
 	 * @param $getidpage
 	 */
 	protected function s_data_current_page($iso,$getidpage){
-		$sql = 'SELECT p.idpage,p.idcat_p,p.idlang_p,title_page,uri_page,content_page,seo_title_page,seo_desc_page,date_register,last_update,lang.iso
+		$sql = 'SELECT p.idpage,p.idcat_p,title_page,uri_page,content_page,seo_title_page,seo_desc_page,date_register,last_update,lang.iso
 				FROM mc_cms_pages as p
 				JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
 				WHERE lang.iso = :iso AND p.idpage = :getidpage';

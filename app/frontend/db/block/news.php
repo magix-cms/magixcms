@@ -40,4 +40,29 @@ class frontend_db_block_news{
 				WHERE n.published = 1 AND lang.iso = :iso ORDER BY n.idnews DESC LIMIT 1';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(':iso' =>$iso));
 	}
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param string $iso
+	 */
+	public function s_count_news($iso){
+		$sql = 'SELECT count(n.idnews) as total FROM mc_news AS n
+		JOIN mc_lang AS lang USING(idlang)
+		WHERE lang.iso = :iso AND n.published = 1';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':iso'=>$iso
+		));
+	}
+	public function s_news_listing($iso,$limit=false,$max=null,$offset=null){
+		$limit = $limit ? ' LIMIT '.$max : '';
+    	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
+		$sql = 'SELECT n.n_title,n.n_content,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
+				FROM mc_news as n
+				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+				WHERE n.published = 1 AND lang.iso = :iso 
+				ORDER BY n.date_register DESC'.$limit.$offset;
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':iso'=>$iso
+		));
+	}
 }

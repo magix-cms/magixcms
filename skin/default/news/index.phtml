@@ -15,8 +15,7 @@
 				<div class="bg-repeat w16-16">	
 					<div id="contentCol" class="text-content block w11-16 lfloat">
 						<h1>Actualités</h1>
-						{$listnews}
-						{$npagination}
+						{widget_news_list max=10}
 					</div>
 					<div id="rightCol" class="block w5-16 lfloat last">
 						{include file="common/colright.phtml"}
