@@ -131,17 +131,21 @@ function smarty_function_widget_cms($params, $template){
 					true
 				);
 			}
+			if($pcms['idcat_p'] != '0'){
+				$move =  '<td class="nowrap"><a href="/admin/cms.php?movepage='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
+			}else{
+				$move = '<td class="nowrap">-</td>';
+			}
 			 $plugin .= '<tr class="line">';
-			 $plugin .=	'<td class="maximal"><a class="linkurl" href="/admin/cms.php?editcms='.$pcms['idpage'].'">'.$pcms['title_page'].'</a></td>';
+			 $plugin .=	'<td class="maximal"><a class="linkurl" href="/admin/cms.php?edit='.$pcms['idpage'].'">'.$pcms['title_page'].'</a></td>';
 			 $plugin .=	'<td class="nowrap">'.$category.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_t.'</td>';
 			 $plugin .= '<td class="nowrap">'.$icons_d.'</td>';
 			 $plugin .= '<td class="nowrap">'.$pcms['iso'].'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="cms-page-uri" href="'.$uricms.'" title=""><span style="float:left;" class="ui-icon ui-icon-link"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.$uricms.'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?edit='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?movepage='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
+			 $plugin .= $move;
 			 $plugin .= '<td class="nowrap"><a class="deletecms" title="'.$pcms['idpage'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
 		}
@@ -151,7 +155,6 @@ function smarty_function_widget_cms($params, $template){
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
 			 $plugin .=	'<td class="nowrap"></td>';
-			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';
 			 $plugin .= '<td class="nowrap"></td>';

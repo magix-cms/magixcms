@@ -47,7 +47,7 @@ class backend_controller_cms extends backend_db_cms{
 	public $getlang,$get_page_p,$edit;
 	public $post_search,$get_search_page,$title_p_lang,$callback;
 	public $cat_p_lang;
-	public $del_relang_p,$delpage;
+	public $del_relang_p,$delpage,$movepage;
 	/**
 	 * function construct class
 	 */
@@ -112,6 +112,10 @@ class backend_controller_cms extends backend_db_cms{
 		}
 		if(magixcjquery_filter_request::isPost('del_relang_p')){
 			$this->del_relang_p = magixcjquery_filter_isVar::isPostNumeric($_POST['del_relang_p']);
+		}
+		//MOVE
+		if(magixcjquery_filter_request::isGet('movepage')){
+			$this->movepage = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['movepage']);
 		}
 		//JQUERY CALLBACK
 		if(magixcjquery_filter_request::isGet('callback')){
@@ -503,6 +507,14 @@ class backend_controller_cms extends backend_db_cms{
 		}
 		print '{"parent_p_count":['.implode(',',$rowParent).'],"child_p_count":['.implode(',',$rowChild).'],"rel_lang_child":['.implode(',',$relatedLang).'],"lang":['.implode(',',$rowLang).']}';
 	}
+	protected function load_data_move_page($movepage){
+		$db = parent::s_edit_page($movepage);
+			backend_controller_template::assign('idpage', $db['idpage']);
+			backend_controller_template::assign('title_page', $db['title_page']);
+			backend_controller_template::assign('iso', $db['iso']);
+			backend_controller_template::assign('uri_page', $db['uri_page']);
+			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+	}
 	/**
 	 * execute la fonction run pour l'administration CMS
 	 * @access public 
@@ -552,6 +564,9 @@ class backend_controller_cms extends backend_db_cms{
 				$this->load_edit_page($this->edit);
 				backend_controller_template::display('cms/edit.phtml');
 			}
+		}elseif(magixcjquery_filter_request::isGet('movepage')){
+			$this->load_data_move_page($this->movepage);
+			backend_controller_template::display('cms/movepage.phtml');
 		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
 			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
