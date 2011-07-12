@@ -30,7 +30,7 @@
  * @name lang
  *
  */
-class backend_controller_lang{
+class backend_controller_lang extends backend_db_lang{
 	/**
 	 * string
 	 * @var iso
@@ -49,7 +49,8 @@ class backend_controller_lang{
 	public $ulang;
 	public $uiso;
 	public $ulanguage;
-	public $default;
+	public $default_lang,$active_lang,$idlang;
+	public $edit;
 	/**
 	 * Constructor
 	 */
@@ -60,72 +61,29 @@ class backend_controller_lang{
 		if(magixcjquery_filter_request::isPost('language')){
 			$this->language = magixcjquery_form_helpersforms::inputClean($_POST['language']);
 		}
-		if(isset($_GET['dellang'])){
-			$this->dellang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['dellang']);
+		if(magixcjquery_filter_request::isPost('default_lang')){
+			$this->default_lang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['default_lang']);
 		}
-		//Update
-		if(isset($_GET['ulang'])){
-			$this->ulang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['ulang']);
+		if(magixcjquery_filter_request::isPost('idlang')){
+			$this->idlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
 		}
-		if(isset($_POST['uiso'])){
-			$this->uiso = magixcjquery_form_helpersforms::inputCleanStrolower($_POST['uiso']);
+		if(magixcjquery_filter_request::isPost('active_lang')){
+			$this->active_lang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['active_lang']);
 		}
-		if(isset($_POST['ulanguage'])){
-			$this->ulanguage = magixcjquery_form_helpersforms::inputClean($_POST['ulanguage']);
+		//DELETE
+		if(magixcjquery_filter_request::isPost('dellang')){
+			$this->dellang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['dellang']);
 		}
-		if(magixcjquery_filter_request::isPost('default')){
-			$this->default = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['default']);
+		//EDIT
+		if(magixcjquery_filter_request::isGet('edit')){
+			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
 	}
-	/**
-	 * retourne les langues ajouté
-	 * @access private
-	 */
-	/*private function full_language(){
-		$lang = null;
-		$lang .= '<table class="clear">
-						<thead>
-							<tr>
-							<th>ISO</th>
-							<th>Nom</th>
-							<th>Defaut</th>
-							<th><span style="float:left;" class="ui-icon ui-icon-pencil"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
-		if(backend_db_lang::dblang()->s_full_lang_data() == null){
-			$lang .= '<tr class="line">';
-			$lang .='<td class="maximal"></td>';
-			$lang .='<td class="nowrap"></td>';
-			$lang .='<td class="nowrap"></td>';
-			$lang .='<td class="nowrap"></td>';
-			$lang .='<td class="nowrap"></td>';
-			$lang .= '</tr>';
-		}else{
-			foreach(backend_db_lang::dblang()->s_full_lang_data() as $slang){
-				 if($slang['default'] == '1'){
-				 	$default = '<span style="float:left;" class="ui-icon ui-icon-check"></span>';
-				 }else{
-				 	$default = '<span style="float:left;" class="ui-icon ui-icon-close"></span>';
-				 }
-				 $lang .= '<tr class="line">';
-				 $lang .=	'<td class="maximal">'.$slang['iso'].'</td>';
-				 $lang .=	'<td class="nowrap">'.$slang['language'].'</td>';
-				 $lang .=	'<td class="nowrap">'.$default.'</td>';
-				 $lang .= 	'<td class="nowrap"><a class="edit-lang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
-				 $lang .= 	'<td class="nowrap"><a class="dellang" title="'.$slang['idlang'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
-				 $lang .= '</tr>';
-			}
-		}
-		$lang .= '</tbody></table>';
-		return $lang;
-	}*/
 	private function json_listing_language(){
 		if(parent::s_lang() != null){
 			foreach (parent::s_lang() as $s){
-				$json[]= '{"idlang":'.json_encode($s['idlang']).',"iso":'.json_encode($s['iso'])
-				.',"language":'.json_encode($s['language']).',"default":'.json_encode($s['default']).
+				$json[]= '{"idlang":'.json_encode($s['idlang']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($s['iso']))
+				.',"language":'.json_encode($s['language']).',"default_lang":'.json_encode($s['default_lang']).
 				',"active_lang":'.json_encode($s['active_lang']).'}';
 			}
 			print '['.implode(',',$json).']';
@@ -137,126 +95,121 @@ class backend_controller_lang{
 	 */
 	private function insert_new_lang(){
 		if(isset($this->iso) AND isset($this->language)){
+			$verify_lang = parent::s_verif_lang($this->iso);
+			$verify_default = parent::count_default_language();
 			if(empty($this->iso) OR empty($this->language)){
-				backend_config_smarty::getInstance()->display('request/empty.phtml');
-			}elseif(backend_db_lang::dblang()->s_verif_lang($this->iso) == null){
-				backend_db_lang::dblang()->i_new_lang($this->iso,$this->language);
-				backend_config_smarty::getInstance()->display('lang/success.phtml');
+				backend_controller_template::display('request/empty.phtml');
+			}elseif($verify_default['deflanguage'] == '1'){
+				backend_controller_template::display('lang/request/default_exist.phtml');
+			}elseif($verify_lang['numlang'] == '0'){
+				if($this->default_lang == null){
+					$langdefault = '0';
+				}else{
+					$langdefault = $this->default_lang;
+				}
+				parent::i_new_lang($this->iso,$this->language,$langdefault);
+				backend_controller_template::display('lang/success.phtml');
 			}else{
-				backend_config_smarty::getInstance()->display('lang/element-exist.phtml');
+				backend_controller_template::display('lang/request/element-exist.phtml');
 			}
 		}
 	}
-	/**
-	 * Compte le nombre d'utilisation d'une langue
-	 * @access private
-	 * @name count_lang
-	 * @return string
-	 */
-	/*private function count_lang(){
-		$lang = null;
-		$lang .= '<table class="clear">
-						<thead>
-							<tr>
-								<th>Module</th>
-								<th>code Langue</th>
-								<th>Langue</th>
-								<th>Nbr pages</th>
-							</tr>
-						</thead>
-						<tbody>';
-		//Compte les langues dans la page home
-		foreach(backend_db_lang::dblang()->count_lang_home() as $clang){
-			$lang .= '<tr class="line">';
-			$lang .=	'<td class="nowrap">Home</td>';
-			$lang .=	'<td class="nowrap">'.$clang['iso'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['language'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['countlang'].'</td>';
-			$lang .= '</tr>';
-		}
-		//Compte les langues dans le CMS
-		foreach(backend_db_lang::dblang()->count_lang_pages() as $clang){
-			$lang .= '<tr class="line">';
-			$lang .=	'<td class="nowrap">CMS</td>';
-			$lang .=	'<td class="nowrap">'.$clang['iso'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['language'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['countlang'].'</td>';
-			$lang .= '</tr>';
-		}
-		//Compte les langues dans les news
-		foreach(backend_db_lang::dblang()->count_lang_news() as $clang){
-			$lang .= '<tr class="line">';
-			$lang .=	'<td class="nowrap">News</td>';
-			$lang .=	'<td class="nowrap">'.$clang['iso'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['language'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['countlang'].'</td>';
-			$lang .= '</tr>';
-		}
-		//Compte le nombre de fiche catalogue par langue
-		foreach(backend_db_lang::dblang()->count_lang_catalog() as $clang){
-			$lang .= '<tr class="line">';
-			$lang .=	'<td class="nowrap">Catalogue</td>';
-			$lang .=	'<td class="nowrap">'.$clang['iso'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['language'].'</td>';
-			$lang .=	'<td class="nowrap">'.$clang['countlang'].'</td>';
-			$lang .= '</tr>';
-		}
-		$lang .= '</tbody></table>';
-		return $lang;
-	}*/
+	private function load_data_language(){
+		$db = parent::s_lang_edit($this->edit);
+		backend_controller_template::assign('idlang', $db['idlang']);
+		backend_controller_template::assign('iso', $db['iso']);
+		backend_controller_template::assign('language', $db['language']);
+	}
 	/**
 	 * Suppression d'une lang via une requête ajax
 	 * @access public
 	 */
 	private function delete_lang_record(){
 		if(isset($this->dellang)){
-			$count = backend_db_lang::dblang()->global_count($this->dellang);
+			$count = parent::count_idlang_by_module($this->dellang);
 			if($count['ctotal'] != 0){
-				backend_config_smarty::getInstance()->display('lang/element-exist.phtml');
+				backend_controller_template::display('lang/request/element-exist.phtml');
 			}else{
-				backend_db_lang::dblang()->d_lang($this->dellang);
-				backend_config_smarty::getInstance()->display('lang/delete.phtml');
+				parent::d_lang($this->dellang);
+				backend_controller_template::display('lang/delete.phtml');
 			}
-		}
-	}
-	private function update_lang(){
-		if(isset($this->ulang)){
-			backend_db_lang::dblang()->u_lang($this->uiso,$this->ulanguage,$this->ulang);
-			backend_config_smarty::getInstance()->display('lang/update-success.phtml');
 		}
 	}
 	private function edit_lang(){
-		if(isset($this->ulang)){
-			$data = backend_db_lang::dblang()->s_lang_edit($this->ulang);
-			backend_config_smarty::getInstance()->assign('uiso',$data['iso']);
-			backend_config_smarty::getInstance()->assign('ulanguage',$data['language']);
-			backend_config_smarty::getInstance()->assign('udefault',$data['default']);
-			backend_config_smarty::getInstance()->display('lang/edit-lang.phtml');
+		if(isset($this->edit)){
+			parent::u_lang($this->iso,$this->language,$this->edit);
+			backend_controller_template::display('lang/update-success.phtml');
+		}
+	}
+	private function post_activate_lang(){
+		if(isset($this->active_lang)){
+			parent::u_activate_lang_status($this->active_lang, $this->idlang);
 		}
 	}
 	/**
-	 * Affiche la page des langues
+	 * @access private
+	 * Requête JSON pour les statistiques du CMS
 	 */
-	private function display_index(){
-		//backend_config_smarty::getInstance()->assign('viewlang',self::full_language());
-		//backend_config_smarty::getInstance()->assign('countlang',self::count_lang());
-		backend_config_smarty::getInstance()->display('lang/index.phtml');
+	private function json_language_chart(){
+		if(parent::count_lang_pages() != null){
+			foreach (parent::count_lang_pages() as $s){
+				$rowCms[]= $s['countpages'];
+			}
+		}else{
+			$rowCms = array(0);
+		}
+		if(parent::count_lang_news() != null){
+			foreach (parent::count_lang_news() as $s){
+				$rowNews[]= $s['countnews'];
+			}
+		}else{
+			$rowNews = array(0);
+		}
+		if(parent::count_lang_product() != null){
+			foreach (parent::count_lang_product() as $s){
+				$rowProduct[]= $s['countproduct'];
+			}
+		}else{
+			$rowProduct = array(0);
+		}
+		if(parent::s_lang() != null){
+			foreach (parent::s_lang() as $s){
+				$rowLang[]= json_encode(magixcjquery_string_convert::upTextCase($s['iso']));
+			}
+		}else{
+			$rowLang = array(0);
+		}
+		print '{"cms_pages_count":['.implode(',',$rowCms).'],"product_count":['.implode(',',$rowProduct).'],"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).']}';
 	}
 	public function run(){
-		if(magixcjquery_filter_request::isGet('add')){
-			self::insert_new_lang();
-		}elseif(magixcjquery_filter_request::isGet('ulang')){
-			if(magixcjquery_filter_request::isGet('post')){
-				self::update_lang();
+		$header= new magixglobal_model_header();
+		if(magixcjquery_filter_request::isGet('edit')){
+			if(magixcjquery_filter_request::isPost('iso')){
+				$this->edit_lang();
 			}else{
-				self::edit_lang();
+				$this->load_data_language();
+				backend_controller_template::display('lang/edit.phtml');
 			}
-		}elseif(magixcjquery_filter_request::isGet('dellang')){
-			self::delete_lang_record();
 		}elseif(magixcjquery_filter_request::isGet('json_list_lang')){
 			$this->json_listing_language();
+		}elseif(magixcjquery_filter_request::isPost('dellang')){
+			$this->delete_lang_record();
+		}elseif(magixcjquery_filter_request::isPost('active_lang')){
+			$this->post_activate_lang();
 		}else{
-			self::display_index();
+			if(magixcjquery_filter_request::isPost('iso')){
+				$this->insert_new_lang();
+			}elseif(magixcjquery_filter_request::isGet('json_google_chart_lang')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				$this->json_language_chart();
+			}else{
+				backend_controller_template::display('lang/index.phtml');
+			}
 		}
 	}
 }

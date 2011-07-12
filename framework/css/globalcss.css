@@ -155,7 +155,7 @@ body,
 #submenu ul li a:hover{}
 /*######################### dashboard wuidget UI ########################*/
 .dashboard-widget-h2{padding:0;color:#696969;}
-.column { width:50%; float: left;padding:0; /*display:block-inline;*/}
+.column { width:50%; wid\th: 49%; float: left;padding:0; /*display:block-inline;*/}
 .dashboard-content .column .dashboard-widget{margin:5px;}
 .dashboard-widget { margin: 0 0.4em 0.4em 0; }
 .dashboard-widget-header { margin: 0.3em; padding-top:5px;padding-bottom: 5px; padding-left: 0.2em; }

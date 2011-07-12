@@ -35,7 +35,7 @@ class backend_model_blockDom{
 	 * Construction du menu select pour la langue
 	 */
 	public static function select_language($cellbutton=false){
-		if(backend_db_lang::dblang()->s_full_lang() != null){
+		if(backend_db_block_lang::s_data_lang() != null){
 			$block = '<tr>
 						<td class="label"><label for="idlang">Langue :</label></td>
 					</tr>
@@ -43,7 +43,7 @@ class backend_model_blockDom{
 						<td>';
 			$block .= '<select id="idlang" name="idlang">';
 			//$block .= '<option value="0">Défaut</option>';
-			foreach(backend_db_lang::dblang()->s_full_lang() as $slang){
+			foreach(backend_db_block_lang::s_data_lang() as $slang){
 				$block .= '<option value="'.$slang['idlang'].'">'.$slang['iso'].'</option>';
 			}
 			$block .='</select>';
@@ -59,14 +59,14 @@ class backend_model_blockDom{
 	 * Construction du menu select pour la langue avec exclusion
 	 */
 	public static function select_other_lang($idlang){
-		if(backend_db_lang::dblang()->s_exclude_language_data($idlang) != null){
+		if(backend_db_block_lang::s_exclude_language_data($idlang) != null){
 			$block = '<tr>
 						<td class="label"><label for="idlang">Langue :</label></td>
 					</tr>
 					<tr>
 						<td>';
 			$block .= '<select id="idlang" name="idlang">';
-			foreach(backend_db_lang::dblang()->s_exclude_language_data($idlang) as $slang){
+			foreach(backend_db_block_lang::s_exclude_language_data($idlang) as $slang){
 				$block .= '<option value="'.$slang['idlang'].'">'.$slang['iso'].'</option>';
 			}
 			$block .='</select>';

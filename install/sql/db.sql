@@ -203,9 +203,10 @@ CREATE TABLE IF NOT EXISTS `mc_lang` (
   `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,
   `iso` varchar(3) NOT NULL,
   `language` varchar(30) NOT NULL,
-  `default` tinyint(1) NOT NULL DEFAULT '0',
+  `default_lang` tinyint(1) NOT NULL DEFAULT '0',
+  `active_lang` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1);
 

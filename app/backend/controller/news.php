@@ -267,17 +267,25 @@ class backend_controller_news extends backend_db_news{
 		}
 	}
 	/**
-	 * La page d'edition d'une news
+	 * @access private
+	 * Requête JSON pour les statistiques du CMS
 	 */
-	private function edit(){
-		self::load_data_forms();
-		backend_config_smarty::getInstance()->display('news/edit.phtml');
-	}
-	/**
-	 * affiche la page des news
-	 */
-	private function display_news(){
-		backend_config_smarty::getInstance()->display('news/index.phtml');
+	private function json_news_chart(){
+		if(parent::s_count_news_by_lang() != null){
+			foreach (parent::s_count_news_by_lang() as $s){
+				$rowNews[]= $s['countnews'];
+			}
+		}else{
+			$rowNews = array(0);
+		}
+		if(backend_db_block_lang::s_data_lang() != null){
+			foreach (backend_db_block_lang::s_data_lang() as $s){
+				$rowLang[]= json_encode(magixcjquery_string_convert::upTextCase($s['iso']));
+			}
+		}else{
+			$rowLang = array(0);
+		}
+		print '{"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).']}';
 	}
 	/**
 	 * Execute le module dans l'administration
@@ -297,7 +305,8 @@ class backend_controller_news extends backend_db_news{
 				$header->json_header("UTF-8");
 				self::load_json_uri_news();
 			}else{
-				self::edit();
+				$this->load_data_forms();
+				backend_config_smarty::getInstance()->display('news/edit.phtml');
 			}
 		}elseif(magixcjquery_filter_request::isGet('get_news_publication')){
 			self::update_status_publication();
@@ -311,7 +320,17 @@ class backend_controller_news extends backend_db_news{
 		}elseif(magixcjquery_filter_request::isPost('delnews')){
 			$this->del_news();
 		}else{
-			self::display_news();
+			if(magixcjquery_filter_request::isGet('json_google_chart_news')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				$this->json_news_chart();
+			}else{
+				backend_config_smarty::getInstance()->display('news/index.phtml');
+			}
 		}
 	}
 }

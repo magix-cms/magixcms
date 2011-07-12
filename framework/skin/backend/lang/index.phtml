@@ -17,15 +17,15 @@
 				<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Ajouter une langue</div>
 					<div class="dashboard-widget-content">
-					{if $configlang eq 1 AND $perms <= 2}
-						<form id="forms-lang" method="post" action="" style="margin-left:10px;">
+					{if {admin_level_config config_param=['module'=>'lang']} eq 1}
+						<form id="forms-add-lang" method="post" action="" style="margin-left:10px;">
 							<fieldset>
 								<table>
 									<tr>
-										<td class="label"><label for="codelang" class="inlinelabel">ISO *:</label></td>
+										<td class="label"><label for="iso" class="inlinelabel">ISO *:</label></td>
 									</tr>
 									<tr>
-										<td><input type="text" id="codelang" name="codelang" class="inputtext ui-corner-all" value="" size="2" /></td>
+										<td><input type="text" id="iso" name="iso" class="inputtext ui-corner-all" value="" size="3" /></td>
 									</tr>
 									<tr>
 										<td class="label"><label for="language" class="inlinelabel">Nom *:</label></td>
@@ -35,7 +35,7 @@
 									</tr>
 									<tr>
 										<td>
-											Langue par défaut<input type="checkbox" id="lang_default" name="default" value="1" />
+											Langue par défaut<input type="checkbox" id="lang_default" name="lang_default" value="1" />
 										</td>
 									</tr>
 								</table>			
@@ -56,7 +56,7 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-locale"></span>Langues</div>
 						<div class="dashboard-widget-content">
 						{if $configlang eq 1 AND $perms <= 2}
-							{$viewlang}
+							<div id="list_lang"></div>
 						{else}
 							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
 							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
@@ -68,14 +68,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-lightbulb"></span>Statistiques</div>
 						<div class="dashboard-content">
-						{if $configlang eq 1 AND $perms <= 2}
-						{$countlang}
-						{else}
-							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-								Vous n'avez pas la permission d'administrer ce module
-							</div>
-						{/if}
+							<div id="chart-google-language"></div>
 						</div>
 					</div>
 				</div>
@@ -83,12 +76,24 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
-<div id="update-lang" title="Modifier une langue"></div>
+<div id="dialog_delete" style="display:none;">
+	<p>Etes-vous sur de vouloir supprimer cet élément ?</p>
+</div>
+<div id="confirm_published" title="Activer la langue" class="hide">
+	<p style="font-size:14px;">
+		Voulez-vous changer le status de cette langue ?
+	</p>
+</div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+{script src="/min/?f=framework/js/tools/jquery.jqplot.min.js,framework/js/tools/excanvas.min.js,framework/js/tools/jqplot-plugins/jqplot.barRenderer.min.js,framework/js/tools/jqplot-plugins/jqplot.categoryAxisRenderer.min.js,framework/js/tools/jqplot-plugins/jqplot.pointLabels.min.js" type="javascript"}
 <script type="text/javascript">
-$(function(){
-	$.getScript('/framework/js/backend/jlanguage.1.0.js');
+$.getScript('/framework/js/backend/ns/jlanguage.0.2.js',function(){
+	if (typeof ns_jlanguage == "undefined") {
+	  console.log("ns_jlanguage is not defined");
+	}else{
+		ns_jlanguage.run();
+	}
 });
 </script>
 </body>

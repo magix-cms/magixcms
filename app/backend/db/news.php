@@ -90,6 +90,17 @@ class backend_db_news{
 		));
 	}
 	/**
+	 * 
+	 * Enter description here ...
+	 */
+	protected function s_count_news_by_lang(){
+		$sql = 'SELECT count( news.idnews ) AS countnews, lang.iso, lang.language
+				FROM mc_news AS news
+				LEFT JOIN mc_lang AS lang ON ( news.idlang = lang.idlang )
+				GROUP BY news.idlang';
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
+	/**
 	 * Mise à jour d'un enregistrement d'une news
 	 * @param $subject
 	 * @param $content

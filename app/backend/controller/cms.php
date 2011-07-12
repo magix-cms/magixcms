@@ -158,9 +158,9 @@ class backend_controller_cms extends backend_db_cms{
 	 * retourne les langues pour administrer les pages parents ainsi que leurs enfants
 	 */
 	private function listing_index_language(){
-		if(backend_db_lang::dblang()->s_full_lang() != null){
+		if(backend_db_block_lang::s_data_lang() != null){
 			$list = '<ul>';
-			foreach(backend_db_lang::dblang()->s_full_lang() as $slang){
+			foreach(backend_db_block_lang::s_data_lang() as $slang){
 				$list .= '<li>';
 				$list .= '<a href="/admin/cms.php?getlang='.$slang['idlang'].'">';
 				$list .= '<img src="/upload/iso_lang/'.$slang['iso'].'.png" alt="'.$slang['iso'].'" /> ';
@@ -177,7 +177,7 @@ class backend_controller_cms extends backend_db_cms{
 	 * @param integer $idlang
 	 */
 	private function parent_language($idlang){
-		$db = backend_db_lang::dblang()->s_language_data($idlang);
+		$db = backend_db_block_lang::s_data_iso($idlang);
 		return '<img src="/upload/iso_lang/'.$db['iso'].'.png" alt="'.$db['iso'].'" /> '.magixcjquery_string_convert::ucFirst($db['language']);
 	}
 	/**
@@ -540,7 +540,7 @@ class backend_controller_cms extends backend_db_cms{
 		}
 		if(parent::s_iso_lang() != null){
 			foreach (parent::s_iso_lang() as $s){
-				$rowLang[]= json_encode($s['iso']);
+				$rowLang[]= json_encode(magixcjquery_string_convert::upTextCase($s['iso']));
 			}
 		}else{
 			$rowLang = array(0);
