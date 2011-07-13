@@ -30,12 +30,12 @@
  * @name home
  *
  */
-class backend_controller_home{
+class backend_controller_home extends backend_db_home{
 	/**
 	 * gethome
 	 * @var getedit (get edit)
 	 */
-	public $gethome;
+	public $edit;
 	/**
 	 * string
 	 * @var subject
@@ -60,50 +60,75 @@ class backend_controller_home{
 	 * integer
 	 * @var delhome
 	 */
-	public $delhome;
+	public $del_home;
 	/**
 	 * function construct
 	 *
 	 */
 	function __construct(){
-		if(isset($_GET['edit'])){
-			$this->gethome = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+		if(magixcjquery_filter_request::isGet('edit')){
+			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
-		if(isset($_POST['subject'])){
+		if(magixcjquery_filter_request::isPost('subject')){
 			$this->subject = magixcjquery_form_helpersforms::inputClean($_POST['subject']);
 		}
-		if(isset($_POST['content'])){
+		if(magixcjquery_filter_request::isPost('content')){
 			$this->content = ($_POST['content']);
 		}
-		if(isset($_POST['idlang'])){
+		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
 		}
-		if(isset($_POST['metatitle'])){
+		if(magixcjquery_filter_request::isPost('metatitle')){
 			$this->metatitle = magixcjquery_form_helpersforms::inputTagClean($_POST['metatitle']);
 		}
-		if(isset($_POST['metadescription'])){
+		if(magixcjquery_filter_request::isPost('metadescription')){
 			$this->metadescription = magixcjquery_form_helpersforms::inputTagClean($_POST['metadescription']);
 		}
-		if(isset($_GET['delhome'])){
-			$this->delhome = magixcjquery_filter_isVar::isPostNumeric($_GET['delhome']);
+		if(magixcjquery_filter_request::isPost('del_home')){
+			$this->del_home = magixcjquery_filter_isVar::isPostNumeric($_POST['del_home']);
+		}
+	}
+	/**
+	 * @access private
+	 * Requête JSON pour retourner la liste des langues
+	 */
+	private function json_listing_home_page(){
+		if(parent::s_listing_home_page() != null){
+			foreach (parent::s_listing_home_page() as $s){
+				if ($s['metatitle'] != null){
+					$metatitle = 1;
+				}else{
+					$metatitle = 0;
+				}
+				if ($s['metadescription'] != null){
+					$metadescription = 1;
+				}else{
+					$metadescription = 0;
+				}
+				$uri = magixcjquery_html_helpersHtml::getUrl().'/'.$s['iso'].'/';
+				$json[]= '{"idhome":'.json_encode($s['idhome']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($s['iso']))
+				.',"subject":'.json_encode($s['subject']).',"pseudo":'.json_encode($s['pseudo']).',"uri_home":'.json_encode($uri).',"metatitle":'.json_encode($metatitle).
+				',"metadescription":'.json_encode($metadescription).'}';
+			}
+			print '['.implode(',',$json).']';
 		}
 	}
 	private function load_data_forms(){
-		$data = backend_db_home::adminDbHome()->s_home_page_record($this->gethome);
-		backend_config_smarty::getInstance()->assign('subject',$data['subject']);
-		backend_config_smarty::getInstance()->assign('content',$data['content']);
-		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
-		backend_config_smarty::getInstance()->assign('metatitle',$data['metatitle']);
-		backend_config_smarty::getInstance()->assign('metadescription',$data['metadescription']);
+		$data = parent::s_home_page_record($this->edit);
+		backend_controller_template::assign('subject',$data['subject']);
+		backend_controller_template::assign('content',$data['content']);
+		backend_controller_template::assign('idlang',$data['idlang']);
+		backend_controller_template::assign('iso',$data['iso']);
+		backend_controller_template::assign('metatitle',$data['metatitle']);
+		backend_controller_template::assign('metadescription',$data['metadescription']);
 	}
 	private function insert_data_forms(){
-		if(isset($this->subject) AND isset($this->content)){
-			if(empty($this->subject) OR empty($this->content)){
-				backend_config_smarty::getInstance()->display('request/empty.phtml');
+		if(isset($this->subject)){
+			if(empty($this->subject)){
+				backend_controller_template::display('request/empty.phtml');
 			}else{
-				if(backend_db_home::adminDbHome()->s_home_page_b_lang($this->idlang) == null){
-					backend_db_home::adminDbHome()->i_new_home_page(
+				if(parent::s_home_page_b_lang($this->idlang) == null){
+					parent::i_new_home_page(
 						$this->subject,
 						$this->content,
 						$this->metatitle,
@@ -111,28 +136,28 @@ class backend_controller_home{
 						$this->idlang,
 						backend_model_member::s_idadmin()
 					);
-					backend_config_smarty::getInstance()->display('request/success.phtml');
+					backend_controller_template::display('request/success.phtml');
 				}else{
-					backend_config_smarty::getInstance()->display('request/element-exist.phtml');
+					backend_controller_template::display('request/element-exist.phtml');
 				}
 			}
 		}
 	}
 	private function update_data_forms(){
-		if(isset($this->subject) AND isset($this->content)){
-			if(empty($this->subject) OR empty($this->content)){
-				backend_config_smarty::getInstance()->display('request/empty.phtml');
+		if(isset($this->subject)){
+			if(empty($this->subject)){
+				backend_controller_template::display('request/empty.phtml');
 			}else{
-					backend_db_home::adminDbHome()->u_home_page(
+					parent::u_home_page(
 						$this->subject,
 						$this->content,
 						$this->metatitle,
 						$this->metadescription,
 						$this->idlang,
 						backend_model_member::s_idadmin(),
-						$this->gethome
+						$this->edit
 					);
-					backend_config_smarty::getInstance()->display('request/success.phtml');
+					backend_controller_template::display('request/success.phtml');
 			}
 		}
 	}
@@ -140,44 +165,40 @@ class backend_controller_home{
 	 * Supprime une page home
 	 * @access private
 	 */
-	private function del_home(){
-		if(isset($this->delhome)){
-			backend_db_home::adminDbHome()->d_home($this->delhome);
+	private function delete_home_page(){
+		if(isset($this->del_home)){
+			$this->d_home($this->del_home);
 		}
 	}
-	/**
-	 * Edite une page home
-	 * @access private
-	 */
-	private function edit(){
-		self::load_data_forms();
-		backend_config_smarty::getInstance()->display('home/edit.phtml');
-	}
-	/**
-	 * Affiche la page principale du module
-	 * @access private
-	 */
-	private function display(){
-		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->display('home/index.phtml');
-	}
+	
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
 	 */
 	public function run(){
+		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isGet('post')){
-				self::update_data_forms();
+			if(magixcjquery_filter_request::isPost('subject')){
+				$this->update_data_forms();
 			}else{
-				self::edit();
+				$this->load_data_forms();
+				backend_controller_template::display('home/edit.phtml');
 			}
-		}elseif(magixcjquery_filter_request::isGet('add')){
-			self::insert_data_forms();
-		}elseif(magixcjquery_filter_request::isGet('delhome')){
-			self::del_home();
+		}elseif(magixcjquery_filter_request::isPost('subject')){
+			$this->insert_data_forms();
+		}elseif(magixcjquery_filter_request::isGet('json_list_home_page')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
+			$this->json_listing_home_page();
+		}elseif(magixcjquery_filter_request::isGet('del_home')){
+			$this->delete_home_page();
 		}else{
-			self::display();
+			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+			backend_controller_template::display('home/index.phtml');
 		}
 	}
 }

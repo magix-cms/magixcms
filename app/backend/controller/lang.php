@@ -38,19 +38,21 @@ class backend_controller_lang extends backend_db_lang{
 	public $iso;
 	/**
 	 * string
-	 * @var iso
+	 * @var language
 	 */
 	public $language;
 	/**
 	 * 
 	 * @var intéger
 	 */
-	public $dellang;
-	public $ulang;
-	public $uiso;
-	public $ulanguage;
 	public $default_lang,$active_lang,$idlang;
-	public $edit;
+	/**
+	 * 
+	 * Edition et suppression
+	 * @var $edit
+	 * @var $dellang
+	 */
+	public $edit,$dellang;
 	/**
 	 * Constructor
 	 */
@@ -79,6 +81,10 @@ class backend_controller_lang extends backend_db_lang{
 			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
 	}
+	/**
+	 * @access private
+	 * Requête JSON pour retourner la liste des langues
+	 */
 	private function json_listing_language(){
 		if(parent::s_lang() != null){
 			foreach (parent::s_lang() as $s){
@@ -114,11 +120,16 @@ class backend_controller_lang extends backend_db_lang{
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * Charge les données pour l'édition d'une langue
+	 */
 	private function load_data_language(){
 		$db = parent::s_lang_edit($this->edit);
 		backend_controller_template::assign('idlang', $db['idlang']);
 		backend_controller_template::assign('iso', $db['iso']);
 		backend_controller_template::assign('language', $db['language']);
+		backend_controller_template::assign('default_lang', $db['default_lang']);
 	}
 	/**
 	 * Suppression d'une lang via une requête ajax
@@ -131,16 +142,39 @@ class backend_controller_lang extends backend_db_lang{
 				backend_controller_template::display('lang/request/element-exist.phtml');
 			}else{
 				parent::d_lang($this->dellang);
-				backend_controller_template::display('lang/delete.phtml');
+				backend_controller_template::display('lang/request/delete.phtml');
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * Edition d'une langue
+	 */
 	private function edit_lang(){
 		if(isset($this->edit)){
-			parent::u_lang($this->iso,$this->language,$this->edit);
-			backend_controller_template::display('lang/update-success.phtml');
+			$verify_default = parent::count_default_language();
+			if($this->default_lang == null){
+				$langdefault = '0';
+			}else{
+				$langdefault = $this->default_lang;
+			}
+			if($this->default_lang != null){
+				if($verify_default['deflanguage'] == '1'){
+					backend_controller_template::display('lang/request/default_exist.phtml');
+				}else{
+					parent::u_lang($this->iso,$this->language,$langdefault,$this->edit);
+					backend_controller_template::display('lang/request/update-success.phtml');
+				}
+			}else{
+				parent::u_lang($this->iso,$this->language,$langdefault,$this->edit);
+				backend_controller_template::display('lang/request/update-success.phtml');
+			}
 		}
 	}
+	/**
+	 * @access private
+	 * Modifie le status d'une langue
+	 */
 	private function post_activate_lang(){
 		if(isset($this->active_lang)){
 			parent::u_activate_lang_status($this->active_lang, $this->idlang);
@@ -181,6 +215,10 @@ class backend_controller_lang extends backend_db_lang{
 		}
 		print '{"cms_pages_count":['.implode(',',$rowCms).'],"product_count":['.implode(',',$rowProduct).'],"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).']}';
 	}
+	/**
+	 * @access public
+	 * Execution de la structure
+	 */
 	public function run(){
 		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('edit')){
@@ -191,6 +229,12 @@ class backend_controller_lang extends backend_db_lang{
 				backend_controller_template::display('lang/edit.phtml');
 			}
 		}elseif(magixcjquery_filter_request::isGet('json_list_lang')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
 			$this->json_listing_language();
 		}elseif(magixcjquery_filter_request::isPost('dellang')){
 			$this->delete_lang_record();

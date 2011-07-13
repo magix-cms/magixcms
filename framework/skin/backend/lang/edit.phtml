@@ -18,28 +18,7 @@
 					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Editer la langue: {$idlang}</div>
 					<div class="dashboard-widget-content">
 					{if {admin_level_config config_param=['module'=>'lang']} eq 1}
-						<form id="forms-update-lang" method="post" action="" style="margin-left:10px;">
-							<fieldset>
-								<table>
-									<tr>
-										<td class="label"><label for="iso" class="inlinelabel">ISO *:</label></td>
-									</tr>
-									<tr>
-										<td>
-										<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
-										<input type="text" id="iso" name="iso" class="inputtext ui-corner-all" value="{$iso}" size="3" />
-										</td>
-									</tr>
-									<tr>
-										<td class="label"><label for="language" class="inlinelabel">Nom *:</label></td>
-									</tr>
-									<tr>
-										<td><input type="text" id="language" name="language" class="inputtext ui-corner-all" value="{$language}" size="20" /></td>
-									</tr>
-								</table>			
-							</fieldset>
-							<div style="margin:5px;"><input type="submit" value="Envoyer" /></div>
-						</form>
+						{include file="lang/forms/edit.phtml"}
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
 						<span style="float:left;" class="ui-icon ui-icon-alert"></span>

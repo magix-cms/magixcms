@@ -169,6 +169,6 @@ $(document).ready(function(){
 		$("#cryptpass").keyup(function() {
 			  $(this).valid();
 		});
-		$('input').checkBox();
+		//$('input').checkBox();
 	//$("form input").filter(":checkbox,:radio").checkbox();
 });

@@ -1,0 +1,41 @@
+<form id="forms-add-home" method="post" action="" style="margin-left:10px;">
+	<fieldset>
+		<table class="table-tinymce">
+			<tr>
+				<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
+			</tr>
+			<tr>
+				<td><input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="" size="50" /></td>
+			</tr>
+			{$selectlang}
+			<tr>
+				<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
+			</tr>
+			<tr>
+				<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="" rows=""></textarea></td>
+			</tr>
+		</table>			
+	</fieldset>
+	<div id="showmetas"><span style="float:left;"></span> Voir les métas</div>
+		<div id="metascontener">
+		<table>
+			<tr>
+				<td class="label"><label for="metatitle" class="inlinelabel">Title :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
+			</tr>
+			<tr>
+				<td>
+				<textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2"></textarea>
+				</td>
+			</tr>
+		</table>
+		</div>
+	<div style="margin:5px;"><input type="submit" value="Envoyer" /></div>
+</form>

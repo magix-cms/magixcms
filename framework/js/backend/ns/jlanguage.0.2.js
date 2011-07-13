@@ -249,7 +249,7 @@ var ns_jlanguage = {
 			            // Pad the y axis just a little so bars can get close to, but
 			            // not touch, the grid boundaries.  1.2 is the default padding.
 			            yaxis: {
-			            	pad: 1.2
+			            	//pad: 1.2
 			            }
 					}
 				};

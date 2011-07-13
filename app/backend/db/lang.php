@@ -163,12 +163,13 @@ class backend_db_lang{
 	 * @param string $language
 	 * @param integer $idlang
 	 */
-	protected function u_lang($iso,$language,$idlang){
-		$sql = 'UPDATE mc_lang SET iso=:iso,language=:language WHERE idlang = :idlang';
+	protected function u_lang($iso,$language,$default_lang,$idlang){
+		$sql = 'UPDATE mc_lang SET iso=:iso,language=:language,default_lang=:default_lang WHERE idlang = :idlang';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':iso'	=>	$iso,
 			':language'	=>	$language,
+			':default_lang'	=>	$default_lang,
 			':idlang'	=>	$idlang
 		));
 	}

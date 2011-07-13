@@ -1,0 +1,51 @@
+<form id="forms-home-update" method="post" action="" style="margin-left:10px;">
+	<fieldset>
+		<table class="table-tinymce">
+			<tr>
+				<td class="label"><label for="subject" class="inlinelabel">Titre :</label></td>
+			</tr>
+			<tr>
+				<td>
+				<input type="hidden" id="idhome" value="{$smarty.get.edit}" />
+				<input type="text" id="subject" name="subject" class="inputtext ui-corner-all" value="{$subject}" size="50" /></td>
+			</tr>
+			<tr>
+				<td class="label"><label for="idlang" class="inlinelabel">Langue :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
+					<input type="text" disabled="disabled" readonly="readonly" id="iso" name="iso" class="inputdisabled ui-corner-all" value="{$iso}" size="5" />
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label for="content" class="inlinelabel">Contenu :</label></td>
+			</tr>
+			<tr>
+				<td><textarea name="content" class="fulltext mceEditor ui-corner-all" cols="50" rows="10">{$content}</textarea></td>
+			</tr>
+		</table>			
+	</fieldset>
+	<div id="showmetas"><span style="float:left;"></span> Voir les métas</div>
+		<div id="metascontener">
+		<table>
+			<tr>
+				<td class="label"><label for="metatitle" class="inlinelabel">Title :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="metatitle" name="metatitle" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$metatitle}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label for="metadescription" class="inlinelabel">Description :</label></td>
+			</tr>
+			<tr>
+				<td>
+					<textarea name="metadescription" id="metadescription" class="ui-input ui-widget-content ui-corner-all" cols="70" rows="2">{$metadescription}</textarea>
+				</td>
+			</tr>
+		</table>
+		</div>
+	<div style="margin:5px;"><input type="submit" value="Envoyer" /></div>
+</form>

@@ -68,8 +68,8 @@ function smarty_function_widget_home($params, $template){
 						</tr>
 					</thead>
 					<tbody>';
-	if(backend_db_home::adminDbHome()->s_home_page_plugin() != null){
-		foreach(backend_db_home::adminDbHome()->s_home_page_plugin() as $phome){
+	if(backend_db_block_home::s_home_page_plugin() != null){
+		foreach(backend_db_block_home::s_home_page_plugin() as $phome){
 			$islang = $phome['iso'] ? magixcjquery_html_helpersHtml::unixSeparator().$phome['iso'].magixcjquery_html_helpersHtml::unixSeparator(): '';
 			if($phome['metatitle'] == null){
 				$icons_t = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-alert"></span></div>';
@@ -97,7 +97,7 @@ function smarty_function_widget_home($params, $template){
 			 $plugin .=	$viewuser ? '<td class="nowrap">'.$phome['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixcjquery_html_helpersHtml::getUrl().$islang.'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/home.php?edit='.$phome['idhome'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a class="deletehome" title="'.$phome['idhome'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="deletehome" rel="'.$phome['idhome'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
 		}
 	}else{
