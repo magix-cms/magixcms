@@ -5,17 +5,26 @@
 {include file="common/css.phtml"}
 </head>
 <body>
-<div id="page">
-{include file="common/top.phtml"}
-<div id="content">
-{include file="common/sidebar.phtml"}
-	<div id="principal" class="principal">
-		<h1>{$subject}</h1>
-		{$content}
-		{widget_lastnews contentlength="250" delimiter="..." ui=true newsall="Voir les news"}
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
 	</div>
-	<hr class="clear" />
-</div>
+	<div id="content" class="full">
+		<div id="contentContener" class="container">
+			<div class="bg-top w16-16"></div>
+				<div class="bg-repeat w16-16">	
+					<div id="contentCol" class="text-content block w11-16 lfloat text-content">
+						<h1>{$subject}</h1>
+							{$content}
+					</div>
+					<div id="rightCol" class="block w5-16 lfloat last">
+						{include file="common/colright.phtml"}	
+					</div>
+				</div>
+				<div class="bg-bottom w16-16"></div>
+		</div>
+	</div>
 {include file="common/footer.phtml"}
 </body>
 </html>

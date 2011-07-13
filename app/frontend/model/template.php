@@ -13,11 +13,21 @@
  */
 class frontend_model_template extends db_theme{
 	/**
+	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
+	 * @var string
+	 */
+	private static $ConfigFile = 'local';
+	/**
 	 * singleton dbconfig
 	 * @access public
 	 * @var void
 	 */
 	static protected $frontendtheme;
+	/**
+	 * 
+	 * Constructor
+	 */
+    public function __construct(){}
 	/**
 	 * 
 	 */
@@ -27,6 +37,15 @@ class frontend_model_template extends db_theme{
         }
     	return self::$frontendtheme;
     }
+    /**
+     * @access public static
+     * Paramètre de langue get
+     */
+	public static function getLanguage(){
+		if(magixcjquery_filter_request::isGet('strLangue')){
+			return magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
+		}
+	}
 	/**
 	 * Retourne la langue en cours de session sinon retourne fr par défaut
 	 * @return string
@@ -34,22 +53,53 @@ class frontend_model_template extends db_theme{
 	 * @static
 	 */
 	public static function current_Language(){
-		if(!empty($_SESSION['strLangue'])){
-			return magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
+		if(magixcjquery_filter_request::isGet('strLangue')){
+			$lang = self::getLanguage();
 		}else{
-			return magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
+			$db = frontend_db_lang::s_default_language();
+			if($db != null){
+				$lang = $db['iso'];
+			}else{
+				if(magixcjquery_filter_request::isSession('strLangue')){
+					$lang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
+				}
+			}
+		}
+		return $lang;
+	}
+	/**
+	 * @access private
+	 * return void
+	 * Le chemin du dossier des plugins
+	 */
+	private function directory_plugins(){
+		return magixglobal_model_system::base_path();
+	}
+	/**
+	 * Chargement du fichier de configuration suivant la langue en cours de session.
+	 * @access private
+	 * return string
+	 */
+	private function pathConfigLoad($configfile){
+		try {
+			return $configfile.self::current_Language().'.conf';
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
-	public static function getLanguage(){
-		if(magixcjquery_filter_request::isGet('strLangue')){
-			return magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-		}
+	/**
+	 * 
+	 * Initialise la fonction configLoad de smarty
+	 * @param string $section
+	 */
+	public static function configLoad($section = ''){
+		return frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $section);
 	}
 	/**
 	 * Charge le theme selectionné ou le theme par défaut
 	 */
 	public function load_theme(){
-		$db = parent::frontendDBtheme()->s_current_theme();
+		$db = parent::s_current_theme();
 		if($db['setting_value'] != null){
 			if($db['setting_value'] == 'default'){
 				$theme =  $db['setting_value'];
@@ -118,26 +168,12 @@ class frontend_model_template extends db_theme{
  *
  */
 class db_theme{
-	/**
-	 * singleton dbconfig
-	 * @access public
-	 * @var void
-	 */
-	static protected $frontenddbtheme;
-	/**
-	 * instance backend_db_config with singleton
-	 */
-	protected static function frontendDBtheme(){
-        if (!isset(self::$frontenddbtheme)){
-         	self::$frontenddbtheme = new db_theme();
-        }
-    	return self::$frontenddbtheme;
-    }
     /**
      * Retourne le theme utilisé
      */
-    public function s_current_theme(){
-    	$sql = 'SELECT setting_value FROM mc_setting WHERE setting_id = "theme"';
+    protected function s_current_theme(){
+    	$sql = 'SELECT setting_value FROM mc_setting 
+    	WHERE setting_id = "theme"';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
     }
 }

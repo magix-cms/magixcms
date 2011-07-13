@@ -30,52 +30,25 @@
  */
 class frontend_db_home{
 	/**
-	 * include dblang 
-	 * @var dblang
+	 * selection du titre et du contenu de la page home ou index
 	 */
-	private $dblang;
-	/**
-	 * singleton dbhome
-	 * @access public
-	 * @var void
-	 */
-	static public $dbhome;
-	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->dblang = new frontend_db_lang();
+	protected function s_get_home_page_default(){
+		$sql = 'SELECT h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang
+				FROM mc_page_home AS h
+				JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
+				WHERE lang.default_lang = 1';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
-	 * instance frontend_db_home with singleton
-	 */
-	public static function getHome(){
-        if (!isset(self::$dbhome)){
-         	self::$dbhome = new frontend_db_home();
-        }
-    	return self::$dbhome;
-    }
-	/**
 	 * selection du titre et du contenu de la page home ou index
-	 * @param $codelang
 	 */
-	function s_home_page_construct($codelang){
-		$idlang = $this->dblang->s_lang($codelang);
-		if($codelang == null){
-			$sql = 'SELECT subject,content,metatitle,metadescription FROM mc_page_home WHERE idlang = :idlang';
-			return magixglobal_model_db::layerDB()->selectOne($sql,
-				array(
-					':idlang' => 0
-				)
-			);
-		}else{
-			$sql = 'SELECT subject,content,metatitle,metadescription FROM mc_page_home WHERE idlang = :idlang';
-			return magixglobal_model_db::layerDB()->selectOne($sql,
-				array(
-					':idlang' => $idlang['idlang']
-				)
-			);
-		}
+	protected function s_get_home_page($iso){
+		$sql = 'SELECT h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang
+				FROM mc_page_home AS h
+				JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
+				WHERE lang.iso = :iso';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':iso'=>$iso
+		));
 	}
 }

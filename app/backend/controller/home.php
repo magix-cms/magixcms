@@ -167,7 +167,7 @@ class backend_controller_home extends backend_db_home{
 	 */
 	private function delete_home_page(){
 		if(isset($this->del_home)){
-			$this->d_home($this->del_home);
+			parent::d_home($this->del_home);
 		}
 	}
 	
@@ -194,7 +194,7 @@ class backend_controller_home extends backend_db_home{
 			$header->getStatus('200');
 			$header->json_header("UTF-8");
 			$this->json_listing_home_page();
-		}elseif(magixcjquery_filter_request::isGet('del_home')){
+		}elseif(magixcjquery_filter_request::isPost('del_home')){
 			$this->delete_home_page();
 		}else{
 			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());

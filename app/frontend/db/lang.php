@@ -36,10 +36,21 @@ class frontend_db_lang{
 	 * @param $iso
 	 */
 	public static function s_id_current_lang($iso){
-		$sql = 'SELECT idlang,iso FROM mc_lang WHERE iso = :iso';
+		$sql = 'SELECT idlang,iso FROM mc_lang 
+		WHERE iso = :iso';
 		return magixglobal_model_db::layerDB()->selectOne($sql,
 			array(':iso' => $iso)
 		);
+	}
+	/**
+	 * @access public
+	 * @static
+	 * Charge la langue par defaut
+	 */
+	public static function s_default_language(){
+		$sql = 'SELECT idlang,iso FROM mc_lang as lang 
+		WHERE lang.default_lang = 1';
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * @access public
@@ -49,6 +60,7 @@ class frontend_db_lang{
 	public static function s_fetch_all_lang(){
 	    $sql = 'SELECT l.idlang, l.iso, l.language
 	           FROM mc_lang AS l
+	           WHERE l.active_lang = 1
 	           ORDER BY l.idlang';
 	    return magixglobal_model_db::layerDB()->select($sql);
 	}

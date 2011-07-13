@@ -25,12 +25,12 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    5.2
+ * @version    5.3
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name rss
  *
  */
-class backend_controller_rss{
+class backend_controller_rss extends backend_db_rss{
 	/**
 	 * @access private
 	 * variable d'instance la class magixcjquery_xml_rss
@@ -58,7 +58,7 @@ class backend_controller_rss{
 	/**
 	 * Ouverture du fichier XML pour ecriture de l'entête
 	 **/
-	private function createXMLFile(){
+	private function news_CreateXMLFile(){
 		/*On demande de vérifier si le fichier existe et si pas on le crée*/
 		$this->rss->createRSS($this->dir_XML_FILE(),'rss.xml');
 		/*On ouvre le fichier*/
@@ -66,23 +66,30 @@ class backend_controller_rss{
 		/*On demande une indentation automatique (optionnelle)*/
 		$this->rss->indentRSS(true);
 		/*On écrit l'entête avec l'encodage souhaité*/
-		$this->rss->startWriteAtom('utf-8','fr');
+		$this->rss->startWriteAtom('utf-8','fr',null,null,null,"/rss.xml");
 	}
 	/**
 	 * Création d'un noeud dans le fichier XML
 	 */
-	private function CreateNodeXML(){
-		$config = backend_model_setting::tabs_load_config('news');
-		if($config['status'] == 1){
-		   foreach(backend_db_sitemap::adminDbSitemap()->s_news_rss() as $data){
-		   		$islang = $data['codelang'] ? $data['codelang'].'/': '';
-		        $datecreate = new magixglobal_model_dateformat($data['date_sent']);
+	private function news_CreateNodeXML(){
+		$setting = new backend_model_setting();
+		$attr_name = $setting->tabs_load_config('news');
+		if($attr_name['status'] == 1){
+		   foreach(parent::s_news_rss() as $data){
+		   		$dateformat = new magixglobal_model_dateformat($data['date_register']);
+		   		$uri = magixglobal_model_rewrite::filter_news_url(
+					$data['iso'], 
+					$dateformat->date_europeen_format(), 
+					$data['n_uri'], 
+					$data['keynews'],
+					true
+				);
 		        $this->rss->elementWriteAtom(
-			        $data['subject'],
-			        $data['date_sent'],
-			        $islang.'news/'.$datecreate->date_europeen_format().'/'.$data['rewritelink'],
-			        '.html',
-			        $data['content']
+			        $data['n_title'],
+			        $data['date_register'],
+			        $uri,
+			        null,
+			        $data['n_content']
 		        );
 		    }
 		}
@@ -94,12 +101,19 @@ class backend_controller_rss{
 		/*On ferme les noeuds*/
 		$this->rss->endWriteRSS();
 	}
+	private function news_rss(){
+		$this->news_CreateXMLFile();
+		$this->news_CreateNodeXML();
+		$this->endNodeXML();
+	}
 	/**
 	 * Exécution de la création du fichier RSS
 	 */
-	public function run(){
-		$this->createXMLFile();
-		$this->CreateNodeXML();
-		$this->endNodeXML();
+	public function run($module){
+		switch ($module){
+			case 'news':
+				$this->news_rss();
+			break;
+		}
 	}
 }

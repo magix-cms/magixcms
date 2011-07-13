@@ -131,7 +131,7 @@ class backend_controller_news extends backend_db_news{
 	private function insert_data_forms(){
 		if(isset($this->n_title) AND isset($this->n_content)){
 			if(empty($this->n_title) OR empty($this->n_content)){
-				backend_config_smarty::getInstance()->display('request/empty.phtml');
+				backend_controller_template::display('request/empty.phtml');
 			}else{
 					parent::i_new_news(
 						$this->extract_random_idnews(20),
@@ -141,9 +141,7 @@ class backend_controller_news extends backend_db_news{
 						magixcjquery_url_clean::rplMagixString($this->n_title),
 						$this->n_content
 					);
-					/*$rss = new backend_controller_rss();
-					$rss->run();*/
-					backend_config_smarty::getInstance()->display('request/success.phtml');
+					backend_controller_template::display('request/success.phtml');
 				}
 			}
 	}
@@ -201,13 +199,13 @@ class backend_controller_news extends backend_db_news{
 		 * @var 
 		 */
 		$data = parent::s_news_record($this->getnews);
-		backend_config_smarty::getInstance()->assign('n_title',$data['n_title']);
-		backend_config_smarty::getInstance()->assign('n_content',$data['n_content']);
-		backend_config_smarty::getInstance()->assign('n_uri',$data['n_uri']);
-		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
-		backend_config_smarty::getInstance()->assign('date_register',$data['date_register']);
-		backend_config_smarty::getInstance()->assign('published',$data['published']);
+		backend_controller_template::assign('n_title',$data['n_title']);
+		backend_controller_template::assign('n_content',$data['n_content']);
+		backend_controller_template::assign('n_uri',$data['n_uri']);
+		backend_controller_template::assign('idlang',$data['idlang']);
+		backend_controller_template::assign('iso',$data['iso']);
+		backend_controller_template::assign('date_register',$data['date_register']);
+		backend_controller_template::assign('published',$data['published']);
 	}
 	/**
 	 * @access private
@@ -216,7 +214,7 @@ class backend_controller_news extends backend_db_news{
 	private function update_data_forms(){
 		if(isset($this->n_title) AND isset($this->n_content)){
 			if(empty($this->n_title) OR empty($this->n_content)){
-				backend_config_smarty::getInstance()->display('request/empty.phtml');
+				backend_controller_template::display('request/empty.phtml');
 			}else{
 				switch($this->published){
 					case 0:
@@ -241,9 +239,9 @@ class backend_controller_news extends backend_db_news{
 					$this->published,
 					$this->getnews
 				);
-				/*$rss = new backend_controller_rss();
-				$rss->run();*/
-				backend_config_smarty::getInstance()->display('request/success.phtml');
+				$rss = new backend_controller_rss();
+				$rss->run('news');
+				backend_controller_template::display('request/success.phtml');
 			}
 		}
 	}
@@ -306,7 +304,7 @@ class backend_controller_news extends backend_db_news{
 				self::load_json_uri_news();
 			}else{
 				$this->load_data_forms();
-				backend_config_smarty::getInstance()->display('news/edit.phtml');
+				backend_controller_template::display('news/edit.phtml');
 			}
 		}elseif(magixcjquery_filter_request::isGet('get_news_publication')){
 			self::update_status_publication();
@@ -314,8 +312,8 @@ class backend_controller_news extends backend_db_news{
 			if(magixcjquery_filter_request::isPost('n_title')){
 				self::insert_data_forms();
 			}else{
-				backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-				backend_config_smarty::getInstance()->display('news/addnews.phtml');
+				backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+				backend_controller_template::display('news/addnews.phtml');
 			}
 		}elseif(magixcjquery_filter_request::isPost('delnews')){
 			$this->del_news();
@@ -329,7 +327,7 @@ class backend_controller_news extends backend_db_news{
 				$header->json_header("UTF-8");
 				$this->json_news_chart();
 			}else{
-				backend_config_smarty::getInstance()->display('news/index.phtml');
+				backend_controller_template::display('news/index.phtml');
 			}
 		}
 	}

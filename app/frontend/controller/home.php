@@ -30,21 +30,20 @@
  * @name home
  *
  */
-class frontend_controller_home{
-	public $getlang;
+class frontend_controller_home extends frontend_db_home{
 	/**
-	 * variable de sessions deslangues
+	 * 
+	 * Paramètre get des langues
 	 * @var string
 	 */
-	public $slang;
+	public $getlang;
 	/**
 	 * function construct
 	 *
 	 */
 	function __construct(){
-		if(isset($_GET['strLangue'])){
+		if(magixcjquery_filter_request::isGet('strLangue')){
 			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-			$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
 		}
 	}
 	/*
@@ -52,25 +51,27 @@ class frontend_controller_home{
 	 * @access public
 	 */
 	private function load_home_content(){
-		$home = frontend_db_home::getHome()->s_home_page_construct($this->getlang);
-		frontend_config_smarty::getInstance()->assign('subject',magixcjquery_string_convert::ucFirst($home['subject']));
-		frontend_config_smarty::getInstance()->assign('content',$home['content']);
-		frontend_config_smarty::getInstance()->assign('title',$home['metatitle']);
-		frontend_config_smarty::getInstance()->assign('description',$home['metadescription']);
-	}
-	/**
-	 * Retourne et affiche la page d'accueil courante
-	 * @access public
-	 */
-	private function display(){
-		self::load_home_content();
-		frontend_config_smarty::getInstance()->display('home/index.phtml');
+		if(isset($this->getlang)){
+			$home = parent::s_get_home_page($this->getlang);
+		}else{
+			if(parent::s_get_home_page_default() != null){
+				$home = parent::s_get_home_page_default();
+			}elseif(magixcjquery_filter_request::isSession('strLangue')){
+				$lang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
+				$home = parent::s_get_home_page($lang);
+			}
+		}
+		frontend_model_template::assign('subject',magixcjquery_string_convert::ucFirst($home['subject']));
+		frontend_model_template::assign('content',$home['content']);
+		frontend_model_template::assign('title',$home['metatitle']);
+		frontend_model_template::assign('description',$home['metadescription']);
 	}
 	/**
 	 * Exec home script
 	 */
 	public function run(){
-		self::display();
+		$this->load_home_content();
+		frontend_model_template::display('home/index.phtml');
 	}
 }
 ?>

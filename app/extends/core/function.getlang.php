@@ -36,7 +36,7 @@
  * Type:     function
  * Name:     getUrl
  * Date:     September 11, 2009
- * Purpose:  Récupère la langue de en court.
+ * Purpose:  Récupère la langue de en cours.
  * Examples: {getlang}
  * Output:   
  * @link 
@@ -47,5 +47,5 @@
  * @return string
  */
 function smarty_function_getlang($params, $template){
-	return !empty($_GET['strLangue']) ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3).'/' : '';
+	return frontend_model_template::current_Language();
 }

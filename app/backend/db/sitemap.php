@@ -32,21 +32,6 @@
  */
 class backend_db_sitemap{
 	/**
-	 * singleton dbnews
-	 * @access public
-	 * @var void
-	 */
-	static public $admindbsitemap;
-	/**
-	 * instance frontend_db_home with singleton
-	 */
-	public static function adminDbSitemap(){
-        if (!isset(self::$admindbsitemap)){
-         	self::$admindbsitemap = new backend_db_sitemap();
-        }
-    	return self::$admindbsitemap;
-    }
-	/**
      * Sélections dans les news pour la construction du sitemap
      */
     function s_root_news_sitemap(){
@@ -195,17 +180,6 @@ class backend_db_sitemap{
     function s_plugin_sitemap(){
     	$sql = 'SELECT s.idplugin,p.pname FROM mc_sitemaps_config as s
     			LEFT JOIN mc_plugins_module AS p ON ( s.idplugin = p.idplugin )';
-		return magixglobal_model_db::layerDB()->select($sql);
-    }
-/**
-     * Sélections dans les news pour la construction du RSS
-     */
-    function s_news_rss(){
-    	$sql = 'SELECT n.idnews,n.subject,n.content,lang.iso,n.idlang,n.date_sent,n.rewritelink,pub.date_publication,pub.publish
-				FROM mc_news AS n
-				LEFT JOIN mc_news_publication AS pub ON(pub.idnews = n.idnews)
-				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-				WHERE pub.publish = 1 ORDER BY lang.idlang, n.idnews DESC';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 }

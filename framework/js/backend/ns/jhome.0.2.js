@@ -107,8 +107,7 @@ var ns_jhome = {
 					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 					+'</tr>').appendTo('#table-list-home-page tbody');
 				}
-				//$.colorbox.init();
-				$(".post-preview").colorbox();
+				$(".post-preview").colorbox({width:"95%", height:"95%", iframe:false});
 			}
 		});		
 	},
@@ -124,9 +123,7 @@ var ns_jhome = {
 							time:2
 						});
 		    			$(".mc-head-request").html(request);
-		    				setTimeout(function(){
-		    					//location.reload();
-		    				},2800);
+		    			ns_jhome._homePageList();
 		    		}
 		    	});
 				return false; 
@@ -146,9 +143,7 @@ var ns_jhome = {
 							time:2
 						});
 	        			$(".mc-head-request").html(request);
-	        				setTimeout(function(){
-	        					location.reload();
-	        				},2800);
+	        			ns_jhome._homePageList();
 	        		}
 	        	});
 				return false; 
@@ -161,10 +156,10 @@ var ns_jhome = {
 		/**
 	     * Requête ajax pour la suppression des pages d'accueil
 	     */
-	    $('.deletehome').click(function (e){
+	    $('.deletehome').live('click',function (e){
 	    	e.preventDefault();
 			var idhome = $(this).attr("rel");
-			$("#dialog").dialog({
+			$("#dialog_delete").dialog({
 				bgiframe: true,
 				resizable: false,
 				height:140,
@@ -179,7 +174,7 @@ var ns_jhome = {
 							async: false,
 							cache: false,
 							success: function(){
-								location.reload();
+								ns_jhome._homePageList();
 							}
 					     });
 					},

@@ -31,7 +31,6 @@
  *
  */
 class backend_db_home{
-	
 	protected function s_listing_home_page(){
 		$sql = 'SELECT h.idhome,h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang,m.pseudo
 				FROM mc_page_home AS h
