@@ -49,21 +49,33 @@ class backend_controller_imagesize extends database_imagesize{
 		$setting = new backend_model_setting();
 		$setting->assign_img_size($attr_name);
 	}
-	private function load_img_forms(){
+	private function img_size_type($type){
+		//Tableau des variables à rechercher
+		$search = array('small','medium','large');
+		$replace = array('Mini','Moyen','Grand');
+		return str_replace($search ,$replace,$type);
+	}
+	/**
+	 * @access private
+	 * Charge le formulaire pour l'élément
+	 */
+	private function load_img_forms($attr_name){
 		$setting = new backend_model_setting();
 		$input = '';
-		foreach($setting->allSizeImg() as $row){
-			$input .= '<h4>'.$row['config_size_attr'].'&nbsp;'.$row['type'].'</h4>';
-			$input .= '<div style="margin-bottom:5px;">';
-			$input .= '<form class="forms-config" method="post" action="" id="'.$row['config_size_attr'].'">';
-			$input .= '<input type="hidden" name="id_size_img" value="'.$row['id_size_img'].'" />';
-			$input .= '<label>Largeur :</label>';
-			$input .= '<input type="text" name="width" class="spincount" value="'.$row['width'].'" size="5" />';
-			$input .= '<label>Hauteur :</label>';
-			$input .= '<input type="text" name="height" class="spincount" value="'.$row['height'].'" size="5" />&nbsp;';
-			$input .= '<input type="submit" value="Save" />';
-			$input .= '</div>';
+		foreach($setting->fetch_img_size($attr_name) as $row){
+			//$input .= '<div style="margin-bottom:5px;">';
+			$input .= '<form class="forms-config" method="post" action="" id="si_'.$row['attr_name'].'_'.$row['config_size_attr'].'_'.$row['type'].'">';
+			$input .= '<table class="tb-size-config"><tr>';
+			$input .= '<td class="size_img_attribute">'.magixcjquery_string_convert::ucFirst($row['config_size_attr']).'</td>';
+			$input .= '<td class="size_img_type">'.$this->img_size_type($row['type']).'</td>';
+			$input .= '<td>
+			<input type="hidden" name="id_size_img" value="'.$row['id_size_img'].'" />
+			<label>Largeur :</label><input type="text" name="width" class="spincount" value="'.$row['width'].'" size="5" /></td>';
+			$input .= '<td><label>Hauteur :</label><input type="text" name="height" class="spincount" value="'.$row['height'].'" size="5" /></td>';
+			$input .= '<td><input type="submit" value="Save" /></td>';
+			$input .= '</tr></table>';
 			$input .= '</form>';
+			//$input .= '</div>';
 		}
 		return $input;
 	}
@@ -74,6 +86,7 @@ class backend_controller_imagesize extends database_imagesize{
 	private function update_img(){
 		if(isset($this->id_size_img)){
 			parent::u_size_img_config($this->width, $this->height, $this->id_size_img);	
+			backend_controller_template::display('config/request/update_imgsize.phtml');
 		}
 	}
 	/**
@@ -81,9 +94,13 @@ class backend_controller_imagesize extends database_imagesize{
 	 * Execute la classe
 	 */
 	public function run(){
-		//$this->catalog_assign_img_size('catalog');
-		backend_controller_template::assign('img_size_forms', $this->load_img_forms());
-		backend_controller_template::display('config/imagesize.phtml');	
+		if(magixcjquery_filter_request::isPost('id_size_img')){
+			$this->update_img();
+		}else{
+			backend_controller_template::assign('img_size_forms_catalog', $this->load_img_forms('catalog'));
+			backend_controller_template::assign('img_size_forms_news', $this->load_img_forms('news'));
+			backend_controller_template::display('config/imagesize.phtml');		
+		}
 	}
 }
 class database_imagesize{

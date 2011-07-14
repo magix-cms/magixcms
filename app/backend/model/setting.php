@@ -81,8 +81,8 @@ class backend_model_setting extends db_setting{
 			return $db['num_size'];
 		}
 	}
-	public function allSizeImg(){
-		return parent::s_config_img_size();
+	public function fetch_img_size($attr_name){
+		return parent::s_attribute_img_size_config($attr_name);
 	}
 	public function dataSizeImg(){}
 }
@@ -109,10 +109,12 @@ class db_setting{
 	 * Charge la configuration de la taille des images suivant sont attribut
 	 * @param string $attr_name
 	 */
-	protected function s_all_img_size_config($attr_name){
-    	$sql = 'SELECT ci.* FROM mc_config_size_img as ci
+	protected function s_attribute_img_size_config($attr_name){
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
     	JOIN mc_config as c USING(idconfig)
-    	WHERE c.attr_name = :attr_name';
+    	WHERE c.attr_name = :attr_name
+    	ORDER BY id_size_img,config_size_attr ASC';
     	return magixglobal_model_db::layerDB()->select($sql,array(
     		':attr_name'=>$attr_name
     	));
@@ -125,7 +127,9 @@ class db_setting{
     	));
     }
 	protected function s_config_img_size(){
-    	$sql = 'SELECT ci.* FROM mc_config_size_img as ci';
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)';
     	return magixglobal_model_db::layerDB()->select($sql);
     }
 }

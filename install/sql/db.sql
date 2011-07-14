@@ -176,28 +176,25 @@ INSERT INTO `mc_config` (`idconfig`, `attr_name`, `status`) VALUES
 (6, 'plugins', 1);
 
 CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
-  `id_size_img` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `id_size_img` smallint(5) NOT NULL AUTO_INCREMENT,
   `idconfig` tinyint(3) NOT NULL,
-  `name_size` varchar(40) NOT NULL,
-  `num_size` decimal(4,0) NOT NULL,
+  `config_size_attr` varchar(40) NOT NULL,
+  `width` decimal(4,0) NOT NULL,
+  `height` decimal(4,0) NOT NULL,
+  `type` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id_size_img`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-INSERT INTO `mc_config_size_img` VALUES
-(1, 4, 'size_w_cat', 120),
-(2, 4, 'size_h_cat', 100),
-(3, 4, 'size_w_subcat', 120),
-(4, 4, 'size_h_subcat', 100),
-(5, 4, 'size_w_small_product', 120),
-(6, 4, 'size_h_small_product', 100),
-(7, 4, 'size_w_medium_product', 350),
-(8, 4, 'size_h_medium_product', 250),
-(9, 4, 'size_w_large_product', 700),
-(10, 4, 'size_h_large_product', 700),
-(11, 4, 'size_w_small_microgalery', 120),
-(12, 4, 'size_h_small_microgalery', 100),
-(13, 4, 'size_w_large_microgalery', 700),
-(14, 4, 'size_h_large_microgalery', 700);
+INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`, `width`, `height`, `type`) VALUES
+(1, 4, 'category', 120, 100, 'small'),
+(2, 4, 'subcategory', 120, 100, 'small'),
+(3, 4, 'product', 120, 100, 'small'),
+(4, 4, 'product', 350, 250, 'medium'),
+(5, 4, 'product', 700, 700, 'large'),
+(6, 4, 'galery', 120, 100, 'small'),
+(7, 4, 'galery', 700, 700, 'large'),
+(8, 3, 'news', 120, 100, 'small'),
+(9, 3, 'news', 350, 250, 'medium');
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
   `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,

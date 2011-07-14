@@ -1,10 +1,9 @@
 var ns_jsettingimage = {
 	_loadingConfig:function(){
 		$('.spincount').spinner({ min: 50 });
-	}
-	,
+	},
 	_updateSizeImg:function(formsId){
-		$(formsId).submit(function(){
+		$('#'+formsId).submit(function(){
 			$.notice({
 				ntype: "ajaxsubmit",
 	    		delay: 2800,
@@ -18,13 +17,10 @@ var ns_jsettingimage = {
 		});
 	},
 	_configUpdateId:function(){
-		this._updateSizeImg('#cat_category_image_size');
-		this._updateSizeImg('#cat_subcategory_image_size');
-		this._updateSizeImg('#mini_product_image_size');
-		this._updateSizeImg('#medium_product_image_size');
-		this._updateSizeImg('#large_product_image_size');
-	},
-	exeUpdate:function(){
-		this._configUpdateId();
+		$(".forms-config").each(function(){
+			var formsId = $(this).attr('id');
+			ns_jsettingimage._updateSizeImg(formsId);
+		});
+		this._loadingConfig();
 	}
 };
