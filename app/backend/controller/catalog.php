@@ -499,8 +499,8 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
 			$category = '<ul id="sortcat">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $cat){
-				if($cat['codelang'] != null){
-					$langspan = '<span class="lfloat">'.$cat['codelang'].'</span>';
+				if($cat['iso'] != null){
+					$langspan = '<span class="lfloat">'.$cat['iso'].'</span>';
 				}else{
 					$langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
 				}
@@ -520,7 +520,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
 			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $list){
 				$cat[]= '{"idclc":'.json_encode($list['idclc']).',"clibelle":'.json_encode($list['clibelle']).
-				',"codelang":'.json_encode($list['codelang']).'}';
+				',"iso":'.json_encode($list['iso']).'}';
 			}
 			print '['.implode(',',$cat).']';
 		}
@@ -537,13 +537,13 @@ class backend_controller_catalog extends analyzer_catalog{
 		$category = '<select id="idclc" name="idclc" class="select">';
 		$category .='<option value="0">Aucune catégorie</option>';
 		foreach ($admindb as $row){
-			//si codelang pas = à $lang
-			if ($row['codelang'] != $lang) {
+			//si iso pas = à $lang
+			if ($row['iso'] != $lang) {
 				if ($lang != '') { $category .= "</optgroup>\n"; }
-			       $category .= '<optgroup label="'.$row['codelang'].'">';
+			       $category .= '<optgroup label="'.$row['iso'].'">';
 			}
 			$category .= '<option value="'.$row['idclc'].'">'.$row['clibelle'].'</option>';
-			$lang = $row['codelang'];
+			$lang = $row['iso'];
 		}
 		if ($lang != '') { $category .= "</optgroup>\n"; }
 		$category .='</select>';
@@ -609,9 +609,9 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() != null){
 			$category = '<ul id="sortsubcat">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_sorder() as $cat){
-				if($cat['codelang'] != null){
-					$lang = $cat['codelang'];
-					$langspan = '<span class="lfloat">'.$cat['codelang'].'</span>';
+				if($cat['iso'] != null){
+					$lang = $cat['iso'];
+					$langspan = '<span class="lfloat">'.$cat['iso'].'</span>';
 				}else{
 					$lang = 'default';
 					$langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
@@ -1112,7 +1112,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			if(backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) != null){
 				foreach (backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) as $s){
 					$search[]= '{"idcatalog":'.json_encode($s['idcatalog']).',"imgcatalog":'.json_encode($s['imgcatalog']).
-					',"pseudo":'.json_encode($s['pseudo']).',"titlecatalog":'.json_encode($s['titlecatalog']).',"codelang":'.json_encode($s['codelang']).'}';
+					',"pseudo":'.json_encode($s['pseudo']).',"titlecatalog":'.json_encode($s['titlecatalog']).',"iso":'.json_encode($s['iso']).'}';
 				}
 				print '['.implode(',',$search).']';
 			}
@@ -1127,7 +1127,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			if(backend_db_catalog::adminDbCatalog()->r_search_complete_product($this->post_search) != null){
 				foreach (backend_db_catalog::adminDbCatalog()->r_search_complete_product($this->post_search) as $catalog){
 					$url = magixglobal_model_rewrite::filter_catalog_product_url(
-						$catalog['codelang'], 
+						$catalog['iso'], 
 						$catalog['pathclibelle'], 
 						$catalog['idclc'], 
 						$catalog['urlcatalog'], 
@@ -1135,7 +1135,7 @@ class backend_controller_catalog extends analyzer_catalog{
 						true
 					);
 					$search[]= '{"idproduct":'.json_encode($catalog['idproduct']).',"titlecatalog":'.json_encode($catalog['titlecatalog']).
-					',"category":'.json_encode($catalog['clibelle']).',"subcategory":'.json_encode($catalog['slibelle']).',"uriproduct":'.json_encode($url).',"codelang":'.json_encode($catalog['codelang']).'}';
+					',"category":'.json_encode($catalog['clibelle']).',"subcategory":'.json_encode($catalog['slibelle']).',"uriproduct":'.json_encode($url).',"iso":'.json_encode($catalog['iso']).'}';
 				}
 				print '['.implode(',',$search).']';
 			}
@@ -1216,7 +1216,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
 				$product .= '<li style="list-style: none;margin:0;padding:0;">'.
 				magixglobal_model_rewrite::filter_catalog_product_url(
-					$prod['codelang'], 
+					$prod['iso'], 
 					$prod['pathclibelle'], 
 					$prod['idclc'], 
 					$prod['urlcatalog'], 
@@ -1341,7 +1341,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($prod['idproduct']);
 				$product .= '<li style="list-style: none;margin:0;padding:0;">'
 				.magixglobal_model_rewrite::filter_catalog_product_url(
-					$info['codelang'], 
+					$info['iso'], 
 					$info['pathclibelle'], 
 					$info['idclc'], 
 					$info['urlcatalog'], 
@@ -1376,7 +1376,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
 	}
 	/**
 	 * chargement des données d'un produit pour le déplacement de catégorie
@@ -1386,7 +1386,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
 		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
 	}
 	/**
 	 * chargement des données d'un produit pour la copie d'un produit dans plusieurs catégorie
@@ -1398,7 +1398,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
 	}
 	/**
 	 * Chargement des données d'un produit pour l'insertion d'une image
@@ -1410,7 +1410,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
 		backend_config_smarty::getInstance()->assign('price',$data['price']);
 		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('codelang',$data['codelang']);
+		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
 	}
 	/**
 	 * Mise à jour d'un produit

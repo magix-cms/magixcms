@@ -56,6 +56,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var string
 	 */
 	public $idlang;
+	public $n_image,$post;
 	/**
 	 * 
 	 * @var string
@@ -76,7 +77,7 @@ class backend_controller_news extends backend_db_news{
 	 * 
 	 * 
 	 */
-	function __construct(){
+	public function __construct(){
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->getnews = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
@@ -88,6 +89,12 @@ class backend_controller_news extends backend_db_news{
 		}
 		if(magixcjquery_filter_request::isPost('n_content')){
 			$this->n_content = ($_POST['n_content']);
+		}
+		if(isset($_FILES['n_image']["name"])){
+			$this->n_image = magixcjquery_url_clean::rplMagixString($_FILES['n_image']["name"]);
+		}
+		if(magixcjquery_filter_request::isGet('post')){
+			$this->post = magixcjquery_form_helpersforms::inputClean($_GET['post']);
 		}
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
@@ -109,12 +116,19 @@ class backend_controller_news extends backend_db_news{
 		if(magixcjquery_filter_request::isPost('delnews')){
 			$this->delnews = magixcjquery_filter_isVar::isPostNumeric($_POST['delnews']);
 		}
-		if(magixcjquery_filter_request::isGet('status_news')) {
-			$this->status_news = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['status_news']);
+		if(magixcjquery_filter_request::isPost('status_news')) {
+			$this->status_news = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['status_news']);
 		}
 		if(magixcjquery_filter_request::isGet('get_news_publication')) {
 			$this->get_news_publication = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['get_news_publication']);
 		}
+	}
+	/**
+	 * @access private
+	 * Le dossier images des news 
+	 */
+	private function dir_img_news(){
+		return magixglobal_model_system::base_path().'/upload/news/';
 	}
 	/**
 	 * 
@@ -123,6 +137,87 @@ class backend_controller_news extends backend_db_news{
 	 */
 	private function extract_random_idnews($numString){
 		return magixglobal_model_cryptrsa::short_alphanumeric_id($numString);
+	}
+	/**
+	 * @access private
+	 * Charge la taille des images de catégorie
+	 * @param string $type
+	 */
+	private function size_img_category($type){
+		$imgsetting = new backend_model_setting();
+		switch($type){
+			case 'w':
+				if($imgsetting->load_img_size('size_'+$type+'_news') != null){
+					return $imgsetting->load_img_size('size_'+$type+'_cat');
+				}else{
+					return 120;
+				}	
+			break;
+			case 'h':
+				if($imgsetting->load_img_size('size_'+$type+'_cat') != null){
+					return $imgsetting->load_img_size('size_'+$type+'_cat');
+				}else{
+					return 100;
+				}	
+			break;
+		}
+	}
+	/**
+	 * 
+	 * Insert une image dans les news
+	 * @param string $nimage
+	 * @param void $confimg
+	 * @param bool $update
+	 * @throws Exception
+	 */
+	private function insert_image_news($nimage,$confimg,$update=false){
+		if(isset($nimage)){
+			try{
+				$makeFiles = new magixcjquery_files_makefiles();
+				if($update == true){
+					$vimage = parent::s_n_image_news($this->getnews);
+					if(file_exists(self::dir_img_news().$vimage['n_image'])){
+						$makeFiles->removeFile(self::dir_img_news(),$vimage['n_image']);
+						$makeFiles->removeFile(self::dir_img_news(),'s_'.$vimage['n_image']);
+					}else{
+						throw new Exception('file: '.$vimage['n_image'].' is not found');
+					}
+				}
+				/**
+				 * Envoi une image dans le dossier "racine" catalogimg
+				 */
+				backend_model_image::upload_img($confimg,'upload'.DIRECTORY_SEPARATOR.'news'.DIRECTORY_SEPARATOR);
+				/**
+				 * Analyze l'extension du fichier en traitement
+				 * @var $fileextends
+				 */
+				$fileextends = backend_model_image::image_analyze(self::dir_img_news().$nimage);
+				/**
+				 * 
+				 * Enter description here ...
+				 * @var unknown_type
+				 */
+				$rimage = magixglobal_model_cryptrsa::uniq_id();
+				/**
+				 * Initialisation de la classe phpthumb 
+				 * @var void
+				 */
+				$thumb = PhpThumbFactory::create(self::dir_img_news().$nimage);
+				$imageuri = $rimage.$fileextends;
+				//Redimensionnement et changement de nom suivant la catégorie
+				$thumb->resize(350)->save(self::dir_img_news().$imageuri);
+				$thumb->resize(120)->save(self::dir_img_news().'s_'.$imageuri);
+				//Supprime le fichier original pour gagner en espace
+				if(file_exists(self::dir_img_news().$nimage)){
+					$makeFiles->removeFile(self::dir_img_news(),$nimage);
+				}else{
+					throw new Exception('file: '.$nimage.' is not found');
+				}
+				return $imageuri;
+			}catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
+			}
+		}
 	}
 	/**
 	 * @access private
@@ -193,12 +288,11 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Charge les données du formulaire pour la mise à jour
 	 */
-	private function load_data_forms(){
+	private function load_data_forms($data){
 		/**
 		 * Retourne un tableau des données
 		 * @var 
 		 */
-		$data = parent::s_news_record($this->getnews);
 		backend_controller_template::assign('n_title',$data['n_title']);
 		backend_controller_template::assign('n_content',$data['n_content']);
 		backend_controller_template::assign('n_uri',$data['n_uri']);
@@ -206,6 +300,19 @@ class backend_controller_news extends backend_db_news{
 		backend_controller_template::assign('iso',$data['iso']);
 		backend_controller_template::assign('date_register',$data['date_register']);
 		backend_controller_template::assign('published',$data['published']);
+	}
+	/**
+	 * @access private
+	 * Charge les données de l'image de la news
+	 * @param string $news_img
+	 */
+	private function news_image($news_img){
+		if($news_img != null){
+			$img = '<img style="position:relative;margin:auto;" src="/upload/news/s_'.$news_img.'" alt="" />';
+		}else{
+			$img = '<div style="margin-top:40%;text-align:center;">Aucune image pour cette news</div>';
+		}
+		print $img;
 	}
 	/**
 	 * @access private
@@ -245,6 +352,23 @@ class backend_controller_news extends backend_db_news{
 			}
 		}
 	}
+	private function update_news_image(){
+		if(isset($this->n_image)){
+			if($this->n_image != null){
+				$img = self::insert_image_news($this->n_image,'n_image',true);
+			}else{
+				$makeFiles = new magixcjquery_files_makefiles();
+				$vimage = parent::s_n_image_news($this->getnews);
+				if(file_exists(self::dir_img_news().$vimage['n_image'])){
+					$makeFiles->removeFile(self::dir_img_news(),$vimage['n_image']);
+					$makeFiles->removeFile(self::dir_img_news(),'s_'.$vimage['n_image']);
+				}
+				$img = null;
+			}
+			parent::u_news_image($img, $this->getnews);
+			//backend_controller_template::display('request/success.phtml');
+		}
+	}
 	/**
 	 * @access private
 	 * Modifie le status de la news
@@ -252,7 +376,8 @@ class backend_controller_news extends backend_db_news{
 	private function update_status_publication(){
 		if(isset($this->status_news)){
 			parent::u_status_publication_of_news($this->get_news_publication,$this->status_news);
-			backend_controller_rss::instance()->exec();
+			$rss = new backend_controller_rss();
+				$rss->run('news');
 		}
 	}
 	/**
@@ -292,8 +417,11 @@ class backend_controller_news extends backend_db_news{
 	public function run(){
 		$header= new magixglobal_model_header();
 		if(magixcjquery_filter_request::isGet('edit')){
+			$data = parent::s_news_record($this->getnews);
 			if(magixcjquery_filter_request::isPost('n_title')){
 				$this->update_data_forms();
+			}elseif(magixcjquery_filter_request::isGet('post')){
+				$this->update_news_image();
 			}elseif(magixcjquery_filter_request::isGet('load_json_uri_news')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
@@ -302,8 +430,10 @@ class backend_controller_news extends backend_db_news{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				self::load_json_uri_news();
+			}elseif(magixcjquery_filter_request::isGet('imgnews')){
+				$this->news_image($data['n_image']);
 			}else{
-				$this->load_data_forms();
+				$this->load_data_forms($data);
 				backend_controller_template::display('news/edit.phtml');
 			}
 		}elseif(magixcjquery_filter_request::isGet('get_news_publication')){

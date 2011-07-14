@@ -30,7 +30,7 @@
  * @name sitemap
  *
  */
-class backend_controller_sitemap{
+class backend_controller_sitemap extends backend_db_sitemap{
 	/**
 	 * Constante PATHPLUGINS
 	 * Défini le chemin vers le dossier des plugins
@@ -191,7 +191,7 @@ class backend_controller_sitemap{
 			/**
 			 * La racine des news par langue
 			 */
-			foreach(backend_db_sitemap::adminDbSitemap()->s_root_news_sitemap() as $data){
+			foreach(parent::s_root_news_sitemap() as $data){
 	        	$islang = $data['codelang'] ? $data['codelang']: '';
 	        	$curl = date_create($data['date_sent']);
 	        	 $sitemap->writeMakeNode(
@@ -204,7 +204,7 @@ class backend_controller_sitemap{
 	        /**
 	         * Les news par langue
 	         */
-	        foreach(backend_db_sitemap::adminDbSitemap()->s_news_sitemap() as $data){
+	        foreach(parent::s_news_sitemap() as $data){
 	        	$islang = $data['codelang'] ? $data['codelang']: '';
 	        	$curl = date_create($data['date_sent']);
 	        	 $sitemap->writeMakeNode(
@@ -225,7 +225,7 @@ class backend_controller_sitemap{
         $sitemap = new magixcjquery_xml_sitemap();
         $config = backend_model_setting::tabs_load_config('cms');
 		if($config['status'] == 1){
-	        foreach(backend_db_sitemap::adminDbSitemap()->s_cms_sitemap() as $data){
+	        foreach(parent::s_cms_sitemap() as $data){
 	        	if($data['date_page'] == '0000-00-00 00:00:00'){
 	        		$date_page = date('d-m-Y');
 	        	}else{
@@ -268,7 +268,7 @@ class backend_controller_sitemap{
         $sitemap = new magixcjquery_xml_sitemap();
         $config = backend_model_setting::tabs_load_config('catalog');
 		if($config['status'] == 1){
-			foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_category_sitemap() as $data){
+			foreach(parent::s_catalog_category_sitemap() as $data){
 		       	$sitemap->writeMakeNode(
 			       	 magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url(
 						$data['codelang'], 
@@ -280,7 +280,7 @@ class backend_controller_sitemap{
 				     0.8
 		        );
 	        }
-		foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_sitemap() as $data){
+		foreach(parent::s_catalog_subcategory_sitemap() as $data){
 		       	$sitemap->writeMakeNode(
 			       	  magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_subcategory_url(
 						$data['codelang'], 
@@ -294,7 +294,7 @@ class backend_controller_sitemap{
 				     0.8
 		        );
 	        }
-	        foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_sitemap() as $data){
+	        foreach(parent::s_catalog_sitemap() as $data){
 		       	$sitemap->writeMakeNode(
 			       	  magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url(
 						$data['codelang'], 
@@ -320,35 +320,35 @@ class backend_controller_sitemap{
 		/**
 		 * Les images des catégories du catalogue sur la racine de celui-ci
 		 */
-		foreach(backend_db_sitemap::adminDbSitemap()->count_catalog_category_sitemap_by_lang() as $data){
+		foreach(parent::count_catalog_category_sitemap_by_lang() as $data){
 			if($data['catimg'] != 0){
 				$sitemap->writeMakeNodeImage(
 					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_root_url($data['codelang'],true),
 					'img_c',
 					magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/category/',
-					backend_db_sitemap::adminDbSitemap()->s_catalog_category_images_by_lang($data['idlang'])
+					parent::s_catalog_category_images_by_lang($data['idlang'])
 				);
 			}
 		}
 		/*
 		 * Les images des sous catégories du catalogue de chaque catégorie
 		 */
-		foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_category_sitemap() as $data){
-			$count = backend_db_sitemap::adminDbSitemap()->count_catalog_subcategory_sitemap($data['idclc']);
+		foreach(parent::s_catalog_category_sitemap() as $data){
+			$count = parent::count_catalog_subcategory_sitemap($data['idclc']);
 			//magixcjquery_debug_magixfire::magixFireLog($count['subcatimg']);
 			if($count['subcatimg'] != 0){
 				$sitemap->writeMakeNodeImage(
 					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($data['codelang'],$data['pathclibelle'],$data['idclc'],true),
 					'img_s',
 					magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/subcategory/',
-					backend_db_sitemap::adminDbSitemap()->s_catalog_subcategory_images_by_lang($data['idclc'])
+					parent::s_catalog_subcategory_images_by_lang($data['idclc'])
 				);
 			}
 		}
 		/**
 		 * Les images des produits du catalogue
 		 */
-		foreach(backend_db_sitemap::adminDbSitemap()->s_catalog_product_images() as $data){
+		foreach(parent::s_catalog_product_images() as $data){
 			$sitemap->writeMakeNodeImage(
 				magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url($data['codelang'],$data['pathclibelle'],$data['idclc'],$data['urlcatalog'],$data['idproduct'],true),
 				$data['imgcatalog'],
@@ -555,8 +555,8 @@ class backend_controller_sitemap{
 	 * Affiche la page d'administration des sitemaps
 	 */
 	private function display(){
-		$statnews = backend_db_sitemap::adminDbSitemap()->s_count_news_max();
-		$statcms = backend_db_sitemap::adminDbSitemap()->s_count_cms_max();
+		$statnews = parent::s_count_news_max();
+		$statcms = parent::s_count_cms_max();
 		$statcatalog = backend_db_catalog::adminDbCatalog()->s_count_catalog_max();
 		$confignews = backend_model_setting::tabs_load_config('news');
 		/**

@@ -48,8 +48,8 @@ function load_category(){
 			}
 			if(j !== null){
 				$.each(j, function(i,item) {
-					if(item.codelang != null){
-						langspan = '<span class="lfloat">'+item.codelang+'</span>';
+					if(item.iso != null){
+						langspan = '<span class="lfloat">'+item.iso+'</span>';
 					}else{
 						langspan = '<span class="lfloat ui-icon ui-icon-flag"></span>';
 					}
@@ -353,10 +353,8 @@ function result_search_product(j){
 			}else{
 				imgcatalog = '<div class="ui-state-error" style="border:none;"><a href="/admin/catalog.php?product&getimg='+item.idcatalog+'"><span style="float:left" class="ui-icon ui-icon-cancel"></span></a></div>';
 			}
-			if(item.codelang != null){
-				flaglang = '<div class="ui-state-error" style="border:none;">'+item.codelang+'</div>';
-			}else{
-				flaglang = '<div class="ui-state-error" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-cancel"></span></div>';
+			if(item.iso != null){
+				flaglang =item.iso;
 			}
 			return $('<tr><td>'+item.idcatalog+'</td>'
 			+'<td class="medium-cell"><a href="/admin/catalog.php?product&editproduct='+item.idcatalog+'" class="linkurl">'+item.titlecatalog+'</a></td>'

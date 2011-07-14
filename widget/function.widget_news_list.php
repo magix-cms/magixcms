@@ -66,9 +66,14 @@ function smarty_function_widget_news_list($params, $template){
 				$islang = $pnews['iso'];
 				$curl = new magixglobal_model_dateformat($pnews['date_register']);
 				$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
+				if ($pnews['n_image'] != null){
+					$image = '<img src="/upload/news/s_'.$pnews['n_image'].'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+				}else{
+					$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+				}
 				$news .= '<div class="list-div-elem">';
 				$news .='<a class="img">';
-						$news .='<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+						$news .= $image;
 					$news .='</a>';
 					
 					$news .='<p class="name">';

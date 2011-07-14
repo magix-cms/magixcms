@@ -57,7 +57,7 @@ class frontend_db_lang{
 	 * @static
 	 * Retourne la liste des langues disponible
 	 */
-	public static function s_fetch_all_lang(){
+	public static function s_fetch_lang(){
 	    $sql = 'SELECT l.idlang, l.iso, l.language
 	           FROM mc_lang AS l
 	           WHERE l.active_lang = 1

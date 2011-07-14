@@ -1,10 +1,10 @@
-{* {config_load file="local`$smarty.get.strLangue`.conf" scope="global"}*}{autoload_i18n}{doctype type="XHTML1_STRICT"}
-<html xmlns="http://www.w3.org/1999/xhtml" lang="{sessionlang}" xml:lang="mis">
+{autoload_i18n}{doctype type="XHTML1_STRICT"}
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{getlang}" xml:lang="mis">
   <head>
     {headmeta meta="contentType" content="html" charset="utf8"}
     {headmeta meta="contentStyleType" content="css"}
-    {headmeta meta="contentLanguage" content="fr,en,nl"}
-    <meta name="DC.Language" content="{$smarty.session.strLangue}" />
+    {headmeta meta="contentLanguage" content="{content_language}"}
+    <meta name="DC.Language" content="{getlang}" />
     <meta name="DC.Creator" content="magix-cms.com" />
     {headmeta meta="keywords" content=""}
     {headmeta meta="robots" content="index,follow,all"}

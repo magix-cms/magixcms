@@ -37,7 +37,7 @@ return array(
 	'//framework/css/globalcss.css','//framework/css/colorbox-simple/colorbox.css',
 	'//framework/css/globalforms.css','//framework/css/notification.css','//install/css/install.css'),
 	'installjs'=> array('//framework/js/jquery-1.5.2.min.js','//framework/js/jquery-ui-1.8.10.custom.min.js',
-	'//framework/js/ui/i18n-1.8/jquery-ui-i18n.js','//framework/js/jquery.form-2.67.js',
+	'//framework/js/ui/i18n-1.8/jquery-ui-i18n.js','//framework/js/jquery.form-2.83.js',
 	'//framework/js/jquery.validate.1.8.min.js','//framework/js/jquery.validate.password-1.0.js','//framework/js/ui/ui.checkbox.1.4.js',
 	'//framework/js/tools/jquery.colorbox-1.3.17.js','//framework/js/jquery.cookie.js','//framework/js/tools/notice-tpl.js','//framework/js/ad-globalform-1.0.js',
 	'//framework/js/jquery.jfirebug.js','//install/js/install.js'),

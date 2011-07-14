@@ -35,6 +35,62 @@ var ns_jnews = {
 			return false;
 		});
 	},
+	_editImage:function(idnews){
+		$("#forms-news-image-update").submit(function(){
+			$(this).ajaxSubmit({
+	    		url: '/admin/news.php?edit='+idnews+'&post=1',
+	    		type:"post",
+	    		resetForm: true,
+	    		success:function(request) {
+	    			$('#n_image:file').val('');
+	    			/*$.notice({
+						ntype: "simple",
+						time:2
+					});*/
+	    			ns_jnews._LoadImageNews(idnews);
+	    			//$(".mc-head-request").html(request);
+	    		}
+	    	});
+			return false;
+		});
+	},
+	_LoadImageNews:function(idnews){
+		/**
+		 * Requete get pour charger l'image du profil
+		 */
+	    $.ajax({
+			type:'get',
+			statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},
+				401: function() {
+					console.warn("access denied");
+				},
+				404: function() {
+					console.warn("object not found");
+				},
+				403: function() {
+					console.warn("request forbidden");
+				},
+				408: function() {
+					console.warn("server timed out waiting for request");
+				},
+				500: function() {
+					console.error("Internal Server Error");
+				}
+			},
+			url: '/admin/news.php?edit='+idnews+'&imgnews=true',
+			async: true,
+			cache:false,
+			beforeSend: function(){
+				$('#load_news_img').html('<img style="margin-top:40%;" class="loader-block" src="/framework/img/square-circle.gif" />');
+			},
+			success: function(e){
+				$('#load_news_img').html(e);
+			}
+	     });
+	},
 	_load_page_uri:function(idnews){
 		$.ajax({
 			url: '/admin/news.php?edit='+idnews+'&load_json_uri_news=true',
@@ -86,16 +142,13 @@ var ns_jnews = {
 				height:140,
 				width:320,
 				modal: true,
-				overlay: {
-					backgroundColor: '#000',
-					opacity: 0.5
-				},
 				buttons: {
 					'En ligne': function() {
 						$(this).dialog('close');
 						$.ajax({
-							type:'get',
-							url: uri_news_publish+'&status_news=1',
+							type:'post',
+							url: uri_news_publish,
+							data: 'status_news=1',
 							async: false,
 							success:function(e){
 								location.reload();
@@ -106,8 +159,9 @@ var ns_jnews = {
 					'Hors ligne': function() {
 						$(this).dialog('close');
 						$.ajax({
-							type:'get',
-							url: uri_news_publish+'&status_news=0',
+							type:'post',
+							url: uri_news_publish,
+							data: 'status_news=0',
 							async: false,
 							success:function(e){
 								location.reload();
@@ -135,10 +189,6 @@ var ns_jnews = {
 				height:140,
 				modal: true,
 				title: 'Suppression d\'un article',
-				overlay: {
-					backgroundColor: '#000',
-					opacity: 0.5
-				},
 				buttons: {
 					'Delete News': function() {
 						$(this).dialog('close');
@@ -171,5 +221,7 @@ var ns_jnews = {
 		$('#n_uri').inputLock();
 		this._load_page_uri(idnews);
 		this._editNews(idnews);
+		this._editImage(idnews);
+		this._LoadImageNews(idnews);
 	}
 };

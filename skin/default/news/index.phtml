@@ -14,17 +14,16 @@
 			<div class="bg-top w16-16"></div>
 				<div class="bg-repeat w16-16">	
 					<div id="contentCol" class="text-content block w11-16 lfloat">
-						<h1>Actualités</h1>
+						<h1>{#topmenu_news_t#|firststring}</h1>
 						{widget_news_list max=10}
 					</div>
 					<div id="rightCol" class="block w5-16 lfloat last">
 						{include file="common/colright.phtml"}
 					</div>
 				</div>
-				<div class="bg-bottom w16-16"></div>
+			<div class="bg-bottom w16-16"></div>
 		</div>
 	</div>
 	{include file="common/footer.phtml"}
-
 </body>
 </html>

@@ -35,47 +35,48 @@
  * @subpackage plugins
  */
 /**
- * Smarty {widget_prelude_lang} function plugin
+ * Smarty {widget_lang_prelude} function plugin
  *
  * Type:     function
- * Name:     widget_prelude_lang
+ * Name:     widget_lang_prelude
  * Date:     25/11/2010
- * Examples: {widget_prelude_lang display=true icons=true separator="|"}
+ * Date Update : 14/07/2011
+ * Examples: {widget_lang_prelude config_param=['display'=>true 'icons'=>true]}
  * Output:   
  * @link 
- * @version  1.1
+ * @version  1.2
  * @param $params
  * @param $template
  * @return string
  */
 
-function smarty_function_widget_prelude_lang($params, $template){
-	$display = !empty($params['display'])? "true" : "false";
-	$icons = !empty($params['icons'])? "true" : "false";
-	/*$default = !empty($params['default'])? $params['default'] : "fr";
-	$separator = !empty($params['separator'])? $params['separator'] : "";*/
-	if($display == "true"){
+function smarty_function_widget_lang_prelude($params, $template){
+	if (!isset($params['config_param'])) {
+	 	trigger_error("config_param: missing 'config_param' parameter");
+		return;
+	}
+	if(is_array($params['config_param'])){
+		$tabs = $params['config_param'];
+	}
+	$icons = !empty($tabs['icons'])? "true" : "false";
+	if(frontend_db_lang::s_fetch_lang() != null){
 		$menu = '<div id="prelude">';
 		switch($icons){
 			case "true":
-				/*$menu .= '<a href="/" hreflang="'.$default.'">';
-				$menu .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/lang/'.$default.'.png" alt="'.$default.'" />';
-				$menu .= '</a>';*/
-				foreach (frontend_db_lang::s_fetch_all_lang() as $l){
+				foreach (frontend_db_lang::s_fetch_lang() as $l){
 					$menu .= '<a href="/'.$l['iso'].'/" hreflang="'.$l['iso'].'">';
 					$menu .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/lang/'.$l['iso'].'.png" alt="'.$l['language'].'" />';
 					$menu .= '</a>';
 				}
 			break;
 			case "false":
-				//$menu .= '<a href="/">'.$default.'</a>';
-				foreach (frontend_db_lang::s_fetch_all_lang() as $l){
-					$menu .= '<a href="/'.$l['iso'].'/">'.$l['iso'].'</a>';
+				foreach (frontend_db_lang::s_fetch_lang() as $l){
+					$menu .= '<a href="/'.$l['iso'].'/">'.magixcjquery_string_convert::upTextCase($l['iso']).'</a>';
 				}
 			break;
 		}
 		$menu .= "</div>";
-	}
 	return $menu;
+	}
 }
 ?>

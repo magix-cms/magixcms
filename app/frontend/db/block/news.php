@@ -56,7 +56,7 @@ class frontend_db_block_news{
 	public function s_news_listing($iso,$limit=false,$max=null,$offset=null){
 		$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-		$sql = 'SELECT n.n_title,n.n_content,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
+		$sql = 'SELECT n.n_title,n.n_content,n.n_image,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
 				FROM mc_news as n
 				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				WHERE n.published = 1 AND lang.iso = :iso 

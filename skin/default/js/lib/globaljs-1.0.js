@@ -54,18 +54,16 @@ $(function() {
 		});
 	}
 	/**
-	 * Animation du menu vertical CMS
-	 */
-	$('.personnal-side-list li a').prepend('<span style="float:left;" class="ui-icon ui-icon-triangle-1-e"></span>');
-	$('.personnal-side-list a:not(.active-page)').hover(function() {
-		$(this).stop().animate({ opacity: '1',backgroundColor: "transparent",color: "#622181" }, 'normal');
-	  }, function() {
-	    $(this).stop().animate({ opacity: '1',backgroundColor: "transparent",color: "#F29400" }, 'normal');
-	});
-	/**
 	 * Jquery treeview pour le catalogue
 	 */
 	$("#catalog-hierarchy").treeview({
 		animated: "fast"
 	});
+	
+	/**
+	 * Jquery treeview pour les pages cms
+	 */		
+	$("#menu-cms").treeview({
+		animated: "fast"
+	});	
 });

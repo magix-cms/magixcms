@@ -93,14 +93,14 @@ function smarty_function_widget_catalog($params, $template){
 						<tbody>';
 	if(backend_db_catalog::adminDbCatalog()->s_catalog_plugin($limit,$max,$offset,$sort) != null){
 		foreach(backend_db_catalog::adminDbCatalog()->s_catalog_plugin($limit,$max,$offset,$sort) as $pcms){
-			$islang = $pcms['codelang'] ? magixcjquery_html_helpersHtml::unixSeparator().$pcms['codelang']: '';
+			$islang = $pcms['iso'] ? magixcjquery_html_helpersHtml::unixSeparator().$pcms['iso']: '';
 			switch($pcms['idlang']){
 				case 0:
-					$codelang = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
+					$iso = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
 				$lang = '';
 					break;
 				default: 
-					$codelang = $pcms['iso'];
+					$iso = $pcms['iso'];
 					$lang = 'strLangue='.$pcms['iso'].'&amp;';
 				break;
 			}
@@ -115,7 +115,7 @@ function smarty_function_widget_catalog($params, $template){
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="/admin/catalog.php?product=true&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],40,'').'</a></td>':'<td class="maximal"><a class="linkurl" href="'.magixcjquery_html_helpersHtml::getUrl().'/admin/catalog.php?product=true&amp;editproduct='.$pcms['idcatalog'].'">'.magixcjquery_string_convert::cleanTruncate($pcms['titlecatalog'],30,'').'</a></td>';
 			 $plugin .= '<td class="nowrap">'.$imgcatalog.'</td>';
-			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
+			 $plugin .= '<td class="nowrap">'.$iso.'</td>';
 			 $plugin .= $viewuser?'<td class="nowrap"><a href="#" class="cat-uri-product" title="'.$pcms['idcatalog'].'"><span class="ui-icon ui-icon-link"></span></a></td>':'';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pcms['pseudo'].'</td>':'';
 			 $plugin .= '<td class="nowrap"><a href="/admin/catalog.php?product&amp;editproduct='.$pcms['idcatalog'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';

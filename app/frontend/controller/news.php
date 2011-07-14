@@ -122,15 +122,24 @@ class frontend_controller_news extends frontend_db_news{
 			$plitdate = explode('/', $this->getdate);
 			$page = parent::s_specific_news($getnews,$date_register);
 			if($page['idnews'] != null){
-					frontend_model_template::assign('date_publish',$page['date_publish']);
-					frontend_model_template::assign('n_title',$page['n_title']);
-					frontend_model_template::assign('n_content',$page['n_content']);
-					frontend_model_template::assign('n_image',$page['n_image']);
+				if($page['n_image'] != null){
+					$img = '/upload/news/s_'.$page['n_image'];
+				}else{
+					$img = '/skin/default/img/catalog/no-picture.png';
+				}
+				frontend_model_template::assign('date_publish',$page['date_publish']);
+				frontend_model_template::assign('n_title',$page['n_title']);
+				frontend_model_template::assign('n_content',$page['n_content']);
+				frontend_model_template::assign('n_image',$img);
 			}else{
 				
 			}
 		}
 	}
+	/**
+	 * 
+	 * fonction run
+	 */
 	public function run(){
 		if(isset($this->getnews)){
 			$this->display_getnews($this->getnews,$this->getdate);

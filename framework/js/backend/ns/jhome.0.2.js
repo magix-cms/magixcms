@@ -107,7 +107,7 @@ var ns_jhome = {
 					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 					+'</tr>').appendTo('#table-list-home-page tbody');
 				}
-				$(".post-preview").colorbox({width:"95%", height:"95%", iframe:false});
+				$(".post-preview").colorbox({width:"95%", height:"95%", iframe:true});
 			}
 		});		
 	},

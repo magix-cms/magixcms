@@ -101,6 +101,18 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
+	 * @access protected
+	 * Sélectionne l'image de la news
+	 * @param integer $idnews
+	 */
+	protected function s_n_image_news($idnews){
+		$sql = 'SELECT n.n_image FROM mc_news AS n
+		WHERE n.idnews = :idnews';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':idnews' 	 => $idnews
+		));
+	}
+	/**
 	 * Mise à jour d'un enregistrement d'une news
 	 * @param $subject
 	 * @param $content
@@ -110,7 +122,7 @@ class backend_db_news{
 	 */
 	protected function u_news_page($n_title,$n_uri,$n_content,$idadmin,$date_publish,$published,$idnews){
 		$sql = 'UPDATE mc_news 
-		SET n_title=:n_title,n_uri=:n_uri, n_content = :n_content,idadmin = :idadmin,date_publish = :date_publish, published=:published 
+		SET n_title=:n_title,n_uri=:n_uri, n_content = :n_content, idadmin = :idadmin,date_publish = :date_publish, published=:published 
 		WHERE idnews = :idnews';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
@@ -120,6 +132,15 @@ class backend_db_news{
 			':idadmin'		=>	$idadmin,
 			':date_publish'	=>	$date_publish,
 			':published'	=>	$published,
+			':idnews'		=>	$idnews
+		));
+	}
+	protected function u_news_image($n_image,$idnews){
+		$sql = 'UPDATE mc_news SET n_image = :n_image
+		WHERE idnews = :idnews';
+		magixglobal_model_db::layerDB()->update($sql,
+		array(
+			':n_image'		=>	$n_image,
 			':idnews'		=>	$idnews
 		));
 	}
