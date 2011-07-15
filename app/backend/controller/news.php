@@ -139,30 +139,6 @@ class backend_controller_news extends backend_db_news{
 		return magixglobal_model_cryptrsa::short_alphanumeric_id($numString);
 	}
 	/**
-	 * @access private
-	 * Charge la taille des images de catégorie
-	 * @param string $type
-	 */
-	private function size_img_category($type){
-		$imgsetting = new backend_model_setting();
-		switch($type){
-			case 'w':
-				if($imgsetting->load_img_size('size_'+$type+'_news') != null){
-					return $imgsetting->load_img_size('size_'+$type+'_cat');
-				}else{
-					return 120;
-				}	
-			break;
-			case 'h':
-				if($imgsetting->load_img_size('size_'+$type+'_cat') != null){
-					return $imgsetting->load_img_size('size_'+$type+'_cat');
-				}else{
-					return 100;
-				}	
-			break;
-		}
-	}
-	/**
 	 * 
 	 * Insert une image dans les news
 	 * @param string $nimage
@@ -204,9 +180,26 @@ class backend_controller_news extends backend_db_news{
 				 */
 				$thumb = PhpThumbFactory::create(self::dir_img_news().$nimage);
 				$imageuri = $rimage.$fileextends;
+				$imgsetting = new backend_model_setting();
+				$imgsizesmall = $imgsetting->uniq_data_img_size('news','news','small');
+				$imgsizemed = $imgsetting->uniq_data_img_size('news','news','medium');
 				//Redimensionnement et changement de nom suivant la catégorie
-				$thumb->resize(350)->save(self::dir_img_news().$imageuri);
-				$thumb->resize(120)->save(self::dir_img_news().'s_'.$imageuri);
+				switch($imgsizemed['img_resizing']){
+					case 'basic':
+						$thumb->resize($imgsizemed['width'],$imgsizemed['height'])->save(self::dir_img_news().$imageuri);
+					break;
+					case 'adaptive':
+						$thumb->adaptiveResize($imgsizemed['width'],$imgsizemed['height'])->save(self::dir_img_news().$imageuri);
+					break;
+				}
+				switch($imgsizesmall['img_resizing']){
+					case 'basic':
+						$thumb->resize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_img_news().'s_'.$imageuri);
+					break;
+					case 'adaptive':
+						$thumb->adaptiveResize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_img_news().'s_'.$imageuri);
+					break;
+				}
 				//Supprime le fichier original pour gagner en espace
 				if(file_exists(self::dir_img_news().$nimage)){
 					$makeFiles->removeFile(self::dir_img_news(),$nimage);

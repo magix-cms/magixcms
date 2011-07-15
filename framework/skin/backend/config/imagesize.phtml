@@ -15,11 +15,11 @@
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Tailles des images catalogue</a></div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span class="lfloat magix-icon magix-icon-cart"></span>Tailles des images catalogue</div>
 						<div class="dashboard-widget-content">
 						{if $perms <= 2}
 							{if {admin_level_config config_param=['module'=>'catalog']} eq 1}
-								{$img_size_forms_catalog}
+								<div style="margin:5px 0;">{$img_size_forms_catalog}</div>
 							{/if}
 							</div>
 						{else}
@@ -32,15 +32,15 @@
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Tailles des images des news</a></div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span class="lfloat magix-icon magix-icon-news"></span>Tailles des images des news</div>
 						<div class="dashboard-widget-content">
 						{if {admin_level_config config_param=['module'=>'catalog']} eq 1}
-							{$img_size_forms_news}
-							{else}
-							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-								Vous n'avez pas la permission d'administrer ce module
-							</div>
+							<div style="margin:5px 0;">{$img_size_forms_news}</div>
+						{else}
+						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+						<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+							Vous n'avez pas la permission d'administrer ce module
+						</div>
 						{/if}
 						</div>
 					</div>

@@ -57,46 +57,42 @@ function smarty_function_widget_cms_sidebar_page($params, $template){
 	$menu = '';
 		if(frontend_db_block_cms::s_parent_p(frontend_model_template::current_Language()) != null){
 			$menu .= '<ul id="menu-cms"  class="li-list treeview">';
+			$i = 0;
 			foreach(frontend_db_block_cms::s_parent_p(frontend_model_template::current_Language()) as $p){
-				$i = 0;
-				if(isset($_GET['getidpage_p'])){
-					if($_GET['getidpage_p'] === $p['idcat_p']){
+				if(isset($_GET['getidpage_p']) OR isset($_GET['getidpage'])){
+					if($_GET['getidpage_p'] === $p['idpage'] OR $_GET['getidpage'] === $p['idpage']){
 						$active = ' class="active-cat"';
 					}else{
 						$active = ' style="display:none;"';
 					}  
-				}/* elseif ($i == 0) {
-					$active = ' class="active-cat"';
-					$i++;
-				}*/ else {
-					$active = ' style="display:none;"';
+				} else {
+					if ($i == 0) {
+						$active = ' class="active-cat"';
+						$i++;
+					}else{
+						$active = ' style="display:none;"';
+					}
 				}
-				switch($p['idcat_p']){
-					case 0:
-						$catpath = null;
-					break;
-					default: 
-						$catpath = $p['idcat_p'].'-'.$p['title_page'].magixcjquery_html_helpersHtml::unixSeparator();
-					break;
-				}
-				print_r(frontend_db_block_cms::s_parent_p(frontend_model_template::current_Language()));
-				$menu .= '<li><span class="no-link">'.magixcjquery_string_convert::ucFirst($p['title_page']).'</span>';
-				$menu .= '<ul'. $active .'>';
-				if(frontend_db_block_cms::s_child_page($p) != null){
-					if(frontend_db_block_cms::s_child_page($p) != '0'){
-					foreach(frontend_db_block_cms::s_child_page($p['idcat_p']) as $row){
+				$uri_parent = magixglobal_model_rewrite::filter_cms_url($p['iso'], NULL, NULL, $p['idpage'], $p['uri_page'],true);
+				$menu .= '<li><a href="'.$uri_parent.'">'.magixcjquery_string_convert::ucFirst($p['title_page']).'</a>';
+				if(frontend_db_block_cms::s_child_page($p['idpage']) != null){
+					$menu .= '<ul'. $active .'>';
+					foreach(frontend_db_block_cms::s_child_page($p['idpage']) as $row){
 						if(isset($_GET['getidpage'])){
 							if($_GET['getidpage'] === $row['idpage']){
 								$active = ' class="active-page"';
 							}else{
 								$active= ' class="non-active-page" ';
 							}
+						}else{
+							$active= ' class="non-active-page" ';
 						}
-						$menu .='<li>'.'<a href="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().$catpath.$row['idpage'].'-'.$row['uri_page'].'.html'.'">'.magixcjquery_string_convert::ucFirst($row['title_page']).'</a>'.'</li>';
+						$uri_child = magixglobal_model_rewrite::filter_cms_url($row['iso'], $row['idcat_p'], $p['uri_page'], $row['idpage'], $row['uri_page'],true);
+						$menu .='<li>'.'<a'.$active.' href="'.$uri_child.'">'.magixcjquery_string_convert::ucFirst($row['title_page']).'</a>'.'</li>';
 					}
-					$menu .= '</ul></li>';
-					}
+					$menu .= '</ul>';
 				}
+				$menu .= '</li>';
 			}
 			$menu .= '</ul>';
 		}

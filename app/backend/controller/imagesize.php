@@ -23,7 +23,7 @@
  * @category   Controller 
  * @package    backend
  * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
  * @author Gérits Aurélien <aurelien@magix-cms.com>
@@ -31,23 +31,18 @@
  *
  */
 class backend_controller_imagesize extends database_imagesize{
-	public $id_size_img,$config_size_attr,$width,$height;
+	public $id_size_img,$config_size_attr,$width,$height,$img_resizing;
 	public function __construct(){
 		if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
 			$this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
 			$this->height = magixcjquery_filter_isVar::isPostNumeric($_POST['height']);
 		}
+		if(magixcjquery_filter_request::isPost('img_resizing')){
+			$this->img_resizing = magixcjquery_form_helpersforms::inputClean($_POST['img_resizing']); 
+		}
 		if(magixcjquery_filter_request::isPost('id_size_img')){
 			$this->id_size_img = magixcjquery_filter_isVar::isPostNumeric($_POST['id_size_img']); 
 		}
-	}
-	/**
-	 * @access private
-	 * Assign les variables pour les paramètres des tailles images
-	 */
-	private function catalog_assign_img_size($attr_name){
-		$setting = new backend_model_setting();
-		$setting->assign_img_size($attr_name);
 	}
 	private function img_size_type($type){
 		//Tableau des variables à rechercher
@@ -62,20 +57,36 @@ class backend_controller_imagesize extends database_imagesize{
 	private function load_img_forms($attr_name){
 		$setting = new backend_model_setting();
 		$input = '';
+		$thead = 0;
+		$tbody = 0;
 		foreach($setting->fetch_img_size($attr_name) as $row){
-			//$input .= '<div style="margin-bottom:5px;">';
 			$input .= '<form class="forms-config" method="post" action="" id="si_'.$row['attr_name'].'_'.$row['config_size_attr'].'_'.$row['type'].'">';
-			$input .= '<table class="tb-size-config"><tr>';
-			$input .= '<td class="size_img_attribute">'.magixcjquery_string_convert::ucFirst($row['config_size_attr']).'</td>';
-			$input .= '<td class="size_img_type">'.$this->img_size_type($row['type']).'</td>';
+			$input .= '<table class="tb-size-config">';
+			if ($thead == 0) {
+				$input .= '<thead>'."\n";
+				$input .= '<tr class="ui-widget ui-widget-header"><th>Cible</th><th>Format</th><th>Largeur</th><th>Hauteur</th><th>Echelle</th><th></th></tr>'."\n";
+				$input .= '</thead>'."\n";
+				$input .= '<tbody>'."\n";
+				$thead++;
+			}
+			$input .= '<tr><td class="size_img_attribute">'.magixcjquery_string_convert::ucFirst($row['config_size_attr']).'</td>'."\n";
+			$input .= '<td class="size_img_type">'.$this->img_size_type($row['type']).'</td>'."\n";
 			$input .= '<td>
 			<input type="hidden" name="id_size_img" value="'.$row['id_size_img'].'" />
-			<label>Largeur :</label><input type="text" name="width" class="spincount" value="'.$row['width'].'" size="5" /></td>';
-			$input .= '<td><label>Hauteur :</label><input type="text" name="height" class="spincount" value="'.$row['height'].'" size="5" /></td>';
-			$input .= '<td><input type="submit" value="Save" /></td>';
-			$input .= '</tr></table>';
-			$input .= '</form>';
-			//$input .= '</div>';
+			<label>Largeur :</label><input type="text" name="width" class="spincount" value="'.$row['width'].'" size="5" /></td>'."\n";
+			$input .= '<td><label>Hauteur :</label><input type="text" name="height" class="spincount" value="'.$row['height'].'" size="5" /></td>'."\n";
+			if($row['img_resizing'] == 'basic'){
+				$input .= '<td>Basic <input type="radio" checked="checked" name="img_resizing" value="basic" /> Adaptive <input type="radio" name="img_resizing" value="adaptive" /></td>'."\n";
+			}else{
+				$input .= '<td>Basic <input type="radio" name="img_resizing" value="basic" /> Adaptive <input type="radio" name="img_resizing" checked="checked" value="adaptive" /></td>'."\n";
+			}
+			$input .= '<td><input type="submit" value="Save" /></td></tr>';
+			if ($tbody == 0) {
+				$input .= '</tbody>'."\n";
+				$tbody++;
+			}
+			$input .= '</table>'."\n";
+			$input .= '</form>'."\n";
 		}
 		return $input;
 	}
@@ -85,7 +96,7 @@ class backend_controller_imagesize extends database_imagesize{
 	 */
 	private function update_img(){
 		if(isset($this->id_size_img)){
-			parent::u_size_img_config($this->width, $this->height, $this->id_size_img);	
+			parent::u_size_img_config($this->width, $this->height,$this->img_resizing, $this->id_size_img);	
 			backend_controller_template::display('config/request/update_imgsize.phtml');
 		}
 	}
@@ -110,13 +121,14 @@ class database_imagesize{
 	 * @param integer $num_size
 	 * @param string $name_size
 	 */
-	protected function u_size_img_config($width,$height,$id_size_img){
+	protected function u_size_img_config($width,$height,$img_resizing,$id_size_img){
 		$sql = 'UPDATE mc_config_size_img 
-		SET width = :width,height = :height WHERE id_size_img = :id_size_img';
+		SET width = :width,height = :height,img_resizing = :img_resizing WHERE id_size_img = :id_size_img';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':width'  =>	$width,
 			':height'  =>	$height,
+			':img_resizing'  =>	$img_resizing,
 			':id_size_img' =>	$id_size_img
 		));
 	}

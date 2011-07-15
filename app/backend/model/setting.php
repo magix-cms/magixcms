@@ -75,11 +75,11 @@ class backend_model_setting extends db_setting{
 			}
 		}
 	}
-	public function load_img_size($name_size){
-		if(!is_null($name_size)){
-			$db = parent::s_load_img_size($name_size);
-			return $db['num_size'];
-		}
+	public function data_img_size($attr_name,$config_size_attr){
+		return parent::s_load_img_size($attr_name,$config_size_attr);
+	}
+	public function uniq_data_img_size($attr_name,$config_size_attr,$type){
+		return parent::s_uniq_img_size($attr_name, $config_size_attr, $type);
 	}
 	public function fetch_img_size($attr_name){
 		return parent::s_attribute_img_size_config($attr_name);
@@ -119,11 +119,32 @@ class db_setting{
     		':attr_name'=>$attr_name
     	));
     }
-	protected function s_load_img_size($name_size){
+	/*protected function s_load_img_size($name_size){
     	$sql = 'SELECT ci.* FROM mc_config_size_img as ci
     	WHERE ci.name_size = :name_size';
     	return magixglobal_model_db::layerDB()->selectOne($sql,array(
     		':name_size'=>$name_size
+    	));
+    }*/
+    protected function s_load_img_size($attr_name,$config_size_attr){
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr';
+    	return magixglobal_model_db::layerDB()->select($sql,array(
+    		':attr_name'=>$attr_name,
+    		':config_size_attr'=>$config_size_attr
+    	));
+    }
+	protected function s_uniq_img_size($attr_name,$config_size_attr,$type){
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr AND type = :type';
+    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
+    		':attr_name'=>$attr_name,
+    		':config_size_attr'=>$config_size_attr,
+    		':type'=>$type
     	));
     }
 	protected function s_config_img_size(){

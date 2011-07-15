@@ -47,11 +47,11 @@ class frontend_db_block_cms{
 	 * @param integer $getlang
 	 */
 	public static function s_parent_p($getlang){
-    	$sql = 'SELECT cms.*,lang.iso
-    	FROM mc_cms_pages AS cms 
-    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
-    	WHERE lang.iso = :getlang AND cms.idcat_p = 0
-    	ORDER BY cms.order_page';
+    	$sql = 'SELECT p.idpage,p.idcat_p,p.title_page,p.uri_page,lang.iso
+    	FROM mc_cms_pages AS p 
+    	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
+    	WHERE lang.iso = :getlang AND p.idcat_p = 0 AND sidebar_page = 1
+    	ORDER BY p.order_page';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getlang' => $getlang
 		));
@@ -62,11 +62,11 @@ class frontend_db_block_cms{
 	 * @param integer $get_page_p
 	 */
 	public static function s_child_page($get_page_p){
-		$sql = 'SELECT cms.*,lang.iso
-    	FROM mc_cms_pages AS cms 
-    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
-    	WHERE cms.idcat_p = :get_page_p
-    	ORDER BY cms.order_page';
+		$sql = 'SELECT p.idpage,p.idcat_p,p.title_page,p.uri_page,lang.iso
+    	FROM mc_cms_pages AS p 
+    	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
+    	WHERE p.idcat_p = :get_page_p AND sidebar_page = 1
+    	ORDER BY p.order_page';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':get_page_p' => $get_page_p
 		));

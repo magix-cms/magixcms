@@ -664,30 +664,6 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 	}
 	/**
-	 * @access private
-	 * Charge la taille des images de catégorie
-	 * @param string $type
-	 */
-	private function size_img_category($type){
-		$imgsetting = new backend_model_setting();
-		switch($type){
-			case 'w':
-				if($imgsetting->load_img_size('size_'+$type+'_cat') != null){
-					return $imgsetting->load_img_size('size_'+$type+'_cat');
-				}else{
-					return 120;
-				}	
-			break;
-			case 'h':
-				if($imgsetting->load_img_size('size_'+$type+'_cat') != null){
-					return $imgsetting->load_img_size('size_'+$type+'_cat');
-				}else{
-					return 100;
-				}	
-			break;
-		}
-	}
-	/**
 	 * Insertion d'une image por la catégorie du catalogue
 	 * @access private
 	 * @return string
@@ -716,8 +692,28 @@ class backend_controller_catalog extends analyzer_catalog{
 						 * Initialisation de la classe phpthumb 
 						 * @var void
 						 */
-						$thumb = PhpThumbFactory::create(self::dir_img_category().$pathclibelle.$fileextends);
-						$thumb->resize($this->size_img_category('w'),$this->size_img_category('h'))->save(self::dir_img_category().$pathclibelle.$fileextends);
+						try{
+							$thumb = PhpThumbFactory::create(self::dir_img_category().$pathclibelle.$fileextends);
+						}catch (Exception $e)
+						{
+						     magixglobal_model_system::magixlog('An error has occured :',$e);
+						}
+						/**
+						 * 
+						 * Charge la taille des images des sous catégories du catalogue
+						 */
+						$imgsetting = new backend_model_setting();
+						//$resizing = $imgsetting->select_uniq_setting('img_resizing');
+						foreach($imgsetting->data_img_size('catalog','category') as $row){
+							switch($row['img_resizing']){
+								case 'basic':
+									$thumb->resize($row['width'],$row['height'])->save(self::dir_img_category().$pathclibelle.$fileextends);
+								break;
+								case 'adaptive':
+									$thumb->adaptiveResize($row['width'],$row['height'])->save(self::dir_img_category().$pathclibelle.$fileextends);
+								break;
+							}
+						}
 						return $pathclibelle.$fileextends;
 					}else{
 						if(file_exists(self::dir_img_category().$this->$img)){
@@ -747,14 +743,14 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($this->clibelle)){
 			try{
 				if(empty($this->clibelle)){
-					backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+					backend_controller_template::display('catalog/request/empty.phtml');
 				}else{
 					$imgc = null;
 					if($this->img_c != null){
 						$imgc = self::insert_image_category('img_c',$this->pathclibelle.'_'.magixglobal_model_cryptrsa::random_generic_ui(),null);
 					}
 					backend_db_catalog::adminDbCatalog()->i_catalog_category($this->clibelle,$this->pathclibelle,$imgc,$this->idlang);
-					backend_config_smarty::getInstance()->display('catalog/request/success-cat.phtml');
+					backend_controller_template::display('catalog/request/success-cat.phtml');
 				}
 			}catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -770,10 +766,10 @@ class backend_controller_catalog extends analyzer_catalog{
 			$cproduct = backend_db_catalog::adminDbCatalog()->s_count_product_in_category($this->delc);
 			$csubcat = backend_db_catalog::adminDbCatalog()->s_count_catalog_subcategory_in_category($this->delc);
 			if($csubcat['csubcat']!= 0 OR $cproduct['cproduct']!= 0){
-				backend_config_smarty::getInstance()->display('catalog/request/verify_category.phtml');
+				backend_controller_template::display('catalog/request/verify_category.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->d_catalog_category($this->delc);
-				backend_config_smarty::getInstance()->display('catalog/request/s-cat-delete.phtml');
+				backend_controller_template::display('catalog/request/s-cat-delete.phtml');
 			}
 		}
 	}
@@ -785,7 +781,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($this->upcat)){
 			if(isset($this->update_category)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$this->c_content,$this->upcat);
-				backend_config_smarty::getInstance()->display('request/update-category.phtml');
+				backend_controller_template::display('request/update-category.phtml');
 			}
 		}
 	}
@@ -803,7 +799,7 @@ class backend_controller_catalog extends analyzer_catalog{
 					$clibelle['img_c']
 				);
 				backend_db_catalog::adminDbCatalog()->u_catalog_category_image($imgc,$this->upcat);
-				backend_config_smarty::getInstance()->display('request/update-image.phtml');
+				backend_controller_template::display('request/update-image.phtml');
 			}
 		}
 	}
@@ -838,11 +834,11 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function display_edit_category(){
 		if(isset($this->upcat)){
 			$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
-			backend_config_smarty::getInstance()->assign('clibelle',$clibelle['clibelle']);
-			backend_config_smarty::getInstance()->assign('c_content',$clibelle['c_content']);
-			backend_config_smarty::getInstance()->assign('product_category_order',self::product_in_category_order($this->upcat));
+			backend_controller_template::assign('clibelle',$clibelle['clibelle']);
+			backend_controller_template::assign('c_content',$clibelle['c_content']);
+			backend_controller_template::assign('product_category_order',self::product_in_category_order($this->upcat));
 		}
-		backend_config_smarty::getInstance()->display('catalog/editcategory.phtml');
+		backend_controller_template::display('catalog/editcategory.phtml');
 	}
 	/**
 	 * @access private
@@ -854,30 +850,6 @@ class backend_controller_catalog extends analyzer_catalog{
 			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."subcategory".DIRECTORY_SEPARATOR);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
-		}
-	}
-	/**
-	 * @access private
-	 * Charge la taille des images de sous catégorie
-	 * @param string $type
-	 */
-	private function size_img_subcategory($type){
-		$imgsetting = new backend_model_setting();
-		switch($type){
-			case 'w':
-				if($imgsetting->load_img_size('size_'+$type+'_subcat') != null){
-					return $imgsetting->load_img_size('size_'+$type+'_subcat');
-				}else{
-					return 120;
-				}	
-			break;
-			case 'h':
-				if($imgsetting->load_img_size('size_'+$type+'_subcat') != null){
-					return $imgsetting->load_img_size('size_'+$type+'_subcat');
-				}else{
-					return 100;
-				}	
-			break;
 		}
 	}
 	/**
@@ -910,7 +882,18 @@ class backend_controller_catalog extends analyzer_catalog{
 						 * @var void
 						 */
 						$thumb = PhpThumbFactory::create(self::dir_img_subcategory().$pathslibelle.$fileextends);
-						$thumb->resize($this->size_img_subcategory('w'),$this->size_img_subcategory('h'))->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
+						/**
+						 * 
+						 * Charge la taille des images des sous catégories du catalogue
+						 */
+						$imgsetting = new backend_model_setting();
+						foreach($imgsetting->data_img_size('catalog','subcategory') as $row){
+							switch($row['type']){
+								case 'small':
+									$thumb->resize($row['width'],$row['height'])->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
+								break;
+							}
+						}
 						return $pathslibelle.$fileextends;
 					}else{
 						if(file_exists(self::dir_img_subcategory().$this->$img)){
@@ -940,9 +923,9 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($this->slibelle)){
 			try{
 				if(empty($this->slibelle)){
-					backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+					backend_controller_template::display('catalog/request/empty.phtml');
 				}elseif(empty($this->idclc)){
-					backend_config_smarty::getInstance()->display('catalog/request/nocategory.phtml');
+					backend_controller_template::display('catalog/request/nocategory.phtml');
 				}else{
 					$imgs = null;
 					if($this->img_s != null){
@@ -950,7 +933,7 @@ class backend_controller_catalog extends analyzer_catalog{
 						$imgs = self::insert_image_subcategory('img_s',$this->pathslibelle.'_'.magixglobal_model_cryptrsa::random_generic_ui(),null);
 					}
 					backend_db_catalog::adminDbCatalog()->i_catalog_subcategory($this->slibelle,$this->pathslibelle,$imgs,$this->idclc);
-					backend_config_smarty::getInstance()->display('catalog/request/success-subcat.phtml');
+					backend_controller_template::display('catalog/request/success-subcat.phtml');
 				}
 			} catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -964,7 +947,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function delete_catalog_subcategory(){
 		if(isset($this->dels)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_subcategory($this->dels);
-			backend_config_smarty::getInstance()->display('catalog/request/s-subcat-delete.phtml');
+			backend_controller_template::display('catalog/request/s-subcat-delete.phtml');
 		}
 	}
 	/**
@@ -975,7 +958,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($this->upsubcat)){
 			if(isset($this->update_subcategory)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$this->s_content,$this->upsubcat);
-				backend_config_smarty::getInstance()->display('request/update-subcategory.phtml');
+				backend_controller_template::display('request/update-subcategory.phtml');
 			}
 		}
 	}
@@ -1005,7 +988,7 @@ class backend_controller_catalog extends analyzer_catalog{
 					$slibelle['img_s']
 				);
 				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory_image($imgs,$this->upsubcat);
-				backend_config_smarty::getInstance()->display('request/update-image.phtml');
+				backend_controller_template::display('request/update-image.phtml');
 			}
 		}
 	}
@@ -1050,12 +1033,12 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function display_edit_subcategory(){
 		if(isset($this->upsubcat)){
 			$slibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
-			backend_config_smarty::getInstance()->assign('slibelle',$slibelle['slibelle']);
-			backend_config_smarty::getInstance()->assign('img_s',$slibelle['img_s']);
-			backend_config_smarty::getInstance()->assign('s_content',$slibelle['s_content']);
-			backend_config_smarty::getInstance()->assign('product_subcategory_order',self::product_in_subcategory_order($this->upsubcat));
+			backend_controller_template::assign('slibelle',$slibelle['slibelle']);
+			backend_controller_template::assign('img_s',$slibelle['img_s']);
+			backend_controller_template::assign('s_content',$slibelle['s_content']);
+			backend_controller_template::assign('product_subcategory_order',self::product_in_subcategory_order($this->upsubcat));
 		}
-		backend_config_smarty::getInstance()->display('catalog/editsubcategory.phtml');
+		backend_controller_template::display('catalog/editsubcategory.phtml');
 	}
 	/**
 	 * Requete ajax json pour le chargement du menu select des sous-catégories correspondante à une catégorie
@@ -1148,7 +1131,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function insert_new_card_product(){
 		if(isset($this->titlecatalog)){
 			if(empty($this->titlecatalog)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
+				backend_controller_template::display('catalog/request/empty-product.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_card_product(
 					$this->idlang,
@@ -1158,7 +1141,7 @@ class backend_controller_catalog extends analyzer_catalog{
 					$this->desccatalog,
 					$this->price
 				);
-				backend_config_smarty::getInstance()->display('catalog/request/success.phtml');
+				backend_controller_template::display('catalog/request/success.phtml');
 			}
 		}
 	}
@@ -1169,14 +1152,14 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function insert_new_product(){
 		if(isset($this->idclc)){
 			if(empty($this->idclc)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
+				backend_controller_template::display('catalog/request/empty-product.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_product(
 					$this->editproduct,
 					$this->idclc,
 					$this->idcls
 				);
-				backend_config_smarty::getInstance()->display('catalog/request/success-cat-product.phtml');
+				backend_controller_template::display('catalog/request/success-cat-product.phtml');
 			}
 		}
 	}
@@ -1201,7 +1184,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function delete_in_product(){
 		if(isset($this->d_in_product)){
 			backend_db_catalog::adminDbCatalog()->d_in_product($this->d_in_product);
-			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
+			backend_controller_template::display('catalog/request/success-delete.phtml');
 		}
 	}
 	/**
@@ -1228,8 +1211,8 @@ class backend_controller_catalog extends analyzer_catalog{
 		}else{
 			$product = 'Ce produit ne contient aucun lien';
 		}
-		backend_config_smarty::getInstance()->assign('uri_catalog',$product);
-		backend_config_smarty::getInstance()->display('catalog/window/uricatalog.phtml');
+		backend_controller_template::assign('uri_catalog',$product);
+		backend_controller_template::display('catalog/window/uricatalog.phtml');
 	}
 	/**
 	 * @access private
@@ -1306,13 +1289,13 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function insert_rel_product(){
 		if(isset($this->idproduct)){
 			if(empty($this->idproduct)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
+				backend_controller_template::display('catalog/request/empty-product.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->i_catalog_rel_product(
 					$this->editproduct,
 					$this->idproduct
 				);
-				backend_config_smarty::getInstance()->display('catalog/request/success-cat-product.phtml');
+				backend_controller_template::display('catalog/request/success-cat-product.phtml');
 			}
 		}
 	}
@@ -1353,8 +1336,8 @@ class backend_controller_catalog extends analyzer_catalog{
 		}else{
 			$product = 'Ce produit ne contient aucun lien';
 		}
-		backend_config_smarty::getInstance()->assign('rel_uri_catalog',$product);
-		backend_config_smarty::getInstance()->display('catalog/window/rel-uricatalog.phtml');
+		backend_controller_template::assign('rel_uri_catalog',$product);
+		backend_controller_template::display('catalog/window/rel-uricatalog.phtml');
 	}
 	/**
 	 * Supprime un produit de liaison à une fiche catalogue
@@ -1363,7 +1346,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function delete_rel_product(){
 		if(isset($this->d_rel_product)){
 			backend_db_catalog::adminDbCatalog()->d_rel_product($this->d_rel_product);
-			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
+			backend_controller_template::display('catalog/request/success-delete.phtml');
 		}
 	}
 	/**
@@ -1372,45 +1355,45 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function load_data_product_forms(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->editproduct);
-		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
-		backend_config_smarty::getInstance()->assign('price',$data['price']);
-		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
+		backend_controller_template::assign('titlecatalog',$data['titlecatalog']);
+		backend_controller_template::assign('desccatalog',$data['desccatalog']);
+		backend_controller_template::assign('price',$data['price']);
+		backend_controller_template::assign('idlang',$data['idlang']);
+		backend_controller_template::assign('iso',$data['iso']);
 	}
 	/**
 	 * chargement des données d'un produit pour le déplacement de catégorie
 	 */
 	private function load_data_move_product(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->moveproduct);
-		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
-		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
+		backend_controller_template::assign('idproduct',$data['idcatalog']);
+		backend_controller_template::assign('titlecatalog',$data['titlecatalog']);
+		backend_controller_template::assign('idlang',$data['idlang']);
+		backend_controller_template::assign('iso',$data['iso']);
 	}
 	/**
 	 * chargement des données d'un produit pour la copie d'un produit dans plusieurs catégorie
 	 */
 	private function load_data_copy_product(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->copyproduct);
-		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
-		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
-		backend_config_smarty::getInstance()->assign('price',$data['price']);
-		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
+		backend_controller_template::assign('idproduct',$data['idcatalog']);
+		backend_controller_template::assign('titlecatalog',$data['titlecatalog']);
+		backend_controller_template::assign('desccatalog',$data['desccatalog']);
+		backend_controller_template::assign('price',$data['price']);
+		backend_controller_template::assign('idlang',$data['idlang']);
+		backend_controller_template::assign('iso',$data['iso']);
 	}
 	/**
 	 * Chargement des données d'un produit pour l'insertion d'une image
 	 */
 	private function load_data_image_product(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->getimg);
-		backend_config_smarty::getInstance()->assign('idproduct',$data['idcatalog']);
-		backend_config_smarty::getInstance()->assign('titlecatalog',$data['titlecatalog']);
-		backend_config_smarty::getInstance()->assign('desccatalog',$data['desccatalog']);
-		backend_config_smarty::getInstance()->assign('price',$data['price']);
-		backend_config_smarty::getInstance()->assign('idlang',$data['idlang']);
-		backend_config_smarty::getInstance()->assign('iso',$data['iso']);
+		backend_controller_template::assign('idproduct',$data['idcatalog']);
+		backend_controller_template::assign('titlecatalog',$data['titlecatalog']);
+		backend_controller_template::assign('desccatalog',$data['desccatalog']);
+		backend_controller_template::assign('price',$data['price']);
+		backend_controller_template::assign('idlang',$data['idlang']);
+		backend_controller_template::assign('iso',$data['iso']);
 	}
 	/**
 	 * Mise à jour d'un produit
@@ -1418,7 +1401,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function update_specific_product(){
 		if(isset($this->titlecatalog)){
 			if(empty($this->titlecatalog)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty-product.phtml');
+				backend_controller_template::display('catalog/request/empty-product.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->u_catalog_product(
 					backend_model_member::s_idadmin(),
@@ -1428,7 +1411,7 @@ class backend_controller_catalog extends analyzer_catalog{
 					$this->price,
 					$this->editproduct
 				);
-				backend_config_smarty::getInstance()->display('catalog/request/success.phtml');
+				backend_controller_template::display('catalog/request/success.phtml');
 			}
 		}
 	}
@@ -1442,7 +1425,7 @@ class backend_controller_catalog extends analyzer_catalog{
 					backend_model_member::s_idadmin(),
 					$this->moveproduct
 				);
-			backend_config_smarty::getInstance()->display('catalog/request/success.phtml');
+			backend_controller_template::display('catalog/request/success.phtml');
 		}
 	}
 	/**
@@ -1451,7 +1434,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function delete_catalog_product(){
 		if(isset($this->delproduct)){
 			backend_db_catalog::adminDbCatalog()->d_catalog_product($this->delproduct);
-			backend_config_smarty::getInstance()->display('catalog/request/success-delete.phtml');
+			backend_controller_template::display('catalog/request/success-delete.phtml');
 		}
 	}
 	/**
@@ -1460,14 +1443,14 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function copy_product(){
 		if(isset($this->copyproduct)){
 			if(empty($this->copyproduct)){
-				backend_config_smarty::getInstance()->display('catalog/request/empty.phtml');
+				backend_controller_template::display('catalog/request/empty.phtml');
 			}else{
 				backend_db_catalog::adminDbCatalog()->copy_catalog_product(
 					$this->idlang,
 					backend_model_member::s_idadmin(),
 					$this->copyproduct
 				);
-				backend_config_smarty::getInstance()->display('catalog/request/copy.phtml');
+				backend_controller_template::display('catalog/request/copy.phtml');
 			}
 		}
 	}
@@ -1481,42 +1464,6 @@ class backend_controller_catalog extends analyzer_catalog{
 			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
-		}
-	}
-	/**
-	 * @access private
-	 * Charge la taille des images de sous catégorie
-	 * @param string $type
-	 */
-	private function size_img_product($type,$size){
-		$imgsetting = new backend_model_setting();
-		switch($type){
-			case 'w':
-				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_product') != null){
-					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_product');
-				}else{
-					if($size == 'large'){
-						return 700;
-					}elseif($size == 'medium'){
-						return 350;
-					}elseif($size == 'small'){
-						return 120;
-					}
-				}
-			break;
-			case 'h':
-				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_product') != null){
-					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_product');
-				}else{
-					if($size == 'large'){
-						return 700;
-					}elseif($size == 'medium'){
-						return 250;
-					}elseif($size == 'small'){
-						return 100;
-					}
-				}
-			break;
 		}
 	}
 	/**
@@ -1563,13 +1510,45 @@ class backend_controller_catalog extends analyzer_catalog{
 					 * @var void
 					 */
 					$thumb = PhpThumbFactory::create(self::dir_img_product().$getimg['imgcatalog']);
+					$firebug = new magixcjquery_debug_magixfire();
 					/**
 					 * Création des images et miniatures utile.
 					 * 3 tailles !!!
 					 */
-					$thumb->resize($this->size_img_product('w','large'),$this->size_img_product('h','large'))->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$thumb->resize($this->size_img_product('w','medium'),$this->size_img_product('h','medium'))->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$thumb->resize($this->size_img_product('w','small'),$this->size_img_product('h','small'))->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$imgsetting = new backend_model_setting();
+					$imgsizelarge = $imgsetting->uniq_data_img_size('catalog','product','large');
+					$imgsizemed = $imgsetting->uniq_data_img_size('catalog','product','medium');
+					$imgsizesmall = $imgsetting->uniq_data_img_size('catalog','product','small');
+					$firebug->magixFireGroup('Setting image');
+					switch($imgsizelarge['img_resizing']){
+						case 'basic':
+							$firebug->magixFireInfo($imgsizelarge['img_resizing']);
+							$firebug->magixFireLog($imgsizelarge['type']);
+							$thumb->resize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+						case 'adaptive':
+							$firebug->magixFireInfo($imgsizelarge['img_resizing']);
+							$firebug->magixFireLog($imgsizelarge['type']);
+							$thumb->adaptiveResize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+					}
+					switch($imgsizemed['img_resizing']){
+						case 'basic':
+							$thumb->resize($imgsizemed['width'],$imgsizemed['height'])->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+						case 'adaptive':
+							$thumb->adaptiveResize($imgsizemed['width'],$imgsizemed['height'])->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+					}
+					switch($imgsizesmall['img_resizing']){
+						case 'basic':
+							$thumb->resize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+						case 'adaptive':
+							$thumb->adaptiveResize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+					}
+					$firebug->magixFireGroupEnd();
 					if(file_exists(self::dir_img_product().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_img_product(),$getimg['imgcatalog']);
 					}else{
@@ -1596,34 +1575,29 @@ class backend_controller_catalog extends analyzer_catalog{
 		return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."galery".DIRECTORY_SEPARATOR);
 	}
 	/**
+	 * 
 	 * @access private
-	 * Charge la taille des images de sous catégorie
+	 * Charge la taille des images des galeries du catalogue
 	 * @param string $type
+	 * @param string $dimension
+	 * @param bool $debug
 	 */
-	private function size_img_microgalery($type,$size){
+	private function conf_size_img_galery($type,$dimension,$debug=false){
+		$firebug = new magixcjquery_debug_magixfire();
 		$imgsetting = new backend_model_setting();
-		switch($type){
-			case 'w':
-				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery') != null){
-					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery');
-				}else{
-					if($size == 'maxi'){
-						return 700;
-					}elseif($size == 'mini'){
-						return 120;
-					}
+		$imgsize = $imgsetting->uniq_data_img_size('catalog','galery',$type);
+		switch($dimension){
+			case  'width':
+				if($debug == true){
+					$firebug->magixFireLog($imgsize['width']);
 				}
+				return $imgsize['width'];
 			break;
-			case 'h':
-				if($imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery') != null){
-					return $imgsetting->load_img_size('size_'.$type.'_'.$size.'_microgalery');
-				}else{
-					if($size == 'maxi'){
-						return 700;
-					}elseif($size == 'mini'){
-						return 100;
-					}
+			case  'height':
+				if($debug == true){
+					$firebug->magixFireLog($imgsize['height']);
 				}
+				return $imgsize['height'];
 			break;
 		}
 	}
@@ -1667,8 +1641,8 @@ class backend_controller_catalog extends analyzer_catalog{
 					 * Création des images et miniatures utile.
 					 * 2 tailles !!!
 					 */
-					$thumb->resize($this->size_img_microgalery('w','maxi'),$this->size_img_microgalery('h','maxi'))->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$thumb->resize($this->size_img_microgalery('w','mini'),$this->size_img_microgalery('h','mini'))->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize($this->conf_size_img_galery('large', 'width'),$this->conf_size_img_galery('large', 'height'))->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+					$thumb->resize($this->conf_size_img_galery('small', 'width'),$this->conf_size_img_galery('small', 'height'))->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 					$makeFiles = new magixcjquery_files_makefiles();
 					if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_micro_galery(),$getimg['imgcatalog']);
@@ -1697,7 +1671,7 @@ class backend_controller_catalog extends analyzer_catalog{
 					$makeFiles->removeFile(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR,$dfile['imgcatalog']);
 				}
 				backend_db_catalog::adminDbCatalog()->d_galery_image_catalog($this->delmicro);
-				backend_config_smarty::getInstance()->display('catalog/request/success-delete-mg.phtml');
+				backend_controller_template::display('catalog/request/success-delete-mg.phtml');
 			}catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
@@ -1723,8 +1697,8 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function display_edit_product(){
 		self::load_data_product_forms();
-		backend_config_smarty::getInstance()->assign('selectcategory',self::construct_select_category_lang());
-		backend_config_smarty::getInstance()->display('catalog/editproduct.phtml');
+		backend_controller_template::assign('selectcategory',self::construct_select_category_lang());
+		backend_controller_template::display('catalog/editproduct.phtml');
 	}
 	/**
 	 * Affiche le déplacement d'un produit
@@ -1732,8 +1706,8 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function display_move_product(){
 		self::load_data_move_product();
-		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->display('catalog/moveproduct.phtml');
+		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+		backend_controller_template::display('catalog/moveproduct.phtml');
 	}
 	/**
 	 * Affiche la copie d'un produit
@@ -1741,8 +1715,8 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function display_copy_product(){
 		self::load_data_copy_product();
-		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->display('catalog/copyproduct.phtml');
+		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+		backend_controller_template::display('catalog/copyproduct.phtml');
 	}
 	/**
 	 * Ajoute une catégorie (method post)
@@ -1756,22 +1730,22 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access public
 	 */
 	private function display_category(){
-		//backend_config_smarty::getInstance()->assign('category_order',self::catalog_category_order());
-		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->display('catalog/category.phtml');
+		//backend_controller_template::assign('category_order',self::catalog_category_order());
+		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+		backend_controller_template::display('catalog/category.phtml');
 	}
 	/**
 	 * Affiche la page des produits ou insertion d'un produit
 	 * @access public
 	 */
 	private function display_product(){
-		backend_config_smarty::getInstance()->assign('global_product',parent::statistic_global_product('product'));
-		backend_config_smarty::getInstance()->assign('global_product_subfolder',parent::statistic_global_product('subfolder'));
-		backend_config_smarty::getInstance()->assign('global_folder',parent::statistic_global_folder_product());
-		backend_config_smarty::getInstance()->assign('global_subfolder',parent::statistic_global_subfolder_product());
-		backend_config_smarty::getInstance()->assign('global_rel_product',parent::statistic_global_rel_product());
-		backend_config_smarty::getInstance()->assign('selectlang',backend_model_blockDom::select_language());
-		backend_config_smarty::getInstance()->display('catalog/product.phtml');
+		backend_controller_template::assign('global_product',parent::statistic_global_product('product'));
+		backend_controller_template::assign('global_product_subfolder',parent::statistic_global_product('subfolder'));
+		backend_controller_template::assign('global_folder',parent::statistic_global_folder_product());
+		backend_controller_template::assign('global_subfolder',parent::statistic_global_subfolder_product());
+		backend_controller_template::assign('global_rel_product',parent::statistic_global_rel_product());
+		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+		backend_controller_template::display('catalog/product.phtml');
 	}
 	/**
 	 * 
@@ -1802,14 +1776,14 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function display_product_image(){
 		self::load_data_image_product();
-		backend_config_smarty::getInstance()->display('catalog/image.phtml');
+		backend_controller_template::display('catalog/image.phtml');
 	}
 	/**
 	 * affiche la page pour la liste des articles
 	 * @access public
 	 */
 	private function display(){
-		backend_config_smarty::getInstance()->display('catalog/index.phtml');
+		backend_controller_template::display('catalog/index.phtml');
 	}
 	/**
 	 * Execute le module dans l'administration

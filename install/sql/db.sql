@@ -181,20 +181,25 @@ CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
   `config_size_attr` varchar(40) NOT NULL,
   `width` decimal(4,0) NOT NULL,
   `height` decimal(4,0) NOT NULL,
-  `type` varchar(20) DEFAULT NULL,
+  `type` enum('small','medium','large') NOT NULL,
+  `img_resizing` enum('basic','adaptive') NOT NULL,
   PRIMARY KEY (`id_size_img`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`, `width`, `height`, `type`) VALUES
-(1, 4, 'category', 120, 100, 'small'),
-(2, 4, 'subcategory', 120, 100, 'small'),
-(3, 4, 'product', 120, 100, 'small'),
-(4, 4, 'product', 350, 250, 'medium'),
-(5, 4, 'product', 700, 700, 'large'),
-(6, 4, 'galery', 120, 100, 'small'),
-(7, 4, 'galery', 700, 700, 'large'),
-(8, 3, 'news', 120, 100, 'small'),
-(9, 3, 'news', 350, 250, 'medium');
+--
+-- Contenu de la table `mc_config_size_img`
+--
+
+INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`, `width`, `height`, `type`, `img_resizing`) VALUES
+(1, 4, 'category', '120', '100', 'small', 'basic'),
+(2, 4, 'subcategory', '120', '100', 'small', 'basic'),
+(3, 4, 'product', '120', '100', 'small', 'basic'),
+(4, 4, 'product', '350', '250', 'medium', 'basic'),
+(5, 4, 'product', '700', '700', 'large', 'basic'),
+(6, 4, 'galery', '120', '100', 'small', 'basic'),
+(7, 4, 'galery', '700', '700', 'large', 'basic'),
+(8, 3, 'news', '120', '100', 'small', 'basic'),
+(9, 3, 'news', '350', '250', 'medium', 'basic');
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
   `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,

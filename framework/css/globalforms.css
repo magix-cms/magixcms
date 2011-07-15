@@ -135,11 +135,12 @@ select { width: 220px; }
 *:first-child+html .button-link{max-width:200px;}
 *:first-child+html input[type=submit]{max-width:200px;}
 /*Product*/
-.tb-size-config {font-size:12px;margin: 5px; border-collapse: collapse; min-width: 400px;max-width:90%;}
+.tb-size-config {font-size:12px;margin: 1px 0; border-collapse: collapse; min-width: 400px;max-width:90%;}
 .tb-size-config th,.tb-size-config td{border: 1px solid #404040;text-align: left;}
 .tb-size-config th {padding: .1em 4px;}
 .tb-size-config td{padding: .1em 4px;}
 .tb-size-config tr td:first-child{width:100px;}
+.tb-size-config tr td:last-child{}
 .tb-size-config tr td.size_img_attribute{min-width:100px;width:100px;}
 .tb-size-config tr td.size_img_type{min-width:50px;width:50px;}
 .tb-size-config td a{text-decoration:underline;}
