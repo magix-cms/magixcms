@@ -47,7 +47,6 @@
  * @return string
  */
 function smarty_function_widget_catalog_cat_display($params, $template){
-	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
 	$title = !empty($params['title'])?$params['title']:'';
 	$ui = $params['ui'];
 	//$size = $params['size']?$params['size']:'mini';
@@ -63,8 +62,6 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 	// Nombre de colonnes
 	$last = $params['col']? $params['col'] : 0 ;
 	$i = 1;
-	
-	
 		if(isset($ui)){
 		switch($ui){
 			case "true":
@@ -81,9 +78,9 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 		$wheader = '';
 	}
 	$block = $title;
-	if(frontend_db_block_catalog::s_category_withimg_lang($lang) != null){
+	if(frontend_db_block_catalog::s_category_widget(frontend_model_template::current_Language()) != null){
 		$block .= '<div class="list-div medium bg light w11-32">';
-		foreach(frontend_db_block_catalog::s_category_withimg_lang($lang) as $cat){
+		foreach(frontend_db_block_catalog::s_category_widget(frontend_model_template::current_Language()) as $cat){
 			if ($i == $last ) {
 				$last_elem = 'last ';
 				$i = 1;

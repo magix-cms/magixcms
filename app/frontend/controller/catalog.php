@@ -32,11 +32,6 @@
  */
 class frontend_controller_catalog extends frontend_db_catalog{
 	/**
-	 * variable des langues
-	 * @var string
-	 */
-	public $slang;
-	/**
 	 * identifiant Categorie
 	 * @var integer
 	 */
@@ -52,118 +47,95 @@ class frontend_controller_catalog extends frontend_db_catalog{
 	 */
 	public $idproduct;
 	/**
-	 * Variable get pour la langue
-	 * @var string
-	 */
-	public $getlang;
-	/**
 	 * function construct
 	 *
 	 */
 	function __construct(){
-		if(isset($_SESSION['strLangue'])){
-			$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
-		}
 		if(magixcjquery_filter_request::isGet('idclc')){
 			$this->idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
 		}
-		if(isset($_GET['idcls'])){
+		if(magixcjquery_filter_request::isGet('idcls')){
 			$this->idcls = magixcjquery_filter_isVar::isPostNumeric($_GET['idcls']);
 		}
-		if(isset($_GET['idproduct'])){
+		if(magixcjquery_filter_request::isGet('idproduct')){
 			$this->idproduct = magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct']);
-		}
-		if(isset($_GET['strLangue'])){
-			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-			$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
 		}
 	}
 	/**
 	 * Charge le titre d'une fiche catalogue
 	 */
 	private function load_product_page(){
-		if(isset($this->getlang)){
-			$products = parent::s_product_page_with_language($this->idclc,$this->idproduct,$this->getlang);
-			/**
-			 * Charge L'image d'une fiche catalogue si elle existe sinon retourne une image fictive
-			 */
-			$imgc = '<div class="img-product">';
-			if($products['imgcatalog'] != null){
-				$imgc .= '<a class="imagebox" href="/upload/catalogimg/product/'.$products['imgcatalog'].'" title="'.$products['titlecatalog'].'"><img src="/upload/catalogimg/medium/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'" /></a>';
-			}else{
-				$imgc .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$products['titlecatalog'].'" />';
-			}
-			$imgc .= '</div>';
-			$uri = magixglobal_model_rewrite::filter_catalog_product_url($this->getlang, $products['pathclibelle'], $products['idclc'],$products['pathslibelle'], $products['idcls'], $products['urlcatalog'], $products['idproduct'],true);
-			frontend_model_template::assign('idcatalog',$products['idcatalog']);
-			frontend_model_template::assign('idproduct',$products['idproduct']);
-			frontend_model_template::assign('date_catalog',$products['date_catalog']);
-			frontend_model_template::assign('titlecatalog',$products['titlecatalog']);
-			frontend_model_template::assign('category',$products['clibelle']);
-			frontend_model_template::assign('subcategory',$products['slibelle']);
-			frontend_model_template::assign('price',$products['price']);
-			frontend_model_template::assign('imgcatalog',$imgc);
-			frontend_model_template::assign('desccatalog',$products['desccatalog']);
-			frontend_model_template::assign('urlcatalog',$uri);
-			$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($this->getlang, $products['pathclibelle'],$products['idclc'],true);			
-			$uri_subcat = magixglobal_model_rewrite::filter_catalog_subcategory_url($this->getlang, $products['pathclibelle'],$products['idclc'],$products['pathslibelle'],$products['idcls'],true);	
-			frontend_model_template::assign('uri_cat',$uri_cat);
-			frontend_model_template::assign('uri_subcat',$uri_subcat);
+		$products = parent::s_product_page($this->idclc,$this->idproduct,frontend_model_template::current_Language());
+		/**
+		 * Charge L'image d'une fiche catalogue si elle existe sinon retourne une image fictive
+		 */
+		$imgc = '<div class="img-product">';
+		if($products['imgcatalog'] != null){
+			$imgc .= '<a class="imagebox" href="/upload/catalogimg/product/'.$products['imgcatalog'].'" title="'.$products['titlecatalog'].'"><img src="/upload/catalogimg/medium/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'" /></a>';
+		}else{
+			$imgc .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$products['titlecatalog'].'" />';
 		}
+		$imgc .= '</div>';
+		$uri = magixglobal_model_rewrite::filter_catalog_product_url($products['iso'], $products['pathclibelle'], $products['idclc'],$products['pathslibelle'], $products['idcls'], $products['urlcatalog'], $products['idproduct'],true);
+		frontend_model_template::assign('idcatalog',$products['idcatalog']);
+		frontend_model_template::assign('idproduct',$products['idproduct']);
+		frontend_model_template::assign('date_catalog',$products['date_catalog']);
+		frontend_model_template::assign('titlecatalog',$products['titlecatalog']);
+		frontend_model_template::assign('category',$products['clibelle']);
+		frontend_model_template::assign('subcategory',$products['slibelle']);
+		frontend_model_template::assign('price',$products['price']);
+		frontend_model_template::assign('imgcatalog',$imgc);
+		frontend_model_template::assign('desccatalog',$products['desccatalog']);
+		frontend_model_template::assign('urlcatalog',$uri);
+		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($products['iso'], $products['pathclibelle'],$products['idclc'],true);			
+		$uri_subcat = magixglobal_model_rewrite::filter_catalog_subcategory_url($products['iso'], $products['pathclibelle'],$products['idclc'],$products['pathslibelle'],$products['idcls'],true);	
+		frontend_model_template::assign('uri_cat',$uri_cat);
+		frontend_model_template::assign('uri_subcat',$uri_subcat);
 	}
 	/**
 	 * Affiche la page des categories du catalogue
 	 * @access public
 	 */
-	private function display_category(){
+	private function load_data_category(){
 		$catname = parent::s_current_name_category($this->idclc);
 		frontend_model_template::assign('clibelle',magixcjquery_string_convert::ucFirst($catname['clibelle']));
 		frontend_model_template::assign('c_content',$catname['c_content']);
-		frontend_model_template::display('catalog/category.phtml');
 	}
 	/**
 	 * Affiche la page des sous categories du catalogue
 	 * @access public
 	 */
-	private function display_sub_category(){
+	private function load_data_subcategory(){
 		$subcatname = parent::s_current_name_subcategory($this->idcls);
 		frontend_model_template::assign('clibelle',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
 		frontend_model_template::assign('slibelle',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
 		frontend_model_template::assign('s_content',$subcatname['s_content']);
-		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($this->getlang, $subcatname['pathclibelle'],$subcatname['idclc'],true);			
+		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(), $subcatname['pathclibelle'],$subcatname['idclc'],true);			
 		frontend_model_template::assign('uri_cat',$uri_cat);
-		frontend_model_template::display('catalog/subcategory.phtml');
 	}
 	/**
-	 * Affiche la page du produit selectionner du catalogue
-	 * @access public
+	 * 
+	 * Execution du catalogue
 	 */
-	private function display_product(){
-		self::load_product_page();
-		frontend_model_template::display('catalog/product.phtml');
-	}
-	/**
-	 * Affiche la page ROOT du catalogue
-	 * @access public
-	 */
-	private function display_catalog(){
-		frontend_model_template::display('catalog/index.phtml');
-	}
 	public function run(){
 		if(isset($this->idclc)){
 			if(isset($this->idcls)){
 				if(isset($this->idproduct)){
-					self::display_product();
+					$this->load_product_page();
+					frontend_model_template::display('catalog/product.phtml');
 				}else{
-					self::display_sub_category();
+					$this->load_data_subcategory();
+					frontend_model_template::display('catalog/subcategory.phtml');
 				}
 			}elseif(isset($this->idproduct)){
-				self::display_product();
+				$this->load_product_page();
+				frontend_model_template::display('catalog/product.phtml');
 			}else{
-				self::display_category();
+				$this->load_data_category();
+				frontend_model_template::display('catalog/category.phtml');
 			}
 		}else{
-			self::display_catalog();
+			frontend_model_template::display('catalog/index.phtml');
 		}
 	}
 }

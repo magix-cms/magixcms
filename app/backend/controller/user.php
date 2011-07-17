@@ -260,7 +260,7 @@ class statesUserAdmin{
 	 * Compte le nombre de news inserer par membre
 	 */
 	protected static function count_news_by_members(){
-		$states = '<table class="clear">
+		/*$states = '<table class="clear">
 						<thead>
 							<tr>
 							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
@@ -275,13 +275,13 @@ class statesUserAdmin{
 			$states .= '</tr>';
 		}
 		$states .= '</tbody></table>';
-		return $states;
+		return $states;*/
 	}
 	/**
 	 * Compte le nombre de page par membre
 	 */
 	protected static function count_cms_by_members(){
-		$states = '<table class="clear">
+		/*$states = '<table class="clear">
 						<thead>
 							<tr>
 							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
@@ -296,7 +296,7 @@ class statesUserAdmin{
 			$states .= '</tr>';
 		}
 		$states .= '</tbody></table>';
-		return $states;
+		return $states;*/
 	}
 	/**
 	 * Charge les donnée du formulaire de mise à jour

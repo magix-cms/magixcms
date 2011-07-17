@@ -1,5 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'2','idmetas'=>'2','default'=>$slibelle] category=$clibelle subcategory=$slibelle}}
+    <title>{seo_rewrite config_param=['level'=>'2','idmetas'=>'1','default'=>$slibelle] category=$clibelle subcategory=$slibelle}</title>
 {include file="common/css.phtml"}
 </head>
 <body class="catalog subcat">
@@ -14,7 +15,7 @@
 				<div class="bg-repeat w16-16">	
 					<div id="contentCol" class="text-content block w11-16 lfloat">
 						<ul class="ariane">
-							<li><a href="{geturl}{getlang}/catalog" title="Catalogue de voitures">Catalogue</a></li>
+							<li><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#}">{#topmenu_catalog_t#}</a></li>
 							<li>></li>
 							<li><a href="{$uri_cat}" title="{$clibelle}">{$clibelle}</a></li>
 							<li>></li>
@@ -22,7 +23,7 @@
 						</ul>  	  	
 						<h1>{$slibelle}</h1>
 						{$s_content}
-						{widget_catalog_load_products ui=false tposition="bottom" description=true size=medium col="2"}
+						{*{widget_catalog_load_products ui=false tposition="bottom" description=true size=medium col="2"}*}
 					</div>
 					<div id="rightCol" class="block w5-16 lfloat last">
 						{include file="common/colright.phtml"}
@@ -32,6 +33,5 @@
 		</div>
 	</div>
 	{include file="common/footer.phtml"}
-
 </body>
 </html>

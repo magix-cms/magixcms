@@ -249,11 +249,11 @@ class magixglobal_model_rewrite{
 	 * @param $idproduct
 	 * @return string
 	 */
-	private function catalog_uri_product($lang,$pathclibelle,$idclc,$pathslibelle=null,$idcls=null,$urlcatalog,$idproduct){
+	private function catalog_uri_product($lang,$pathclibelle,$idclc,$pathslibelle,$idcls,$urlcatalog,$idproduct){
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}
-		if($idcls != null){
+		if($idcls != null OR $idcls != 0){
 			$uri_product = '/catalog.php?'.$language.'idclc='.$idclc.'&amp;pathclibelle='.$pathclibelle.'&amp;idcls='.$idcls.'&amp;pathslibelle='.$pathslibelle.'&amp;urlcatalog='.$urlcatalog.'&amp;idcatalog='.$idproduct;
 		}else{
 			$uri_product = '/catalog.php?'.$language.'idclc='.$idclc.'&amp;pathclibelle='.$pathclibelle.'&amp;urlcatalog='.$urlcatalog.'&amp;idcatalog='.$idproduct;
@@ -272,13 +272,13 @@ class magixglobal_model_rewrite{
 	private function catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$pathslibelle,$idcls,$urlcatalog,$idproduct){
 		if($lang != null){
 			$language = $lang.'/';
-		}else $language = '';
-		if($idcls != null){
-			$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$idcls.'-'.$pathslibelle.'/'.$urlcatalog.'-'.$idproduct;
-		}else{
-			$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$urlcatalog.'-'.$idproduct;
+			if($idcls != '' OR $idcls != null OR $idcls != 0){
+				$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$idcls.'-'.$pathslibelle.'/'.$urlcatalog.'-'.$idproduct;
+			}else{
+				$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$urlcatalog.'-'.$idproduct;
+			}
+			return $uri_product;
 		}
-		return $uri_product;
 	}
 	/**
 	 * La réécriture des urls de la racine du catalogue
@@ -345,7 +345,7 @@ class magixglobal_model_rewrite{
 	 * @param integer $idproduct
 	 * @param bool $rewrite
 	 */
-	public static function filter_catalog_product_url($lang,$pathclibelle,$idclc,$pathslibelle=null,$idcls=null,$urlcatalog,$idproduct,$rewrite=false){
+	public static function filter_catalog_product_url($lang,$pathclibelle,$idclc,$pathslibelle='',$idcls='',$urlcatalog,$idproduct,$rewrite=false){
 		switch ($rewrite){
 			case true:
 				return self::catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$pathslibelle,$idcls,$urlcatalog,$idproduct);

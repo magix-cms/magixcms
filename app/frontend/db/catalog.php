@@ -76,7 +76,7 @@ class frontend_db_catalog{
 		));
 	}
 	/*############# SOUS CATEGORIE ###################*/
-	function s_current_name_subcategory($idcls){
+	protected function s_current_name_subcategory($idcls){
     	$sql = 'SELECT s.slibelle,s.pathslibelle,s.s_content,c.idclc,c.clibelle,c.pathclibelle
     	FROM mc_catalog_s as s 
     	LEFT JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
@@ -140,7 +140,7 @@ class frontend_db_catalog{
 			':idproduct'	=>	$idproduct
 		));
 	}
-	function s_product_page_with_language($idclc,$idproduct,$iso){
+	protected function s_product_page($idclc,$idproduct,$iso){
 		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog, p.idclc, p.idcls, catalog.price,
 		catalog.desccatalog,c.clibelle, c.pathclibelle,s.slibelle, s.pathslibelle, img.imgcatalog, lang.iso
 		FROM mc_catalog_product AS p
@@ -312,63 +312,5 @@ class frontend_db_catalog{
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':iso'		=>	$iso)
 		);
-	}
-	/*################# micro galerie ##################*/
-	function s_identifier_catalog($idproduct){
-		$sql = 'SELECT product.idcatalog FROM mc_catalog_product as product WHERE idproduct = :idproduct';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idproduct'	=>	$idproduct
-		));
-	}
-	/**
-	 * Compte le nombre d'image pour une galerie catalogue
-	 * @param $getimg
-	 */
-	function count_image_in_galery_product($idcatalog){
-		$sql = 'SELECT count(img.imgcatalog) as cimage FROM mc_catalog_galery as img WHERE idcatalog = :idcatalog';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idcatalog'	=>	$idcatalog
-		));
-	}
-/**
- * selectionne les images pour la construction d'une micro galerie d'un produit
- * @param intéger $idcatalog
- */
-	function s_microgalery_product($idcatalog){
-		$sql = 'SELECT img.idmicro,img.imgcatalog FROM mc_catalog_galery as img WHERE idcatalog = :idcatalog';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idcatalog'	=>	$idcatalog
-		));
-	}
-	/**
-	 * Produits liés
-	 */
-	/**
-	 * Selectionne les produits liés du produit courant
-	 * @param $idcatalog
-	 */
-	function s_catalog_rel_product($idcatalog){
-		$sql = 'SELECT rel.idrelproduct,rel.idproduct FROM mc_catalog_rel_product AS rel
-				WHERE rel.idcatalog = :idcatalog';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idcatalog'	=>	$idcatalog
-		));
-	}
-	/**
-	 * Retourne les informations de la fiche produit
-	 * @param $idproduct
-	 */
-	function s_catalog_product_info($idproduct){
-		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle,
-		card.titlecatalog, card.urlcatalog, lang.iso,img.imgcatalog
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS card USING ( idcatalog )
-		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c USING ( idclc )
-		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
-		WHERE idproduct = :idproduct';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idproduct'	=>	$idproduct
-		));
 	}
 }

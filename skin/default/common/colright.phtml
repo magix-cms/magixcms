@@ -1,18 +1,17 @@
 	<p class="title bg light">
-		<a href='/catalog/' title='Catalogue Magix CMS'>Catalogue</a>
+		<a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/">{#topmenu_catalog_t#|firststring}</a>
 	</p>
-	{*<div class="bg-top w5-16 light"></div>*}
-	{*<div class="bg-repeat bg dark w5-16 light">
+	<div class="bg-top w5-16 light"></div>
+	<div class="bg-repeat bg dark w5-16 light">
 		{widget_simple_sidebar_catalog_with_exclude ui=false title="" exclude=['fr'=>['1' =>'0']]}
 	</div>
 	<div class="bg-bottom w5-16 light"></div>
 
 	<div class="block w5-16 bg dark last">
 		<p class="title align">Vous voulez un site sympa ?</p>
-		<a class="button w4-16 light align" href="#"><span>Contactez nous</span></a>
+		<a class="button w4-16 light align" href="{geturl}/{getlang}/{#topmenu_contact_uri#}"><span>Contactez nous</span></a>
 	</div>
-
-	
+	{*
 	<div class="block bg w5-16 last">
 		<p class="title">Partager</p>
     {if $smarty.get.getidpage}
@@ -36,13 +35,12 @@
     {/if}
   {widget_get_social title=$socialtitle size="medium"}
 	</div>
-
+	*}
 	<div class="block w5-16 bg last">
 	 	{widget_load_catalog_category_last_products size="medium" tposition="bottom" idcat="1" limit_products="4" ui=false price=false description=true contentlength="124" delemiter="..."}	
-	</div>*}
-	
-<div>
-	<p class="title">Voir aussi</p>
-	 {widget_cms_sidebar_page} 
-</div>
-<div class="clear"></div>
+	</div>
+	<div>
+		<p class="title">Voir aussi</p>
+		 {widget_cms_sidebar_page} 
+	</div>
+	<div class="clear"></div>

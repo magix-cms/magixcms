@@ -29,7 +29,7 @@
  *
  */
 class frontend_db_block_catalog{
-	public static function s_category_withimg_lang($iso){
+	public static function s_category_widget($iso){
 		/*$sql = 'SELECT p.idcatalog, p.urlcatalog, p.idlang, 
 		p.idclc, p.idcls, c.pathclibelle,clibelle, img.imgcatalog, lang.iso
 		FROM mc_catalog AS p
@@ -47,7 +47,7 @@ class frontend_db_block_catalog{
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		WHERE lang.iso = :iso ORDER BY corder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
-			':iso'		=>	$iso)
+			':iso'	=>	$iso)
 		);
 	}
 	public static function s_product_in_category($idclc,$iso){
@@ -64,17 +64,20 @@ class frontend_db_block_catalog{
 			':iso'=>$iso
 		));
 	}
-	public static function s_sub_category_menu($idclc,$iso){
-	    $sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.idclc, s.img_s, lang.iso
-	        FROM mc_catalog_c AS c
-	        LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
-	        LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-	        WHERE s.idclc = :idclc AND lang.iso = :iso ORDER BY sorder';
+	public static function s_product_category_by_date($idclc,$iso){
+	    $sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog,catalog.date_catalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
+	    FROM mc_catalog_product AS p
+	    LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
+	    LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+	    LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
+	    JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
+	    LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+	    WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.iso = :iso ORDER BY catalog.date_catalog DESC';
 	    return magixglobal_model_db::layerDB()->select($sql,array(
 	      ':idclc'=>$idclc,
-	      ':iso'   =>  $iso
+	      ':iso'=>$iso
 	    ));
-	}
+	  }
 	public static function s_current_name_category_widget($idclc){
     	$sql = 'SELECT c.clibelle,c.pathclibelle,c.c_content
 		FROM mc_catalog_c as c WHERE c.idclc = :idclc';
@@ -162,4 +165,45 @@ class frontend_db_block_catalog{
 			':idproduct'	=>	$idproduct
 		));
 	}
+	/*################ MENU #################*/
+	/**
+	 * construction menu des catégories (avec langue)
+	 */
+	public static function s_category_menu_with_exclude($iso,$exclude_sql){
+		$sql = "SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, lang.iso
+				FROM mc_catalog_c AS c
+				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE lang.iso = :iso AND c.idclc NOT IN ({$exclude_sql})
+				ORDER BY corder";
+		return magixglobal_model_db::layerDB()->select($sql,array(
+		':iso'		=>	$iso
+		));
+	}	
+	/**
+	 * construction menu des sous catégories (avec langue)
+	 * @param iso
+	 * @param idclc
+	 */
+	public static function s_sub_category_menu($iso,$idclc){
+		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.idclc, s.img_s, lang.iso
+				FROM mc_catalog_c AS c
+				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
+				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE c.idclc = :idclc AND lang.iso = :iso ORDER BY sorder';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':iso'		=>	$iso,
+			':idclc'	=>	$idclc
+		));
+	}
+	/*public static function s_sub_category_menu($idclc,$iso){
+	    $sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.idclc, s.img_s, lang.iso
+	        FROM mc_catalog_c AS c
+	        LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
+	        LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+	        WHERE s.idclc = :idclc AND lang.iso = :iso ORDER BY sorder';
+	    return magixglobal_model_db::layerDB()->select($sql,array(
+	      ':idclc'=>$idclc,
+	      ':iso'   =>  $iso
+	    ));
+	}*/
 }
