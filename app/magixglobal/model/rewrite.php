@@ -193,7 +193,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}else $language = '';
-		return '/catalog.php?'.$language.'catalog&amp;pathclibelle='.$pathclibelle.'&amp;'.'idclc='.$idclc;
+		return '/catalog.php?'.$language.'&amp;'.'idclc='.$idclc.'&amp;pathclibelle='.$pathclibelle;
 	}
 	/**
 	 * @access private
@@ -207,7 +207,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return '/'.$language.self::mod_catalog_lang($lang).'/c/'.$pathclibelle.'-'.$idclc.'.html';
+		return '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/';
 	}
 	/**
 	 * URL des sous catégories du catalogue sans réécriture
@@ -222,7 +222,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}else $language = '';
-		return '/catalog.php?'.$language.'catalog&amp;pathclibelle='.$pathclibelle.'&amp;'.'idclc='.$idclc.'&amp;s'.'&amp;pathslibelle='.$pathslibelle.'&amp;idcls='.$idcls;
+		return '/catalog.php?'.$language.'idclc='.$idclc.'&amp;pathclibelle='.$pathclibelle.'&amp;idcls='.$idcls.'&amp;pathslibelle='.$pathslibelle;
 	}
 	/**
 	 *  URL des sous catégories du catalogue avec réécriture
@@ -237,7 +237,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return '/'.$language.self::mod_catalog_lang($lang).'/'.$pathclibelle.'-'.$idclc.'/s/'.$pathslibelle.'-'.$idcls.'.html';
+		return '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$idcls.'-'.$pathslibelle.'/';
 	}
 	/**
 	 * 
@@ -249,11 +249,16 @@ class magixglobal_model_rewrite{
 	 * @param $idproduct
 	 * @return string
 	 */
-	private function catalog_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct){
+	private function catalog_uri_product($lang,$pathclibelle,$idclc,$pathslibelle=null,$idcls=null,$urlcatalog,$idproduct){
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
-		}else $language = '';
-		return '/catalog.php?'.$language.'catalog&amp;'.'idclc='.$idclc.'&amp;'.$pathclibelle.'&amp;idcatalog='.$idproduct.'&amp;'.$urlcatalog;
+		}
+		if($idcls != null){
+			$uri_product = '/catalog.php?'.$language.'idclc='.$idclc.'&amp;pathclibelle='.$pathclibelle.'&amp;idcls='.$idcls.'&amp;pathslibelle='.$pathslibelle.'&amp;urlcatalog='.$urlcatalog.'&amp;idcatalog='.$idproduct;
+		}else{
+			$uri_product = '/catalog.php?'.$language.'idclc='.$idclc.'&amp;pathclibelle='.$pathclibelle.'&amp;urlcatalog='.$urlcatalog.'&amp;idcatalog='.$idproduct;
+		}
+		return $uri_product;
 	}
 	/**
 	 * 
@@ -264,11 +269,16 @@ class magixglobal_model_rewrite{
 	 * @param $urlcatalog
 	 * @param $idproduct
 	 */
-	private function catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct){
+	private function catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$pathslibelle,$idcls,$urlcatalog,$idproduct){
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return '/'.$language.self::mod_catalog_lang($lang).'/'.$pathclibelle.'-'.$idclc.'/'.$urlcatalog.'-'.$idproduct.'.html';
+		if($idcls != null){
+			$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$idcls.'-'.$pathslibelle.'/'.$urlcatalog.'-'.$idproduct;
+		}else{
+			$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$urlcatalog.'-'.$idproduct;
+		}
+		return $uri_product;
 	}
 	/**
 	 * La réécriture des urls de la racine du catalogue
@@ -335,13 +345,13 @@ class magixglobal_model_rewrite{
 	 * @param integer $idproduct
 	 * @param bool $rewrite
 	 */
-	public static function filter_catalog_product_url($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct,$rewrite=false){
+	public static function filter_catalog_product_url($lang,$pathclibelle,$idclc,$pathslibelle=null,$idcls=null,$urlcatalog,$idproduct,$rewrite=false){
 		switch ($rewrite){
 			case true:
-				return self::catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$urlcatalog,$idproduct);
+				return self::catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$pathslibelle,$idcls,$urlcatalog,$idproduct);
 			break;
 			case false:
-				return self::catalog_uri_product($lang, $pathclibelle, $idclc, $urlcatalog, $idproduct);
+				return self::catalog_uri_product($lang,$pathclibelle,$idclc,$pathslibelle,$idcls,$urlcatalog,$idproduct);
 			break;
 		}
 		

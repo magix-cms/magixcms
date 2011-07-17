@@ -134,10 +134,10 @@ class plugins_contact_admin extends database_plugins_contact{
 		foreach(parent::s_register_contact() as $list){
 			switch($list['idlang']){
 				case 0:
-					$codelang = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
+					$iso = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
 				break;
 				default: 
-					$codelang = $list['codelang'];
+					$iso = $list['iso'];
 				break;
 			}
 			if ($list['iso'] != $lang) {
@@ -147,7 +147,7 @@ class plugins_contact_admin extends database_plugins_contact{
 			$lang = $list['iso'];
 			$m .='<tr class="line">';
 			$m .='<td class="minimal">'.$list['idadmin'].'</td>';
-			$m .='<td class="minimal">'.$codelang.'</td>';
+			$m .='<td class="minimal">'.$iso.'</td>';
 			$m .='<td class="nowrap">'.$list['pseudo'].'</td>';
 			$m .='<td class="maximal">'.$list['email'].'</td>';
 			$m .='<td class="minimal"><a href="#" title="'.$list['idcontact'].'" class="d-plugins-contact"><span style="float:left" class="ui-icon ui-icon-close"></span></a></td>';
@@ -201,7 +201,7 @@ class plugins_contact_admin extends database_plugins_contact{
 		if($dblang != null){
 	        foreach ($dblang as $l){
 	        	$sitemap->writeMakeNode(
-					magixcjquery_html_helpersHtml::getUrl().'/'.$l['codelang'].'/magixmod/contact/',
+					magixcjquery_html_helpersHtml::getUrl().'/'.$l['iso'].'/magixmod/contact/',
 					date('d-m-Y'),
 					'always',
 					0.7
@@ -254,7 +254,7 @@ class database_plugins_contact{
 	 * Retourne les contacts enregistrés pour le formulaire
 	 */
 	protected function s_register_contact(){
-		$sql = 'SELECT c.idcontact,c.idadmin,c.idlang,lang.codelang,m.pseudo,m.email FROM mc_plugins_contact c
+		$sql = 'SELECT c.idcontact,c.idadmin,c.idlang,lang.iso,m.pseudo,m.email FROM mc_plugins_contact c
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
 		ORDER BY lang.idlang';

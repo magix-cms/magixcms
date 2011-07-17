@@ -29,23 +29,8 @@
  *
  */
 class frontend_db_catalog{
-	/**
-	 * singleton dbnews
-	 * @access public
-	 * @var void
-	 */
-	static public $publicdbcatalog;
-	/**
-	 * instance frontend_db_news with singleton
-	 */
-	public static function publicDbCatalog(){
-        if (!isset(self::$publicdbcatalog)){
-         	self::$publicdbcatalog = new frontend_db_catalog();
-        }
-    	return self::$publicdbcatalog;
-    }
 /*####### CATEGORIE #######*/
-    function s_current_name_category($idclc){
+    protected function s_current_name_category($idclc){
     	$sql = 'SELECT c.clibelle,c.pathclibelle,c.c_content
 		FROM mc_catalog_c as c WHERE c.idclc = :idclc';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
@@ -92,7 +77,7 @@ class frontend_db_catalog{
 	}
 	/*############# SOUS CATEGORIE ###################*/
 	function s_current_name_subcategory($idcls){
-    	$sql = 'SELECT s.slibelle,s.pathslibelle,s.s_content,c.clibelle,c.pathclibelle
+    	$sql = 'SELECT s.slibelle,s.pathslibelle,s.s_content,c.idclc,c.clibelle,c.pathclibelle
     	FROM mc_catalog_s as s 
     	LEFT JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
 		WHERE s.idcls = :idcls';

@@ -1,6 +1,6 @@
 tinyMCEPopup.requireLangPack();
 function insert_product_catalog_link(href,name){
-	tinyMCE.execCommand('mceInsertContent',false,'<a href="'+href+'">'+name+'</a>');
+	tinyMCE.execCommand('mceInsertContent',false,'<a title="'+name+'" href="'+href+'">'+name+'</a>');
 }
 var ProductSearchDialog = {
 	init : function() {

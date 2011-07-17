@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>$titlecatalog] category=$category subcategory=$subcategory record=$titlecatalog}}
-    <title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$titlecatalog] category=$category subcategory=$subcategory record=$titlecatalog}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>''] category=$category subcategory=$subcategory record=$titlecatalog}}
+    <title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>''] category=$category subcategory=$subcategory record=$titlecatalog}</title>
 {include file="common/css.phtml"}
 </head>
 <body>
@@ -15,7 +15,7 @@
 				<div class="bg-repeat w16-16">	
 					<div id="contentCol" class="text-content block w11-16 lfloat">			
 				    	<ul class="ariane">
-				   			<li class="first"><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="Catalogue de voitures">Catalogue</a></li>
+				   			<li class="first"><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#}">Catalogue</a></li>
 					    	<li>></li>
 					    	<li><a href="{$uri_cat}" title="{#catalog_nav_cat#} {$category}">{$category}</a></li>
 					    	<li>></li>
@@ -28,6 +28,7 @@
 				    	<span class="date rfloat">Ajouté le {$date_catalog|date_format:"%d-%m-%y"}</span>		
 
 						<h1>{$titlecatalog}</h1>
+						{$smarty.get.idproduct}
 						<div id="product-img" class="block w4-16 rfloat last bg dark">
 							{$imgcatalog}
 							<p class="title">Intéressé par {$titlecatalog} ?</p>
@@ -43,11 +44,11 @@
 						<div class="clear"></div>
 						<div id="galery" class="block w11-32 lfloat">
 							<p class="title">Photos</p>
-							{*{widget_catalog_microgalery type="imagebox" ui=true col="3"}*}
+							{widget_catalog_microgalery type="imagebox" ui=true col="3"}
 						</div>
 						<div id="rel-product" class="block w11-32 lfloat last">
 							<p class="title">Voir aussi</p>
-							{*{widget_catalog_rel_product idcatalog=$idcatalog ui=false description=true contentlength="124" size="medium" tposition="bottom"}*}
+							{widget_catalog_rel_product idcatalog=$idcatalog ui=false description=true contentlength="124" size="medium" tposition="bottom"}
 						</div>
 						<div class="clear"></div>					
 					</div>

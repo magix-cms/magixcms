@@ -177,36 +177,11 @@ class plugins_contact_public extends database_plugins_contact{
 			}else{
 				if($create->getLanguage()){
 					if(parent::c_show_table() != 0){
-						if(parent::s_register_contact_with_lang($create->getLanguage()) != null){
+						if(parent::s_register_contact($create->getLanguage()) != null){
 							//Instance la classe mail avec le paramètre de transport
 							$core_mail = new magixglobal_model_mail('mail');
 							//Charge dans un tableau les utilisateurs qui reçoivent les mails
 							$lotsOfRecipients = parent::s_register_contact_with_lang($create->getLanguage());
-							//Initialisation du contenu du message
-							foreach ($lotsOfRecipients as $recipient){
-								$message = $core_mail->body_mail(
-									self::subject(),
-									array($this->email),
-									array($recipient['email'] => $recipient['pseudo']),
-									self::body_message(),
-									false
-								);
-								$core_mail->batch_send_mail($message);
-							}
-							$fetch = $create->append_fetch('success.phtml');
-						}else{
-							$fetch = $create->append_fetch('error_email_config.phtml');
-						}
-					}else{
-						$fetch = $create->append_fetch('error_install.phtml');
-					}
-				}else{
-					if(parent::c_show_table() != 0){
-						if(parent::s_register_contact_no_lang() != null){
-							//Instance la classe mail avec le paramètre de transport
-							$core_mail = new magixglobal_model_mail('mail');
-							//Charge dans un tableau les utilisateurs qui reçoivent les mails
-							$lotsOfRecipients = parent::s_register_contact_no_lang();
 							//Initialisation du contenu du message
 							foreach ($lotsOfRecipients as $recipient){
 								$message = $core_mail->body_mail(
@@ -252,25 +227,14 @@ class database_plugins_contact{
 	}
 	/**
 	 * @access protected
-	 * Selectionne les contacts pour le formulaire de base sans langue 
+	 * Selectionne les contacts pour le formulaire
 	 */
-	protected function s_register_contact_no_lang(){
-		$sql = 'SELECT c.idlang,lang.codelang,m.email,m.pseudo FROM mc_plugins_contact c
+	protected function s_register_contact($iso){
+		$sql = 'SELECT c.idlang,lang.iso,m.email,m.pseudo FROM mc_plugins_contact c
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
-		WHERE c.idlang = 0';
-		return frontend_db_plugins::layerPlugins()->select($sql);
-	}
-	/**
-	 * @access protected
-	 * Selectionne les contacts pour le formulaire avec langue 
-	 */
-	protected function s_register_contact_with_lang($codelang){
-		$sql = 'SELECT c.idlang,lang.codelang,m.email,m.pseudo FROM mc_plugins_contact c
-		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
-		WHERE lang.codelang = :codelang';
-		return frontend_db_plugins::layerPlugins()->select($sql,array(':codelang'=>$codelang));
+		WHERE lang.iso = :iso';
+		return frontend_db_plugins::layerPlugins()->select($sql,array(':iso'=>$iso));
 	}
 }
 ?>

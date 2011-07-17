@@ -21,6 +21,17 @@ CREATE TABLE IF NOT EXISTS `mc_admin_session` (
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `mc_lang` (
+  `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `iso` varchar(3) NOT NULL,
+  `language` varchar(30) NOT NULL,
+  `default_lang` tinyint(1) NOT NULL DEFAULT '0',
+  `active_lang` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idlang`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1);
+
 CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `idcatalog` int(6) NOT NULL AUTO_INCREMENT,
   `idlang` tinyint(1) NOT NULL DEFAULT '0',
@@ -95,34 +106,6 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
   KEY `idclc` (`idclc`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `mc_cms_category` (
-  `idcategory` tinyint(3) NOT NULL AUTO_INCREMENT,
-  `category` varchar(100) DEFAULT NULL,
-  `pathcategory` varchar(100) DEFAULT NULL,
-  `idlang` tinyint(1) NOT NULL DEFAULT '0',
-  `idorder` tinyint(2) NOT NULL,
-  PRIMARY KEY (`idcategory`),
-  KEY `idlang` (`idlang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `mc_cms_page` (
-  `idpage` smallint(6) NOT NULL AUTO_INCREMENT,
-  `idcategory` tinyint(3) NOT NULL DEFAULT '0',
-  `idlang` tinyint(1) NOT NULL DEFAULT '0',
-  `pathpage` varchar(125) NOT NULL,
-  `subjectpage` varchar(125) NOT NULL,
-  `contentpage` text,
-  `idadmin` tinyint(2) NOT NULL,
-  `metatitle` varchar(150) DEFAULT NULL,
-  `metadescription` varchar(180) DEFAULT NULL,
-  `orderpage` smallint(6) NOT NULL,
-  `viewpage` tinyint(1) NOT NULL,
-  `date_page` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idpage`),
-  KEY `idcategory` (`idcategory`,`idlang`),
-  KEY `idadmin` (`idadmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `mc_cms_pages` (
   `idpage` int(7) NOT NULL AUTO_INCREMENT,
   `idadmin` tinyint(3) NOT NULL,
@@ -186,10 +169,6 @@ CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
   PRIMARY KEY (`id_size_img`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Contenu de la table `mc_config_size_img`
---
-
 INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`, `width`, `height`, `type`, `img_resizing`) VALUES
 (1, 4, 'category', '120', '100', 'small', 'basic'),
 (2, 4, 'subcategory', '120', '100', 'small', 'basic'),
@@ -200,17 +179,6 @@ INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`,
 (7, 4, 'galery', '700', '700', 'large', 'basic'),
 (8, 3, 'news', '120', '100', 'small', 'basic'),
 (9, 3, 'news', '350', '250', 'medium', 'basic');
-
-CREATE TABLE IF NOT EXISTS `mc_lang` (
-  `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,
-  `iso` varchar(3) NOT NULL,
-  `language` varchar(30) NOT NULL,
-  `default_lang` tinyint(1) NOT NULL DEFAULT '0',
-  `active_lang` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1);
 
 CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
   `idrewrite` tinyint(2) NOT NULL AUTO_INCREMENT,
@@ -285,12 +253,3 @@ ALTER TABLE `mc_catalog_rel_product`
 
 ALTER TABLE `mc_catalog_s`
   ADD CONSTRAINT `mc_catalog_s_ibfk_1` FOREIGN KEY (`idclc`) REFERENCES `mc_catalog_c` (`idclc`);
-
-ALTER TABLE `mc_cms_page`
-  ADD CONSTRAINT `mc_cms_page_ibfk_1` FOREIGN KEY (`idadmin`) REFERENCES `mc_admin_member` (`idadmin`);
-
-ALTER TABLE `mc_news`
-  ADD CONSTRAINT `mc_news_ibfk_1` FOREIGN KEY (`idadmin`) REFERENCES `mc_admin_member` (`idadmin`);
-
-ALTER TABLE `mc_page_home_config`
-  ADD CONSTRAINT `mc_page_home_config_ibfk_1` FOREIGN KEY (`idhome`) REFERENCES `mc_page_home` (`idhome`);

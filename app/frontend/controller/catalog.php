@@ -30,7 +30,7 @@
  * @name catalog
  *
  */
-class frontend_controller_catalog{
+class frontend_controller_catalog extends frontend_db_catalog{
 	/**
 	 * variable des langues
 	 * @var string
@@ -64,7 +64,7 @@ class frontend_controller_catalog{
 		if(isset($_SESSION['strLangue'])){
 			$this->slang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
 		}
-		if(isset($_GET['idclc'])){
+		if(magixcjquery_filter_request::isGet('idclc')){
 			$this->idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
 		}
 		if(isset($_GET['idcls'])){
@@ -83,7 +83,7 @@ class frontend_controller_catalog{
 	 */
 	private function load_product_page(){
 		if(isset($this->getlang)){
-			$products = frontend_db_catalog::publicDbCatalog()->s_product_page_with_language($this->idclc,$this->idproduct,$this->getlang);
+			$products = parent::s_product_page_with_language($this->idclc,$this->idproduct,$this->getlang);
 			/**
 			 * Charge L'image d'une fiche catalogue si elle existe sinon retourne une image fictive
 			 */
@@ -91,24 +91,24 @@ class frontend_controller_catalog{
 			if($products['imgcatalog'] != null){
 				$imgc .= '<a class="imagebox" href="/upload/catalogimg/product/'.$products['imgcatalog'].'" title="'.$products['titlecatalog'].'"><img src="/upload/catalogimg/medium/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'" /></a>';
 			}else{
-				$imgc .= '<a href="'.magixglobal_model_rewrite::filter_catalog_product_url($this->getlang,$products['pathclibelle'],$products['idclc'],$products['urlcatalog'],$products['idproduct'],true).'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$products['titlecatalog'].'" /></a>';
+				$imgc .= '<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$products['titlecatalog'].'" />';
 			}
 			$imgc .= '</div>';
-			$uri = magixglobal_model_rewrite::filter_catalog_product_url($this->getlang, $products['pathclibelle'], $products['idclc'], $products['urlcatalog'], $products['idproduct'],true);
-			$page = frontend_model_template::assign('idcatalog',$products['idcatalog']);
-			$page = frontend_model_template::assign('idproduct',$products['idproduct']);
-			$page .= frontend_model_template::assign('date_catalog',$products['date_catalog']);
-			$page .= frontend_model_template::assign('titlecatalog',$products['titlecatalog']);
-			$page .= frontend_model_template::assign('category',$products['clibelle']);
-			$page .= frontend_model_template::assign('subcategory',$products['slibelle']);
-			$page .= frontend_model_template::assign('price',$products['price']);
-			$page .= frontend_model_template::assign('imgcatalog',$imgc);
-			$page .= frontend_model_template::assign('desccatalog',$products['desccatalog']);
-			$page .= frontend_model_template::assign('urlcatalog',$uri);
+			$uri = magixglobal_model_rewrite::filter_catalog_product_url($this->getlang, $products['pathclibelle'], $products['idclc'],$products['pathslibelle'], $products['idcls'], $products['urlcatalog'], $products['idproduct'],true);
+			frontend_model_template::assign('idcatalog',$products['idcatalog']);
+			frontend_model_template::assign('idproduct',$products['idproduct']);
+			frontend_model_template::assign('date_catalog',$products['date_catalog']);
+			frontend_model_template::assign('titlecatalog',$products['titlecatalog']);
+			frontend_model_template::assign('category',$products['clibelle']);
+			frontend_model_template::assign('subcategory',$products['slibelle']);
+			frontend_model_template::assign('price',$products['price']);
+			frontend_model_template::assign('imgcatalog',$imgc);
+			frontend_model_template::assign('desccatalog',$products['desccatalog']);
+			frontend_model_template::assign('urlcatalog',$uri);
 			$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($this->getlang, $products['pathclibelle'],$products['idclc'],true);			
 			$uri_subcat = magixglobal_model_rewrite::filter_catalog_subcategory_url($this->getlang, $products['pathclibelle'],$products['idclc'],$products['pathslibelle'],$products['idcls'],true);	
-			$page .= frontend_model_template::assign('uri_cat',$uri_cat);
-			$page .= frontend_model_template::assign('uri_subcat',$uri_subcat);
+			frontend_model_template::assign('uri_cat',$uri_cat);
+			frontend_model_template::assign('uri_subcat',$uri_subcat);
 		}
 	}
 	/**
@@ -116,7 +116,7 @@ class frontend_controller_catalog{
 	 * @access public
 	 */
 	private function display_category(){
-		$catname = frontend_db_catalog::publicDbCatalog()->s_current_name_category($this->idclc);
+		$catname = parent::s_current_name_category($this->idclc);
 		frontend_model_template::assign('clibelle',magixcjquery_string_convert::ucFirst($catname['clibelle']));
 		frontend_model_template::assign('c_content',$catname['c_content']);
 		frontend_model_template::display('catalog/category.phtml');
@@ -126,7 +126,7 @@ class frontend_controller_catalog{
 	 * @access public
 	 */
 	private function display_sub_category(){
-		$subcatname = frontend_db_catalog::publicDbCatalog()->s_current_name_subcategory($this->idcls);
+		$subcatname = parent::s_current_name_subcategory($this->idcls);
 		frontend_model_template::assign('clibelle',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
 		frontend_model_template::assign('slibelle',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
 		frontend_model_template::assign('s_content',$subcatname['s_content']);
@@ -151,10 +151,14 @@ class frontend_controller_catalog{
 	}
 	public function run(){
 		if(isset($this->idclc)){
-			if(isset($this->idproduct)){
+			if(isset($this->idcls)){
+				if(isset($this->idproduct)){
+					self::display_product();
+				}else{
+					self::display_sub_category();
+				}
+			}elseif(isset($this->idproduct)){
 				self::display_product();
-			}elseif(isset($this->idcls)){
-				self::display_sub_category();
 			}else{
 				self::display_category();
 			}

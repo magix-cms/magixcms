@@ -1,6 +1,6 @@
 {include file="common/header.phtml" section="prepend"}
-{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>$clibelle] subcategory=$slibelle category=$clibelle}}
-    <title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>$clibelle] subcategory=$slibelle category=$clibelle}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>$clibelle] category=$clibelle}}
+    <title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>$clibelle]  category=$clibelle}</title>
 {include file="common/css.phtml"}
 </head>
 <body class="catalog cat">
@@ -15,7 +15,7 @@
 				<div class="bg-repeat w16-16">	
 					<div id="contentCol" class="text-content block w11-16 lfloat">
 					    <ul class="ariane">
-					   		<li class="first"><a href="{geturl}{getlang}/catalog" title="Catalogue">Catalogue</a></li>
+					   		<li class="first"><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#}">Catalogue</a></li>
 							<li>></li>
 							<li>{$clibelle}</li>
 						</ul>          						
@@ -23,7 +23,6 @@
 						{$c_content}
 						{widget_catalog_cat_load_products tposition="bottom" ui=false price=false description=true size=medium col="2"}
 						{widget_catalog_subcategory_display tposition=bottom col="2"}
-
 					</div>
 					<div id="rightCol" class="block w5-16 lfloat last">
 						{include file="common/colright.phtml"}
