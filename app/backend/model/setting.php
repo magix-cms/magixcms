@@ -30,21 +30,12 @@
  * @name setting
  * Model setting
  */
-class backend_model_setting extends db_setting{
+class backend_model_setting extends backend_db_setting{
 	/**
 	 * Constructor
 	 */
 	function __construct(){}
-	/**
-	 * @access public
-	 * @static
-	 * Retourne la valeur de la configuration suivant l'identifiant
-	 * @param (string) $setting_id
-	 */
-	public static function select_uniq_setting($setting_id){
-		if(!is_null($setting_id));
-		return backend_db_setting::adminDbSetting()->s_uniq_setting_value($setting_id);
-	}
+	//SETTING
 	/**
 	 * @access public
 	 * @static
@@ -53,7 +44,18 @@ class backend_model_setting extends db_setting{
 	 */
 	public static function update_setting_value($setting_id,$setting_value){
 		if(isset($setting_id)){
-			backend_db_setting::adminDbSetting()->u_uniq_setting_value($setting_id,$setting_value);
+			backend_db_setting::u_setting_value($setting_id,$setting_value);
+		}
+	}
+	/**
+	 * @access public
+	 * @static
+	 * @param (string) $setting_id
+	 * @param (string) $setting_value
+	 */
+	public static function update_setting_label($setting_id,$setting_label){
+		if(isset($setting_id)){
+			backend_db_setting::u_setting_label($setting_id,$setting_label);
 		}
 	}
 	/**
@@ -64,6 +66,16 @@ class backend_model_setting extends db_setting{
 	public static function tabs_load_config($attr_name){
 		return parent::array_data_config($attr_name);
 	}
+	/**
+	 * @access public
+	 * @static
+	 * Retourne la valeur de la configuration suivant l'identifiant
+	 * @param (string) $setting_id
+	 */
+	public static function tabs_uniq_setting($setting_id){
+		return parent::s_uniq_setting($setting_id);
+	}
+	//IMAGE
 	/**
 	 * @access private
 	 * Assign les variables pour les paramètres des tailles images
@@ -85,72 +97,4 @@ class backend_model_setting extends db_setting{
 		return parent::s_attribute_img_size_config($attr_name);
 	}
 	public function dataSizeImg(){}
-}
-/**
- * 
- * Classe pour les requêtes SQL vers les tables de configuration
- * @author aureliengerits
- *
- */
-class db_setting{
-	/**
-	 * @access protected
-	 * Retourne les données de configuration suivant sont attribut
-	 * @param string $attr_name
-	 */
-	protected function array_data_config($attr_name){
-		$sql = 'SELECT * FROM mc_config WHERE attr_name = :attr_name';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':attr_name' =>	$attr_name
-		));
-	}
-	/**
-	 * @access protected
-	 * Charge la configuration de la taille des images suivant sont attribut
-	 * @param string $attr_name
-	 */
-	protected function s_attribute_img_size_config($attr_name){
-    	$sql = 'SELECT ci.*,c.attr_name 
-    	FROM mc_config_size_img as ci
-    	JOIN mc_config as c USING(idconfig)
-    	WHERE c.attr_name = :attr_name
-    	ORDER BY id_size_img,config_size_attr ASC';
-    	return magixglobal_model_db::layerDB()->select($sql,array(
-    		':attr_name'=>$attr_name
-    	));
-    }
-	/*protected function s_load_img_size($name_size){
-    	$sql = 'SELECT ci.* FROM mc_config_size_img as ci
-    	WHERE ci.name_size = :name_size';
-    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
-    		':name_size'=>$name_size
-    	));
-    }*/
-    protected function s_load_img_size($attr_name,$config_size_attr){
-    	$sql = 'SELECT ci.*,c.attr_name 
-    	FROM mc_config_size_img as ci
-    	JOIN mc_config as c USING(idconfig)
-    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr';
-    	return magixglobal_model_db::layerDB()->select($sql,array(
-    		':attr_name'=>$attr_name,
-    		':config_size_attr'=>$config_size_attr
-    	));
-    }
-	protected function s_uniq_img_size($attr_name,$config_size_attr,$type){
-    	$sql = 'SELECT ci.*,c.attr_name 
-    	FROM mc_config_size_img as ci
-    	JOIN mc_config as c USING(idconfig)
-    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr AND type = :type';
-    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
-    		':attr_name'=>$attr_name,
-    		':config_size_attr'=>$config_size_attr,
-    		':type'=>$type
-    	));
-    }
-	protected function s_config_img_size(){
-    	$sql = 'SELECT ci.*,c.attr_name 
-    	FROM mc_config_size_img as ci
-    	JOIN mc_config as c USING(idconfig)';
-    	return magixglobal_model_db::layerDB()->select($sql);
-    }
 }

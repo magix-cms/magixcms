@@ -70,13 +70,13 @@ class backend_controller_config extends backend_db_config{
 	 * intéger number for limited configuration
 	 * @var number
 	 */
-	public $number;
+	public $max_record;
 	/**
 	 * 
-	 * Attribut
-	 * @var Attribut
+	 * idconfig
+	 * @var idconfig
 	 */
-	public $attribute;
+	public $idconfig;
 	/**
 	 * function construct
 	 */
@@ -102,33 +102,11 @@ class backend_controller_config extends backend_db_config{
 		if(magixcjquery_filter_request::isPost('configrmetas')){
 			$this->configrmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['configrmetas']);
 		}
-		if(magixcjquery_filter_request::isPost('number')){
-			$this->number = magixcjquery_filter_isVar::isPostNumeric($_POST['number']);
+		if(magixcjquery_filter_request::isPost('max_record')){
+			$this->max_record = magixcjquery_filter_isVar::isPostNumeric($_POST['max_record']);
 		}
-		if(magixcjquery_filter_request::isPost('attribute')){
-			$this->attribute = magixcjquery_form_helpersforms::inputClean($_POST['attribute']);
-		}
-	}
-	/**
-	 * @access public
-	 * @static
-	 * Retourne la valeur de la configuration suivant l'identifiant
-	 * @param (string) $setting_id
-	 */
-	private function select_uniq_setting($setting_id){
-		if(!is_null($setting_id));
-		$set = backend_db_setting::adminDbSetting()->s_uniq_setting_value($setting_id);
-		return $set['setting_value'];
-	}
-	/**
-	 * @access public
-	 * @static
-	 * @param (string) $setting_id
-	 * @param (string) $setting_value
-	 */
-	private function update_setting_value($setting_id,$setting_value){
-		if(isset($setting_id)){
-			backend_db_setting::adminDbSetting()->u_uniq_setting_value($setting_id,$setting_value);
+		if(magixcjquery_filter_request::isPost('idconfig')){
+			$this->idconfig = magixcjquery_filter_isVar::isPostNumeric($_POST['idconfig']);
 		}
 	}
 	/**
@@ -192,15 +170,15 @@ class backend_controller_config extends backend_db_config{
 	 * @intégrer
 	 */
 	private function load_limited_cms_number(){
-		$config = parent::s_config_number_module();
-		backend_controller_template::assign('attribute',$config['attribute']);
-		backend_controller_template::assign('numbcmspage',$config['number']);
+		$config = backend_model_setting::tabs_load_config('cms');
+		backend_controller_template::assign('idconfigcms',$config['idconfig']);
+		backend_controller_template::assign('max_record',$config['max_record']);
 	}
 	/**
 	 * Charge les données concernant l'éditeur wysiwyg
 	 */
 	private function load_wysiwyg_config_editor(){
-		$config = backend_db_setting::adminDbSetting()->s_uniq_complete_setting('editor');
+		$config = backend_model_setting::tabs_uniq_setting('editor');
 		backend_controller_template::assign('editor',$config['setting_label']);
 		backend_controller_template::assign('manager_setting',$config['setting_value']);
 	}
@@ -220,44 +198,30 @@ class backend_controller_config extends backend_db_config{
 		self::admin_config();
 	}
 	/**
-	 * update states for configuration
-	 * @access private
-	 */
-	private function update_states(){
-		if(isset($this->configlang)){
-			parent::u_config_states($this->configlang,'lang');
-		}
-		if(isset($this->configcms)){
-			parent::u_config_states($this->configcms,'cms');
-		}
-		if(isset($this->confignews)){
-			parent::u_config_states($this->confignews,'news');
-		}
-		if(isset($this->configcatalog)){
-			parent::u_config_states($this->configcatalog,'catalog');
-		}
-		if(isset($this->configrmetas)){
-			parent::u_config_states($this->configrmetas,'metasrewrite');
-		}
-		if(isset($this->number)){
-			parent::u_limited_module($this->attribute,$this->number);
-		}
-	}
-	/**
-	 * Affiche la page de configuration
-	 * function display configuration
-	 */
-	private function display(){
-		$this->update_states();
-		backend_controller_template::display('config/params.phtml');
-	}
-	/**
 	 * @access public
 	 * 
 	 * Execution de la configuration
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
-		self::display();
+		/**
+	 	* update states for configuration
+	 	* @access private
+	 	*/
+		if(isset($this->configlang)){
+			parent::u_config_states($this->configlang,'lang');
+		}elseif(isset($this->configcms)){
+			parent::u_config_states($this->configcms,'cms');
+		}elseif(isset($this->confignews)){
+			parent::u_config_states($this->confignews,'news');
+		}elseif(isset($this->configcatalog)){
+			parent::u_config_states($this->configcatalog,'catalog');
+		}elseif(isset($this->configrmetas)){
+			parent::u_config_states($this->configrmetas,'metasrewrite');
+		}elseif(isset($this->max_record)){
+			parent::u_limited_module($this->idconfig,$this->max_record);
+		}else{
+			backend_controller_template::display('config/params.phtml');	
+		}
 	}
 }

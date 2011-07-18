@@ -199,8 +199,30 @@ class backend_controller_cms extends backend_db_cms{
 	 */
 	private function insert_new_page_p($title_page,$idlang){
 		if(isset($title_page) AND isset($idlang)){
+			// Verifier que le module exist
+			$numbermod = $config = backend_model_setting::tabs_load_config('cms');
+			/*$firebug = new magixcjquery_debug_magixfire();
+			$firebug->magixFireLog($numbermod['setting_value']);*/
 			if(empty($title_page) OR empty($idlang)){
 				backend_controller_template::display('request/empty.phtml');
+			}elseif($numbermod['max_record'] != 0){
+					$cpage = parent::s_count_page_max_by_language($idlang);
+					if($cpage['total'] >= $numbermod['max_record']){
+						//Si le nombre maximal de page est atteint
+						backend_controller_template::display('request/maxpage.phtml');
+					}else{
+						$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
+						parent::i_new_parent_page(
+							backend_model_member::s_idadmin(), 
+							$this->idlang, 
+							$this->title_page, 
+							$uri_page, 
+							$this->content_page, 
+							$this->seo_title_page, 
+							$this->seo_desc_page
+						);
+						backend_controller_template::display('request/success.phtml');
+					}
 			}else{
 				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
 				parent::i_new_parent_page(

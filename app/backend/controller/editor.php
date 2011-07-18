@@ -58,7 +58,7 @@ class backend_controller_editor{
 	 * Charge les données concernant l'éditeur wysiwyg
 	 */
 	private function load_wysiwyg_editor(){
-		$config = backend_db_setting::adminDbSetting()->s_uniq_complete_setting('editor');
+		$config = backend_model_setting::tabs_uniq_setting('editor');
 		if($config['setting_value'] == "pdw_file_browser"){
 			$checked_filebrowser = 'checked="checked"';
 		}else{
@@ -87,8 +87,8 @@ EOT;
 	 */
 	private function send_wysiwyg_editor(){
 		if($this->editor){
-			backend_db_setting::adminDbSetting()->u_uniq_setting_label('editor',$this->editor);
-			backend_db_setting::adminDbSetting()->u_uniq_setting_value('editor','pdw_file_browser');
+			backend_model_setting::update_setting_label('editor',$this->editor);
+			backend_model_setting::update_setting_value('editor','pdw_file_browser');
 			backend_controller_template::display('config/request/success.phtml');
 		}
 	}
@@ -98,7 +98,7 @@ EOT;
 	 */
 	private function send_manager_editor(){
 		if($this->manager_setting){
-			backend_db_setting::adminDbSetting()->u_uniq_setting_value('editor',$this->manager_setting);
+			backend_model_setting::update_setting_value('editor',$this->manager_setting);
 			backend_controller_template::display('config/request/success.phtml');
 		}
 	}

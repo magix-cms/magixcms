@@ -32,51 +32,84 @@
  */
 class backend_db_setting{
 	/**
-	 * singleton dbnews
-	 * @access public
-	 * @var void
+	 * @access protected
+	 * Retourne les données de configuration suivant sont attribut
+	 * @param string $attr_name
 	 */
-	static public $adminDbSetting;
+	protected function array_data_config($attr_name){
+		$sql = 'SELECT * FROM mc_config WHERE attr_name = :attr_name';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':attr_name' =>	$attr_name
+		));
+	}
 	/**
-	 * instance frontend_db_home with singleton
+	 * @access protected
+	 * Charge la configuration de la taille des images suivant sont attribut
+	 * @param string $attr_name
 	 */
-	public static function adminDbSetting(){
-        if (!isset(self::$adminDbSetting)){
-         	self::$adminDbSetting = new backend_db_setting();
-        }
-    	return self::$adminDbSetting;
+	protected function s_attribute_img_size_config($attr_name){
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name
+    	ORDER BY id_size_img,config_size_attr ASC';
+    	return magixglobal_model_db::layerDB()->select($sql,array(
+    		':attr_name'=>$attr_name
+    	));
     }
-    /**
-     * Retourne la valeur du setting selectionner
-     * @param setting_id (string) identifiant du setting
-     */
-    public function s_uniq_setting_value($setting_id){
-    	$sql = 'SELECT setting_value FROM mc_setting WHERE setting_id = :setting_id';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(':setting_id'	=>	$setting_id));
+	/*protected function s_load_img_size($name_size){
+    	$sql = 'SELECT ci.* FROM mc_config_size_img as ci
+    	WHERE ci.name_size = :name_size';
+    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
+    		':name_size'=>$name_size
+    	));
+    }*/
+    protected function s_load_img_size($attr_name,$config_size_attr){
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr';
+    	return magixglobal_model_db::layerDB()->select($sql,array(
+    		':attr_name'=>$attr_name,
+    		':config_size_attr'=>$config_size_attr
+    	));
     }
-	/**
-     * Retourne le label du setting sélectionner
-     * @param setting_id (string) identifiant du setting
-     */
-    public function s_uniq_setting_label($setting_id){
-    	$sql = 'SELECT setting_label FROM mc_setting WHERE setting_id = :setting_id';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(':setting_id'	=>	$setting_id));
+	protected function s_uniq_img_size($attr_name,$config_size_attr,$type){
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr AND type = :type';
+    	return magixglobal_model_db::layerDB()->selectOne($sql,array(
+    		':attr_name'=>$attr_name,
+    		':config_size_attr'=>$config_size_attr,
+    		':type'=>$type
+    	));
+    }
+	protected function s_config_img_size(){
+    	$sql = 'SELECT ci.*,c.attr_name 
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)';
+    	return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**
      * Retourne le setting sélectionner
      * @param setting_id (string) identifiant du setting
      */
-    public function s_uniq_complete_setting($setting_id){
-    	$sql = 'SELECT setting_label,setting_value FROM mc_setting WHERE setting_id = :setting_id';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(':setting_id'	=>	$setting_id));
+    protected function s_uniq_setting($setting_id){
+    	$sql = 'SELECT setting_label,setting_value 
+    	FROM mc_setting WHERE setting_id = :setting_id';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':setting_id'	=>	$setting_id
+		));
     }
-    /**
+	/**
      * Mise à jour du setting selectionner
      * @param $setting_id
      * @param $setting_value
      */
-	function u_uniq_setting_value($setting_id,$setting_value){
-    	$sql = 'UPDATE mc_setting SET setting_value = :setting_value WHERE setting_id = :setting_id';
+	protected function u_setting_value($setting_id,$setting_value){
+    	$sql = 'UPDATE mc_setting SET setting_value = :setting_value 
+    	WHERE setting_id = :setting_id';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
 				':setting_id'	=>	$setting_id,
@@ -88,7 +121,7 @@ class backend_db_setting{
      * @param $setting_id
      * @param $setting_value
      */
-	function u_uniq_setting_label($setting_id,$setting_label){
+	protected function u_setting_label($setting_id,$setting_label){
     	$sql = 'UPDATE mc_setting SET setting_label = :setting_label WHERE setting_id = :setting_id';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(

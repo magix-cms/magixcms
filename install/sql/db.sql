@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `mc_lang` (
   `default_lang` tinyint(1) NOT NULL DEFAULT '0',
   `active_lang` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1);
+INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1, 1);
 
 CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `idcatalog` int(6) NOT NULL AUTO_INCREMENT,
@@ -131,32 +131,21 @@ CREATE TABLE IF NOT EXISTS `mc_cms_rel_lang` (
   KEY `idpage` (`idpage`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `mc_config_limited_module` (
-  `idconfig` tinyint(1) NOT NULL,
-  `number` tinyint(1) NOT NULL,
-  PRIMARY KEY (`idconfig`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `mc_config_limited_module` (`idconfig`, `number`) VALUES
-(1, 0),
-(2, 0),
-(3, 0),
-(4, 0);
-
 CREATE TABLE IF NOT EXISTS `mc_config` (
   `idconfig` tinyint(3) NOT NULL AUTO_INCREMENT,
   `attr_name` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
+  `max_record` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idconfig`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
-INSERT INTO `mc_config` (`idconfig`, `attr_name`, `status`) VALUES
-(1, 'lang', 1),
-(2, 'cms', 1),
-(3, 'news', 1),
-(4, 'catalog', 1),
-(5, 'metasrewrite', 1),
-(6, 'plugins', 1);
+INSERT INTO `mc_config` (`idconfig`, `attr_name`, `status`, `max_record`) VALUES
+(1, 'lang', 1, 0),
+(2, 'cms', 1, 0),
+(3, 'news', 1, 0),
+(4, 'catalog', 1, 0),
+(5, 'metasrewrite', 1, 0),
+(6, 'plugins', 1, 0);
 
 CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
   `id_size_img` smallint(5) NOT NULL AUTO_INCREMENT,
@@ -167,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
   `type` enum('small','medium','large') NOT NULL,
   `img_resizing` enum('basic','adaptive') NOT NULL,
   PRIMARY KEY (`id_size_img`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`, `width`, `height`, `type`, `img_resizing`) VALUES
 (1, 4, 'category', '120', '100', 'small', 'basic'),

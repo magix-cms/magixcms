@@ -23,7 +23,7 @@
  * @category   Controller 
  * @package    backend
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * http://www.magix-cms.com,http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.5
  * @author Gérits Aurélien <aurelien@magix-cms.com>
@@ -47,10 +47,10 @@ class backend_controller_googletools{
 	 * Function construct
 	 */
 	function __construct(){
-		if(isset($_POST['webmaster'])){
+		if(magixcjquery_filter_request::isPost('webmaster')){
 			$this->webmaster = magixcjquery_form_helpersforms::inputClean($_POST['webmaster']);
 		}
-		if(isset($_POST['analytics'])){
+		if(magixcjquery_filter_request::isPost('analytics')){
 			$this->analytics = magixcjquery_form_helpersforms::inputClean($_POST['analytics']);
 		}
 	}
@@ -59,7 +59,7 @@ class backend_controller_googletools{
 	 * @access private
 	 */
 	private function load_webmaster_gdata(){
-		$gdata = backend_model_setting::select_uniq_setting('webmaster');
+		$gdata = backend_model_setting::tabs_uniq_setting('webmaster');
 		backend_config_smarty::getInstance()->assign('webmaster',$gdata['setting_value']);
 	}
 	/**
@@ -67,7 +67,7 @@ class backend_controller_googletools{
 	 * @access private
 	 */
 	private function load_analytics_gdata(){
-		$gdata = backend_model_setting::select_uniq_setting('analytics');
+		$gdata = backend_model_setting::tabs_uniq_setting('analytics');
 		backend_config_smarty::getInstance()->assign('analytics',$gdata['setting_value']);
 	}
 	/**

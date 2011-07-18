@@ -79,7 +79,9 @@ var ns_jsettingparams = {
 			$("#limited-cms-module").ajaxSubmit({
 				url:"/admin/config.php",
 				type:"post",
-				success:function(e) {$(".configupdate").html(e);}
+				success:function(e) {
+					$(".configupdate").html(e);
+				}
 			});
 		});
 	}

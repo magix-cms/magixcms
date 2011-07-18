@@ -48,8 +48,8 @@
  * @return string
  */
 function smarty_function_widget_googletools($params, $template){
-	$webmasterdata = backend_model_setting::select_uniq_setting('webmaster');
-	$analyticsdata = backend_model_setting::select_uniq_setting('analytics');
+	$webmasterdata = backend_model_setting::tabs_uniq_setting('webmaster');
+	$analyticsdata = backend_model_setting::tabs_uniq_setting('analytics');
 	$plugin = '<table class="clear">
 					<thead>
 					<tr>

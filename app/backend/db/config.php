@@ -31,10 +31,6 @@
  *
  */
 class backend_db_config{
-    /*protected function s_config_named_all(){
-    	$sql = 'SELECT * FROM mc_global_config WHERE idconfig >= 5';
-    	return magixglobal_model_db::layerDB()->select($sql);
-    }*/
     /**
      * Selectionne la configuration global suivant la variable
      * @param $named
@@ -59,30 +55,16 @@ class backend_db_config{
 		));
     }
 	/**
-	 * Vérifie que le module exist dans la table
-	 */
-	protected function s_limited_module_exist(){
-		$sql = 'SELECT attribute FROM mc_config_limited_module WHERE attribute = "cms"';
-    	return magixglobal_model_db::layerDB()->selectOne($sql);
-	}
-	/**
-	 * Sélectionne le nombre de limitation de page par module
-	 */
-	protected function s_config_number_module(){
-		$sql = 'SELECT attribute,number FROM mc_config_limited_module WHERE attribute = "cms"';
-    	return magixglobal_model_db::layerDB()->selectOne($sql);
-	}
-	/**
 	 * Modifie la limitation d'un module
 	 * @param $idconfig
 	 * @param $number
 	 */
-	protected function u_limited_module($attribute,$number){
-		$sql = 'UPDATE mc_config_limited_module SET number = :number WHERE attribute = :attribute';
+	protected function u_limited_module($idconfig,$max_record){
+		$sql = 'UPDATE mc_config SET max_record = :max_record WHERE idconfig = :idconfig';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
-			':attribute' =>	$attribute,
-			':number'	 =>	$number
+			':idconfig'		=>	$idconfig,
+			':max_record'	=>	$max_record
 		));
 	}
 }

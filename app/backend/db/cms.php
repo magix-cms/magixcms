@@ -296,6 +296,20 @@ class backend_db_cms{
 			':idlang'=>$idlang
 		));
 	}
+	/* ########################### module page maximum ######################*/
+	/**
+	 * Retourne le nombre maximum de pages par langue
+	 * @return void
+	 */
+	protected function s_count_page_max_by_language($getlang){
+		$sql = 'SELECT count(cms.idpage) as total
+    	FROM mc_cms_pages AS cms 
+    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+    	WHERE cms.idlang = :getlang';
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+			':getlang' => $getlang
+		));
+	}
 	/* ########################### Insertion #############################*/
 	/**
 	 * 
