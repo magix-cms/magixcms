@@ -195,6 +195,18 @@ class frontend_db_block_catalog{
 			':idclc'	=>	$idclc
 		));
 	}
+	/**
+	 * construction menu des catégories (avec langue)
+	 */
+	public static function s_category_menu($iso){
+		$sql = 'SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, lang.iso
+				FROM mc_catalog_c AS c
+				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE lang.iso = :iso ORDER BY corder';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+		':iso'		=>	$iso
+		));
+	}
 	/*public static function s_sub_category_menu($idclc,$iso){
 	    $sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.idclc, s.img_s, lang.iso
 	        FROM mc_catalog_c AS c

@@ -39,7 +39,7 @@
  * Purpose:  
  * Examples: {load_catalog_category size="medium" tposition="bottom" description=false}
  * Output:   
- * @link 
+ * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
  * @version  1.0
  * @param array

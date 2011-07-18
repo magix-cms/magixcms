@@ -37,13 +37,13 @@
  * Type:     function
  * Name:     widget news
  * Date:     December 2, 2009
- * Update:   February 1, 2010
+ * Update:   Jully 18, 2011
  * Purpose:  
  * Examples: {widget_lastnews limit="" delimiter="" ui=true}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.5
  * @param array
  * @param Smarty
  * @return string

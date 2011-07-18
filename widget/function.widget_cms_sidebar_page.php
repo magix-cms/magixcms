@@ -41,13 +41,13 @@
  * Type:     function
  * Name:     widget_simple_sidebar_cms
  * Date:     September 29, 2009
- * Update:   Novembre 28, 2010
+ * Update:   Jully 18, 2011
  * Purpose:  
  * Examples: {widget_simple_sidebar_cms home=""}
- * Output:   
+ * Output:   http://www.magix-dev.be
  * @link 
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.5
  * @param array
  * @param Smarty
  * @return string

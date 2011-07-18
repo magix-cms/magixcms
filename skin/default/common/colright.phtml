@@ -3,7 +3,7 @@
 	</p>
 	<div class="bg-top w5-16 light"></div>
 	<div class="bg-repeat bg dark w5-16 light">
-		{widget_simple_sidebar_catalog_with_exclude ui=false title="" exclude=['fr'=>['1' =>'0']]}
+		{widget_catalog_sidebar_category}
 	</div>
 	<div class="bg-bottom w5-16 light"></div>
 
@@ -11,7 +11,6 @@
 		<p class="title align">Vous voulez un site sympa ?</p>
 		<a class="button w4-16 light align" href="{geturl}/{getlang}/{#topmenu_contact_uri#}"><span>Contactez nous</span></a>
 	</div>
-	{*
 	<div class="block bg w5-16 last">
 		<p class="title">Partager</p>
     {if $smarty.get.getidpage}
@@ -26,16 +25,15 @@
 	      {assign var="socialtitle" value=$slibelle nocache scope="parent"}    
     {elseif $smarty.get.idclc}
 	      {assign var="socialtitle" value=$clibelle nocache scope="parent"} 
-    {elseif $smarty.get.magixmod && ( $smarty.get.magixmod == contact )}
+    {elseif $smarty.get.magixmod AND ( $smarty.get.magixmod == contact )}
 	      {assign var="socialtitle" value="{#pn_contact_forms#|firststring}" nocache scope="parent"}     
     {elseif isset($subject)}
 	      {assign var="socialtitle" value=$subject  nocache scope="parent"}
      {else}
-	     {assign var="socialtitle" value="Concept Office"}
+	     {assign var="socialtitle" value="Magix CMS"}
     {/if}
-  {widget_get_social title=$socialtitle size="medium"}
+  {widget_social_network title=$socialtitle size="medium"}
 	</div>
-	*}
 	<div class="block w5-16 bg last">
 	 	{widget_load_catalog_category_last_products size="medium" tposition="bottom" idcat="1" limit_products="4" ui=false price=false description=true contentlength="124" delemiter="..."}	
 	</div>

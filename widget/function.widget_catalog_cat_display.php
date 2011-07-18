@@ -39,7 +39,7 @@
  * Purpose:  
  * Examples: {widget_catalog_cat_display title="" tposition="bottom" ui=false col="2" size="medium"}
  * Output:   
- * @link 
+ * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
  * @version  1.0
  * @param array

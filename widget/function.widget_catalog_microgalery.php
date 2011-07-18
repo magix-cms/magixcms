@@ -39,7 +39,7 @@
  * Purpose:  
  * Examples: {microgalery}
  * Output:   
- * @link 
+ * @link http://www.magix-cms.com
  * @author   Gerits Aurelien
  * @version  1.0
  * @param array

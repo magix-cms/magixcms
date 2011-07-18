@@ -36,14 +36,14 @@
  *
  * Type:     function
  * Name:     widget news
- * Date:     December 2, 2009
- * Update:   February 1, 2010
+ * Date:     Jully 18 2011
+ * Update:   
  * Purpose:  
  * Examples: {widget_news_list}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.5
  * @param array
  * @param Smarty
  * @return string

@@ -39,7 +39,7 @@
  * Purpose:  
  * Examples: {widget_catalog_cat_load_products tposition="bottom" ui=false price=false description=true size=medium col="2"}
  * Output:   
- * @link 
+ * @link http://www.magix-dev.be
  * @author   Gerits Aurelien
  * @version  1.0
  * @param array
