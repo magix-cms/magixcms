@@ -48,11 +48,17 @@
  */
 function smarty_function_widget_load_catalog_category_last_products($params, $template){
   //Définir la catégorie à afficher (defaut cat=0)
-  $idcat = $params['idcat'] ? $params['idcat'] : 0 ;
+	if (!isset($params['category'])) {
+	 	trigger_error("config_param: missing 'category' parameter");
+		return;
+	}
+	if(is_array($params['category'])){
+		$tabscat = $params['category'];
+	}
   foreach (frontend_db_lang::s_fetch_lang() as $l ) {      
      if (frontend_model_template::current_Language() == $l['iso']){
-       $p_lang = 'idcat_'. $l['iso'];
-       $idcat = $params[$p_lang];        
+       $p_lang = $l['iso'];
+       $idcat = $tabscat[$p_lang];        
      }      
   }
   //Définir le nombre de produits à afficher (defaut limit_products=5)
@@ -75,9 +81,9 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
   //Affiche si le bien est vendu
   $soldout = $params['soldout'];
   // Affiche le prix de l'article
-  $price = $params['price']?true:false;
+  $price = $params['price'] ? true: false;
   // Nombre de colonnes
-	$last = $params['col']? $params['col'] : 0 ;
+	$last = $params['col'] ? $params['col'] : 0 ;
   // Parametre pour la description du produit
   $length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 100 ;
   // Le délimiteur pour tronqué le texte

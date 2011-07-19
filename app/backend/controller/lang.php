@@ -105,16 +105,20 @@ class backend_controller_lang extends backend_db_lang{
 			$verify_default = parent::count_default_language();
 			if(empty($this->iso) OR empty($this->language)){
 				backend_controller_template::display('request/empty.phtml');
-			}elseif($verify_default['deflanguage'] == '1'){
-				backend_controller_template::display('lang/request/default_exist.phtml');
 			}elseif($verify_lang['numlang'] == '0'){
 				if($this->default_lang == null){
 					$langdefault = '0';
+					parent::i_new_lang($this->iso,$this->language,$langdefault);
+					backend_controller_template::display('lang/request/success.phtml');
 				}else{
-					$langdefault = $this->default_lang;
+					if($verify_default['deflanguage'] == '1'){
+						backend_controller_template::display('lang/request/default_exist.phtml');
+					}else{
+						$langdefault = $this->default_lang;
+						parent::i_new_lang($this->iso,$this->language,$langdefault);
+						backend_controller_template::display('lang/request/success.phtml');
+					}
 				}
-				parent::i_new_lang($this->iso,$this->language,$langdefault);
-				backend_controller_template::display('lang/success.phtml');
 			}else{
 				backend_controller_template::display('lang/request/element-exist.phtml');
 			}
