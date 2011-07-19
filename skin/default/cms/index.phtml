@@ -14,7 +14,15 @@
 			<div class="bg-top w16-16"></div>
 				<div class="bg-repeat w16-16">	
 					<div id="contentCol" class="text-content block w11-16 lfloat">
-						{if $uri_page_p != null}<a href="{$uri_page_p}">{$title_page_p}</a>{/if} {$title_page}
+						<ul class="ariane">
+							{if $uri_page_p != null}
+					   		<li class="first"><a href="{$uri_page_p}">{$title_page_p}</a></li>
+					   		<li>></li>
+					   		<li>{$title_page}</li>
+					   		{else}
+					   		<li class="first">{$title_page}</li>
+					   		{/if}
+					   	</ul>
 						<div class="date rfloat">{$last_update|date_format:"%d-%m-%y"}</div>
 						<h1>{$title_page}</h1>
 						{$content_page}
