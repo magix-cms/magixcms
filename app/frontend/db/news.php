@@ -31,6 +31,10 @@
 class frontend_db_news{
 	/**
 	 * Sélectionne les news par langue avec options pour une pagination
+	 * @param string $iso
+	 * @param integer $limit
+	 * @param integer $max
+	 * @param integer $offset
 	 */
 	protected function s_list_news($iso,$limit=false,$max=null,$offset=null){
 		$limit = $limit ? ' LIMIT '.$max : '';
@@ -42,6 +46,12 @@ class frontend_db_news{
 			':iso'=>$iso
 		));
 	}
+	/**
+	 * @access private
+	 * Sélectionne la liste des news
+	 * @param string $iso
+	 * @param integer $limit
+	 */
 	protected function s_home_list_news($iso,$limit){
 		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
 		LEFT JOIN mc_lang AS lang USING(idlang) 

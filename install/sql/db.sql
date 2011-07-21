@@ -195,6 +195,13 @@ CREATE TABLE IF NOT EXISTS `mc_news` (
   PRIMARY KEY (`idnews`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `mc_news_tag` (
+  `idnews_tag` int(7) NOT NULL AUTO_INCREMENT,
+  `name_tag` varchar(50) NOT NULL,
+  `idnews` int(7) NOT NULL,
+  PRIMARY KEY (`idnews_tag`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `mc_page_home` (
   `idhome` tinyint(1) NOT NULL AUTO_INCREMENT,
   `subject` varchar(125) NOT NULL,

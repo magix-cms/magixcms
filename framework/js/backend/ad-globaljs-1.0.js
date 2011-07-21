@@ -8,97 +8,6 @@
  * @name ad-globaljs
  *
  */
-/**
- * Plugins dashboardWidget
- */
-(function($) { 
-	$.dashboardWidget = function(settings) { 
-		var options = {};
-	    $.extend(options, settings);
-	    $(".dashboard-widget").find(".dashboard-widget-header a").prepend('<span style="float:left;" class="ui-icon ui-icon-circle-minus"></span>').end();
-	    if($(".dashboard-widget").find(".dashboard-hidden")){
-	    	$(".dashboard-hidden").hide();
-	    	$(".dashboard-hidden").prev().find('.dashboard-open span').toggleClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
-	    }
-	    $(".dashboard-open").click(function(event) {
-	    	var icons = $("span",this);
-	    	event.preventDefault();
-			var dashboard = $(this).parents(".dashboard-widget:first").find(".dashboard-widget-content");
-			if (dashboard.is(":visible")) {
-				icons.toggleClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
-				dashboard.hide();
-				dashboard.addClass("dashboard-hidden");
-			}else{
-				icons.toggleClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
-				dashboard.show();
-				dashboard.removeClass("dashboard-hidden");
-			}
-		});
-	};
-})(jQuery);
-/**
- * Plugin for IETester
- */
-(function($) { 
-	$.ieTester = function(settings) { 
-		var options = {
-			version: '7'
-		};
-	    $.extend(options, settings);
-	    var ua = $.browser;
-	    if(ua.msie){
-	    	var ieVersion = parseFloat(ua.version, 10) || 0;
-	    	if(isNaN(ieVersion)){
-	    		console.error("The version is not a number");
-	    	}
-	    	if(ieVersion == options.version){
-	    		//alert(ua.version.slice(0,3));
-	    		return true;	
-	    	}
-	    }
-	};
-})(jQuery);
-(function($) { 
-	$.fn.inputLock = function(settings) { 
-		var options = {};
-	    $.extend(options, settings);
-	    var inputElement = $(this);
-	    inputElement.attr("readonly","readonly");
-	    $('.unlocked').live('click',function(event){
-			event.preventDefault();
-			inputElement.removeClass('inputdisabled').addClass('inputtext').attr("readonly","");
-			$(this).fadeOut(400);
-		});
-	};
-})(jQuery);
-/**
- * plugins pour afficher/cacher un container depuis un style de bouton
- * @param visible
- * @param container
- */
-(function($) { 
-    $.openDiv = function(settings) { 
-    	var options =  { 
-    		visible: "",
-    		container: ""
-    	};
-        $.extend(options, settings);
-      //Hide (Collapse) the toggle containers on load
- 	   $(options.container).hide();
- 	   //Switch the "Open" and "Close" state per click (+ ou - dans le CSS)
- 	   $(options.visible).toggle(function(){ // on pourrais aussi utiliser toggleClass
- 	      //$(this).addClass("active");
- 		   	$(options.visible).button({ icons: {primary:'ui-icon-minusthick'} });
- 	      }, function () {
- 	     // $(this).removeClass("active");
- 	    	$(options.visible).button({ icons: {primary:'ui-icon-plusthick'} });
- 	   });
- 	   //ouverture et fermeture par glissé
- 	   $(options.visible).click(function(){
- 	      $(this).next(options.container).slideToggle("slow");
- 	   });
-    }; 
-})(jQuery);
 $(function() {
 	//In case you don't have firebug...
 	if (!window.console || !console.firebug) {
@@ -236,22 +145,6 @@ $(function() {
 			},
 			autoHeight: false
 		});
-		/**
-		 * Affiche ou non le module d'ajout des métas dans une div
-		 */
-		/*$("#showmetas span").addClass("ui-icon ui-icon-circle-plus");
-		 $("#showmetas").click(function(){
-		 	 var answer = $('#metas');
-		        if (answer.is(":visible")) {
-		            answer.hide();
-		            $('span',this).removeClass("ui-icon ui-icon-circle-minus");
-					$('span',this).addClass("ui-icon ui-icon-circle-plus");
-		        } else {
-		            answer.show();
-		            $('span',this).removeClass("ui-icon ui-icon-circle-plus");
-					$('span',this).addClass("ui-icon ui-icon-circle-minus");
-		        }
-		 });*/
 		$('#showmetas').button({ icons: {primary:'ui-icon-plusthick'} });
 		$.openDiv({
 			visible:'#showmetas',

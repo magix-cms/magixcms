@@ -16,16 +16,24 @@
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Les news</div>
-					<div class="dashboard-content">
-						{if $confignews eq 1}
-							{widget_news limit="true" max=20 getpage=true}
-						{else}
-							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
-							<span style="float:left;" class="ui-icon ui-icon-alert"></span>
-								Vous n'avez pas la permission d'administrer ce module
-							</div>
-						{/if}
+						<div class="dashboard-content">
+							{if $confignews eq 1}
+								{widget_news limit="true" max=20 getpage=true}
+							{else}
+								<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
+								<span style="float:left;" class="ui-icon ui-icon-alert"></span>
+									Vous n'avez pas la permission d'administrer ce module
+								</div>
+							{/if}
+						</div>
 					</div>
+				</div>
+				<div class="column">
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Les news</div>
+						<div class="dashboard-content">
+							<div id="chart-google-news"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -37,8 +45,12 @@
 		Voulez-vous changer le status cette page ?
 	</p>
 </div>
+<div id="confirm_del" style="display:none;">
+	<p>Etes-vous sur de vouloir supprimer cet élément ?</p>
+</div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+{script src="/min/?f=framework/js/tools/jquery.jqplot.min.js,framework/js/tools/excanvas.min.js,framework/js/tools/jqplot-plugins/jqplot.barRenderer.min.js,/framework/js/tools/jqplot-plugins/jqplot.categoryAxisRenderer.min.js,framework/js/tools/jqplot-plugins/jqplot.pointLabels.min.js" type="javascript"}
 <script type="text/javascript">
 $(function(){
 	$.getScript('/framework/js/backend/ns/jnews.0.2.js',function(){

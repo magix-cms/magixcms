@@ -129,10 +129,19 @@
 							</form>
 						</div>
 					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span class="lfloat magix-icon magix-icon-tag-plus"></span>Ajouter des tags</div>
+						<div class="dashboard-widget-content">
+							{include file="news/forms/addtagnews.phtml"}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	{include file="common/footer.phtml"}
+</div>
+<div id="confirm_del" style="display:none;">
+	<p>Etes-vous sur de vouloir supprimer cet élément ?</p>
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}

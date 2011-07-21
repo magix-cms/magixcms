@@ -56,7 +56,7 @@ class frontend_controller_news extends frontend_db_news{
 	 * URL de la news
 	 * @var $uri_get_news
 	 */
-	public $uri_get_news;
+	public $uri_get_news,$tag;
 	/**
 	 * function construct
 	 *
@@ -84,6 +84,9 @@ class frontend_controller_news extends frontend_db_news{
 		           }
 		 }else {
 		    $this->getpage = 1;
+		}
+		if(magixcjquery_filter_request::isGet('tag')){
+			$this->tag = magixcjquery_url_clean::make2tagString($_GET['tag']);
 		}
 	}
 	/**
@@ -144,6 +147,9 @@ class frontend_controller_news extends frontend_db_news{
 		if(isset($this->getnews)){
 			$this->display_getnews($this->getnews,$this->getdate);
 			frontend_model_template::display('news/record.phtml');
+		}elseif(magixcjquery_filter_request::isGet('tag')){
+			frontend_model_template::assign('current_name_tag', urldecode($this->tag));
+			frontend_model_template::display('news/tag.phtml');
 		}else{
 			frontend_model_template::display('news/index.phtml');
 		}

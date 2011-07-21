@@ -72,7 +72,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var intéger
 	 */
 	public $delnews;
-	public $status_news,$get_news_publication;
+	public $status_news,$get_news_publication,$name_tag,$del_tag;
 	/**
 	 * 
 	 * 
@@ -122,6 +122,15 @@ class backend_controller_news extends backend_db_news{
 		if(magixcjquery_filter_request::isGet('get_news_publication')) {
 			$this->get_news_publication = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['get_news_publication']);
 		}
+		/**
+		 * Système de tags
+		 */
+		if(magixcjquery_filter_request::isPost('name_tag')){
+			$this->name_tag = (string) magixcjquery_url_clean::make2tagString($_POST['name_tag']);
+		}
+		if(magixcjquery_filter_request::isPost('del_tag')){
+			$this->del_tag = magixcjquery_filter_isVar::isPostNumeric($_POST['del_tag']);
+		}
 	}
 	/**
 	 * @access private
@@ -131,7 +140,7 @@ class backend_controller_news extends backend_db_news{
 		return magixglobal_model_system::base_path().'/upload/news/';
 	}
 	/**
-	 * 
+	 * @access private
 	 * Génération d'un identifiant alphanumérique avec une longueur définie
 	 * @param integer $numString
 	 */
@@ -139,7 +148,7 @@ class backend_controller_news extends backend_db_news{
 		return magixglobal_model_cryptrsa::short_alphanumeric_id($numString);
 	}
 	/**
-	 * 
+	 * @access private
 	 * Insert une image dans les news
 	 * @param string $nimage
 	 * @param void $confimg
@@ -345,6 +354,10 @@ class backend_controller_news extends backend_db_news{
 			}
 		}
 	}
+	/**
+	 * @access private
+	 * Mise à jour d'une image d'une news
+	 */
 	private function update_news_image(){
 		if(isset($this->n_image)){
 			if($this->n_image != null){
@@ -404,6 +417,38 @@ class backend_controller_news extends backend_db_news{
 		print '{"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).']}';
 	}
 	/**
+	 * @access private
+	 * Ajouter un tag à une news
+	 */
+	private function add_rel_tag(){
+		if(isset($this->name_tag)){
+			if(!empty($this->name_tag)){
+				parent::i_rel_tag($this->name_tag,$this->getnews);
+			}
+		}
+	}
+	/**
+	 * @access private
+	 * Charge les tags d'une news en JSON
+	 */
+	private function load_json_tagnews(){
+		if(parent::s_list_tag($this->getnews) != null){
+			foreach (parent::s_list_tag($this->getnews) as $list){
+				$listing[]= '{"idnews_tag":'.json_encode($list['idnews_tag']).',"name_tag":'.json_encode($list['name_tag']).'}';
+			}
+			print '['.implode(',',$listing).']';
+		}
+	}
+	/**
+	 * @access private
+	 * Suppression d'un tag d'une news
+	 */
+	private function delete_tag(){
+		if(isset($this->del_tag)){
+			parent::d_tagnews($this->del_tag);
+		}
+	}
+	/**
 	 * Execute le module dans l'administration
 	 * @access public
 	 */
@@ -423,6 +468,10 @@ class backend_controller_news extends backend_db_news{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				self::load_json_uri_news();
+			}elseif(magixcjquery_filter_request::isPost('name_tag')){
+				$this->add_rel_tag();
+			}elseif(magixcjquery_filter_request::isGet('json_list_tag')){
+				$this->load_json_tagnews();
 			}elseif(magixcjquery_filter_request::isGet('imgnews')){
 				$this->news_image($data['n_image']);
 			}else{
@@ -440,6 +489,8 @@ class backend_controller_news extends backend_db_news{
 			}
 		}elseif(magixcjquery_filter_request::isPost('delnews')){
 			$this->del_news();
+		}elseif(magixcjquery_filter_request::isPost('del_tag')){
+			$this->delete_tag();
 		}else{
 			if(magixcjquery_filter_request::isGet('json_google_chart_news')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");

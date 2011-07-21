@@ -53,10 +53,18 @@ class frontend_db_block_news{
 			':iso'=>$iso
 		));
 	}
+	/**
+	 * 
+	 * Retourne la liste des news avec la pagination
+	 * @param string $iso
+	 * @param integer $limit
+	 * @param integer $max
+	 * @param integer $offset
+	 */
 	public function s_news_listing($iso,$limit=false,$max=null,$offset=null){
 		$limit = $limit ? ' LIMIT '.$max : '';
     	$offset = !empty($offset) ? ' OFFSET '.$offset: '';
-		$sql = 'SELECT n.n_title,n.n_content,n.n_image,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
+		$sql = 'SELECT n.idnews,n.n_title,n.n_content,n.n_image,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
 				FROM mc_news as n
 				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				WHERE n.published = 1 AND lang.iso = :iso 
@@ -64,5 +72,28 @@ class frontend_db_block_news{
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':iso'=>$iso
 		));
+	}
+	/**
+	 * @access public
+	 * Sélectionne les tags de la news
+	 * @param integer $idnews
+	 */
+	public function s_news_tag($idnews){
+		$sql = 'SELECT tag.* 
+				FROM mc_news_tag AS tag
+				WHERE idnews = :idnews';
+		return magixglobal_model_db::layerDB()->select($sql,array('idnews'=>$idnews));
+	}
+	/**
+	 * @access protected
+	 * 
+	 */
+	public function s_sort_tagnews($tagnews){
+		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
+		LEFT JOIN mc_lang AS lang USING(idlang) 
+		LEFT JOIN mc_news_tag as tag USING(idnews)
+		WHERE tag.name_tag LIKE "%'.$tagnews.'%" AND published = 1 
+		ORDER BY n.date_register DESC';
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 }

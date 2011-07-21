@@ -394,6 +394,43 @@ class magixglobal_model_rewrite{
 		
 	}
 	/**
+	 * @access private
+	 * URL public des tags de news sans réécriture
+	 * @param string $lang
+	 */
+	private function news_uri_tag($lang,$tag){
+		if($lang != null){
+			$language = 'strLangue='.$lang;
+			return '/news.php?'.$language.'&tag='.$tag;
+		}
+	}
+	/**
+	 * @access private
+	 * URL public des tags de news avec réécriture
+	 * @param string $lang
+	 */
+	private function news_rewrite_uri_tag($lang,$tag){
+		if($lang != null){
+			return '/'.$lang.self::mod_news_lang($lang).'tag/'.$tag;
+		}
+	}
+	/**
+	 * La réécriture des urls pour les tags de news
+	 * @param string $lang
+	 * @param bool $rewrite
+	 */
+	public static function filter_news_tag_url($lang,$tag,$rewrite=false){
+		switch ($rewrite){
+			case true:
+				return self::news_rewrite_uri_tag($lang,$tag);
+			break;
+			case false:
+				return self::news_uri_tag($lang,$tag);
+			break;
+		}
+		
+	}
+	/**
 	 * URL public des news sans réécriture
 	 * @param string $lang
 	 * @param numeric $getdate

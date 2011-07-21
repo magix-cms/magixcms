@@ -113,6 +113,19 @@ class backend_db_news{
 		));
 	}
 	/**
+	 * 
+	 * Retourne la liste des tags de l'agenda courant
+	 * @access protected
+	 * @param integer $edit
+	 */
+	protected function s_list_tag($getnews){
+		$sql = 'SELECT at.* FROM mc_news_tag AS at
+		WHERE idnews=:getnews';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+			':getnews'	=>	$getnews
+		));
+	}
+	/**
 	 * Mise à jour d'un enregistrement d'une news
 	 * @param $subject
 	 * @param $content
@@ -184,6 +197,20 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
+	 * @access protected
+	 * Insertion d'un tag dans une news
+	 * @param string $name_tag
+	 * @param integer $edit
+	 */
+	protected function i_rel_tag($name_tag,$getnews){
+		$sql = 'INSERT INTO mc_news_tag (name_tag,idnews) 
+		VALUE(:name_tag,:getnews)';
+		magixglobal_model_db::layerDB()->insert($sql,array(
+			':name_tag'	=>	$name_tag,
+			':getnews'	=>	$getnews
+		));
+	}
+	/**
 	 * supprime un article
 	 * @param $idnews
 	 */
@@ -191,6 +218,17 @@ class backend_db_news{
 		$sql = 'DELETE FROM mc_news WHERE idnews = :idnews';
 		magixglobal_model_db::layerDB()->delete($sql,array(
 			':idnews' 	=> $idnews
+		));
+	}
+	/**
+	 * 
+	 * Suppression d'un tag des news
+	 * @param integer $del_tag
+	 */
+	protected function d_tagnews($del_tag){
+		$sql = 'DELETE FROM mc_news_tag WHERE idnews_tag = :del_tag';
+		magixglobal_model_db::layerDB()->delete($sql,array(
+			':del_tag' => $del_tag
 		));
 	}
 }

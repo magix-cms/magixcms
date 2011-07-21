@@ -147,3 +147,32 @@ select { width: 220px; }
 .tb-size-config td a:hover{}
 .tb-size-config th.small-icon,.tb-size-config td.small-icon{width:20px;}
 .tb-size-config td.medium-cell{min-width:100px;}
+/**
+*Système de tags
+**/
+ul.dctag{margin:5px 0;}
+ul.dctag li {
+    /*border-radius: 5px 5px 5px 5px;*/
+    display: inline;
+    margin: 2px 5px 2px 0;
+}
+ul.dctag li.dctag-choice {
+    /*background-color: #DEE7F8;
+    border: 1px solid #CAD8F3;*/
+    padding: 2px 4px 3px;
+	/*color:#696969;*/
+}
+ul.dctag li.dctag-choice:hover {
+    /*background-color: #BBCEF1;
+    border-color: #6D95E0;*/
+}
+ul.dctag li.dctag-choice a.dctagclose {
+    /*color: #777777;*/
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    outline: medium none;
+    padding: 2px 0 2px 3px;
+    text-decoration: none;
+}
+#list_assign_tagevent,#list_assign_tagnews{margin:5px 10px;background:#121212;}

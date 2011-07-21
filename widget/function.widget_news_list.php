@@ -49,52 +49,57 @@
  * @return string
  */
 function smarty_function_widget_news_list($params, $template){
-	if(magixcjquery_filter_request::isGet('strLangue')){
-		$getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-		$fcn = new frontend_controller_news();
-		if (!isset($params['max'])) {
-		 	trigger_error("limit: missing 'max' parameter");
-			return;
-		}
-		$limit = $params['max'];
-		$max = $params['max'];
-		$news = '';
-		$offset = $fcn->news_offset_pager($max);
-		if(isset($getlang)){
-			$news .= '<div class="list-div medium">';
-			foreach(frontend_db_block_news::s_news_listing($getlang,$limit,$max,$offset) as $pnews){
-				$islang = $pnews['iso'];
-				$curl = new magixglobal_model_dateformat($pnews['date_register']);
-				$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
-				if ($pnews['n_image'] != null){
-					$image = '<img src="/upload/news/s_'.$pnews['n_image'].'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
-				}else{
-					$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
-				}
-				$news .= '<div class="list-div-elem">';
-				$news .='<a class="img">';
-						$news .= $image;
-					$news .='</a>';
-					
-					$news .='<p class="name">';
-						$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($getlang,$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
-					$news .= '</p>';
-					$news .= '<span class="descr">';
-						$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],240,''));
-					$news .= '</span>';
-					$news .= '<div class="clear"></div>';
-					$news .='<div class="date rfloat">'.$datepublish->SQLDate().'</div>';
-					$news .= '<span class="tag">';
-						$news .= '<a href="#">Mon tag</a>, <a href="#">Mon tag</a>, <a href="#">Mon tag</a>, <a href="#">Mon tag</a>, ';
-					$news .= '</span>';
-					$news .= '</div>';
+	$fcn = new frontend_controller_news();
+	if (!isset($params['max'])) {
+	 	trigger_error("limit: missing 'max' parameter");
+		return;
+	}
+	$limit = $params['max'];
+	$max = $params['max'];
+	$news = '';
+	$offset = $fcn->news_offset_pager($max);
+	$news .= '<div class="list-div medium">';
+	if(frontend_db_block_news::s_news_listing(frontend_model_template::current_Language(),$limit,$max,$offset) != null){
+		foreach(frontend_db_block_news::s_news_listing(frontend_model_template::current_Language(),$limit,$max,$offset) as $pnews){
+			$tag = frontend_db_block_news::s_news_tag($pnews['idnews']);
+			$islang = $pnews['iso'];
+			$curl = new magixglobal_model_dateformat($pnews['date_register']);
+			$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
+			if ($pnews['n_image'] != null){
+				$image = '<img src="/upload/news/s_'.$pnews['n_image'].'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+			}else{
+				$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 			}
+			$news .= '<div class="list-div-elem">';
+			$news .='<a class="img">';
+				$news .= $image;
+			$news .='</a>';
+			
+			$news .='<p class="name">';
+				$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
+			$news .= '</p>';
+			$news .= '<span class="descr">';
+				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],240,''));
+			$news .= '</span>';
+			$news .= '<div class="clear"></div>';
+			$news .='<div class="date rfloat">'.$datepublish->SQLDate().'</div>';
+			if($tag != null){
+				$news .= '<span class="tag">';
+				$tagnews = '';
+				foreach ($tag as $t){
+					$uritag = magixglobal_model_rewrite::filter_news_tag_url($pnews['iso'],urlencode($t['name_tag']),true);
+	  				$tagnews[]= '<a href="'.$uritag.'" title="'.$t['name_tag'].'">'.$t['name_tag'].'</a>';
+				}
+				$news .= implode(',', $tagnews);
+				$news .= '</span>';
+			} 
 			$news .= '</div>';
 		}
-		$cnews = frontend_db_block_news::s_count_news($getlang);
-		if($cnews['total'] >= $max){
-			$news .= $fcn->news_pagination($max);
-		}
+	}
+	$news .= '</div>';
+	$cnews = frontend_db_block_news::s_count_news(frontend_model_template::current_Language());
+	if($cnews['total'] >= $max){
+		$news .= $fcn->news_pagination($max);
 	}
 	return $news;
 }
