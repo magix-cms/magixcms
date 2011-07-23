@@ -81,7 +81,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	//SITEMAP
 	private function lastmod_dateFormat(){
 		$dateformat = new magixglobal_model_dateformat();
-		return $dateformat->sitemap_lastmod_dateFormat();
+		return $dateformat->date_w3c();
 	}
 	/**
 	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
@@ -104,15 +104,20 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			/*instance la classe*/
 	        $sitemap = new magixcjquery_xml_sitemap();
 			/*Crée le fichier xml s'il n'existe pas*/
-	        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-url.xml');
+	        $sitemap->createXML($this->dir_XML_FILE(),'sitemap-url.xml');
 			/*Ouvre le fichier xml s'il existe*/
-	        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-url.xml');
+	        $sitemap->openFile($this->dir_XML_FILE(),'sitemap-url.xml');
 			/*indente les lignes (optionnel)*/
 	        $sitemap->indentXML(true);
 			/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
 	    	$sitemap->headSitemap("UTF-8");
 	        /*Ecrit les éléments*/
-	    	$sitemap->writeMakeNode(magixcjquery_html_helpersHtml::getUrl(),$this->lastmod_dateFormat(),'always',0.8);
+	    	$sitemap->writeMakeNode(
+	    		magixcjquery_html_helpersHtml::getUrl(),
+	    		$this->lastmod_dateFormat(),
+	    		'always',
+	    		0.8
+	    	);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
@@ -126,9 +131,9 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			/*instance la classe*/
 	        $sitemap = new magixcjquery_xml_sitemap();
 			/*Crée le fichier xml s'il n'existe pas*/
-	        $sitemap->createXML(self::dir_XML_FILE(),'sitemap-images.xml');
+	        $sitemap->createXML($this->dir_XML_FILE(),'sitemap-images.xml');
 			/*Ouvre le fichier xml s'il existe*/
-	        $sitemap->openFile(self::dir_XML_FILE(),'sitemap-images.xml');
+	        $sitemap->openFile($this->dir_XML_FILE(),'sitemap-images.xml');
 			/*indente les lignes (optionnel)*/
 	        $sitemap->indentXML(true);
 			/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
@@ -148,9 +153,9 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			/*instance la classe*/
 	        $sitemap = new magixcjquery_xml_sitemap();
 			/*Crée le fichier xml s'il n'existe pas*/
-	        $sitemap->createXML(self::dir_XML_FILE(),'sitemap.xml');
+	        $sitemap->createXML($this->dir_XML_FILE(),'sitemap.xml');
 			/*Ouvre le fichier xml s'il existe*/
-	        $sitemap->openFile(self::dir_XML_FILE(),'sitemap.xml');
+	        $sitemap->openFile($this->dir_XML_FILE(),'sitemap.xml');
 			/*indente les lignes (optionnel)*/
 	        $sitemap->indentXML(true);
 			/*Ecrit la DTD ainsi que l'entête complète suivi de l'encodage souhaité*/
@@ -192,23 +197,20 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			 * La racine des news par langue
 			 */
 			foreach(parent::s_root_news_sitemap() as $data){
-	        	$islang = $data['codelang'] ? $data['codelang']: '';
-	        	$curl = date_create($data['date_sent']);
 	        	 $sitemap->writeMakeNode(
-	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_root_url($islang,true),
+	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_root_url($data['iso'],true),
 		        	$this->lastmod_dateFormat(),
-		        	 'always',
-		        	 0.8
+		        	'always',
+		        	0.7
 	        	 );
 	        }
 	        /**
 	         * Les news par langue
 	         */
 	        foreach(parent::s_news_sitemap() as $data){
-	        	$islang = $data['codelang'] ? $data['codelang']: '';
-	        	$curl = date_create($data['date_sent']);
+	        	$curl = new magixglobal_model_dateformat($data['date_register']);
 	        	 $sitemap->writeMakeNode(
-	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_url($islang,date_format($curl,'Y/m/d'),$data['rewritelink'],true),
+	        	 	 magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_url($data['iso'],$curl->date_europeen_format(),$data['n_uri'],$data['keynews'],true),
 		        	 $this->lastmod_dateFormat(),
 		        	 'always',
 		        	 0.8
@@ -226,12 +228,12 @@ class backend_controller_sitemap extends backend_db_sitemap{
         $config = backend_model_setting::tabs_load_config('cms');
 		if($config['status'] == 1){
 	        foreach(parent::s_cms_sitemap() as $data){
-	        	if($data['date_page'] == '0000-00-00 00:00:00'){
+	        	/*if($data['date_register'] == '0000-00-00 00:00:00'){
 	        		$date_page = date('d-m-Y');
 	        	}else{
-	        		$date_page = $data['date_page'];
-	        	}
-	        	if($data['idcat_p'] != 0){
+	        		$date_page = $data['date_register'];
+	        	}*/
+	        	if($data['idcat_p'] != 0 AND $data['uri_category'] != null){
 					$uricms = magixglobal_model_rewrite::filter_cms_url(
 						$data['iso'], 
 						$data['idcat_p'], 
@@ -251,8 +253,8 @@ class backend_controller_sitemap extends backend_db_sitemap{
 					);
 				}
 		       	$sitemap->writeMakeNode(
-				    $uricms,
-				    $date_page,
+				    magixcjquery_html_helpersHtml::getUrl().$uricms,
+				    $this->lastmod_dateFormat(),
 				    'always',
 				     0.9
 		        );
@@ -271,11 +273,12 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			foreach(parent::s_catalog_category_sitemap() as $data){
 		       	$sitemap->writeMakeNode(
 			       	 magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url(
-						$data['codelang'], 
+						$data['iso'], 
 						$data['pathclibelle'], 
 						$data['idclc'], 
 						true
-					),date('d-m-Y'),
+					),
+					$this->lastmod_dateFormat(),
 				    'always',
 				     0.8
 		        );
@@ -283,27 +286,32 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		foreach(parent::s_catalog_subcategory_sitemap() as $data){
 		       	$sitemap->writeMakeNode(
 			       	  magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_subcategory_url(
-						$data['codelang'], 
+						$data['iso'], 
 						$data['pathclibelle'], 
 						$data['idclc'],
 						$data['pathslibelle'], 
 						$data['idcls'], 
 						true
-					),date('d-m-Y'),
+					),
+					$this->lastmod_dateFormat(),
 				    'always',
 				     0.8
 		        );
 	        }
 	        foreach(parent::s_catalog_sitemap() as $data){
+	        	$uri = magixglobal_model_rewrite::filter_catalog_product_url(
+	        		$data['iso'], 
+	        		$data['pathclibelle'], 
+	        		$data['idclc'],
+	        		$data['pathslibelle'], 
+	        		$data['idcls'], 
+	        		$data['urlcatalog'], 
+	        		$data['idproduct'],
+	        		true
+	        	);
 		       	$sitemap->writeMakeNode(
-			       	  magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url(
-						$data['codelang'], 
-						$data['pathclibelle'], 
-						$data['idclc'], 
-						$data['urlcatalog'], 
-						$data['idproduct'],
-						true
-					),date('d-m-Y'),
+		       		magixcjquery_html_helpersHtml::getUrl().$uri,
+			       	$this->lastmod_dateFormat(),
 				    'always',
 				     0.9
 		        );
@@ -323,22 +331,22 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		foreach(parent::count_catalog_category_sitemap_by_lang() as $data){
 			if($data['catimg'] != 0){
 				$sitemap->writeMakeNodeImage(
-					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_root_url($data['codelang'],true),
+					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_root_url($data['iso'],true),
 					'img_c',
 					magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/category/',
 					parent::s_catalog_category_images_by_lang($data['idlang'])
 				);
 			}
 		}
-		/*
+		/**
 		 * Les images des sous catégories du catalogue de chaque catégorie
-		 */
+		 **/
 		foreach(parent::s_catalog_category_sitemap() as $data){
 			$count = parent::count_catalog_subcategory_sitemap($data['idclc']);
-			//magixcjquery_debug_magixfire::magixFireLog($count['subcatimg']);
 			if($count['subcatimg'] != 0){
+				$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($data['iso'],$data['pathclibelle'],$data['idclc'],true);
 				$sitemap->writeMakeNodeImage(
-					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url($data['codelang'],$data['pathclibelle'],$data['idclc'],true),
+					magixcjquery_html_helpersHtml::getUrl().$uri_cat,
 					'img_s',
 					magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/subcategory/',
 					parent::s_catalog_subcategory_images_by_lang($data['idclc'])
@@ -349,8 +357,18 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		 * Les images des produits du catalogue
 		 */
 		foreach(parent::s_catalog_product_images() as $data){
+			$uri = magixglobal_model_rewrite::filter_catalog_product_url(
+        		$data['iso'], 
+        		$data['pathclibelle'], 
+        		$data['idclc'],
+        		$data['pathslibelle'], 
+        		$data['idcls'], 
+        		$data['urlcatalog'], 
+        		$data['idproduct'],
+        		true
+	        );
 			$sitemap->writeMakeNodeImage(
-				magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_product_url($data['codelang'],$data['pathclibelle'],$data['idclc'],$data['urlcatalog'],$data['idproduct'],true),
+				magixcjquery_html_helpersHtml::getUrl().$uri,
 				$data['imgcatalog'],
 				magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/product/'
 			);
@@ -387,16 +405,16 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			}else{
 				throw new Exception('ini_options_mod '.$module.' is not array');
 			}
-		}else{
+		}/*else{
 			throw new Exception('Method "sitemap_rewrite_options" does not exist');
-		}
+		}*/
 	}
 	/**
 	 * @access private
 	 * return void
 	 */
 	private function directory_plugins(){
-		return self::dir_XML_FILE().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
+		return $this->dir_XML_FILE().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
 	}
 	/**
 	 * 
@@ -404,18 +422,19 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	 * @param string $lang
 	 * @param string $module
 	 */
-	private function writeFile($lang,$module){
-		$options_mod = $this->ini_options_mod($module);
+	private function loadConfigPlugins($class){
+		$options_mod = $this->ini_options_mod($class);
 		// Génération de l'index
 		switch($options_mod['index']){
 			case 0:
 				null;
 			break;
 			case 1:
-				call_user_func_array(
-					array($this->get_call_class($module),'sitemap_uri_index'), 
-					array($lang)
-				);
+				/*call_user_func_array(
+					array($this->get_call_class($class),'sitemap_uri_index'), 
+					array($name)
+				);*/
+				call_user_func(array($this->get_call_class($class),'sitemap_uri_index'));
 			break;
 		}
 		// Génération du niveau 1
@@ -424,10 +443,11 @@ class backend_controller_sitemap extends backend_db_sitemap{
 				null;
 			break;
 			case 1:
-				call_user_func_array(
-					array($this->get_call_class($module),'sitemap_uri_category'), 
-					array($lang)
-				);
+				/*call_user_func_array(
+					array($this->get_call_class($class),'sitemap_uri_category'), 
+					array($name)
+				);*/
+				call_user_func(array($this->get_call_class($class),'sitemap_uri_category'));
 			break;
 		}
 		// Génération du niveau 2
@@ -436,10 +456,11 @@ class backend_controller_sitemap extends backend_db_sitemap{
 				null;
 			break;
 			case 1:
-				call_user_func_array(
-					array($this->get_call_class($module),'sitemap_uri_subcategory'), 
-					array($lang)
-				);
+				/*call_user_func_array(
+					array($this->get_call_class($class),'sitemap_uri_subcategory'), 
+					array($name)
+				);*/
+				call_user_func(array($this->get_call_class($class),'sitemap_uri_subcategory'));
 			break;
 		}
 		// Génération du dernier niveau
@@ -448,10 +469,11 @@ class backend_controller_sitemap extends backend_db_sitemap{
 				null;
 			break;
 			case 1:
-				call_user_func_array(
-					array($this->get_call_class($module),'sitemap_uri_record'), 
-					array($lang)
-				);
+				/*call_user_func_array(
+					array($this->get_call_class($class),'sitemap_uri_record'), 
+					array($name)
+				);*/
+				call_user_func(array($this->get_call_class($class),'sitemap_uri_record'));
 			break;
 		}
 	}
@@ -461,30 +483,35 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	 * @access private
 	 */
 	private function writeplugin(){
-		plugins_Autoloader::register();
-		/**
-		 * Si le dossier est accessible en lecture
-		 */
-		if(!is_readable(self::directory_plugins())){
-			throw new exception('Error in writeplugin: Plugin is not minimal permission');
-		}
-		$makefiles = new magixcjquery_files_makefiles();
-		$dir = $makefiles->scanRecursiveDir(self::directory_plugins());
-		if($dir != null){
-			foreach($dir as $d){
-				if(file_exists(self::directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
-					$pluginPath = self::directory_plugins().$d;
-					if($makefiles->scanDir($pluginPath) != null){
-						if(class_exists('plugins_'.$d.'_admin')){
-							$create = self::get_call_class('plugins_'.$d.'_admin');
-							//Si la méthode existe on execute la fonction createSitemap du plugin
-							if(method_exists($create,'createSitemap')){
-								$create->createSitemap();
+		try{
+			plugins_Autoloader::register();
+			/**
+			 * Si le dossier est accessible en lecture
+			 */
+			if(!is_readable($this->directory_plugins())){
+				throw new exception('Error in writeplugin: Plugin is not minimal permission');
+			}
+			$makefiles = new magixcjquery_files_makefiles();
+			$dir = $makefiles->scanRecursiveDir($this->directory_plugins());
+			if($dir != null){
+				foreach($dir as $d){
+					if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
+						$pluginPath = $this->directory_plugins().$d;
+						if($makefiles->scanDir($pluginPath) != null){
+							if(class_exists('plugins_'.$d.'_admin')){
+								/*$create = self::get_call_class('plugins_'.$d.'_admin');
+								//Si la méthode existe on execute la fonction createSitemap du plugin
+								if(method_exists($create,'createSitemap')){
+									$create->createSitemap();
+								}*/
+								$this->loadConfigPlugins('plugins_'.$d.'_admin');
 							}
 						}
 					}
 				}
 			}
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
 	/**
@@ -508,7 +535,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		/**
 		 * Si le dossier est accessible en lecture
 		 */
-		if(!is_readable(self::directory_plugins())){
+		if(!is_readable($this->directory_plugins())){
 			throw new exception('Error in register plugin: Plugin is not minimal permission');
 		}
 		/**
@@ -564,7 +591,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		 * @var $statnews void
 		 */
 		if($confignews['status'] == 1){
-			backend_config_smarty::getInstance()->assign('statnews',$statnews['total']);
+			backend_controller_template::assign('statnews',$statnews['total']);
 		}
 		/**
 		 * Statistique du CMS
@@ -572,7 +599,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		 */
 		$configcms = backend_model_setting::tabs_load_config('cms');
 		if($configcms['status'] == 1){
-			backend_config_smarty::getInstance()->assign('statcms',$statcms['total']);
+			backend_controller_template::assign('statcms',$statcms['total']);
 		}
 		/**
 		 * Statistique du catalogue
@@ -580,10 +607,10 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		 */
 		$configcatalog = backend_model_setting::tabs_load_config('catalog');
 		if($configcatalog['status'] == 1){
-			backend_config_smarty::getInstance()->assign('statcatalog',$statcatalog['total']);
+			backend_controller_template::assign('statcatalog',$statcatalog['total']);
 		}
-		backend_config_smarty::getInstance()->assign('statplugins',self::register_plugins());
-		backend_config_smarty::getInstance()->display('sitemap/index.phtml');
+		backend_controller_template::assign('statplugins',$this->register_plugins());
+		backend_controller_template::display('sitemap/index.phtml');
 	}
 	/**
 	 * Compression GZ du fichier XML
@@ -593,16 +620,16 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		/*Compression GZ souhaitée*/
         $sitemap->setGZCompressionLevel(9);
 		/*Création du fichier GZ à partir de l'XML*/
-        $sitemap->createGZ(self::dir_XML_FILE(),'sitemap.xml.gz','sitemap.xml');
+        $sitemap->createGZ($this->dir_XML_FILE(),'sitemap.xml.gz','sitemap.xml');
 	}
 	/**
 	 * Pinguer Google
 	 */
 	private function execPing(){
 		$sitemap = new magixcjquery_xml_sitemap();
-		backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml');
+		backend_controller_template::assign('sitemap','sitemap.xml');
 		$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml');
-		backend_config_smarty::getInstance()->display('sitemap/request/ping.phtml');
+		backend_controller_template::display('sitemap/request/ping.phtml');
 	}
 	/**
 	 * Compression GZ + ping Google
@@ -610,37 +637,37 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	private function execCompressionPing(){
 		$sitemap = new magixcjquery_xml_sitemap();
 		if(!extension_loaded('zlib')) {
-			backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml');
+			backend_controller_template::assign('sitemap','sitemap.xml');
 			$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml');
 		}else{
-			self::execute_compression();
-			backend_config_smarty::getInstance()->assign('sitemap','sitemap.xml.gz');
+			$this->execute_compression();
+			backend_controller_template::assign('sitemap','sitemap.xml.gz');
 			$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
 		}
-		backend_config_smarty::getInstance()->display('sitemap/request/ping.phtml');
+		backend_controller_template::display('sitemap/request/ping.phtml');
 	}
 	/**
 	 * @access private
 	 * Execution de la création du fichier index
 	 */
 	private function execIndex(){
-		self::createXMLIndexFile();
-		self::writeIndex();
-		self::endXMLWriter();
-		backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
+		$this->createXMLIndexFile();
+		$this->writeIndex();
+		$this->endXMLWriter();
+		backend_controller_template::display('sitemap/request/success.phtml');
 	}
 	/**
 	 * @access private
 	 * Execute l'écriture dans le fichier XML
 	 */
 	private function exec(){
-			self::createXMLFile();
-			self::writeNews();
-			self::writeCms();
-			self::writeCatalog();
-			self::writeplugin();
-			self::endXMLWriter();
-			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
+			$this->createXMLFile();
+			$this->writeNews();
+			$this->writeCms();
+			$this->writeCatalog();
+			$this->writeplugin();
+			$this->endXMLWriter();
+			backend_controller_template::display('sitemap/request/success.phtml');
 	}
 	/**
 	 * @access private
@@ -649,12 +676,12 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	private function execImages(){
 		$config = backend_model_setting::tabs_load_config('catalog');
 		if($config['status'] == 1){
-			self::createXMLImgFile();
-			self::writeImagesCatalog();
-			self::endXMLWriter();
-			backend_config_smarty::getInstance()->display('sitemap/request/success.phtml');
+			$this->createXMLImgFile();
+			$this->writeImagesCatalog();
+			$this->endXMLWriter();
+			backend_controller_template::display('sitemap/request/success.phtml');
 		}else{
-			backend_config_smarty::getInstance()->display('sitemap/request/noimages.phtml');
+			backend_controller_template::display('sitemap/request/noimages.phtml');
 		}
 	}
 	/**
@@ -663,17 +690,17 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	 */
 	public function run(){
 		if($this->create_xml_index){
-			self::execIndex();
+			$this->execIndex();
 		}elseif($this->create_xml_url){
-			self::exec();
+			$this->exec();
 		}elseif($this->create_xml_images){
-			self::execImages();
+			$this->execImages();
 		}elseif($this->googleping){
-			self::execPing();
+			$this->execPing();
 		}elseif($this->compressionping){
-			self::execCompressionPing();
+			$this->execCompressionPing();
 		}else{
-			self::display();
+			$this->display();
 		}
 	}
 }

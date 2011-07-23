@@ -58,6 +58,7 @@ class backend_db_news{
 		));
 	}
 	/**
+	 * @access protected
 	 * Retourne le nombre maximum de news
 	 * @return void
 	 */
@@ -67,6 +68,7 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
+	 * @access protected
 	 * Retourne le nombre maximum de news
 	 * @return void
 	 */
@@ -76,6 +78,7 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
+	 * @access protected
 	 * Affiche les données (dans les champs) pour une modification
 	 * @param $getnews
 	 */
@@ -90,8 +93,8 @@ class backend_db_news{
 		));
 	}
 	/**
-	 * 
-	 * Enter description here ...
+	 * @access protected
+	 * Compte le nombre de news par langue
 	 */
 	protected function s_count_news_by_lang(){
 		$sql = 'SELECT count( news.idnews ) AS countnews, lang.iso, lang.language
@@ -113,7 +116,7 @@ class backend_db_news{
 		));
 	}
 	/**
-	 * 
+	 * @access protected
 	 * Retourne la liste des tags de l'agenda courant
 	 * @access protected
 	 * @param integer $edit
@@ -124,6 +127,15 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getnews'	=>	$getnews
 		));
+	}
+	/**
+	 * @access protected
+	 * Compte le nombre de tags de news
+	 */
+	protected function s_count_list_tag(){
+		$sql = 'SELECT count(at.idnews_tag) as ctag
+		FROM mc_news_tag AS at';
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Mise à jour d'un enregistrement d'une news
@@ -148,6 +160,12 @@ class backend_db_news{
 			':idnews'		=>	$idnews
 		));
 	}
+	/**
+	 * @access protected
+	 * Mise à jour de l'image de la news
+	 * @param string $n_image
+	 * @param integer $idnews
+	 */
 	protected function u_news_image($n_image,$idnews){
 		$sql = 'UPDATE mc_news SET n_image = :n_image
 		WHERE idnews = :idnews';
@@ -157,6 +175,12 @@ class backend_db_news{
 			':idnews'		=>	$idnews
 		));
 	}
+	/**
+	 * @access protected
+	 * Mise à jour du statut des news
+	 * @param integer $idnews
+	 * @param statut $published
+	 */
 	protected function u_status_publication_of_news($idnews,$published){
 		switch($published){
 			case 0:
@@ -171,10 +195,11 @@ class backend_db_news{
 		));
 	}
 	/**
+	 * @access protected
 	 * selectionne le sujet suivant la langue pour la réecriture des métas
 	 * @param $codelang
 	 */
-	protected function s_news_keyword($codelang){
+	/*protected function s_news_keyword($codelang){
 		$sql = 'SELECT n.subject
 				FROM mc_news AS n
 				LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
@@ -183,7 +208,7 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':codelang'=>$codelang
 		));
-	}
+	}*/
 	/**
 	 * Retourne le nombre de news par administrateurs
 	 * 
@@ -211,6 +236,7 @@ class backend_db_news{
 		));
 	}
 	/**
+	 * @access protected
 	 * supprime un article
 	 * @param $idnews
 	 */
@@ -221,7 +247,7 @@ class backend_db_news{
 		));
 	}
 	/**
-	 * 
+	 * @access protected
 	 * Suppression d'un tag des news
 	 * @param integer $del_tag
 	 */

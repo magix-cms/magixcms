@@ -14,7 +14,7 @@ var ns_jsitemap = {
 	_createXML:function(){
 		this._reqCreateXml('.create-xml-index','create_xml_index');
 		this._reqCreateXml('.create-xml-url','create_xml_url');
-		this._reqCreateXml('.create-xml-images','create_xml_url');
+		this._reqCreateXml('.create-xml-images','create_xml_images');
 	},
 	_reqPing:function(domclass,data){
 		$(domclass).live('click',function (){

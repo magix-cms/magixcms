@@ -188,9 +188,9 @@ class plugins_contact_admin extends database_plugins_contact{
 	 * Fonction pour la création des urls dans le sitemap
 	 * !!! createSitemap obligatoire pour l'ajout dans le sitemap
 	 */
-	public function createSitemap(){
+	/*public function createSitemap(){
 		/*instance la classe*/
-        $sitemap = new magixcjquery_xml_sitemap();
+        /*$sitemap = new magixcjquery_xml_sitemap();
         $dblang = backend_db_lang::dblang()->s_full_lang();
 	    $sitemap->writeMakeNode(
 			magixcjquery_html_helpersHtml::getUrl().'/magixmod/contact/',
@@ -208,7 +208,7 @@ class plugins_contact_admin extends database_plugins_contact{
 		   		);
 	        }
         }
-	}
+	}*/
 	/**
 	 * @access public
 	 * Options de reecriture des sitemaps NEWS
@@ -237,6 +237,41 @@ class plugins_contact_admin extends database_plugins_contact{
 			// Retourne la page index.phtml
 			backend_controller_plugins::create()->append_display('index.phtml');
 		}
+	}
+	//SITEMAP
+	private function lastmod_dateFormat(){
+		$dateformat = new magixglobal_model_dateformat();
+		return $dateformat->sitemap_lastmod_dateFormat();
+	}
+	/**
+	 * @access public
+	 * Options de reecriture des sitemaps NEWS
+	 */
+	public function sitemap_rewrite_options(){
+		return $options_string = array(
+			'index'=>true,
+			'level1'=>false,
+			'level2'=>false,
+			'records'=>false
+		);
+	}
+	/**
+	 * URL index du module suivant la langue
+	 * @param string $lang
+	 */
+	public function sitemap_uri_index(){
+		$sitemap = new magixcjquery_xml_sitemap();
+       	$db = backend_db_block_lang::s_data_lang();
+       	if($db != null){
+       		foreach($db as $data){
+	        	 $sitemap->writeMakeNode(
+	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_plugins_root_url($data['iso'], 'contact',true),
+		        	$this->lastmod_dateFormat(),
+		        	'always',
+		        	0.7
+	        	 );
+	        }
+       	}
 	}
 }
 class database_plugins_contact{

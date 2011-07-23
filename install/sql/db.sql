@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `mc_admin_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
-  `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `idlang` tinyint(3) NOT NULL AUTO_INCREMENT,
   `iso` varchar(3) NOT NULL,
   `language` varchar(30) NOT NULL,
   `default_lang` tinyint(1) NOT NULL DEFAULT '0',
@@ -34,7 +34,7 @@ INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1, 1);
 
 CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `idcatalog` int(6) NOT NULL AUTO_INCREMENT,
-  `idlang` tinyint(1) NOT NULL DEFAULT '0',
+  `idlang` tinyint(3) NOT NULL DEFAULT '0',
   `idadmin` tinyint(2) NOT NULL,
   `urlcatalog` varchar(125) NOT NULL,
   `titlecatalog` varchar(125) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
   `pathclibelle` varchar(125) NOT NULL,
   `img_c` varchar(125) DEFAULT NULL,
   `c_content` text,
-  `idlang` tinyint(1) NOT NULL DEFAULT '0',
+  `idlang` tinyint(3) NOT NULL DEFAULT '0',
   `corder` tinyint(3) NOT NULL,
   PRIMARY KEY (`idclc`),
   KEY `idlang` (`idlang`)
@@ -172,7 +172,7 @@ INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`,
 CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
   `idrewrite` tinyint(2) NOT NULL AUTO_INCREMENT,
   `attribute` varchar(40) NOT NULL,
-  `idlang` tinyint(1) NOT NULL DEFAULT '0',
+  `idlang` tinyint(3) NOT NULL DEFAULT '0',
   `strrewrite` tinytext,
   `idmetas` tinyint(1) NOT NULL,
   `level` tinyint(1) NOT NULL DEFAULT '0',
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `mc_page_home` (
   `content` text NOT NULL,
   `metatitle` varchar(150) DEFAULT NULL,
   `metadescription` varchar(180) DEFAULT NULL,
-  `idlang` tinyint(1) NOT NULL DEFAULT '0',
+  `idlang` tinyint(3) NOT NULL DEFAULT '0',
   `idadmin` tinyint(2) NOT NULL,
   `date_home` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idhome`),
@@ -231,7 +231,7 @@ INSERT INTO `mc_setting` (`setting_id`, `setting_value`, `setting_type`, `settin
 ('webmaster', '', 'string', 'google webmasterTools'),
 ('analytics', '', 'string', 'google analytics'),
 ('editor', 'pdw_file_browser', 'string', 'tinymce'),
-('magix_version', '2.3.43', 'string', 'Version Magix CMS');
+('magix_version', '2.3.46', 'string', 'Version Magix CMS');
 
 ALTER TABLE `mc_admin_session`
   ADD CONSTRAINT `mc_admin_session_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `mc_admin_member` (`idadmin`);

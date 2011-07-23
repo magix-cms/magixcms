@@ -40,52 +40,52 @@ CREATE TABLE IF NOT EXISTS `mc_config` (
   `idconfig` tinyint(3) NOT NULL AUTO_INCREMENT,
   `attr_name` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
+  `max_record` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idconfig`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
-INSERT INTO `mc_config` (`idconfig`, `attr_name`, `status`) VALUES
-(1, 'lang', 1),
-(2, 'cms', 1),
-(3, 'news', 1),
-(4, 'catalog', 1),
-(5, 'metasrewrite', 1),
-(6, 'plugins', 1);
+INSERT INTO `mc_config` (`idconfig`, `attr_name`, `status`, `max_record`) VALUES
+(1, 'lang', 1, 0),
+(2, 'cms', 1, 0),
+(3, 'news', 1, 0),
+(4, 'catalog', 1, 0),
+(5, 'metasrewrite', 1, 0),
+(6, 'plugins', 1, 0);
 
 CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
-  `id_size_img` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `id_size_img` smallint(5) NOT NULL AUTO_INCREMENT,
   `idconfig` tinyint(3) NOT NULL,
-  `name_size` varchar(40) NOT NULL,
-  `num_size` decimal(4,0) NOT NULL,
+  `config_size_attr` varchar(40) NOT NULL,
+  `width` decimal(4,0) NOT NULL,
+  `height` decimal(4,0) NOT NULL,
+  `type` enum('small','medium','large') NOT NULL,
+  `img_resizing` enum('basic','adaptive') NOT NULL,
   PRIMARY KEY (`id_size_img`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
-INSERT INTO `mc_config_size_img` VALUES
-(1, 4, 'size_w_cat', 120),
-(2, 4, 'size_h_cat', 100),
-(3, 4, 'size_w_subcat', 120),
-(4, 4, 'size_h_subcat', 100),
-(5, 4, 'size_w_small_product', 120),
-(6, 4, 'size_h_small_product', 100),
-(7, 4, 'size_w_medium_product', 350),
-(8, 4, 'size_h_medium_product', 250),
-(9, 4, 'size_w_large_product', 700),
-(10, 4, 'size_h_large_product', 700),
-(11, 4, 'size_w_small_microgalery', 120),
-(12, 4, 'size_h_small_microgalery', 100),
-(13, 4, 'size_w_large_microgalery', 700),
-(14, 4, 'size_h_large_microgalery', 700);
+INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`, `width`, `height`, `type`, `img_resizing`) VALUES
+(1, 4, 'category', '120', '100', 'small', 'basic'),
+(2, 4, 'subcategory', '120', '100', 'small', 'basic'),
+(3, 4, 'product', '120', '100', 'small', 'basic'),
+(4, 4, 'product', '350', '250', 'medium', 'basic'),
+(5, 4, 'product', '700', '700', 'large', 'basic'),
+(6, 4, 'galery', '120', '100', 'small', 'basic'),
+(7, 4, 'galery', '700', '700', 'large', 'basic'),
+(8, 3, 'news', '120', '100', 'small', 'basic'),
+(9, 3, 'news', '350', '250', 'medium', 'basic');
 
 DROP TABLE `mc_lang`
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
-  `idlang` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `idlang` tinyint(3) NOT NULL AUTO_INCREMENT,
   `iso` varchar(3) NOT NULL,
   `language` varchar(30) NOT NULL,
-  `default` tinyint(1) NOT NULL DEFAULT '0',
+  `default_lang` tinyint(1) NOT NULL DEFAULT '0',
+  `active_lang` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1);
+INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1, 1);
 
 DROP TABLE `mc_news_publication`;
 
@@ -105,3 +105,10 @@ CREATE TABLE IF NOT EXISTS `mc_news` (
   `published` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idnews`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `mc_news_tag` (
+  `idnews_tag` int(7) NOT NULL AUTO_INCREMENT,
+  `name_tag` varchar(50) NOT NULL,
+  `idnews` int(7) NOT NULL,
+  PRIMARY KEY (`idnews_tag`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -182,7 +182,7 @@ var ns_jnews = {
 	     */
 	    $('.deletenews').click(function (e){
 	    	e.preventDefault();
-			var lg = $(this).attr("title");
+			var lg = $(this).attr("rel");
 			$("#confirm_del").dialog({
 				bgiframe: true,
 				resizable: false,
@@ -199,7 +199,7 @@ var ns_jnews = {
 							async: false,
 							cache:false,
 							success: function(){
-								//location.reload();
+								location.reload();
 							}
 					     });
 					},
@@ -245,7 +245,7 @@ var ns_jnews = {
 				 $('#chart-google-news').empty();
 				 var optionsObj = {
 					title: 'News Statistics',
-					series: [{label:'News'}],
+					series: [{label:'News'},{label:'Tags'}],
 					legend: {
 						show: true,
 						location: 'ne',
@@ -283,7 +283,7 @@ var ns_jnews = {
 			            }
 					}
 				};
-				 $.jqplot('chart-google-news', [j.news_count], optionsObj);
+				 $.jqplot('chart-google-news', [j.news_count,j.tag_count], optionsObj);
 			}
 		});		
 	},
@@ -370,6 +370,7 @@ var ns_jnews = {
 	run:function(){
 		this._publishedNews();
 		this._google_chart_language();
+		this._deleteNews();
 	},
 	runAddNews:function(){
 		this._addNews();

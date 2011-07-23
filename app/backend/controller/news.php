@@ -414,7 +414,14 @@ class backend_controller_news extends backend_db_news{
 		}else{
 			$rowLang = array(0);
 		}
-		print '{"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).']}';
+		if(parent::s_count_list_tag() != null){
+			foreach (parent::s_count_list_tag() as $s){
+				$rowTag[]= $s['ctag'];
+			}
+		}else{
+			$rowTag = array(0);
+		}
+		print '{"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).'],"tag_count":['.implode(',',$rowTag).']}';
 	}
 	/**
 	 * @access private
