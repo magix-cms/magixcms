@@ -78,7 +78,7 @@ class backend_db_sitemap{
 	 */
 	protected function s_count_cms_max(){
 		$sql = 'SELECT count(p.idpage) as total
-		FROM mc_cms_page AS p';
+		FROM mc_cms_pages AS p';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
     /*
