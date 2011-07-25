@@ -65,6 +65,17 @@ select { width: 220px; }
 .table-plugin-info td a:hover{}
 .table-plugin-info th.small-icon,.table-plugin-info td.small-icon{width:20px;}
 .table-plugin-info td.medium-cell{min-width:100px;}
+
+/*Table widget content*/
+.table-widget-content {font-size:11px;margin: 5px; border-collapse: collapse; min-width: 80%;max-width:90%;}
+.table-widget-content th,.table-widget-content td{border: 1px solid #404040;text-align: left;}
+.table-widget-content th {padding: .1em 4px;background-color:#404040;}
+.table-widget-content td{padding: .1em 4px;}
+.table-widget-content tr td:first-child{}
+.table-widget-content td a{text-decoration:underline;}
+.table-widget-content td a:hover{}
+.table-widget-content th.small-icon,.table-plugin-info td.small-icon{width:20px;}
+.table-widget-content td.medium-cell{min-width:100px;}
 /**
 * HACK safari and chrome
 */

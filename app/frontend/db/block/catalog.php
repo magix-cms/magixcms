@@ -185,10 +185,10 @@ class frontend_db_block_catalog{
 	 * @param idclc
 	 */
 	public static function s_sub_category_menu($iso,$idclc){
-		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.idclc, s.img_s, lang.iso
+		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.img_s, lang.iso
 				FROM mc_catalog_c AS c
 				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
-				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				WHERE c.idclc = :idclc AND lang.iso = :iso ORDER BY sorder';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':iso'		=>	$iso,

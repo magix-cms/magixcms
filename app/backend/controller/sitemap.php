@@ -562,15 +562,69 @@ class backend_controller_sitemap extends backend_db_sitemap{
 					if($makefiles->scanDir($pluginPath) != null){
 						//Si la classe exist on recherche la fonction createSitemap
 						if(class_exists('plugins_'.$d.'_admin')){
-							$create = $this->get_call_class('plugins_'.$d.'_admin');
+							$options_mod = $this->ini_options_mod('plugins_'.$d.'_admin');
+							//$create = $this->get_call_class('plugins_'.$d.'_admin');
 							//Si la méthode existe on ajoute le plugin dans le sitemap
-							if(method_exists($create,'createSitemap')){
-								$register .= '<tr class="line">
-								<td class="maximal">'.magixcjquery_string_convert::ucFirst($d).'</td>
-								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-calculator"></span></td>
-								<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
-							</tr>';
+							//if(method_exists($create,'createSitemap')){
+							if($options_mod != null){
+								/*$register .= '<tr class="line">
+									<td class="maximal">'.magixcjquery_string_convert::ucFirst($d).'</td>
+									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-calculator"></span></td>
+									<td class="nowrap"><span style="float:left;" class="ui-icon ui-icon-check"></span></td>
+								</tr>';*/
+								$register .= '<tr>';
+								$register .= '<td>'.magixcjquery_string_convert::ucFirst($d).'</td>';
+								$index = '';
+								$level1 = '';
+								$level2 = '';
+								$records= '';
+								switch($options_mod['index']){
+									case 0:
+										$index .= '<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
+									break;
+									case 1:
+										$index .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
+									break;
+								}
+								switch($options_mod['level1']){
+									case 0:
+										$level1 .='<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
+									break;
+									case 1:
+										$level1 .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
+									break;
+								}
+								switch($options_mod['level2']){
+									case 0:
+										$level2 .='<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
+									break;
+									case 1:
+										$level2 .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
+									break;
+								}
+								switch($options_mod['records']){
+									case 0:
+										$records .='<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
+									break;
+									case 1:
+										$records .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
+									break;
+								}
+								$register .= '<td>';
+								$register .= $index;
+								$register .= '</td>';
+								$register .= '<td>';
+								$register .= $level1;
+								$register .= '</td>';
+								$register .= '<td>';
+								$register .= $level2;
+								$register .= '</td>';
+								$register .= '<td>';
+								$register .= $records;
+								$register .= '</td>';
+								$register .= '</tr>';
 							}
+							//}
 						}
 					}
 				}

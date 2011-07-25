@@ -18,20 +18,20 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open"><span class="lfloat magix-icon magix-icon-sitemap-grey"></span>Sitemap</a></div>
 						<div class="dashboard-widget-content">
 						<div id="reponse">{$msg}</div>
-						<table class="clear">
+						<table class="table-widget-content">
 							<thead>
 							<tr>
-							<th><span style="float:left;" class="ui-icon ui-icon-gear"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-document"></span></th>
+							<th><span style="float:left;" class="magix-icon magix-icon-script"></span></th>
+							<th><span style="float:left;" class="magix-icon magix-icon-document"></span></th>
 							<th><div class="ui-state-highlight" style="border:none;"><span style="float:left;" class="ui-icon ui-icon-info"></span></div></th>
 							</tr>
 						</thead>
 						<tbody>
 							{if $confignews eq 1}
-							<tr class="line">
-								<td class="maximal">News</td>
-								<td class="nowrap">{$statnews}</td>
-								<td class="nowrap">
+							<tr>
+								<td>News</td>
+								<td>{$statnews}</td>
+								<td>
 									<div class="ui-state-highlight" style="border:none;">
 										<span style="float:left;" class="ui-icon ui-icon-check"></span>
 									</div>
@@ -39,10 +39,10 @@
 							</tr>
 							{/if}
 							{if $configcms eq 1}
-							<tr class="line">
-								<td class="maximal">CMS</td>
-								<td class="nowrap">{$statcms}</td>
-								<td class="nowrap">
+							<tr>
+								<td>CMS</td>
+								<td>{$statcms}</td>
+								<td>
 									<div class="ui-state-highlight" style="border:none;">
 										<span style="float:left;" class="ui-icon ui-icon-check"></span>
 									</div>
@@ -50,18 +50,31 @@
 							</tr>
 							{/if}
 							{if $configcatalog eq 1}
-							<tr class="line">
-								<td class="maximal">Catalogue</td>
-								<td class="nowrap">{$statcatalog}</td>
-								<td class="nowrap">
+							<tr>
+								<td>Catalogue</td>
+								<td>{$statcatalog}</td>
+								<td>
 									<div class="ui-state-highlight" style="border:none;">
 										<span style="float:left;" class="ui-icon ui-icon-check"></span>
 									</div>
 								</td>
 							</tr>
 							{/if}
-							{$statplugins}
 							</tbody>
+						</table>
+						<table class="table-widget-content">
+							<thead>
+							<tr>
+							<th><span style="float:left;" class="magix-icon magix-icon-plugin"></span></th>
+							<th>Index</th>
+							<th>Level1</th>
+							<th>Level2</th>
+							<th>Records</th>
+							</tr>
+						</thead>
+						<tbody>
+							{$statplugins}
+						</tbody>
 						</table>
 						</div>
 					</div>
