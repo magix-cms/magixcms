@@ -52,11 +52,12 @@ class backend_db_catalog{
     /**
      * Selectionne les catégories suivant l'ordre défini dans l'administration
      */
-	function s_catalog_category_corder(){
+	function s_catalog_category_corder($getlang){
     	$sql = 'SELECT c.idclc,c.clibelle,c.pathclibelle,lang.iso FROM mc_catalog_c as c 
     	LEFT JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
-    	ORDER BY c.idlang,c.corder';
-		return magixglobal_model_db::layerDB()->select($sql);
+    	WHERE c.idlang = :getlang
+    	ORDER BY c.corder';
+		return magixglobal_model_db::layerDB()->select($sql,array(':getlang'=>$getlang));
     }
     /**
      * Requête de construction du menu select avec optgroup

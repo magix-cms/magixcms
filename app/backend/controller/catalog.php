@@ -313,6 +313,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	public $d_rel_product;
 	public $post_search;
 	public $get_search_page;
+	public $getlang;
 	/**
 	 * @access public
 	 * Constructor
@@ -348,6 +349,9 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
+		}
+		if(magixcjquery_filter_request::isGet('getlang')){
+			$this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
 		}
 		if(magixcjquery_filter_request::isPost('titlecatalog')){
 			$this->titlecatalog = (string) magixcjquery_form_helpersforms::inputClean($_POST['titlecatalog']);
@@ -485,6 +489,33 @@ class backend_controller_catalog extends analyzer_catalog{
 			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
 		}
 	}
+	/**
+	 * @access private
+	 * retourne les langues pour administrer les pages parents ainsi que leurs enfants
+	 */
+	private function listing_index_language(){
+		if(backend_db_block_lang::s_data_lang() != null){
+			$list = '<ul>';
+			foreach(backend_db_block_lang::s_data_lang() as $slang){
+				$list .= '<li>';
+				$list .= '<a href="/admin/catalog.php?category=true&getlang='.$slang['idlang'].'">';
+				$list .= '<img src="/upload/iso_lang/'.$slang['iso'].'.png" alt="'.$slang['iso'].'" /> ';
+				$list .= '<span>'.magixcjquery_string_convert::ucFirst($slang['language']).'</span>';
+				$list .= '</a></li>';
+			}
+			$list .= '</ul>';
+			return $list;
+		}
+	}
+	/**
+	 * @access private
+	 * Retourne l'image et la langue suivant l'identifiant
+	 * @param integer $idlang
+	 */
+	private function parent_language($idlang){
+		$db = backend_db_block_lang::s_data_iso($idlang);
+		return '<img src="/upload/iso_lang/'.$db['iso'].'.png" alt="'.$db['iso'].'" /> '.magixcjquery_string_convert::ucFirst($db['language']);
+	}
 	private function def_dirimg_frontend($pathupload){
 		return magixglobal_model_system::base_path().$pathupload;
 	}
@@ -496,9 +527,9 @@ class backend_controller_catalog extends analyzer_catalog{
 	 */
 	private function catalog_category_order(){
 		$category = null;
-		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
+		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder($this->getlang) != null){
 			$category = '<ul id="sortcat">';
-			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $cat){
+			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder($this->getlang) as $cat){
 				if($cat['iso'] != null){
 					$langspan = '<span class="lfloat">'.$cat['iso'].'</span>';
 				}else{
@@ -517,8 +548,8 @@ class backend_controller_catalog extends analyzer_catalog{
 		return $category;
 	}
 	private function json_list_category(){
-		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() != null){
-			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_category_corder() as $list){
+		if(backend_db_catalog::adminDbCatalog()->s_catalog_category_corder($this->getlang) != null){
+			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_category_corder($this->getlang) as $list){
 				$cat[]= '{"idclc":'.json_encode($list['idclc']).',"clibelle":'.json_encode($list['clibelle']).
 				',"iso":'.json_encode($list['iso']).'}';
 			}
@@ -1726,15 +1757,6 @@ class backend_controller_catalog extends analyzer_catalog{
 		self::insert_new_subcategory();
 	}
 	/**
-	 * Affiche la page des sous catégories
-	 * @access public
-	 */
-	private function display_category(){
-		//backend_controller_template::assign('category_order',self::catalog_category_order());
-		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-		backend_controller_template::display('catalog/category.phtml');
-	}
-	/**
 	 * Affiche la page des produits ou insertion d'un produit
 	 * @access public
 	 */
@@ -1798,16 +1820,25 @@ class backend_controller_catalog extends analyzer_catalog{
 				self::delete_catalog_subcategory();
 			}elseif(magixcjquery_filter_request::isGet('post')){
 				self::post_category();
-			}elseif(magixcjquery_filter_request::isGet('json_cat')){
-				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-				$header->pragma();
-				$header->cache_control("nocache");
-				$header->getStatus('200');
-				$header->json_header("UTF-8");
-				self::json_list_category();
 			}else{
-				self::display_category();
+				if(magixcjquery_filter_request::isGet('getlang')){
+					if(magixcjquery_filter_request::isGet('json_cat')){
+						$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+						$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+						$header->pragma();
+						$header->cache_control("nocache");
+						$header->getStatus('200');
+						$header->json_header("UTF-8");
+						self::json_list_category();
+					}else{
+						backend_controller_template::assign('language', $this->parent_language($this->getlang));
+						backend_controller_template::display('catalog/category_language.phtml');
+					}
+				}else{
+					backend_controller_template::assign('list_language', $this->listing_index_language());
+					backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
+					backend_controller_template::display('catalog/category.phtml');
+				}
 			}
 		}elseif(magixcjquery_filter_request::isGet('upcat')){
 			if(magixcjquery_filter_request::isGet('post')){

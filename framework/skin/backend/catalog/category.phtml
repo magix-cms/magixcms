@@ -11,7 +11,7 @@
 				<div id="mainbar" class="ui-widget-header ui-corner-all">
 					<div class="username ui-widget-content ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span> {widget_session_identifier}</div>
 					{include file="common/topmicrobar.phtml"}
-					<div class="fariane"><ul>{admin_ariane}</ul></div>
+					<div class="fariane"><ul>{admin_ariane config_param=['level1'=>'catégorie']}</ul></div>
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
@@ -26,10 +26,6 @@
 								</tr>
 								<tr>
 									<td><input type="text" id="clibelle" name="clibelle" class="inputtext ui-corner-all" value="" size="20" /></td>
-									<td style="width:150px;" class="errorInput"></td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 								{$selectlang}
 								<tr>
@@ -43,14 +39,9 @@
 												<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
 										 		<input type="file" id="img_c" name="img_c" value="" />
 										 	</td>
-										 	<td>&nbsp;</td>
-										 	<td style="width:250px;" class="errorInput"></td>
 									 	</tr>
 								 	</table>
 									</td>
-								</tr>
-								<tr>
-									<td class="status"></td>
 								</tr>
 							</table>			
 						</fieldset>
@@ -67,9 +58,9 @@
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Catégorie</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-locale"></span> Langues Catégories</div>
 						<div class="dashboard-widget-content">
-							<div id="list-category"></div>
+							{$list_language}
 						</div>
 					</div>
 				</div>
@@ -81,9 +72,7 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
-		load_category();
-	});
+	$.getScript('/framework/js/backend/jcatalog.1.1.js');
 });
 </script>
 </body>

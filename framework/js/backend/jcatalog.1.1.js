@@ -8,9 +8,9 @@
  * @name jcatalog.1.1.js
  *
  */
-function load_category(){
+function load_category(idlang){
 	$.ajax({
-		url: '/admin/catalog.php?category=true&json_cat=true',
+		url: '/admin/catalog.php?getlang='+idlang+'&category=true&json_cat=true',
 		dataType: 'json',
 		type: "get",
 		statusCode: {
