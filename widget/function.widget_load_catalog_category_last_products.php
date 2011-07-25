@@ -55,9 +55,12 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
 	if(is_array($params['category'])){
 		$tabscat = $params['category'];
 	}
-  $dblang = frontend_db_lang::s_id_current_lang(frontend_model_template::current_Language());
-  $p_lang = $dblang['iso'];
-  $idcat = $tabscat[$p_lang];  
+  foreach(frontend_db_lang::s_fetch_lang() as $l){
+	  if($l['iso'] == frontend_model_template::current_Language()){
+	  	 $p_lang = $l['iso'];
+	  	 $idcat = $tabscat[$p_lang]; 
+	  } 
+  }
   //Définir le nombre de produits à afficher (defaut limit_products=5)
   $limit_products = $params['limit_products']? $params['limit_products'] : 5 ;
   //Définir le titre à afficher
@@ -69,6 +72,7 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
   } else {
     $idclc = $idcat;
   }
+
   // Utilise jquery UI (true/false)
   $ui = $params['ui'];
   // La taille des miniatures (mini ou medium)
