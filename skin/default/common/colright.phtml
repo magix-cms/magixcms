@@ -13,26 +13,7 @@
 	</div>
 	<div class="block bg w5-16 last">
 		<p class="title">Partager</p>
-    {if $smarty.get.getidpage}
-	      {assign var="socialtitle" value=$subjectpage nocache scope="parent"}    
-    {elseif $smarty.get.getnews}
-	      {assign var="socialtitle" value=$subject nocache scope="parent"}    
-    {elseif $smarty.get.news}
-	      {assign var="socialtitle" value="{#topmenu_news_t#}" nocache scope="parent"}
-    {elseif $smarty.get.idproduct}
-	      {assign var="socialtitle" value=$titlecatalog nocache scope="parent"}
-    {elseif $smarty.get.idcls}
-	      {assign var="socialtitle" value=$slibelle nocache scope="parent"}    
-    {elseif $smarty.get.idclc}
-	      {assign var="socialtitle" value=$clibelle nocache scope="parent"} 
-    {elseif $smarty.get.magixmod AND ( $smarty.get.magixmod == contact )}
-	      {assign var="socialtitle" value="{#pn_contact_forms#|firststring}" nocache scope="parent"}     
-    {elseif isset($subject)}
-	      {assign var="socialtitle" value=$subject  nocache scope="parent"}
-     {else}
-	     {assign var="socialtitle" value="Magix CMS"}
-    {/if}
-  {widget_social_network title=$socialtitle size="medium"}
+  	{widget_social_network size="medium" default=$subject config_param=['news'=>[{#topmenu_news_t#},$n_title],'cms'=>[$title_page],'catalog'=>[{#topmenu_catalog_t#},$clibelle,$slibelle,$titlecatalog],'plugins'=>['contact'=>{#pn_contact_forms#}]]}
 	</div>
 	<div class="block w5-16 bg last">
 	 	{widget_load_catalog_category_last_products size="medium" tposition="bottom" category=["fr"=>"1"] limit_products="4" col="2" price=false description=true contentlength="124"}	

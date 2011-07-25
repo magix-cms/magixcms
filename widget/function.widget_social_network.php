@@ -26,32 +26,74 @@ function smarty_function_widget_social_network($params, $template){
 	//strrpos récupère la dernière occurence de / et de .
     $slashpos = strrpos($parsed,'/');
 	/**
-	 * Si title n'est pas défini on retourne une erreur
-	 * @return string
-	 */
-	if (!isset($params['title'])) {
-	 	//trigger_error("Missing parameter :title");
-		return;
-	}
-	/**
 	 * Si size n'est pas défini on retourne une erreur
 	 * @return string
 	 */
 	if (!isset($params['size'])) {
-	 	//trigger_error("Missing parameter :size");
+	 	trigger_error("Missing parameter :size");
 	 	return;
 	}
-	/**
-	 * Si le paramètre title est vide on retourne ''
-	 * @var $paramTitle string
-	 */
-	$paramTitle = empty($params['title']) ? '' : $params['title'];
+	$filename = substr($_SERVER['SCRIPT_NAME'],1);
+	$position = strpos($filename, '.');
+	$attribute = substr($filename, 0, $position);
+	if(isset($_GET['magixmod'])){
+		$magixmod = magixcjquery_filter_var::clean($_GET['magixmod']);
+	}
+	if (!isset($params['config_param'])) {
+	 	trigger_error("config_param: missing 'config_param' parameter");
+		return;
+	}
+	if(is_array($params['config_param'])){
+		$tabs = $params['config_param'];
+	}
+	if($attribute == 'plugins'){
+		$module = $attribute.':'.$magixmod;
+	}else{
+		$module = $attribute;
+	}
+	switch($attribute){
+		case 'news':
+			if(isset($_GET['getnews'])){
+				$getitle = $tabs['news'][1];
+			}else{
+				$getitle = $tabs['news'][0];
+			}
+		break;
+		case 'cms':
+			if(isset($_GET['getidpage'])){
+				$getitle = $tabs['cms'][0];
+			}
+		break;
+		case 'catalog':
+			if(isset($_GET['idclc'])){
+				if(isset($_GET['idcls'])){
+					$getitle = $tabs['catalog'][2];
+				}elseif(isset($_GET['idproduct'])){
+					$getitle = $tabs['catalog'][3];
+				}else{
+					$getitle = $tabs['catalog'][1];
+				}
+			}else{
+				$getitle = $tabs['catalog'][0];
+			}
+		break;
+		case 'plugins':
+			if($tabs['plugins'][$magixmod]){
+				$getitle = $tabs['plugins'][$magixmod];
+			}else{
+				$getitle = $magixmod;
+			}
+		break;
+		default:
+			$getitle = $params['default'];
+		break;
+	}
 	/**
 	 * Si le paramètre size est vide on retourne medium
 	 * @var $paramSize string
 	 */
 	$paramSize = empty($params['size']) ? 'medium' : $params['size'];     
-    $title = urlencode($paramTitle);
+    $title = urlencode($getitle);
     $url = magixcjquery_html_helpersHtml::getUrl();
     $fbstr = 'http://www.facebook.com/share.php?u='.$url.$parsed;
     $twstr = 'http://twitthis.com/twit?url='.$url.$parsed.'&amp;title='.$title;

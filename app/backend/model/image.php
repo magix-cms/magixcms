@@ -132,7 +132,7 @@ class backend_model_image {
 											magixcjquery_debug_magixfire::magixFireGroupEnd();
 										}
 									}
-									if (self::imgSizeMax($source,2000,2000) == false) {
+									if (self::imgSizeMax($source,3000,3000) == false) {
 											$error .= '<div class="error">La taille maximum excéde</div>';
 										}else{
 											if (!move_uploaded_file($source, $cible)) {
