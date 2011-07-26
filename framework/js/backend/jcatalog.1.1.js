@@ -1278,10 +1278,6 @@ $(function(){
 			height:180,
 			modal: true,
 			title: 'Supprimé cette image de la galerie',
-			overlay: {
-				backgroundColor: '#000',
-				opacity: 0.5
-			},
 			buttons: {
 				'Delete item': function() {
 					$(this).dialog('close');

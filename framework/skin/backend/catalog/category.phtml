@@ -15,7 +15,7 @@
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Ajouter une catégorie</div>
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span class="lfloat magix-icon magix-icon-flash-plus"></span>Ajouter une catégorie rapide</div>
 						<div class="dashboard-widget-content">
 						{if $configcatalog eq 1}
 						<form id="forms-catalog-category" method="post" enctype="multipart/form-data" action="" style="margin-left:10px;">
@@ -63,6 +63,12 @@
 							{$list_language}
 						</div>
 					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Statistiques</a></div>
+						<div class="dashboard-widget-content">
+							<div id="chart-google-catalog"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -70,9 +76,16 @@
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+{script src="/min/?f=framework/js/tools/jquery.jqplot.min.js,framework/js/tools/excanvas.min.js,framework/js/tools/jqplot-plugins/jqplot.barRenderer.min.js,/framework/js/tools/jqplot-plugins/jqplot.categoryAxisRenderer.min.js,framework/js/tools/jqplot-plugins/jqplot.pointLabels.min.js" type="javascript"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcatalog.1.1.js');
+	$.getScript('/framework/js/backend/ns/jcatalog.0.2.js',function(){
+		if (typeof ns_jcatalog_category == "undefined") {
+		  console.log("ns_jcatalog_category is not defined");
+		}else{
+			ns_jcatalog_category.run();
+		}
+	});
 });
 </script>
 </body>

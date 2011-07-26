@@ -23,6 +23,17 @@
 		var tinymce_call_back = "filebrowser";
 	</script>
 	{/if}
+	{if $tinymce_filemanager eq 1}
+	<script type="text/javascript">
+		var filemanager_tinymce_plugin = ",filemanager";
+		var filemanager_tinymce_button = ",insertfile";
+	</script>
+	{else}
+	<script type="text/javascript">
+		var filemanager_tinymce_plugin = "";
+		var filemanager_tinymce_button = "";
+	</script>
+	{/if}
 <script type="text/javascript" src="/min/?f=framework/js/backend/tinymce-config.js"></script>
 {elseif $editor eq "ckeditor"}
 {if $manager_setting eq 'pdw_file_browser'}

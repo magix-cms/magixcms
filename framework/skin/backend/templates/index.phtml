@@ -29,7 +29,13 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jthemeswitcher.1.0.js');
+	$.getScript('/framework/js/backend/ns/jthemeswitcher.0.2.js',function(){
+		if (typeof ns_jtswitcher == "undefined") {
+		  console.log("ns_jtswitcher is not defined");
+		}else{
+			ns_jtswitcher.run();
+		}
+	});
 });
 </script>
 </body>

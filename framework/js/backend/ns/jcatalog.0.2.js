@@ -192,7 +192,7 @@ var ns_jcatalog_subcategory = {
 						time:2
 					});
 	    			$(".mc-head-request").html(request);
-	    			load_img_subcategory_catalog();
+	    			ns_jcatalog_subcategory._loadImgSubCat(idsubcategory);
 	    		}
 	    	});
 			return false; 
@@ -389,6 +389,8 @@ var ns_jcatalog_category = {
 	    			$(".mc-head-request").html(request);
 	    			if(getlang==true){
 	    				ns_jcatalog_category._load_json_cat(idlang);
+	    			}else{
+	    				ns_jcatalog_product._google_chart_language();
 	    			}
 	    		}
 	    	});
@@ -522,6 +524,7 @@ var ns_jcatalog_category = {
 	},
 	run:function(){
 		this._addNewCat(false,false);
+		ns_jcatalog_product._google_chart_language();
 	},
 	runLang:function(){
 		this._init(false);
@@ -1001,19 +1004,339 @@ var ns_jcatalog_product = {
 			});
 		 });
 	},
+	_addCatalogCardProduct:function(){
+		/**
+		 * Soumission ajax d'un produit dans le catalogue
+		 */
+		$("#forms-catalog-card-product").submit(function(){
+			$(this).ajaxSubmit({
+	    		url:'/admin/catalog.php?product=true&add_card_product=1',
+	    		type:"post",
+	    		resetForm: true,
+	    		success:function(request) {
+					$.notice({
+						ntype: "simple",
+						time:2
+					});
+	    			$(".mc-head-request").html(request);
+	    		}
+	    	});
+			return false; 
+		});
+	},
+	_editCatalogCardProduct:function(productid){
+		/**
+		 * Soumission ajax d'une mise à jour d'un produit dans le catalogue
+		 */
+		$("#forms-catalog-card-product-edit").submit(function(){
+			if(productid != null){
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		delay: 1800,
+		    		dom: this,
+		    		uri: '/admin/catalog.php?product&editproduct='+productid+'&updateproduct=1',
+		    		typesend: 'post',
+		    		noticedata: null,
+		    		resetform:false,
+		    		time:2,
+		    		reloadhtml:false	
+				});
+				return false; 
+			}else{
+				console.log("%s: %o","productid is null",productid);
+			}
+		});
+	},
+	_addProduct:function(productid){
+		/**
+		 * Soumission ajax d'un produit dans le catalogue
+		 */
+		$("#forms-catalog-product").submit(function(){
+			if(productid != null){
+				$(this).ajaxSubmit({
+	        		url:'/admin/catalog.php?product=true&editproduct='+productid+'&add_product=1',
+	        		type:"post",
+	        		resetForm: false,
+	        		success:function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+	        			ns_jcatalog_product._load_json_cat_product(productid);
+	        		}
+	        	});
+				return false; 
+			}else{
+				console.log("%s: %o","productid is null",productid);
+			}
+		});
+	},
+	_addRelProduct:function(productid){
+		$("#forms-catalog-rel-product").submit(function(){
+			if(productid != null){
+				$(this).ajaxSubmit({
+	        		url:'/admin/catalog.php?product=true&editproduct='+productid+'&post_rel_product=1',
+	        		type:"post",
+	        		resetForm: false,
+	        		success:function(request) {
+						$.notice({
+							ntype: "simple",
+							time:2
+						});
+	        			$(".mc-head-request").html(request);
+	        			ns_jcatalog_product._load_rel_product(productid);
+	        		}
+	        	});
+				return false; 
+			}else{
+				console.log("%s: %o","productid is null",productid);
+			}
+		});
+	},
+	_search_product:function(){
+		/**
+		 * Recherche simple dans les titres des catalogues
+		 */
+		$("#forms-search-catalog").submit(function(){
+			$(this).ajaxSubmit({
+	    		url:'/admin/catalog.php?get_search_page=true',
+	    		type:"post",
+	    		dataType:"json",
+	    		resetForm: true,
+	    		beforeSubmit:function(){
+	    			$('#result-search-page').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+	    		},
+	    		success:function(j) {
+					$('#result-search-page').empty();
+					var tablecat = '<table id="table_search_product" class="table-widget-product">'
+						+'<thead><tr style="padding:3px;" class="ui-widget ui-widget-header"><th>ID</th>'
+						+'<th><span class="lfloat magix-icon magix-icon-h1"></span>Titre</th>'
+						+'<th><span class="lfloat ui-icon ui-icon-image"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-flag"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-person"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-copy"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-pencil"></span></th>'
+						+'<th><span class="lfloat ui-icon ui-icon-close"></span></th>'
+						+'</tr></thead>'
+						+'<tbody>';
+					tablecat += '</tbody></table>';
+					$(tablecat).appendTo('#result-search-page');
+					if(j === undefined){
+						console.log(j);
+					}
+					if(j !== null){
+						$.each(j, function(i,item) {
+							if(item.imgcatalog != null){
+								imgcatalog = '<div class="ui-state-highlight" style="border:none;"><a href="/admin/catalog.php?product&getimg='+item.idcatalog+'"><span style="float:left" class="ui-icon ui-icon-check"></span></a></div>';
+							}else{
+								imgcatalog = '<div class="ui-state-error" style="border:none;"><a href="/admin/catalog.php?product&getimg='+item.idcatalog+'"><span style="float:left" class="ui-icon ui-icon-cancel"></span></a></div>';
+							}
+							if(item.iso != null){
+								flaglang =item.iso;
+							}
+							return $('<tr><td>'+item.idcatalog+'</td>'
+							+'<td class="medium-cell"><a href="/admin/catalog.php?product&editproduct='+item.idcatalog+'" class="linkurl">'+item.titlecatalog+'</a></td>'
+							+'<td class="small-icon">'+imgcatalog+'</td>'
+							+'<td class="small-icon">'+flaglang+'</td>'
+							+'<td class="small-icon">'+item.pseudo+'</td>'
+							+'<td class="small-icon"><a href="/admin/catalog.php?product&moveproduct='+item.idcatalog+'" class="linkurl"><span class="lfloat ui-icon ui-icon-transfer-e-w"></span></a></td>'
+							+'<td class="small-icon"><a href="/admin/catalog.php?product&copyproduct='+item.idcatalog+'" class="linkurl"><span class="lfloat ui-icon ui-icon-copy"></span></a></td>'
+							+'<td class="small-icon"><a href="/admin/catalog.php?product&editproduct='+item.idcatalog+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
+							+'<td class="small-icon"><a href="#" class="deleteproduct" title="'+item.idcatalog+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+							'</tr>').appendTo('#table_search_product tbody');
+						});
+					}else{
+						return $('<tr>'
+								+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="medium-cell"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'<td class="small-icon"><span class="lfloat ui-icon ui-icon-minus"></span></td>'
+								+'</tr>').appendTo('#table_search_product tbody');
+					}
+	    		}
+	    	});
+			return false; 
+		});
+	},
+	_copyProduct:function(idproduct){
+		/**
+		 * Formulaire de copie d'un produit du catalogue
+		 */
+		var formsproduct = $("#copy-catalog-product").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				titlecatalog: {
+					required: true,
+					minlength: 2
+				},
+				desccatalog: {
+					required: true
+				}
+			},
+			messages: {
+				titlecatalog: {
+					required: "Enter a title"
+				},
+				desccatalog: {
+					required: "Enter a content"
+				}
+			},
+			submitHandler: function(form) {
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		dom: form,
+		    		uri: '/admin/catalog.php?product&copyproduct='+idproduct+'&postcopyproduct',
+		    		typesend: 'post',
+		    		delay: 1800,
+		    		time:1,
+		    		reloadhtml:false	
+				});
+			}
+		});
+		$("#copy-catalog-product").formsproduct;
+	},
+	_moveProduct:function(idproduct){
+		/**
+		 * Déplacement d'un produit dans une autre langue
+		 */
+		var formsproduct = $("#move-catalog-product").validate({
+			onsubmit: true,
+			event: 'submit',
+			rules: {
+				idclc: {
+					required: true
+				}
+			},
+			messages: {
+				idclc: {
+					required: "select category"
+				}
+			},
+			submitHandler: function(form) {
+				$.notice({
+					ntype: "ajaxsubmit",
+		    		dom: form,
+		    		uri: '/admin/catalog.php?product&moveproduct='+idproduct+'&postmoveproduct',
+		    		typesend: 'post',
+		    		delay: 1800,
+		    		time:1,
+		    		reloadhtml:false	
+				});
+			}
+		});
+		$("#move-catalog-product").formsproduct;
+	},
+	_google_chart_language:function(){
+		$.ajax({
+			url: '/admin/catalog.php?json_google_chart_catalog=true',
+			dataType: 'json',
+			type: "get",
+			statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},
+				401: function() {
+					console.warn("access denied");
+				},
+				404: function() {
+					console.warn("object not found");
+				},
+				403: function() {
+					console.warn("request forbidden");
+				},
+				408: function() {
+					console.warn("server timed out waiting for request");
+				},
+				500: function() {
+					console.error("Internal Server Error");
+				}
+			},
+			async: true,
+			cache:false,
+			beforeSend: function(){
+				$('#chart-google-catalog').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+			},
+			success: function(j) {
+				 $('#chart-google-catalog').empty();
+				 var optionsObj = {
+					title: 'Catalog Statistics',
+					series: [{label:'Produits'},{label:'Catégories'},{label:'Sous catégories'}],
+					legend: {
+						show: true,
+						location: 'ne',
+						placement: 'outsideGrid'
+					},
+					seriesColors: [ "#4bb2c5", "#EAA228", "#c5b47f", "#579575", "#839557", "#958c12",
+					                "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
+					seriesDefaults:{
+						min: 1,
+						shadow: true,
+						renderer:$.jqplot.BarRenderer,
+						rendererOptions:{
+			 	           barPadding: 8,
+				           barMargin: 10,
+				           fillToZero: true,
+				           barWidth: 25
+				       }
+					},
+					axesDefaults: {
+				        tickOptions: {
+				          fontFamily: 'Georgia',
+				          fontSize: '10pt'
+				        }
+				    },
+					axes: {
+			            // Use a category axis on the x axis and use our custom ticks.
+			            xaxis: {
+			                renderer: $.jqplot.CategoryAxisRenderer,
+			                ticks: j.lang
+			            },
+			            // Pad the y axis just a little so bars can get close to, but
+			            // not touch, the grid boundaries.  1.2 is the default padding.
+			            yaxis: {
+			                //pad: 1.2
+			            }
+					}
+				};
+				 $.jqplot('chart-google-catalog', [j.catalog_count,j.catalog_category_count,j.catalog_subcategory_count], optionsObj);
+			}
+		});		
+	},
 	run:function(){
 		this._deleteProduct();
+		this._search_product();
+		this._google_chart_language();
+	},
+	runAdd:function(){
+		this._addCatalogCardProduct();
 	},
 	runEdit:function(){
 		this._load_json_cat_product($("#idcatalog").val());
 		this._load_rel_product($("#idcatalog").val());
 		this._deleteRelProduct($("#idcatalog").val());
+		this._editCatalogCardProduct($("#idcatalog").val());
+		this._addProduct($("#idcatalog").val());
+		this._addRelProduct($("#idcatalog").val());
 	},
 	runImgEdit:function(){
-		this._loadImgProduct($("#idproduct").text());
-		this._loadImgMicroGalery($("#idproduct").text());
-		this._editImgProduct($("#idproduct").text());
-		this._addImgMicroGalery($("#idproduct").text());
-		this._deleteMicroGalery($("#idproduct").text());
+		this._loadImgProduct($("#idproduct").val());
+		this._loadImgMicroGalery($("#idproduct").val());
+		this._editImgProduct($("#idproduct").val());
+		this._addImgMicroGalery($("#idproduct").val());
+		this._deleteMicroGalery($("#idproduct").val());
+	},
+	runCopy:function(){
+		this._copyProduct($("#idproduct").val());
+	},
+	runMove:function(){
+		this._moveProduct($("#idproduct").val());
 	}
 };

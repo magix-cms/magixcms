@@ -150,9 +150,16 @@
 {include file="common/editor.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
+	/*$.getScript('/framework/js/backend/jcatalog.1.1.js',function(){
 		load_cat_product();
 		load_rel_product();
+	});*/
+	$.getScript('/framework/js/backend/ns/jcatalog.0.2.js',function(){
+		if (typeof ns_jcatalog_product == "undefined") {
+		  console.log("ns_jcatalog_product is not defined");
+		}else{
+			ns_jcatalog_product.runEdit();
+		}
 	});
 	dynamical_select_html(
 			'#forms-catalog-rel-product',

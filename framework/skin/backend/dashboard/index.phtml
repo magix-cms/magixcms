@@ -57,12 +57,6 @@
 						</div>
 					</div>
 					{/if}
-					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Outils Google</div>
-						<div class="dashboard-widget-content">
-							{widget_googletools}
-						</div>
-					</div>
 				</div>
 				<div class="column">
 				{if $configcatalog eq 1}
@@ -84,14 +78,6 @@
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document-b"></span>Les news</div>
 						<div class="dashboard-widget-content">
 							{widget_news limit="true" max="5" viewuser="false"}
-						</div>
-					</div>
-				{/if}
-				{if $configforms eq 1}
-					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-contact"></span>Les formulaires</div>
-						<div class="dashboard-widget-content">
-							{widget_forms}
 						</div>
 					</div>
 				{/if}

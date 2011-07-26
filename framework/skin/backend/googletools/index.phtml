@@ -15,7 +15,7 @@
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Les outils d'analyse Google</div>
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-google-optimize"></span>Les outils d'analyse Google</div>
 						<div class="dashboard-content">
 							<div id="resultgdata"></div>
 							<form id="forms-webmaster-tools" method="post" action="" style="margin-left:10px;">
@@ -50,7 +50,7 @@
 				</div>
 				<div class="column">
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Google Tools</div>
+						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-google"></span>Google Tools</div>
 						<div class="dashboard-content">
 							{widget_googletools}
 						</div>
@@ -64,7 +64,13 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jgoogletools.1.0.js');
+	$.getScript('/framework/js/backend/ns/jgoogletools.0.2.js',function(){
+		if (typeof ns_jgoogletools == "undefined") {
+		  console.log("ns_jgoogletools is not defined");
+		}else{
+			ns_jgoogletools.run();
+		}
+	});
 });
 </script>
 </body>

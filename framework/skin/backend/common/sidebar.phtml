@@ -42,18 +42,12 @@
 	</div>
 	{/if}
 	{if $configcatalog eq 1}
-	<h2><span style="float:left;" class="ui-icon ui-icon-cart"></span>Catalogue</h2>
-		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-folder-collapsed"></span>Catégories</a></h3>
+		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Catalogue</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/catalog.php?category=true"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Administrer</a></li>
-			</ul>
-		</div>
-		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Produits</a></h3>
-		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
-			<ul>
-				<li><a href="{geturl}/admin/catalog.php"><span style="float:left;" class="ui-icon ui-icon-home"></span>Voir</a></li>
-				<li><a href="{geturl}/admin/catalog.php?product=true"><span style="float:left;" class="ui-icon ui-icon-plus"></span>Ajouter</a></li>
+				<li><a href="{geturl}/admin/catalog.php?category=true"><span style="float:left;" class="magix-icon magix-icon-folders"></span>Catégories</a></li>
+				<li><a href="{geturl}/admin/catalog.php"><span style="float:left;" class="magix-icon magix-icon-cart"></span>Produits</a></li>
+				<li><a href="{geturl}/admin/catalog.php?product=true"><span style="float:left;" class="magix-icon magix-icon-cart-plus"></span>Ajouter un produit</a></li>
 			</ul>
 		</div>
 	{/if}
@@ -72,10 +66,11 @@
 			</ul>
 		</div>
 		{/if}
-		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-bookmark"></span>Les sitemaps</a></h3>
+		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Outils</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
-				<li><a href="{geturl}/admin/sitemap.php"><span style="float:left;" class="ui-icon ui-icon-refresh"></span>Créer</a></li>
+				<li><a href="{geturl}/admin/googletools.php"><span style="float:left;" class="magix-icon magix-icon-google"></span>Google tools</a></li>
+				<li><a href="{geturl}/admin/sitemap.php"><span style="float:left;" class="magix-icon magix-icon-sitemap-blue"></span>Créer un sitemap</a></li>
 			</ul>
 		</div>
 		{if {admin_level_config config_param=['module'=>'plugins']} eq 1}

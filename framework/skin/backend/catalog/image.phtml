@@ -21,7 +21,7 @@
 						<table>
 								<tr>
 									<td>Identifiant :</td>
-									<td><div id="idproduct">{$idproduct}</div></td>
+									<td><input type="text" disabled="disabled" id="idproduct" name="idproduct" class="inputdisabled ui-corner-all" value="{$idproduct}" /></td>
 								</tr>
 								<tr>
 									<td>Titre :</td>
@@ -30,7 +30,7 @@
 								{if $idlang != 0}
 								<tr>
 									<td>Langue :</td>
-									<td>{$codelang}</td>
+									<td>{$iso}</td>
 								</tr>
 								{/if}
 							</table>

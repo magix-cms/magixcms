@@ -508,8 +508,8 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-unlock{ background-position: -16px -48px; }
 .magix-icon-network-status{ background-position: -32px -48px; }
 .magix-icon-network-status-busy{ background-position: -48px -48px; }
-.magix-icon-store{ background-position: -64px -48px; }
-.magix-icon-cart{ background-position: -80px -48px; }
+.magix-icon-network-status-off{ background-position: -64px -48px; }
+.magix-icon-store{ background-position: -80px -48px; }
 .magix-icon-credit-card{ background-position: -96px -48px; }
 .magix-icon-credit-cards{ background-position: -112px -48px; }
 .magix-icon-credit-card-plus{ background-position: -128px -48px; }
@@ -635,6 +635,18 @@ input.ui-button { padding: .1em 1em; }
 .magix-icon-flash{ background-position: -176px -160px; }
 .magix-icon-flash-plus{ background-position: -192px -160px; }
 .magix-icon-flash-edit{ background-position: -208px -160px; }
+.magix-icon-google{ background-position: -224px -160px; }
+.magix-icon-google-optimize{ background-position: -240px -160px; }
+/* positioning column 10*/
+.magix-icon-cart{ background-position: -0 -176px; }
+.magix-icon-cart-plus{ background-position: -16px -176px; }
+.magix-icon-cart-edit{ background-position: -32px -176px; }
+/* positioning column 11*/
+.magix-icon-folder{ background-position: -0 -192px; }
+.magix-icon-folder-plus{ background-position: -16px -192px; }
+.magix-icon-folder-edit{ background-position: -32px -192px; }
+.magix-icon-folder-rename{ background-position: -48px -192px; }
+.magix-icon-folders{ background-position: -64px -192px; }
 /**
  * ############################## Utility class
  * 

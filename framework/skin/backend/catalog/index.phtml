@@ -30,6 +30,12 @@
 						{include file="catalog/search.phtml"}
 						</div>
 					</div>
+					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Statistiques</a></div>
+						<div class="dashboard-widget-content">
+							<div id="chart-google-catalog"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -37,9 +43,16 @@
 </div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
+{script src="/min/?f=framework/js/tools/jquery.jqplot.min.js,framework/js/tools/excanvas.min.js,framework/js/tools/jqplot-plugins/jqplot.barRenderer.min.js,/framework/js/tools/jqplot-plugins/jqplot.categoryAxisRenderer.min.js,framework/js/tools/jqplot-plugins/jqplot.pointLabels.min.js" type="javascript"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/jcatalog.1.1.js');
+	$.getScript('/framework/js/backend/ns/jcatalog.0.2.js',function(){
+		if (typeof ns_jcatalog_product == "undefined") {
+		  console.log("ns_jcatalog_product is not defined");
+		}else{
+			ns_jcatalog_product.run();
+		}
+	});
 });
 </script>
 </body>

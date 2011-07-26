@@ -498,7 +498,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			$list = '<ul>';
 			foreach(backend_db_block_lang::s_data_lang() as $slang){
 				$list .= '<li>';
-				$list .= '<a href="/admin/catalog.php?category=true&getlang='.$slang['idlang'].'">';
+				$list .= '<a href="/admin/catalog.php?category=true&amp;getlang='.$slang['idlang'].'">';
 				$list .= '<img src="/upload/iso_lang/'.$slang['iso'].'.png" alt="'.$slang['iso'].'" /> ';
 				$list .= '<span>'.magixcjquery_string_convert::ucFirst($slang['language']).'</span>';
 				$list .= '</a></li>';
@@ -1801,11 +1801,39 @@ class backend_controller_catalog extends analyzer_catalog{
 		backend_controller_template::display('catalog/image.phtml');
 	}
 	/**
-	 * affiche la page pour la liste des articles
-	 * @access public
+	 * @access private
+	 * Requête JSON pour les statistiques du CMS
 	 */
-	private function display(){
-		backend_controller_template::display('catalog/index.phtml');
+	private function json_catalog_chart(){
+		if(backend_db_block_catalog::chart_count_catalog() != null){
+			foreach (backend_db_block_catalog::chart_count_catalog() as $s){
+				$rowCatalog[]= $s['countcatalog'];
+			}
+		}else{
+			$rowCatalog = array(0);
+		}
+		if(backend_db_block_catalog::chart_count_category() != null){
+			foreach (backend_db_block_catalog::chart_count_category() as $s){
+				$rowCatalogCat[]= $s['countcatalog_cat'];
+			}
+		}else{
+			$rowCatalogCat = array(0);
+		}
+		if(backend_db_block_catalog::chart_count_subcategory() != null){
+			foreach (backend_db_block_catalog::chart_count_subcategory() as $s){
+				$rowCatalogSubCat[]= $s['countcatalog_subcat'];
+			}
+		}else{
+			$rowCatalogSubCat = array(0);
+		}
+		if(backend_db_block_lang::s_data_lang() != null){
+			foreach (backend_db_block_lang::s_data_lang() as $s){
+				$rowLang[]= json_encode(magixcjquery_string_convert::upTextCase($s['iso']));
+			}
+		}else{
+			$rowLang = array(0);
+		}
+		print '{"catalog_count":['.implode(',',$rowCatalog).'],"lang":['.implode(',',$rowLang).'],"catalog_category_count":['.implode(',',$rowCatalogCat).'],"catalog_subcategory_count":['.implode(',',$rowCatalogSubCat).']}';
 	}
 	/**
 	 * Execute le module dans l'administration
@@ -2004,7 +2032,17 @@ class backend_controller_catalog extends analyzer_catalog{
 		}elseif(magixcjquery_filter_request::isGet('getreluri')){
 			self::uri_rel_product();
 		}else{
-			self::display();
+			if(magixcjquery_filter_request::isGet('json_google_chart_catalog')){
+				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+				$header->pragma();
+				$header->cache_control("nocache");
+				$header->getStatus('200');
+				$header->json_header("UTF-8");
+				$this->json_catalog_chart();
+			}else{
+				backend_controller_template::display('catalog/index.phtml');
+			}
 		}
 	}
 }
