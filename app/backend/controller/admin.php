@@ -153,14 +153,28 @@ class backend_controller_admin{
 					session_write_close();
 					$this->start_session();
 					$const_url = backend_db_admin::adminDbMember()->s_t_profil_url($this->acmail);
-					if (!isset($_SESSION['useradmin'])) {
-						$session->openSession($const_url['idadmin'],session_regenerate_id(true));
+					if (!isset($_SESSION['useradmin']) AND !isset($_SESSION['userkeyid'])) {
+						$session->openSession($const_url['idadmin'],session_regenerate_id(true), $const_url['keyuniqid']);
 						//session_regenerate_id(true);
 		    			$_SESSION['useradmin'] = $this->acmail;
+		    			$_SESSION['userkeyid'] = $const_url['keyuniqid'];
+						if($debug == true){
+							$firebug = new magixcjquery_debug_magixfire();
+							$firebug->magixFireGroup('usersession');
+							$firebug->magixFireDump('User session',$_SESSION);
+							$firebug->magixFireGroupEnd();
+						}
 		    			magixglobal_model_redirect::backend_redirect_login(false);	
 					}else{
-						$session->openSession($const_url['idadmin'],null);
+						$session->openSession($const_url['idadmin'],null, $const_url['keyuniqid']);
 						$_SESSION['useradmin'] = $this->acmail;
+						$_SESSION['userkeyid'] = $const_url['keyuniqid'];
+						if($debug == true){
+							$firebug = new magixcjquery_debug_magixfire();
+							$firebug->magixFireGroup('usersession');
+							$firebug->magixFireDump('User session',$_SESSION);
+							$firebug->magixFireGroupEnd();
+						}
 						magixglobal_model_redirect::backend_redirect_login(false);	
 					}
 				}else{
@@ -194,7 +208,7 @@ class backend_controller_admin{
 	*/
 	public function closeSession(){
 		if (isset($this->acsclose)) {
-			if (isset($_SESSION['useradmin'])){	
+			if (isset($_SESSION['useradmin']) AND isset($_SESSION['userkeyid'])){	
 				$session = new backend_model_sessions();
 				$session->closeSession();
 				session_unset();

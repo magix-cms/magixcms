@@ -61,10 +61,17 @@ class exec_controller_adminuser extends dbinstuser{
 			$this->cryptpass = magixcjquery_form_helpersforms::inputClean(sha1($_POST['cryptpass']));
 		}
 	}
+	/**
+	 * Génnération d'une clé public unique pour servir d'identifiant
+	 * @return string
+	 */
+	private function keyuniqid(){
+		return magixglobal_model_cryptrsa::uuid_generator();
+	}
 	protected function insert_admin_members(){
 		if(isset($this->pseudo) AND isset($this->cryptpass) AND isset($this->email)){
 			if(!empty($this->email)){
-				parent::cuser()->i_useradmin($this->pseudo,$this->email,$this->cryptpass);
+				parent::cuser()->i_useradmin($this->pseudo,$this->email,$this->cryptpass,$this->keyuniqid());
 				//exec_config_smarty::getInstance()->display('request/success-user.phtml');
 			}
 		}
@@ -93,9 +100,9 @@ class dbinstuser{
         }
     	return self::$cuser;
     }
-	public function i_useradmin($pseudo,$email,$cryptpass){
+	public function i_useradmin($pseudo,$email,$cryptpass,$keyuniqid){
 		$sql = array(
-			'INSERT INTO mc_admin_member (pseudo,email,cryptpass) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'")',
+			'INSERT INTO mc_admin_member (pseudo,email,cryptpass,keyuniqid) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'","'.$keyuniqid.'")',
 			'INSERT INTO mc_admin_perms (perms) VALUE("1")'
 		);
 		magixglobal_model_db::layerDB()->transaction($sql);

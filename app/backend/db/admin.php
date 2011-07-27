@@ -38,13 +38,6 @@ class backend_db_admin{
 	 */
 	static public $adminDbMember;
 	/**
-	 * Function construct class
-	 *
-	 */
-	function __construct(){
-		$this->layer = new magixcjquery_magixdb_layer();
-	}
-	/**
 	 * instance frontend_db_home with singleton
 	 */
 	public static function adminDbMember(){
@@ -60,7 +53,7 @@ class backend_db_admin{
 	 */
 	function s_auth_exist($email, $cryptpass){
 		$sql='SELECT idadmin from mc_admin_member where email = :email AND cryptpass = :cryptpass';
-		return $this->layer->select($sql,
+		return magixglobal_model_db::layerDB()->select($sql,
 		array(
 			':email'=> $email,
 			':cryptpass' => $cryptpass
@@ -73,8 +66,10 @@ class backend_db_admin{
 	 * @return void
 	 */
 	function s_t_profil_url($email){
-		$sql='SELECT idadmin,pseudo from mc_admin_member where email = :email';
-		return $this->layer->selectOne($sql,
+		$sql='SELECT * FROM 
+		mc_admin_member 
+		WHERE email = :email';
+		return magixglobal_model_db::layerDB()->selectOne($sql,
 		array(
 			':email'=> $email
 			)
@@ -93,7 +88,7 @@ class backend_db_admin{
 				FROM mc_admin_member pr
 				LEFT JOIN mc_admin_session AS session ON ( pr.idadmin = session.userid )
 				LEFT JOIN mc_admin_perms AS p ON ( p.idadmin = pr.idadmin )';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * retourne les permissions de ce membre
@@ -103,7 +98,7 @@ class backend_db_admin{
 		$sql='SELECT p.perms from mc_admin_member m
 		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)
 		where email = :email';
-		return $this->layer->selectOne($sql,
+		return magixglobal_model_db::layerDB()->selectOne($sql,
 		array(
 			':email'=> $email
 			)
@@ -116,15 +111,15 @@ class backend_db_admin{
 	function view_list_members(){
 		$sql='SELECT m.idadmin,m.pseudo,m.email,p.perms from mc_admin_member m
 		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Retourne les informations de l'utilisateur
 	 */
 	function view_info_members($idadmin){
-		$sql='SELECT m.idadmin,m.pseudo,m.email,p.perms from mc_admin_member m
+		$sql='SELECT m.idadmin,m.pseudo,m.email,m.keyuniqid,p.perms from mc_admin_member m
 		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) WHERE m.idadmin = :idadmin';
-		return $this->layer->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idadmin'=> $idadmin
 		));
 	}
@@ -136,7 +131,7 @@ class backend_db_admin{
 		$sql = 'SELECT count( m.idadmin ) as countadmin
 				from mc_admin_member m
 				LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)';
-		return $this->layer->selectOne($sql);
+		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
 	/**
 	 * retourne le nombre de membres par hierarchie (permissions)
@@ -147,18 +142,18 @@ class backend_db_admin{
 				from mc_admin_member m
 				LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)
 				GROUP BY p.perms ORDER BY p.perms';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * Insert un nouveau membre dans la table mc_admin_member
 	 * 
 	 */
-	function i_n_members($pseudo,$email,$cryptpass,$perms){
+	function i_n_members($pseudo,$email,$cryptpass,$keyuniqid,$perms){
 		$sql = array(
-		'INSERT INTO mc_admin_member (pseudo,email,cryptpass) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'")',
+		'INSERT INTO mc_admin_member (pseudo,email,cryptpass) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'","'.$keyuniqid.'")',
 		'INSERT INTO mc_admin_perms (perms) VALUE("'.$perms.'")'
 		);
-		$this->layer->transaction($sql);
+		magixglobal_model_db::layerDB()->transaction($sql);
 	}
 	/**
 	 * Mise à jour d'un membre
@@ -167,16 +162,29 @@ class backend_db_admin{
 	 * @param $cryptpass
 	 * @param $idadmin
 	 */
-	function u_n_members($pseudo,$email,$cryptpass,$perms,$idadmin){
-		$sql = 'UPDATE mc_admin_member as m LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) 
-		SET m.pseudo= :pseudo, m.email = :email, m.cryptpass=:cryptpass,p.perms=:perms WHERE m.idadmin = :idadmin';
-		$this->layer->update($sql,array(
-			':pseudo'=>$pseudo,
-			':email'=>$email,
-			':cryptpass'=>$cryptpass,
-			':perms'=>$perms,
-			':idadmin'=>$idadmin
-		));
+	function u_n_members($pseudo,$email,$cryptpass,$keyuniqid,$perms,$idadmin){
+		if($keyuniqid == null){
+			$sql = 'UPDATE mc_admin_member as m LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) 
+			SET m.pseudo= :pseudo, m.email = :email, m.cryptpass=:cryptpass,p.perms=:perms WHERE m.idadmin = :idadmin';
+			magixglobal_model_db::layerDB()->update($sql,array(
+				':pseudo'=>$pseudo,
+				':email'=>$email,
+				':cryptpass'=>$cryptpass,
+				':perms'=>$perms,
+				':idadmin'=>$idadmin
+			));
+		}else{
+			$sql = 'UPDATE mc_admin_member as m LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) 
+			SET m.pseudo= :pseudo, m.email = :email, m.cryptpass=:cryptpass,m.keyuniqid=:keyuniqid,p.perms=:perms WHERE m.idadmin = :idadmin';
+			magixglobal_model_db::layerDB()->update($sql,array(
+				':pseudo'=>$pseudo,
+				':email'=>$email,
+				':cryptpass'=>$cryptpass,
+				':keyuniqid'=>$keyuniqid,
+				':perms'=>$perms,
+				':idadmin'=>$idadmin
+			));
+		}
 	}
 	/**
 	 * Selectionne les membres avec un statut plus grand que 3 (user admin et user)
@@ -185,7 +193,7 @@ class backend_db_admin{
 		$sql='SELECT m.pseudo,m.email,p.perms from mc_admin_member m
 		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)
 		WHERE p.perms >= 3';
-		return $this->layer->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
 	 * supprime un utilisateur
@@ -196,6 +204,6 @@ class backend_db_admin{
 		'DELETE FROM mc_admin_member WHERE idadmin = "'.$idadmin.'"',
 		'DELETE FROM mc_admin_perms WHERE idadmin = "'.$idadmin.'"'
 		);
-		$this->layer->transaction($sql);
+		magixglobal_model_db::layerDB()->transaction($sql);
 	}
 }

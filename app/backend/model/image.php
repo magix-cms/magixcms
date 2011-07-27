@@ -113,10 +113,15 @@ class backend_model_image {
 					if ($_FILES[$img]['error'] == UPLOAD_ERR_OK){
 						if(self::image_valid($_FILES[$img]['tmp_name']) === false){
 							$error .='<div class="error">Mauvais format d\'image (gif,png,jpeg uniquement)</div>';		    
-						}else{		
-							if(chmod($_FILES[$img]["tmp_name"],0777)){
-								if(is_uploaded_file($_FILES[$img]["tmp_name"])){
-									$source = $_FILES[$img]['tmp_name'];
+						}else{
+						    if(!is_readable($_FILES[$img]["tmp_name"])){
+								$tmp_img = chmod($_FILES[$img]["tmp_name"],0777);
+							}else{
+								$tmp_img = $_FILES[$img]["tmp_name"];
+							}
+							//if(chmod($_FILES[$img]["tmp_name"],0777)){
+								if(is_uploaded_file($tmp_img)){
+									$source = $tmp_img;
 									$pathdir = dirname(realpath( __FILE__ ));
 									$arraydir = array('app\backend\model', 'app/backend/model');
 									//$cible = $_SERVER['DOCUMENT_ROOT'].magixcjquery_html_helpersHtml::unixSeparator().$path.magixcjquery_html_helpersHtml::unixSeparator().magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
@@ -142,7 +147,7 @@ class backend_model_image {
 								}else{
 									$error .= 'Erreur d\'écriture du disque</div>';
 								}
-							}
+							//}
 						}
 					}
 				}elseif (UPLOAD_ERR_NO_FILE == true){

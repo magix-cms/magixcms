@@ -46,13 +46,13 @@ class backend_model_sessions extends session_register{
 	 * @param $userid
 	 * @return true
 	 */
-	public function openSession($userid,$session_id){
+	public function openSession($userid,$session_id,$keyuniqid){
 		backend_db_sessions::adminDbSession()->delCurrent($userid);
 		self::dbClean();
 		// Re-génération du sid
 		$session_id;
 		//On ajoute un nouvel identifiant de session dans la table
-		backend_db_sessions::adminDbSession()->insertNewSessionId($userid,parent::getIp(),parent::getBrowser());
+		backend_db_sessions::adminDbSession()->insertNewSessionId($userid,parent::getIp(),parent::getBrowser(),$keyuniqid);
 		return true;
 	}
 	/**

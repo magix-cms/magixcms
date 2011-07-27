@@ -137,6 +137,9 @@ body,
 	border:none;
 	border-width:0;
 }
+#sidebar ul li span{
+	margin-right:3px;
+}
 #sidebar h2{color:#FFF;text-decoration:none;margin-left:10px;margin-top:2px;margin-bottom:2px;font-size:14px;}
 /* hack Chrome / Safari */
 @media screen and (-webkit-min-device-pixel-ratio:0) {

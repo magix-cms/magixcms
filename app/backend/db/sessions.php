@@ -65,14 +65,15 @@ class backend_db_sessions{
 	 * @param $ip (IP)
 	 * @return void
 	 */
-	function insertNewSessionId($userid,$ip,$browser){
-		$sql = 'INSERT INTO mc_admin_session (sid, userid, ip, browser) VALUE (:sid,:userid, :ip, :browser)';
+	function insertNewSessionId($userid,$ip,$browser,$keyuniqid){
+		$sql = 'INSERT INTO mc_admin_session (sid, userid, ip, browser, keyuniqid) VALUE (:sid,:userid, :ip, :browser, :keyuniqid)';
 		magixglobal_model_db::layerDB()->insert($sql,
 			array(
 			':sid'=> session_id(),
 			':userid'=> $userid,
 			':ip'=> $ip,
-			':browser' => $browser
+			':browser' => $browser,
+			':keyuniqid' => $keyuniqid
 		)); 
 	}
 	/**

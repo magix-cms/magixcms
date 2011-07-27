@@ -184,7 +184,7 @@ var ns_jcatalog_subcategory = {
 	    		type:"post",
 	    		resetForm: true,
 	    		beforeSubmit:function(){
-	    			$('#contener_image').html('<img src="/framework/img/square-circle.gif" />');
+	    			//$('#contener_image').html('<img src="/framework/img/square-circle.gif" />');
 	    		},
 	    		success:function(request) {
 	    			$.notice({
@@ -477,7 +477,7 @@ var ns_jcatalog_category = {
 						time:2
 					});
 	    			$(".mc-head-request").html(request);
-	    			ns_jcatalog_category._editCatImg(idcategory);
+	    			ns_jcatalog_category._loadImgCat(idcategory);
 	    		}
 	    	});
 			return false; 

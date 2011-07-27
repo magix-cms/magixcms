@@ -46,6 +46,7 @@ class backend_controller_user extends statesUserAdmin{
 	 * @var string
 	 */
 	public $cryptpass;
+	public $keyuniqid;
 	/**
 	 * perms (permission)
 	 * @var string
@@ -83,13 +84,23 @@ class backend_controller_user extends statesUserAdmin{
 		if(isset($_GET['edit'])){
 			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
+		if(magixcjquery_filter_request::isPost('keyuniqid')){
+			$this->keyuniqid = magixcjquery_form_helpersforms::inputClean($_POST['keyuniqid']);
+		}
+	}
+	/**
+	 * Génnération d'une clé public unique pour servir d'identifiant
+	 * @return string
+	 */
+	private function keyuniqid(){
+		return magixglobal_model_cryptrsa::uuid_generator();
 	}
 	/**
 	 * Insert un nouvel utilisateur
 	 */
 	protected function insert_members(){
 		if(isset($this->pseudo) AND isset($this->cryptpass)){
-			backend_db_admin::adminDbMember()->i_n_members($this->pseudo,$this->email,$this->cryptpass,$this->perms);
+			backend_db_admin::adminDbMember()->i_n_members($this->pseudo,$this->email,$this->cryptpass,$this->keyuniqid(),$this->perms);
 			backend_config_smarty::getInstance()->display('user/request/success.phtml');
 		}
 	}
@@ -100,7 +111,11 @@ class backend_controller_user extends statesUserAdmin{
 		if(isset($this->edit)){
 			if(isset($this->pseudo) AND isset($this->cryptpass)){
 				try{
-					backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,$this->perms,$this->edit);
+					if(isset($this->keyuniqid) == '' OR isset($this->keyuniqid) == null){
+						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,$this->keyuniqid(),$this->perms,$this->edit);
+					}else{
+						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,null,$this->perms,$this->edit);
+					}
 					backend_config_smarty::getInstance()->display('user/request/update.phtml');
 				}catch(Exception $e) {
 		         	magixcjquery_debug_magixfire::magixFireError($e);
@@ -307,5 +322,6 @@ class statesUserAdmin{
 		backend_config_smarty::getInstance()->assign('user_perms',$info['perms']);
 		backend_config_smarty::getInstance()->assign('pseudo',$info['pseudo']);
 		backend_config_smarty::getInstance()->assign('email',$info['email']);
+		backend_config_smarty::getInstance()->assign('keyuniqid',$info['keyuniqid']);
 	}
 }
