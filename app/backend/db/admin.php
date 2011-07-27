@@ -163,7 +163,7 @@ class backend_db_admin{
 	 * @param $idadmin
 	 */
 	function u_n_members($pseudo,$email,$cryptpass,$keyuniqid,$perms,$idadmin){
-		if($keyuniqid == null){
+		if($keyuniqid == false){
 			$sql = 'UPDATE mc_admin_member as m LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) 
 			SET m.pseudo= :pseudo, m.email = :email, m.cryptpass=:cryptpass,p.perms=:perms WHERE m.idadmin = :idadmin';
 			magixglobal_model_db::layerDB()->update($sql,array(

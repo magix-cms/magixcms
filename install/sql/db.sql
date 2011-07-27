@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `mc_admin_member` (
   `pseudo` varchar(20) NOT NULL,
   `email` varchar(40) NOT NULL,
   `cryptpass` varchar(50) NOT NULL,
+  `keyuniqid` varchar(50) NOT NULL,
   PRIMARY KEY (`idadmin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `mc_admin_session` (
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` varchar(20) NOT NULL,
   `browser` varchar(50) DEFAULT NULL,
+  `keyuniqid` varchar(50) NOT NULL,
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

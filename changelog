@@ -1,3 +1,27 @@
+2.3.47
+	* Réorganisation du catalogue avec la séparation des catégories par langue (ergonomie)
+	* Refonte des scripts javascript pour le traitement du catalogue (conversion vers ns)
+	* Modification de la requête SQL de chargement des catégories(backend)
+	* Analyse de la structure des urls de traitements du catalogue(backend)
+	* Fix bug dans le chargement du paramètre suivant la langue (widget last catalog)
+	* Ajout des condition nécessaire pour le widget social network
+	* Modification de la taille maximum d'upload img (2000=>3000)
+	* Fix bug sitemap request (mc_cms_page(s))
+	* Fix bug listing des produits dans une sous catégorie catalogue (widget load products)
+	* Activation du sitemap pour les images du catalogue
+	* Modification du système de sitemap pour les plugins (chargement dynamique)
+	* renforcement de la sécurité avec des clés unique pour chaque utilisateurs
+	* Ajout de la fonction de génération de clé unique type uid
+	* Ajout d'une condition pour le chmod des fichiers images
+	* Suppression des données sur l'ancienne classe forms
+	* Réorganisation de la sidebar admin
+	* Ajout des fonctions javascript pour l'administration des produits.
+	* Finalisation du système de langues pour les catégories catalogue (ergonomie)
+	* Suppression des fichiers inutiles dans le framework.
+	* Ajout du namespace javascript pour l'utilisation des googletools de magix cms
+	* Ajout du namespace javascript pour l'utilisation du sélecteur de template
+	* Ajout de nouvelles icônes dans le sprite magixicon
+	
 2.3.46
 	* Ajout du système de création de relation linguistique entre les pages CMS
 	* Ajout de la suppression des pages CMS avec contrôle des niveaux.
@@ -15,7 +39,30 @@
 	* Modification du comportement du module des pages d'accueil
 	* Ajout du système de langue par défaut dans la page d'accueil + dans le widget getlang (frontend)
 	* Ajout du widget autoload_i18n pour le chargement des fichiers de configuration par langue
-	
+	* Chargement de la configuration des images dans chaque module 
+	* Ajout du nouveau setting pour les images
+	* Configuration de la table + insertion par défaut pour les tailles des images
+	* Suppression du widget prelud_lang => remplacement par widget_lang_prelude
+	* Ajout du widget cms_sidebar_page
+	* Ajout du widget content_language
+	* Upgrade jquery form 2.63 => 2.83
+	* Prise en charge des images pour les actualités (ajout d'une image depuis l'admin)
+	* Modification du fichier sql pour l'installation afin de correspondre aux nouveautés
+	* Correction des réécritures pour les plugins
+	* Ajout du système de tags dans les news
+	* Upgrade de jquery validate 1.8 => 1.8.1
+	* Ajout des micro plugins jquery de magix cms de l'admin (magixtools)
+	* Ajout de la table des tags de news
+	* Ajout du fil d'ariane dans le module CMS sur base du catalogue
+	* Réintégration du widget manquant dans le core (cms_seo)
+	* Correction du widget last products pour accueillir les produits par défaut dans chaque langue
+	* Fix bug ajout d'une nouvelle langue (langue par défaut récurente)
+	* Refonte du système de limitation de pages (adaptation de la table mc_config)
+	* Réorganisation des fonctions global du setting + config
+	* Ajout de la limitation dans le module CMS
+	* Nettoyage des widgets
+	* Ajout des nouveaux widgets intégré
+	* Ajout des widgets pour la construction de la sidebar catalogue
 	
 2.3.45
 	* Début de l'intégration du framework CSS sur le nouveau template
@@ -35,6 +82,13 @@
 	* Ajout du namespace javascript pour le module CMS (admin)
 	* Nouveau plugin pour la gestion des compteurs de champs (easychar)
 	* Correction de la table SQL mc_cms_pages (attribut par défaut dans certain champs)
+	* organisation des requêtes SQL pour le catalogue
+	* Fix bug dans la réécriture d'url du catalogue (produits)
+	* Correction du plugin productsearch : ajout du title dans le lien
+	* Adaptation du helpers des réécritures d'urls catalogue avec le htaccess
+	* Ajout des nouveaux widgets pour le catalogue
+	* Adaptation du plugin contact avec les changements du core
+	* Ajout des news dans la table de gestion des images
 	
 2.3.44
 	* Suppression de tinymce 3.4.2

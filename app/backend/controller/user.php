@@ -46,7 +46,6 @@ class backend_controller_user extends statesUserAdmin{
 	 * @var string
 	 */
 	public $cryptpass;
-	public $keyuniqid;
 	/**
 	 * perms (permission)
 	 * @var string
@@ -66,42 +65,32 @@ class backend_controller_user extends statesUserAdmin{
 	 * Constructor
 	 */
 	function __construct(){
-		if(isset($_POST['pseudo'])){
+		if(magixcjquery_filter_request::isPost('pseudo')){
 			$this->pseudo = magixcjquery_form_helpersforms::inputClean($_POST['pseudo']);
 		}
-		if(isset($_POST['email'])){
+		if(magixcjquery_filter_request::isPost('email')){
 			$this->email = magixcjquery_form_helpersforms::inputClean($_POST['email']);
 		}
-		if(isset($_POST['cryptpass'])){
+		if(magixcjquery_filter_request::isPost('cryptpass')){
 			$this->cryptpass = magixcjquery_form_helpersforms::inputClean(sha1($_POST['cryptpass']));
 		}
-		if(isset($_POST['perms'])){
+		if(magixcjquery_filter_request::isPost('perms')){
 			$this->perms = magixcjquery_form_helpersforms::inputClean(magixcjquery_filter_isVar::isPostNumeric($_POST['perms']));
 		}
-		if(isset($_GET['deluser'])){
+		if(magixcjquery_filter_request::isGet('deluser')){
 			$this->deluser = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['deluser']);
 		}
-		if(isset($_GET['edit'])){
+		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
-		if(magixcjquery_filter_request::isPost('keyuniqid')){
-			$this->keyuniqid = magixcjquery_form_helpersforms::inputClean($_POST['keyuniqid']);
-		}
-	}
-	/**
-	 * Génnération d'une clé public unique pour servir d'identifiant
-	 * @return string
-	 */
-	private function keyuniqid(){
-		return magixglobal_model_cryptrsa::uuid_generator();
 	}
 	/**
 	 * Insert un nouvel utilisateur
 	 */
 	protected function insert_members(){
 		if(isset($this->pseudo) AND isset($this->cryptpass)){
-			backend_db_admin::adminDbMember()->i_n_members($this->pseudo,$this->email,$this->cryptpass,$this->keyuniqid(),$this->perms);
-			backend_config_smarty::getInstance()->display('user/request/success.phtml');
+			backend_db_admin::adminDbMember()->i_n_members($this->pseudo,$this->email,$this->cryptpass,magixglobal_model_cryptrsa::uuid_generator(),$this->perms);
+			backend_controller_template::display('user/request/success.phtml');
 		}
 	}
 	/**
@@ -111,12 +100,13 @@ class backend_controller_user extends statesUserAdmin{
 		if(isset($this->edit)){
 			if(isset($this->pseudo) AND isset($this->cryptpass)){
 				try{
-					if(isset($this->keyuniqid) == '' OR isset($this->keyuniqid) == null){
-						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,$this->keyuniqid(),$this->perms,$this->edit);
+					$info = backend_db_admin::adminDbMember()->view_info_members($this->edit);
+					if($info['keyuniqid'] != null){
+						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,false,$this->perms,$this->edit);
 					}else{
-						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,null,$this->perms,$this->edit);
+						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,magixglobal_model_cryptrsa::uuid_generator(),$this->perms,$this->edit);
 					}
-					backend_config_smarty::getInstance()->display('user/request/update.phtml');
+					backend_controller_template::display('user/request/update.phtml');
 				}catch(Exception $e) {
 		         	magixcjquery_debug_magixfire::magixFireError($e);
 				} 
@@ -179,20 +169,24 @@ class backend_controller_user extends statesUserAdmin{
 	 * Affiche la page des utilisateurs
 	 */
 	private function display(){
-		backend_config_smarty::getInstance()->assign('block_states_users',self::block_states_members());
-		backend_config_smarty::getInstance()->assign('block_members_perms',self::block_members_perms());
-		backend_config_smarty::getInstance()->assign('block_news_members',self::block_news_members());
-		backend_config_smarty::getInstance()->assign('block_cms_members',self::block_cms_members());
-		backend_config_smarty::getInstance()->display('user/index.phtml');
+		backend_controller_template::assign('block_states_users',self::block_states_members());
+		backend_controller_template::assign('block_members_perms',self::block_members_perms());
+		backend_controller_template::assign('block_news_members',self::block_news_members());
+		backend_controller_template::assign('block_cms_members',self::block_cms_members());
+		backend_controller_template::display('user/index.phtml');
 	}
 	/**
 	 * Affiche la page des utilisateurs
 	 */
 	private function display_edit(){
 		parent::load_param_form($this->edit);
-		backend_config_smarty::getInstance()->assign('current_perm',backend_model_member::s_perms_current_admin());
-		backend_config_smarty::getInstance()->display('user/edit.phtml');
+		backend_controller_template::assign('current_perm',backend_model_member::s_perms_current_admin());
+		backend_controller_template::display('user/edit.phtml');
 	}
+	/**
+	 * 
+	 * run
+	 */
 	public function run(){
 		if(magixcjquery_filter_request::isGet('add')){
 			self::post();
@@ -319,9 +313,8 @@ class statesUserAdmin{
 	protected static function load_param_form($edit){
 		$userperm = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
 		$info = backend_db_admin::adminDbMember()->view_info_members($edit);
-		backend_config_smarty::getInstance()->assign('user_perms',$info['perms']);
-		backend_config_smarty::getInstance()->assign('pseudo',$info['pseudo']);
-		backend_config_smarty::getInstance()->assign('email',$info['email']);
-		backend_config_smarty::getInstance()->assign('keyuniqid',$info['keyuniqid']);
+		backend_controller_template::assign('user_perms',$info['perms']);
+		backend_controller_template::assign('pseudo',$info['pseudo']);
+		backend_controller_template::assign('email',$info['email']);
 	}
 }
