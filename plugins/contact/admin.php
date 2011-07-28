@@ -261,7 +261,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	 */
 	public function sitemap_uri_index(){
 		$sitemap = new magixcjquery_xml_sitemap();
-       	$db = backend_db_block_lang::s_data_lang();
+       	$db = backend_db_block_lang::s_data_lang(true);
        	if($db != null){
        		foreach($db as $data){
 	        	 $sitemap->writeMakeNode(

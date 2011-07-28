@@ -16,7 +16,6 @@
 					<div id="contentCol" class="block w11-16 lfloat">
 						<h1>{#pn_contact_forms#|firststring}</h1>
 						<form id="forms-plugin-contact" method="post" action="">
-						{$msg}
 						<fieldset class="ui-widget ui-widget-content ui-corner-all">
 						<legend class="ui-widget ui-state-highlight ui-corner-all">{#pn_contact_fields_request#|firststring}</legend>
 							<table>
@@ -24,7 +23,10 @@
 									<td class="label"><label for="nom">{#pn_contact_lastname#|firststring}* :</label></td>
 								</tr>
 								<tr>
-									<td><input type="text" id="nom" name="nom" class="inputtext ui-widget-content ui-corner-all" value="" size="20" /></td>
+									<td>
+										<input type="hidden" id="getLanguage" name="getLanguage" value="{getlang}" />
+										<input type="text" id="nom" name="nom" class="inputtext ui-widget-content ui-corner-all" value="" size="20" />
+									</td>
 								</tr>
 								<tr>
 									<td class="label"><label for="prenom">{#pn_contact_firstname#|firststring}* :</label></td>
@@ -79,7 +81,14 @@
 	{include file="common/footer.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/plugins/contact/js/public.0.1.js');
+	$.getScript('/plugins/contact/js/public.0.2.js',function(){
+		if (typeof plugins_contact == "undefined") 
+		{
+		  console.log("plugins_contact is not defined");
+		}else{
+			plugins_contact.run();
+		}
+	});
 });
 </script>
 </body>

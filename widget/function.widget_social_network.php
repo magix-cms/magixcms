@@ -95,6 +95,7 @@ function smarty_function_widget_social_network($params, $template){
 	$paramSize = empty($params['size']) ? 'medium' : $params['size'];     
     $title = urlencode($getitle);
     $url = magixcjquery_html_helpersHtml::getUrl();
+    $language = frontend_model_template::current_Language();
     $fbstr = 'http://www.facebook.com/share.php?u='.$url.$parsed;
     $twstr = 'http://twitthis.com/twit?url='.$url.$parsed.'&amp;title='.$title;
     $viastr = 'http://www.viadeo.com/shareit/share/?url='.$url.$parsed.'&amp;title='.$title.'&amp;overview='.$title;

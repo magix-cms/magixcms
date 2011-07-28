@@ -202,7 +202,7 @@ class backend_db_cms{
     public function s_search_page($searchpage){
     	$sql = 'SELECT * FROM mc_cms_pages WHERE title_page LIKE "%:searchpage%"';
     	return magixglobal_model_db::layerDB()->select($sql,array(
-			'searchpage' => $searchpage
+			':searchpage' => $searchpage
 		));
     }
 	/**

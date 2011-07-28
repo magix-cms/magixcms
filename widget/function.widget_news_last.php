@@ -23,8 +23,8 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
  * @author Gérits Aurélien <aurelien@magix-cms.com>
@@ -37,7 +37,7 @@
  * Type:     function
  * Name:     widget news
  * Date:     December 2, 2009
- * Update:   Jully 18, 2011
+ * Update:   Jully 28, 2011
  * Purpose:  
  * Examples: {widget_lastnews limit="" delimiter="" ui=true}
  * Output:   
@@ -65,24 +65,19 @@ function smarty_function_widget_news_last($params, $template){
 		$wcontent =' ui-widget-content ui-corner-all';
 		$wicons = '<span style="float:left;" class="ui-icon ui-icon-calendar"></span>';
 	}
-	if(isset($_GET['strLangue'])){
-		$lang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-	}
 	$iniDB = new frontend_db_block_news();
-	if(isset($lang)){
-		$pnews = $iniDB->s_lastnews_plugins($lang);
-		if($pnews != null){
-			$curl = date_create($pnews['date_register']);
-			$widget = '<div class="list-div-elem'.$wcontent.'">';
-			$widget .='<p class="name'.$whead.'">';
-			$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_url($lang,date_format($curl,'Y/m/d'),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
-			$widget .= '</p>';
-			$widget .= '<span class="descr">';
-				$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
-			$widget .= '</span>';	
-			$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_root_url($lang,true).'">'.$newsall.'</a>';
-			$widget .= '</div>';
-		}
+	$pnews = $iniDB->s_lastnews_plugins(frontend_model_template::current_Language());
+	if($pnews != null){
+		$curl = date_create($pnews['date_register']);
+		$widget = '<div class="list-div-elem'.$wcontent.'">';
+		$widget .='<p class="name'.$whead.'">';
+		$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],date_format($curl,'Y/m/d'),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
+		$widget .= '</p>';
+		$widget .= '<span class="descr">';
+			$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
+		$widget .= '</span>';	
+		$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_root_url($pnews['iso'],true).'">'.$newsall.'</a>';
+		$widget .= '</div>';
 	}
 	return $widget;
 }

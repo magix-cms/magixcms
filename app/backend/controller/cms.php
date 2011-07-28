@@ -95,10 +95,10 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isPost('idpage')){
 			$this->idpage = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idpage']);
 		}
-		if(isset($_POST['post_search'])){
+		if(magixcjquery_filter_request::isPost('post_search')){
 			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
 		}
-		if(isset($_GET['get_search_page'])){
+		if(magixcjquery_filter_request::isGet('get_search_page')){
 			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
 		}
 		if(magixcjquery_filter_request::isPost('delpage')){
@@ -532,7 +532,7 @@ class backend_controller_cms extends backend_db_cms{
 						);
 					}
 					$search[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
-					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode($s['iso']).
+					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($s['iso'])).
 					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).
 					',"seo_title_page":'.$metatitle.',"seo_desc_page":'.$metadescription.
 					',"pseudo":'.json_encode($s['pseudo']).'}';

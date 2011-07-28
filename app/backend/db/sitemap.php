@@ -38,6 +38,7 @@ class backend_db_sitemap{
     	$sql = 'SELECT count(n.idnews) as cidnews, lang.iso
 		FROM mc_news AS n
 		LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
+		WHERE lang.active_lang = 1
 		GROUP BY n.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
@@ -49,7 +50,7 @@ class backend_db_sitemap{
     	n.date_register,n.date_publish,n.keynews,lang.iso
 		FROM mc_news as n
 		JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-		WHERE n.published = 1 ORDER BY lang.idlang';
+		WHERE n.published = 1 AND lang.active_lang = 1 ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 	/**
@@ -69,6 +70,7 @@ class backend_db_sitemap{
 		FROM mc_cms_pages AS p
 		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		WHERE lang.active_lang = 1
 		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
@@ -88,6 +90,7 @@ class backend_db_sitemap{
     	$sql = 'SELECT c.idclc, c.clibelle, c.pathclibelle, lang.iso, c.idlang, c.img_c
 		FROM mc_catalog_c AS c
 		JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
+		WHERE lang.active_lang = 1
 		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
@@ -99,6 +102,7 @@ class backend_db_sitemap{
 		FROM mc_catalog_s AS s
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
 		JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
+		WHERE lang.active_lang = 1
 		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
@@ -112,6 +116,7 @@ class backend_db_sitemap{
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
 		LEFT JOIN mc_catalog_s as s USING ( idcls )
 		JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
+		WHERE lang.active_lang = 1
 		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
@@ -123,6 +128,7 @@ class backend_db_sitemap{
     	$sql = 'SELECT count(c.idclc) as category,count(c.img_c) as catimg, lang.iso, c.idlang
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
+		WHERE lang.active_lang = 1
 		GROUP BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
@@ -134,7 +140,7 @@ class backend_db_sitemap{
     	$sql ='SELECT c.idclc, c.clibelle, c.pathclibelle, c.img_c, lang.iso
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
-		WHERE c.idlang = :idlang';
+		WHERE c.idlang = :idlang AND lang.active_lang = 1';
     	return magixglobal_model_db::layerDB()->select($sql,array(':idlang'=>$idlang));
     }
     /**
@@ -146,7 +152,7 @@ class backend_db_sitemap{
 		FROM mc_catalog_s AS s
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = c.idlang )
-		WHERE c.idclc = :idclc';
+		WHERE c.idclc = :idclc AND lang.active_lang = 1';
     	return magixglobal_model_db::layerDB()->select($sql,array(':idclc'=>$idclc));
     }
     /*
@@ -170,6 +176,7 @@ class backend_db_sitemap{
 		LEFT JOIN mc_catalog_c as c USING ( idclc )
 		LEFT JOIN mc_catalog_s as s USING ( idcls )
 		JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
+		WHERE lang.active_lang = 1
 		ORDER BY lang.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
     }

@@ -308,7 +308,8 @@ hr.lclear, hr.rclear, hr.clear  {
 	.bg-repeat.w5-16 {
 		background-color: transparent;
 		background-image: url(/skin/default/img/framework-css/block/bg-repeat-w5-16.png);
-		background-position: center top;	
+		background-position: center top;
+		padding:5px;
 	}
 
 	.bg-bottom.w5-16 {
@@ -2049,11 +2050,10 @@ p.dark {
 	
 /* Config spécifique au theme start */
 
-.bg-top {display:none;}
+#contentContener .bg-top.w16-16 {display:none;}
 #rightcol .bg-top {display:block;}
 .bg-bottom {display:none;}
 #rightcol .bg-bottom {display:block;}
 
 .ui-widget-content { background-color: transparent;}
-
 /* Config spécifique au theme END */

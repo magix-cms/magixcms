@@ -42,7 +42,7 @@ $(function() {
 	/**
 	 * Notification après installation pour le dossier "install"
 	 */
-	if ($('#notify-install').length != 0){
+	/*if ($('#notify-install').length != 0){
 		$.notice({
 			ntype: "dir",
 			nparams: 'install'
@@ -52,7 +52,7 @@ $(function() {
 			ntype: "dir",
 			nparams: 'chmod'
 		});
-	}
+	}*/
 	/**
 	 * Jquery treeview pour le catalogue
 	 */

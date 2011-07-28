@@ -74,7 +74,7 @@
 				author : 'Gerits Aurelien',
 				authorurl : 'http://www.magix-cms.com',
 				infourl : 'http://www.magix-cms.com',
-				version : "alpha 0.1"
+				version : "1.0"
 			};
 		}
 	});

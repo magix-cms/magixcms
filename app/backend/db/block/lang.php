@@ -37,9 +37,15 @@ class backend_db_block_lang{
      * @static
      * retourne la liste des langues disponible
      */
-    public static function s_data_lang(){
-    	$sql = 'SELECT lang.* FROM mc_lang AS lang
-    	ORDER BY lang.default_lang DESC,lang.idlang ASC';
+    public static function s_data_lang($active_lang=false){
+    	if($active_lang != false){
+    		$sql = 'SELECT lang.* FROM mc_lang AS lang
+    		WHERE lang.active_lang = 1
+    		ORDER BY lang.default_lang DESC,lang.idlang ASC';
+    	}else{
+    		$sql = 'SELECT lang.* FROM mc_lang AS lang
+    		ORDER BY lang.default_lang DESC,lang.idlang ASC';
+    	}
 		return magixglobal_model_db::layerDB()->select($sql);
     }
     /**

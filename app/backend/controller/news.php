@@ -74,6 +74,10 @@ class backend_controller_news extends backend_db_news{
 	public $delnews;
 	public $status_news,$get_news_publication,$name_tag,$del_tag;
 	/**
+	 * Recherche dans les news
+	 */
+	public $get_search_news,$post_search;
+	/**
 	 * 
 	 * 
 	 */
@@ -130,6 +134,13 @@ class backend_controller_news extends backend_db_news{
 		}
 		if(magixcjquery_filter_request::isPost('del_tag')){
 			$this->del_tag = magixcjquery_filter_isVar::isPostNumeric($_POST['del_tag']);
+		}
+		//SEARCH
+		if(magixcjquery_filter_request::isGet('get_search_news')){
+			$this->get_search_news = magixcjquery_form_helpersforms::inputClean($_GET['get_search_news']);
+		}
+		if(magixcjquery_filter_request::isPost('post_search')){
+			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
 		}
 	}
 	/**
@@ -455,6 +466,31 @@ class backend_controller_news extends backend_db_news{
 			parent::d_tagnews($this->del_tag);
 		}
 	}
+	//SEARCH
+/**
+	 * @access private
+	 * Rechercher une page CMS via les titres et retourne sous forme JSON
+	 */
+	private function search_n_title(){
+		if($this->post_search != ''){
+			if(parent::s_search_news($this->post_search) != null){
+				foreach (parent::s_search_news($this->post_search) as $s){
+					$dateformat = new magixglobal_model_dateformat($s['date_register']);
+					$uri_news = magixglobal_model_rewrite::filter_news_url(
+						$s['iso'], 
+						$dateformat->date_europeen_format(), 
+						$s['n_uri'], 
+						$s['keynews'],
+						true
+					);
+					$search[]= '{"idnews":'.json_encode($s['idnews']).',"n_title":'.json_encode($s['n_title']).
+					',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($s['iso'])).
+					',"urinews":'.json_encode($uri_news).',"date_register":'.json_encode($s['date_register']).'}';
+				}
+				print '['.implode(',',$search).']';
+			}
+		}
+	}
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -485,6 +521,14 @@ class backend_controller_news extends backend_db_news{
 				$this->load_data_forms($data);
 				backend_controller_template::display('news/edit.phtml');
 			}
+		}elseif(magixcjquery_filter_request::isGet('get_search_news')){
+			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+			$header->pragma();
+			$header->cache_control("nocache");
+			$header->getStatus('200');
+			$header->json_header("UTF-8");
+			$this->search_n_title();
 		}elseif(magixcjquery_filter_request::isGet('get_news_publication')){
 			self::update_status_publication();
 		}elseif(magixcjquery_filter_request::isGet('add')){

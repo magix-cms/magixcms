@@ -118,6 +118,17 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	    		'always',
 	    		0.8
 	    	);
+			$db = backend_db_block_lang::s_data_lang(true);
+	       	if($db != null){
+	       		foreach($db as $data){
+		        	 $sitemap->writeMakeNode(
+		        	 	magixcjquery_html_helpersHtml::getUrl().'/'.$data['iso'].'/',
+			        	$this->lastmod_dateFormat(),
+			        	'always',
+			        	0.8
+		        	 );
+		        }
+	       	}
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
@@ -210,7 +221,13 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	        foreach(parent::s_news_sitemap() as $data){
 	        	$curl = new magixglobal_model_dateformat($data['date_register']);
 	        	 $sitemap->writeMakeNode(
-	        	 	 magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_url($data['iso'],$curl->date_europeen_format(),$data['n_uri'],$data['keynews'],true),
+	        	 	 magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_url(
+	        	 	 	$data['iso'],
+	        	 	 	$curl->date_europeen_format(),
+	        	 	 	$data['n_uri'],
+	        	 	 	$data['keynews'],
+	        	 	 	true
+	        	 	 ),
 		        	 $this->lastmod_dateFormat(),
 		        	 'always',
 		        	 0.8
@@ -430,10 +447,6 @@ class backend_controller_sitemap extends backend_db_sitemap{
 				null;
 			break;
 			case 1:
-				/*call_user_func_array(
-					array($this->get_call_class($class),'sitemap_uri_index'), 
-					array($name)
-				);*/
 				call_user_func(array($this->get_call_class($class),'sitemap_uri_index'));
 			break;
 		}
@@ -443,10 +456,6 @@ class backend_controller_sitemap extends backend_db_sitemap{
 				null;
 			break;
 			case 1:
-				/*call_user_func_array(
-					array($this->get_call_class($class),'sitemap_uri_category'), 
-					array($name)
-				);*/
 				call_user_func(array($this->get_call_class($class),'sitemap_uri_category'));
 			break;
 		}
@@ -456,10 +465,6 @@ class backend_controller_sitemap extends backend_db_sitemap{
 				null;
 			break;
 			case 1:
-				/*call_user_func_array(
-					array($this->get_call_class($class),'sitemap_uri_subcategory'), 
-					array($name)
-				);*/
 				call_user_func(array($this->get_call_class($class),'sitemap_uri_subcategory'));
 			break;
 		}
@@ -469,10 +474,6 @@ class backend_controller_sitemap extends backend_db_sitemap{
 				null;
 			break;
 			case 1:
-				/*call_user_func_array(
-					array($this->get_call_class($class),'sitemap_uri_record'), 
-					array($name)
-				);*/
 				call_user_func(array($this->get_call_class($class),'sitemap_uri_record'));
 			break;
 		}

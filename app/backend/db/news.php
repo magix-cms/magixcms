@@ -138,6 +138,17 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/**
+     * @access public
+     * Recherche le ou les mots dans le titre des news
+     * @param $searchpage
+     */
+    public function s_search_news($searchnews){
+    	$sql = 'SELECT n.idnews,n.keynews, n.n_title,n.n_uri,lang.iso, n.idlang, n.date_register FROM mc_news as n
+    	LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
+    	WHERE n_title LIKE "%'.$searchnews.'%"';
+    	return magixglobal_model_db::layerDB()->select($sql);
+    }
+	/**
 	 * Mise à jour d'un enregistrement d'une news
 	 * @param $subject
 	 * @param $content

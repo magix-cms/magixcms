@@ -40,13 +40,13 @@ var ProductSearchDialog = {
 		}
 		if(j !== null){
 			$.each(j, function(i,item) {
-				if(item.codelang != null){
-					flaglang = item.codelang;
+				if(item.iso != null){
+					flaglang = item.iso;
 				}else{
 					flaglang = '-';
 				}
-				if(item.codelang != null){
-					flaglang = item.codelang;
+				if(item.iso != null){
+					flaglang = item.iso;
 				}else{
 					flaglang = '-';
 				}

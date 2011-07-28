@@ -1141,13 +1141,14 @@ class backend_controller_catalog extends analyzer_catalog{
 			if(backend_db_catalog::adminDbCatalog()->r_search_complete_product($this->post_search) != null){
 				foreach (backend_db_catalog::adminDbCatalog()->r_search_complete_product($this->post_search) as $catalog){
 					$url = magixglobal_model_rewrite::filter_catalog_product_url(
-						$catalog['iso'], 
-						$catalog['pathclibelle'], 
-						$catalog['idclc'], 
+						$catalog['iso'],
+						$catalog['pathclibelle'],
+						$catalog['idclc'],
+						$catalog['pathslibelle'],
+						$catalog['idcls'],
 						$catalog['urlcatalog'], 
 						$catalog['idproduct'],
-						true
-					);
+						true);
 					$search[]= '{"idproduct":'.json_encode($catalog['idproduct']).',"titlecatalog":'.json_encode($catalog['titlecatalog']).
 					',"category":'.json_encode($catalog['clibelle']).',"subcategory":'.json_encode($catalog['slibelle']).',"uriproduct":'.json_encode($url).',"iso":'.json_encode($catalog['iso']).'}';
 				}

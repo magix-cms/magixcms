@@ -10,9 +10,9 @@
 
 (function() {
 	// Load plugin specific language pack
-	tinymce.PluginManager.requireLangPack('cmspage');
+	tinymce.PluginManager.requireLangPack('news_search');
 
-	tinymce.create('tinymce.plugins.CMSpage', {
+	tinymce.create('tinymce.plugins.NewsSearch', {
 		/**
 		 * Initializes the plugin, this will be executed after the plugin has been created.
 		 * This call is done before the editor instance has finished it's initialization so use the onInit event
@@ -23,11 +23,11 @@
 		 */
 		init : function(ed, url) {
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
-			ed.addCommand('mceCMSpage', function() {
+			ed.addCommand('mceNewsSearch', function() {
 				ed.windowManager.open({
 					file : url + '/dialog.htm',
-					width : 500 + parseInt(ed.getLang('cmspage.delta_width', 0)),
-					height : 400 + parseInt(ed.getLang('cmspage.delta_height', 0)),
+					width : 500 + parseInt(ed.getLang('news_search.delta_width', 0)),
+					height : 400 + parseInt(ed.getLang('news_search.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
@@ -36,15 +36,15 @@
 			});
 
 			// Register example button
-			ed.addButton('cmspage', {
-				title : 'cmspage.desc',
-				cmd : 'mceCMSpage',
-				image : url + '/img/search_page.png'
+			ed.addButton('news_search', {
+				title : 'news_search.desc',
+				cmd : 'mceNewsSearch',
+				image : url + '/img/search_news.png'
 			});
 
 			// Add a node change handler, selects the button in the UI when a image is selected
 			ed.onNodeChange.add(function(ed, cm, n) {
-				cm.setActive('cmspage', n.nodeName == 'IMG');
+				cm.setActive('news_search', n.nodeName == 'IMG');
 			});
 		},
 
@@ -70,15 +70,15 @@
 		 */
 		getInfo : function() {
 			return {
-				longname : 'CMSpage plugin',
+				longname : 'Newssearch plugin',
 				author : 'Gerits Aurelien',
 				authorurl : 'http://www.magix-cms.com',
 				infourl : 'http://www.magix-cms.com',
-				version : "1.0"
+				version : "alpha 0.1"
 			};
 		}
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('cmspage', tinymce.plugins.CMSpage);
+	tinymce.PluginManager.add('news_search', tinymce.plugins.NewsSearch);
 })();

@@ -169,11 +169,9 @@ class plugins_contact_public extends database_plugins_contact{
 			$this->_loadConfigVars();
 			$create = frontend_controller_plugins::create();
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
-				$fetch = $create->append_fetch('empty.phtml');
-				$create->append_assign('msg',$fetch);
+				$create->append_display('empty.phtml');
 			}elseif(!magixcjquery_filter_isVar::isMail($this->email)){
-				$fetch = $create->append_fetch('mail.phtml');
-				$create->append_assign('msg',$fetch);
+				$create->append_display('mail.phtml');
 			}else{
 				if($create->getLanguage()){
 					if(parent::c_show_table() != 0){
@@ -181,7 +179,7 @@ class plugins_contact_public extends database_plugins_contact{
 							//Instance la classe mail avec le paramètre de transport
 							$core_mail = new magixglobal_model_mail('mail');
 							//Charge dans un tableau les utilisateurs qui reçoivent les mails
-							$lotsOfRecipients = parent::s_register_contact_with_lang($create->getLanguage());
+							$lotsOfRecipients = parent::s_register_contact($create->getLanguage());
 							//Initialisation du contenu du message
 							foreach ($lotsOfRecipients as $recipient){
 								$message = $core_mail->body_mail(
@@ -193,15 +191,14 @@ class plugins_contact_public extends database_plugins_contact{
 								);
 								$core_mail->batch_send_mail($message);
 							}
-							$fetch = $create->append_fetch('success.phtml');
+							$create->append_display('success.phtml');
 						}else{
-							$fetch = $create->append_fetch('error_email_config.phtml');
+							$create->append_display('error_email_config.phtml');
 						}
 					}else{
-						$fetch = $create->append_fetch('error_install.phtml');
+						$create->append_display('error_install.phtml');
 					}
 				}
-				$create->append_assign('msg',$fetch);
 			}
 		}
 	}
@@ -209,10 +206,13 @@ class plugins_contact_public extends database_plugins_contact{
 	 * Execute le plugin dans la partie public
 	 */
 	public function run(){
-		$this->send_email();
 		$this->_loadConfigVars();
-		$create = frontend_controller_plugins::create();
-		$create->append_display('index.phtml');
+		if(isset($this->email)){
+			$this->send_email();
+		}else{
+			$create = frontend_controller_plugins::create();
+			$create->append_display('index.phtml');
+		}
     }
 }
 class database_plugins_contact{
