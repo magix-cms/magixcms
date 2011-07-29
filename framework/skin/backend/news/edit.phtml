@@ -96,35 +96,23 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span class="lfloat magix-icon magix-icon-image"></span>Joindre une image</div>
 						<div class="dashboard-widget-content">
+							<div style="margin:0 2em;">
+								<div id="load_news_img">
+									<div id="contener_image"></div>
+								</div>
+							</div>
 							<form method="post" action="" enctype="multipart/form-data" id="forms-news-image-update">
 								<fieldset>
 									<table>
-									<tr>
-										<td rowspan="2">
-											<div style="margin:0 2em;">
-												<div id="load_news_img" class="ui-widget-content" style="margin:10px;overflow:hidden;width:150px;height:150px;"></div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-									<td>
-									<table>
 										<tr>
 											<td class="label"><label for="n_image">Image :</label></td>
-										</tr>
-										<tr>
 											<td>
 												<input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
 										 		<input type="file" id="n_image" name="n_image" value="" />
 										 	</td>
+										 	<td><input type="submit" value="Envoyer" /></td>
 									 	</tr>
-									 	<tr>
-									 		<td><input type="submit" value="Envoyer" /></td>
-									 	</tr>
-								 		</table>
-								 	</td>
-								 	</tr>
-								</table>
+								 	</table>
 								</fieldset>
 							</form>
 						</div>

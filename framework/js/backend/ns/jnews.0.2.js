@@ -84,10 +84,10 @@ var ns_jnews = {
 			async: true,
 			cache:false,
 			beforeSend: function(){
-				$('#load_news_img').html('<img style="margin-top:40%;" class="loader-block" src="/framework/img/square-circle.gif" />');
+				$('#load_news_img #contener_image').html('<img src="/framework/img/square-circle.gif" />');
 			},
 			success: function(e){
-				$('#load_news_img').html(e);
+				$('#load_news_img #contener_image').html(e);
 			}
 	     });
 	},

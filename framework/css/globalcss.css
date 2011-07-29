@@ -692,7 +692,7 @@ input.ui-button { padding: .1em 1em; }
 .delmicro{cursor:pointer;}
 .ctitle{margin:5px 0 5px 10px;width:97%;padding:0 0 0 10px;}
 /*#### AJAX catalog ####*/
-#load_img_ucategory,#load_img_usubcategory,#load_img_mini{
+#load_img_ucategory,#load_img_usubcategory,#load_img_mini,#load_news_img{
 	margin:0 auto;
 	margin:0!important;
 	position:relative;

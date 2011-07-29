@@ -323,7 +323,7 @@ class backend_controller_news extends backend_db_news{
 		if($news_img != null){
 			$img = '<img style="position:relative;margin:auto;" src="/upload/news/s_'.$news_img.'" alt="" />';
 		}else{
-			$img = '<div style="margin-top:40%;text-align:center;">Aucune image pour cette news</div>';
+			$img = '<img style="" src="/framework/img/no-picture.png" alt="" />';
 		}
 		print $img;
 	}
