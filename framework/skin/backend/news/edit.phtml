@@ -20,22 +20,20 @@
 						{if {admin_level_config config_param=['module'=>'news']} eq 1}
 						<form id="forms-news-update" method="post" action="" style="margin-left:10px;">
 						<div style="margin-right:5px;float:right;">
-							{*<table class="table-btn-preview">
-								<tr>
-									<td>
-										En ligne <input type="radio" name="published" {if $published eq 1}checked="checked"{/if} value="1" />
-									</td>
-									<td>
-										Hors ligne <input type="radio" name="published" {if $published eq 0}checked="checked"{/if} value="0" />
-									</td>
-								</tr>
-							</table>*}
 							<div class="block-preview ui-widget-content ui-corner-all">
 								<a class="post-preview" href="#"><img src="/framework/img/preview/zoom_in.png" alt="Preview" /></a>
 							</div>
 						</div>
 							<fieldset>
 								<table class="table-tinymce">
+									<tr>
+										<td>
+											<ul class="list-published-status">
+												<li>En ligne <input type="radio" name="published" {if $published eq 1}checked="checked"{/if} value="1" /></li>
+												<li>Hors ligne <input type="radio" name="published" {if $published eq 0}checked="checked"{/if} value="0" /></li>
+											</ul>
+										</td>
+									</tr>
 									<tr>
 										<td class="label"><label for="newsurl" class="inlinelabel">Url :</label></td>
 									</tr>

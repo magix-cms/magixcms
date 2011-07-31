@@ -4,6 +4,8 @@ select { width: 220px; }
 .readonly{margin:0;background:#ccc;padding:4px;color:#696969;}
 .table-tinymce{width:100%;}
 .table-btn-preview{width:100%;color:black;}
+.list-published-status{margin:0;padding:0;}
+.list-published-status li{display:inline;}
 /**
  * Table contenu avec jquery ui widget
  */
