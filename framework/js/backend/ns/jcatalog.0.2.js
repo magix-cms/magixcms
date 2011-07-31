@@ -611,6 +611,65 @@ var ns_jcatalog_product = {
 			}
 		});
 	},
+	_deleteCatProduct:function(idcatalog){
+		/**
+		 * Supprime une création de produit dans une catégorie/ou sous catégorie
+		 */
+		$('.d-in-product').live("click",function (event){
+			event.preventDefault();
+			var inproduct = $(this).attr("title");
+			$("#dialog").dialog({
+				bgiframe: true,
+				resizable: false,
+				height:180,
+				modal: true,
+				title: 'Supprimé ce produit ?',
+				buttons: {
+					'Delete item': function() {
+						$(this).dialog('close');
+						$.ajax({
+							url: "/admin/catalog.php?product&editproduct="+idcatalog+"&d_in_product="+inproduct,
+							type: "get",
+							statusCode: {
+								0: function() {
+									console.error("jQuery Error");
+								},
+								401: function() {
+									console.warn("access denied");
+								},
+								404: function() {
+									console.warn("object not found");
+								},
+								403: function() {
+									console.warn("request forbidden");
+								},
+								408: function() {
+									console.warn("server timed out waiting for request");
+								},
+								500: function() {
+									console.error("Internal Server Error");
+								}
+							},
+							async: true,
+							cache:false,
+							beforeSend: function(){},
+							success: function(request) {
+								$.notice({
+									ntype: "simple",
+						    		time:2
+								});
+								$(".mc-head-request").html(request);
+								ns_jcatalog_product._load_json_cat_product(idcatalog);
+							}
+						});
+					},
+					Cancel: function() {
+						$(this).dialog('close');
+					}
+				}
+			});
+		 });
+	},
 	_load_rel_product:function(idcatalog){
 		$.ajax({
 			url: '/admin/catalog.php?product&editproduct='+idcatalog+'&json_rel_product=true',
@@ -1320,6 +1379,7 @@ var ns_jcatalog_product = {
 	},
 	runEdit:function(){
 		this._load_json_cat_product($("#idcatalog").val());
+		this._deleteCatProduct($("#idcatalog").val());
 		this._load_rel_product($("#idcatalog").val());
 		this._deleteRelProduct($("#idcatalog").val());
 		this._editCatalogCardProduct($("#idcatalog").val());
