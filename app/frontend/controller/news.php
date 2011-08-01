@@ -126,7 +126,7 @@ class frontend_controller_news extends frontend_db_news{
 			$page = parent::s_specific_news($getnews,$date_register);
 			if($page['idnews'] != null){
 				if($page['n_image'] != null){
-					$img = '/upload/news/s_'.$page['n_image'];
+					$img = '/upload/news/'.$page['n_image'];
 				}else{
 					$img = '/skin/default/img/catalog/no-picture.png';
 				}

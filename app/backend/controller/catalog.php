@@ -919,9 +919,17 @@ class backend_controller_catalog extends analyzer_catalog{
 						 */
 						$imgsetting = new backend_model_setting();
 						foreach($imgsetting->data_img_size('catalog','subcategory') as $row){
-							switch($row['type']){
+							/*switch($row['type']){
 								case 'small':
 									$thumb->resize($row['width'],$row['height'])->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
+								break;
+							}*/
+							switch($row['img_resizing']){
+								case 'basic':
+									$thumb->resize($row['width'],$row['height'])->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
+								break;
+								case 'adaptive':
+									$thumb->adaptiveResize($row['width'],$row['height'])->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
 								break;
 							}
 						}

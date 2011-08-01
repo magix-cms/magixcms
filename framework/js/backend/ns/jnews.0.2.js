@@ -19,6 +19,7 @@ var ns_jnews = {
 	_editNews:function(idnews){
 		$("#forms-news-update").submit(function(){
 			//$.editorhtml({editor:_editorConfig});
+			//$('.radio_contener').buttonset("refresh");
 			$(this).ajaxSubmit({
 	    		url: '/admin/news.php?edit='+idnews,
 	    		type:"post",

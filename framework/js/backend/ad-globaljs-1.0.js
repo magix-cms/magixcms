@@ -88,7 +88,16 @@ $(function() {
 		/**
 		 * Définition de jquery button pour les boutons radio dans un contener radio_contener
 		 */
-		$(".radio_contener").buttonset();
+		/*$('input[name="published"]:radio').change(function() {
+			if($('input:radio:checked') ) {
+				$(this).attr('checked','');
+		    }
+		    if( $('input:not(:has(:radio:checked))') ) {
+		    	$(this).attr('checked','checked');
+		    	$('.radio_contener').buttonset("refresh");
+		    }
+		});
+		$(".radio_contener").buttonset();*/
 		/**
 		 * Notification après installation pour le dossier "install"
 		 */

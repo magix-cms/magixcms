@@ -39,7 +39,11 @@
  * Date:     December 2, 2009
  * Update:   01-08-2011 
  * Purpose:  
- * Examples: {widget_lastnews limit="" delimiter=""}
+ * Examples: {widget_news_last
+				css_param=[
+					'class_elem'=>'list-div-elem',
+					'class_img'=>'img'
+				] limit="" delimiter=""}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
@@ -49,14 +53,36 @@
  * @return string
  */
 function smarty_function_widget_news_last($params, $template){
+//Paramètres des classes CSS
+	if (isset($params['css_param'])) {
+		if(is_array($params['css_param'])){
+			$tabs = $params['css_param'];
+		}else{
+			trigger_error("css_param is not array");
+			return;
+		}
+	}else{
+		$tabs= array(
+				'class_elem'=>'list-div-elem'
+				,'class_img'=>'img'
+			);
+	}
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 250 ;
 	$delimiter = $params['delimiter']? $params['delimiter']: '';
 	$newsall = $params['newsall'];
 	$iniDB = new frontend_db_block_news();
 	$pnews = $iniDB->s_lastnews_plugins(frontend_model_template::current_Language());
 	if($pnews != null){
+		if ($pnews['n_image'] != null){
+			$image = '<img src="/upload/news/s_'.$pnews['n_image'].'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+		}else{
+			$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+		}
 		$curl = date_create($pnews['date_register']);
-		$widget = '<div class="list-div-elem">';
+		$widget = '<div class="'.$tabs['class_elem'].'">';
+		$widget .='<a class="'.$tabs['class_img'].'">';
+				$widget .= $image;
+		$widget .='</a>';
 		$widget .='<p class="name">';
 		$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],date_format($curl,'Y/m/d'),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 		$widget .= '</p>';

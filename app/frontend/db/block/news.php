@@ -34,7 +34,7 @@ class frontend_db_block_news{
 	 * @param $getpurl
 	 */
 	public function s_lastnews_plugins($iso){
-		$sql = 'SELECT n.n_title,n.n_content,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
+		$sql = 'SELECT n.n_title,n.n_content,n.n_uri,n.idlang,n.n_image,n.date_register,n.date_publish,n.keynews,lang.iso
 				FROM mc_news as n
 				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
 				WHERE n.published = 1 AND lang.iso = :iso ORDER BY n.idnews DESC LIMIT 1';
