@@ -31,78 +31,74 @@
  *
  */
 /**
- * Smarty {widget_catalog_cat_display title="" tposition="bottom" ui=false col="2" size="medium"} function plugin
+ * Smarty {widget_catalog_cat_display title="" tposition="bottom" col="2" size="medium"} function plugin
  *
  * Type:     function
- * Name:     block_catalog
+ * Name:     widget_catalog_cat_display
  * Date:     
+ * Update:   01-08-2011 
  * Purpose:  
- * Examples: {widget_catalog_cat_display title="" tposition="bottom" ui=false col="2" size="medium"}
+ * Examples: {widget_catalog_cat_display css_param=[
+					'class_container'=>'list-div medium bg light w11-32',
+					'class_elem'=>'list-div-elem',
+					'class_img'=>'img'
+				] title="" tposition="bottom" col="2" size="medium"}
  * Output:   
  * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.2
  * @param array
  * @param Smarty
  * @return string
  */
 function smarty_function_widget_catalog_cat_display($params, $template){
 	$title = !empty($params['title'])?$params['title']:'';
-	$ui = $params['ui'];
-	//$size = $params['size']?$params['size']:'mini';
+	//Position du nom de l'élément
 	$tposition = $params['tposition']? $params['tposition'] : 'top';
-	/*switch($size){
-		case 'medium':
-			$sizecapture = 'medium';
-		break;
-		case 'mini':
-			$sizecapture = 'mini';
-		break;
-	}*/
 	// Nombre de colonnes
 	$last = $params['col']? $params['col'] : 0 ;
-	$i = 1;
-		if(isset($ui)){
-		switch($ui){
-			case "true":
-				$wcontent = ' ui-widget-content ui-corner-all';
-				$wheader = ' ui-widget-header ui-corner-all';
-			break;
-			case "false":
-				$wcontent = '';
-				$wheader = '';
-			break;
+	//Paramètres des classes CSS
+	if (isset($params['css_param'])) {
+		if(is_array($params['css_param'])){
+			$tabs = $params['css_param'];
+		}else{
+			trigger_error("css_param is not array");
+			return;
 		}
 	}else{
-		$wcontent = '';
-		$wheader = '';
+		$tabs= array('class_container'=>'list-div medium bg light w11-32',
+				'class_elem'=>'list-div-elem',
+				'class_img'=>'img'
+			);
 	}
+	$i = 1;
 	$block = $title;
+	$imgPath = new magixglobal_model_imagepath('catalog');
 	if(frontend_db_block_catalog::s_category_widget(frontend_model_template::current_Language()) != null){
-		$block .= '<div class="list-div medium bg light w11-32">';
+		$block .= '<div class="'.$tabs['class_container'].'">'."\n";
 		foreach(frontend_db_block_catalog::s_category_widget(frontend_model_template::current_Language()) as $cat){
 			if ($i == $last ) {
-				$last_elem = 'last ';
+				$last_elem = ' last';
 				$i = 1;
 			} else {
 				$last_elem = null;
 				$i++;
 			}
-			$block .= '<div class="list-div-elem '.$last_elem.$wcontent.'">';
+			$block .= '<div class="'.$tabs['class_elem'].$last_elem.'">'."\n";
 			if($tposition == 'top'){
-				$block .= '<p class="name'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></p>';
+				$block .= '<p class="name"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></p>';
 			}
 			if($cat['img_c'] != null){
-				$block .= '<a class="img" href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'"><img src="/upload/catalogimg/category/'.$cat['img_c'].'" alt="'.$cat['clibelle'].'" /></a>';
+				$block .= '<a class="'.$tabs['class_img'].'" href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.$imgPath->filter_path_img('category',$cat['img_c']).'" alt="'.$cat['clibelle'].'" /></a>';
 			}else{
-				$block .= '<a class="img" href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'"><img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png'.'" alt="'.$cat['clibelle'].'" /></a>';
+				$block .= '<a class="'.$tabs['class_img'].'" href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'"><img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png'.'" alt="'.$cat['clibelle'].'" /></a>';
 			}
 			if($tposition == 'bottom'){
-				$block .= '<p class="name'.$wheader.'"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></p>';
+				$block .= '<p class="name"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></p>';
 			}
-			$block .= '</div>';
+			$block .= '</div>'."\n";
 		}
-		$block .= '</div>';
+		$block .= '</div>'."\n";
 	}
 	return $block;
 }

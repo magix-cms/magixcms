@@ -23,7 +23,12 @@
 						</ul>  	  	
 						<h1>{$slibelle}</h1>
 						{$s_content}
-						{widget_catalog_load_products ui=false tposition="bottom" description=true size=medium col="4"}
+						{widget_catalog_load_products 
+							css_param=[
+								'class_container'=>'list-div border w11-64 bg medium',
+								'class_elem'=>'list-div-elem',
+								'class_img'=>'img'
+							] tposition="bottom" description=true size=medium col="4"}
 					</div>
 					<div id="rightCol" class="block w5-16 lfloat last">
 						{include file="common/colright.phtml"}

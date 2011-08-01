@@ -23,34 +23,50 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  *
  */
 /**
- * Smarty {microgalery type="galleriffic"} function plugin
+ * Smarty {microgalery type="imagebox"} function plugin
  *
  * Type:     function
  * Name:     microgalery
  * Date:     January 27 2010
+ * Update:   Augustus 1 2011
  * Purpose:  
  * Examples: {microgalery}
  * Output:   
  * @link http://www.magix-cms.com
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.2
  * @param array
  * @param Smarty
  * @return string
  *
  */
 function smarty_function_widget_catalog_microgalery($params, $template){
-	$type = $params['type'];
-	$ui = $params['ui']?true:false;
+	//Paramètres des classes CSS
+	if (isset($params['css_param'])) {
+		if(is_array($params['css_param'])){
+			$tabs = $params['css_param'];
+		}else{
+			trigger_error("css_param is not array");
+			return;
+		}
+	}else{
+		$tabs= array('class_container'=>'list-li img medium',
+		'class_img'=>'last'
+		);
+	}
+	// Type de galerie
+	$type = $params['type'] ? $params['type'] : 'imagebox';
+	//Nombre de colonnes
 	$last = $params['col']? $params['col'] : 0 ;
+	//Identifiant du produit
 	if(isset($_GET['idproduct'])){
 		$idproduct = magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct']);
 	}
@@ -59,18 +75,14 @@ function smarty_function_widget_catalog_microgalery($params, $template){
 			$identifier =  frontend_db_block_catalog::s_identifier_catalog($idproduct);
 			$count = frontend_db_block_catalog::count_image_in_galery_product($identifier['idcatalog']);
 			$galery = null;
-			
 			$i = 1;
 			$class_b = ' class="';
 			$class_e = '"';
-			
 			if($count['cimage'] != 0){
-			$galery .= '<ul class="list-li img medium">';
+			$galery .= '<ul class="'.$tabs['class_container'].'">';
 			foreach(frontend_db_block_catalog::s_microgalery_product($identifier['idcatalog']) as $img){
-/*					$galery .= '<ul class="list-li img medium">';
-					$galery .= '<div class="title-galery-image ui-widget-header ui-corner-all"></div>';*/
 					if ($i == $last ) {
-						$class= $class_b . 'last' . $class_e;
+						$class= $class_b . $tabs['class_img'] . $class_e;
 						$i = 1;
 					} else {
 						$class= null;
@@ -80,30 +92,6 @@ function smarty_function_widget_catalog_microgalery($params, $template){
 					$galery .= '<li'. $class .'><a class="imagebox img" rel="microgalery" href='.'"'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'].'">'.'<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/mini/'.$img['imgcatalog'].'" alt="'.$img['imgcatalog'].'" /></a>'.'</li>';
 			}
 			$galery .= '</ul>';
-			}
-		break;
-		case 'cloud-zoom':
-			$identifier =  frontend_db_block_catalog::s_identifier_catalog($idproduct);
-			$count = frontend_db_block_catalog::count_image_in_galery_product($identifier['idcatalog']);
-			$galery = null;		
-			if($count['cimage'] != 0){
-			$galery .= '<div id="list-image-galery">';
-			foreach(frontend_db_block_catalog::s_microgalery_product($identifier['idcatalog']) as $img){
-				if($ui){
-					$galery .= '<div class="list-img ui-widget-content ui-corner-all">';
-					$galery .= '<div class="img-galery"><a class="cloud-zoom-gallery" rel="useZoom: \'zoom1\', smallImage: \' '. magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog']. ' \' " href='.'"'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'].'">'.'<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/mini/'.$img['imgcatalog'].'" alt="'.$img['imgcatalog'].'" /></a>'.'</div>';
-					$galery .= '</div>';			
-				
-				}else{
-					$galery .= '<div class="list-img">';
-					$galery .= '<div class="img-galery"><a class="cloud-zoom-gallery" rel="useZoom: \'zoom1\', smallImage: \' '. magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog']. ' \' " href='.'"'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'].'">'.'<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/mini/'.$img['imgcatalog'].'" alt="'.$img['imgcatalog'].'" /></a>'.'</div>';
-					$galery .= '</div>';
-				}
-			}
-			$galery .= '</div>';					
-			$galery .= 	'<a href="'. magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'] . '" class = \'cloud-zoom\' id=\'zoom1\' rel="adjustX: 6, adjustY:0, zoomWidth:410">
-    					<img src="'.  magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'] .' " alt="'.$img['imgcatalog'].'" width="240" class="cible" />
-    					</a>' ;
 			}
 		break;
 	}

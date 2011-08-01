@@ -23,23 +23,28 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  *
  */
 /**
- * Smarty {widget_lastnews limit="" delimiter="" ui=true} 
+ * Smarty {widget_lastnews limit="" delimiter=""} 
  * function plugin
  *
  * Type:     function
  * Name:     widget news
  * Date:     Jully 18 2011
- * Update:   
+ * Update:   01-08-2011
  * Purpose:  
- * Examples: {widget_news_list}
+ * Examples: {widget_news_list
+				css_param=[
+					'class_container'=>'list-div medium',
+					'class_elem'=>'list-div-elem',
+					'class_img'=>'img'
+				] limit="" delimiter=""}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
@@ -56,9 +61,27 @@ function smarty_function_widget_news_list($params, $template){
 	}
 	$limit = $params['max'];
 	$max = $params['max'];
+	// Parametre pour la description du produit
+	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 240 ;
+	// Le délimiteur pour tronqué le texte
+	$delimiter = $params['delimiter'] ? $params['delimiter'] : '';
 	$news = '';
+	//Paramètres des classes CSS
+	if (isset($params['css_param'])) {
+		if(is_array($params['css_param'])){
+			$tabs = $params['css_param'];
+		}else{
+			trigger_error("css_param is not array");
+			return;
+		}
+	}else{
+		$tabs= array('class_container'=>'list-div medium'
+				,'class_elem'=>'list-div-elem'
+				,'class_img'=>'img'
+			);
+	}
 	$offset = $fcn->news_offset_pager($max);
-	$news .= '<div class="list-div medium">';
+	$news .= '<div class="'.$tabs['class_container'].'">';
 	if(frontend_db_block_news::s_news_listing(frontend_model_template::current_Language(),$limit,$max,$offset) != null){
 		foreach(frontend_db_block_news::s_news_listing(frontend_model_template::current_Language(),$limit,$max,$offset) as $pnews){
 			$tag = frontend_db_block_news::s_news_tag($pnews['idnews']);
@@ -70,8 +93,8 @@ function smarty_function_widget_news_list($params, $template){
 			}else{
 				$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 			}
-			$news .= '<div class="list-div-elem">';
-			$news .='<a class="img">';
+			$news .= '<div class="'.$tabs['class_elem'].'">';
+			$news .='<a class="'.$tabs['class_img'].'">';
 				$news .= $image;
 			$news .='</a>';
 			
@@ -79,7 +102,7 @@ function smarty_function_widget_news_list($params, $template){
 				$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 			$news .= '</p>';
 			$news .= '<span class="descr">';
-				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],240,''));
+				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
 			$news .= '</span>';
 			$news .= '<div class="clear"></div>';
 			$news .='<div class="date rfloat">'.$datepublish->SQLDate().'</div>';

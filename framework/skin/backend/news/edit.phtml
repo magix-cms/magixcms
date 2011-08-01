@@ -28,10 +28,10 @@
 								<table class="table-tinymce">
 									<tr>
 										<td>
-											<ul class="list-published-status">
-												<li>En ligne <input type="radio" name="published" {if $published eq 1}checked="checked"{/if} value="1" /></li>
-												<li>Hors ligne <input type="radio" name="published" {if $published eq 0}checked="checked"{/if} value="0" /></li>
-											</ul>
+											<div class="radio_contener">
+												<input type="radio" id="news_status_on" name="published" {if $published eq 1}checked="checked"{/if} value="1" /><label for="news_status_on">En ligne</label>
+												<input type="radio" id="news_status_off" name="published" {if $published eq 0}checked="checked"{/if} value="0" /><label for="news_status_off">Hors ligne</label>
+											</div>
 										</td>
 									</tr>
 									<tr>

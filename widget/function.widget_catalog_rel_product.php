@@ -23,8 +23,8 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
  * @author Gérits Aurélien <aurelien@magix-cms.com>
@@ -34,29 +34,49 @@
  * Smarty {catalog_rel_product} function plugin
  *
  * Type:     function
- * Name:     Produits liés avec le catalogue
+ * Name:     Produits liés avec le produit courant
  * Date:     September 20, 2010
+ * Update:   01-08-2011 
  * Purpose:  
- * Examples: {catalog_rel_product idcatalog=""}
+ * Examples: {catalog_rel_product 
+				css_param=[
+					'class_container'=>'list-div medium bg light',
+					'class_elem'=>'list-div-elem',
+					'class_img'=>'img'
+				] idcatalog=""}
  * Output:   
  * @link http://www.magix-cms.com
  * @author   Gerits Aurelien
- * @version  1.0
+ * @version  1.5
  * @param array
  * @param Smarty
  * @return string
  */
 function smarty_function_widget_catalog_rel_product($params, $template){
-//Variable de la langue
-	$lang = $_GET['strLangue'] ? magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3):'';
+	//Variable de la langue
+	$lang = frontend_model_template::current_Language();
+	//Paramètres des classes CSS
+	if (isset($params['css_param'])) {
+		if(is_array($params['css_param'])){
+			$tabs = $params['css_param'];
+		}else{
+			trigger_error("css_param is not array");
+			return;
+		}
+	}else{
+		$tabs= array('class_container'=>'list-div medium bg light',
+				'class_elem'=>'list-div-elem',
+				'class_img'=>'img'
+			);
+	}
 	//Test si lidentifiant de la catégorie existe
 	if(isset($_GET['idclc'])){
 		$idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
 	}
-	// Utilise jquery UI (true/false)
-	$ui = $params['ui'];
 	// La taille des miniatures (mini ou medium)
 	$size = $params['size']?$params['size']:'mini';
+	// Nombre de colonnes
+	$last = $params['col']? $params['col'] : 0 ;
 	// Position du titre
 	$tposition = $params['tposition']? $params['tposition'] : 'top';
 	//Affiche si le bien est vendu
@@ -77,39 +97,33 @@ function smarty_function_widget_catalog_rel_product($params, $template){
 			$sizecapture = 'mini';
 		break;
 	}
-	if(isset($ui)){
-		switch($ui){
-			case "true":
-				$wcontent = ' ui-widget-content ui-corner-all';
-				$wheader = ' ui-widget-header ui-corner-all';
-			break;
-			case "false":
-				$wcontent = '';
-				$wheader = '';
-			break;
-		}
-	}else{
-		$wcontent = '';
-		$wheader = '';
-	}
 	$idcatalog = $params['idcatalog'];
+	$imgPath = new magixglobal_model_imagepath('catalog');
 	$product = null;
+	$i = 1;
 	if(frontend_db_block_catalog::s_catalog_rel_product($idcatalog) != null){
-		$product .= '<div class="list-div medium bg light">';
+		$product .= '<div class="'.$tabs['class_container'].'">';
 		foreach(frontend_db_block_catalog::s_catalog_rel_product($idcatalog) as $prod){
+			if ($i == $last ) {
+				$last_elem = ' last';
+				$i = 1;
+			} else {
+				$last_elem = null;
+				$i++;
+			}
 			$cat = frontend_db_block_catalog::s_catalog_product_info($prod['idproduct']);
 			$uri_product = magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['pathslibelle'],$cat['idcls'],$cat['urlcatalog'],$cat['idproduct'],true);
-			$product .= '<div class="list-div-elem'.$wcontent.'">';
+			$product .= '<div class="'.$tabs['class_elem'].$last_elem.'">';
 			if($tposition == 'top'){
-				$product .= '<p class="name'.$wheader.'"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
+				$product .= '<p class="name"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
 			}
 			if($cat['imgcatalog'] != null){
-				$product .= '<a class="img" href="'.$uri_product.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/'.$sizecapture.'/'.$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" /></a>';
+				$product .= '<a class="'.$tabs['class_img'].'" href="'.$uri_product.'"><img src="'.$imgPath->filter_path_img('product',$sizecapture.'/'.$cat['imgcatalog']).'" alt="'.$cat['titlecatalog'].'" /></a>';
 			}else{
-				$product .= '<a class="img" href="'.$uri_product.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
+				$product .= '<a class="'.$tabs['class_img'].'" href="'.$uri_product.'"><img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
 			}
 			if($tposition == 'bottom'){
-				$product .= '<p class="name'.$wheader.'"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
+				$product .= '<p class="name"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
 			}
 			if($description != false){
 				$product .= '<span class="descr">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</span>';
@@ -119,7 +133,8 @@ function smarty_function_widget_catalog_rel_product($params, $template){
 			}
 			$product .= '</div>';
 		}
-		$product .= '</div><div style="clear:left;"></div>';
+		$product .= '<div class="clear"></div>';
+		$product .= '</div>';
 	}
 	return $product;
 }

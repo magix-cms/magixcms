@@ -86,6 +86,10 @@ $(function() {
 	        }
 	    });
 		/**
+		 * Définition de jquery button pour les boutons radio dans un contener radio_contener
+		 */
+		$(".radio_contener").buttonset();
+		/**
 		 * Notification après installation pour le dossier "install"
 		 */
 		if ($('#notify-install').length != 0){

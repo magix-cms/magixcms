@@ -10,13 +10,20 @@
  * Type:     function
  * Name:     widget_get_social
  * Date:     18-07-2011
- * Update:
+ * Update:   01-08-2011
  * Purpose:  Display social bookmark
- * Examples:{widget_social_network title=$subjectpage size='small'}
+ * Examples:
+     {widget_social_network 
+  		config_param=[
+  		'news'=>[{#topmenu_news_t#},$n_title],
+  		'cms'=>[$title_page],
+  		'catalog'=>[{#topmenu_catalog_t#},$clibelle,$slibelle,$titlecatalog],
+  		'plugins'=>['contact'=>{#pn_contact_forms#}]
+  		] size="medium" default=$subject}
  * Output:   
  * @link 	http://www.magix-dev.be
  * @author   Gerits Aurélien
- * @version  1.0
+ * @version  1.2
  * @param array
  * @param Smarty
  * @return string

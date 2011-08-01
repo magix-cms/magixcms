@@ -49,10 +49,24 @@
  * @return string
  */
 function smarty_function_widget_news_tags($params, $template){
+	//Paramètres des classes CSS
+	if (isset($params['css_param'])) {
+		if(is_array($params['css_param'])){
+			$tabs = $params['css_param'];
+		}else{
+			trigger_error("css_param is not array");
+			return;
+		}
+	}else{
+		$tabs= array('class_container'=>'list-div medium'
+				,'class_elem'=>'list-div-elem'
+				,'class_img'=>'img'
+			);
+	}
 	if(magixcjquery_filter_request::isGet('tag')){
 		$gettag = magixcjquery_url_clean::make2tagString($_GET['tag']);
 		$news = '';
-		$news .= '<div class="list-div medium">';
+		$news .= '<div class="'.$tabs['class_container'].'">';
 		if(frontend_db_block_news::s_sort_tagnews(urldecode($gettag)) != null){
 			foreach(frontend_db_block_news::s_sort_tagnews(urldecode($gettag)) as $pnews){
 				$tag = frontend_db_block_news::s_news_tag($pnews['idnews']);
@@ -64,8 +78,8 @@ function smarty_function_widget_news_tags($params, $template){
 				}else{
 					$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 				}
-				$news .= '<div class="list-div-elem">';
-				$news .='<a class="img">';
+				$news .= '<div class="'.$tabs['class_elem'].'">';
+				$news .='<a class="'.$tabs['class_img'].'">';
 					$news .= $image;
 				$news .='</a>';
 				

@@ -28,7 +28,6 @@
 				    	<span class="date rfloat">Ajouté le {$date_catalog|date_format:"%d-%m-%y"}</span>		
 
 						<h1>{$titlecatalog}</h1>
-						{$smarty.get.idproduct}
 						<div id="product-img" class="block w4-16 rfloat last bg dark">
 							{$imgcatalog}
 							<p class="title">Intéressé par {$titlecatalog} ?</p>
@@ -44,11 +43,11 @@
 						<div class="clear"></div>
 						<div id="galery" class="block w11-32 lfloat">
 							<p class="title">Photos</p>
-							{widget_catalog_microgalery type="imagebox" ui=true col="3"}
+							{widget_catalog_microgalery col="3"}
 						</div>
 						<div id="rel-product" class="block w11-32 lfloat last">
 							<p class="title">Voir aussi</p>
-							{widget_catalog_rel_product idcatalog=$idcatalog ui=false description=true contentlength="124" size="medium" tposition="bottom"}
+							{widget_catalog_rel_product idcatalog=$idcatalog col="1" description=true contentlength="124" size="medium" tposition="bottom"}
 						</div>
 						<div class="clear"></div>					
 					</div>

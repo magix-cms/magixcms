@@ -1501,7 +1501,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	/**
 	 * Insertion d'une image à un produit spécifique
 	 */
-	private function insert_image_product(){
+	private function insert_image_product($debug=false){
 		if(isset($this->imgcatalog)){
 			//Supprime le fichier original pour gagner en espace
 			$makeFiles = new magixcjquery_files_makefiles();
@@ -1530,6 +1530,14 @@ class backend_controller_catalog extends analyzer_catalog{
 					if($count['cimage'] == 0){
 						backend_db_catalog::adminDbCatalog()->i_image_catalog($this->getimg,$simg['urlcatalog'].'_'.$random_id.$fileextends);
 					}else{
+						$old_img = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
+						if(file_exists(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$old_img['imgcatalog'])){
+							$makeFiles->removeFile(self::dir_img_product(),'product'.DIRECTORY_SEPARATOR.$old_img['imgcatalog']);
+							$makeFiles->removeFile(self::dir_img_product(),'medium'.DIRECTORY_SEPARATOR.$old_img['imgcatalog']);
+							$makeFiles->removeFile(self::dir_img_product(),'mini'.DIRECTORY_SEPARATOR.$old_img['imgcatalog']);
+						}/*else{
+							throw new Exception('file: '.$old_img['imgcatalog'].' is not found');
+						}*/
 						backend_db_catalog::adminDbCatalog()->u_image_catalog($this->getimg,$simg['urlcatalog'].'_'.$random_id.$fileextends);
 					}
 					/**
@@ -1551,36 +1559,78 @@ class backend_controller_catalog extends analyzer_catalog{
 					$imgsizelarge = $imgsetting->uniq_data_img_size('catalog','product','large');
 					$imgsizemed = $imgsetting->uniq_data_img_size('catalog','product','medium');
 					$imgsizesmall = $imgsetting->uniq_data_img_size('catalog','product','small');
-					$firebug->magixFireGroup('Setting image');
+					if($debug){
+						$firebug->magixFireGroup('Setting image');
+					}
 					switch($imgsizelarge['img_resizing']){
 						case 'basic':
-							$firebug->magixFireInfo($imgsizelarge['img_resizing']);
-							$firebug->magixFireLog($imgsizelarge['type']);
+							if($debug){
+								$firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+								$firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizelarge['width'],'Width');
+								$firebug->magixFireLog($imgsizelarge['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
 							$thumb->resize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 						break;
 						case 'adaptive':
-							$firebug->magixFireInfo($imgsizelarge['img_resizing']);
-							$firebug->magixFireLog($imgsizelarge['type']);
+							if($debug){
+								$firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+								$firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizelarge['width'],'Width');
+								$firebug->magixFireLog($imgsizelarge['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
 							$thumb->adaptiveResize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dir_img_product().'product'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 						break;
 					}
 					switch($imgsizemed['img_resizing']){
 						case 'basic':
+							if($debug){
+								$firebug->magixFireGroup($imgsizemed['config_size_attr'].' => '.$imgsizemed['type']);
+								$firebug->magixFireLog($imgsizemed['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizemed['width'],'Width');
+								$firebug->magixFireLog($imgsizemed['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
 							$thumb->resize($imgsizemed['width'],$imgsizemed['height'])->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 						break;
 						case 'adaptive':
+							if($debug){
+								$firebug->magixFireGroup($imgsizemed['config_size_attr'].' => '.$imgsizemed['type']);
+								$firebug->magixFireLog($imgsizemed['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizemed['width'],'Width');
+								$firebug->magixFireLog($imgsizemed['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
 							$thumb->adaptiveResize($imgsizemed['width'],$imgsizemed['height'])->save(self::dir_img_product().'medium'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 						break;
 					}
 					switch($imgsizesmall['img_resizing']){
 						case 'basic':
+							if($debug){
+								$firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+								$firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizesmall['width'],'Width');
+								$firebug->magixFireLog($imgsizesmall['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
 							$thumb->resize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 						break;
 						case 'adaptive':
+							if($debug){
+								$firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+								$firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizesmall['width'],'Width');
+								$firebug->magixFireLog($imgsizesmall['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
 							$thumb->adaptiveResize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_img_product().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
 						break;
 					}
-					$firebug->magixFireGroupEnd();
+					if($debug){
+						$firebug->magixFireGroupEnd();
+					}
 					if(file_exists(self::dir_img_product().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_img_product(),$getimg['imgcatalog']);
 					}else{
@@ -1607,36 +1657,9 @@ class backend_controller_catalog extends analyzer_catalog{
 		return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."galery".DIRECTORY_SEPARATOR);
 	}
 	/**
-	 * 
-	 * @access private
-	 * Charge la taille des images des galeries du catalogue
-	 * @param string $type
-	 * @param string $dimension
-	 * @param bool $debug
-	 */
-	private function conf_size_img_galery($type,$dimension,$debug=false){
-		$firebug = new magixcjquery_debug_magixfire();
-		$imgsetting = new backend_model_setting();
-		$imgsize = $imgsetting->uniq_data_img_size('catalog','galery',$type);
-		switch($dimension){
-			case  'width':
-				if($debug == true){
-					$firebug->magixFireLog($imgsize['width']);
-				}
-				return $imgsize['width'];
-			break;
-			case  'height':
-				if($debug == true){
-					$firebug->magixFireLog($imgsize['height']);
-				}
-				return $imgsize['height'];
-			break;
-		}
-	}
-	/**
 	 * Insertion d'une image dans la galerie spécifique à un produit
 	 */
-	private function insert_image_galery(){
+	private function insert_image_galery($debug=false){
 		if(isset($this->imggalery)){
 			try{
 				/**
@@ -1669,13 +1692,65 @@ class backend_controller_catalog extends analyzer_catalog{
 					 * @var void
 					 */
 					$thumb = PhpThumbFactory::create(self::dir_micro_galery().$getimg['imgcatalog']);
+					//Charge la taille des images des galeries du catalogue
+					$firebug = new magixcjquery_debug_magixfire();
 					/**
 					 * Création des images et miniatures utile.
 					 * 2 tailles !!!
 					 */
-					$thumb->resize($this->conf_size_img_galery('large', 'width'),$this->conf_size_img_galery('large', 'height'))->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$thumb->resize($this->conf_size_img_galery('small', 'width'),$this->conf_size_img_galery('small', 'height'))->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
-					$makeFiles = new magixcjquery_files_makefiles();
+					$imgsetting = new backend_model_setting();
+					$imgsizelarge = $imgsetting->uniq_data_img_size('catalog','galery','large');
+					$imgsizesmall = $imgsetting->uniq_data_img_size('catalog','galery','small');
+					if($debug){
+						$firebug->magixFireGroup('Setting image');
+					}
+					switch($imgsizelarge['img_resizing']){
+						case 'basic':
+							if($debug){
+								$firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+								$firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizelarge['width'],'Width');
+								$firebug->magixFireLog($imgsizelarge['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
+							$thumb->resize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+						case 'adaptive':
+							if($debug){
+								$firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+								$firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizelarge['width'],'Width');
+								$firebug->magixFireLog($imgsizelarge['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
+							$thumb->adaptiveResize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dir_micro_galery().'maxi'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+					}
+					switch($imgsizesmall['img_resizing']){
+						case 'basic':
+							if($debug){
+								$firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+								$firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizesmall['width'],'Width');
+								$firebug->magixFireLog($imgsizesmall['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
+							$thumb->resize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+						case 'adaptive':
+							if($debug){
+								$firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+								$firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+								$firebug->magixFireLog($imgsizesmall['width'],'Width');
+								$firebug->magixFireLog($imgsizesmall['height'],'Height');
+								$firebug->magixFireGroupEnd();
+							}
+							$thumb->adaptiveResize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dir_micro_galery().'mini'.DIRECTORY_SEPARATOR.$getimg['imgcatalog']);
+						break;
+					}
+					if($debug){
+						$firebug->magixFireGroupEnd();
+					}
 					if(file_exists(self::dir_micro_galery().$getimg['imgcatalog'])){
 						$makeFiles->removeFile(self::dir_micro_galery(),$getimg['imgcatalog']);
 					}

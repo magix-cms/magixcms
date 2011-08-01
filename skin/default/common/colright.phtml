@@ -12,10 +12,16 @@
 	</div>
 	<div class="block bg w5-16 last">
 		<p class="title">Partager</p>
-  	{widget_social_network size="medium" default=$subject config_param=['news'=>[{#topmenu_news_t#},$n_title],'cms'=>[$title_page],'catalog'=>[{#topmenu_catalog_t#},$clibelle,$slibelle,$titlecatalog],'plugins'=>['contact'=>{#pn_contact_forms#}]]}
+  	{widget_social_network 
+  		config_param=[
+  		'news'=>[{#topmenu_news_t#},$n_title],
+  		'cms'=>[$title_page],
+  		'catalog'=>[{#topmenu_catalog_t#},$clibelle,$slibelle,$titlecatalog],
+  		'plugins'=>['contact'=>{#pn_contact_forms#}]
+  		] size="medium" default=$subject}
 	</div>
 	<div class="block w5-16 bg last">
-	 	{widget_load_catalog_category_last_products size="medium" tposition="bottom" category=["fr"=>"1"] limit_products="4" col="2" price=false description=true contentlength="124"}	
+	 	{widget_load_catalog_category_last_products category=["fr"=>"1"] limit_products="4" size="medium" tposition="bottom" col="2" price=false description=true contentlength="124"}	
 	</div>
 	<div>
 		<p class="title">Voir aussi</p>

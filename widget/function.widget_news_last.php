@@ -23,7 +23,7 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
@@ -37,9 +37,9 @@
  * Type:     function
  * Name:     widget news
  * Date:     December 2, 2009
- * Update:   Jully 28, 2011
+ * Update:   01-08-2011 
  * Purpose:  
- * Examples: {widget_lastnews limit="" delimiter="" ui=true}
+ * Examples: {widget_lastnews limit="" delimiter=""}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
@@ -50,27 +50,14 @@
  */
 function smarty_function_widget_news_last($params, $template){
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 250 ;
-	$delimiter = $params['delimiter']? $params['delimiter']: '...';
-	$ui = $params['ui'];
+	$delimiter = $params['delimiter']? $params['delimiter']: '';
 	$newsall = $params['newsall'];
-	if (!isset($length)) {
-	 	trigger_error("limit: missing 'Content length' parameter");
-		return;
-	}elseif(!isset($delimiter)){
-		trigger_error("limit: missing 'Delimiter' parameter");
-		return;
-	}
-	if($ui){
-		$whead =' ui-widget-header ui-corner-all';
-		$wcontent =' ui-widget-content ui-corner-all';
-		$wicons = '<span style="float:left;" class="ui-icon ui-icon-calendar"></span>';
-	}
 	$iniDB = new frontend_db_block_news();
 	$pnews = $iniDB->s_lastnews_plugins(frontend_model_template::current_Language());
 	if($pnews != null){
 		$curl = date_create($pnews['date_register']);
-		$widget = '<div class="list-div-elem'.$wcontent.'">';
-		$widget .='<p class="name'.$whead.'">';
+		$widget = '<div class="list-div-elem">';
+		$widget .='<p class="name">';
 		$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],date_format($curl,'Y/m/d'),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 		$widget .= '</p>';
 		$widget .= '<span class="descr">';
