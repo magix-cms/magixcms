@@ -16,7 +16,7 @@ class frontend_model_template extends db_theme{
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
 	 * @var string
 	 */
-	private static $ConfigFile = 'local';
+	private static $ConfigFile = 'local_';
 	/**
 	 * singleton dbconfig
 	 * @access public

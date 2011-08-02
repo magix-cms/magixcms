@@ -17,7 +17,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Modifier un produit</div>
 						<div class="dashboard-widget-content">
-						{if {admin_level_config config_param=['module'=>'catalog'} eq true}
+						{if {admin_level_config config_param=['module'=>'catalog']} eq true}
 						<form id="forms-catalog-card-product-edit" method="post" action="" style="margin-left:10px;">
 							<fieldset>
 								<table class="table-tinymce">

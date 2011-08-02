@@ -7,7 +7,7 @@
 #header #prelude a{
 	color: #666;
 	font-size: 12px;
-	font-style: bold;
+	font-weight: bold;
 	padding:0 3px;
 }
 #header #prelude a:hover{
