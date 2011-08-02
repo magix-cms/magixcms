@@ -17,7 +17,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Edition d'une news</div>
 						<div class="dashboard-widget-content">
-						{if {admin_level_config config_param=['module'=>'news']} eq 1}
+						{if {admin_level_config config_param=['module'=>'news']} eq true}
 						<form id="forms-news-update" method="post" action="" style="margin-left:10px;">
 						<div style="margin-right:5px;float:right;">
 							<div class="block-preview ui-widget-content ui-corner-all">

@@ -6,7 +6,7 @@
 	</div>
 	<div class="management-menu ui-accordion ui-widget ui-helper-reset">
 		<h2><span style="float:left;" class="ui-icon ui-icon-gear"></span>Management</h2>
-		{if $perms eq 1}
+		{if {admin_level_config config_param=['allow_level'=>'3']} eq true}
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-wrench"></span>Configuration</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
@@ -27,7 +27,7 @@
 			<li><a href="/admin/cms.php"><span class="lfloat magix-icon magix-icon-page-gear"></span>Pages CMS</a></li>
 		</ul>
 	</div>
-	{if {admin_level_config config_param=['module'=>'news']} eq 1}
+	{if {admin_level_config config_param=['module'=>'news']} eq true}
 	<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-note"></span>Articles</a></h3>
 	<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 		<ul>
@@ -36,7 +36,7 @@
 		</ul>
 	</div>
 	{/if}
-	{if {admin_level_config config_param=['module'=>'catalog']} eq 1}
+	{if {admin_level_config config_param=['module'=>'catalog']} eq true}
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-cart"></span>Catalogue</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
@@ -54,7 +54,7 @@
 				<li><a href="/admin/sitemap.php"><span style="float:left;" class="magix-icon magix-icon-sitemap-blue"></span>Créer un sitemap</a></li>
 			</ul>
 		</div>
-		{if {admin_level_config config_param=['module'=>'plugins']} eq 1}
+		{if {admin_level_config config_param=['module'=>'plugins']} eq true}
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all"><a href="#"><span style="float:left;" class="ui-icon ui-icon-gear"></span>Les plugins</a></h3>
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			{sidebar_plugins}

@@ -17,7 +17,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Activation des modules</a></div>
 						<div class="dashboard-widget-content">
-						{if $perms <= 2}
+						{if {admin_level_config config_param=['allow_level'=>'2']} eq true}
 							{include file="config/forms/blockparams_left.phtml"}
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
@@ -32,7 +32,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><a href="#" class="dashboard-open">Pages Maximum</a></div>
 						<div class="dashboard-widget-content">
-						{if $perms <= 2}
+						{if {admin_level_config config_param=['allow_level'=>'2']} eq true}
 							{include file="config/forms/blockparams_right.phtml"}
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">

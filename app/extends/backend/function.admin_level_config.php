@@ -32,7 +32,7 @@
  * Name:     admin_level_config
  * Date:     29/05/2011
  * Purpose:  
- * Examples: {admin_level_config config_param=['module'=>'cms']}
+ * Examples: {admin_level_config config_param=['module'=>'cms','allow_level'=>'1']}
  * Output:   
  * @param $params
  * @param $template
@@ -46,13 +46,35 @@ function smarty_function_admin_level_config($params, $template){
 	if(is_array($params['config_param'])){
 		$tabs = $params['config_param'];
 	}
-	$widget = '';
 	if(class_exists('backend_model_setting',true)){
-		$setting = new backend_model_setting();
-		$attr_name = $setting->tabs_load_config($tabs['module']);
-		$widget = $attr_name['status'];
+		if(isset($tabs['module'])){
+			$setting = new backend_model_setting();
+			$attr_name = $setting->tabs_load_config($tabs['module']);
+			if($tabs['allow_level'] != null OR $tabs['allow_level'] != ''){
+				$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
+				if($tabs['allow_level'] == '*' AND $attr_name['status'] == 1){
+					return true;
+				}else if($attr_name['status'] == 1 AND $perms['perms'] <= $tabs['allow_level']){
+					return true;
+				}else{
+					return false;
+				}
+			}else{
+				if($attr_name['status'] == 1){
+					return true;
+				}
+			}
+		}else{
+			$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
+			if($tabs['allow_level'] == '*'){
+				return true;
+			}else if($perms['perms'] <= $tabs['allow_level']){
+				return true;
+			}else{
+				return false;
+			}
+		}
 	}else{
 		trigger_error("model_setting is not exist", E_USER_WARNING);
 	}
-	return $widget;
 }

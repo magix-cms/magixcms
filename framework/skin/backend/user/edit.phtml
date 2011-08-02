@@ -64,19 +64,19 @@
 									<tr>
 										<td>
 										<select id="perms" class="select" name="perms">
-										{if $perms eq 1}
+										{if {admin_level_config config_param=['allow_level'=>'1']} eq true}
 											<option value="1" selected="selected">Seo Agency</option>
 											<option value="2">Web Agency</option>
 											<option value="3">User admin</option>
 											<option value="4">User</option>
-										{elseif $perms eq 2}
+										{elseif {admin_level_config config_param=['allow_level'=>'2']} eq true}
 											<option value="2" selected="selected">Web Agency</option>
 											<option value="3">User admin</option>
 											<option value="4">User</option>
-										{elseif $perms eq 3}
+										{elseif {admin_level_config config_param=['allow_level'=>'3']} eq true}
 											<option value="3" selected="selected">User admin</option>
 											<option value="4">User</option>
-										{elseif $perms eq 4}
+										{elseif {admin_level_config config_param=['allow_level'=>'4']} eq true}
 											<option value="4">User</option>
 										{/if}
 										</select>

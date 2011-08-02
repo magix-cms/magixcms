@@ -27,7 +27,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{if $confignews eq 1}
+							{if {admin_level_config config_param=['module'=>'news']} eq true}
 							<tr>
 								<td>News</td>
 								<td>{$statnews}</td>
@@ -38,7 +38,7 @@
 								</td>
 							</tr>
 							{/if}
-							{if $configcms eq 1}
+							{if {admin_level_config config_param=['module'=>'cms']} eq true}
 							<tr>
 								<td>CMS</td>
 								<td>{$statcms}</td>
@@ -49,7 +49,7 @@
 								</td>
 							</tr>
 							{/if}
-							{if $configcatalog eq 1}
+							{if {admin_level_config config_param=['module'=>'catalog']} eq true}
 							<tr>
 								<td>Catalogue</td>
 								<td>{$statcatalog}</td>

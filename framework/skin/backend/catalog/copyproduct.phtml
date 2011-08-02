@@ -16,7 +16,7 @@
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Copier un produit</div>
 					<div class="dashboard-content">
-					{if $configcatalog eq 1}
+					{if {admin_level_config config_param=['module'=>'catalog'} eq true}
 					<form id="copy-catalog-product" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>

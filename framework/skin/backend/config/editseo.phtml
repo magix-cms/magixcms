@@ -17,7 +17,7 @@
 				<div class="dashboard ui-widget-content ui-corner-all">
 					<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Edition d'une réecriture des métas</div>
 					<div class="dashboard-content">
-					{if {admin_level_config config_param=['module'=>'metasrewrite']} eq 1 AND $perms eq 1}
+					{if {admin_level_config config_param=['module'=>'metasrewrite','allow_level'=>'1']} eq true}
 					<form id="forms-config-rewrite-update" method="post" action="" style="margin-left:10px;">
 						<fieldset>
 							<table>
@@ -92,7 +92,7 @@
 					<div class="dashboard ui-widget-content ui-corner-all">
 						<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Liste des réécritures de métas</div>
 						<div class="dashboard-content">
-						{if $perms <= 2}
+						{if {admin_level_config config_param=['module'=>'metasrewrite','allow_level'=>'1']} eq true}
 							<div id="load_list_metas"></div>
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">

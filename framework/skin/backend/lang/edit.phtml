@@ -17,7 +17,7 @@
 				<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 					<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-plusthick"></span>Editer la langue: {$idlang}</div>
 					<div class="dashboard-widget-content">
-					{if {admin_level_config config_param=['module'=>'lang']} eq 1}
+					{if {admin_level_config config_param=['module'=>'lang']} eq true}
 						{include file="lang/forms/edit.phtml"}
 						{else}
 						<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
@@ -32,7 +32,7 @@
 					<div class="dashboard-widget ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 						<div class="dashboard-widget-header ui-widget-header ui-corner-all"><span style="float:left;" class="magix-icon magix-icon-locale"></span>Langues</div>
 						<div class="dashboard-widget-content">
-						{if $configlang eq 1 AND $perms <= 2}
+						{if {admin_level_config config_param=['module'=>'lang','allow_level'=>'3']} eq true}
 							<div id="list_lang"></div>
 						{else}
 							<div style="margin:5px;padding:5px;" class="ui-state-error ui-corner-all">
