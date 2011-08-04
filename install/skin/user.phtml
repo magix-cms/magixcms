@@ -12,7 +12,7 @@
 				<div class="dashboard-content">
 					<form id="forms-install-users" method="post" action="/install/adminuser.php?postadm" style="margin-left:10px;">
 							<fieldset>
-								<table>
+								<table class="table-valigntop">
 									<tr>
 										<td class="label"><label for="pseudo" class="inlinelabel">Pseudo :</label></td>
 									</tr>
@@ -29,8 +29,9 @@
 										<td class="label"><label for="cryptpass" class="inlinelabel">Mot de passe :</label></td>
 									</tr>
 									<tr>
-										<td><input type="password" id="cryptpass" name="cryptpass" class="inputtext password ui-corner-all" value="" size="20" />
+										<td><input type="text" id="cryptpass" name="cryptpass" class="inputtext password ui-corner-all" value="" size="20" />
 										<button id="randPassword" class="btnwrench">genere</button></td>
+										<td><input type="text" id="word_composer" name="word_composer" readonly="readonly" class="readonly ui-corner-all" id="word_composer" /></td>
 									 </tr>
 									 <tr>
 										<td>

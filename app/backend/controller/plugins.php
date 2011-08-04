@@ -93,6 +93,34 @@ class backend_controller_plugins{
 		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
 	}
 	/**
+	 * @access public
+	 * Retourne la configuration des accès au plugin depuis un fichier xml
+	 * @param string $plugin_folder
+	 */
+	public function allow_access_config($plugin_folder){
+		$pathxml = $this->directory_plugins().$plugin_folder.DIRECTORY_SEPARATOR.'config.xml';
+		if(file_exists($pathxml)){
+			/*try {
+				$xml = new SimpleXMLElement($pathxml,0, TRUE);
+				$v = $xml->acl->admin->allow_access;
+			} catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
+			}
+			return $v;*/
+			$xml = new XMLReader();
+			$xml->open($pathxml, "UTF-8");
+			while($xml->read()){
+				if ($xml->nodeType == XMLREADER::ELEMENT && $xml->localName == "authorized") {
+					$v = $xml->expand();
+					$v = new SimpleXMLElement('<authorized>'.$xml->readInnerXML().'</authorized>');
+					return $v->allow_access;
+				}
+			}
+		}else{
+			return '*';
+		}
+	}
+	/**
 	 * @access protected
 	 * getplugin
 	 */
@@ -125,10 +153,54 @@ class backend_controller_plugins{
 		return $icon;
 	}
 	/**
+	 * execute ou instance la class du plugin
+	 * @param void $className
+	 */
+	private function execute_plugins($className){
+		if(class_exists($className)){
+			try{
+				$class =  new $className;
+				if($class instanceof $className){
+					return $class;
+				}else{
+					throw new Exception('not instantiate the class: '.$className);
+				}
+			}catch(Exception $e) {
+				magixglobal_model_system::magixlog("Error plugins execute", $e);
+			}
+		}
+	}
+	/**
+	 * Récupération des options pour la génération
+	 * @param string $module
+	 */
+	/*private function ini_options_mod($class,$module_name=false){
+		if(method_exists($this->execute_plugins($class),'init_config_plugin')){
+			/* Appelle la  fonction utilisateur init_config_plugin contenue dans le module */
+			/*if($module_name != false){
+				call_user_func_array(
+					$call_options = array($this->execute_plugins($class),'init_config_plugin'), 
+					array($module_name)
+				);
+			}else{
+				$call_options = call_user_func(
+					array($this->execute_plugins($class),'init_config_plugin')
+				);
+			}
+			if(is_array($call_options)){
+				return $call_options;
+			}else{
+				throw new Exception('ini_options_mod '.$class.' is not array');
+			}
+		}else{
+			return null;
+		}
+	}*/
+	/**
 	 * @access private
 	 * listing plugin
 	 */
-	private function listing_plugin(){
+	private function listing_plugin($debug=false){
 		/**
 		 * Si le dossier est accessible en lecture
 		 */
@@ -148,9 +220,27 @@ class backend_controller_plugins{
 							$class = 'plugins_'.$d.'_admin';
 							//Si la méthode run existe on ajoute le plugin dans le menu
 							if(method_exists($class,'run')){
-								$list .= '<li>'.$this->icon_plugin($d).
-								'<a href="/admin/plugins.php?name='.$d.'">'
-								.magixcjquery_string_convert::ucFirst($d).'</a></li>';
+								$access = $this->allow_access_config($d);
+								$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
+								if($debug){
+									$firebug = new magixcjquery_debug_magixfire();
+									$firebug->magixFireLog($d.': '.$access);
+								}
+								if($access != null OR $access != ''){
+									if($access >= $perms['perms']){
+										$list .= '<li>'.$this->icon_plugin($d);
+										$list .='<a href="/admin/plugins.php?name='.$d.'">';
+										$list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
+									}elseif($access == '*'){
+										$list .= '<li>'.$this->icon_plugin($d);
+										$list .='<a href="/admin/plugins.php?name='.$d.'">';
+										$list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
+									}
+								}else{
+									$list .= '<li>'.$this->icon_plugin($d);
+									$list .='<a href="/admin/plugins.php?name='.$d.'">';
+									$list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
+								}
 							}
 						}
 					}
@@ -166,18 +256,6 @@ class backend_controller_plugins{
 	 */
 	public function constructNavigation(){
 		return $this->listing_plugin();
-	}
-	/**
-	 * execute ou instance la class du plugin
-	 * @param void $className
-	 */
-	private function execute_plugins($className){
-		try{
-			$class =  new $className;
-		}catch (Exception $e){
-			magixglobal_model_system::magixlog('An error has occured :',$e);
-		}
-		return $class;
 	}
 	/**
 	 * Chargement d'un plugin pour l'administration

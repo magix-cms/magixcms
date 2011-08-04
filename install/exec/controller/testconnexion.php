@@ -111,10 +111,16 @@ class exec_controller_testconnexion extends database_connex{
 	}
 }
 class database_connex{
+	/**
+	 * 
+	 */
 	protected function s_show_database(){
 		$database = 'cms';
 		return magixglobal_model_db::layerDB()->showDatabase($database,true);
 	}
+	/**
+	 * Test connexion PDO
+	 */
 	protected function testconnex(){
 		return magixglobal_model_db::layerDB()->PDOConnexion();
 	}

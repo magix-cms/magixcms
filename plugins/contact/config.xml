@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- /*
+ * MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
+ * http://www.magix-dev
+ * Dual licensed under the MIT AND GPL Version 3 licenses.
+ *
+ * Date: August 4 17:00 2011
+ */-->
+<config>
+	<acl>
+		<admin>
+			<authorized>
+				<allow_access>*</allow_access>
+			</authorized>
+			<infos>
+				<authors>
+					<author>
+						<name>Gerits Aurelien</name>
+						<link>http://www.magix-cms.com</link>
+					</author>
+				</authors>
+			</infos>
+		</admin>
+	</acl>
+</config>

@@ -163,7 +163,7 @@ $(document).ready(function(){
 	        $(this).val(cleanString($(this).val()));
 		});
 		$('#randPassword').click(function(){
-			$('#cryptpass').val( randomPassword() );
+			$('#word_composer').val( randomPassword() );
 			return false;
 		});
 		$("#cryptpass").keyup(function() {

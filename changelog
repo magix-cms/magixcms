@@ -1,3 +1,7 @@
+2.3.48
+	* Ajout des ACL pour les plugins (allow_access)
+	* Ajout du fichier config.xml dans le plugin contact
+	
 2.3.47
 	* Réorganisation du catalogue avec la séparation des catégories par langue (ergonomie)
 	* Refonte des scripts javascript pour le traitement du catalogue (conversion vers ns)
@@ -21,6 +25,21 @@
 	* Ajout du namespace javascript pour l'utilisation des googletools de magix cms
 	* Ajout du namespace javascript pour l'utilisation du sélecteur de template
 	* Ajout de nouvelles icônes dans le sprite magixicon
+	* Ajout du plugin tinymce news_search
+	* Réorganisation du plugin contact (ajout du système ajax + singleton javascript)
+	* Fix bug padding dans la class block dans framework CSS
+	* Fix bug mise en page de l'upload d'images catégories, sous catégorie du catalogue
+	* Fix bug chargement des tailles pour les micro galeries (backend)
+	* Ajout de paramètres pour définir les classes CSS de chaque widgets du catalogue + news
+	* Ajout de la classe pour gérer les chemins vers les images intégré (catalogue,news,etc...)
+	* Fix bug dans le chargement de la taille "adaptive" des sous catégories
+	* Ajout de l'image dans le widget last news
+	* Modification du système de permissions des utilisateurs dans les modules  + définition du widget de permissions
+	* Suppression des fichiers inutile dans backend et frontend
+	* Fix bug image button light (frontend)
+	* Fix synthaxe widget admin level dans les phtml du catalogue (backend)
+	* Changement de nom pour les fichiers de langues frontend exemple: localfr.conf => local_fr.conf
+	* Fix bug autocomplete dans le skin par default avec aristo-1.8.7
 	
 2.3.46
 	* Ajout du système de création de relation linguistique entre les pages CMS
