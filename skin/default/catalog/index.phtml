@@ -14,7 +14,21 @@
 			<div class="bg-top w16-16"></div>
 				<div class="bg-repeat w16-16">	
 					<div id="contentCol" class="text-content block w11-16 lfloat">
-						{widget_catalog_cat_display title="" tposition="bottom" col="2"}
+						{widget_catalog_cat_display 
+						css_param=[
+							'id_container' => 'choose-id', 
+							'class_container'=>'list-div medium bg light w11-32',
+							'class_elem'=>'list-div-elem',
+		  					'class_name' => 'name',
+							'class_img'=>'img',
+		  					'class_desc' =>'desc'
+						] 
+		 				idexclude=['fr'=>['1','2'],'en'=>[0]]
+						tposition="bottom" 
+		 				col="2" 
+		 				description=true
+						delimiter='...'
+						length='150'}
 					</div>
 					<div id="rightCol" class="block w5-16 lfloat last">
 						{include file="common/colright.phtml"}

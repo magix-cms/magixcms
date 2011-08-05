@@ -38,26 +38,147 @@
  * Date:     
  * Update:   01-08-2011 
  * Purpose:  
- * Examples: {widget_catalog_cat_display css_param=[
+ * Examples: {widget_catalog_cat_display 
+				css_param=[
+					'id_container' => 'choose-id', 
 					'class_container'=>'list-div medium bg light w11-32',
 					'class_elem'=>'list-div-elem',
-					'class_img'=>'img'
-				] title="" tposition="bottom" col="2" size="medium"}
+  					'class_name' => 'name',
+					'class_img'=>'img',
+  					'class_desc' =>'desc'
+				]
+				idselect=['fr'=>['1','2'],'en'=>[0]]
+				idexclude=['fr'=>['1','2'],'en'=>[0]]
+ 				title="catalog categories" 
+				tposition="bottom" 
+ 				col="2" 
+ 				description=true
+				delimiter='...'
+				lengt='250'}
  * Output:   
  * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
- * @version  1.2
+ * @version  1.3
  * @param array
  * @param Smarty
  * @return string
  */
 function smarty_function_widget_catalog_cat_display($params, $template){
+//------------------ START  ------------------------
+// CONSTRUCTION DE LA REQUETE SQL SUIVANT ARGUMENTS |
+//--------------------------------------------------
+
+	// | SELECTION DES CATEGORIES A AFFICHER (collection)
+	// -------------------------------------------------
+	if (isset($params['idselect'])) {
+		// Vérifie que les id sont bien placé en tableau (niv1 les langes)
+		if(is_array($params['idselect'])){
+			// Placement des entrées dans une variable
+			$tabscat = $params['idselect'];	
+			//Tri des entrées suivant la langue courante
+			foreach(frontend_db_lang::s_fetch_lang() as $l){
+			  if($l['iso'] == frontend_model_template::current_Language()){
+			  	 $p_lang = $l['iso'];
+			  	 $idselect = $tabscat[$p_lang];
+				 // Vérifie que les id sont bien placés en tableau (niv2  id dans les langes)
+				 if(is_array($idselect)){
+				 	$idcat = implode (',', $idselect);
+				 }else{
+				 	//----------------- ERROR ---------------------------
+					//Si mes id ne sont pas dans un tableau (niv2  id dans les langes)
+					$error_return = 'idselect is not an array (id in isolang)<br />';
+					$error_return .= '<strong>EXPECTED</strong> : idselect=[\'en\' => <strong>[\'1\',\'2\']</strong>, \'fr\' => <strong>[\'3\']</strong>] ]<br />';				
+					trigger_error($error_return);
+					return;
+				 }
+			  } 
+		  	}
+			// Récupération de la langue courante
+			$lang =  frontend_model_template::current_Language();
+			// Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc IN ($idcat)  
+		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang, $idcat,'collection');		
+		}else{
+			//----------------- ERROR ---------------------------
+			//Si mes id ne sont pas dans un tableau (niv1 les langes)
+			$error_return = 'idselect is not an array (isolang)<br />';
+			$error_return .= 'EXPECTED : idselect=<strong>[\'en\'</strong> => [\'1\',\'2\'], <strong>\'fr\'</strong> => [\'3\']<strong>]</strong> or idselect=<strong>[\'en\'</strong> => [\'1\',\'2\'] <strong>]</strong>';		
+			trigger_error($error_return);
+			return;			
+		}
+	// | EXCLUSION DES CATEGORIES A NE PAS AFFICHER (exclude)
+	// -------------------------------------------------		
+	}elseif (isset($params['idexclude'])) {
+		// Vérifie que les id sont bien placé en tableau (niv1 les langes)
+		if (is_array($params['idexclude'])) {
+			 // Placement des entrées dans une variable
+			$tabscat = $params['idexclude'];
+			//Tri des entrées suivant la langue courante
+			foreach(frontend_db_lang::s_fetch_lang() as $l){
+			  if($l['iso'] == frontend_model_template::current_Language()){
+			  	 $p_lang = $l['iso'];
+			  	 $idexclude = $tabscat[$p_lang]; 
+				 // Vérifie que les id sont bien placés en tableau (niv2  id dans les langues)
+				 if(is_array($idexclude)){				 
+				 	$idcat = implode (',', $idexclude);
+				 }else{
+				 	//----------------- ERROR ---------------------------
+					//Si mes id ne sont pas dans un tableau (niv2  id dans les langues)
+					$error_return = 'idexclude is not an array (id in isolang)<br />';
+					$error_return .= '<strong>EXPECTED</strong> : idexclude=[\'en\' => <strong>[\'1\',\'2\']</strong>, \'fr\' => <strong>[\'3\']</strong>] ]<br />';				
+					trigger_error($error_return);
+					return;
+				 }
+			  } 
+		  	}
+			/* Récupération de la langue courante */
+			$lang =  frontend_model_template::current_Language();
+			/* Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc NOT IN ($idcat)*/   
+		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang, $idcat,'exclude');
+		}else{
+			//----------------- ERROR ---------------------------
+			//Si mes id ne sont pas dans un tableau (niv1 les langes)
+			$error_return = 'idexclude is not an array (isolang)<br />';
+			$error_return .= 'EXPECTED : idexclude=<strong>[\'en\'</strong> => [\'1\',\'2\'], <strong>\'fr\'</strong> => [\'3\']<strong>]</strong> or idexclude=<strong>[\'en\'</strong> => [\'1\',\'2\'] <strong>]</strong>';		
+			trigger_error($error_return);
+			return;						
+		}
+	// | COMPORTEMENT DE BASE AFFICHAGE DE TOUTES LES CATEGORIES (null)
+	// ---------------------------------------------------------------		
+	}else {
+			$lang =  frontend_model_template::current_Language();
+			$idcat = null;
+		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang,$idcat);			
+ 	} 
+//--------------------------------------------------
+// CONSTRUCTION DE LA REQUETE SQL SUIVANT ARGUMENTS |
+//-------------------- END - -----------------------
+
+
+//------------------------- START ---------------------------------------
+// RECUPERATION DES DONNEES A INSEREE (positionment, texte, class et id) |
+//-----------------------------------------------------------------------
+
+	// | RECUP ET AFFICHAGE |
+	// ------------------------
+
+	// Titre précédent l'affchage catégories si null vide
 	$title = !empty($params['title'])?$params['title']:'';
-	//Position du nom de l'élément
+	//Position du nom de le catégorie (bottom ou top) si null placer au dessus
 	$tposition = $params['tposition']? $params['tposition'] : 'top';
-	// Nombre de colonnes
+	// Nombre de colones (utilisé pour l"ajout d'une class last par ligne)
 	$last = $params['col']? $params['col'] : 0 ;
-	//Paramètres des classes CSS
+	// Activer ou non une description
+	$description = !empty($params['description'])? true: false;
+		// Longeur description du produit
+		$length = magixcjquery_filter_isVar::isPostNumeric($params['length'])? $params['length']: 100 ;
+		// Le délimiteur pour tronqué le texte
+		$delimiter = $params['delimiter'] ? $params['delimiter'] : '';
+	// | PARAMETRAGE DES CLASS ET ID CSS |
+	// ----------------------------------
+
+	// Récupération des paramètres de class  et id
+	//---------------------------------------
+
 	if (isset($params['css_param'])) {
 		if(is_array($params['css_param'])){
 			$tabs = $params['css_param'];
@@ -66,39 +187,117 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 			return;
 		}
 	}else{
-		$tabs= array('class_container'=>'list-div medium bg light w11-32',
+		$tabs= array(
+				'id_container' => null,
+				'class_container'=>'list-div',
 				'class_elem'=>'list-div-elem',
-				'class_img'=>'img'
+				'class_name' => 'name',
+				'class_img'=>'img',
+				'class_desc'=>'descr'
 			);
-	}
-	$i = 1;
+	}	
+	// Variables pour les class des éléments
+	$id_container =  ($tabs['id_container'] != null)? ' id="' . $tabs['id_container'] . '"' : '' ;
+	$class_container = ($tabs['class_container'] != null)? ' class="' . $tabs['class_container'] . '"' : '' ;
+	$class_elem = ($tabs['class_elem'] != null)?  $tabs['class_elem'] : null ;
+	$class_name = ($tabs['class_name'] != null)? ' class="' . $tabs['class_name'] . '"' : '' ;
+	$class_img = ($tabs['class_img'] != null)? ' class="' . $tabs['class_img'] . '"' : '' ;	
+	$class_desc = ($tabs['class_desc'] != null)? ' class="' . $tabs['class_desc'] . '"' : '' ;	
+
+//---------------------------------------------------------------------
+// RECUPERATION DES DONNEES A INSEREE (positionment, texte, class et id) |
+//------------------------- END ---------------------------------------
+
+//--------------- START --------------------
+//          FORMATAGE DU CONTENU            |
+//------------------------------------------
+
+	$i = 1; //Définis pour l'ajout de la class 'last'
+
 	$block = $title;
 	$imgPath = new magixglobal_model_imagepath('catalog');
-	if(frontend_db_block_catalog::s_category_widget(frontend_model_template::current_Language()) != null){
-		$block .= '<div class="'.$tabs['class_container'].'">'."\n";
-		foreach(frontend_db_block_catalog::s_category_widget(frontend_model_template::current_Language()) as $cat){
-			if ($i == $last ) {
-				$last_elem = ' last';
-				$i = 1;
-			} else {
-				$last_elem = null;
-				$i++;
-			}
-			$block .= '<div class="'.$tabs['class_elem'].$last_elem.'">'."\n";
+	if ($fct_sql != null){
+
+		$block .= '<div'. $id_container . $class_container .'>'."\n";
+		foreach ($fct_sql as $cat) {
+
+			// | CONSTRUCTION DES CLASS
+			// ----------------------------		
+			
+				//Application de la class last pour enfant courant
+				//-----------------------------------------------
+				//Test si l'élément courant besoin class last			
+				if ($i == $last ) {
+					$last_elem = ' last';
+					$i = 1;
+				} else {
+					$last_elem = null;
+					$i++;
+				}
+				
+				//Formatage class pour enfant courant
+				//------------------------------
+				// Si on ne lui retire pas sa classe
+				if ($class_elem != null) {
+					$class_child = ' class="'. $class_elem . $last_elem .'"';
+				//Si on lui retire sa class mais qu'il est le dernier élément de la ligne
+				} elseif( $last_elem != null) {
+					$class_child = ' class="'.$last_elem .'"';
+				//Si pas de class et pas le dernier élément de la ligne
+				} else {
+					$class_child = null;
+				}	
+
+			// | CONSTRUCTION DES ELEMENTS
+			// ----------------------------		
+
+				// Construction NOM catégorie
+				//-----------------------------------
+				$name_cat = '<p '. $class_name .'>';
+					$name_cat .= '<a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">';
+						$name_cat .= magixcjquery_string_convert::ucFirst($cat['clibelle']);
+					$name_cat .= '</a>';
+				$name_cat .= '</p>';
+
+				// Construction IMAGE catégorie
+				//----------------------------------------
+				$img_cat = '<a '. $class_img .'  href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">';
+					if ($cat['img_c'] != null){					
+					$img_cat .=	'<img src="'.$imgPath->filter_path_img('category',$cat['img_c']).'" alt="'.$cat['clibelle'].'" />';
+				} else {
+					$img_cat .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png'.'" alt="'.$cat['clibelle'].'" />';
+				}
+				$img_cat .=	'</a>';
+
+				// Construction Description catégorie
+				//----------------------------------------
+				$desc_cat = '<span '. $class_desc .'>';
+					$desc_cat .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['c_content'],$length,$delimiter));
+				$desc_cat .= '</span>';
+
+
+			// | CONSTRUCTION ENFANT (class + elements)
+			// ------------START----------------------		
+			$block .= '<div'. $class_child .'>'."\n";
 			if($tposition == 'top'){
-				$block .= '<p class="name"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></p>';
+				$block .= $name_cat;
 			}
-			if($cat['img_c'] != null){
-				$block .= '<a class="'.$tabs['class_img'].'" href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'"><img src="'.$imgPath->filter_path_img('category',$cat['img_c']).'" alt="'.$cat['clibelle'].'" /></a>';
-			}else{
-				$block .= '<a class="'.$tabs['class_img'].'" href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'"><img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png'.'" alt="'.$cat['clibelle'].'" /></a>';
-			}
+			$block .= $img_cat;
 			if($tposition == 'bottom'){
-				$block .= '<p class="name"><a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</a></p>';
+				$block .= $name_cat;
+			}
+			if ($description != false) {
+				$block .= $desc_cat;
 			}
 			$block .= '</div>'."\n";
+			// | CONSTRUCTION ENFANT
+			// ------------END-------------------							
 		}
 		$block .= '</div>'."\n";
 	}
+//------------------------------------------
+//          FORMATAGE DU CONTENU            |
+//---------------- END ---------------------
+//ENVOIS DES DONNEES
 	return $block;
 }

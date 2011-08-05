@@ -29,7 +29,7 @@
  *
  */
 class frontend_db_block_catalog{
-	public static function s_category_widget($iso){
+	public static function s_category_widget($iso,$idclc,$type = null){
 		/*$sql = 'SELECT p.idcatalog, p.urlcatalog, p.idlang, 
 		p.idclc, p.idcls, c.pathclibelle,clibelle, img.imgcatalog, lang.iso
 		FROM mc_catalog AS p
@@ -42,10 +42,23 @@ class frontend_db_block_catalog{
 		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		WHERE lang.iso = :iso';*/
-		$sql = 'SELECT c.idclc,c.pathclibelle,c.clibelle,c.img_c,c.idlang, lang.iso
+		switch($type){
+			case 'collection':
+				$filter = 'AND c.idclc IN ';
+				$filter .= '( '. $idclc . ' ) ';
+				break;
+			case 'exclude':
+				$filter = 'AND c.idclc NOT IN ';
+				$filter .= '( '. $idclc . ' ) ';
+				break;
+			default:
+				$filter = '';	
+				break;
+		}
+		$sql = "SELECT c.idclc,c.pathclibelle,c.clibelle,c.img_c,c.idlang,c.c_content,lang.iso
 		FROM mc_catalog_c AS c
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		WHERE lang.iso = :iso ORDER BY corder';
+		WHERE lang.iso = :iso {$filter} ORDER BY corder";
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':iso'	=>	$iso)
 		);

@@ -98,7 +98,7 @@ class backend_controller_plugins{
 	 * @param string $plugin_folder
 	 */
 	public function allow_access_config($plugin_folder){
-		$pathxml = $this->directory_plugins().$plugin_folder.DIRECTORY_SEPARATOR.'config.xml';
+		$pathxml = $this->pluginDir($plugin_folder).'config.xml';
 		if(file_exists($pathxml)){
 			/*try {
 				$xml = new SimpleXMLElement($pathxml,0, TRUE);
@@ -107,17 +107,61 @@ class backend_controller_plugins{
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 			return $v;*/
-			$xml = new XMLReader();
-			$xml->open($pathxml, "UTF-8");
-			while($xml->read()){
-				if ($xml->nodeType == XMLREADER::ELEMENT && $xml->localName == "authorized") {
-					$v = $xml->expand();
-					$v = new SimpleXMLElement('<authorized>'.$xml->readInnerXML().'</authorized>');
-					return $v->allow_access;
+			try {
+				$xml = new XMLReader();
+				$xml->open($pathxml, "UTF-8");
+				while($xml->read()){
+					if ($xml->nodeType == XMLREADER::ELEMENT && $xml->localName == "authorized") {
+						$v = $xml->expand();
+						$v = new SimpleXMLElement('<authorized>'.$xml->readInnerXML().'</authorized>');
+						return $v->allow_access;
+					}
 				}
+			} catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}else{
 			return '*';
+		}
+	}
+	public function load_config_info(){
+		$pathxml = $this->pluginDir().'config.xml';
+		if(file_exists($pathxml)){
+			try {
+				$xml = new XMLReader();
+				$xml->open($pathxml, "UTF-8");
+				while($xml->read()){
+					if ($xml->nodeType == XMLREADER::ELEMENT && $xml->localName == "authors") {
+						$v = $xml->expand();
+						$v = new SimpleXMLElement('<authors>'.$xml->readInnerXML().'</authors>');
+						//echo ReflectionObject::export($v); 
+						//echo ReflectionObject::export($v['attr']); 
+						$r = '<table class="table-plugin-author">
+							<thead>
+								<tr style="padding:3px;" class="ui-widget ui-widget-header">
+									<th>Author</th>
+									<th>Website</th>
+								</tr>
+							</thead>
+							<tbody>';
+						foreach($v->author as $row){
+							$r.= '<tr>';
+							$r.= '<td class="medium-cell">'.$row->name.'</td>';
+							$r .= '<td><ul>';
+							$t = '';
+							foreach($row->link->children() as $link){
+								$r .= '<li><a style="text-decoration:underline;" class="targetblank" href="'.$link->attributes()->href.'">'.$link->attributes()->href.'</a></li>';
+							}
+							$r.='</ul></td>';
+							$r.= '</tr>';
+						}
+						$r.='</tbody></table>';
+						return $r;
+					}
+				}
+			} catch (Exception $e){
+				magixglobal_model_system::magixlog('An error has occured :',$e);
+			}
 		}
 	}
 	/**
@@ -261,7 +305,7 @@ class backend_controller_plugins{
 	 * Chargement d'un plugin pour l'administration
 	 * @access private
 	 */
-	private function load_plugin(){
+	private function load_plugin($debug=false){
 		try{
 			plugins_Autoloader::register();
 			//Si le fichier admin.php existe dans le plugin
@@ -271,7 +315,23 @@ class backend_controller_plugins{
 					$load = $this->execute_plugins('plugins_'.$this->getplugin().'_admin');
 					//Si la méthode existe on ajoute le plugin dans le register et execute la fonction run()
 					if(method_exists($load,'run')){
-						$load->run();
+						$access = $this->allow_access_config($this->getplugin());
+						$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
+						if($debug){
+							$firebug = new magixcjquery_debug_magixfire();
+							$firebug->magixFireLog($this->getplugin().': '.$access);
+						}
+						if($access != null OR $access != ''){
+							if($access >= $perms['perms']){
+								$load->run();
+							}elseif($access == '*'){
+								$load->run();
+							}else{
+								exit();
+							}
+						}else{
+							$load->run();
+						}
 					}
 				}else{
 					throw new Exception ('Class '.$this->getplugin().' is not found');
@@ -302,8 +362,12 @@ class backend_controller_plugins{
 	/**
 	 * Retourne le chemin du dossier du plugin courant
 	 */
-	public function pluginDir(){
-		return $this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR;
+	public function pluginDir($plugin_folder=null){
+		if($plugin_folder == null){
+			return $this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR;
+		}else{
+			return $this->directory_plugins().$plugin_folder.DIRECTORY_SEPARATOR;
+		}
 	}
 	/**
 	 * Retourne le chemin du dossier du plugin courant
@@ -412,10 +476,11 @@ class backend_controller_plugins{
 				backend_config_smarty::getInstance()->assign('pluginName',$this->pluginName());
 				backend_config_smarty::getInstance()->assign('pluginUrl',$this->pluginUrl());
 				backend_config_smarty::getInstance()->assign('pluginPath',$this->pluginPath());
+				backend_config_smarty::getInstance()->assign('pluginInfo',$this->load_config_info());
 				$this->load_plugin();
 			}catch (Exception $e){
-			magixglobal_model_system::magixlog('An error has occured :',$e);
-		}
+				magixglobal_model_system::magixlog('An error has occured :',$e);
+			}
 		}
 	}
 	public function run(){
