@@ -187,8 +187,8 @@ class magixglobal_model_mail{
 	    		}elseif(!is_numeric($sleep)){
 	    			throw new Exception("sleep is not numeric");
 	    		}else{
-	    			self::plugin_antiflood($threshold, $sleep);
-					self::plugin_throttler($rate, $mode);
+	    			$this->plugin_antiflood($threshold, $sleep);
+					$this->plugin_throttler($rate, $mode);
 	    		}
 	    	}
     	}catch (Exception $e){
@@ -203,7 +203,7 @@ class magixglobal_model_mail{
      * @param string $logger
      */
     public function batch_send_mail($message,$failures=false,$log=false){
-    	if(!$this->_mailer->batchSend($message)){
+    	if(!$this->_mailer->send($message)){
     		magixcjquery_debug_magixfire::magixFireDump("Failures: ", $failures);
     	}
     	if($log){

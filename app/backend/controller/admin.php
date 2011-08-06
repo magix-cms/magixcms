@@ -192,7 +192,7 @@ class backend_controller_admin{
 	 * @return header
 	 */
 	public function securePage(){
-		//ini_set("session.cookie_lifetime",1800);
+		//ini_set("session.cookie_lifetime",3600);
 		$this->start_session();
 		if (!isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
 			if (!isset($this->acmail)) {
