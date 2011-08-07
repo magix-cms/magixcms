@@ -494,8 +494,8 @@ var ns_jcms = {
 				+'<td class="small-icon">'+flaglang+'</td>'
 				+'<td class="small-icon">'+item.pseudo+'</td>'
 				+movepage
-				+'<td class="small-icon"><a href="/admin/cms.php?edit='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
-				+'<td class="small-icon"><a href="#" class="deletecms" title="'+item.idpage+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
+				+'<td class="small-icon"><a title="Edition" href="/admin/cms.php?edit='+item.idpage+'" class="linkurl"><span class="lfloat ui-icon ui-icon-pencil"></span></a></td>'
+				+'<td class="small-icon"><a title="Suppression" href="#" class="delpage" rel="'+item.idpage+'"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>'+
 				'</tr>').appendTo('#table_search_product tbody');
 			});
 		}else{
@@ -512,6 +512,7 @@ var ns_jcms = {
 					+'<td><span class="lfloat ui-icon ui-icon-minus"></span></td>'
 					+'</tr>').appendTo('#table_search_product tbody');
 		}
+		//ns_jcms._deletePage(false);
 	},
 	_initSearchPage:function(){
 		/**
@@ -637,7 +638,7 @@ var ns_jcms = {
             }
 		});
 	},
-	_deletePage:function(child){
+	_deletePage:function(config){
 		/**
 	     * Requête ajax pour la suppression des pages CMS
 	     */
@@ -680,15 +681,27 @@ var ns_jcms = {
 							cache:false,
 							success: function(request){
 								//ns_jcms._child_lang_page(edit);
-								if(child == true){
-									ns_jcms._loadChildPage($("#idlang").val(),$('#idcat_p').val());
-								}else{
-									$.notice({
-										ntype: "simple",
-										time:2
-									});
-					    			$(".mc-head-request").html(request);
-									ns_jcms._loadParentPage($("#idlang").val());
+								switch(config){
+									case "page_p":
+										$.notice({
+											ntype: "simple",
+											time:2
+										});
+						    			$(".mc-head-request").html(request);
+										ns_jcms._loadParentPage($("#idlang").val());
+									break;
+									case "page_child":
+										/*$.notice({
+											ntype: "simple",
+											time:2
+										});
+						    			$(".mc-head-request").html(request);*/
+						    			ns_jcms._loadChildPage($("#idlang").val(),$('#idcat_p').val());
+									break;
+									case "search":
+										$('#result-search-page').empty();
+										//ns_jcms._initSearchPage();
+									break;
 								}
 							}
 					     });
@@ -859,20 +872,21 @@ var ns_jcms = {
 		this._addParentPage(false,false);
 		this._google_chart_language();
 		this._initSearchPage();
+		this._deletePage("search");
 	},
 	runParentPage:function(){
 		this._initTextChange();
 		this._addParentPage(true,$("#idlang").val());
 		this._loadParentPage($("#idlang").val());
 		this._sidebarPage(false);
-		this._deletePage(false);
+		this._deletePage("page_p");
 	},
 	runChildPage:function(){
 		this._initTextChange();
 		this._addChildPage($("#idlang").val(),$('#idcat_p').val());
 		this._loadChildPage($("#idlang").val(),$('#idcat_p').val());
 		this._sidebarPage(true);
-		this._deletePage(true);
+		this._deletePage("page_child");
 	},
 	runMovePage:function(){
 		this._load_page_uri($("#idpage").val());

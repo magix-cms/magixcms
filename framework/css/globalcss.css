@@ -769,7 +769,13 @@ input.ui-button { padding: .1em 1em; }
 .txt-save,.editor-save{margin-top:5px;margin-left:5px;}
 /*######################## PLUGINS ##########################*/
 ul.plugin-list{}
-ul.plugin-list li{}
+ul.plugin-list li{
+	max-height:18px;
+}
+ul.plugin-list li img{
+	float:left;
+	margin-right: 3px;
+}
 /*######################## SEO MODULE ##########################*/
 .seotags{margin:0;padding:0;}
 .addseo{display:block;clear:left;cursor:pointer;}

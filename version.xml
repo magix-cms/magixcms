@@ -4,10 +4,10 @@
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * Dual licensed under the MIT or GPL Version 3 licenses.
  *
- * Date: Juny 14 00:00 2011
+ * Date: August 6 00:00 2011
  */-->
 <version>
-	<number>2.3.47</number>
+	<number>2.3.48</number>
 	<phase>Beta</phase>
 	<link>http://www.magix-cms.com</link>
 </version>

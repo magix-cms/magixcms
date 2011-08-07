@@ -445,7 +445,7 @@ class backend_controller_cms extends backend_db_cms{
 	private function delete_page(){
 		if(isset($this->delpage)){
 			$verify = parent::verify_idcat_p($this->delpage);
-			if($verify['childpages'] == '0'){
+			if($verify['childpages'] == 0){
 				parent::d_page($this->delpage);
 			}else{
 				backend_controller_template::display('cms/request/element-child-exist.phtml');

@@ -150,7 +150,7 @@ class backend_db_admin{
 	 */
 	function i_n_members($pseudo,$email,$cryptpass,$keyuniqid,$perms){
 		$sql = array(
-		'INSERT INTO mc_admin_member (pseudo,email,cryptpass) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'","'.$keyuniqid.'")',
+		'INSERT INTO mc_admin_member (pseudo,email,cryptpass,keyuniqid) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'","'.$keyuniqid.'")',
 		'INSERT INTO mc_admin_perms (perms) VALUE("'.$perms.'")'
 		);
 		magixglobal_model_db::layerDB()->transaction($sql);
