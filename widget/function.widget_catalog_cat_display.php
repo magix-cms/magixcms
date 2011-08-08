@@ -38,7 +38,26 @@
  * Date:     
  * Update:   01-08-2011 
  * Purpose:  
- * Examples: {widget_catalog_cat_display 
+ * Examples: 
+ * 			### BASIC ###
+ 				{widget_catalog_cat_display 
+				css_param=[
+					'id_container' => 'choose-id', 
+					'class_container'=>'list-div medium bg light w11-32',
+					'class_elem'=>'list-div-elem',
+  					'class_name' => 'name',
+					'class_img'=>'img',
+  					'class_desc' =>'desc'
+				]
+ 				title="catalog categories" 
+				tposition="bottom" 
+ 				col="2" 
+ 				description=true
+				delimiter='...'
+				lengt='250'}
+				
+  			### WITH SELECT ####
+  				{widget_catalog_cat_display 
 				css_param=[
 					'id_container' => 'choose-id', 
 					'class_container'=>'list-div medium bg light w11-32',
@@ -48,6 +67,23 @@
   					'class_desc' =>'desc'
 				]
 				idselect=['fr'=>['1','2'],'en'=>[0]]
+ 				title="catalog categories" 
+				tposition="bottom" 
+ 				col="2" 
+ 				description=true
+				delimiter='...'
+				lengt='250'}
+				
+				### WITH EXCLUDE ####
+				{widget_catalog_cat_display 
+				css_param=[
+					'id_container' => 'choose-id', 
+					'class_container'=>'list-div medium bg light w11-32',
+					'class_elem'=>'list-div-elem',
+  					'class_name' => 'name',
+					'class_img'=>'img',
+  					'class_desc' =>'desc'
+				]
 				idexclude=['fr'=>['1','2'],'en'=>[0]]
  				title="catalog categories" 
 				tposition="bottom" 
@@ -95,8 +131,12 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 		  	}
 			// Récupération de la langue courante
 			$lang =  frontend_model_template::current_Language();
-			// Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc IN ($idcat)  
-		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang, $idcat,'collection');		
+			// Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc IN ($idcat) 
+			if($idcat != 0){
+				$fct_sql = frontend_db_block_catalog::s_category_widget($lang, $idcat,'collection');	
+			}else{
+				$fct_sql = frontend_db_block_catalog::s_category_widget($lang);
+			}		
 		}else{
 			//----------------- ERROR ---------------------------
 			//Si mes id ne sont pas dans un tableau (niv1 les langes)
@@ -133,7 +173,11 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 			/* Récupération de la langue courante */
 			$lang =  frontend_model_template::current_Language();
 			/* Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc NOT IN ($idcat)*/   
-		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang, $idcat,'exclude');
+			if($idcat != 0){
+				$fct_sql = frontend_db_block_catalog::s_category_menu($lang, $idcat,'exclude');	
+			}else{
+				$fct_sql = frontend_db_block_catalog::s_category_menu($lang);
+			}
 		}else{
 			//----------------- ERROR ---------------------------
 			//Si mes id ne sont pas dans un tableau (niv1 les langes)
@@ -146,8 +190,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 	// ---------------------------------------------------------------		
 	}else {
 			$lang =  frontend_model_template::current_Language();
-			$idcat = null;
-		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang,$idcat);			
+		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang);			
  	} 
 //--------------------------------------------------
 // CONSTRUCTION DE LA REQUETE SQL SUIVANT ARGUMENTS |

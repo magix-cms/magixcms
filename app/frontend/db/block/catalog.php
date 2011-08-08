@@ -156,14 +156,33 @@ class frontend_db_block_catalog{
 	 * Selectionne les produits liés du produit courant
 	 * @param $idcatalog
 	 */
-	public static function s_catalog_rel_product($idcatalog){
-		$sql = 'SELECT rel.idrelproduct,rel.idproduct 
+	public static function s_catalog_rel_product($idcatalog,$idclc = false,$type = null){
+		switch($type){
+			case 'collection':
+				$filter = 'AND p.idclc IN ';
+				$filter .= '( '. $idclc . ' ) ';
+				break;
+			case 'exclude':
+				$filter = 'AND p.idclc NOT IN ';
+				$filter .= '( '. $idclc . ' ) ';
+				break;
+			default:
+				$filter = '';	
+				break;
+		}
+		$sql = "SELECT rel.idrelproduct,rel.idproduct 
 		FROM mc_catalog_rel_product AS rel
-		WHERE rel.idcatalog = :idcatalog';
+		LEFT JOIN mc_catalog_product AS p ON (p.idproduct = rel.idproduct)
+		WHERE rel.idcatalog = :idcatalog {$filter}";
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idcatalog'	=>	$idcatalog
 		));
 	}
+	/**
+	 * 
+	 * Retourne les informations du produits
+	 * @param integer $idproduct
+	 */
 	public static function s_catalog_product_info($idproduct){
 		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle,s.idcls,s.pathslibelle,
 		card.titlecatalog, card.urlcatalog, card.desccatalog, lang.iso,img.imgcatalog
@@ -180,18 +199,30 @@ class frontend_db_block_catalog{
 	}
 	/*################ MENU #################*/
 	/**
-	 * construction menu des catégories (avec langue)
+	 * construction menu des catégories (avec condition d'exclusion)
 	 */
-	public static function s_category_menu_with_exclude($iso,$exclude_sql){
+	public static function s_category_menu($iso,$idclc = false,$type = null){
+		switch($type){
+			case 'collection':
+				$filter = 'AND c.idclc IN ';
+				$filter .= '( '. $idclc . ' ) ';
+				break;
+			case 'exclude':
+				$filter = 'AND c.idclc NOT IN ';
+				$filter .= '( '. $idclc . ' ) ';
+				break;
+			default:
+				$filter = '';	
+				break;
+		}
 		$sql = "SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, lang.iso
 				FROM mc_catalog_c AS c
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE lang.iso = :iso AND c.idclc NOT IN ({$exclude_sql})
-				ORDER BY corder";
+				WHERE lang.iso = :iso {$filter} ORDER BY corder";
 		return magixglobal_model_db::layerDB()->select($sql,array(
-		':iso'		=>	$iso
+			':iso'	=>	$iso
 		));
-	}	
+	}
 	/**
 	 * construction menu des sous catégories (avec langue)
 	 * @param iso
@@ -209,26 +240,20 @@ class frontend_db_block_catalog{
 		));
 	}
 	/**
-	 * construction menu des catégories (avec langue)
+	 * construction menu produit (avec langue) ICI
+	 * @param iso
+	 * @param idclc
 	 */
-	public static function s_category_menu($iso){
-		$sql = 'SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, lang.iso
-				FROM mc_catalog_c AS c
-				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE lang.iso = :iso ORDER BY corder';
+	public static function s_category_product_menu($iso,$idclc){
+		$sql = 'SELECT p.idproduct, p.idclc, p.idcls, catalog.titlecatalog, catalog.urlcatalog, lang.iso, c.pathclibelle
+				FROM mc_catalog_product AS p
+				JOIN mc_catalog_c as c ON (c.idclc = p.idclc)
+				JOIN mc_catalog as catalog ON ( catalog.idcatalog = p.idcatalog)
+				JOIN mc_lang AS lang ON ( lang.idlang = catalog.idlang )
+				WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.iso = :iso ORDER BY orderproduct';
 		return magixglobal_model_db::layerDB()->select($sql,array(
-		':iso'		=>	$iso
+			':iso'		=>	$iso,
+			':idclc'	=>	$idclc
 		));
 	}
-	/*public static function s_sub_category_menu($idclc,$iso){
-	    $sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.idclc, s.img_s, lang.iso
-	        FROM mc_catalog_c AS c
-	        LEFT JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
-	        LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-	        WHERE s.idclc = :idclc AND lang.iso = :iso ORDER BY sorder';
-	    return magixglobal_model_db::layerDB()->select($sql,array(
-	      ':idclc'=>$idclc,
-	      ':iso'   =>  $iso
-	    ));
-	}*/
 }

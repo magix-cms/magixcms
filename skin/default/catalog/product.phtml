@@ -47,7 +47,22 @@
 						</div>
 						<div id="rel-product" class="block w11-32 lfloat last">
 							<p class="title">Voir aussi</p>
-							{widget_catalog_rel_product idcatalog=$idcatalog col="1" description=true contentlength="124" size="medium" tposition="bottom"}
+							{widget_catalog_rel_product 
+								idcatalog=$idcatalog 
+								css_param=[
+									'id_container'=>'',
+									'class_container'=>'list-div w5-32 bg dark',
+									'class_elem'=>'list-div-elem',
+									'class_name' => 'name',
+									'class_img'=>'img',
+									'class_desc'=>'descr',
+									'class_price'=>'price'
+								]
+								col="1" 
+								description=true 
+								contentlength="124"
+								size="medium" 
+								tposition="bottom"}
 						</div>
 						<div class="clear"></div>					
 					</div>

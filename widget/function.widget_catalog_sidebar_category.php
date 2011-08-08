@@ -41,8 +41,35 @@
  * Type:     function
  * Name:     widget_catalog_sidebar_category
  * Date:     18 juillet 2011
+ * Update:   8 Aout 2011
  * Purpose:  
- * Examples: {widget_catalog_sidebar_category exclude=['fr'=>['1,3'],'en'=>['7']]}
+ * Examples: 
+ * 			### BASIC ###
+			{widget_catalog_sidebar_category
+			css_param=[
+				'id_container' => 'catalog-hierarchy',
+				'class_container'=>'filetree',
+				'class_active'=>'active-page',
+				'class_close' => 'closed'
+			]}
+			
+ 			### WITH EXCLUDE ####
+ 			{widget_catalog_sidebar_category
+			css_param=[
+				'id_container' => 'catalog-hierarchy',
+				'class_container'=>'filetree',
+				'class_active'=>'active-page',
+				'class_close' => 'closed'
+			] idexclude=['fr'=>['1','3'],'en'=>['7']]}
+			
+			### WITH SELECT ####
+			{widget_catalog_sidebar_category
+			css_param=[
+				'id_container' => 'catalog-hierarchy',
+				'class_container'=>'filetree',
+				'class_active'=>'active-page',
+				'class_close' => 'closed'
+			] idselect=['fr'=>['1','2'],'en'=>[0]]}
  * Output:   
  * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
@@ -52,111 +79,161 @@
  * @return string
  */
 function smarty_function_widget_catalog_sidebar_category($params, $template){
-	$ui = $params['ui'];
-	$icons = $params['icons'];
-	$exclude = $params['exclude'];
-	//Si icons = true on retourne les icônes de jquery treeview
-	if(isset($icons)){
-		$folder = ' class="folder"';
-		$file = ' class="file"';
+	if (isset($params['idselect'])) {
+		// Vérifie que les id sont bien placé en tableau (niv1 les langes)
+		if(is_array($params['idselect'])){
+			// Placement des entrées dans une variable
+			$tabscat = $params['idselect'];	
+			//Tri des entrées suivant la langue courante
+			foreach(frontend_db_lang::s_fetch_lang() as $l){
+			  if($l['iso'] == frontend_model_template::current_Language()){
+			  	 $p_lang = $l['iso'];
+			  	 $idselect = $tabscat[$p_lang];
+				 // Vérifie que les id sont bien placés en tableau (niv2  id dans les langes)
+				 if(is_array($idselect)){
+				 	$idcat = implode (',', $idselect);
+				 }else{
+				 	//----------------- ERROR ---------------------------
+					//Si mes id ne sont pas dans un tableau (niv2  id dans les langes)
+					$error_return = 'idselect is not an array (id in isolang)<br />';
+					$error_return .= '<strong>EXPECTED</strong> : idselect=[\'en\' => <strong>[\'1\',\'2\']</strong>, \'fr\' => <strong>[\'3\']</strong>] ]<br />';				
+					trigger_error($error_return);
+					return;
+				 }
+			  } 
+		  	}
+			// Récupération de la langue courante
+			$lang =  frontend_model_template::current_Language();
+			// Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc IN ($idcat)  
+		    if($idcat != 0){
+				$fct_sql = frontend_db_block_catalog::s_category_menu($lang, $idcat,'collection');	
+			}else{
+				$fct_sql = frontend_db_block_catalog::s_category_menu($lang);
+			}			
+		}else{
+			//----------------- ERROR ---------------------------
+			//Si mes id ne sont pas dans un tableau (niv1 les langes)
+			$error_return = 'idselect is not an array (isolang)<br />';
+			$error_return .= 'EXPECTED : idselect=<strong>[\'en\'</strong> => [\'1\',\'2\'], <strong>\'fr\'</strong> => [\'3\']<strong>]</strong> or idselect=<strong>[\'en\'</strong> => [\'1\',\'2\'] <strong>]</strong>';		
+			trigger_error($error_return);
+			return;			
+		}
+	// | EXCLUSION DES CATEGORIES A NE PAS AFFICHER (exclude)
+	// -------------------------------------------------		
+	}elseif (isset($params['idexclude'])) {
+		// Vérifie que les id sont bien placé en tableau (niv1 les langes)
+		if (is_array($params['idexclude'])) {
+			 // Placement des entrées dans une variable
+			$tabscat = $params['idexclude'];
+			//Tri des entrées suivant la langue courante
+			foreach(frontend_db_lang::s_fetch_lang() as $l){
+			  if($l['iso'] == frontend_model_template::current_Language()){
+			  	 $p_lang = $l['iso'];
+			  	 $idexclude = $tabscat[$p_lang]; 
+				 // Vérifie que les id sont bien placés en tableau (niv2  id dans les langues)
+				 if(is_array($idexclude)){				 
+				 	$idcat = implode (',', $idexclude);
+				 }else{
+				 	//----------------- ERROR ---------------------------
+					//Si mes id ne sont pas dans un tableau (niv2  id dans les langues)
+					$error_return = 'idexclude is not an array (id in isolang)<br />';
+					$error_return .= '<strong>EXPECTED</strong> : idexclude=[\'en\' => <strong>[\'1\',\'2\']</strong>, \'fr\' => <strong>[\'3\']</strong>] ]<br />';				
+					trigger_error($error_return);
+					return;
+				 }
+			  } 
+		  	}
+			/* Récupération de la langue courante */
+			$lang =  frontend_model_template::current_Language();
+			/* Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc NOT IN ($idcat)*/   
+			if($idcat != 0){
+				$fct_sql = frontend_db_block_catalog::s_category_menu($lang, $idcat,'exclude');	
+			}else{
+				$fct_sql = frontend_db_block_catalog::s_category_menu($lang);
+			}
+		}else{
+			//----------------- ERROR ---------------------------
+			//Si mes id ne sont pas dans un tableau (niv1 les langes)
+			$error_return = 'idexclude is not an array (isolang)<br />';
+			$error_return .= 'EXPECTED : idexclude=<strong>[\'en\'</strong> => [\'1\',\'2\'], <strong>\'fr\'</strong> => [\'3\']<strong>]</strong> or idexclude=<strong>[\'en\'</strong> => [\'1\',\'2\'] <strong>]</strong>';		
+			trigger_error($error_return);
+			return;						
+		}
+	// | COMPORTEMENT DE BASE AFFICHAGE DE TOUTES LES CATEGORIES (null)
+	// ---------------------------------------------------------------		
+	}else {
+			$lang =  frontend_model_template::current_Language();
+		    $fct_sql = frontend_db_block_catalog::s_category_menu($lang);			
+ 	}
+	// | PARAMETRAGE DES CLASS ET ID CSS |
+	// ----------------------------------
+	// Récupération des paramètres de class  et id
+	//---------------------------------------
+
+	if (isset($params['css_param'])) {
+		if(is_array($params['css_param'])){
+			$tabs = $params['css_param'];
+		}else{
+			trigger_error("css_param is not array");
+			return;
+		}
 	}else{
-		$folder = '';
-		$file = '';
-	}
-	//On retourne le titre
-	$title = !empty($params['title'])? $params['title']:'';
-	$wmenu .= '<div class="sidebar">';
-	$wmenu .= '<div id="catalog-menu">';
-	if(isset($params['title'])){
-		$wmenu .= '<p class="title">'.$title.'</p>'."\n";
-	}else{
-		$wmenu .= null;
-	}
+		$tabs= array(
+				'id_container' => 'catalog-hierarchy',
+				'class_container'=>'filetree',
+				'class_active'=>'active-page',
+				'class_close' => 'closed'
+			);
+	}	
+	// Variables pour les class des éléments
+	$id_container =  ($tabs['id_container'] != null)? ' id="' . $tabs['id_container'] . '"' : '' ;
+	$class_container = ($tabs['class_container'] != null)? ' class="' . $tabs['class_container'] . '"' : '' ;
+	$class_active = ($tabs['class_active'] != null)?  ' class="' . $tabs['class_active']  . '"' : '' ;
+	$class_close = ($tabs['class_close'] != null)? ' class="' . $tabs['class_close'] . '"' : '' ;
 	//Sur la page root du catalogue
 	/*
 	 * Si on est dans une catégorie on execute la suite
 	 * 
 	 */
-	
-	if(!isset($_GET['idclc'])){
+	$getidclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
+	$getidcls = magixcjquery_filter_isVar::isPostNumeric($_GET['idcls']);
+	if(!isset($getidclc)){
 			$display = " style='display:none;'";
 	}else{
 			$display= '';
-	} 
-	if (isset($exclude)) {
-		/**
-		 * Si la langue est définie
-		 * On liste les catégories et les catégories respective de la catégorie sélectionné
-		 */
-		$exclude_array = $exclude[frontend_model_template::current_Language()];
-		$exclude_sql = implode (',', $exclude_array);
-		if(frontend_db_block_catalog::s_category_menu_with_exclude(frontend_model_template::current_Language(),$exclude_sql) != null){
-				$wmenu .='<ul id="catalog-hierarchy" class="filetree">'."\n";
-				foreach(frontend_db_block_catalog::s_category_menu_with_exclude(frontend_model_template::current_Language(),$exclude_sql) as $cat){
-					if(isset($_GET['idclc'])){
-						if($_GET['idclc'] === $cat['idclc']){
-							$active = '';
-							$active_link = ' class="active-page"';
-							
-						}else{
-							$active = ' class="closed"';
-							$active_link = '';
-						} 
-					}
-					$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(),$cat['pathclibelle'],$cat['idclc'],true).'" ' . $active_link . '><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</span></a>'."\n";
-					if(frontend_db_block_catalog::s_sub_category_menu(frontend_model_template::current_Language(),$cat['idclc']) != null){
-						$wmenu .= '<ul' . $display . '>';
-						foreach(frontend_db_block_catalog::s_sub_category_menu(frontend_model_template::current_Language(),$cat['idclc']) as $scat){
-							if(isset($_GET['idcls'])){
-								if($_GET['idcls'] === $scat['idcls']){
-									$currentpage = ' class="active-page"';
-								}else{
-									$currentpage = '';
-								}  
-							}
-							$wmenu .= '<li><a'.$currentpage.' href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url(frontend_model_template::current_Language(),$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";	
-						}
-						$wmenu .= '</ul>';
-					}
-				$wmenu .= "</li>\n"; 
-				}
-				$wmenu .='</ul>'."\n";
+	}
+	$wmenu = '';
+	if($fct_sql != null){
+ 		$wmenu .='<ul'. $id_container . $class_container .'>'."\n";
+		foreach($fct_sql as $cat){
+			if(isset($getidclc)){
+				if($getidclc === $cat['idclc']){
+					$active = '';
+					$active_link = $class_active;
+					
+				}else{
+					$active = $class_close;
+					$active_link = '';
+				} 
 			}
-		$wmenu .= '</div><div style="clear:left;"></div></div>';
-	}else{
-		if(frontend_db_block_catalog::s_category_menu(frontend_model_template::current_Language()) != null){
-				$wmenu .='<ul id="catalog-hierarchy" class="filetree">'."\n";
-				foreach(frontend_db_block_catalog::s_category_menu(frontend_model_template::current_Language()) as $cat){
-					if(isset($_GET['idclc'])){
-						if($_GET['idclc'] === $cat['idclc']){
-							$active = '';
-							$active_link = ' class="active-page"';
-							
+			$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(),$cat['pathclibelle'],$cat['idclc'],true).'" ' . $active_link . '><span>'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</span></a>'."\n";
+			if(frontend_db_block_catalog::s_sub_category_menu(frontend_model_template::current_Language(),$cat['idclc']) != null){
+				$wmenu .= '<ul' . $display . '>';
+				foreach(frontend_db_block_catalog::s_sub_category_menu(frontend_model_template::current_Language(),$cat['idclc']) as $scat){
+					if(isset($getidcls)){
+						if($getidcls === $scat['idcls']){
+							$currentpage = $class_active;
 						}else{
-							$active = ' class="closed"';
-							$active_link = '';
-						} 
+							$currentpage = '';
+						}  
 					}
-					$wmenu .= '<li'.$active.'><a href="'.magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(),$cat['pathclibelle'],$cat['idclc'],true).'" ' . $active_link . '><span'.$folder.'>'.magixcjquery_string_convert::ucFirst($cat['clibelle']).'</span></a>'."\n";
-					if(frontend_db_block_catalog::s_sub_category_menu(frontend_model_template::current_Language(),$cat['idclc']) != null){
-						$wmenu .= '<ul' . $display . '>';
-						foreach(frontend_db_block_catalog::s_sub_category_menu(frontend_model_template::current_Language(),$cat['idclc']) as $scat){
-							if(isset($_GET['idcls'])){
-								if($_GET['idcls'] === $scat['idcls']){
-									$currentpage = ' class="active-page"';
-								}else{
-									$currentpage = '';
-								}  
-							}
-							$wmenu .= '<li><a'.$currentpage.' href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url(frontend_model_template::current_Language(),$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span'.$file.'>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";	
-						}
-						$wmenu .= '</ul>';
-					}
-				$wmenu .= "</li>\n"; 
+					$wmenu .= '<li><a'.$currentpage.' href="'.magixglobal_model_rewrite::filter_catalog_subcategory_url(frontend_model_template::current_Language(),$scat['pathclibelle'],$scat['idclc'],$scat['pathslibelle'],$scat['idcls'],true).'"><span>'.magixcjquery_string_convert::ucFirst($scat['slibelle']).'</span></a></li>'."\n";	
 				}
-				$wmenu .='</ul>'."\n";
+				$wmenu .= '</ul>';
 			}
-		$wmenu .= '</div><div style="clear:left;"></div></div>';
+		$wmenu .= "</li>\n"; 
+		}
+		$wmenu .='</ul>'."\n";
 	}
 	return $wmenu;
 }

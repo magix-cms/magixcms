@@ -1,6 +1,21 @@
 2.3.48
 	* Ajout des ACL pour les plugins (allow_access)
 	* Ajout du fichier config.xml dans le plugin contact
+	* Modification du widget cat_display pour l'utilisation des paramètres d'exclusion, ou de sélection
+	* Modification du fichier xml config.xml dans le plugin contact (structure redéfinie)
+	* Ajout du fichier de configuration (config.xml) dans le plugin clearcache
+	* Modification du système automatique de détection des niveaux dans les plugins (backend)
+	* Suppression de swiftmailer 4.0.6
+	* Ajout de swiftmailer 4.1 (nouveau nom de dossier "swift")
+	* Adaptation de la classe mail avec la nouvelle version de swiftmailer 4.1
+	* Fix bug avec la suppression des pages cms enfants
+	* Modification de la fonction javascript pour la suppression des pages CMS
+	* Ajout d'un widget alternatif pour afficher les produits de catégories dans le menu sidebar (widget_catalog_sidebar_products)
+	* Modification des widgets catalogue pour l'intégration des exclusions et sélections personnalisés
+		- widget_catalog_cat_display
+		- widget_catalog_sidebar_category
+		- widget_catalog_sidebar_products
+		- widget_catalog_rel_product
 	
 2.3.47
 	* Réorganisation du catalogue avec la séparation des catégories par langue (ergonomie)
