@@ -37,13 +37,15 @@
  * Type:     function
  * Name:     widget news
  * Date:     Jully 18 2011
- * Update:   01-08-2011
+ * Update:   8 August 2011
  * Purpose:  
  * Examples: {widget_news_list
 				css_param=[
 					'class_container'=>'list-div medium',
+					'class_name'=>'name',
 					'class_elem'=>'list-div-elem',
-					'class_img'=>'img'
+					'class_img'=>'img',
+					'class_desc'=>'descr'
 				] limit="" delimiter=""}
  * Output:   
  * @link 
@@ -75,9 +77,12 @@ function smarty_function_widget_news_list($params, $template){
 			return;
 		}
 	}else{
-		$tabs= array('class_container'=>'list-div medium'
-				,'class_elem'=>'list-div-elem'
-				,'class_img'=>'img'
+		$tabs= array(
+				'class_container'=>'list-div medium',
+				'class_name'=>'name',
+				'class_elem'=>'list-div-elem',
+				'class_img'=>'img',
+				'class_desc'=>'descr'
 			);
 	}
 	$offset = $fcn->news_offset_pager($max);
@@ -98,10 +103,10 @@ function smarty_function_widget_news_list($params, $template){
 				$news .= $image;
 			$news .='</a>';
 			
-			$news .='<p class="name">';
+			$news .='<p class="'.$tabs['class_name'].'">';
 				$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 			$news .= '</p>';
-			$news .= '<span class="descr">';
+			$news .= '<span class="'.$tabs['class_desc'].'">';
 				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
 			$news .= '</span>';
 			$news .= '<div class="clear"></div>';
