@@ -272,10 +272,12 @@ class magixglobal_model_rewrite{
 	private function catalog_rewrite_uri_product($lang,$pathclibelle,$idclc,$pathslibelle,$idcls,$urlcatalog,$idproduct){
 		if($lang != null){
 			$language = $lang.'/';
-			if($idcls != '' OR $idcls != null OR $idcls != 0){
-				$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$idcls.'-'.$pathslibelle.'/'.$urlcatalog.'-'.$idproduct;
-			}else{
+			if($pathslibelle == null AND $idcls == null){
 				$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$urlcatalog.'-'.$idproduct;
+			}elseif($pathslibelle == 0 AND $idcls == 0){
+				$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$urlcatalog.'-'.$idproduct;
+			}else{
+				$uri_product = '/'.$language.self::mod_catalog_lang($lang).'/'.$idclc.'-'.$pathclibelle.'/'.$idcls.'-'.$pathslibelle.'/'.$urlcatalog.'-'.$idproduct;
 			}
 			return $uri_product;
 		}

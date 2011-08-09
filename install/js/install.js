@@ -240,16 +240,6 @@ $(function() {
 		 * Requête ajax tous les 200 micros S 
 		 */
 		$("#forms-install-database").submit(function(){
-			/*$.notice({
-				ntype: "ajaxsubmit",
-	    		dom: this,
-	    		uri: '/install/database.php?process=true',
-	    		typesend: 'post',
-	    		noticedata: null,
-	    		resetform:true,
-	    		time:null,
-	    		reloadhtml:false
-	    	});*/
 			$(this).ajaxSubmit({
 				url:"/install/database.php?process=true",
 				type:"post",

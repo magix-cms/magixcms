@@ -70,8 +70,6 @@ class exec_controller_upgrade extends db_upgrade{
 		$set_version = parent::s_setting_version();
 		if($set_version['setting_value'] != null){
 			return $set_version['setting_value'];
-		}else{
-			return '2.3.42';
 		}
 	}
 	/**
@@ -99,14 +97,18 @@ class exec_controller_upgrade extends db_upgrade{
 	 * @access private
 	 * Compare les versions XML et SQL
 	 */
-	private function compare_version(){
+	public function compare_version(){
 		/*$compare = strcmp(self::xmlfile_current_version(),self::load_current_version());
 		return $compare;*/
-		if (version_compare($this->load_current_version(),$this->xmlfile_current_version(),'<')){
-			return $this->load_current_version();
+		$config = '../app/config/config.php';
+		if (!file_exists($config)) {
+			return false;
 		}else{
-			//return $this->load_current_version();
-			return $this->load_current_version();
+			if (version_compare($this->load_current_version(),$this->xmlfile_current_version(),'<')){
+				return false;
+			}else{
+				return true;
+			}
 		}
 	}
 	/*function http_fetch_url($url, $timeout = 10, $userpwd = ''){
@@ -146,8 +148,9 @@ class exec_controller_upgrade extends db_upgrade{
 				magixcjquery_debug_magixfire::magixFireLog('pas ok');
 			}*/
 			
-			$this->compare_version();
-			exec_config_smarty::getInstance()->assign('current_version',$this->compare_version());
+			//$this->compare_version();
+			exec_config_smarty::getInstance()->assign('current_version',$this->load_current_version());
+			exec_config_smarty::getInstance()->assign('xmlcurrent_version',$this->xmlfile_current_version());
 			exec_config_smarty::getInstance()->display('version_select.phtml');
 		}
 		

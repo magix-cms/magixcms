@@ -32,6 +32,8 @@
  */
 class exec_controller_home{
 	public function display_home_page(){
+		$cont_upgrade = new exec_controller_upgrade();
+		exec_config_smarty::getInstance()->assign('compare_version',$cont_upgrade->compare_version());
 		exec_config_smarty::getInstance()->display('index.phtml');
 	}
 }

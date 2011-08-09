@@ -50,11 +50,6 @@ class frontend_controller_plugins{
 	 */
 	private static $_createInstance = null;
 	/**
-	 * 
-	 * @var string
-	 */
-	public $getplugin;
-	/**
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
 	 * @var string
 	 */
@@ -67,11 +62,7 @@ class frontend_controller_plugins{
 	/**
 	 * Constructor
 	 */
-	function __construct(){
-		if(isset($_GET['magixmod'])){
-			$this->getplugin = (string) magixcjquery_filter_isVar::isPostAlpha($_GET['magixmod']);
-		}
-	}
+	function __construct(){}
 	/**
      * instance singleton self (DataObjects)
      * @access public
@@ -136,9 +127,6 @@ class frontend_controller_plugins{
 	private function path_dir_i18n(){
 		return $this->directory_plugins().self::controlGetPlugin().DIRECTORY_SEPARATOR.self::I18N.DIRECTORY_SEPARATOR;
 	}
-	/*public static function addTemplate($plugin){
-		frontend_config_smarty::getInstance()->addTemplateDir($_SERVER['DOCUMENT_ROOT'].'/plugins/'.$plugin.'/');
-	}*/
 	/**
 	 * Chargement du fichier de configuration suivant la langue en cours de session.
 	 * @access private
@@ -147,16 +135,16 @@ class frontend_controller_plugins{
 	private function pathConfigLoad($configfile,$filextension=false,$plugin=''){
 		try {
 			$filextends = $filextension ? $filextension : '.conf';
-			if($this->getLanguage() == ''){
+			if(frontend_model_template::getLanguage() == ''){
 				$lang = '';
 			}else{
-				$lang = $this->getLanguage();
+				$lang = frontend_model_template::getLanguage();
 			}
 			if(file_exists($this->path_dir_i18n())){
 				$translate = !empty($lang) ? $lang : 'fr';
 				return $this->path_dir_i18n().$configfile.$translate.$filextends;
 			}else{
-				return frontend_config_smarty::getInstance()->config_dir.'local'.$lang.$filextends;
+				return frontend_config_smarty::getInstance()->config_dir.'local_'.$lang.$filextends;
 			}
 		} catch (Exception $e) {
 			magixglobal_model_system::magixlog("Error path config", $e);
