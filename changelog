@@ -1,3 +1,6 @@
+2.3.49
+	* Fix bug widget_catalog_cat_display (appel de fonction incorrect)
+	
 2.3.48
 	* Ajout des ACL pour les plugins (allow_access)
 	* Ajout du fichier config.xml dans le plugin contact
@@ -16,6 +19,9 @@
 		- widget_catalog_sidebar_category
 		- widget_catalog_sidebar_products
 		- widget_catalog_rel_product
+	* Adaptation du système d'upgrade SQL avec la nouvelle API
+	* Update jQuery UI 1.8.10 => 1.8.15
+	* Update jQuery UI i18n(1.8.10) => i18n (1.8.15)
 	
 2.3.47
 	* Réorganisation du catalogue avec la séparation des catégories par langue (ergonomie)

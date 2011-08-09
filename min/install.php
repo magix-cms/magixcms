@@ -33,11 +33,11 @@
  * minify install
  */
 return array(
-	'installcss' => array('//framework/css/ui/dark-backend-1.8.10/jquery-ui-1.8.10.custom.css','//framework/css/ui/ui.checkbox.1.4.css',
+	'installcss' => array('//framework/css/ui/dark-backend-1.8.15/jquery-ui-1.8.15.custom.css','//framework/css/ui/ui.checkbox.1.4.css',
 	'//framework/css/globalcss.css','//framework/css/colorbox-simple/colorbox.css',
 	'//framework/css/globalforms.css','//framework/css/notification.css','//install/css/install.css'),
-	'installjs'=> array('//framework/js/jquery-1.5.2.min.js','//framework/js/jquery-ui-1.8.10.custom.min.js',
-	'//framework/js/ui/i18n-1.8/jquery-ui-i18n.js','//framework/js/jquery.form-2.83.js',
+	'installjs'=> array('//framework/js/jquery-1.5.2.min.js','//framework/js/jquery-ui-1.8.15.custom.min.js',
+	'//framework/js/ui/i18n-1.8.15/jquery-ui-i18n.js','//framework/js/jquery.form-2.83.js',
 	'//framework/js/jquery.validate.1.8.1.min.js','//framework/js/jquery.validate.password-1.0.js','//framework/js/ui/ui.checkbox.1.4.js',
 	'//framework/js/tools/jquery.colorbox-1.3.17.js','//framework/js/jquery.cookie.js','//framework/js/tools/notice-tpl.js','//framework/js/ad-globalform-1.0.js',
 	'//framework/js/jquery.jfirebug.js','//install/js/install.js'),
