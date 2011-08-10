@@ -141,7 +141,7 @@ function smarty_function_widget_cms($params, $template){
 			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.$uricms.'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?edit='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/cms.php?movepage='.$pcms['idpage'].'"><span style="float:left;" class="ui-icon ui-icon-transfer-e-w"></span></a></td>';
-			 $plugin .= '<td class="nowrap"><a class="deletecms" title="'.$pcms['idpage'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="delpage" title="Supprimer une page" rel="'.$pcms['idpage'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';
 		}
 	}else{

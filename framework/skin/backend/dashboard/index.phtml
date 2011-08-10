@@ -86,7 +86,10 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
-<div id="confirm_published" title="Publication d'une page" class="hide">
+<div id="dialog_delete" style="display:none;">
+	<p>Etes-vous sur de vouloir supprimer cet élément ?</p>
+</div>
+<div id="confirm_published" title="Publication d'une news" class="hide">
 	<p style="font-size:14px;">
 		Voulez-vous changer le status cette page ?
 	</p>
@@ -94,7 +97,13 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/min/?f=framework/js/backend/dashboard-1.0.0.js');
+	$.getScript('/framework/js/backend/ns/jdashboard.0.2.min.js',function(){
+		if (typeof ns_jdashboard == "undefined") {
+		  console.log("ns_jdashboard is not defined");
+		}else{
+			ns_jdashboard.run();
+		}
+	});
 });
 </script>
 </body>

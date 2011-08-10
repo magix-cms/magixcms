@@ -40,11 +40,16 @@
  * Type:     function
  * Name:     widget_lang_prelude
  * Date:     25/11/2010
- * Date Update : 14/07/2011
- * Examples: {widget_lang_prelude config_param=['display'=>true 'icons'=>true]}
+ * Date Update : 10/08/2011
+ * Examples: {widget_lang_prelude 
+  				config_param=[
+  				'display'=>true,
+  				'icons'=>true,
+  				'separator'=>''
+  			  ]}
  * Output:   
  * @link 
- * @version  1.2
+ * @version  1.3
  * @param $params
  * @param $template
  * @return string
@@ -59,19 +64,20 @@ function smarty_function_widget_lang_prelude($params, $template){
 		$tabs = $params['config_param'];
 	}
 	$icons = !empty($tabs['icons'])? "true" : "false";
+	$separator = !empty($tabs['separator'])? $tabs['separator'] : '';
 	if(frontend_db_lang::s_fetch_lang() != null){
 		$menu = '<div id="prelude">';
 		switch($icons){
 			case "true":
 				foreach (frontend_db_lang::s_fetch_lang() as $l){
-					$menu .= '<a href="/'.$l['iso'].'/" hreflang="'.$l['iso'].'">';
+					$menu .= $separator.'<a href="/'.$l['iso'].'/" hreflang="'.$l['iso'].'">';
 					$menu .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/lang/'.$l['iso'].'.png" alt="'.$l['language'].'" />';
 					$menu .= '</a>';
 				}
 			break;
 			case "false":
 				foreach (frontend_db_lang::s_fetch_lang() as $l){
-					$menu .= '<a href="/'.$l['iso'].'/">'.magixcjquery_string_convert::upTextCase($l['iso']).'</a>';
+					$menu .= $separator.'<a href="/'.$l['iso'].'/">'.magixcjquery_string_convert::upTextCase($l['iso']).'</a>';
 				}
 			break;
 		}

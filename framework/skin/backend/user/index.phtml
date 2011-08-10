@@ -99,11 +99,20 @@
 		</div>
 	{include file="common/footer.phtml"}
 </div>
+<div id="dialog_delete" style="display:none;">
+	<p>Etes-vous sur de vouloir supprimer cet élément ?</p>
+</div>
 {ajax_notify}
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/juserAdmin.1.0.js');
+	$.getScript('/framework/js/backend/ns/juser.0.2.min.js',function(){
+		if (typeof ns_juser == "undefined") {
+		  console.log("ns_juser is not defined");
+		}else{
+			ns_juser.run();
+		}
+	});
 });
 </script>
 </body>

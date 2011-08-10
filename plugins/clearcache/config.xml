@@ -22,6 +22,16 @@
 						</link>
 					</author>
 				</authors>
+				<version>
+					<date_create> - </date_create>
+					<date_update>10/08/2011</date_update>
+					<number>2.0</number>
+					<phase>Stable</phase>
+					<support>
+						<ticket href="http://websolutionway.indefero.net/p/magixcms/"></ticket>
+						<forum href="http://forum.logiciel-referencement-professionnel.com/plugins-f5.html">Forum plugins</forum>
+					</support>
+				</version>
 			</infos>
 		</admin>
 	</acl>

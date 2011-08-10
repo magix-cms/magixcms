@@ -211,7 +211,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	}*/
 	/**
 	 * @access public
-	 * Options de reecriture des sitemaps NEWS
+	 * Options de reecriture des métas
 	 */
 	public function seo_options(){
 		return $options_string = array(

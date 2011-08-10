@@ -33,6 +33,17 @@
  * Plugins dashboardWidget
  * exemple: $.dashboardWidget();
  */
+// S'assurer de la présence d'Object.create (introduit ds ES5)
+(function(){
+    if (typeof Object.create === 'function') {
+        return;
+    }
+    function F(){}
+    Object.create = function( o ) {
+        F.prototype = o;
+        return new F();
+    };
+})();
 (function($) { 
 	$.dashboardWidget = function(settings) { 
 		var options = {};

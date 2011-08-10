@@ -23,7 +23,7 @@
  * @category   Controller 
  * @package    backend
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.6
  * update 13/03/2011
@@ -124,41 +124,92 @@ class backend_controller_plugins{
 			return '*';
 		}
 	}
+	/**
+	 * @access public
+	 * Chargement des données de configuration dans le fichier XML
+	 */
 	public function load_config_info(){
 		$pathxml = $this->pluginDir().'config.xml';
 		if(file_exists($pathxml)){
 			try {
 				$xml = new XMLReader();
 				$xml->open($pathxml, "UTF-8");
+				// Configuration d'analyse XML
+				//$xml->setParserProperty(XMLReader::VALIDATE, true);
+				//if($xml->isValid()){
 				while($xml->read()){
-					if ($xml->nodeType == XMLREADER::ELEMENT && $xml->localName == "authors") {
+					if ($xml->nodeType == XMLREADER::ELEMENT && $xml->localName == "infos") {
 						$v = $xml->expand();
-						$v = new SimpleXMLElement('<authors>'.$xml->readInnerXML().'</authors>');
+						$v = new SimpleXMLElement('<infos>'.$xml->readInnerXML().'</infos>',0, false);
 						//echo ReflectionObject::export($v); 
-						//echo ReflectionObject::export($v['attr']); 
-						$r = '<table class="table-plugin-author">
-							<thead>
-								<tr style="padding:3px;" class="ui-widget ui-widget-header">
-									<th>Author</th>
-									<th>Website</th>
+						//echo ReflectionObject::export($v['attr']);
+						$r = '';
+						if($v->version){
+							$r .= '<table class="table-plugin-info">
+								<tr>
+									<td class="small-icon">Création:</td>
+									<td>'.$v->version->date_create.'</td>
 								</tr>
-							</thead>
-							<tbody>';
-						foreach($v->author as $row){
-							$r.= '<tr>';
-							$r.= '<td class="medium-cell">'.$row->name.'</td>';
-							$r .= '<td><ul>';
-							$t = '';
-							foreach($row->link->children() as $link){
-								$r .= '<li><a style="text-decoration:underline;" class="targetblank" href="'.$link->attributes()->href.'">'.$link->attributes()->href.'</a></li>';
+								<tr>
+									<td class="small-icon">Update:</td>
+									<td>'.$v->version->date_update.'</td>
+								</tr>
+								<tr>
+									<td class="small-icon">Version:</td>
+									<td>'.$v->version->number.' '.$v->version->phase.'</td>
+								</tr>';
+							if($v->version->support->forum['href'] != false){
+								$r .= '<tr>
+									<td class="small-icon">Support:</td>
+									<td><a style="text-decoration:underline;" class="targetblank" href="'.$v->version->support->forum['href'].'">'.$v->version->support->forum.'</a></td>
+								</tr>';
 							}
-							$r.='</ul></td>';
-							$r.= '</tr>';
+							if($v->version->support->ticket['href'] != false){
+								$r .= '<tr>
+									<td class="small-icon">Tickets:</td>
+									<td><a style="text-decoration:underline;" class="targetblank" href="'.$v->version->support->ticket['href'].'"><span class="lfloat magix-icon magix-icon-bug-plus"></span>Signaler un bug</a></td>
+								</tr>';
+							}
+							if($v->version->support->svn['href'] != false){
+								$r .= '<tr>
+									<td class="small-icon">SVN:</td>
+									<td><a class="targetblank" href="'.$v->version->support->svn['href'].'"><span class="lfloat magix-icon magix-icon-subversion"></span></a></td>
+								</tr>';
+							}
+							if($v->version->support->git['href'] != false){
+								$r .= '<tr>
+									<td class="small-icon">GIT:</td>
+									<td><a class="targetblank" href="'.$v->version->support->git['href'].'"><span class="lfloat magix-icon magix-icon-git"></span></a></td>
+								</tr>';
+							}
+							$r .= '</table>';
 						}
-						$r.='</tbody></table>';
+						if($v->authors){
+							$r .= '<table class="table-plugin-author">
+								<thead>
+									<tr style="padding:3px;" class="ui-widget ui-widget-header">
+										<th>Author</th>
+										<th>Website</th>
+									</tr>
+								</thead>
+								<tbody>';
+							foreach($v->authors->author as $row){
+								$r.= '<tr>';
+								$r.= '<td class="medium-cell">'.$row->name.'</td>';
+								$r .= '<td><ul>';
+								$t = '';
+								foreach($row->link->children() as $link){
+									$r .= '<li><a style="text-decoration:underline;" class="targetblank"'; 									$r .= 'href="'.$link->attributes()->href.'">'.$link->attributes()->href.'</a></li>';
+								}
+								$r.='</ul></td>';
+								$r.= '</tr>';
+							}
+							$r.='</tbody></table>';
+							}
 						return $r;
 					}
 				}
+				//}
 			} catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
@@ -513,3 +564,4 @@ class backend_controller_plugins{
 		}
 	}
 }
+?>
