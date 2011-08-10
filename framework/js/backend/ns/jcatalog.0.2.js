@@ -1,3 +1,13 @@
+/**
+ * MAGIX CMS
+ * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    0.2
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @name ns_
+ *
+ */
 var ns_jcatalog_subcategory = {
 	_load_json_subcat:function(upcat){
 		$.ajax({
@@ -1399,4 +1409,63 @@ var ns_jcatalog_product = {
 	runMove:function(){
 		this._moveProduct($("#idproduct").val());
 	}
+	/*
+	 * 
+	$('.cat-uri-product').live("click",function(event){
+		event.preventDefault();
+		var idproducturi = $(this).attr('title');
+		var url = '/admin/catalog.php?geturicat='+idproducturi;
+		$("#window-box").load(url, function() {
+			$(this).dialog({
+				bgiframe: false,
+				minHeight: 150,
+				minWidth: 400,
+				modal: true,
+				title: 'Copier un lien',
+				closeOnEscape: true,
+				position:"center",
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: { 
+					"Close": function() { 
+						$(this).dialog("close"); 
+					} 
+				},
+				close: function() {
+					$(this).empty();
+				}
+			});
+		});
+	});
+	$('.rel-uri-product').live("click",function(event){
+		event.preventDefault();
+		var idproducturi = $(this).attr('title');
+		var url = '/admin/catalog.php?getreluri='+idproducturi;
+		$("#window-box").load(url, function() {
+			$(this).dialog({
+				bgiframe: false,
+				minHeight: 150,
+				minWidth: 400,
+				modal: true,
+				title: 'Copier un lien de produit de liaison',
+				closeOnEscape: true,
+				overlay: {
+					backgroundColor: '#000',
+					opacity: 0.5
+				},
+				buttons: { 
+					"Close": function() { 
+						$(this).dialog("close"); 
+					} 
+				},
+				close: function() {
+					$(this).empty();
+				}
+			});
+		});
+	});
+	 * 
+	 * */
 };
