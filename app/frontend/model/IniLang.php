@@ -50,7 +50,7 @@ class frontend_model_IniLang{
 	 * function display home backend
 	 *
 	 */
-	protected function loadGlobalLang(){
+	private function loadGlobalLang(){
 		$langue = explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		$langue = strtolower(substr(chop($langue[0]),0,2));
 		switch ($langue){
@@ -85,8 +85,8 @@ class frontend_model_IniLang{
 	 		 }
 		}
 	}
-	function autoLangSession(){
-		self::loadGlobalLang();
+	public function autoLangSession(){
+		$this->loadGlobalLang();
 	}
 }
 ?>

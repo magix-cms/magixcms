@@ -4,17 +4,9 @@
 	<div class="dashboard-content">
 		<div class="column">
 			<div class="dashboard ui-widget-content ui-corner-all">
-				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span>About</div>
+				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Les contacts</div>
 				<div class="dashboard-content">
-					<div style="margin-left:10px;padding:5px;">
-					{*<ul>
-						<li>Version 2.0</li>
-						<li>Author: Gerits Aurelien</li>
-						<li>Website: <a style="text-decoration:underline;" class="targetblank" href="http://magix-cjquery.com">magix cjquery</a></li>
-						<li>Support du plugin: <a style="text-decoration:underline;" class="targetblank" href="http://forum.logiciel-referencement-professionnel.com/plugins-f5.html">Forum plugins</a></li>
-					</ul>*}
-					{$pluginInfo}
-					</div>
+					{$list_member_contact}
 				</div>
 			</div>
 			<div class="dashboard ui-widget-content ui-corner-all">
@@ -34,15 +26,17 @@
 		</div>
 		<div class="column">
 			<div class="dashboard ui-widget-content ui-corner-all">
-				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Les utilisateurs</div>
+				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-person"></span>About</div>
 				<div class="dashboard-content">
-					{$list_member_admin}
+					<div style="margin-left:10px;padding:5px;">
+					{$pluginInfo}
+					</div>
 				</div>
 			</div>
 			<div class="dashboard ui-widget-content ui-corner-all">
-				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Les contacts</div>
+				<div class="dashboard-header ui-widget-header ui-corner-all"><span style="float:left;" class="ui-icon ui-icon-document"></span>Les utilisateurs</div>
 				<div class="dashboard-content">
-					{$list_member_contact}
+					{$list_member_admin}
 				</div>
 			</div>
 		</div>

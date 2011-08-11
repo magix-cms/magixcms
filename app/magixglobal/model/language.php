@@ -30,12 +30,10 @@
  * @name language
  *
  */
-class magixglobal_model_language extends modele_db_language{
-	public $getlang;
+class magixglobal_model_language{
+	
 	static protected $reg_codelang = array('fr','en','nl','es','it','de','cn');
-	function _construct(){
-		$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-	}
+	function _construct(){}
 	/**
 	 * 
 	 * Détection de la langue du navigateur
@@ -66,9 +64,9 @@ class magixglobal_model_language extends modele_db_language{
 	 * Selection de la langue dans la base de donnée
 	 * @param $codelang
 	 */
-	protected function db_select_lang($codelang){
-		foreach (parent::fetch_lang_exist($codelang) as $lang){
-			return $lang['codelang'];
+	protected function db_select_lang($iso){
+		foreach (frontend_db_lang::s_id_current_lang($iso) as $lang){
+			return $lang['iso'];
 		}
 	}
 	/**
@@ -80,9 +78,12 @@ class magixglobal_model_language extends modele_db_language{
 			return self::detect_browser_Lang();
 		}
 	}
-	
-	private function notify_lang(){
-		if(self::register_lang() != $this->getlang){
+	/**
+	 * 
+	 * Notification suivant la langue
+	 */
+	public function notify_lang(){
+		if(self::register_lang() != frontend_model_template::current_Language()){
 			switch(self::register_lang()){
 				case "fr":
 					return "test fr";
@@ -101,15 +102,5 @@ class magixglobal_model_language extends modele_db_language{
 				break;
 			}
 		}
-		print_r(self::register_lang());
-	}
-}
-class modele_db_language{
-	protected function fetch_lang_exist($codelang){
-	    $sql = 'SELECT l.idlang, l.codelang, l.desclang
-	           FROM mc_lang AS l WHERE l.codelang = :codelang';
-	    return magixglobal_model_db::layerDB()->select($sql,array(
-	    	':codelang'=>$codelang
-	    ));
 	}
 }

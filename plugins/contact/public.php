@@ -138,7 +138,7 @@ class plugins_contact_public extends database_plugins_contact{
 			'<td><strong>Demande: </strong>'.$this->programme.'</td>'.
 		'</tr>'.
 		'<tr>'.
-			'<td><strong>Message: </strong>'.$this->message.'</td>'.
+			'<td><strong>Message: </strong>'.str_replace(array("\n"), array('<br />'), $this->message).'</td>'.
 		'</tr>'.
 		'</table>'
 		.'</body></html>';
