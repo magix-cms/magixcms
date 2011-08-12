@@ -101,14 +101,14 @@ class exec_controller_upgrade extends db_upgrade{
 		/*$compare = strcmp(self::xmlfile_current_version(),self::load_current_version());
 		return $compare;*/
 		$config = '../app/config/config.php';
-		if (!file_exists($config)) {
-			return false;
-		}else{
+		if (file_exists($config)) {
 			if (version_compare($this->load_current_version(),$this->xmlfile_current_version(),'<')){
 				return false;
 			}else{
 				return true;
 			}
+		}else{
+			return true;
 		}
 	}
 	/*function http_fetch_url($url, $timeout = 10, $userpwd = ''){
