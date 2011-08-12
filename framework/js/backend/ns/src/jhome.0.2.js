@@ -204,6 +204,7 @@ var ns_jhome = {
 	},
 	runEdit:function(){
 		this._initTextChange();
+		this._homePageList();
 		this._editHome();
 		this._deleteHome();
 	}

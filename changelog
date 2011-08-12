@@ -1,5 +1,28 @@
+2.3.5RC1
+	
+	
 2.3.49
 	* Fix bug widget_catalog_cat_display (appel de fonction incorrect)
+	* Ajout du singleton js jdashboard 0.2 (src + min)
+	* Ajout du singleton js juser 0.2 (src + min)
+	* Déplacement du fichier source jsettingparams 0.1
+	* Déplacement du fichier source JS du setting des images et des langues dans le dossier src
+	* Déplacement de fichier source dans un dossier src
+	* Ajout des fichiers compresser JS pour les singleton JS
+	* Ajout de données dans le fichiers XML du plugin contact + ajout dans le parser
+	* Ajout de la configuration dans le XML du plugin clearcache
+	* Ajout du séparateur dans le widget lang prelude
+	* Fixe bug avec la suppression dans le dashboard des éléments CMS, produits, news
+	* Ajout d'une classe pour définir des sessions dans la partie frontend (exemple: plugin)
+	* Ajout du système de détection des langues du navigateurs (préparation du travail)
+	* Déplacement du fichier source jrewritemetas.0.1.js
+	* Déplacement du fichier source jsitemap.0.1.js
+	* Déplacement des fichiers source javascript dans un dossier src
+	* Ajout des fichiers javascript compressé
+	* Adaptation des fichier phtml avec les fichiers .min.js
+	* Réactivation de la notification dans le template par défaut
+	* Suppression de tinymce 3.4.3.2
+	* Upgrade tinymce 3.4.4
 	
 2.3.48
 	* Ajout des ACL pour les plugins (allow_access)

@@ -33,7 +33,7 @@ var ns_jnews = {
 			$(this).ajaxSubmit({
 	    		url: '/admin/news.php?edit='+idnews,
 	    		type:"post",
-	    		resetForm: true,
+	    		resetForm: false,
 	    		success:function(request) {
 	    			$.notice({
 						ntype: "simple",
