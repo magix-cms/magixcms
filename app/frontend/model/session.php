@@ -103,16 +103,17 @@ class frontend_model_session{
 	/**
 	 * 
 		$session = new frontend_model_session();
-		if(!magixcjquery_filter_request::isSession('super')){
+		if(!magixcjquery_filter_request::isSession('panier')){
 			$array_sess = array(
-				'super'=>'va fa cul'
+				'panier'=>magixglobal_model_cryptrsa::uniq_id(),
+				'outils'=>'Le marteau du peuple'
 			);
 			$session->_start_session('masession');
 			$session->session_run($array_sess);
 		}else{
-			frontend_model_template::assign('session_super', $_SESSION['super']);
+			$session->debug();
+			frontend_model_template::assign('session_super', $_SESSION['panier']);
 		}
-		$session->debug();
 	 */
 	/**
 	 * @access public
