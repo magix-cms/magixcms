@@ -51,9 +51,15 @@ var YouTubeDialog = {
 			videoSize += 'height="' + f.youtubeHeight.value + '"';
 		}
 		//Replace http://youtu.be/xxxxxxxx for http://www.youtube.com/v/xxxxxxxxxx
-		var youtubeuri = f.youtubeID.value.replace("http://youtu.be/","http://www.youtube.com/v/");
-		//Construct URL
-		var constructUri = youtubeuri+options;
+		if(f.youtubeID.value.match(new RegExp("http://www.youtube.com/","g"))){
+			var youtubeuri = f.youtubeID.value.replace("http://www.youtube.com/watch?v=","http://www.youtube.com/v/");
+			//Construct URL
+			var constructUri = youtubeuri+options;
+		}else if(f.youtubeID.value.match(new RegExp("http://youtu.be/","g"))){
+			var youtubeuri = f.youtubeID.value.replace('http://youtu.be/',"http://www.youtube.com/v/");
+			//Construct URL
+			var constructUri = youtubeuri+options;
+		}
 		//width="'+document.forms[0].youtubeWidth.value+'" height="'+document.forms[0].youtubeHeight.value+'"
 		// Insert the contents from the input into the document
 		var objectCode = '<div class="youtube" style="'+domSize+'">';
