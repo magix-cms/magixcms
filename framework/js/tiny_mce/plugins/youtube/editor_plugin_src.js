@@ -1,8 +1,11 @@
 /**
  * You Tube plug-in for TinyMCE version 3.x
  * @author     Gerits Aurelien
- * @version    $Rev: 12 $
+ * @version    $Rev: 13 $
  * @package    YouTube
+ * @link http://magix-cjquery.com or http://www.magix-cms.com
+ * YouTube plugin for TinyMCE
+ * GPL 3 LICENCES
  */
 
 (function() {
@@ -27,8 +30,8 @@
 			ed.addCommand('mceYouTube', function() {
 				ed.windowManager.open({
 					file : url + '/youtube.htm',
-					width : 360 + parseInt(ed.getLang('youtube.delta_width', 0)),
-					height : 230 + parseInt(ed.getLang('youtube.delta_height', 0)),
+					width : 400 + parseInt(ed.getLang('youtube.delta_width', 0)),
+					height : 240 + parseInt(ed.getLang('youtube.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
@@ -90,7 +93,7 @@
 				author : 'Gerits Aurelien',
 				authorurl : 'http://www.magix-cms.com',
 				infourl : 'http://www.magix-cms.com',
-				version : "1.2"
+				version : "1.3"
 			};
 		}
 	});
