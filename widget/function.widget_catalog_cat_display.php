@@ -174,9 +174,9 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 			$lang =  frontend_model_template::current_Language();
 			/* Placement de la requête avec attributs dans la variable (collection = WHERE catalog.idclc NOT IN ($idcat)*/   
 			if($idcat != 0){
-				$fct_sql = frontend_db_block_catalog::s_category_menu($lang, $idcat,'exclude');	
+				$fct_sql = frontend_db_block_catalog::s_category_widget($lang, $idcat,'exclude');	
 			}else{
-				$fct_sql = frontend_db_block_catalog::s_category_menu($lang);
+				$fct_sql = frontend_db_block_catalog::s_category_widget($lang);
 			}
 		}else{
 			//----------------- ERROR ---------------------------

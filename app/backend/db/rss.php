@@ -37,11 +37,13 @@ class backend_db_rss{
      * @param $max
      */
     protected function s_news_rss(){
-    	$sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_content,lang.iso,n.idlang,n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
-				FROM mc_news AS n
-				LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-				LEFT JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin) 
-				ORDER BY n.idnews DESC';
+    	$sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_content,lang.iso,n.idlang,n.date_register,
+    	n.n_uri,m.pseudo,n.date_publish,n.published
+		FROM mc_news AS n
+		LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+		LEFT JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin) 
+		WHERE n.published = 1
+		ORDER BY n.idnews DESC';
 		return magixglobal_model_db::layerDB()->select($sql);
     }
 }

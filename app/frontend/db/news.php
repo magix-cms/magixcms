@@ -60,6 +60,12 @@ class frontend_db_news{
 			':iso'=>$iso
 		));
 	}
+	/**
+	 * @access protected
+	 * Retourne la news sélectionné
+	 * @param string $keynews
+	 * @param string $date_register
+	 */
 	protected function s_specific_news($keynews,$date_register){
 		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
 		LEFT JOIN mc_lang AS lang USING(idlang)

@@ -215,7 +215,7 @@ class frontend_db_block_catalog{
 				$filter = '';	
 				break;
 		}
-		$sql = "SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, lang.iso
+		$sql = "SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, lang.iso
 				FROM mc_catalog_c AS c
 				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				WHERE lang.iso = :iso {$filter} ORDER BY corder";
