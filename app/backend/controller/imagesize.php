@@ -110,6 +110,7 @@ class backend_controller_imagesize extends database_imagesize{
 		}else{
 			backend_controller_template::assign('img_size_forms_catalog', $this->load_img_forms('catalog'));
 			backend_controller_template::assign('img_size_forms_news', $this->load_img_forms('news'));
+			backend_controller_template::assign('img_size_forms_plugins', $this->load_img_forms('plugins'));
 			backend_controller_template::display('config/imagesize.phtml');		
 		}
 	}
