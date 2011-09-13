@@ -493,7 +493,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access private
 	 * retourne les langues pour administrer les pages parents ainsi que leurs enfants
 	 */
-	private function listing_index_language(){
+	/*private function listing_index_language(){
 		if(backend_db_block_lang::s_data_lang() != null){
 			$list = '<ul>';
 			foreach(backend_db_block_lang::s_data_lang() as $slang){
@@ -506,7 +506,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			$list .= '</ul>';
 			return $list;
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Retourne l'image et la langue suivant l'identifiant
@@ -1947,7 +1947,8 @@ class backend_controller_catalog extends analyzer_catalog{
 						backend_controller_template::display('catalog/category_language.phtml');
 					}
 				}else{
-					backend_controller_template::assign('list_language', $this->listing_index_language());
+					$init_menu = new backend_model_sidebarConstruct();
+					backend_controller_template::assign('list_language', $init_menu->catalog_category_language());
 					backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
 					backend_controller_template::display('catalog/category.phtml');
 				}

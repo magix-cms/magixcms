@@ -29,7 +29,14 @@
  *
  */
 class frontend_db_block_catalog{
-	public static function s_category_widget($iso,$idclc,$type = null){
+	/**
+	 * @access public
+	 * Retourne les catégories suivant la langue (widget)
+	 * @param string $iso
+	 * @param integer $idclc
+	 * @param string $type
+	 */
+	public static function s_category_widget($iso,$idclc = null,$type = null){
 		/*$sql = 'SELECT p.idcatalog, p.urlcatalog, p.idlang, 
 		p.idclc, p.idcls, c.pathclibelle,clibelle, img.imgcatalog, lang.iso
 		FROM mc_catalog AS p
@@ -63,6 +70,12 @@ class frontend_db_block_catalog{
 			':iso'	=>	$iso)
 		);
 	}
+	/**
+	 * @access public
+	 * Retourne les produits de la catégorie
+	 * @param integer $idclc
+	 * @param string $iso
+	 */
 	public static function s_product_in_category($idclc,$iso){
 		$sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
 		FROM mc_catalog_product AS p
@@ -77,6 +90,12 @@ class frontend_db_block_catalog{
 			':iso'=>$iso
 		));
 	}
+	/**
+	 * @access public
+	 * Retourne les produits d'une catégorie trier par date
+	 * @param integer $idclc
+	 * @param string $iso
+	 */
 	public static function s_product_category_by_date($idclc,$iso){
 	    $sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog,catalog.date_catalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
 	    FROM mc_catalog_product AS p
@@ -90,7 +109,12 @@ class frontend_db_block_catalog{
 	      ':idclc'=>$idclc,
 	      ':iso'=>$iso
 	    ));
-	  }
+	}
+	/**
+	 * @access public
+	 * Sélectionne les données d'une catégorie
+	 * @param integer $idclc
+	 */
 	public static function s_current_name_category_widget($idclc){
     	$sql = 'SELECT c.clibelle,c.pathclibelle,c.c_content
 		FROM mc_catalog_c as c WHERE c.idclc = :idclc';
@@ -99,6 +123,7 @@ class frontend_db_block_catalog{
 		));
     }
 	/**
+	 * @access public
      * Charge les articles de la sous catégorie (avec langue)
      * @param $idclc
      * @param $idcls
@@ -116,10 +141,15 @@ class frontend_db_block_catalog{
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idclc'	=>$idclc,
 			':idcls'	=>$idcls,
-			':iso' =>$iso
+			':iso' 		=>$iso
 		));
 	}
 	/*################# micro galerie ##################*/
+	/**
+	 * @access public
+	 * identifie le catalogue du produit courant
+	 * @param integer $idproduct
+	 */
 	public static function s_identifier_catalog($idproduct){
 		$sql = 'SELECT product.idcatalog FROM mc_catalog_product as product 
 		WHERE idproduct = :idproduct';
@@ -128,6 +158,7 @@ class frontend_db_block_catalog{
 		));
 	}
 	/**
+	 * @access public
 	 * Compte le nombre d'image pour une galerie catalogue
 	 * @param $getimg
 	 */
@@ -139,6 +170,7 @@ class frontend_db_block_catalog{
 		));
 	}
 	/**
+	 * @access public
 	 * selectionne les images pour la construction d'une micro galerie d'un produit
 	 * @param intéger $idcatalog
 	 */
@@ -153,6 +185,7 @@ class frontend_db_block_catalog{
 	 * Produits liés
 	 */
 	/**
+	 * @access public
 	 * Selectionne les produits liés du produit courant
 	 * @param $idcatalog
 	 */
@@ -179,7 +212,7 @@ class frontend_db_block_catalog{
 		));
 	}
 	/**
-	 * 
+	 * @access public
 	 * Retourne les informations du produits
 	 * @param integer $idproduct
 	 */
@@ -199,6 +232,7 @@ class frontend_db_block_catalog{
 	}
 	/*################ MENU #################*/
 	/**
+	 * @access public
 	 * construction menu des catégories (avec condition d'exclusion)
 	 */
 	public static function s_category_menu($iso,$idclc = false,$type = null){
@@ -224,6 +258,7 @@ class frontend_db_block_catalog{
 		));
 	}
 	/**
+	 * @access public
 	 * construction menu des sous catégories (avec langue)
 	 * @param iso
 	 * @param idclc
@@ -240,6 +275,7 @@ class frontend_db_block_catalog{
 		));
 	}
 	/**
+	 * @access public
 	 * construction menu produit (avec langue) ICI
 	 * @param iso
 	 * @param idclc

@@ -190,7 +190,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 	// ---------------------------------------------------------------		
 	}else {
 			$lang =  frontend_model_template::current_Language();
-		    $fct_sql = frontend_db_block_catalog::s_category_menu($lang);			
+		    $fct_sql = frontend_db_block_catalog::s_category_widget($lang);			
  	} 
 //--------------------------------------------------
 // CONSTRUCTION DE LA REQUETE SQL SUIVANT ARGUMENTS |

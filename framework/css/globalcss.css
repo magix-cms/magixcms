@@ -145,6 +145,10 @@ body,
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#sidebar ul li,#sidebar ul li{margin:0;padding:0;}
 }
+#sidebar ul li ul li{margin-left:15px;padding:0;}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	#sidebar ul li ul li{margin-left:15px;padding:0;}
+}
 /*@media screen, projection, tv {
 	#sidebar ul li{margin:0;padding:0;}
 }*/

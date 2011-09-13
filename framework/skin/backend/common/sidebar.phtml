@@ -25,6 +25,7 @@
 		<ul>
 			<li><a href="/admin/home.php"><span style="float:left;" class="magix-icon magix-icon-small-home"></span>Pages d'accueil</a></li>
 			<li><a href="/admin/cms.php"><span class="lfloat magix-icon magix-icon-page-gear"></span>Pages CMS</a></li>
+			<li>{sidebar_construct config_param=['module'=>'cms']}</li>
 		</ul>
 	</div>
 	{if {admin_level_config config_param=['module'=>'news']} eq true}
@@ -41,6 +42,7 @@
 		<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 			<ul>
 				<li><a href="/admin/catalog.php?category=true"><span style="float:left;" class="magix-icon magix-icon-folders"></span>Catégories</a></li>
+				<li>{sidebar_construct config_param=['module'=>'catalog']}</li>
 				<li><a href="/admin/catalog.php"><span style="float:left;" class="magix-icon magix-icon-cart"></span>Produits</a></li>
 				<li><a href="/admin/catalog.php?product=true"><span style="float:left;" class="magix-icon magix-icon-cart-plus"></span>Ajouter un produit</a></li>
 			</ul>
