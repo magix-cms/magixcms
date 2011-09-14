@@ -32,30 +32,16 @@
  */
 class backend_model_sidebarConstruct{
 	/**
-	 * 
-	 * Enter description here ...
+	 * Construction de l'url pour l'affichage suivant la langue
+	 * @param string $uri /admin/cms.php?
+	 * @param string $params getlang
 	 */
-	public function cms_language(){
+	public function getlangFilter($uri,$params){
 		if(backend_db_block_lang::s_data_lang() != null){
 			$list = '<ul>';
 			foreach(backend_db_block_lang::s_data_lang() as $slang){
 				$list .= '<li>';
-				$list .= '<a href="/admin/cms.php?getlang='.$slang['idlang'].'">';
-				$list .= '<img src="/upload/iso_lang/'.$slang['iso'].'.png" alt="'.$slang['iso'].'" /> ';
-				$list .= '<span>'.magixcjquery_string_convert::ucFirst($slang['language']).'</span>';
-				$list .= '</a>';
-				$list .= '</li>';
-			}
-			$list .= '</ul>';
-			return $list;
-		}
-	}
-	public function catalog_category_language(){
-		if(backend_db_block_lang::s_data_lang() != null){
-			$list = '<ul>';
-			foreach(backend_db_block_lang::s_data_lang() as $slang){
-				$list .= '<li>';
-				$list .= '<a href="/admin/catalog.php?category=true&amp;getlang='.$slang['idlang'].'">';
+				$list .= '<a href="'.$uri.$params.'='.$slang['idlang'].'">';
 				$list .= '<img src="/upload/iso_lang/'.$slang['iso'].'.png" alt="'.$slang['iso'].'" /> ';
 				$list .= '<span>'.magixcjquery_string_convert::ucFirst($slang['language']).'</span>';
 				$list .= '</a>';

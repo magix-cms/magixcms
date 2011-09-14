@@ -128,7 +128,7 @@ class frontend_controller_news extends frontend_db_news{
 				if($page['n_image'] != null){
 					$img = '/upload/news/'.$page['n_image'];
 				}else{
-					$img = '/skin/default/img/catalog/no-picture.png';
+					$img = '/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png';
 				}
 				frontend_model_template::assign('date_publish',$page['date_publish']);
 				frontend_model_template::assign('n_title',$page['n_title']);

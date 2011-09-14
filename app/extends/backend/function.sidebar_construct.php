@@ -49,10 +49,10 @@ function smarty_function_sidebar_construct($params, $template){
 	$init_menu = new backend_model_sidebarConstruct();
 	switch ($tabs['module']){
 		case 'cms':
-			$module = $init_menu->cms_language();
+			$module = $init_menu->getlangFilter('/admin/cms.php?','getlang');
 		break;
 		case 'catalog':
-			$module = $init_menu->catalog_category_language();
+			$module = $init_menu->getlangFilter('/admin/catalog.php?category=true&amp;','getlang');
 		break;
 	}
 	return $module;

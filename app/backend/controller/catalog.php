@@ -1947,8 +1947,6 @@ class backend_controller_catalog extends analyzer_catalog{
 						backend_controller_template::display('catalog/category_language.phtml');
 					}
 				}else{
-					$init_menu = new backend_model_sidebarConstruct();
-					backend_controller_template::assign('list_language', $init_menu->catalog_category_language());
 					backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
 					backend_controller_template::display('catalog/category.phtml');
 				}

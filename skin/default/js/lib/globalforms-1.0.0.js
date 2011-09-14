@@ -22,17 +22,31 @@ $(document).ready(function(){
 		},
 		// the errorPlacement has to take the table layout into account
 		errorPlacement: function(error, element) {
-			//error.prependTo( element.parents().siblings('.errorInput') );
-			if ( element.is(":radio") )
+			if ( element.is(":radio") ){
 				error.insertAfter(element);
-			else if ( element.is(":checkbox") )
+			}else if ( element.is(":checkbox") ){
 				error.insertAfter(element);
-			else if ( element.is("select") )
+			}else if ( element.is("select")){
+				if(element.next().is(":submit")){
+					error.insertAfter(element.next());
+					$("<br />").insertBefore(error);
+				}else{
+					error.insertAfter(element);
+					$("<br /><br />").insertBefore(error);
+				}
+			}else if ( element.is(".checkMail") ){
 				error.insertAfter(element.next());
-			else if ( element.next().is(":button") )
-				error.insertAfter(element.next());
-			else
-				error.insertAfter(element);
+			}else{
+				if(element.next().is(":button") || element.next().is(":file") || element.is("textarea")){
+					error.insertAfter(element);
+					$("<br />").insertBefore(error);
+				}else if ( element.next().is(":submit") ){
+					error.insertAfter(element.next());
+					$("<br />").insertBefore(error);
+				}else{
+					error.insertAfter(element);
+				}
+			}
 		},
 		errorClass: "stateVal",
 		errorElement:"div",

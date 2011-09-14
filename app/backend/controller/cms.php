@@ -697,9 +697,7 @@ class backend_controller_cms extends backend_db_cms{
 				$header->json_header("UTF-8");
 				$this->json_google_chart();
 			}else{
-				$init_menu = new backend_model_sidebarConstruct();
 				backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-				backend_controller_template::assign('list_language', $init_menu->cms_language());
 				backend_controller_template::display('cms/index.phtml');
 			}
 		}
