@@ -1,5 +1,25 @@
+2.3.5RC2
+	* Changement de version 2.3.5 RC1 => RC2
+
 2.3.5RC1
-	
+	* Fix bug reset_forms dans jnews
+	* Changement de la version de magix cms => 2.3.5RC1
+	* Fix bug bouton upgrade (conditions)
+	* Suppression du dossier forms dans le template par défaut
+	* Modification du numéro de version 2.3.5 dans sql
+	* Ajout du parsing d'url http://www.youtube.com/watch?v=xxxxxxxx pour le plugin youtube dans tinymce
+	* Ajout de la possibilité d'utiliser deux types d'urls avec le plugin youtube dans tinyMCE
+	* Correction au niveau CSS dans le plugin youtube dans tinyMCE
+	* Ajout de la licence + Fichier README dans youtube plugin tinymce
+	* Fix bug requête SQL pour charger les images de catégorie
+	* Fix bug changement de fonction pour le chargement des images de catégories dans widget_catalog_cat_display
+	* Charge uniquement les news activé pour la création du flux RSS
+	* Ajout du système pour la construction de la sidebar par langue (admin)
+	* Fix bug block catalog (requête widget cat display)
+	* Fix bug avec jquery validation et le script par défaut
+	* modification de la classe sidebar construct
+	* Fix bug dans le chemin de récupération de l'image par défaut des news
+	* Changement dans le title par défaut dans les tags de news
 	
 2.3.49
 	* Fix bug widget_catalog_cat_display (appel de fonction incorrect)
