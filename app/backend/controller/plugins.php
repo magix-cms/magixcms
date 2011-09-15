@@ -293,7 +293,7 @@ class backend_controller_plugins{
 	}*/
 	/**
 	 * @access private
-	 * listing plugin
+	 * Construction de la liste des plugins
 	 */
 	private function listing_plugin($debug=false){
 		/**
@@ -317,19 +317,21 @@ class backend_controller_plugins{
 							if(method_exists($class,'run')){
 								$access = $this->allow_access_config($d);
 								$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
+								//Si on demande un debug
 								if($debug){
 									$firebug = new magixcjquery_debug_magixfire();
 									$firebug->magixFireLog($d.': '.$access);
 								}
+								//Si le fichier d'accès est disponible, on retourne les permissions
 								if($access != null OR $access != ''){
 									if($access >= $perms['perms']){
 										$list .= '<li>'.$this->icon_plugin($d);
 										$list .='<a href="/admin/plugins.php?name='.$d.'">';
-										$list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
+										$list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
 									}elseif($access == '*'){
 										$list .= '<li>'.$this->icon_plugin($d);
 										$list .='<a href="/admin/plugins.php?name='.$d.'">';
-										$list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
+										$list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
 									}
 								}else{
 									$list .= '<li>'.$this->icon_plugin($d);
@@ -353,7 +355,7 @@ class backend_controller_plugins{
 		return $this->listing_plugin();
 	}
 	/**
-	 * Chargement d'un plugin pour l'administration
+	 * Chargement d'un plugin dans l'administration
 	 * @access private
 	 */
 	private function load_plugin($debug=false){

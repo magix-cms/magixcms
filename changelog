@@ -1,5 +1,15 @@
 2.3.5RC2
+
 	* Changement de version 2.3.5 RC1 => RC2
+	* Suppression de tinymce 3.4.4
+	* Upgrade tinymce 3.4.5
+	* Suppression de ckeditor 3.4.1
+	* Upgrade ckeditor 3.6.2
+	* Fix bug écriture du cache pour pdw_file_browser avec ckeditor
+	* Modification de la classe css par defaut (class_container) dans widget_catalog_sidebar_category et widget_catalog_sidebar_products
+	* Ajout des paramètres length et delimiter dans le widget_news_tags
+	* Fix bug dans les images par défaut du listing dans un tags de news (theme par defaut remplacer par theme courant)
+	* Ajout d'une condition pour la description d'un produit dans widget_load_catalog_category_last_products, widget_catalog_cat_load_products, widget_catalog_load_products
 
 2.3.5RC1
 	* Fix bug reset_forms dans jnews

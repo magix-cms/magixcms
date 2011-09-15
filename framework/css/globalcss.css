@@ -766,6 +766,15 @@ input.ui-button { padding: .1em 1em; }
 #vieweditor .title-editor{padding:4px 5px 4px 5px;margin:0;}
 #vieweditor .editor-name{display:block;}
 #vieweditor .editor-info{margin-left:10px;}
+#vieweditor ul{
+	margin:0;
+	padding:0;
+}
+#vieweditor ul li{
+	margin:0;
+	padding:0;
+	line-height:1.5em;
+}
 .screentheme{text-align:center;}
 #postfile{width:100%;margin:5px;min-width:600px;min-height:300px;}
 .frame-tpl-editor{background:white;width:100%;}

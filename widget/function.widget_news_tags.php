@@ -73,6 +73,11 @@ function smarty_function_widget_news_tags($params, $template){
 				'class_desc'=>'descr'
 			);
 	}
+	// Parametre pour la description du produit
+	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 240 ;
+	// Le délimiteur pour tronqué le texte
+	$delimiter = $params['delimiter'] ? $params['delimiter'] : '';
+	//Si on demande un tag news
 	if(magixcjquery_filter_request::isGet('tag')){
 		$gettag = magixcjquery_url_clean::make2tagString($_GET['tag']);
 		$news = '';
@@ -97,7 +102,7 @@ function smarty_function_widget_news_tags($params, $template){
 					$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 				$news .= '</p>';
 				$news .= '<span class="'.$tabs['class_desc'].'">';
-					$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],240,''));
+					$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
 				$news .= '</span>';
 				$news .= '<div class="clear"></div>';
 				$news .='<div class="date rfloat">'.$datepublish->SQLDate().'</div>';

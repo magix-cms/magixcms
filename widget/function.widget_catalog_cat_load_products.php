@@ -133,7 +133,9 @@ function smarty_function_widget_catalog_cat_load_products($params, $template){
 					$product .= '<p class="name"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
 				}
 				if($description != false){
-					$product .= '<span class="descr">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</span>';
+					if($cat['desccatalog'] != null){
+						$product .= '<span class="descr">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</span>';
+					}
 				}
 				if($price != false){
 					$product .= '<span class="price">€ '.number_format($cat['price'], 2, '.', ',').'</p>';

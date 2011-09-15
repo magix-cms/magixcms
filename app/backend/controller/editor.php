@@ -66,9 +66,8 @@ class backend_controller_editor{
 		}
 		$m_setting = <<<EOT
 		<ul>
-				<li>pdw_file_browser <input type="radio" name="manager_setting" $checked_filebrowser value="pdw_file_browser" /> (Intégrer)</li>
+				<li><input type="radio" name="manager_setting" $checked_filebrowser value="pdw_file_browser" />pdw_file_browser(Intégrer)</li>
 EOT;
-
 		if(file_exists(magixglobal_model_system::base_path().'framework/js/tiny_mce/plugins/imagemanager/')){
 			if($config['setting_value'] == "imagemanager"){
 				$checked_imagemanager = 'checked="checked" ';
@@ -76,7 +75,7 @@ EOT;
 				$checked_imagemanager = '';
 			}
 			$m_setting .= <<<EOT
-			<li>Imagemanager <input type="radio" name="manager_setting" $checked_imagemanager value="imagemanager" /> (Payant)</li>
+			<li><input type="radio" name="manager_setting" $checked_imagemanager value="imagemanager" />Imagemanager(Payant)</li>
 EOT;
 		}
 		$m_setting .= '</ul>';

@@ -48,7 +48,7 @@
 			{widget_catalog_sidebar_category
 			css_param=[
 				'id_container' => 'catalog-hierarchy',
-				'class_container'=>'filetree',
+				'class_container'=>'treeview',
 				'class_active'=>'active-page',
 				'class_close' => 'closed'
 			]}
@@ -57,7 +57,7 @@
  			{widget_catalog_sidebar_category
 			css_param=[
 				'id_container' => 'catalog-hierarchy',
-				'class_container'=>'filetree',
+				'class_container'=>'treeview',
 				'class_active'=>'active-page',
 				'class_close' => 'closed'
 			] idexclude=['fr'=>['1','3'],'en'=>['7']]}
@@ -66,7 +66,7 @@
 			{widget_catalog_sidebar_category
 			css_param=[
 				'id_container' => 'catalog-hierarchy',
-				'class_container'=>'filetree',
+				'class_container'=>'treeview',
 				'class_active'=>'active-page',
 				'class_close' => 'closed'
 			] idselect=['fr'=>['1','2'],'en'=>[0]]}
@@ -180,7 +180,7 @@ function smarty_function_widget_catalog_sidebar_category($params, $template){
 	}else{
 		$tabs= array(
 				'id_container' => 'catalog-hierarchy',
-				'class_container'=>'filetree',
+				'class_container'=>'treeview',
 				'class_active'=>'active-page',
 				'class_close' => 'closed'
 			);
