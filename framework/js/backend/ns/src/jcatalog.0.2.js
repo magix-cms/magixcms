@@ -9,6 +9,46 @@
  *
  */
 var ns_jcatalog_subcategory = {
+		_init:function(edit){
+			if(edit != false){
+				/**
+			     * Ajout d'une class au survol d'une catégorie
+			     */
+			    $('#sortproduct li').hover(
+						function() { $(this).addClass('ui-state-hover'); },
+						function() { $(this).removeClass('ui-state-hover'); }
+				);
+			    /**
+			     * Initialisation du drag and drop pour les catégories (catalogue ou cms)
+			     * Requête ajax pour l'enregistrement du déplacement
+			     */
+				$("#sortproduct").sortable({
+					placeholder: 'ui-state-highlight',
+					dropOnEmpty: false,
+					axis: "y",
+					cursor: "move",
+					update : function () {
+						serial = $('#sortproduct').sortable('serialize');
+						$.ajax({
+							url: "/admin/catalog.php?catalog&order",
+							type: "post",
+							data: serial,
+							error: function(){
+								alert("theres an error with AJAX");
+							}
+						});
+					}
+				});
+			}else{
+				/**
+			     * Ajout d'une class au survol d'une catégorie
+			     */
+			    $('#sortcat li,#sortsubcat li').hover(
+						function() { $(this).addClass('ui-state-hover'); },
+						function() { $(this).removeClass('ui-state-hover'); }
+				);
+			}
+		},
 	_load_json_subcat:function(upcat){
 		$.ajax({
 			url: '/admin/catalog.php?upcat='+upcat+'&json_sub_cat=true',
@@ -241,6 +281,7 @@ var ns_jcatalog_subcategory = {
 		 });
 	},
 	runEdit:function(){
+		this._init(true);
 		this._loadImgSubCat($("#usubcategory").val());
 		this._editSubCat($('#usubcategory').val());
 		this._editSubCatImg($('#usubcategory').val());
