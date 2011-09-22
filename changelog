@@ -1,3 +1,8 @@
+2.3.5RC3
+	* Fix bug pdw configuration (tinyMCE conf)
+	* Fix bug ns_jcatalog_subcategory dans le drag and drop des produits dans une sous catégorie.
+	* Fix bug configuration de smarty(backend,frontend,install) avec smarty 3.1
+	
 2.3.5RC2
 
 	* Changement de version 2.3.5 RC1 => RC2

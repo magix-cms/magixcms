@@ -25,7 +25,7 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.1
+ * @version    1.2
  * Configuration / extends smarty with class
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name smarty
@@ -78,7 +78,7 @@ class backend_config_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = self::setPath()."/app/backend/local/";
+		$this->config_dir = array(self::setPath()."/app/backend/local/");
 		/**
 		 * Path -> templates
 		 */
@@ -123,10 +123,6 @@ class backend_config_smarty extends Smarty{
 		 */
 		$this->cache_dir = self::setPath().'/var/tmp/';
 		/**
-		 * Security
-		 */
-		$this->security = false;
-		/**
 		 * load pre filter
 		 */
 		//$this->load_filter('pre','magixmin');
@@ -136,6 +132,10 @@ class backend_config_smarty extends Smarty{
 		 * @var error_reporting
 		 */
 		$this->error_reporting = error_reporting() &~E_NOTICE;
+		/**
+		 * Security
+		 */
+		//$this->enableSecurity();
 		/**
 		 * security settings
 		 */

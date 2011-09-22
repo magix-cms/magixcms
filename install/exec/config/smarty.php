@@ -75,7 +75,7 @@ class exec_config_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = self::setPath()."/install/local/";
+		$this->config_dir = array(self::setPath()."/install/local/");
 		/**
 		 * Path -> templates
 		 */
@@ -119,10 +119,6 @@ class exec_config_smarty extends Smarty{
 		 */
 		$this->cache_dir = self::setPath().'/var/tmp/';
 		/**
-		 * Security
-		 */
-		$this->security = false;
-		/**
 		 * load pre filter
 		 */
 		//$this->load_filter('pre','magixmin');
@@ -133,21 +129,9 @@ class exec_config_smarty extends Smarty{
 		 */
 		$this->error_reporting = error_reporting() &~E_NOTICE;
 		/**
-		 * security settings
+		 * Security
 		 */
-		/*$this->security_settings = array(
-                                    'PHP_HANDLING'    => false,
-                                    'IF_FUNCS'        => array('array', 'list',
-                                                               'isset', 'empty',
-                                                               'count', 'sizeof',
-                                                               'in_array', 'is_array',
-                                                               'true', 'false', 'null'),
-                                    'INCLUDE_ANY'     => false,
-                                    'PHP_TAGS'        => false,
-                                    'MODIFIER_FUNCS'  => array('count'),
-                                    'ALLOW_CONSTANTS'  => false,
-                                    'ALLOW_SUPER_GLOBALS' => true
-	);*/
+		//$this->enableSecurity();
 	}
 	public static function getInstance(){
         if (!isset(self::$instance))

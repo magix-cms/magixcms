@@ -25,8 +25,8 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.3
- * Update : 24/11/2010
+ * @version    1.4
+ * Update : 22/09/2011
  * Configuration / extends smarty with class
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name smarty
@@ -89,11 +89,11 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = self::setPath()."/locali18n/";
+		$this->config_dir = array(self::setPath()."/locali18n/");
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = self::setPath()."/skin/".frontend_model_template::frontendTheme()->themeSelected().'/';
+		$this->template_dir = array(self::setPath()."/skin/".frontend_model_template::frontendTheme()->themeSelected().'/');
 		/**
 		 * path plugins
 		 * @var void
@@ -144,6 +144,10 @@ class frontend_config_smarty extends Smarty{
 		 * @var error_reporting
 		 */
 		$this->error_reporting = error_reporting() &~E_NOTICE;
+		/**
+		 * Security
+		 */
+		//$this->enableSecurity();
 		/**
 		 * security settings
 		 */
