@@ -2056,6 +2056,7 @@ p.dark {
 #rightcol .bg-bottom {display:block;}
 
 .ui-widget-content { background-color: transparent;}
+.blockui{ background-color: white;}
 /*
  * jQuery UI Autocomplete 1.8.7
  *
