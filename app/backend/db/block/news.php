@@ -27,7 +27,7 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @id $Id$
  * @version  $Rev$
- * @author Gérits Aurélien <aurelien@magix-cms.com> $Author$
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be> $Author$
  * @name news
  *
  */

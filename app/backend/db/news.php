@@ -28,7 +28,7 @@
  * @version    2.4
  * @id $Id$
  * @version  $Rev$
- * @author Gérits Aurélien <aurelien@magix-cms.com> $Author$
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be> $Author$
  * @name news
  *
  */

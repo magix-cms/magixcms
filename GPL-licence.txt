@@ -651,7 +651,7 @@ Also add information on how to contact you by electronic and paper mail.
   If the program does terminal interaction, make it output a short
 notice like this when it starts in an interactive mode:
 
-    MAGIX CMS Copyright (c) 2008 - 2012 Gerits Aurelien, 
+    MAGIX CMS Copyright (c) 2007 - 2012 Gerits Aurelien, 
 	http://www.magix-cms.com, http://www.magix-cjquery.com
 	<aurelien[at]magix-cms[point]com>, <gerits.aurelien[at]gmail[point]com>
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.

@@ -2,6 +2,11 @@
 	* Fix bug pdw configuration (tinyMCE conf)
 	* Fix bug ns_jcatalog_subcategory dans le drag and drop des produits dans une sous catégorie.
 	* Fix bug configuration de smarty(backend,frontend,install) avec smarty 3.1
+	* Fix bug avec l'affichage des tags dans les news (backend)
+	* Fix bug template configLoad
+	* Add addConfigFile dans les fonctions de template frontend
+	* Ajout réécriture des URLS pour les plugins avec paramètres
+	* Ajout du widget intégré "getplugin" pour la construction d'url de plugins dans les skins
 	
 2.3.5RC2
 

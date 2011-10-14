@@ -27,7 +27,7 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @id $Id: cms.php 379 2011-07-06 15:00:29Z aurelien $
  * @version  $Rev: 379 $
- * @author Gérits Aurélien <aurelien@magix-cms.com> $Author: aurelien $
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be> $Author: aurelien $
  * @name cms
  *
  */

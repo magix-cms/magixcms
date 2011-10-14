@@ -4,7 +4,7 @@
  * @category   MODEL 
  * @package    frontend
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
  * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
@@ -93,7 +93,7 @@ class frontend_model_template extends db_theme{
 	 * @param string $section
 	 */
 	public static function configLoad($section = ''){
-		return frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $section);
+		frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $section);
 	}
 	/**
 	 * Charge le theme selectionné ou le theme par défaut
@@ -160,6 +160,41 @@ class frontend_model_template extends db_theme{
 			throw new Exception("getConfigVars is null");
 		}
 	}
+	/**
+	 * Ajoute un ou plusieurs dossier de configuration et charge les fichiers associés ainsi que les variables
+	 * @access public
+	 * @param array $addConfigDir
+	 * @param array $load_files
+	 * @param bool $debug
+	 * @throws Exception
+	 */
+	public static function addConfigFile(array $addConfigDir,array $load_files,$debug=false){
+		if(is_array($addConfigDir)){
+			frontend_config_smarty::getInstance()->addConfigDir($addConfigDir);
+		}else{
+			throw new Exception('Error: addConfigDir is not array');
+		}
+		if(is_array($load_files)){
+			foreach ($load_files as $row=>$val){
+				if(is_string($row)){
+					if(array_key_exists($row, $load_files)){
+						frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad($row), $val);
+					}
+				}else{
+					frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad($load_files[$row]));
+				}
+			}
+		}else{
+			throw new Exception('Error: load_files is not array');
+		}
+		if($debug!=false){
+			$config_dir = frontend_config_smarty::getInstance()->getConfigDir();
+			$firebug = new magixcjquery_debug_magixfire();
+			$firebug->magixFireDump('Config Dir', $config_dir);
+			$firebug->magixFireDump('Load Files in configdir', $load_files);
+			$firebug->magixFireDump('Config vars', frontend_config_smarty::getInstance()->getConfigVars());
+		}
+	} 
 }
 /**
  * Class db theme

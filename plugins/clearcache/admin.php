@@ -23,10 +23,10 @@
  * @category   clear 
  * @package    plugins
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * http://www.magix-cms.com,  http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    2.0
- * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name clearcache
  * Le plugin clearcache nettoie les caches tpl et GZ de l'installation
  *

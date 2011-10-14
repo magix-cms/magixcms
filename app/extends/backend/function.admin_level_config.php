@@ -27,7 +27,7 @@
  * @link http://www.magix-cms.com,http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
- * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * Type:     function
  * Name:     admin_level_config
  * Date:     29/05/2011

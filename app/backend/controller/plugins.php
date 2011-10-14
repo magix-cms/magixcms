@@ -27,7 +27,7 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.6
  * update 13/03/2011
- * @author Gérits Aurélien <aurelien@magix-cms.com> 
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name plugins
  *
  */
@@ -485,7 +485,7 @@ class backend_controller_plugins{
 	 * @param string $sections (optionnel) :la section à charger
 	 */
 	public function configLoad($sections = false){
-		return backend_config_smarty::getInstance()->configLoad(
+		backend_config_smarty::getInstance()->configLoad(
 			$this->pathConfigLoad(self::$ConfigFile), $sections
 		);
 	}
@@ -494,7 +494,7 @@ class backend_controller_plugins{
 	 * @param string $sections (optionnel) :la section à charger
 	 */
 	public function configLoadMail($sections = false){
-		return backend_config_smarty::getInstance()->configLoad(
+		backend_config_smarty::getInstance()->configLoad(
 			$this->pathConfigLoad(self::$MailConfigFile), $sections
 		);
 	}
@@ -544,18 +544,18 @@ class backend_controller_plugins{
 	 * @access private
 	 * load sql file
 	 */
-	private function load_sql_file($filename){
-		return backend_controller_plugins::pluginDir().'sql'.DIRECTORY_SEPARATOR.$filename;
+	private function load_sql_file($filename,$plugin_folder){
+		return backend_controller_plugins::pluginDir($plugin_folder).'sql'.DIRECTORY_SEPARATOR.$filename;
 	}
 	/**
 	 * @access public
 	 * @static
 	 * Installation des tables mysql du plugin
 	 */
-	public function db_install_table($filename,$fetchFile){
+	public function db_install_table($filename,$fetchFile,$plugin_folder=null){
 		try{
 			if(file_exists($this->load_sql_file($filename))){
-				if(magixglobal_model_db::create_new_sqltable($this->load_sql_file($filename))){
+				if(magixglobal_model_db::create_new_sqltable($this->load_sql_file($filename,$plugin_folder))){
 					$this->append_assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.$this->pluginUrl().'">');
 					$fetch = $this->append_fetch($fetchFile);
 					$this->append_assign('install_db',$fetch);

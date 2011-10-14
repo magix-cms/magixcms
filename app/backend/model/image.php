@@ -23,10 +23,10 @@
  * @category   Model 
  * @package    backend
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.4
- * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be> | <gerits.aurelien@gmail.com>
  * @name image
  * Model image
  */
@@ -122,10 +122,8 @@ class backend_model_image {
 							//if(chmod($_FILES[$img]["tmp_name"],0777)){
 								if(is_uploaded_file($tmp_img)){
 									$source = $tmp_img;
-									$pathdir = dirname(realpath( __FILE__ ));
-									$arraydir = array('app\backend\model', 'app/backend/model');
-									//$cible = $_SERVER['DOCUMENT_ROOT'].magixcjquery_html_helpersHtml::unixSeparator().$path.magixcjquery_html_helpersHtml::unixSeparator().magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
-									$cible = magixglobal_model_system::root_path($arraydir,array("",""),$pathdir).$path.magixcjquery_html_helpersHtml::unixSeparator().magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
+									/*$pathdir = dirname(realpath( __FILE__ ));*/
+									$cible = magixglobal_model_system::base_path().$path.'/'.magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
 									if($debug != false){
 										if(M_LOG == 'debug'){
 											magixcjquery_debug_magixfire::magixFireGroup('Upload Log:',
