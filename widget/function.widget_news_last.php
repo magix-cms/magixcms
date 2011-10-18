@@ -80,7 +80,7 @@ function smarty_function_widget_news_last($params, $template){
 		}
 		$curl = date_create($pnews['date_register']);
 		$widget = '<div class="'.$tabs['class_elem'].'">';
-		$widget .='<a class="'.$tabs['class_img'].'">';
+		$widget .='<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],date_format($curl,'Y/m/d'),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
 				$widget .= $image;
 		$widget .='</a>';
 		$widget .='<p class="name">';
