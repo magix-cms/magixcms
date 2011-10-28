@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `mc_admin_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
-  `idlang` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `idlang` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `iso` varchar(3) NOT NULL,
   `language` varchar(30) NOT NULL,
   `default_lang` tinyint(1) NOT NULL DEFAULT '0',
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `mc_catalog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
-  `idclc` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `idclc` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `clibelle` varchar(125) NOT NULL,
   `pathclibelle` varchar(125) NOT NULL,
   `img_c` varchar(125) DEFAULT NULL,
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_img` (
 CREATE TABLE IF NOT EXISTS `mc_catalog_product` (
   `idproduct` int(6) NOT NULL AUTO_INCREMENT,
   `idcatalog` int(6) NOT NULL,
-  `idclc` tinyint(3) NOT NULL,
-  `idcls` tinyint(3) NOT NULL DEFAULT '0',
+  `idclc` tinyint(3) unsigned NOT NULL,
+  `idcls` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `orderproduct` int(6) NOT NULL,
   PRIMARY KEY (`idproduct`),
   KEY `idclc` (`idclc`),
@@ -97,12 +97,12 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_rel_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
-  `idcls` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `idcls` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `slibelle` varchar(125) NOT NULL,
   `pathslibelle` varchar(125) NOT NULL,
   `img_s` varchar(125) DEFAULT NULL,
   `s_content` text,
-  `idclc` tinyint(3) NOT NULL,
+  `idclc` tinyint(3) unsigned NOT NULL,
   `sorder` tinyint(3) NOT NULL,
   PRIMARY KEY (`idcls`),
   KEY `idclc` (`idclc`)
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `mc_cms_rel_lang` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_config` (
-  `idconfig` tinyint(3) NOT NULL AUTO_INCREMENT,
+  `idconfig` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `attr_name` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `max_record` tinyint(1) NOT NULL DEFAULT '0',
@@ -150,8 +150,8 @@ INSERT INTO `mc_config` (`idconfig`, `attr_name`, `status`, `max_record`) VALUES
 (6, 'plugins', 1, 0);
 
 CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
-  `id_size_img` smallint(5) NOT NULL AUTO_INCREMENT,
-  `idconfig` tinyint(3) NOT NULL,
+  `id_size_img` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `idconfig` tinyint(3) unsigned NOT NULL,
   `config_size_attr` varchar(40) NOT NULL,
   `width` decimal(4,0) NOT NULL,
   `height` decimal(4,0) NOT NULL,
@@ -172,7 +172,7 @@ INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`,
 (9, 3, 'news', '350', '250', 'medium', 'basic');
 
 CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
-  `idrewrite` tinyint(2) NOT NULL AUTO_INCREMENT,
+  `idrewrite` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `attribute` varchar(40) NOT NULL,
   `idlang` tinyint(3) NOT NULL DEFAULT '0',
   `strrewrite` tinytext,

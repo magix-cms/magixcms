@@ -33,64 +33,80 @@
 class magixglobal_model_imagepath{
 	/**
 	 * 
-	 * Définition du module à appliquer
-	 * @var string
-	 */
-	public $settingFilter;
-	/**
-	 * 
 	 * Constructeur
 	 * @param string $type
 	 */
-	public function __construct($type=''){
-		if(isset($type)){
-			$this->settingFilter = $type;
-		}else{
-			$this->settingFilter = '';
-		}
-	}
+	public function __construct(){}
 	/**
-	 * @access private
-	 * Identification de la traduction des urls du module catalogue
-	 * @param string $lang
+	 * 
+	 * Enter description here ...
+	 * @param string $filtermod
+	 * @param string $levelmod
+	 * @param bolean $rootPath
 	 */
-	private function getTypeModule(){
-		switch($this->settingFilter){
+	private function setPath($filtermod,$levelmod='',$rootPath=false){
+		if($rootPath != false){
+			$rootPath = magixglobal_model_system::base_path();
+		}else{
+			$rootPath = '/';
+		}
+		if(!isset($filtermod)){
+			throw new Exception('Error filterPathImg :filtermod is not defined');
+		}
+		switch($filtermod){
 			case 'catalog':
-				$rootPath = '/upload/catalogimg';
+				if($levelmod == 'category'){
+					return $rootPath.'upload/catalogimg/category/';
+				}elseif($levelmod == 'subcategory'){
+					return $rootPath.'upload/catalogimg/subcategory/';
+				}elseif($levelmod == 'galery'){
+					return $rootPath.'upload/catalogimg/galery/';
+				}else{
+					return $rootPath.'upload/catalogimg/';
+				}
 			break;
 			case 'news':
-				$rootPath = '/upload/news';
+				return $rootPath.'upload/news/';
 			break;
 			default:
-				$rootPath = $this->settingFilter;
+				return $rootPath.$filtermod;
 			break;
 		}
-		return $rootPath;
 	}
 	/**
 	 * 
-	 * Chemin des images
-	 * @param string $level
-	 * @param string $img
+	 * Retourne le chemin vers le dossier img ou vers l'image
+	 * @param array $filt_option
+	 * @example 
+	 	$filter = new magixglobal_model_imagepath();
+		print $filter->filterPathImg(array('filtermod'=>'catalog','img'=>'test.png'));
 	 */
-	public function filter_path_img($level=false,$img){
-		switch($this->settingFilter){
-			case 'catalog':
-				if($level == 'category'){
-					return $this->getTypeModule($this->settingFilter).'/category/'.$img;
-				}elseif($level == 'subcategory'){
-					return $this->getTypeModule($this->settingFilter).'/subcategory/'.$img;
-				}elseif($level == 'product'){
-					return $this->getTypeModule($this->settingFilter).'/'.$img;
-				}elseif($level == 'galery'){
-					return $this->getTypeModule($this->settingFilter).'/galery/'.$img;
-				}
-			case 'news' :
-				return $this->getTypeModule($this->settingFilter).'/'.$img;
-			break;
-			default :
-				return $this->getTypeModule($this->settingFilter).$img;
+	public function filterPathImg($filt_option = array('filtermod'=>'','img'=>'','levelmod'=>'','rootPath'=>false)){
+		if(is_array($filt_option)){
+			if(isset($filt_option['filtermod'])){
+				$filtermod = $filt_option['filtermod'];
+			}else{
+				throw new Exception('Error filterPathImg :filtermod is not defined');
+			}
+			if(isset($filt_option['img'])){
+				$img = $filt_option['img'];
+			}else{
+				$img = '';
+				//throw new Exception('Error filterPathImg :img is not defined');
+			}
+			if(isset($filt_option['levelmod'])){
+				$levelmod = $filt_option['levelmod'];
+			}else{
+				$levelmod = '';
+			}
+			if(isset($filt_option['rootPath'])){
+				$rootPath = $filt_option['rootPath'];
+			}else{
+				$rootPath = false;
+			}
+			return $this->setPath($filtermod,$levelmod,$rootPath).$img;
+		}else{
+			throw new Exception('Error filterPathImg :filt_option is not array');
 		}
 	}
 }

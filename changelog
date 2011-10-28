@@ -7,6 +7,12 @@
 	* Add addConfigFile dans les fonctions de template frontend
 	* Ajout réécriture des URLS pour les plugins avec paramètres
 	* Ajout du widget intégré "getplugin" pour la construction d'url de plugins dans les skins
+	* Suppression de la fonction getTypeModule (imagepath)
+	* Suppression de la fonction filter_path_img (imagepath)
+	* Ajout de la fonction filterPathImg pour la gestion des chemins des dossiers images (imagepath)
+	* Ajout de paramètres supplémentaire dans append_display,append_fetch,append_assign (plugins)
+	* Ajout de paramètres supplémentaire dans display,fetch,assign (template backend)
+	* Mise à jour des champs SQL type int avec l'option unsigned
 	
 2.3.5RC2
 

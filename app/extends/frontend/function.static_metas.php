@@ -54,7 +54,11 @@ function smarty_function_static_metas($params, $template){
 		return;
 	}
 	if($param == null){
-		$seo = $dynamic;
+		if(empty($dynamic)){
+			$seo = magixglobal_model_system::extract_domain();
+		}else{
+			$seo = $dynamic;
+		}
 	}elseif($param != null){
 		$seo = $param;
 	}

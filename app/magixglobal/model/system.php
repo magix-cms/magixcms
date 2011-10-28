@@ -77,9 +77,29 @@ class magixglobal_model_system{
 	 * extract domain
 	 * exemple: http//www.mydomain.com => mydomain.com
 	 */
-	public function extract_domain(){
+	public static function extract_domain(){
 		$parse = parse_url(magixcjquery_html_helpersHtml::getUrl(), PHP_URL_HOST);
 		return substr($parse,4);
+	}
+	/**
+	 * @access public
+	 * Remplace les variables par un contenu de substitution
+	 * @param array $search
+	 * @param array $replace
+	 * @param string $str
+	 * @throws Exception
+	 */
+	public static function vars_replace(array $search,array $replace, $str){
+		//Tableau des variables à rechercher
+		if(!is_array($search)){
+			throw new Exception('var search is not array');
+		}
+		//Tableau des variables à remplacer 
+		if(!is_array($replace)){
+			throw new Exception('var replace is not array');
+		}
+		//texte générique à remplacer
+		return str_replace($search ,$replace,$str);
 	}
 }
 ?>

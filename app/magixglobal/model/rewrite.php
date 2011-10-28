@@ -472,7 +472,7 @@ class magixglobal_model_rewrite{
 			break;
 		}
 	}
-	public static function plugins_getname($magixmod=''){
+	/*public static function plugins_getname($magixmod=''){
 		$filename = substr($_SERVER['SCRIPT_NAME'],1);
 		$position = strpos($filename, '.');
 		$attribute = substr($filename, 0, $position);
@@ -486,7 +486,7 @@ class magixglobal_model_rewrite{
 			$plugin = $magixmod;
 		}
 		return $plugin;
-	}
+	}*/
 	/**
 	 * URL public d'un plugin sans réécriture
 	 * @param string $lang
@@ -581,7 +581,7 @@ class magixglobal_model_rewrite{
 		}else{
 			throw new Exception("Error plugins rewrite: params is not array");
 		}
-		return '/plugins.php?'.$language.'magixmod='.self::plugins_getname($magixmod).'&amp;'.$uri;
+		return '/plugins.php?'.$language.'magixmod='.$magixmod.'&amp;'.$uri;
 	}
 	/**
 	 * @access private
@@ -606,7 +606,7 @@ class magixglobal_model_rewrite{
 		}else{
 			throw new Exception("Error plugins rewrite: params is not array");
 		}
-		return '/'.$language.'magixmod/'.self::plugins_getname($magixmod).$uri.'/';
+		return '/'.$language.'magixmod/'.$magixmod.$uri.'/';
 	}
 	/**
 	 * La réécriture des URL Root des plugins
