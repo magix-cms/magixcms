@@ -86,6 +86,7 @@ function smarty_function_widget_news_list($params, $template){
 			);
 	}
 	$offset = $fcn->news_offset_pager($max);
+	$filter = new magixglobal_model_imagepath();
 	$news .= '<div class="'.$tabs['class_container'].'">';
 	if(frontend_db_block_news::s_news_listing(frontend_model_template::current_Language(),$limit,$max,$offset) != null){
 		foreach(frontend_db_block_news::s_news_listing(frontend_model_template::current_Language(),$limit,$max,$offset) as $pnews){
@@ -94,9 +95,9 @@ function smarty_function_widget_news_list($params, $template){
 			$curl = new magixglobal_model_dateformat($pnews['date_register']);
 			$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
 			if ($pnews['n_image'] != null){
-				$image = '<img src="/upload/news/s_'.$pnews['n_image'].'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+				$image = '<img src="'.$filter->filterPathImg(array('filtermod'=>'news','img'=>'s_'.$pnews['n_image'])).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 			}else{
-				$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+				$image = '<img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 			}
 			$news .= '<div class="'.$tabs['class_elem'].'">';
 			$news .='<a class="'.$tabs['class_img'].'">';
@@ -115,7 +116,7 @@ function smarty_function_widget_news_list($params, $template){
 				$news .= '<span class="tag">';
 				$tagnews = '';
 				foreach ($tag as $t){
-					$uritag = magixglobal_model_rewrite::filter_news_tag_url($pnews['iso'],urlencode($t['name_tag']),true);
+					$uritag = magixglobal_model_rewrite::filter_news_tag_url($pnews['iso'],$t['name_tag'],true);
 	  				$tagnews[]= '<a href="'.$uritag.'" title="'.$t['name_tag'].'">'.$t['name_tag'].'</a>';
 				}
 				$news .= implode(',', $tagnews);

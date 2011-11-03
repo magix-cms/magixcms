@@ -43,11 +43,11 @@
  				{widget_catalog_cat_display 
 				css_param=[
 					'id_container' => 'choose-id', 
-					'class_container'=>'list-div medium bg light w11-32',
-					'class_elem'=>'list-div-elem',
-  					'class_name' => 'name',
+					'class_container'=>'ch1-4 ch-light',
+					'class_elem'=>'child',
+					'class_name' => 'name',
 					'class_img'=>'img',
-  					'class_desc' =>'desc'
+					'class_desc'=>'descr'
 				]
  				title="catalog categories" 
 				tposition="bottom" 
@@ -60,11 +60,11 @@
   				{widget_catalog_cat_display 
 				css_param=[
 					'id_container' => 'choose-id', 
-					'class_container'=>'list-div medium bg light w11-32',
-					'class_elem'=>'list-div-elem',
-  					'class_name' => 'name',
+					'class_container'=>'ch1-3 ch-light',
+					'class_elem'=>'child',
+					'class_name' => 'name',
 					'class_img'=>'img',
-  					'class_desc' =>'desc'
+					'class_desc'=>'descr'
 				]
 				idselect=['fr'=>['1','2'],'en'=>[0]]
  				title="catalog categories" 
@@ -78,11 +78,11 @@
 				{widget_catalog_cat_display 
 				css_param=[
 					'id_container' => 'choose-id', 
-					'class_container'=>'list-div medium bg light w11-32',
-					'class_elem'=>'list-div-elem',
-  					'class_name' => 'name',
+					'class_container'=>'ch1-2 ch-light',
+					'class_elem'=>'child',
+					'class_name' => 'name',
 					'class_img'=>'img',
-  					'class_desc' =>'desc'
+					'class_desc'=>'descr'
 				]
 				idexclude=['fr'=>['1','2'],'en'=>[0]]
  				title="catalog categories" 
@@ -94,7 +94,7 @@
  * Output:   
  * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
- * @version  1.3
+ * @version  1.4
  * @param array
  * @param Smarty
  * @return string
@@ -232,11 +232,11 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 	}else{
 		$tabs= array(
 				'id_container' => null,
-				'class_container'=>'list-div',
-				'class_elem'=>'list-div-elem',
+				'class_container'=>'ch1-4 ch-light',
+				'class_elem'=>'child',
 				'class_name' => 'name',
 				'class_img'=>'img',
-				'class_desc'=>'descr'
+				'class_desc'=>'desc'
 			);
 	}	
 	// Variables pour les class des éléments
@@ -258,7 +258,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 	$i = 1; //Définis pour l'ajout de la class 'last'
 
 	$block = $title;
-	$imgPath = new magixglobal_model_imagepath('catalog');
+	$filter = new magixglobal_model_imagepath();
 	if ($fct_sql != null){
 
 		$block .= '<div'. $id_container . $class_container .'>'."\n";
@@ -306,9 +306,9 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 				//----------------------------------------
 				$img_cat = '<a '. $class_img .'  href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">';
 					if ($cat['img_c'] != null){					
-					$img_cat .=	'<img src="'.$imgPath->filter_path_img('category',$cat['img_c']).'" alt="'.$cat['clibelle'].'" />';
+					$img_cat .=	'<img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$cat['img_c'],'levelmod'=>'category')).'" alt="'.$cat['clibelle'].'" />';
 				} else {
-					$img_cat .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png'.'" alt="'.$cat['clibelle'].'" />';
+					$img_cat .= '<img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['clibelle'].'" />';
 				}
 				$img_cat .=	'</a>';
 

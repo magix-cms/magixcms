@@ -43,7 +43,11 @@
 				css_param=[
 					'class_elem'=>'list-div-elem',
 					'class_img'=>'img'
-				] limit="" delimiter=""}
+				] 
+				tag=""
+				limit="" 
+				delimiter=""
+			}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
@@ -67,16 +71,27 @@ function smarty_function_widget_news_last($params, $template){
 				,'class_img'=>'img'
 			);
 	}
+	$filter = new magixglobal_model_imagepath();
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 250 ;
 	$delimiter = $params['delimiter']? $params['delimiter']: '';
 	$newsall = $params['newsall'];
 	$iniDB = new frontend_db_block_news();
 	$pnews = $iniDB->s_lastnews_plugins(frontend_model_template::current_Language());
+	$news_uri = magixglobal_model_rewrite::filter_news_root_url($pnews['iso'],true);
+	if(isset($params['tag']) AND $params['tag'] != ''){
+		if($iniDB->s_lastnews_plugins(frontend_model_template::current_Language(),$params['tag']) != null){
+			$pnews = $iniDB->s_lastnews_plugins(frontend_model_template::current_Language(),$params['tag']);
+			$news_alluri=magixglobal_model_rewrite::filter_news_tag_url($pnews['iso'], $params['tag'],true);
+		}
+	}else{
+		$pnews = $iniDB->s_lastnews_plugins(frontend_model_template::current_Language());
+		$news_alluri = $news_uri;
+	}
 	if($pnews != null){
 		if ($pnews['n_image'] != null){
-			$image = '<img src="/upload/news/s_'.$pnews['n_image'].'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+			$image = '<img src="'.$filter->filterPathImg(array('filtermod'=>'news','img'=>'s_'.$pnews['n_image'])).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 		}else{
-			$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+			$image = '<img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 		}
 		$curl = date_create($pnews['date_register']);
 		$widget = '<div class="'.$tabs['class_elem'].'">';
@@ -89,7 +104,7 @@ function smarty_function_widget_news_last($params, $template){
 		$widget .= '<span class="descr">';
 			$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
 		$widget .= '</span>';	
-		$widget .= '<a href="'.magixglobal_model_rewrite::filter_news_root_url($pnews['iso'],true).'">'.$newsall.'</a>';
+		$widget .= '<a href="'.$news_alluri.'">'.$newsall.'</a>';
 		$widget .= '</div>';
 	}
 	return $widget;

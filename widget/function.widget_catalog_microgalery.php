@@ -36,13 +36,19 @@
  * Type:     function
  * Name:     microgalery
  * Date:     January 27 2010
- * Update:   Augustus 1 2011
+ * Update:   October 31 2011
  * Purpose:  
- * Examples: {microgalery}
+ * Examples: 
+ * {widget_catalog_microgalery 
+		css_param=[
+			'class_container'=>'list-img medium',
+			'class_img'=>'last'
+		]
+	col="2"}
  * Output:   
  * @link http://www.magix-cms.com
  * @author   Gerits Aurelien
- * @version  1.2
+ * @version  1.3
  * @param array
  * @param Smarty
  * @return string
@@ -58,8 +64,9 @@ function smarty_function_widget_catalog_microgalery($params, $template){
 			return;
 		}
 	}else{
-		$tabs= array('class_container'=>'list-li img medium',
-		'class_img'=>'last'
+		$tabs= array(
+			'class_container'=>'list-img medium',
+			'class_img'=>'last'
 		);
 	}
 	// Type de galerie
@@ -88,8 +95,10 @@ function smarty_function_widget_catalog_microgalery($params, $template){
 						$class= null;
 						$i++;
 					}
-									
-					$galery .= '<li'. $class .'><a class="imagebox img" rel="microgalery" href='.'"'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/maxi/'.$img['imgcatalog'].'">'.'<img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'upload/catalogimg/galery/mini/'.$img['imgcatalog'].'" alt="'.$img['imgcatalog'].'" /></a>'.'</li>';
+					$filter = new magixglobal_model_imagepath();
+					$galery .= '<li'. $class .'><a class="imagebox img" rel="microgalery" href="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>'maxi/'.$img['imgcatalog'],'levelmod'=>'galery')).'">';
+					$galery .= '<img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>'mini/'.$img['imgcatalog'],'levelmod'=>'galery')).'" alt="'.$img['imgcatalog'].'" /></a>';
+					$galery .= '</li>';
 			}
 			$galery .= '</ul>';
 			}

@@ -77,6 +77,7 @@ function smarty_function_widget_news_tags($params, $template){
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 240 ;
 	// Le délimiteur pour tronqué le texte
 	$delimiter = $params['delimiter'] ? $params['delimiter'] : '';
+	$filter = new magixglobal_model_imagepath();
 	//Si on demande un tag news
 	if(magixcjquery_filter_request::isGet('tag')){
 		$gettag = magixcjquery_url_clean::make2tagString($_GET['tag']);
@@ -89,9 +90,9 @@ function smarty_function_widget_news_tags($params, $template){
 				$curl = new magixglobal_model_dateformat($pnews['date_register']);
 				$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
 				if ($pnews['n_image'] != null){
-					$image = '<img src="/upload/news/s_'.$pnews['n_image'].'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+					$image = '<img src="'.$filter->filterPathImg(array('filtermod'=>'news','img'=>'s_'.$pnews['n_image'])).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 				}else{
-					$image = '<img src="/skin/default/img/catalog/no-picture.png" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
+					$image = '<img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 				}
 				$news .= '<div class="'.$tabs['class_elem'].'">';
 				$news .='<a class="'.$tabs['class_img'].'">';

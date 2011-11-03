@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `mc_cms_pages` (
   `content_page` text,
   `seo_title_page` tinytext,
   `seo_desc_page` tinytext,
-  `order_page` tinyint(1) NOT NULL DEFAULT '0',
+  `order_page` smallint(5) unsigned NOT NULL DEFAULT '0',
   `sidebar_page` tinyint(1) NOT NULL DEFAULT '0',
   `date_register` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

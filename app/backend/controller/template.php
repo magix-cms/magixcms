@@ -65,7 +65,7 @@ class backend_controller_template{
 	 * @param object $parent
 	 */
 	public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
-		return frontend_config_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
+		return backend_config_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
 	}
 	/**
 	 * @access public
@@ -79,7 +79,7 @@ class backend_controller_template{
 			return frontend_config_smarty::getInstance()->assign($tpl_var);
 		}else{
 			if($tpl_var){
-				return frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+				return backend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
 			}else{
 				throw new Exception('Unable to assign a variable in template');
 			}

@@ -124,6 +124,11 @@ function smarty_function_widget_social_network($params, $template){
 						$imgtw = '/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/socialnetwork/Twitter-1-48.png';;
 						$imgvia = '/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/socialnetwork/viadeo_48.png';
 						break;
+					case 'special':
+						$imgfb = '/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/socialnetwork/Facebook-16-special.png';
+						$imgtw = '/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/socialnetwork/Twitter-1-16-special.png';
+						$imgvia = '/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/socialnetwork/viadeo_16-special.png';
+						break;
 				}
 			}
 		    $arr = array($imgfb, $imgtw,$imgvia);

@@ -44,29 +44,30 @@
 				idcatalog=$idcatalog 
 				css_param=[
 					'id_container'=>'',
-					'class_container'=>'list-div medium bg light',
-					'class_elem'=>'list-div-elem',
+					'class_container'=>'ch1-4 ch-light',
+					'class_elem'=>'child',
 					'class_name' => 'name',
 					'class_img'=>'img',
-					'class_desc'=>'descr',
+					'class_desc'=>'desc',
 					'class_price'=>'price'
 				]
-				col="1" 
-				description=true 
-				contentlength="124" 
-				size="medium" 
-				tposition="bottom"}
+				col="2" 
+				description=false 
+				size="mini" 
+				tposition="bottom"
+			}
 				
 		### WITH EXCLUDE ####	
 			{widget_catalog_rel_product 
 				idcatalog=$idcatalog 
+				idcatalog=$idcatalog 
 				css_param=[
 					'id_container'=>'',
-					'class_container'=>'list-div medium bg light',
-					'class_elem'=>'list-div-elem',
+					'class_container'=>'ch1-4 ch-light',
+					'class_elem'=>'child',
 					'class_name' => 'name',
 					'class_img'=>'img',
-					'class_desc'=>'descr',
+					'class_desc'=>'desc',
 					'class_price'=>'price'
 				]
 				idexclude=['fr'=>['1,3'],'en'=>['7']]
@@ -79,13 +80,14 @@
 			### WITH SELECT ####	
 				{widget_catalog_rel_product 
 				idcatalog=$idcatalog 
+				idcatalog=$idcatalog 
 				css_param=[
 					'id_container'=>'',
-					'class_container'=>'list-div medium bg light',
-					'class_elem'=>'list-div-elem',
+					'class_container'=>'ch1-4 ch-light',
+					'class_elem'=>'child',
 					'class_name' => 'name',
 					'class_img'=>'img',
-					'class_desc'=>'descr',
+					'class_desc'=>'desc',
 					'class_price'=>'price'
 				]
 				idselect=['fr'=>['1,3'],'en'=>['7']]
@@ -202,8 +204,8 @@ if (isset($params['idselect'])) {
 	}else{
 		$tabs= array(
 			'id_container' => null,
-			'class_container'=>'list-div medium bg light',
-			'class_elem'=>'list-div-elem',
+			'class_container'=>'ch1-4 ch-light',
+			'class_elem'=>'child',
 			'class_name' => 'name',
 			'class_img'=>'img',
 			'class_desc'=>'descr',
@@ -243,7 +245,7 @@ if (isset($params['idselect'])) {
 			$sizecapture = 'mini';
 		break;
 	}
-	$imgPath = new magixglobal_model_imagepath('catalog');
+	$filter = new magixglobal_model_imagepath();
 	$product = null;
 	$i = 1;
 	if($fct_sql != null){
@@ -275,9 +277,9 @@ if (isset($params['idselect'])) {
 				$product .= '<p class="name"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
 			}
 			if($cat['imgcatalog'] != null){
-				$product .= '<a'.$class_img.' href="'.$uri_product.'"><img src="'.$imgPath->filter_path_img('product',$sizecapture.'/'.$cat['imgcatalog']).'" alt="'.$cat['titlecatalog'].'" /></a>';
+				$product .= '<a'.$class_img.' href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" /></a>';
 			}else{
-				$product .= '<a'.$class_img.' href="'.$uri_product.'"><img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
+				$product .= '<a'.$class_img.' href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
 			}
 			if($tposition == 'bottom'){
 				$product .= '<p'.$class_name.'><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';

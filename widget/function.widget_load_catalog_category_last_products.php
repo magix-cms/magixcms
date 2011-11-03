@@ -122,6 +122,7 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
 	$class_e = '"';
 	$ilast = 1;
       $product = null; 
+      $filter = new magixglobal_model_imagepath();
       if(frontend_db_block_catalog::s_product_category_by_date($idclc,frontend_model_template::current_Language()) != null){
         //Récupère la nombre de produits existants 
         $nb_products = count( frontend_db_block_catalog::s_product_category_by_date($idclc,frontend_model_template::current_Language()) );
@@ -154,9 +155,9 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
             $product .= '<p class="name"><a href="'.$uri_product.'" title="'.$cat['titlecatalog'].'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
           }
           if($cat['imgcatalog'] != null){
-            $product .= '<a class="'.$tabs['class_img'].'" href="'.$uri_product.'" title="'.$cat['titlecatalog'].'"><img src="'.magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/'.$sizecapture.'/'.$cat['imgcatalog'].'" alt="'.$cat['titlecatalog'].'" title="'.$cat['titlecatalog'].'" /></a>';
+            $product .= '<a class="'.$tabs['class_img'].'" href="'.$uri_product.'" title="'.$cat['titlecatalog'].'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" title="'.$cat['titlecatalog'].'" /></a>';
           }else{
-            $product .= '<a class="'.$tabs['class_img'].'"  href="'.$uri_product.'"><img src="'.magixcjquery_html_helpersHtml::getUrl().magixcjquery_html_helpersHtml::unixSeparator().'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$cat['titlecatalog'].'" /></a>';
+            $product .= '<a class="'.$tabs['class_img'].'"  href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
           }
           if($tposition == 'bottom'){
             $product .= '<p class="name"><a href="'.$uri_product.'" title="'.$cat['titlecatalog'].'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';

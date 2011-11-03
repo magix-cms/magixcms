@@ -1,3 +1,6 @@
+2.3.5RC4
+	* Configuration du nouveau template (default v2) + adaptation des widgets avec le framework CSS
+	
 2.3.5RC3
 	* Fix bug pdw configuration (tinyMCE conf)
 	* Fix bug ns_jcatalog_subcategory dans le drag and drop des produits dans une sous catégorie.
@@ -15,7 +18,6 @@
 	* Mise à jour des champs SQL type int avec l'option unsigned
 	
 2.3.5RC2
-
 	* Changement de version 2.3.5 RC1 => RC2
 	* Suppression de tinymce 3.4.4
 	* Upgrade tinymce 3.4.5

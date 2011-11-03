@@ -56,22 +56,23 @@ class magixglobal_model_imagepath{
 		switch($filtermod){
 			case 'catalog':
 				if($levelmod == 'category'){
-					return $rootPath.'upload/catalogimg/category/';
+					$setPath = $rootPath.'upload/catalogimg/category/';
 				}elseif($levelmod == 'subcategory'){
-					return $rootPath.'upload/catalogimg/subcategory/';
+					$setPath =  $rootPath.'upload/catalogimg/subcategory/';
 				}elseif($levelmod == 'galery'){
-					return $rootPath.'upload/catalogimg/galery/';
+					$setPath =  $rootPath.'upload/catalogimg/galery/';
 				}else{
-					return $rootPath.'upload/catalogimg/';
+					$setPath =  $rootPath.'upload/catalogimg/';
 				}
 			break;
 			case 'news':
-				return $rootPath.'upload/news/';
+				$setPath =  $rootPath.'upload/news/';
 			break;
 			default:
-				return $rootPath.$filtermod;
+				$setPath = $rootPath.$filtermod;
 			break;
 		}
+		return $setPath;
 	}
 	/**
 	 * 
@@ -86,7 +87,8 @@ class magixglobal_model_imagepath{
 			if(isset($filt_option['filtermod'])){
 				$filtermod = $filt_option['filtermod'];
 			}else{
-				throw new Exception('Error filterPathImg :filtermod is not defined');
+				//throw new Exception('Error filterPathImg :filtermod is not defined');
+				$filtermod = '';
 			}
 			if(isset($filt_option['img'])){
 				$img = $filt_option['img'];
@@ -107,6 +109,45 @@ class magixglobal_model_imagepath{
 			return $this->setPath($filtermod,$levelmod,$rootPath).$img;
 		}else{
 			throw new Exception('Error filterPathImg :filt_option is not array');
+		}
+	}
+	/**
+	 * @access public
+	 * Retourne un tableau avec les images sélectionné
+	 * @param string $directory
+	 * @param string $exclude
+	 * @param array $option
+	 * @throws Exception
+	 */
+	public function scanImage($directory,$exclude,array $option=array('imgsize'=>'mini','reverse'=>false)){
+		$makeFiles = new magixcjquery_files_makefiles();
+		$array_dir = $makeFiles->scanDir($directory,$exclude);
+		if(is_array($option)){
+			switch($option['imgsize']){
+				case 'mini':
+					$imgsize = '/s_/';
+				break;
+				case 'medium':
+					$imgsize = '/m_/';
+				break;
+				default:
+					$imgsize = '/s_/';
+				break;
+			}
+			if($array_dir != null){
+				if(is_array($array_dir)){
+					if($option['reverse']){
+						$tabs_files = preg_grep($imgsize,$array_dir,PREG_GREP_INVERT);
+					}else{
+						$tabs_files = preg_grep($imgsize,$array_dir);
+					}
+					return $tabs_files;
+				}else{
+					throw new Exception('Error scanImage :array_dir is not array');
+				}
+			}
+		}else{
+			throw new Exception('Error scanImage :option is not array');
 		}
 	}
 }

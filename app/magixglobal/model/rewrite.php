@@ -403,7 +403,7 @@ class magixglobal_model_rewrite{
 	private function news_uri_tag($lang,$tag){
 		if($lang != null){
 			$language = 'strLangue='.$lang;
-			return '/news.php?'.$language.'&amp;tag='.$tag;
+			return '/news.php?'.$language.'&amp;tag='.urlencode($tag);
 		}
 	}
 	/**
@@ -413,7 +413,7 @@ class magixglobal_model_rewrite{
 	 */
 	private function news_rewrite_uri_tag($lang,$tag){
 		if($lang != null){
-			return '/'.$lang.self::mod_news_lang($lang).'tag/'.$tag;
+			return '/'.$lang.self::mod_news_lang($lang).'tag/'.urlencode($tag);
 		}
 	}
 	/**
