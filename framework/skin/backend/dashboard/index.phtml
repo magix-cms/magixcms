@@ -97,9 +97,16 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
+	/*jm_constant.define("lang","fr");
+	if(jm_constant.defined("lang") == false){
+	console.log("Constant is not defined");
+	}else{
+		console.log(jm_constant.get("lang"));
+	}
+	*/
 	$.getScript('/framework/js/backend/ns/jdashboard.0.2.min.js',function(){
 		if (typeof ns_jdashboard == "undefined") {
-		  console.log("ns_jdashboard is not defined");
+		  log("ns_jdashboard is not defined");
 		}else{
 			ns_jdashboard.run();
 		}

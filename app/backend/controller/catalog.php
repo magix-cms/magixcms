@@ -383,8 +383,8 @@ class backend_controller_catalog extends analyzer_catalog{
 		/**
 		 * Identifiant pour la suppression d'un catalogue !!!!
 		 */
-		if(magixcjquery_filter_request::isGet('delproduct')){
-			$this->delproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['delproduct']);
+		if(magixcjquery_filter_request::isPost('delproduct')){
+			$this->delproduct = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['delproduct']);
 		}
 		/**
 		 * identifiant pour la suppression d'une sous catégorie
@@ -2084,7 +2084,7 @@ class backend_controller_catalog extends analyzer_catalog{
 				}else{
 					self::display_product_image();
 				}
-			}elseif(magixcjquery_filter_request::isGet('delproduct')){
+			}elseif(magixcjquery_filter_request::isPost('delproduct')){
 				self::delete_catalog_product();
 			}else{
 				self::display_product();

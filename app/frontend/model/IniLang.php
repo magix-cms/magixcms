@@ -85,6 +85,36 @@ class frontend_model_IniLang{
 	 		 }
 		}
 	}
+	/**
+	 * Retourne l'OS courant si windows
+	 */
+	private function getOS(){
+		if(stripos($_SERVER['HTTP_USER_AGENT'],'win')){
+			return 'windows';
+		}
+	}
+	/**
+	 * Modification du setlocale suivant la langue courante pour les dates
+	 */
+	private function setTimeLocal(){
+		if(frontend_model_template::current_Language() == 'nl'){
+			if($this->getOS() === 'windows'){
+				setlocale(LC_TIME, 'nld_nld','nl');
+			}else{
+				setlocale(LC_TIME, 'nl_NL.UTF8','nl');
+			}
+		}elseif(frontend_model_template::current_Language() == 'fr'){
+			setlocale(LC_TIME, 'fr_FR.UTF8', 'fra');
+		}elseif(frontend_model_template::current_Language() == 'de'){
+			setlocale(LC_TIME, 'de_DE.UTF8', 'de');
+		}elseif(frontend_model_template::current_Language() == 'es'){
+			setlocale(LC_TIME, 'es_ES.UTF8', 'es');
+		}elseif(frontend_model_template::current_Language() == 'it'){
+			setlocale(LC_TIME, 'it_IT.UTF8', 'it');
+		}else{
+			setlocale(LC_TIME, 'en_US.UTF8', 'en');
+		}
+	}
 	public function autoLangSession(){
 		$this->loadGlobalLang();
 	}

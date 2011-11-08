@@ -5,13 +5,13 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name ns_
- *
+ * @name ns_jdashboard
+ * @update 08/10/2011 21:40
  */
 var ns_jdashboard = {
 	init:function(){},
 	_version:function(){
-		if($.ieTester()){
+		/*if($.ieTester()){
 			$('#version').ajaxStart(function(){
 				$(this).append('<img src="/framework/img/small_loading.gif" width="20" height="20" alt="...loading" />');
 			});
@@ -47,14 +47,29 @@ var ns_jdashboard = {
 				},
 				async: false,
 				beforeSend :function(){
-					$('#version').html('<span class="min-loader"><img src="/framework/img/small_loading.gif" /></span>');
+					$('#version').html('<span class="min-loader"><img src="/framework/img/small_loading.gif" width="20" height="20" alt="...loading" /></span>');
 				},
 				success: function(e) {
 					$('.min-loader').remove();
 					$('#version').html(e);
 				}
 			});
-		}
+		}*/
+		$.nicenotify({
+			ntype: "ajax",
+			uri: '/admin/version.php',
+			typesend: 'get',
+			beforeParams:function(){
+				$('#version').html('<span class="min-loader"><img src="/framework/img/small_loading.gif" width="20" height="20" alt="...loading" /></span>');
+			},
+			successParams:function(e){
+				$('.min-loader').remove();
+				$('#version').html(e);
+				$.nicenotify.initbox(e,{
+					display:false
+				});
+			}
+		});
 	},
 	_deleteHome:function(){
 		/**
@@ -71,7 +86,7 @@ var ns_jdashboard = {
 				buttons: {
 					'Delete': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							url: "/admin/home.php",
 							data : 'del_home='+idhome,
@@ -80,7 +95,20 @@ var ns_jdashboard = {
 							success: function(){
 								location.reload();
 							}
-					     });
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: '/admin/home.php',
+							typesend: 'post',
+							noticedata: 'del_home='+idhome,
+							beforeParams:function(){},
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
 					},
 					Cancel: function() {
 						$(this).dialog('close');
@@ -106,7 +134,7 @@ var ns_jdashboard = {
 				buttons: {
 					'Delete News': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							url: "/admin/news.php",
 							data: "delnews="+lg,
@@ -115,7 +143,20 @@ var ns_jdashboard = {
 							success: function(){
 								location.reload();
 							}
-					     });
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: '/admin/news.php',
+							typesend: 'post',
+							noticedata: 'delnews='+lg,
+							beforeParams:function(){},
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
 					},
 					Cancel: function() {
 						$(this).dialog('close');
@@ -137,7 +178,7 @@ var ns_jdashboard = {
 				buttons: {
 					'En ligne': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							url: uri_news_publish,
 							data: 'status_news=1',
@@ -145,12 +186,25 @@ var ns_jdashboard = {
 							success:function(e){
 								location.reload();
 							}
-					     });
-						return false;
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: uri_news_publish,
+							typesend: 'post',
+							noticedata: 'status_news=1',
+							beforeParams:function(){},
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
+						//return false;
 					},
 					'Hors ligne': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							url: uri_news_publish,
 							data: 'status_news=0',
@@ -158,8 +212,21 @@ var ns_jdashboard = {
 							success:function(e){
 								location.reload();
 							}
-					     });
-						return false;
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: uri_news_publish,
+							typesend: 'post',
+							noticedata: 'status_news=0',
+							beforeParams:function(){},
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
+						//return false;
 					},
 					Cancel: function() {
 						$(this).dialog('close');
@@ -183,7 +250,7 @@ var ns_jdashboard = {
 				buttons: {
 					'Delete': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							statusCode: {
 								0: function() {
@@ -212,7 +279,20 @@ var ns_jdashboard = {
 							success: function(request){
 								location.reload();
 							}
-					     });
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: '/admin/cms.php',
+							typesend: 'post',
+							noticedata: 'delpage='+idpage,
+							beforeParams:function(){},
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
 					},
 					Cancel: function() {
 						$(this).dialog('close');
@@ -237,13 +317,26 @@ var ns_jdashboard = {
 				buttons: {
 					'Delete item': function() {
 						$(this).dialog('close');
-						$.notice({
+						/*$.notice({
 							ntype: "ajax",
 				    		uri:  "/admin/catalog.php?product&delproduct="+lg,
 				    		typesend: 'get',
 				    		delay: 1800,
 				    		time:1,
 				    		reloadhtml:true
+						});*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: "/admin/catalog.php?product=true",
+							typesend: 'post',
+							noticedata: 'delproduct='+lg,
+							beforeParams:function(){},
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
 						});
 					},
 					Cancel: function() {
