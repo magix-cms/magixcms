@@ -1,0 +1,45 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>#seo_t_static_news#] category=$current_name_tag}}
+    <title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>#seo_t_static_news#] category=$current_name_tag}</title>
+{include file="common/css.phtml"}
+</head>
+<body class="news yag">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
+	</div>
+	<div id="content" class="full">
+		<div class="full-top"></div>
+		<div class="full-repeat">
+			<div class="container">
+				<div id="contentCol" class="block w10-16 lfloat text-content">
+						<ul class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
+							<li>></li>
+							<li><a href="{geturl}/{getlang}/{#topmenu_news_uri#}" title="{#topmenu_news_t#|firststring}">{#topmenu_news_t#|firststring}</a></li>
+							<li>></li>
+							<li>Tag : {$current_name_tag|firststring}</li>
+						</ul>
+						<h1>{$current_name_tag|firststring}</h1>
+						{widget_news_tags 
+							css_param=[
+								'class_container'=>'ch1-2 ch-light',
+								'class_name'=>'name',
+								'class_elem'=>'child',
+								'class_img'=>'rfloat img',
+								'class_desc'=>'descr'
+							] 
+						col=2}
+				</div>
+				<div id="rightCol" class="block w6-16 lfloat last">
+					{include file="common/colright.phtml"}	
+				</div>
+				<div class="clear">&nbsp;</div>
+			</div>
+		</div>
+		<div class="full-bottom"></div>
+	</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

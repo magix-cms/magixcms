@@ -5,13 +5,13 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name ns_
- *
+ * @name ns_jnews
+ * @update 10/10/2011 22:00
  */
 var ns_jnews = {
 	_addNews:function(){
 		$("#forms-news-add").submit(function(){
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 	    		url: '/admin/news.php?add=true',
 	    		type:"post",
 	    		resetForm: true,
@@ -22,7 +22,14 @@ var ns_jnews = {
 					});
 	    			$(".mc-head-request").html(request);
 	    		}
-	    	});
+	    	});*/
+			$.nicenotify({
+				ntype: "submit",
+				uri: '/admin/news.php?add=true',
+				typesend: 'post',
+				idforms: $(this),
+				resetform: true
+			});
 			return false;
 		});
 	},
@@ -30,7 +37,7 @@ var ns_jnews = {
 		$("#forms-news-update").submit(function(){
 			//$.editorhtml({editor:_editorConfig});
 			//$('.radio_contener').buttonset("refresh");
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 	    		url: '/admin/news.php?edit='+idnews,
 	    		type:"post",
 	    		resetForm: false,
@@ -42,26 +49,46 @@ var ns_jnews = {
 	    			ns_jnews._load_page_uri(idnews);
 	    			$(".mc-head-request").html(request);
 	    		}
-	    	});
+	    	});*/
+			$.nicenotify({
+				ntype: "submit",
+				uri: '/admin/news.php?edit='+idnews,
+				typesend: 'post',
+				idforms: $(this),
+				resetform: false,
+				successParams:function(e){
+					$.nicenotify.initbox(e);
+					ns_jnews._load_page_uri(idnews);
+				}
+			});
 			return false;
 		});
 	},
 	_editImage:function(idnews){
 		$("#forms-news-image-update").submit(function(){
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 	    		url: '/admin/news.php?edit='+idnews+'&post=1',
 	    		type:"post",
 	    		resetForm: true,
 	    		success:function(request) {
 	    			$('#n_image:file').val('');
-	    			/*$.notice({
-						ntype: "simple",
-						time:2
-					});*/
 	    			ns_jnews._LoadImageNews(idnews);
-	    			//$(".mc-head-request").html(request);
 	    		}
-	    	});
+	    	});*/
+			$.nicenotify({
+				ntype: "submit",
+				uri: '/admin/news.php?edit='+idnews+'&post=1',
+				typesend: 'post',
+				idforms: $(this),
+				resetform: false,
+				successParams:function(e){
+					$('#n_image:file').val('');
+					ns_jnews._LoadImageNews(idnews);
+					$.nicenotify.initbox(e,{
+						display:false
+					});
+				}
+			});
 			return false;
 		});
 	},
@@ -69,7 +96,7 @@ var ns_jnews = {
 		/**
 		 * Requete get pour charger l'image du profil
 		 */
-	    $.ajax({
+	    /*$.ajax({
 			type:'get',
 			statusCode: {
 				0: function() {
@@ -100,10 +127,21 @@ var ns_jnews = {
 			success: function(e){
 				$('#load_news_img #contener_image').html(e);
 			}
-	     });
+	     });*/
+		$.nicenotify({
+			ntype: "ajax",
+			uri: '/admin/news.php?edit='+idnews+'&imgnews=true',
+			typesend: 'get',
+			beforeParams:function(){
+				$('#load_news_img #contener_image').html('<img src="/framework/img/square-circle.gif" />');
+			},
+			successParams:function(e){
+				$('#load_news_img #contener_image').html(e);
+			}
+		});
 	},
 	_load_page_uri:function(idnews){
-		$.ajax({
+		/*$.ajax({
 			url: '/admin/news.php?edit='+idnews+'&load_json_uri_news=true',
 			dataType: 'json',
 			type: "get",
@@ -142,6 +180,28 @@ var ns_jnews = {
 					href:uri
 				});
 			}
+		});*/
+		$.nicenotify({
+			ntype: "ajax",
+			uri: '/admin/news.php?edit='+idnews+'&load_json_uri_news=true',
+			typesend: 'get',
+			datatype: 'json',
+			beforeParams:function(){
+				$("#newsurl").css({"display":"none"}).val('');
+				$('<span class="min-loader"><img src="/framework/img/small_loading.gif" /></span>').insertAfter('#newsurl');
+			},
+			successParams:function(j){
+				$('.min-loader').remove();
+				$.nicenotify.initbox(j,{
+					display:false
+				});
+				var uri = j.newsuri;
+				$("#newsurl").css({"display":"block"});
+				$("#newsurl").val(uri);
+				$(".post-preview").attr({
+					href:uri
+				});
+			}
 		});
 	},
 	_publishedNews:function(){
@@ -156,7 +216,7 @@ var ns_jnews = {
 				buttons: {
 					'En ligne': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							url: uri_news_publish,
 							data: 'status_news=1',
@@ -164,20 +224,35 @@ var ns_jnews = {
 							success:function(e){
 								location.reload();
 							}
-					     });
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: uri_news_publish,
+							typesend: 'post',
+							noticedata : 'status_news=1',
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
 						return false;
 					},
 					'Hors ligne': function() {
 						$(this).dialog('close');
-						$.ajax({
-							type:'post',
-							url: uri_news_publish,
-							data: 'status_news=0',
-							async: false,
-							success:function(e){
-								location.reload();
+						$.nicenotify({
+							ntype: "ajax",
+							uri: uri_news_publish,
+							typesend: 'post',
+							noticedata : 'status_news=0',
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
 							}
-					     });
+						});
 						return false;
 					},
 					Cancel: function() {
@@ -203,7 +278,7 @@ var ns_jnews = {
 				buttons: {
 					'Delete News': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							url: "/admin/news.php",
 							data: "delnews="+lg,
@@ -212,7 +287,19 @@ var ns_jnews = {
 							success: function(){
 								location.reload();
 							}
-					     });
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: '/admin/news.php',
+							typesend: 'post',
+							noticedata : "delnews="+lg,
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
 					},
 					Cancel: function() {
 						$(this).dialog('close');
@@ -223,7 +310,7 @@ var ns_jnews = {
 		 });
 	},
 	_google_chart_language:function(){
-		$.ajax({
+		/*$.ajax({
 			url: '/admin/news.php?json_google_chart_news=true',
 			dataType: 'json',
 			type: "get",
@@ -296,11 +383,67 @@ var ns_jnews = {
 				};
 				 $.jqplot('chart-google-news', [j.news_count,j.tag_count], optionsObj);
 			}
-		});		
+		});*/
+		$.nicenotify({
+			ntype: "ajax",
+			uri: '/admin/news.php?json_google_chart_news=true',
+			typesend: 'get',
+			datatype: 'json',
+			beforeParams:function(){
+				$('#chart-google-news').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+			},
+			successParams:function(j){
+				$('#chart-google-news').empty();
+				$.nicenotify.initbox(j,{
+					display:false
+				});
+				 var optionsObj = {
+					title: 'News Statistics',
+					series: [{label:'News'},{label:'Tags'}],
+					legend: {
+						show: true,
+						location: 'ne',
+						placement: 'outsideGrid'
+					},
+					seriesColors: [ "#4bb2c5", "#EAA228", "#c5b47f", "#579575", "#839557", "#958c12",
+					                "#953579", "#4b5de4", "#d8b83f", "#ff5800", "#0085cc"],
+					seriesDefaults:{
+						min: 1,
+						shadow: true,
+						renderer:$.jqplot.BarRenderer,
+						rendererOptions:{
+			 	           barPadding: 8,
+				           barMargin: 10,
+				           fillToZero: true,
+				           barWidth: 25
+				       }
+					},
+					axesDefaults: {
+				        tickOptions: {
+				          fontFamily: 'Georgia',
+				          fontSize: '10pt'
+				        }
+				    },
+					axes: {
+			            // Use a category axis on the x axis and use our custom ticks.
+			            xaxis: {
+			                renderer: $.jqplot.CategoryAxisRenderer,
+			                ticks: j.lang
+			            },
+			            // Pad the y axis just a little so bars can get close to, but
+			            // not touch, the grid boundaries.  1.2 is the default padding.
+			            yaxis: {
+			                //pad: 1.2
+			            }
+					}
+				};
+				 $.jqplot('chart-google-news', [j.news_count,j.tag_count], optionsObj);
+			}
+		});
 	},
 	_addNewsTags:function(idnews){
 		$('#form-assign-tagnews').submit(function(){
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 				url: "/admin/news.php?edit="+idnews,
 				type: "post",
 				error: function(){
@@ -314,12 +457,29 @@ var ns_jnews = {
 					ns_jnews._loadJsonListTagNews(idnews);
 				},
 				clearForm:true
+			});*/
+			$.nicenotify({
+				ntype: "submit",
+				uri: "/admin/news.php?edit="+idnews,
+				typesend: 'post',
+				idforms: $(this),
+				resetform:true,
+				beforeParams:function(){
+					$('#list_assign_tagnews').empty();
+					$('#list_assign_tagnews').prepend('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+				},
+				successParams:function(e){
+					$.nicenotify.initbox(e,{
+						display:false
+					});
+					ns_jnews._loadJsonListTagNews(idnews);
+				}
 			});
 			return false;
 		});
 	},
 	_loadJsonListTagNews:function(idnews){
-		$.ajax({
+		/*$.ajax({
 			url: "/admin/news.php?edit="+idnews+'&json_list_tag=true',
 			dataType: 'json',
 			type: "get",
@@ -330,6 +490,36 @@ var ns_jnews = {
 			},
 			success: function(j) {
 				$('#list_assign_tagnews').empty();
+				var dctag = '<ul class="dctag"></ul>';
+				$(dctag).appendTo('#list_assign_tagnews');
+				if(j === undefined){
+					console.log(j);
+				}
+				if(j !== null){
+					$.each(j, function(i,item) {
+						return $('<li class="dctag-choice ui-state-default ui-corner-all">'
+						+item.name_tag
+						+'<a href="#" rel="'+item.idnews_tag+'" class="dctagclose del-tagnews">x</a>'
+						+'</li>').appendTo('.dctag');
+					});
+				}else{
+					return $('<li>Aucun tag</li>').appendTo('.dctag');
+				}
+			}
+		});*/
+		$.nicenotify({
+			ntype: "ajax",
+			uri: "/admin/news.php?edit="+idnews+'&json_list_tag=true',
+			typesend: 'get',
+			datatype: 'json',
+			beforeParams:function(){
+				$('#list_assign_tagnews').html('<img class="loader-block" src="/framework/img/square-circle.gif" />');
+			},
+			successParams:function(j){
+				$('#list_assign_tagnews').empty();
+				$.nicenotify.initbox(j,{
+					display:false
+				});
 				var dctag = '<ul class="dctag"></ul>';
 				$(dctag).appendTo('#list_assign_tagnews');
 				if(j === undefined){
@@ -360,7 +550,7 @@ var ns_jnews = {
 				buttons: {
 					'Confirm': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'post',
 							url: "/admin/news.php",
 							data : "del_tag="+id,
@@ -368,7 +558,19 @@ var ns_jnews = {
 							success:function(e){
 								ns_jnews._loadJsonListTagNews(idnews);
 							}
-					     });
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: '/admin/news.php',
+							typesend: 'post',
+							noticedata : "del_tag="+id,
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false
+								});
+								ns_jnews._loadJsonListTagNews(idnews);
+							}
+						});
 						return false;
 					},
 					Cancel: function() {

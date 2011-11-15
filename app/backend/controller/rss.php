@@ -69,6 +69,19 @@ class backend_controller_rss extends backend_db_rss{
 		$this->rss->startWriteAtom('utf-8','fr',null,null,null,"/rss.xml");
 	}
 	/**
+	 * Ouverture du fichier XML pour ecriture de l'entête
+	 **/
+	private function plugins_CreateXMLFile($name){
+		/*On demande de vérifier si le fichier existe et si pas on le crée*/
+		$this->rss->createRSS($this->dir_XML_FILE(),$name.'_rss.xml');
+		/*On ouvre le fichier*/
+		$this->rss->openFileRSS($this->dir_XML_FILE(),'_rss.xml');
+		/*On demande une indentation automatique (optionnelle)*/
+		$this->rss->indentRSS(true);
+		/*On écrit l'entête avec l'encodage souhaité*/
+		$this->rss->startWriteAtom('utf-8','fr',null,null,null,"/'.$name.'_rss.xml");
+	}
+	/**
 	 * Création d'un noeud dans le fichier XML
 	 */
 	private function news_CreateNodeXML(){
@@ -104,6 +117,12 @@ class backend_controller_rss extends backend_db_rss{
 	private function news_rss(){
 		$this->news_CreateXMLFile();
 		$this->news_CreateNodeXML();
+		$this->endNodeXML();
+	}
+	public function plugins_rss($CreateNodeXML){
+		$plugins = new backend_controller_plugins();
+		$this->plugins_CreateXMLFile($plugins->pluginName());
+		$CreateNodeXML;
 		$this->endNodeXML();
 	}
 	/**

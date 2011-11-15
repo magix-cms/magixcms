@@ -1,0 +1,42 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content="{cms_seo config_param=['seo'=>$seo_desc_page,'default'=>$title_page]}"}
+    <title>{cms_seo config_param=['seo'=>$seo_title_page,'default'=>$title_page]}</title>
+{include file="common/css.phtml"}
+</head>
+<body class="cms">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
+	</div>
+	<div id="content" class="full">
+		<div class="full-top"></div>
+		<div class="full-repeat">
+			<div class="container">
+				<div id="contentCol" class="block w10-16 lfloat text-content">
+						<ul class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
+							<li>></li>
+							{if $uri_page_p != null}
+					   		<li><a href="{$uri_page_p}">{$title_page_p}</a></li>
+					   		<li>></li>
+					   		<li>{$title_page}</li>
+					   		{else}
+					   		<li>{$title_page}</li>
+					   		{/if}
+					   	</ul>
+						<div class="date rfloat">{$last_update|date_format:"%d-%m-%y"}</div>
+						<h1>{$title_page}</h1>
+						{$content_page}
+					</div>
+				<div id="rightCol" class="block w6-16 lfloat last">
+					{include file="common/colright.phtml"}	
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="full-bottom"></div>
+	</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

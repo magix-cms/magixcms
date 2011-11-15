@@ -113,8 +113,8 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
 			return;
 		}
 	}else{
-		$tabs= array('class_container'=>'list-div w5-32 bg dark',
-				'class_elem'=>'list-div-elem',
+		$tabs= array('class_container'=>'ch1-2 ch-light',
+				'class_elem'=>'child',
 				'class_img'=>'img'
 			);
 	}
@@ -128,7 +128,8 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
         $nb_products = count( frontend_db_block_catalog::s_product_category_by_date($idclc,frontend_model_template::current_Language()) );
         //si le nombre de produits éxistant est inférieur à la limite imposée alors la limite est le nombre de produits existant
         $end = ($nb_products > $limit_products) ? $limit_products : $nb_products ;     
-        $product .= '<div class="'.$tabs['class_container'].'"><div class="catalog-list-products">';
+        $product .= '<div class="'.$tabs['class_container'].'">';
+        $product .= '<div class="catalog-list-products">';
           if($title != null){
             $product .= '<p class="title">' . $title . '</p>' ;          
           }  
@@ -173,7 +174,9 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
           $product .= '</div>';
           $i++;
          } while($i < $end);          
-        $product .= '</div></div>';
+        $product .= '</div>';
+        $product .= '<div class="clear"></div>';
+        $product .= '</div>';
       }
   return $product;
 }

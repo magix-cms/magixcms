@@ -1,9 +1,9 @@
 /*
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
-# This file is part of Magix CMS.
-# Magix CMS, a CMS optimized for SEO
-# Copyright (C) 2010 - 2011  Gerits Aurelien <aurelien[at]magix-cms[dot]com>
+# This file is part of Jimagine.
+# Toolbox for jQuery
+# Copyright (C) 2011 - 2012  Gerits Aurelien <aurelien[at]magix-dev[dot]be>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,12 +20,12 @@
 # -- END LICENSE BLOCK -----------------------------------
 */
 /**
- * MAGIX CMS
- * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
- * http://www.magix-dev.be,http://www.magix-cms.com, http://www.magix-cjquery.com
+ * MAGIX DEV
+ * @copyright  MAGIX DEV Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * http://www.magix-dev.be
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.1
- * @author Gérits Aurélien <aurelien[at]magix-cms[dot]com>
+ * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
  * @name nicenotify
  * @exemple :
    $.nicenotify({
@@ -111,14 +111,16 @@
 	        	});
 	        },
 	        _submit: function(uri,typesend,noticedata,resetform,beforeParams,successParams){
-	        	$(opt.idforms).ajaxSubmit({
-	        		url:uri,
-	        		type:typesend,
-	        		data:noticedata,
-	        		resetForm: resetform,
-	        		beforeSubmit:beforeParams,
-	        		success: successParams
-	        	});
+	        	if(jQuery().ajaxSubmit) {
+		        	$(opt.idforms).ajaxSubmit({
+		        		url:uri,
+		        		type:typesend,
+		        		data:noticedata,
+		        		resetForm: resetform,
+		        		beforeSubmit:beforeParams,
+		        		success: successParams
+		        	});
+	        	}
 	        }
 		};
 		switch(opt.ntype){
@@ -176,43 +178,7 @@
 			console.log('nicenotify initbox is not object');
 		}
 	    if(opts.display != false){
-	    	/*if(jQuery().meerkat) {
-			    // Validation plugin exists
-			    // Now I can use $('#someId').validate()
-				console.log('plugin exist');
-			} else {
-			    // plugin DOES NOT exist
-				console.log('plugin DOES NOT exist');
-			}*/
 	    	var $id = $(opts.box.elemid);
-	    	/*$.getScript($.framework({path:_env})+'/framework/js/plugins/jquery.meerkat.1.3.min.js', function() {
-				if(jQuery().meerkat){
-					$id.destroyMeerkat();
-					$id.meerkat({
-						background: settings.box.background,
-						width: '100%',
-						position: 'top',
-						close: '.close-notify',
-						animationIn: 'fade',
-						animationOut: 'slide',
-						animationSpeed: '750',
-						height: '80px',
-						opacity: '0.90',
-						timer: settings.time,
-						onMeerkatShow: function() { 
-							$(this).animate({opacity: 'show'}, 1000); 
-						}
-					}).addClass('pos-top');
-				}else{
-					// plugin DOES NOT exist
-					console.log('plugin for display DOES NOT exist');
-				}
-	    	}).fail(function(xhr, status, error){
-    			console.group('Error nicenotify');
-            	console.error('Status %s ',status);
-            	console.error('%s',error);
-            	console.groupEnd();
-        	});*/
 			$.ajax({
         		url:opts.box.src,
         		type:'get',
@@ -253,13 +219,13 @@
     				}else{
     					// plugin DOES NOT exist
     					//console.log('plugin for display DOES NOT exist');
-    					log('plugin for display DOES NOT exist');
+    					console.log('plugin for display DOES NOT exist');
     				}
         		}
         	}).fail(function(xhr, status, error){
     			console.group('Error nicenotify');
-            	console.error('Status %s ',status);
-            	console.error('%s',error);
+            		console.error('Status %s ',status);
+            		console.error('%s',error);
             	console.groupEnd();
         	});
         	/*.then(function(){

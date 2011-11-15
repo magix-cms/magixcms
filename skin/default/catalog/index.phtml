@@ -1,0 +1,49 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>{#topmenu_catalog_t#}]}}
+    <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>{#topmenu_catalog_t#}]}</title>
+{include file="common/css.phtml"}
+</head>
+<body class="catalog root">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
+	</div>
+	<div id="content" class="full">
+		<div class="full-top"></div>
+		<div class="full-repeat">
+			<div class="container">
+				<div id="contentCol" class="block w10-16 lfloat text-content">
+					    <ul class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
+							<li>></li>
+					   		<li>{#topmenu_catalog_t#|firststring}</li>
+						</ul>          						
+						{widget_catalog_cat_display 
+							css_param=[
+								'id_container' => 'choose-id1', 
+								'class_container'=>'ch1-2 ch-light',
+								'class_elem'=>'child',
+			  					'class_name' => 'name',
+								'class_img'=>'img',
+			  					'class_desc' =>'desc'
+							] 
+							tposition="bottom" 
+			 				col=2 
+			 				description=true
+							delimiter='...'
+							length=100
+						}
+						<div class="clear"></div>
+					</div>
+				<div id="rightCol" class="block w6-16 lfloat last">
+					{include file="common/colright.phtml"}	
+				</div>
+				<div class="clear">&nbsp;</div>
+			</div>
+		</div>
+		<div class="full-bottom"></div>
+	</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

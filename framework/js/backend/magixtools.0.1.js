@@ -92,7 +92,7 @@
 	    inputElement.attr("readonly","readonly");
 	    $('.unlocked').live('click',function(event){
 			event.preventDefault();
-			inputElement.removeClass('inputdisabled').addClass('inputtext').attr("readonly","");
+			inputElement.removeClass('inputdisabled').addClass('inputtext').removeAttr("readonly");
 			$(this).fadeOut(400);
 		});
 	};
@@ -136,7 +136,7 @@
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.1
- * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @author Gérits Aurélien <gerits.aurelien@gmail.com>
  * @name mc_editor_config
  *
  */

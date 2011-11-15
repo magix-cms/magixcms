@@ -1,0 +1,46 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'2','idmetas'=>'2','default'=>$slibelle] category=$clibelle subcategory=$slibelle}}
+    <title>{seo_rewrite config_param=['level'=>'2','idmetas'=>'1','default'=>$slibelle] category=$clibelle subcategory=$slibelle}</title>
+{include file="common/css.phtml"}
+</head>
+<body class="catalog subcat">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
+	</div>
+	<div id="content" class="full">
+		<div class="full-top"></div>
+		<div class="full-repeat">
+			<div class="container">
+				<div id="contentCol" class="block w10-16 lfloat text-content">
+						<ul class="ariane">
+					    <ul class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
+							<li>></li>
+					   		<li><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#|firststring}">{#topmenu_catalog_t#|firststring}</a></li>
+							<li>></li>
+							<li><a href="{$uri_cat}" title="{$clibelle}">{$clibelle}</a></li>
+							<li>></li>
+							<li>{$slibelle}</li>
+						</ul>  	  	
+						<h1>{$slibelle}</h1>
+						{$s_content}
+						{widget_catalog_load_products 
+							css_param=[
+								'class_container'=>'list-div border w11-64 bg medium',
+								'class_elem'=>'list-div-elem',
+								'class_img'=>'img'
+							] tposition="bottom" description=true size=medium col="4"}
+					</div>
+				<div id="rightCol" class="block w6-16 lfloat last">
+					{include file="common/colright.phtml"}	
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="full-bottom"></div>
+	</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

@@ -55,17 +55,19 @@ var ns_juser = {
 				}
 			},
 			submitHandler: function(form) {
-				$.notice({
-					ntype: "ajaxsubmit",
-		    		delay: 2800,
-		    		dom: form,
-		    		uri: '/admin/users.php?add',
-		    		typesend: 'post',
-		    		noticedata: null,
-		    		resetform:true,
-		    		time:2,
-		    		reloadhtml:true	
+				$.nicenotify({
+					ntype: "submit",
+					uri: '/admin/users.php?add',
+					typesend: 'post',
+					idforms: form,
+					resetform: true,
+					successParams:function(e){
+						$.nicenotify.initbox(e,{
+							reloadhtml:true
+						});
+					}	
 				});
+				return false;
 			}
 		});
 		$("#forms-users").formsusers;
@@ -117,16 +119,17 @@ var ns_juser = {
 			},
 			submitHandler: function(form) {
 				var iduser = $("#iduser").val();
-				$.notice({
-					ntype: "ajaxsubmit",
-		    		delay: 2800,
-		    		dom: form,
-		    		uri: '/admin/users.php?edit='+iduser+'&post',
-		    		typesend: 'post',
-		    		noticedata: null,
-		    		resetform:false,
-		    		time:2,
-		    		reloadhtml:true	
+				$.nicenotify({
+					ntype: "submit",
+					uri: '/admin/users.php?edit='+iduser+'&post',
+					typesend: 'post',
+					idforms: form,
+					resetform: false,
+					successParams:function(e){
+						$.nicenotify.initbox(e,{
+							reloadhtml:true
+						});
+					}	
 				});
 			}
 		});
@@ -152,7 +155,7 @@ var ns_juser = {
 				buttons: {
 					'Delete User': function() {
 						$(this).dialog('close');
-						$.ajax({
+						/*$.ajax({
 							type:'get',
 							url: "/admin/users.php?deluser="+lg,
 							async: false,
@@ -160,7 +163,19 @@ var ns_juser = {
 							success : function(){
 								location.reload();
 					    	}
-					     });
+					     });*/
+						$.nicenotify({
+							ntype: "ajax",
+							uri: "/admin/users.php",
+							typesend: 'post',
+							noticedata:"deluser="+lg,
+							successParams:function(e){
+								$.nicenotify.initbox(e,{
+									display:false,
+									reloadhtml:true
+								});
+							}
+						});
 					},
 					Cancel: function() {
 						$(this).dialog('close');

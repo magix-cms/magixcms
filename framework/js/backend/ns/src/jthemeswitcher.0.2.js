@@ -5,8 +5,8 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name ns_
- *
+ * @name ns_jtswitcher
+ * @update 10/10/2011 22:45
  */
 var ns_jtswitcher = {
 	_init:function(){
@@ -14,18 +14,18 @@ var ns_jtswitcher = {
 		 * Ajout d'une classe spécifique au survol d'un thème
 		 */
 		$(".list-screen:not(.ui-state-highlight)").hover(
-				function(){
-					if($(this).find('ui-state-disabled')){
-						$(this).removeClass("ui-state-disabled");
-					}
-					$(this).addClass("ui-state-hover");
-				},
-				function(){ 
-					if(!$(this).hasClass('ui-state-highlight')){
-						$(this).removeClass("ui-state-hover");
-						$(this).addClass("ui-state-disabled");
-					}
+			function(){
+				if($(this).find('ui-state-disabled')){
+					$(this).removeClass("ui-state-disabled");
 				}
+				$(this).addClass("ui-state-hover");
+			},
+			function(){ 
+				if(!$(this).hasClass('ui-state-highlight')){
+					$(this).removeClass("ui-state-hover");
+					$(this).addClass("ui-state-disabled");
+				}
+			}
 		);
 		/**
 		 * Ajout d'une class spécifique si le thème est actif
@@ -52,7 +52,7 @@ var ns_jtswitcher = {
 			e.preventDefault();
 			var hreftitle = $(this).attr("title");
 			if(hreftitle != null){
-				if($.ieTester()){
+				/*if($.ieTester()){
 					$.post('/admin/templates.php?post=1', 
 						{ theme: hreftitle}
 					, function(request) {
@@ -84,7 +84,16 @@ var ns_jtswitcher = {
 		        			$(".mc-head-request").html(request);
 						}
 					});
-				}
+				}*/
+				$.nicenotify({
+					ntype: "ajax",
+					uri: "/admin/templates.php?post=1",
+					typesend: 'post',
+					noticedata : "theme="+hreftitle,
+					successParams:function(e){
+						$.nicenotify.initbox(e);
+					}
+				});
 			}
 		});
 	},

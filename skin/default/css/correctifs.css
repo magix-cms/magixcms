@@ -1,0 +1,45 @@
+/* ######
+* Note !!
+* suppression du background pour le listing des images
+*/
+.text-content .list-img{margin-left: 0;}
+.text-content .list-img li{background:none;}
+/*######*/
+/* ######
+* Note !!
+* Classe css de validation jQuery
+*/
+.stateVal{
+	color:#FCA6A6;
+	display: block;
+}
+/* ######
+* Note !!
+* image du produit (ajout d'un overflow si image trop importante en largeur)
+*/
+#product-img{overflow:hidden;}
+/* ######
+* Note !!
+* Voir les tags des news (définir une logique pour l'affichage des tags)
+*/
+/*TAG*/
+.child .tag {
+	display:block;
+	margin: 5px 0;
+}
+.tag {
+	color: #13569E;
+	font-size: 11px;
+} 
+
+.tag a {
+	font-size: 11px;
+	font-weight: normal;
+	color: #13569E;      
+}
+
+.tag a:hover {
+	font-weight: normal;
+	color: #13569E;
+	text-decoration: none;
+}

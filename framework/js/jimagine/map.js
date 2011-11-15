@@ -1,9 +1,9 @@
 /*
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
-# This file is part of Magix CMS.
-# Magix CMS, a CMS optimized for SEO
-# Copyright (C) 2010 - 2011  Gerits Aurelien <aurelien[at]magix-cms[dot]com>
+# This file is part of Jimagine.
+# Toolbox for jQuery
+# Copyright (C) 2011 - 2012  Gerits Aurelien <aurelien[at]magix-dev[dot]be>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,15 +20,13 @@
 # -- END LICENSE BLOCK -----------------------------------
 */
 /**
- * MAGIX CMS
- * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
- * http://www.magix-dev.be,http://www.magix-cms.com, http://www.magix-cjquery.com
+ * MAGIX DEV
+ * @copyright  MAGIX DEV Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * http://www.magix-dev.be
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.1
- * @author Gérits Aurélien <aurelien[at]magix-cms[dot]com>
- * @name nicenotify
- * @exemple :
- * 
+ * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
+ * @name map
  */
 var jm_map = {
 	/**

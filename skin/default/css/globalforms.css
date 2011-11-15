@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+#header #prelude{
+	color: #ccc;
+	float: right;
+	margin:0;
+}
+#header #prelude a{
+	color: #666;
+	font-size: 12px;
+	font-weight: bold;
+	padding:0 3px;
+}
+#header #prelude a:hover{
+	color: black;
+}
+legend { padding: 0.5em; margin-left:1em;}
+label { display: inline-block; min-width: 100px; }
+.inputtext,.fulltext{background:white;padding:4px;}
+/*validation jquery*/
+.stateVal{
+	color:#FCA6A6;
+	display: block;
+}
+input[type=submit]{ margin : 5px 0; }
+form table{margin-left:1.5em;}

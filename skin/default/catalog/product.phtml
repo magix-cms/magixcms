@@ -1,0 +1,105 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>''] category=$category subcategory=$subcategory record=$titlecatalog}}
+    <title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>''] category=$category subcategory=$subcategory record=$titlecatalog}</title>
+{include file="common/css.phtml"}
+</head>
+<body class="catalog product">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
+	</div>
+	<div id="content" class="full">
+		<div class="full-top"></div>
+		<div class="full-repeat">
+			<div class="container">
+				<div id="contentCol" class="block w10-16 lfloat text-content">
+					    <ul class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
+							<li>></li>
+					   		<li><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#|firststring}">{#topmenu_catalog_t#|firststring}</a></li>
+					    	<li>></li>
+					    	<li><a href="{$uri_cat}" title="{#catalog_nav_cat#} {$category}">{$category}</a></li>
+					    	<li>></li>
+					    	{if $subcategory eq !null}
+					    		<li><a href="{$uri_subcat}" title="{#catalog_nav_cat#} {$subcategory}">{$subcategory}</a></li>
+					    		<li>></li>
+					    	{/if}
+					    	<li>{$titlecatalog}</li>
+					    </ul>    	
+				    	<span class="date rfloat">Ajouté le {$date_catalog|date_format:"%d-%m-%y"}</span>		
+
+						<h1>{$titlecatalog}</h1>
+						<div id="product-img" class="w4-16 rfloat last bg dark">
+							{$imgcatalog}
+							<p class="title">Intéressé par {$titlecatalog} ?</p>
+							<form action="{geturl}/{getlang}/magixmod/contact/" method="post">
+							<p>
+								<input type="hidden" name="moreinfo" value="{$titlecatalog}"/>
+								<input id="more-info" type="image" src="{geturl}/skin/{template}/img/catalog/more-product.png" />
+							</p>
+							</form>						
+						</div>
+						{if $price != 0}
+						<span class="price">{$price} €</span>
+						{/if}
+						{$desccatalog}
+						<div class="clear"></div>
+						<div id="galery" class="w11-32 lfloat">
+							<p class="title">Photos</p>
+							{widget_catalog_microgalery 
+								css_param=[
+									'class_container'=>'list-img medium',
+									'class_img'=>'last'
+								]
+							col="3"}
+						</div>
+						<div id="rel-product" class="w11-32 lfloat last">
+							<p class="title">Voir aussi</p>
+							{*{widget_catalog_rel_product 
+								idcatalog=$idcatalog 
+								css_param=[
+									'id_container'=>'',
+									'class_container'=>'list-div w5-32 bg dark',
+									'class_elem'=>'list-div-elem',
+									'class_name' => 'name',
+									'class_img'=>'img',
+									'class_desc'=>'descr',
+									'class_price'=>'price'
+								]
+								col="2" 
+								description=false 
+								contentlength="124"
+								size="small" 
+								tposition="bottom"}*}
+								{widget_catalog_rel_product 
+									idcatalog=$idcatalog 
+									css_param=[
+										'id_container'=>'',
+										'class_container'=>'ch1-4 ch-light',
+										'class_elem'=>'child',
+										'class_name' => 'name',
+										'class_img'=>'img',
+										'class_desc'=>'descr',
+										'class_price'=>'price'
+									]
+									col="2" 
+									description=false 
+									size="mini" 
+									tposition="bottom"
+								}
+								
+						</div>
+						<div class="clear">&nbsp;</div>					
+					</div>
+				<div id="rightCol" class="block w6-16 lfloat last">
+					{include file="common/colright.phtml"}	
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="full-bottom"></div>
+	</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

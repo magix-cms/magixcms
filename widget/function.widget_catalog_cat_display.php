@@ -212,10 +212,10 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 	$last = $params['col']? $params['col'] : 0 ;
 	// Activer ou non une description
 	$description = !empty($params['description'])? true: false;
-		// Longeur description du produit
-		$length = magixcjquery_filter_isVar::isPostNumeric($params['length'])? $params['length']: 100 ;
-		// Le délimiteur pour tronqué le texte
-		$delimiter = $params['delimiter'] ? $params['delimiter'] : '';
+	// Longeur description du produit
+	$length = magixcjquery_filter_isVar::isPostNumeric($params['length'])? $params['length']: 100 ;
+	// Le délimiteur pour tronqué le texte
+	$delimiter = $params['delimiter'] ? $params['delimiter'] : '';
 	// | PARAMETRAGE DES CLASS ET ID CSS |
 	// ----------------------------------
 

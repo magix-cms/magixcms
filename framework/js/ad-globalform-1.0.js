@@ -143,6 +143,9 @@ $(document).ready(function(){
 				}
 			}else if ( element.is(".checkMail") ){
 				error.insertAfter(element.next());
+			}else if ( element.is("#cryptpass") ){
+				error.insertAfter(element.next());
+				$("<br />").insertBefore(error);
 			}else{
 				if(element.next().is(":button") || element.next().is(":file") || element.is("textarea")){
 					error.insertAfter(element);

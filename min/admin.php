@@ -21,11 +21,12 @@
 /**
  * MAGIX CMS
  * @package    minify
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    plugin version
+ * @version    0.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @version    plugin version
  *
  */
 /**
@@ -40,8 +41,7 @@ return array(
 	'//framework/js/jquery.form.2.87.js','//framework/js/jquery.validate.1.9.min.js','//framework/js/additional-methods.1.9.min.js',
 	'//framework/js/jquery.validate.password-1.0.js','//framework/js/jquery.cookie.js','//framework/js/tools/jquery.colorbox-1.3.18.js',
 	'//framework/js/ui/ui.spinner.1-20.min.js','//framework/js/jquery.jfirebug.js','//framework/js/tools/notice-tpl.js',
-	'//framework/js/backend/magixtools.0.1.js'),
-	'jimagine'=> array('//framework/js/jimagine/plugins/jquery.nicenotify.js','//framework/js/jimagine/config.js','//framework/js/jimagine/constant.js'),
+	'//framework/js/backend/magixtools.0.1.js','//framework/js/jimagine/plugins/jquery.nicenotify.js','//framework/js/jimagine/config.js','//framework/js/jimagine/constant.js'),
 	'adminjs'=> array('//framework/js/ad-globalform-1.0.js','//framework/js/backend/ad-globaljs-1.0.js'),
 	'maxAge' => 31536000,
 	'setExpires' => time() + 86400 * 365

@@ -264,7 +264,7 @@ class frontend_db_block_catalog{
 	 * @param idclc
 	 */
 	public static function s_sub_category_menu($iso,$idclc){
-		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, s.img_s, lang.iso
+		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, lang.iso
 				FROM mc_catalog_c AS c
 				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
 				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )

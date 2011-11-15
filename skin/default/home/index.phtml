@@ -1,0 +1,31 @@
+{include file="common/header.phtml" section="prepend"}
+{headmeta meta="googleSiteVerification" content="{google_tools tools='webmaster'}"}
+{headmeta meta="description" content="{static_metas param='' dynamic=$description}"}
+    <title>{static_metas param='' dynamic=$title}</title>
+{include file="common/css.phtml"}
+</head>
+<body class="home">
+	<div id="header" class="full">
+		<div class="container">
+			{include file="common/top.phtml"}
+		</div>
+	</div>
+	<div id="content" class="full">
+		<div class="full-top"></div>
+		<div class="full-repeat">
+			<div class="container">
+				<div id="contentCol" class="block w10-16 lfloat text-content">
+					<h1>{$subject}</h1>
+						{$content}
+					</div>
+				<div id="rightCol" class="block w6-16 lfloat last"> 
+					{include file="common/colright.phtml"}	
+				</div>
+				<div class="clear">&nbsp;</div>
+			</div>
+		</div>
+		<div class="full-bottom"></div>
+	</div>
+{include file="common/footer.phtml"}
+</body>
+</html>

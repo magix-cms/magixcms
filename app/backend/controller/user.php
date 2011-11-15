@@ -77,8 +77,8 @@ class backend_controller_user extends statesUserAdmin{
 		if(magixcjquery_filter_request::isPost('perms')){
 			$this->perms = magixcjquery_form_helpersforms::inputClean(magixcjquery_filter_isVar::isPostNumeric($_POST['perms']));
 		}
-		if(magixcjquery_filter_request::isGet('deluser')){
-			$this->deluser = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['deluser']);
+		if(magixcjquery_filter_request::isPost('deluser')){
+			$this->deluser = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['deluser']);
 		}
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
@@ -190,7 +190,7 @@ class backend_controller_user extends statesUserAdmin{
 	public function run(){
 		if(magixcjquery_filter_request::isGet('add')){
 			self::post();
-		}elseif(magixcjquery_filter_request::isGet('deluser')){
+		}elseif(magixcjquery_filter_request::isPost('deluser')){
 			self::delete_user();
 		}elseif(magixcjquery_filter_request::isGet('edit')){
 			if(magixcjquery_filter_request::isGet('post')){

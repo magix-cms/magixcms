@@ -1,0 +1,171 @@
+.list {
+	margin: 0 0 20px 0;
+	overflow: visible;
+	padding: 0;
+}
+
+.list li {
+	background: transparent;
+	border-bottom: 1px solid #444;
+	margin: 0 10px 0 0;
+	overflow: visible;
+	padding: 5px;
+}
+
+	.list li:hover {
+		background: #ccc;
+	}
+
+.list .img {
+	display:block;
+	float:left;
+	height: 44px;
+	margin: 0 10px 10px 0;
+	overflow: hidden;
+	padding: 0;
+	text-align: center;
+	width: 44px;
+}
+
+.list .date {
+	color: #4c4c4c;
+	display:block;
+	float:right;
+	font-size: 11px;
+	font-weight: normal;
+	width: 75px; 
+}
+
+.list .name {
+	color: #E1187A;
+	display: block;
+	font-size: 12px;
+	font-weight: bold;	
+	min-height: 25px;
+	text-decoration: none;
+}
+
+.list.float li {
+	border-bottom: 1px solid #CCCCCC ;
+	display:block;
+	float:left;
+	min-height: 15px;
+	margin: 0 10px 10px 0;
+	padding: 0;
+	background:transparent;
+}
+
+.list.float .last {
+	margin-right: 0px;	
+}
+/* list d'images */
+.list-img li {
+	border: none ;
+	display: block;
+	float: left;
+	height: 44px;
+	margin: 0 20px 20px 0;
+	overflow: hidden;
+	padding: 0px;
+	width: 44px;
+}
+
+.list-img .last {
+	margin-right: 0px;
+}
+
+.list-li.img a,
+.list-li.img a:hover  {
+	display: block;
+	height: 44px;
+	width: 44px;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+}
+	
+	.list-img.medium li {
+		height: 108px;
+		width: 108px;
+	}
+
+	.list-img.medium a {
+		height: 108px;
+		width: 108px;
+	}
+
+/* Treeview */
+.treeview .hitarea,
+.treeview div.lastExpandable-hitarea,
+.treeview div.lastCollapsable-hitarea {
+	background: url(../img/framework-css/list/hitarea.png) 0 -26px no-repeat;
+	height: 24px;
+	width: 24px;
+	margin-left: -24px;
+	float: left;
+	cursor: pointer;
+}
+
+	.treeview .expandable-hitarea,
+	.treeview div.lastExpandable-hitarea { 
+		background-position: 0 -2px; 
+	}
+
+.treeview .no-link {
+	color: #4C4B4B;
+	cursor:pointer;
+}
+
+.treeview li,
+.treeview li.lastExpandable,
+.treeview li.lastCollapsable { 
+	background: transparent url(../img/framework-css/list/treeview-li-bg.png) center bottom no-repeat;
+	color: #4C4B4B;
+	font-family: "Verdana", sans-serif;
+	margin: 0;
+	padding: 3px 0px 5px 24px;
+}
+
+.treeview  li,
+.treeview  li a {
+	font-size: 12px;
+	text-decoration: none;
+}
+
+.treeview li a.title span {
+	font-size: 14px;
+	font-style: italic;
+}
+
+.treeview ul {
+	background: transparent;
+}
+
+.treeview ul li {
+	background: transparent;
+	padding: 3px 0 1px 5px;
+}
+
+/** Fil d'ariane START **/	
+ul.ariane {
+	border-bottom: 1px solid #CCCCCC ;
+	margin: 0 0 10px 0;
+	overflow: hidden;
+}
+
+ul.ariane li,
+ul.ariane span {
+	background:  none;
+	float: left;
+	margin-right: 5px;
+	padding: 0;
+}
+
+ul.ariane,
+ul.ariane a,
+ul.ariane li  {
+	background: transparent;
+	color: #4c4c4c;
+	font-size: 11px;
+	padding-left: 0px;
+}

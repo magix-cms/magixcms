@@ -1,0 +1,858 @@
+.child {
+    display:block;
+    padding: 0;
+	text-decoration: none;
+	width: auto;
+}
+
+	.list-div-elem:hover{
+		background-color: #FFFFFF;
+		z-index:1;
+	}
+	/*+html .list-div-elem:hover{
+		z-index:1;
+	}*/
+
+
+	/* default bg et border */
+	.list-div.bg .list-div-elem {
+		background-color: #CCCCCC;
+		background-position: left bottom;
+		background-repeat: repeat-x;
+		padding: 5px 5px 11px 5px;
+	}
+
+		.list-div.bg .list-div-elem:hover {
+			background-color: #FFFFFF;	
+		}
+
+	.list-div.border .list-div-elem {
+		border: 1px solid #CCCCCC;
+		padding: 5px 5px 11px 5px;
+	}
+
+		.list-div.border .list-div-elem:hover {
+			border: 1px solid #FFFFFF;	
+		}
+
+
+/* 1/2 de 11/16*/
+
+.list-div.w11-32 .list-div-elem {
+    float:left;
+    min-height: 90px;
+    margin-bottom: 11px;
+	margin-right: 11px;
+	width: 322px;
+}
+
+.list-div.w11-32.medium .list-div-elem {
+    min-height: 105px;
+}
+
+	/* 1/2 de 11-16 avec bg et boder */	
+	.list-div.w11-32.bg .list-div-elem {
+		width: 322px;
+	}
+	
+	.list-div.w11-32.border .list-div-elem {
+		width: 320px;
+	}
+	
+		/* 1/2 de 11/6 dans des block bg */
+	
+		.bg .list-div.w11-32 .list-div-elem {
+			width: 317px;
+		}
+
+		.bg .list-div.w11-32.bg .list-div-elem {
+			width: 317px;
+		}
+
+		.bg .list-div.w11-32.border .list-div-elem {
+			width: 315px;
+		}		
+		
+		/* 1/2 de 1/6 dans des block border */
+		.border .list-div.w11-32 .list-div-elem {
+			width: 316px;
+		}
+		
+		.border .list-div.w11-32.bg .list-div-elem {
+			width: 316px;
+		}
+
+		.border .list-div.w11-32.border .list-div-elem {
+			width: 315px;
+		}
+	
+/* 1/4 de 11/16 */
+.list-div.w11-64.medium .list-div-elem {
+    min-height: 245px;
+}
+
+.list-div.w11-64 .list-div-elem {
+    float:left;
+    min-height: 140px;
+	margin-right: 11px;
+	width: 150px;
+}
+	
+	/* 1/4 de 11-16 avec bg et boder */	
+	.list-div.w11-64.bg .list-div-elem {
+		width: 150px;
+	}
+
+	.list-div.w11-64.border .list-div-elem {
+		width: 148px;
+	}
+
+		/* 1/4 de 11/16  dans des block bg*/
+		.bg .list-div.w11-64 .list-div-elem {
+			width: 148px;
+		}
+
+		.bg  .list-div.w11-64.bg .list-div-elem {
+			width: 148px;
+		}
+
+		.bg .list-div.w11-64.border .list-div-elem {
+			width: 146px;
+		}
+
+		/* 1/4 de 11/16  dans des block border*/
+		.border .list-div.w11-64 .list-div-elem {
+			width: 147px;
+		}
+
+		.border  .list-div.w11-64.bg .list-div-elem {
+			width: 147px;
+		}
+
+		.border .list-div.w11-64.border .list-div-elem {
+			width: 145px;
+		}
+
+
+/* 1/2 de 5/16 */
+.list-div.w5-32 .list-div-elem {
+    float:left;
+	margin-right: 11px;
+    min-height: 128px;
+	width: 135px;
+}
+
+.list-div.w5-32.medium .list-div-elem {
+    min-height: 290px;
+}
+
+	/* 1/2 de 5-16 avec bg et border */	
+	.list-div.w5-32.bg .list-div-elem {
+		width: 135px;
+	}
+	
+	.list-div.w5-32.border .list-div-elem {
+		width: 133px;
+	}
+
+		/* 1/2 de 5/16 avec parent bg */
+		.bg .list-div.w5-32 .list-div-elem {
+			width: 130px;
+		}
+	
+		.bg .list-div.w5-32.bg .list-div-elem {
+			width: 130px;
+		}
+	
+		.bg .list-div.w5-32.border .list-div-elem {
+			width: 128px;
+		}
+	
+		/* 1/2 de 5/16 avec parent border */
+		.border .list-div.w5-32 .list-div-elem {
+			width: 128px;
+		}
+	
+		.border .list-div.w5-32.bg .list-div-elem {
+			width: 128px;
+		}
+	
+		.border .list-div.w5-32.border .list-div-elem {
+			width: 126px;
+		}
+
+
+.list-div .list-div-elem.last {
+	margin-right: 0px;
+}
+
+/** DESIGN list-div-elem inside START **/
+/*default*/	
+
+/* .list-div-elem .name start */
+.list-div-elem .name {	
+	margin: 0 0 6px 0;
+	text-decoration: none;
+}       
+
+.list-div .list-div-elem .name a {
+	color: #662483;
+	font-size: 14px;
+	line-height: 17px;
+	margin: 0;
+	text-decoration: none;
+} 
+	.list-div.medium .list-div-elem .name a {
+		font-size: 17px;
+		line-height: 22px;
+	}
+
+	.list-div.w11-32 .list-div-elem .name {
+		min-height: 30px;
+	}
+
+	.list-div.w11-64 .list-div-elem .name {
+		min-height: 45px;
+	}
+
+	.list-div.w5-32 .list-div-elem  .name {
+   		min-height: 45px;	
+   }
+
+.list-div-elem .name a:hover {
+   text-decoration: underline;
+}
+/* .list-div-elem .name END */
+
+/* .list-div-elem a.img start */
+.list-div-elem  a.img {
+	display: block;
+	float:right;
+	margin-left: 6px;
+	margin-bottom: 5px;
+	max-height: 50px;
+	overflow: hidden;
+	width: 50px;
+}
+
+.list-div-elem  a.img img {
+	min-height: 50px;
+	min-width: 50px;
+	max-height: 70px;
+	max-width: 70px;
+
+}
+
+	/* Medium display*/
+	.list-div.medium .list-div-elem  a.img {
+		float:right;
+		margin-left: 0;
+		max-height: 88px;
+		width: 88px;
+	}
+	
+	.list-div.medium .list-div-elem  a.img img {
+		min-height: 88px;
+		min-width: 88px;
+		max-height: 145px;
+		max-width: 145px;
+	}
+	
+	/* Medium display w11-64 and w5-32 */
+	.list-div.medium.w11-64 .list-div-elem a.img {
+		float: none;
+		text-align: center;
+		width: 147px;
+	}
+
+	.list-div.medium.w5-32 .list-div-elem a.img {
+		float: none;
+		margin-bottom: 5px;
+		text-align: center;
+		width: 127px;
+	}
+/* .list-div-elem a.img end */
+
+.list-div-elem .descr {
+	font-size: 11px;
+    line-height: 14px;   
+} 
+
+	.list-div.medium .list-div-elem .descr {
+	   font-size: 13px;
+       line-height: 14px;
+	} 
+
+.list-div-elem .date {
+	display:block;
+	font-size: 11px;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+
+.list-div-elem .place {
+	font-weight: normal;
+	font-size: 11px;
+}
+
+.list-div-elem .user {
+	font-weight: normal;
+	font-size: 11px;
+}
+
+	.list-div-elem .user a {
+		font-weight: normal;
+		font-size: 11px;
+	}
+
+.list-div-elem .tag {
+	display:block;
+	margin: 5px 0;
+}
+/** inside list-div-elem END **/
+/** LIST_DIV END**/
+/** LIST UL LI START **/
+
+/** list flottant START **/
+
+/* 1/2 de 11/16 */
+	.list-li.float.w11-32 li {
+		width: 332px ;
+	}
+
+	.list-li.bg.float.w11-32 li {
+		width: 327px ;
+	}
+
+	.list-li.border.float.w11-32 li {
+		width: 326px ;
+	}
+		/* 1/2 de 11/16 contenu avec parent bg */
+		.bg .list-li.float.w11-32 li {
+			width: 327px ;
+		}
+
+		.bg .list-li.bg.float.w11-32 li {
+			width: 322px ;
+		}
+
+		.bg .list-li.border.float.w11-32 li {
+			width: 321px ;
+		}
+		/* 1/2 de 11/16 contenu avec parent border */
+		.border .list-li.float.w11-32 li {
+			width: 326px ;
+		}
+
+		.border .list-li.bg.float.w11-32 li {
+			width: 321px ;
+		}
+
+		.border .list-li.border.float.w11-32 li {
+			width: 320px ;
+		}
+
+/* 1/4 de 11/16 */
+	.list-li.float.w11-64 li .date {
+		display: none;
+	}
+
+	.list-li.float.w11-64 li {
+		width: 160px ;
+	}
+
+	.list-li.bg.float.w11-64 li {
+		width: 158px ;
+	}
+
+	.list-li.border.float.w11-64 li {
+		width: 157px ;
+	}
+		/* 1/4 de 11/16 contenu avec parent bg */
+		.bg .list-li.float.w11-64 li {
+			width: 158px ;
+		}
+
+		.bg .list-li.bg.float.w11-64 li {
+			width: 155px ;
+		}
+
+		.bg .list-li.border.float.w11-64 li {
+			width: 155px ;
+		}
+		/* 1/4 de 11/16 contenu avec parent border */
+		.border .list-li.float.w11-64 li {
+			width: 157px ;
+		}
+
+		.border .list-li.bg.float.w11-64 li {
+			width: 155px ;
+		}
+
+		.border .list-li.border.float.w11-64 li {
+			width: 154px ;
+		}
+/* 1/2 de 1/5 */
+	.list-li.float.w5-32 li .date {
+		display: none;
+	}
+
+	.list-li.float.w5-32 li {
+		width: 140px ;
+	}
+
+	.list-li.bg.float.w5-32 li {
+		width: 135px ;
+	}
+
+	/* 1/2 de 1/5  contenu avec parent bg */
+		.bg .list-li.float.w5-32 li {
+			width: 140px ;
+		}
+
+		.bg .list-li.bg.float.w5-32 li {
+			width: 135px ;
+		}
+
+		.bg .list-li.border.float.w5-32 li {
+			width: 134px ;
+		}
+
+	/* 1/2 de 1/5  contenu avec parent border */
+		.border .list-li.float.w5-32 li {
+			width: 139px ;
+		}
+
+		.border .list-li.bg.float.w5-32 li {
+			width: 134px ;
+		}
+
+		.border .list-li.border.float.w5-32 li {
+			width: 133px ;
+		}
+
+
+/* list flottant images START */
+
+/* list flottant images dans w5/16 */
+.w5-16 .list-li.img li {
+	margin-bottom: 7px;
+	margin-right: 7px;
+}
+
+	.w5-16 .list-li.img li.last {
+		margin-right: 0px;
+	}
+
+.w5-16 .list-li.img.medium li {
+	height: 88px;
+	width: 88px;
+}
+
+/* list flottant images END */
+/** list flottant END **/
+
+/* Catalogue */
+
+/* products */
+.img-product img {
+	display: block;
+	max-width: 220px;
+	margin: 0 auto;
+}	
+	
+	
+/* list navigation treeview START */
+/* Zones d'action et bg */
+/* list navigation treeview END */
+/** LIST UL LI END **/	
+
+/** pagination START **/
+.pagination .current,
+.pagination a  {
+	display: inline;
+	font-size: 12px;
+	line-height: 15px;
+	margin: 0 3px;
+}
+
+.last {
+	margin-right: 0px;	
+}
+/** CLASS POSITIONEMENTS END */
+/** CLASS DESIGN START **/
+/*Date*/
+.date {
+	color: #4c4c4c;
+	font-size: 11px;
+	font-style: italic;
+}
+	
+/*TAG*/
+.tag {
+	color: #13569E;
+	font-size: 11px;
+} 
+
+.tag a {
+	font-size: 11px;
+	font-weight: normal;
+	color: #13569E;      
+}
+
+.tag a:hover {
+	font-weight: normal;
+	color: #13569E;
+	text-decoration: none;
+}
+
+/*Credits*/
+
+.credit,
+.credit a,
+.credit span {
+	font-size: 11px;
+	color: #5c5c5c;
+}
+
+/** CLASS DESIGN END **/
+/** CLASS STYLES START **/
+
+/* Style dark */
+.bg.dark {
+	background-color: #662483;
+	background-image: url(/skin/default/img/framework-css/block/bg.png);
+	background-position: center top;
+	background-repeat: repeat-x;
+}
+
+.border.dark {
+	border: 1px solid #4c4c4c;
+}
+
+.bg.dark a,
+.bg.dark a:link,
+.bg.dark a:visited,
+.bg.dark a:hover,
+.bg.dark a:focus {
+	color: #fff ;
+}
+
+.bg.dark p,
+p.dark {
+	color:#FFFFFF;
+}
+
+.bg.dark span {
+	color: #FFFFFF;
+}
+
+.bg.dark .tag,
+.bg.dark .tag a {
+	color: #5197E2;
+}
+
+/*list-li dark*/
+	.bg.dark .list-li li:hover {
+		background-color: #444444;
+	}
+
+
+/* list-div dark START*/
+.list-div.bg.dark .list-div-elem {
+	background-color: #662483;
+	background-image: url(/skin/default/img/framework-css/list-div/list-div-elem-bg-dark.png);
+    border-bottom: 1px solid #951B81;
+}
+
+.list-div.bg.dark .list-div-elem:hover {
+	background-color: #000000;
+	z-index:1;
+}
+
+.list-div.bg.dark, .list-div.bg.dark .name, .list-div.bg.dark .name a, .list-div.bg.dark .descr, .list-div.bg.dark .price, .list-div.bg.dark .date, .list-div.bg.dark .place, .list-div.bg.dark .user, .list-div.bg.dark .user a{
+	color:#FFFFFF;
+}
+/*list-div dark END*/
+
+.bg.dark .button,
+.bg.dark .button span {
+	background-image: url(/skin/default/img/framework-css/button/button-dark.png);
+	color: #FFFFFF;
+}
+
+	.bg.dark .button.light,
+	.bg.dark .button.light span {
+		color: #444;
+	}
+
+.bg.dark .button:hover span,
+.bg.dark .button span:hover,
+.bg.dark .button:focus span {
+	color: #FFFFFF;
+}
+
+.button.dark {
+	background-position: 0pc -189px;
+}
+
+.button.dark span  {
+	background-position: right -235px;
+	color: #FFFFFF;
+}
+
+	.button.dark:hover {
+	background-position: 0px -3px;
+	color: #FFFFFF;
+	}
+
+	.button.dark:hover span,
+	.button.dark span:hover {
+	background-position: right -49px;
+	color: #FFFFFF;
+	}
+
+
+/* Style light */
+.bg.light {
+	background-color: #FFFFFF;
+	background-image: url(/skin/default/img/framework-css/block/bg-light.png);
+	background-position: center top;
+	background-repeat: repeat-x;
+}
+
+.border.light {
+	border: 1px solid #ccc;
+}
+
+.bg.light a,
+.bg.light a:link,
+.bg.light a:visited,
+.bg.light a:hover,
+.bg.light a:focus {
+	color: #444444 ;
+}
+
+.bg.light span {
+	color: #444444;
+}
+
+.bg.light .button span {
+	color:#ffffff;
+}	
+
+.bg.light .button.light span {
+	color:#4c4c4c;
+}	
+
+	.bg-top.w5-16.light {
+		background-color: transparent;
+		background-image: url(/skin/default/img/framework-css/block/bg-top-light-w5-16.png);
+	}
+
+	.bg-repeat.w5-16.light {
+		background-color: transparent;
+		background-image: url(/skin/default/img/framework-css/block/bg-repeat-light-w5-16.png);
+		background-repeat: repeat-y;
+	}
+
+	.bg-bottom.w5-16.light {
+		background-color: transparent;
+		background-image: url(/skin/default/img/framework-css/block/bg-bottom-light-w5-16.png);
+	}
+/*list-div light START*/
+.list-div.bg.light .list-div-elem {
+	background-image: url(/skin/default/img/framework-css/list-div/list-div-elem-bg.png);
+	background-color: #FFFFFF;
+}
+
+.list-div.bg.light .list-div-elem:hover {
+	background-color: #EEEEEE;
+	z-index:1;
+}
+
+.list-div.bg.light, .list-div.bg.light .name, .list-div.bg.light .name a, .list-div.bg.light .descr, .list-div.bg.light .price, .list-div.bg.light .date, .list-div.bg.light .place, .list-div.bg.light .user, .list-div.bg.light .user a{
+	color: #4c4c4c;
+}
+/*list-div light END*/
+
+/*list ul li light */
+.list-li.bg.light li .date {
+	color: #4C4C4C;
+}
+
+.list-li.bg.light li:hover {
+	background-color: #CCCCCC;
+}
+
+
+/*title light */
+.title.bg.light  {
+	background-color: #ECECEF;
+	background-image: url(/skin/default/img/framework-css/title/title-bg-light.png);
+	background-position: left top;
+	color: #222;
+}
+
+	.title.bg.light a, .title.head.light a, .title.head.light a:link, .title.head.light a:hover, .title.head.light a:visited, .title.head.light a:focus,
+	.title.bg.light span {
+		color: #222;
+	}
+
+	.block.w5-16 .title.bg.light  {
+	background-color: transparent;
+	background-image: url(/skin/default/img/framework-css/title/title-bg-light-w5-16.png);
+	background-position: left top;
+	color: #222;
+}
+
+/* Boutton light */
+.button.light {
+	background-position: 0px -96px;
+	color: #4c4c4c;
+}
+
+.button.light span {
+	background-position: right -142px;
+	color: #4c4c4c;
+}
+
+.button.light:hover {
+	background-position: 0px -1px;
+	color: #ffffff;
+}
+
+
+.button.light:hover span,
+.button.light span:hover {
+	background-position: right -47px;
+	color: #FFFFFF;
+}
+
+	.bg.light .button.light:hover span,
+	.bg.light .button.light span:hover {
+	background-position: right -47px;
+	color: #FFFFFF;
+	}
+
+.bg.light .button,
+.bg.light .button span {
+	background-image: url(/skin/default/img/framework-css/button/button-light.png);
+	color: #FFFFFF;
+}
+
+
+
+
+/* tag light*/
+.bg.light .tag,
+.bg.light .tag a {
+	color: #13569E;
+}
+
+#logo {
+	height: 130px;
+	margin: 0 0 0 7px;
+	padding-top: 40px;
+	text-align:center;
+	width: 330px;
+}
+
+
+#rightCol,
+#contentCol {
+	padding-top: 11px;
+	padding-bottom: 11px;
+}
+
+#rightCol {
+	float:right;
+	margin: 0;
+}
+
+#getsocialize a {
+	margin-right: 11px;
+}
+
+/* CATALOGUE start */
+
+#product-img {
+	text-align:center;
+}
+
+#product-img .title {
+	margin-top: 11px;
+}
+
+#more-info {
+	border: none;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+ #galery .title, #rel-product .title {
+	background-image: url(/skin/default/img/framework-css/title/exerg-title.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	padding:1px 5px 5px 5px;	
+}
+
+/* CATALOGUE END */
+/* CONTENU end */
+
+#footer {
+	background-color: #EEEEEE;
+	background-image: url(/skin/default/img/framework-css/footer-bg.png);
+	background-position: center top;
+	background-repeat: repeat-x;	
+	min-height: 60px;
+	padding-bottom: 11px;
+}
+
+#footer .bg-2 {
+	background-color: transparent;
+	background-image: url(/skin/default/img/framework-css/footer-bg-2.png);
+	background-position: center 3px;
+	background-repeat: no-repeat;	
+	min-height: 60px;
+	padding-top: 11px;
+}
+
+/** ID END **/
+	
+/* Config spécifique au theme start */
+
+#contentContener .bg-top.w16-16 {display:none;}
+#rightcol .bg-top {display:block;}
+.bg-bottom {display:none;}
+#rightcol .bg-bottom {display:block;}
+
+.ui-widget-content { background-color: transparent;}
+/*
+ * jQuery UI Autocomplete 1.8.7
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Autocomplete#theming
+ */
+.ui-autocomplete {
+	background:white;
+	max-height: 250px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+	/* add padding to account for vertical scrollbar */
+	padding-right: 20px;
+	z-index:1003 !important;
+	z-index:1003;
+}
+.ui-autocomplete-loading { background: white url(/framework/img/min-loader.gif) right center no-repeat; }
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+	height: 250px;
+}
+/* Config spécifique au theme END */

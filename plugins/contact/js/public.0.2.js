@@ -46,7 +46,7 @@ var plugins_contact = {
 				}
 			},
 			submitHandler: function(form) {
-			 	$(form).ajaxSubmit({
+			 	/*$(form).ajaxSubmit({
 				 	url:'/'+lang+'/magixmod/contact/',
 				 	type:"post",
 				 	resetForm: true,
@@ -58,14 +58,21 @@ var plugins_contact = {
 						});
         				$(".mc-head-request").html(request);
 				 	}
+				});*/
+				$.nicenotify({
+					ntype: "submit",
+					uri: '/'+lang+'/magixmod/contact/',
+					typesend: 'post',
+					idforms: $(form),
+					resetform:true
 				});
 			 	return false;
 		 	}
 		});
 		$("#forms-plugin-contact").formsplugincontact;
 	},
-	run:function(){
+	run:function(iso){
 		this._init();
-		this._postFieldData($("#getLanguage").val());
+		this._postFieldData(iso);
 	}
 };

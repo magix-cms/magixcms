@@ -41,8 +41,8 @@
  * Purpose:  
  * Examples: {widget_news_last
 				css_param=[
-					'class_elem'=>'list-div-elem',
-					'class_img'=>'img'
+					'class_elem'=>'child',
+					'class_img'=>'rfloat img'
 				] 
 				tag=""
 				limit="" 
@@ -67,8 +67,8 @@ function smarty_function_widget_news_last($params, $template){
 		}
 	}else{
 		$tabs= array(
-				'class_elem'=>'list-div-elem'
-				,'class_img'=>'img'
+				'class_elem'=>'child',
+				'class_img'=>'rfloat img'
 			);
 	}
 	$filter = new magixglobal_model_imagepath();
@@ -104,7 +104,7 @@ function smarty_function_widget_news_last($params, $template){
 		$widget .= '<span class="descr">';
 			$widget .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
 		$widget .= '</span>';	
-		$widget .= '<a href="'.$news_alluri.'">'.$newsall.'</a>';
+		$widget .= '<p><a href="'.$news_alluri.'">'.$newsall.'</a></p>';
 		$widget .= '</div>';
 	}
 	return $widget;

@@ -66,9 +66,9 @@ function smarty_function_widget_news_tags($params, $template){
 		}
 	}else{
 		$tabs= array(
-				'class_container'=>'list-div medium',
+				'class_container'=>'ch1-2 ch-light',
 				'class_name'=>'name',
-				'class_elem'=>'list-div-elem',
+				'class_elem'=>'child',
 				'class_img'=>'img',
 				'class_desc'=>'descr'
 			);
@@ -77,14 +77,27 @@ function smarty_function_widget_news_tags($params, $template){
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 240 ;
 	// Le délimiteur pour tronqué le texte
 	$delimiter = $params['delimiter'] ? $params['delimiter'] : '';
+	// Nombre de colones (utilisé pour l"ajout d'une class last par ligne)
+	$last = $params['col']? $params['col'] : 0 ;
 	$filter = new magixglobal_model_imagepath();
 	//Si on demande un tag news
 	if(magixcjquery_filter_request::isGet('tag')){
 		$gettag = magixcjquery_url_clean::make2tagString($_GET['tag']);
+		$i = 1; //Définis pour l'ajout de la class 'last'
 		$news = '';
 		$news .= '<div class="'.$tabs['class_container'].'">';
 		if(frontend_db_block_news::s_sort_tagnews(urldecode($gettag)) != null){
 			foreach(frontend_db_block_news::s_sort_tagnews(urldecode($gettag)) as $pnews){
+				//Application de la class last pour enfant courant
+				//-----------------------------------------------
+				//Test si l'élément courant besoin class last
+				if ($i == $last ) {
+					$last_elem = ' last';
+					$i = 1;
+				} else {
+					$last_elem = null;
+					$i++;
+				}
 				$tag = frontend_db_block_news::s_news_tag($pnews['idnews']);
 				$islang = $pnews['iso'];
 				$curl = new magixglobal_model_dateformat($pnews['date_register']);
@@ -94,9 +107,9 @@ function smarty_function_widget_news_tags($params, $template){
 				}else{
 					$image = '<img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 				}
-				$news .= '<div class="'.$tabs['class_elem'].'">';
-				$news .='<a class="'.$tabs['class_img'].'">';
-					$news .= $image;
+				$news .= '<div class="'.$tabs['class_elem'].$last_elem.'">';
+				$news .='<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
+				$news .= $image;
 				$news .='</a>';
 				
 				$news .='<p class="'.$tabs['class_name'].'">';
