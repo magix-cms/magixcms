@@ -7,6 +7,10 @@
 	* Upgrade colorbox 1.3.17 => 1.3.18
 	* Upgrade jquery validate 1.8.1 => 1.9 (compatible html5)
 	* Upgrade jQuery forms 2.83 => 2.87
+	* Ajout du thème par défaut v2
+	* Ajout de jquery fbwidget (jimagine)
+	* Adaptation des requêtes ajax de l'admin avec nicenotify (jimagine)
+	* Adaptation des widgets magix cms avec framework css (v2)
 	
 2.3.5RC3
 	* Fix bug pdw configuration (tinyMCE conf)
