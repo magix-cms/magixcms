@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#news_search_dlg.title}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="/framework/js/jquery-1.7.min.js"></script>
+	<script type="text/javascript" src="/framework/js/jquery.form-2.83.js"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="js/dialog.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/news_search.css" />
+</head>
+<body>
+	<table border="0" cellspacing="0" cellpadding="2">
+		<tr>
+			<td valign="top"><img src="img/search_news.png" width="24" height="24" /></td>
+			<td valign="middle">{#news_search_dlg.description}</td>
+		</tr>
+	</table>
+	<div id="news-search-tinymce-plugin">
+		<form id="forms-search-news" method="post" action="">
+			<fieldset>
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><input type="text" name="post_search" id="post_search" value="" size="30" /></td>
+						<td><input type="submit" class="button" id="replaceBtn" value="{#news_search_dlg.search}" /></td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
+	</div>
+	<div id="result-search-news">
+	<table id="table_search_news" class="clean-table">
+		<thead>
+			<tr>
+				<th style="width:1%;">ID</th>
+				<th style="width:16px;">{#news_search_dlg.lang}</th>
+				<th>{#news_search_dlg.date_register}</th>
+				<th>{#news_search_dlg.subject}</th>
+				<th style="width:1%;">{#news_search_dlg.link}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	<div class="mceActionPanel">
+		<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+	</div>
+</body>
+</html>

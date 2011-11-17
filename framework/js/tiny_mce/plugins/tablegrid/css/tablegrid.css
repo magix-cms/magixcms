@@ -1,0 +1,8 @@
+.tg-popup-container, .tg-grid-border-color, .tg-grid, .tg-popup-footer { margin: 0; padding: 0 }
+.tg-popup-container { display:none; position:absolute; z-index: 200000; background-color:#fff; padding:0; border: 0; float:left }
+.tg-grid-wrapper { padding:0; background-color:#fff; border:1px solid #ccc; }
+.tg-grid { border:0 }
+.tg-grid td a { display: block; width:10px; height:10px; cursor:default; border:1px solid #ccc; overflow:hidden }
+.tg-grid td a.tg-blank { background-color:#fff; }
+.tg-grid td a.tg-fill-color { background-color:#3399FF; }
+.tg-popup-footer { font: 11px Tahoma; color:#000; text-align:center; border-right:1px solid #d4d0c8; border-bottom:1px solid #d4d0c8; border-left:1px solid #d4d0c8; height:16px; cursor:default }
