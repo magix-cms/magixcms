@@ -84,7 +84,8 @@ function smarty_function_widget_news_list($params, $template){
 				'class_name'=>'name',
 				'class_elem'=>'child',
 				'class_img'=>'img',
-				'class_desc'=>'descr'
+				'class_desc'=>'descr',
+				'class_pagination' => 'clear pagination'
 			);
 	}
 	$offset = $fcn->news_offset_pager($max);
@@ -141,7 +142,7 @@ function smarty_function_widget_news_list($params, $template){
 	$news .= '</div>';
 	$cnews = frontend_db_block_news::s_count_news(frontend_model_template::current_Language());
 	if($cnews['total'] >= $max){
-		$news .= $fcn->news_pagination($max);
+		$news .= $fcn->news_pagination($max,$tabs['class_pagination']);
 	}
 	return $news;
 }

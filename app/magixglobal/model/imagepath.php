@@ -121,33 +121,37 @@ class magixglobal_model_imagepath{
 	 */
 	public function scanImage($directory,$exclude,array $option=array('imgsize'=>'mini','reverse'=>false)){
 		$makeFiles = new magixcjquery_files_makefiles();
-		$array_dir = $makeFiles->scanDir($directory,$exclude);
-		if(is_array($option)){
-			switch($option['imgsize']){
-				case 'mini':
-					$imgsize = '/s_/';
-				break;
-				case 'medium':
-					$imgsize = '/m_/';
-				break;
-				default:
-					$imgsize = '/s_/';
-				break;
-			}
-			if($array_dir != null){
-				if(is_array($array_dir)){
-					if($option['reverse']){
-						$tabs_files = preg_grep($imgsize,$array_dir,PREG_GREP_INVERT);
-					}else{
-						$tabs_files = preg_grep($imgsize,$array_dir);
-					}
-					return $tabs_files;
-				}else{
-					throw new Exception('Error scanImage :array_dir is not array');
+		if(file_exists($directory)){
+			$array_dir = $makeFiles->scanDir($directory,$exclude);
+			if(is_array($option)){
+				switch($option['imgsize']){
+					case 'mini':
+						$imgsize = '/s_/';
+					break;
+					case 'medium':
+						$imgsize = '/m_/';
+					break;
+					default:
+						$imgsize = '/s_/';
+					break;
 				}
+				if($array_dir != null){
+					if(is_array($array_dir)){
+						if($option['reverse']){
+							$tabs_files = preg_grep($imgsize,$array_dir,PREG_GREP_INVERT);
+						}else{
+							$tabs_files = preg_grep($imgsize,$array_dir);
+						}
+						return $tabs_files;
+					}else{
+						throw new Exception('Error scanImage :array_dir is not array');
+					}
+				}
+			}else{
+				throw new Exception('Error scanImage :option is not array');
 			}
 		}else{
-			throw new Exception('Error scanImage :option is not array');
+			return null;
 		}
 	}
 }

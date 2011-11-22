@@ -141,5 +141,6 @@ RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([0-9]+)/{0,1}$ /plugins.php?magixmod
 RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/](?:sort)[/]([a-zA-Z]+)/{0,1}$ /plugins.php?magixmod=$1&sort=$2 [QSA,L]
 ##### Additionnal params #####
 RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)-([0-9]+)/{0,1}$ /plugins.php?magixmod=$1&pstring1=$2&pnum1=$3 [QSA,L]
+RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/](\d{4}/\d{2}/\d{2})[/]([-_0-9a-zA-Z]+)-([0-9]+)/{0,1}$ /plugins.php?magixmod=$1&pdate=$2&pstring1=$3&pnum1=$4 [QSA,L]
 RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)-([0-9]+)[/]([-_0-9a-zA-Z]+)-([0-9]+)/{0,1}$ /plugins.php?magixmod=$1&pstring1=$2&pnum1=$3&pstring2=$4&pnum2=$5 [QSA,L]
 RewriteRule ^magixmod[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)-([0-9]+)[/]([-_0-9a-zA-Z]+)-([0-9]+)[/]([-_0-9a-zA-Z]+)-([0-9]+)/{0,1}$ /plugins.php?magixmod=$1&pstring1=$2&pnum1=$3&pstring2=$4&pnum2=$5&pstring3=$6&pnum3=$7 [QSA,L]

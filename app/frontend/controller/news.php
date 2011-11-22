@@ -113,8 +113,13 @@ class frontend_controller_news extends frontend_db_news{
 	 * @param $max
 	 * @access public
 	 */
-	public function news_pagination($max){
-		return '<div class="pagination"><div class="middle">'.self::news_pager($max).'</div></div>';
+	public function news_pagination($max,$pagination_class){
+		if($pagination_class != null){
+			$class_container = $pagination_class;
+		}else{
+			$class_container = 'pagination';
+		}
+		return '<div class="'.$class_container.'">'.self::news_pager($max).'</div>';
 	}
 	/**
 	 * Retourne la page de la news courante

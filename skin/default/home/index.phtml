@@ -1,7 +1,7 @@
 {include file="common/header.phtml" section="prepend"}
 {headmeta meta="googleSiteVerification" content="{google_tools tools='webmaster'}"}
-{headmeta meta="description" content="{static_metas param='' dynamic=$description}"}
-    <title>{static_metas param='' dynamic=$title}</title>
+{headmeta meta="description" content="{static_metas param=$subject dynamic=$description}"}
+    <title>{static_metas param=$subject dynamic=$title}</title>
 {include file="common/css.phtml"}
 </head>
 <body class="home">

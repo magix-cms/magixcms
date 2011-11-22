@@ -197,7 +197,7 @@ $(function() {
 				}
 			},
 			submitHandler: function(form) {
-				$.notice({
+				/*$.notice({
 					ntype: "ajaxsubmit",
 		    		dom: form,
 		    		uri: '/install/config.php?cfile',
@@ -206,17 +206,27 @@ $(function() {
 		    		resetform:true,
 		    		time:null,
 		    		reloadhtml:false
-				});
-				$(':submit',form).attr("disabled","disabled");
-				$('#install-database').live('click',function(){
-					$(this).attr("href","/install/database.php");
+				});*/
+				$.nicenotify({
+					ntype: "submit",
+					uri: '/install/config.php?cfile',
+					typesend: 'post',
+					idforms: form,
+					resetform: true,
+					successParams:function(e){
+						$.nicenotify.initbox(e);
+						$(':submit',form).attr("disabled","disabled");
+						$('#install-database').live('click',function(){
+							$(this).attr("href","/install/database.php");
+						});
+					}
 				});
 				return false; 
 			}
 		});
 		$("#forms-install-config").formsCreateFile;
 		$("#testconfig").live('click',function(){
-			$.ajax({
+			/*$.ajax({
 				url: "/install/testconnexion.php",
 				type: "post",
 				data: {
@@ -233,6 +243,21 @@ $(function() {
 					});
 	    			$(".mc-head-request").html(request);
 				}
+			});*/
+			$.nicenotify({
+				ntype: "ajax",
+				uri: '/install/testconnexion.php',
+				typesend: 'post',
+				noticedata: {
+					M_DBDRIVER:$('#M_DBDRIVER').val(),
+					M_DBHOST:$('#M_DBHOST').val(),
+					M_DBUSER:$('#M_DBUSER').val(),
+					M_DBPASSWORD:$('#M_DBPASSWORD').val(),
+					M_DBNAME:$('#M_DBNAME').val()
+				},
+				successParams:function(e){
+					$.nicenotify.initbox(e);
+				}
 			});
 		});
 		/**
@@ -240,7 +265,7 @@ $(function() {
 		 * Requête ajax tous les 200 micros S 
 		 */
 		$("#forms-install-database").submit(function(){
-			$(this).ajaxSubmit({
+			/*$(this).ajaxSubmit({
 				url:"/install/database.php?process=true",
 				type:"post",
 				beforeSubmit:function(){
@@ -253,6 +278,25 @@ $(function() {
 			    	});
 					$("#dbinstall").empty();
 					$(".mc-head-request").html(e);
+					$(':submit',this).attr("disabled","disabled");
+					$('#install-user').removeClass("ui-state-disabled");
+					$('#install-user').addClass("ui-state-active");
+					$('#install-user').live('click',function(){
+						window.location = "/install/adminuser.php";
+					});
+				}
+			});*/
+			$.nicenotify({
+				ntype: "submit",
+				uri: '/install/database.php?process=true',
+				typesend: 'post',
+				idforms: $(this),
+				beforeParams:function(){
+					$("#dbinstall").prepend('<img style="margin-left:50px;" src="/install/img/loading.gif" />');
+				},
+				successParams:function(e){
+					$.nicenotify.initbox(e);
+					$("#dbinstall").empty();
 					$(':submit',this).attr("disabled","disabled");
 					$('#install-user').removeClass("ui-state-disabled");
 					$('#install-user').addClass("ui-state-active");

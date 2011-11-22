@@ -20,7 +20,7 @@
 #product-img{overflow:hidden;}
 /* ######
 * Note !!
-* Voir les tags des news (définir une logique pour l'affichage des tags)
+* Voir les tags des news (d√©finir une logique pour l'affichage des tags)
 */
 /*TAG*/
 .child .tag {
@@ -42,4 +42,23 @@
 	font-weight: normal;
 	color: #13569E;
 	text-decoration: none;
+}
+/** pagination START **/
+.pagination .current,
+.pagination a  {
+	display: inline;
+	font-size: 12px;
+	line-height: 15px;
+	margin: 0 3px;
+	text-decoration:none;
+}
+.pagination.bg-light .current{
+	background-color:#4C4C4C;
+	color:#FFF;
+	padding:3px;
+}
+.pagination.bg-dark .current{
+	background-color:#FFF;
+	color:#4C4C4C;
+	padding:3px;
 }

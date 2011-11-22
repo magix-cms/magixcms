@@ -496,7 +496,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}else $language = '';
-		return '/plugins.php?'.$language.'magixmod='.self::plugins_getname($magixmod);
+		return '/plugins.php?'.$language.'magixmod='.$magixmod;
 	}
 	/**
 	 * URL public d'un plugin avec réécriture
@@ -507,7 +507,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return '/'.$language.'magixmod/'.self::plugins_getname($magixmod).'/';
+		return '/'.$language.'magixmod/'.$magixmod.'/';
 	}
 	/**
 	 * @deprecated
@@ -532,7 +532,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return '/'.$language.'magixmod/'.self::plugins_getname($magixmod).'/'.$uniqp.'/';
+		return '/'.$language.'magixmod/'.$magixmod.'/'.$uniqp.'/';
 	}
 	/**
 	 * @deprecated
@@ -546,7 +546,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = 'strLangue='.$lang.'&amp;';
 		}else $language = '';
-		return '/plugins.php?'.$language.'magixmod='.self::plugins_getname($magixmod).'&pnum1='.$pnum1.'&pstring2='.$pstring2;
+		return '/plugins.php?'.$language.'magixmod='.$magixmod.'&pnum1='.$pnum1.'&pstring2='.$pstring2;
 	}
 	/**
 	 * @deprecated
@@ -560,7 +560,7 @@ class magixglobal_model_rewrite{
 		if($lang != null){
 			$language = $lang.'/';
 		}else $language = '';
-		return '/'.$language.'magixmod/'.self::plugins_getname($magixmod).'/'.$pnum1.'-'.$pstring2.'.html';
+		return '/'.$language.'magixmod/'.$magixmod.'/'.$pnum1.'-'.$pstring2.'.html';
 	}
 	/**
 	 * @access private
@@ -596,10 +596,12 @@ class magixglobal_model_rewrite{
 		}else $language = '';
 		if(is_array($params)){
 			foreach ($params as $row=>$value){
-				if(is_string($value)){
-					$t[]= '/'.$value;
-				}elseif(is_numeric($value)){
-					$t[]= '-'.$value;
+				if($value != null){
+					if(is_numeric($value) || is_int($value)){
+						$t[]= '-'.$value;
+					}elseif(is_string($value)){
+						$t[]= '/'.$value;
+					}
 				}
 			}
 			$uri = implode('', $t);
@@ -607,6 +609,66 @@ class magixglobal_model_rewrite{
 			throw new Exception("Error plugins rewrite: params is not array");
 		}
 		return '/'.$language.'magixmod/'.$magixmod.$uri.'/';
+	}
+	/**
+	 * URL public du plugin pour la pagination sans réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param integer $getpage
+	 */
+	private function plugins_uri_getpage($lang,$magixmod,$getpage){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else {
+			$language = '';
+		}
+		if(magixcjquery_filter_isVar::isPostNumeric($getpage)){
+			return '/plugins.php?'.$language.'magixmod='.$magixmod.'&page='.$getpage;
+		}
+	}
+	/**
+	 * URL public du plugin pour la pagination avec réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param integer $getpage
+	 */
+	private function plugins_rewrite_getpage($lang,$magixmod,$getpage){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		if(magixcjquery_filter_isVar::isPostNumeric($getpage)){
+			return '/'.$language.'magixmod/'.$magixmod.'/'.$getpage;
+		}
+	}
+	/**
+	 * URL public du plugin pour la pagination sans réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param string $sort
+	 */
+	private function plugins_uri_sort($lang,$magixmod,$sort){
+		if($lang != null){
+			$language = 'strLangue='.$lang.'&amp;';
+		}else {
+			$language = '';
+		}
+		if(magixcjquery_filter_isVar::isPostAlphaNumeric($sort)){
+			return '/plugins.php?'.$language.'magixmod='.$magixmod.'&sort='.$sort;
+		}
+	}
+	/**
+	 * URL public du plugin pour la pagination avec réécriture
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param string $sort
+	 */
+	private function plugins_rewrite_sort($lang,$magixmod,$sort){
+		if($lang != null){
+			$language = $lang.'/';
+		}else $language = '';
+		if(magixcjquery_filter_isVar::isPostAlphaNumeric($sort)){
+			return '/'.$language.'magixmod/'.$magixmod.'/sort/'.$sort;
+		}
 	}
 	/**
 	 * La réécriture des URL Root des plugins
@@ -684,5 +746,41 @@ class magixglobal_model_rewrite{
 				return self::plugins_uri_params($lang, $magixmod, $params);
 			break;
 		}
+	}
+	/**
+	 * La réécriture des URL pour la pagination
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param integer $getpage
+	 * @param bool $rewrite
+	 */
+	public static function filter_plugins_getpage($lang,$magixmod,$getpage,$rewrite=false){
+		switch ($rewrite){
+			case true:
+				return self::plugins_uri_getpage($lang, $magixmod, $getpage);
+				break;
+			case false:
+				return self::plugins_rewrite_getpage($lang, $magixmod, $getpage);
+				break;
+		}
+	
+	}
+	/**
+	 * La réécriture des URL pour le système de tri
+	 * @param string $lang
+	 * @param string $magixmod
+	 * @param string $sort
+	 * @param bool $rewrite
+	 */
+	public static function filter_plugins_sort($lang,$magixmod,$sort,$rewrite=false){
+		switch ($rewrite){
+			case true:
+				return self::plugins_uri_sort($lang, $magixmod, $sort);
+				break;
+			case false:
+				return self::plugins_rewrite_sort($lang, $magixmod, $sort);
+				break;
+		}
+	
 	}
 }

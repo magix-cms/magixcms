@@ -111,14 +111,11 @@
 {include file="common/javascript.phtml"}
 <script type="text/javascript">
 $(function(){
-	$.getScript('/framework/js/backend/ns/jrewritemetas.0.1.min.js',function(){
+	$.getScript('/framework/js/backend/ns/jrewritemetas.0.2.min.js',function(){
 		if (typeof ns_jrewritemetas == "undefined") {
 		  console.log("ns_jrewritemetas is not defined");
 		}else{
-			ns_jrewritemetas._loadingConfig();
-			ns_jrewritemetas._listingRecords();
-			ns_jrewritemetas._updateMetas();
-			ns_jrewritemetas._deleteMetas();
+			ns_jrewritemetas.runEdit();
 		}
 	});
 });

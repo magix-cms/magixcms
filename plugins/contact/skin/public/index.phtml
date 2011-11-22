@@ -3,17 +3,22 @@
     <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_plugin_contact#]}</title>
 {include file="common/css.phtml"}
 </head>
-<body>
+<body class="contact">
 	<div id="header" class="full">
 		<div class="container">
 			{include file="common/top.phtml"}
 		</div>
 	</div>
 	<div id="content" class="full">
-		<div id="contentContener" class="container">
-			<div class="bg-top w16-16"></div>
-				<div class="bg-repeat w16-16">	
-					<div id="contentCol" class="block w11-16 lfloat">
+		<div class="full-top"></div>
+		<div class="full-repeat">
+			<div class="container">
+				<div id="contentCol" class="block w10-16 lfloat text-content">
+						<ul class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
+							<li>></li>
+							<li>{#topmenu_contact_t#|firststring}</li>
+						</ul>
 						<h1>{#pn_contact_forms#|firststring}</h1>
 						<form id="forms-plugin-contact" method="post" action="">
 						<fieldset class="ui-widget ui-widget-content ui-corner-all">
@@ -71,14 +76,15 @@
 						</fieldset>
 						</form>
 					</div>
-					<div id="rightCol" class="block w5-16 lfloat last">
-						{include file="common/colright.phtml"}
-					</div>
+				<div id="rightCol" class="block w6-16 lfloat last">
+					{include file="common/colright.phtml"}	
 				</div>
-				<div class="bg-bottom w16-16"></div>
+				<div class="clear">&nbsp;</div>
+			</div>
 		</div>
+		<div class="full-bottom"></div>
 	</div>
-	{include file="common/footer.phtml"}
+{include file="common/footer.phtml"}
 <script type="text/javascript">
 $(function(){
 	$.getScript('/plugins/contact/js/public.0.2.js',function(){

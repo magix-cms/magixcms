@@ -1,7 +1,14 @@
 2.3.5RC4
 	* Configuration du nouveau template (default v2) + adaptation des widgets avec le framework CSS
 	* Intégration de la boite à outils JS (Jimagine) dans l'administration (backend)
-		- Adaptation des JS avec nicenotify (jhome,jdashboard,jgoogletools,jcms,jlanguage)
+		- Adaptation des JS avec nicenotify 
+			-jhome
+			-jdashboard
+			-jgoogletools
+			-jcms
+			-jlanguage
+			-jrewritemetas
+			-jsitemap
 	* Upgrade jQuery 1.5.2 => 1.7
 	* Adaptation des plugins tinyMCE avec jQuery 1.7
 	* Upgrade colorbox 1.3.17 => 1.3.18
@@ -11,6 +18,12 @@
 	* Ajout de jquery fbwidget (jimagine)
 	* Adaptation des requêtes ajax de l'admin avec nicenotify (jimagine)
 	* Adaptation des widgets magix cms avec framework css (v2)
+	* Suppression de tinymce 3.4.5
+	* Update tinymce 3.4.7
+	* Ajout de showitmenu dans jimagine
+	* Ajout du correctif pour google plus
+	* Adaptation du système d'installation avec "jimagine"
+	* Ajout du support CSS de la pagination dans le widget list_news(frontend)
 	
 2.3.5RC3
 	* Fix bug pdw configuration (tinyMCE conf)
