@@ -78,9 +78,10 @@ function smarty_function_widget_catalog_load_products($params, $template){
 			return;
 		}
 	}else{
-		$tabs= array('class_container'=>'list-div border w11-64 bg medium'
-				,'class_elem'=>'list-div-elem'
-				,'class_img'=>'img'
+		$tabs= array(
+				'class_container'=>'ch1-4 ch-light',
+				'class_elem'=>'child',
+				'class_img'=>'img'
 			);
 	}
 	// La taille des miniatures (mini ou medium)

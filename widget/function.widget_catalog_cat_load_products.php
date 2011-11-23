@@ -65,8 +65,8 @@ function smarty_function_widget_catalog_cat_load_products($params, $template){
 		}
 	}else{
 		$tabs= array(
-			'class_container'=>'list-div w11-32 medium',
-			'class_elem'=>'list-div-elem',
+			'class_container'=>'ch1-4 ch-light',
+			'class_elem'=>'child',
 			'class_img'=>'img'
 		);
 	}
