@@ -27,7 +27,7 @@
  * @version    0.1
  * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
  * @name socialXFBML
- * @link init URI : http://connect.facebook.net/replace_width_iso/all.js#xfbml=1
+ * @link
  * Exemple for French : http://connect.facebook.net/fr_FR/all.js#xfbml=1
  * @exemple with like box facebook widget:
  * $("#fb_like_box").fbwidget({
@@ -47,64 +47,29 @@
 		// Default options value
 	    var options = {
 	      widget: "like",
-	      iso: "fr",
 	      attributs: {}
 	    };
 	    if ($.isPlainObject(settings)) {
 	    	var o = $.extend(true,options, settings || {});
         }else{
-        	console.log("%s: %o","socialXFBML settings is not object");
+        	console.log("%s: %o","fbwidget settings is not object");
         }
 	    //var o = options;
 	    // Reference to the container element
     	var obj = $(this);
 		//params = params || {};
 	    if(o.widget != ""){
-	    	if(o.iso != ""){
-	    		switch(o.iso){
-	    			case "fr":
-	    				var iso_code = "fr_FR";
-	    			break;
-	    		}
-		    	$.ajax({
-	        		url:"http://connect.facebook.net/"+iso_code+"/all.js#xfbml=1",
-	        		type:'get',
-	        		dataType: "script",
-	        		statusCode: {
-	    				0: function() {
-	    					console.error("jQuery Error");
-	    				},401: function() {
-	    					console.warn("access denied");
-	    				},404: function() {
-	    					console.warn("object not found");
-	    				},403: function() {
-	    					console.warn("request forbidden");
-	    				},408: function() {
-	    					console.warn("server timed out waiting for request");
-	    				},500: function() {
-	    					console.error("Internal Server Error");
-	    				}
-	    			},
-	        		success: function(data, status, xhr){
-	        			return this.each(function() {
-	        		    	fb_dom = $("<fb:" + o.widget + "></fb:" + o.widget + ">");
-	        		    	if(options.attributs != ''){
-	        		    		$.each(options.attributs, function( key , value ) {
-	        		    			fb_dom.attr( key , value );
-	        		    		});
-	        		    		fb_dom.appendTo(obj);
-	        		    	}else{
-	        		    		console.log("%s: %o","attributs is null",o.widget);
-	        		    	}
-	        	    	});
-	        		}
-	        	}).fail(function(xhr, status, error){
-	    			console.group('Error socialXFBML');
-	            		console.error('Status %s ',status);
-	            		console.error('%s',error);
-	            	console.groupEnd();
-	        	});
-	    	}
+	    	return this.each(function() {
+		    	fb_dom = $("<fb:" + o.widget + "></fb:" + o.widget + ">");
+		    	if(options.attributs != ''){
+		    		$.each(options.attributs, function( key , value ) {
+		    			fb_dom.attr( key , value );
+		    		});
+		    		fb_dom.appendTo(obj);
+		    	}else{
+		    		console.log("%s: %o","attributs is null",o.widget);
+		    	}
+	    	});
         }else if(o.widget == undefined){
         	console.log("%s: %o","widget is undefined",o.widget);
         	return false;
