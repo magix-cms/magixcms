@@ -544,7 +544,7 @@ class backend_controller_plugins{
 	 * @access private
 	 * load sql file
 	 */
-	private function load_sql_file($filename,$plugin_folder){
+	private function load_sql_file($filename,$plugin_folder=null){
 		return backend_controller_plugins::pluginDir($plugin_folder).'sql'.DIRECTORY_SEPARATOR.$filename;
 	}
 	/**

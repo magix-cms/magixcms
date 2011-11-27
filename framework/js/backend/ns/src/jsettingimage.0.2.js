@@ -5,8 +5,8 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name ns_
- *
+ * @name ns_jsettingimage
+ * @update 27/10/2011 15:16
  */
 var ns_jsettingimage = {
 	_loadingConfig:function(){
@@ -14,14 +14,11 @@ var ns_jsettingimage = {
 	},
 	_updateSizeImg:function(formsId){
 		$('#'+formsId).submit(function(){
-			$.notice({
-				ntype: "ajaxsubmit",
-	    		delay: 2800,
-	    		dom: this,
-	    		uri: '/admin/imagesize.php',
-	    		typesend: 'post',
-	    		time:2,
-	    		reloadhtml:false	
+			$.nicenotify({
+				ntype: "submit",
+				uri: '/admin/imagesize.php',
+				typesend: 'post',
+				idforms: $(this)
 			});
 			return false; 
 		});
