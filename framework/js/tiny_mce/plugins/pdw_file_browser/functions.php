@@ -84,10 +84,18 @@ function getDirTree($dir, $showfiles=true, $iterateSubDirectories=true) {
 		}
 	}
 	foreach ($x as $key => $value) {
-		if (is_dir($dir.$key."/") && $iterateSubDirectories) {
-			$x[$key] = getDirTree($dir.$key."/",$showfiles);
-		} else {
-			$x[$key] = is_file($dir.$key) ? (preg_match("/\.([^\.]+)$/", $key, $matches) ? str_replace(".","",$matches[0]) : 'file') : "folder";
+		if (version_compare(phpversion(), '5.3.0', '<')) {
+			if (is_dir($dir.$key."/") && $iterateSubDirectories) {
+				$x[$key] = getDirTree($dir.$key."/",$showfiles);
+			} else {
+				$x[$key] = is_file($dir.$key) ? (preg_match("/\.([^\.]+)$/", $key, $matches) ? str_replace(".","",$matches[0]) : 'file') : "folder";
+			}
+		}else{
+			if (is_dir($dir.$key) && $iterateSubDirectories) {
+				$x[$key] = getDirTree($dir.$key."/",$showfiles);
+			} else {
+				$x[$key] = is_file($dir.$key) ? (preg_match("/\.([^\.]+)$/", $key, $matches) ? str_replace(".","",$matches[0]) : 'file') : "folder";
+			}
 		}
 	}
 	uksort($x, "strnatcasecmp"); // Sort keys in case insensitive alphabetical order
