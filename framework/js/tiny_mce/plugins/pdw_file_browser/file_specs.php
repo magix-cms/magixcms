@@ -16,10 +16,10 @@ switch($type){
 		$file_size = filesize($filename);
         $file_size = $file_size < 1024  ? $file_size. ' '.translate('bytes') : $file_size < 1048576 ? number_format($file_size / 1024, 2, $dec_seperator, $thousands_separator) . ' '.translate('kB') : number_format($file_size / 1048576, 2, $dec_seperator, $thousands_separator) . ' '.translate('MB');
 		$filename = array_pop((explode("/", $uploadpath)));
-		if (version_compare(phpversion(), '5.3.0', '<')) {
-			$phpthumb = 'phpthumb';
-		}else{
+		if (version_compare(phpversion(), '5.3.0', '>')) {
 			$phpthumb = 'phpthumb_53';
+		}else{
+			$phpthumb = 'phpthumb';
 		}
 		printf('<div class="icon image"><img src="'.$phpthumb.'/phpThumb.php?h=140&amp;w=140&amp;far=1&amp;src=%s&bg=0000FF" alt="%s" /></div>', urlencode($uploadpath), $filename);
    		printf('<div class="filename"><a href="%s" rel="lightbox">%s</a></div>', $uploadpath, $filename);

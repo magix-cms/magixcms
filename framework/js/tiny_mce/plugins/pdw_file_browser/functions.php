@@ -84,14 +84,14 @@ function getDirTree($dir, $showfiles=true, $iterateSubDirectories=true) {
 		}
 	}
 	foreach ($x as $key => $value) {
-		if (version_compare(phpversion(), '5.3.0', '<')) {
-			if (is_dir($dir.$key."/") && $iterateSubDirectories) {
+		if (version_compare(phpversion(), '5.3.0', '>')) {
+			if (is_dir($dir.$key) && $iterateSubDirectories) {
 				$x[$key] = getDirTree($dir.$key."/",$showfiles);
 			} else {
 				$x[$key] = is_file($dir.$key) ? (preg_match("/\.([^\.]+)$/", $key, $matches) ? str_replace(".","",$matches[0]) : 'file') : "folder";
 			}
 		}else{
-			if (is_dir($dir.$key) && $iterateSubDirectories) {
+			if (is_dir($dir.$key."/") && $iterateSubDirectories) {
 				$x[$key] = getDirTree($dir.$key."/",$showfiles);
 			} else {
 				$x[$key] = is_file($dir.$key) ? (preg_match("/\.([^\.]+)$/", $key, $matches) ? str_replace(".","",$matches[0]) : 'file') : "folder";
