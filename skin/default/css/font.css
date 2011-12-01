@@ -1,4 +1,4 @@
-.text-content, .text-content p, .text-content a, .text-content span, .text-content li {
+.user-content, .user-content p, .user-content a, .user-content span, .user-content li {
 	color: #222;
 	font-family: "Georgia", Times, serif;
 	font-size: 14px;
@@ -6,46 +6,57 @@
 	line-height: 19px;
 }
 
-.text-content ul {
+.user-content ul {
 	margin-bottom: 11px;
 	margin-left: 33px;
 }
 
-.text-content ol {
+.user-content ol {
 	margin-bottom: 11px;
 	margin-left: 33px;
 }
 
-.text-content li {
+.user-content li {
 	line-height: 20px;
 	margin-bottom: 0;
+	background: transparent url(../img/framework-css/list/li-bg.png) left 6px no-repeat;
+	list-style:none;
+	padding-left: 16px;
 }
 
-	.text-content ul li {
-		background: transparent url(../img/framework-css/list/li-bg.png) left 6px no-repeat;
-		list-style:none;
-		padding-left: 16px;
-	}
+.user-content ol li {
+	background: transparent;
+	padding-left: 0;
+}
 
 .title,
 h1.title, h2.title, h3.title, h4.title, h5.title, h6.title, p.title, span.title, a.title, li.title  {
+	color: #4c4c4c;
 	font-family: "Georgia", Times, serif;
 	font-size: 18px;
+	letter-spacing: 0em;	
 	line-height: 22px;	
+	font-weight: normal;
 	margin: 0px 0 10px 0;
 	padding:0;	
 }
 
 .title a, .title a:link, .title a:hover, .title a:visited, .title a:focus,
 .title span {
+	color: #4c4c4c;
 	font-family: "Georgia", Times, serif;
 	font-size: 18px;
+	font-weight: normal;
+	letter-spacing: 0em;
 	line-height: 25px;
 	margin:0;
 	padding:0;
 	text-decoration: none;
 }
 
+	.title a:hover {
+		text-decoration: underline;
+	}
 	/*taille medium */
 	.title.medium {
 		font-family: "Georgia", Times, serif;
@@ -104,4 +115,21 @@ h1.title, h2.title, h3.title, h4.title, h5.title, h6.title, p.title, span.title,
 	font-family: "Helvetica", Arial, sans-serif;
 	font-size: 12px;
 	line-height: 16px;
+}
+
+.tag {
+	color: #13569E;
+	font-size: 11px;
+} 
+
+.tag a {
+	font-size: 11px;
+	font-weight: normal;
+	color: #13569E;      
+}
+
+.tag a:hover {
+	font-weight: normal;
+	color: #13569E;
+	text-decoration: none;
 }

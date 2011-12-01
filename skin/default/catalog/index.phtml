@@ -4,29 +4,25 @@
 {include file="common/css.phtml"}
 </head>
 <body class="catalog root">
-	<div id="header" class="full">
-		<div class="container">
-			{include file="common/top.phtml"}
-		</div>
-	</div>
+	{include file="common/top.phtml"}
 	<div id="content" class="full">
 		<div class="full-top"></div>
 		<div class="full-repeat">
 			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat text-content">
-					    <ul class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
-							<li>></li>
+				<div id="contentCol" class="block w10-16 lfloat">
+					    <ol class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a> > </li>
 					   		<li>{#topmenu_catalog_t#|firststring}</li>
-						</ul>          						
+						</ol>          						
 						{widget_catalog_cat_display 
 							css_param=[
 								'id_container' => 'choose-id1', 
-								'class_container'=>'ch1-2 ch-light',
-								'class_elem'=>'child',
+								'class_container' => 'ch1-2 ch-light',
+								'class_elem' => 'child',
+								'class_box' => 'box',
 			  					'class_name' => 'name',
-								'class_img'=>'img',
-			  					'class_desc' =>'desc'
+								'class_img' => 'img',
+			  					'class_desc' =>'descr'
 							] 
 							tposition="bottom" 
 			 				col=2 

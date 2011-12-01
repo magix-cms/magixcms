@@ -2,22 +2,22 @@
 * Note !!
 * suppression du background pour le listing des images
 */
-.text-content .list-img{margin-left: 0;}
-.text-content .list-img li{background:none;}
+/*.text-content .list-img{margin-left: 0;}
+/*.text-content .list-img li{background:none;} PROBLEME REGLE
 /*######*/
 /* ######
 * Note !!
 * Classe css de validation jQuery
-*/
+
 .stateVal{
 	color:#FCA6A6;
 	display: block;
-}
+}*/  /*  INTEGRE DANS FORMS.CSS  */
 /* ######
 * Note !!
 * image du produit (ajout d'un overflow si image trop importante en largeur)
 */
-#product-img{overflow:hidden;}
+/*#product-img{overflow:hidden;}  INTEGRER DANS STYLE.CSS */
 /* ######
 * Note !!
 * Voir les tags des news (définir une logique pour l'affichage des tags)
@@ -27,6 +27,8 @@
 	display:block;
 	margin: 5px 0;
 }
+/* Faudrait faire un class spécial genre .list-news tag {} */
+/*
 .tag {
 	color: #13569E;
 	font-size: 11px;
@@ -42,9 +44,9 @@
 	font-weight: normal;
 	color: #13569E;
 	text-decoration: none;
-}
+} INTEGRE DANS FONT.CSS */
 /** pagination START **/
-.pagination .current,
+/*.pagination .current,
 .pagination a  {
 	display: inline;
 	font-size: 12px;
@@ -52,13 +54,15 @@
 	margin: 0 3px;
 	text-decoration:none;
 }
+ intégré dans list.css */
+/*
 .pagination.bg-light .current{
 	background-color:#4C4C4C;
 	color:#FFF;
 	padding:3px;
-}
+}*//*
 .pagination.bg-dark .current{
 	background-color:#FFF;
 	color:#4C4C4C;
-	padding:3px;
-}
+	padding:3px;}
+A traiter au cas par cas, pas necessaire d'intégrer/=

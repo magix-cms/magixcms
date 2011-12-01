@@ -4,30 +4,26 @@
 {include file="common/css.phtml"}
 </head>
 <body class="cms">
-	<div id="header" class="full">
-		<div class="container">
-			{include file="common/top.phtml"}
-		</div>
-	</div>
+	{include file="common/top.phtml"}
 	<div id="content" class="full">
 		<div class="full-top"></div>
 		<div class="full-repeat">
 			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat text-content">
-						<ul class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
-							<li>></li>
+				<div id="contentCol" class="block w10-16 lfloat">
+						<ol class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a> > </li>
 							{if $uri_page_p != null}
-					   		<li><a href="{$uri_page_p}">{$title_page_p}</a></li>
-					   		<li>></li>
+					   		<li><a href="{$uri_page_p}">{$title_page_p}</a> > </li>
 					   		<li>{$title_page}</li>
 					   		{else}
 					   		<li>{$title_page}</li>
 					   		{/if}
-					   	</ul>
+					   	</ol>
 						<div class="date rfloat">{$last_update|date_format:"%d-%m-%y"}</div>
 						<h1>{$title_page}</h1>
-						{$content_page}
+						<div class="user-content">
+							{$content_page}
+						</div>
 					</div>
 				<div id="rightCol" class="block w6-16 lfloat last">
 					{include file="common/colright.phtml"}	

@@ -38,12 +38,23 @@
  * Date:     
  * Update:   01-08-2011
  * Purpose:  
- * Examples: {load_catalog_category
- * 				css_param=[
-					'class_container'=>'list-div w11-32 medium',
-					'class_elem'=>'list-div-elem',
-					'class_img'=>'img'
-				] size="medium" tposition="bottom" description=false}
+ * Examples: 
+{widget_catalog_cat_load_products 
+	css_param=[
+		'class_container' => 'ch1-4 ch-light',
+		'class_elem' => 'child',
+		'class_box' => 'box',
+  		'class_name' => 'name',
+		'class_img' => 'img',
+		'class_desc' => 'descr'
+	]
+	tposition="bottom" 
+	price=false 
+	description=false 
+	size="mini" 
+	col="4"
+}
+	
  * Output:   
  * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
@@ -66,10 +77,20 @@ function smarty_function_widget_catalog_cat_load_products($params, $template){
 	}else{
 		$tabs= array(
 			'class_container'=>'ch1-4 ch-light',
-			'class_elem'=>'child',
-			'class_img'=>'img'
+			'class_elem' => 'child',
+			'class_box' => 'box',
+	  		'class_name' => 'name',
+			'class_img' => 'img',
+			'class_desc' => 'descr'
 		);
 	}
+	// Variables pour les class des éléments
+	$class_container = ($tabs['class_container'] != null)? ' class="' . $tabs['class_container'] . '"' : '' ;
+	$class_elem = ($tabs['class_elem'] != null)?  $tabs['class_elem'] : null ;
+	$class_box = ($tabs['class_box'] != null)?  ' class="' . $tabs['class_box'] . '"' : '' ;
+	$class_name = ($tabs['class_name'] != null)? ' class="' . $tabs['class_name'] . '"' : '' ;
+	$class_img = ($tabs['class_img'] != null)? ' class="' . $tabs['class_img'] . '"' : '' ;
+	$class_desc = ($tabs['class_desc'] != null)? ' class="' . $tabs['class_desc'] . '"' : '' ;
 	//Test si lidentifiant de la catégorie existe
 	if(isset($_GET['idclc'])){
 		$idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
@@ -109,7 +130,7 @@ function smarty_function_widget_catalog_cat_load_products($params, $template){
 	if($lang){
 		$product = null;
 		if(frontend_db_block_catalog::s_product_in_category($idclc,$lang) != null){
-			$product .= '<div class="'.$tabs['class_container'].'">'."\n";
+			$product .= '<div'.$class_container.'>'."\n";
 			foreach(frontend_db_block_catalog::s_product_in_category($idclc,$lang) as $cat){
 				if ($i == $last ) {
 					//$class= $class_b . 'last' . $class_e;
@@ -121,26 +142,28 @@ function smarty_function_widget_catalog_cat_load_products($params, $template){
 					$i++;
 				}
 				$uri_product = magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],null,null,$cat['urlcatalog'],$cat['idproduct'],true);
-				$product .= '<div class="'.$tabs['class_elem'].$last_elem.'">'."\n";
-				if($tposition == 'top'){
-					$product .= '<p class="name"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
-				}
-				if($cat['imgcatalog'] != null){
-					$product .= '<a class="'.$tabs['class_img'].'" href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" /></a>';
-				}else{
-					$product .= '<a class="'.$tabs['class_img'].'" href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
-				}
-				if($tposition == 'bottom'){
-					$product .= '<p class="name"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
-				}
-				if($description != false){
-					if($cat['desccatalog'] != null){
-						$product .= '<span class="descr">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</span>';
+				$product .= '<div class="'. $class_elem . $last_elem .'">'."\n";
+					$product .= '<div'. $class_box .'>'."\n";
+					if($tposition == 'top'){
+						$product .= '<p'.$class_name.'><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
 					}
-				}
-				if($price != false){
-					$product .= '<span class="price">€ '.number_format($cat['price'], 2, '.', ',').'</p>';
-				}
+					if($cat['imgcatalog'] != null){
+						$product .= '<a'.$class_img.'" href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" /></a>';
+					}else{
+						$product .= '<a'.$class_img.'" href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
+					}
+					if($tposition == 'bottom'){
+						$product .= '<p'.$class_name.'><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
+					}
+					if($description != false){
+						if($cat['desccatalog'] != null){
+							$product .= '<span'.$class_desc.'>'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</span>';
+						}
+					}
+					if($price != false){
+						$product .= '<span class="price">€ '.number_format($cat['price'], 2, '.', ',').'</p>';
+					}
+					$product .= '</div>'."\n";
 				$product .= '</div>'."\n";
 			}
 			$product .= '</div>'."\n";

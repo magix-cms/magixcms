@@ -9,7 +9,7 @@
 			-jlanguage
 			-jrewritemetas
 			-jsitemap
-	* Upgrade jQuery 1.5.2 => 1.7
+	* Upgrade jQuery 1.5.2 => 1.7.1
 	* Adaptation des plugins tinyMCE avec jQuery 1.7
 	* Upgrade colorbox 1.3.17 => 1.3.18
 	* Upgrade jquery validate 1.8.1 => 1.9 (compatible html5)
@@ -24,6 +24,10 @@
 	* Ajout du correctif pour google plus
 	* Adaptation du système d'installation avec "jimagine"
 	* Ajout du support CSS de la pagination dans le widget list_news(frontend)
+	* Fix bug plugins backend auto installation SQL
+	* Adaptation des fichiers JS backend avec Jimagine (fichier setting)
+	* Fix bug pdw file browser avec php 5.3
+	* Fix bug listing des images dans pdw file browser
 	
 2.3.5RC3
 	* Fix bug pdw configuration (tinyMCE conf)

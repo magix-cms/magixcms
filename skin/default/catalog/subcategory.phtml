@@ -4,33 +4,30 @@
 {include file="common/css.phtml"}
 </head>
 <body class="catalog subcat">
-	<div id="header" class="full">
-		<div class="container">
-			{include file="common/top.phtml"}
-		</div>
-	</div>
+	{include file="common/top.phtml"}
 	<div id="content" class="full">
 		<div class="full-top"></div>
 		<div class="full-repeat">
 			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat text-content">
-						<ul class="ariane">
-					    <ul class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
-							<li>></li>
-					   		<li><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#|firststring}">{#topmenu_catalog_t#|firststring}</a></li>
-							<li>></li>
-							<li><a href="{$uri_cat}" title="{$clibelle}">{$clibelle}</a></li>
-							<li>></li>
+				<div id="contentCol" class="block w10-16 lfloat">
+					    <ol class="ariane">
+					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a> > </li>
+					   		<li><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#|firststring}">{#topmenu_catalog_t#|firststring}</a> > </li>
+							<li><a href="{$uri_cat}" title="{$clibelle}">{$clibelle}</a> > </li>
 							<li>{$slibelle}</li>
-						</ul>  	  	
+						</ol>  	  	
 						<h1>{$slibelle}</h1>
-						{$s_content}
+						<div class="user-content">
+							{$s_content}
+						</div>	
 						{widget_catalog_load_products 
 							css_param=[
-								'class_container'=>'ch1-4 ch-light',
-								'class_elem'=>'child',
-								'class_img'=>'img'
+								'class_container' => 'ch1-4 ch-light',
+								'class_elem' => 'child',
+								'class_box' => 'box',
+						  		'class_name' => 'name',
+								'class_img' => 'img',
+								'class_desc' => 'descr'
 							] 
 							tposition="bottom" 
 							description=true 

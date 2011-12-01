@@ -1,4 +1,7 @@
-.list {
+ul.list,
+ul.list-img,
+.list,
+.list-img {
 	margin: 0 0 20px 0;
 	overflow: visible;
 	padding: 0;
@@ -6,61 +9,26 @@
 
 .list li {
 	background: transparent;
-	border-bottom: 1px solid #444;
 	margin: 0 10px 0 0;
 	overflow: visible;
 	padding: 5px;
 }
 
-	.list li:hover {
-		background: #ccc;
-	}
-
-.list .img {
+.float li {
 	display:block;
 	float:left;
-	height: 44px;
-	margin: 0 10px 10px 0;
-	overflow: hidden;
-	padding: 0;
-	text-align: center;
-	width: 44px;
-}
-
-.list .date {
-	color: #4c4c4c;
-	display:block;
-	float:right;
-	font-size: 11px;
-	font-weight: normal;
-	width: 75px; 
-}
-
-.list .name {
-	color: #E1187A;
-	display: block;
-	font-size: 12px;
-	font-weight: bold;	
-	min-height: 25px;
-	text-decoration: none;
-}
-
-.list.float li {
-	border-bottom: 1px solid #CCCCCC ;
-	display:block;
-	float:left;
-	min-height: 15px;
 	margin: 0 10px 10px 0;
 	padding: 0;
 	background:transparent;
 }
 
-.list.float .last {
+.float .last {
 	margin-right: 0px;	
 }
+
 /* list d'images */
 .list-img li {
-	border: none ;
+	background: transparent;
 	display: block;
 	float: left;
 	height: 44px;
@@ -74,8 +42,8 @@
 	margin-right: 0px;
 }
 
-.list-li.img a,
-.list-li.img a:hover  {
+.list-img a,
+.list-img a:hover  {
 	display: block;
 	height: 44px;
 	width: 44px;
@@ -98,7 +66,10 @@
 .treeview .hitarea,
 .treeview div.lastExpandable-hitarea,
 .treeview div.lastCollapsable-hitarea {
-	background: url(../img/framework-css/list/hitarea.png) 0 -26px no-repeat;
+	background-color: transparent;
+	background-image: url(../img/framework-css/list/hitarea.png);
+	background-position: 0 -26px;
+	background-repeat: no-repeat;
 	height: 24px;
 	width: 24px;
 	margin-left: -24px;
@@ -111,61 +82,124 @@
 		background-position: 0 -2px; 
 	}
 
-.treeview .no-link {
-	color: #4C4B4B;
-	cursor:pointer;
-}
-
 .treeview li,
 .treeview li.lastExpandable,
 .treeview li.lastCollapsable { 
-	background: transparent url(../img/framework-css/list/treeview-li-bg.png) center bottom no-repeat;
-	color: #4C4B4B;
-	font-family: "Verdana", sans-serif;
 	margin: 0;
-	padding: 3px 0px 5px 24px;
-}
-
-.treeview  li,
-.treeview  li a {
-	font-size: 12px;
-	text-decoration: none;
-}
-
-.treeview li a.title span {
-	font-size: 14px;
-	font-style: italic;
-}
-
-.treeview ul {
-	background: transparent;
+	padding-left:  24px;
 }
 
 .treeview ul li {
 	background: transparent;
-	padding: 3px 0 1px 5px;
+	padding-left: 10px;
 }
 
-/** Fil d'ariane START **/	
-ul.ariane {
+.no-link {
+	cursor:pointer;
+}
+
+
+/** Fil d'ariane**/	
+.ariane {
 	border-bottom: 1px solid #CCCCCC ;
 	margin: 0 0 10px 0;
 	overflow: hidden;
+	list-style: none;
 }
 
-ul.ariane li,
-ul.ariane span {
+.ariane li,
+.ariane span {
 	background:  none;
 	float: left;
 	margin-right: 5px;
 	padding: 0;
 }
 
-ul.ariane,
-ul.ariane a,
-ul.ariane li  {
+.ariane,
+.ariane a,
+.ariane li  {
 	background: transparent;
 	color: #4c4c4c;
 	font-size: 11px;
 	padding-left: 0px;
+}
+
+/* Horizontal nav with subnav */
+.h-nav li {
+	position: relative;
+	margin: 0;
+}
+
+.h-nav a {
+	display:block;
+	font-size: 18px;
+	height: 40px;
+	line-height: 40px;
+	margin: 0px; 
+	padding: 0 10px;
+	text-decoration: none;
+}
+	
+/* Subnav Start */
+.h-nav ul {
+  display: none;
+  height: auto;
+  margin:0;
+  padding:0;
+  position: absolute;
+    bottom: 40px; 
+     left: 0px;
+  }
+ 
+	.h-nav li:hover ul{
+	  display: block;
+	  margin:0;
+	  padding:0;
+	  position: absolute;
+	    top: 40px; 
+	     left: 0px;
+	  }
+
+.h-nav ul li{
+	float: none;
+	height: auto;
+	margin: 0px;
+	padding: 0px;  
+	text-align: left;
+	width: auto;
+ }
+    
+	.h-nav ul a {
+	  display:block;
+	  font-size: 12px;
+	  font-weight: normal;
+	  min-height: 18px;
+	  height: auto;
+	  line-height: 16px;
+	  margin: 0;
+	  padding: 0;
+	  text-align: left;
+	  text-decoration: none;  
+	  width: 170px;
+	  }
+	  
+/* Pagination */
+.pagination a, .pagination .current {
+    background: none repeat scroll 0 0 #4C4C4C;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-size: 16px;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 6px;
+    text-align: center;
+    width: 24px;
+}
+.pagination .current, .pagination a:hover {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px solid #4C4C4C;
+    color: #4C4C4C;
+    height: 22px;
+    width: 22px;
 }

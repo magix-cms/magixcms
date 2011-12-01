@@ -36,7 +36,7 @@
  * Type:     function
  * Name:     widget_catalog_cat_display
  * Date:     
- * Update:   01-08-2011 
+ * Update:   01-12-2011 
  * Purpose:  
  * Examples: 
  * 			### BASIC ###
@@ -45,6 +45,7 @@
 					'id_container' => 'choose-id', 
 					'class_container'=>'ch1-4 ch-light',
 					'class_elem'=>'child',
+					'class_box'=>'box',
 					'class_name' => 'name',
 					'class_img'=>'img',
 					'class_desc'=>'descr'
@@ -62,6 +63,7 @@
 					'id_container' => 'choose-id', 
 					'class_container'=>'ch1-3 ch-light',
 					'class_elem'=>'child',
+					'class_box'=>'box',
 					'class_name' => 'name',
 					'class_img'=>'img',
 					'class_desc'=>'descr'
@@ -80,6 +82,7 @@
 					'id_container' => 'choose-id', 
 					'class_container'=>'ch1-2 ch-light',
 					'class_elem'=>'child',
+					'class_box'=>'box',
 					'class_name' => 'name',
 					'class_img'=>'img',
 					'class_desc'=>'descr'
@@ -94,7 +97,7 @@
  * Output:   
  * @link 	http://www.magix-dev.be
  * @author   Gerits Aurelien
- * @version  1.4
+ * @version  1.5
  * @param array
  * @param Smarty
  * @return string
@@ -234,15 +237,17 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 				'id_container' => null,
 				'class_container'=>'ch1-4 ch-light',
 				'class_elem'=>'child',
+				'class_box'=>'box',
 				'class_name' => 'name',
 				'class_img'=>'img',
-				'class_desc'=>'desc'
+				'class_desc'=>'descr'
 			);
 	}	
 	// Variables pour les class des éléments
 	$id_container =  ($tabs['id_container'] != null)? ' id="' . $tabs['id_container'] . '"' : '' ;
 	$class_container = ($tabs['class_container'] != null)? ' class="' . $tabs['class_container'] . '"' : '' ;
 	$class_elem = ($tabs['class_elem'] != null)?  $tabs['class_elem'] : null ;
+	$class_box = ($tabs['class_box'] != null)?  ' class="' . $tabs['class_box'] . '"' : '' ;
 	$class_name = ($tabs['class_name'] != null)? ' class="' . $tabs['class_name'] . '"' : '' ;
 	$class_img = ($tabs['class_img'] != null)? ' class="' . $tabs['class_img'] . '"' : '' ;	
 	$class_desc = ($tabs['class_desc'] != null)? ' class="' . $tabs['class_desc'] . '"' : '' ;	
@@ -262,6 +267,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 	if ($fct_sql != null){
 
 		$block .= '<div'. $id_container . $class_container .'>'."\n";
+		
 		foreach ($fct_sql as $cat) {
 
 			// | CONSTRUCTION DES CLASS
@@ -296,7 +302,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 
 				// Construction NOM catégorie
 				//-----------------------------------
-				$name_cat = '<p '. $class_name .'>';
+				$name_cat = '<p'.$class_name .'>';
 					$name_cat .= '<a href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">';
 						$name_cat .= magixcjquery_string_convert::ucFirst($cat['clibelle']);
 					$name_cat .= '</a>';
@@ -304,7 +310,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 
 				// Construction IMAGE catégorie
 				//----------------------------------------
-				$img_cat = '<a '. $class_img .'  href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">';
+				$img_cat = '<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_catalog_category_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],true).'">';
 					if ($cat['img_c'] != null){					
 					$img_cat .=	'<img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$cat['img_c'],'levelmod'=>'category')).'" alt="'.$cat['clibelle'].'" />';
 				} else {
@@ -314,7 +320,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 
 				// Construction Description catégorie
 				//----------------------------------------
-				$desc_cat = '<span '. $class_desc .'>';
+				$desc_cat = '<span'. $class_desc .'>';
 					$desc_cat .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['c_content'],$length,$delimiter));
 				$desc_cat .= '</span>';
 
@@ -322,6 +328,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 			// | CONSTRUCTION ENFANT (class + elements)
 			// ------------START----------------------		
 			$block .= '<div'. $class_child .'>'."\n";
+			$block .= '<div'. $class_box .'>'."\n";
 			if($tposition == 'top'){
 				$block .= $name_cat;
 			}
@@ -332,6 +339,7 @@ function smarty_function_widget_catalog_cat_display($params, $template){
 			if ($description != false) {
 				$block .= $desc_cat;
 			}
+			$block .= '</div>'."\n";
 			$block .= '</div>'."\n";
 			// | CONSTRUCTION ENFANT
 			// ------------END-------------------							
