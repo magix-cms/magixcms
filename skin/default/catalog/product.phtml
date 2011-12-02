@@ -45,38 +45,23 @@
 									'class_container'=>'list-img medium',
 									'class_img'=>'last'
 								]
-							col="3"}
+							col="5"}
 						</div>
 						<div id="rel-product" class="w11-32 lfloat last">
 							<p class="title">Voir aussi</p>
-							{*{widget_catalog_rel_product 
-								idcatalog=$idcatalog 
-								css_param=[
-									'id_container'=>'',
-									'class_container'=>'list-div w5-32 bg dark',
-									'class_elem'=>'list-div-elem',
-									'class_name' => 'name',
-									'class_img'=>'img',
-									'class_desc'=>'descr',
-									'class_price'=>'price'
-								]
-								col="2" 
-								description=false 
-								contentlength="124"
-								size="small" 
-								tposition="bottom"}*}
 								{widget_catalog_rel_product 
 									idcatalog=$idcatalog 
 									css_param=[
-										'id_container'=>'',
+										'id_container'=>'catalog_rel_product',
 										'class_container'=>'ch1-4 ch-light',
-										'class_elem'=>'child',
-										'class_name' => 'name',
-										'class_img'=>'img',
-										'class_desc'=>'descr',
+										'class_elem' => 'child',
+										'class_box' => 'box',
+								  		'class_name' => 'name',
+										'class_img' => 'img',
+										'class_desc' => 'descr',
 										'class_price'=>'price'
 									]
-									col="2" 
+									col="4" 
 									description=false 
 									size="mini" 
 									tposition="bottom"

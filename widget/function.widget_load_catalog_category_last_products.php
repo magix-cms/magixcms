@@ -40,8 +40,8 @@
  * Purpose:  
  * Examples: {load_catalog_category 
 				css_param=[
-					'class_container'=>'list-div w5-32 bg dark',
-					'class_elem'=>'list-div-elem',
+					'class_container'=>'ch1-2 ch-light',
+					'class_elem'=>'child',
 					'class_img'=>'img'
 				] 
 				category=["fr"=>"1"] 
@@ -113,11 +113,25 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
 			return;
 		}
 	}else{
-		$tabs= array('class_container'=>'ch1-2 ch-light',
-				'class_elem'=>'child',
-				'class_img'=>'img'
+		$tabs= array(
+				'id_container'=>'catalog-list-products',
+				'class_container' => 'ch1-2 ch-light',
+				'class_elem' => 'child',
+				'class_box' => 'box',
+		  		'class_name' => 'name',
+				'class_img' => 'img',
+				'class_desc' => 'descr',
+				'class_price'=>'price'
 			);
 	}
+	$id_container =  ($tabs['id_container'] != null)? ' id="' . $tabs['id_container'] . '"' : '' ;
+	$class_container = ($tabs['class_container'] != null)? ' class="' . $tabs['class_container'] . '"' : '' ;
+	$class_elem = ($tabs['class_elem'] != null)?  $tabs['class_elem'] : null ;
+	$class_box = ($tabs['class_box'] != null)?  ' class="' . $tabs['class_box'] . '"' : '' ;
+	$class_name = ($tabs['class_name'] != null)? ' class="' . $tabs['class_name'] . '"' : '' ;
+	$class_img = ($tabs['class_img'] != null)? ' class="' . $tabs['class_img'] . '"' : '' ;
+	$class_desc = ($tabs['class_desc'] != null)? ' class="' . $tabs['class_desc'] . '"' : '' ;
+	$class_price = ($tabs['class_price'] != null)? ' class="' . $tabs['class_price'] . '"' : '' ;
 	$class_b = ' class="';
 	$class_e = '"';
 	$ilast = 1;
@@ -128,8 +142,8 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
         $nb_products = count( frontend_db_block_catalog::s_product_category_by_date($idclc,frontend_model_template::current_Language()) );
         //si le nombre de produits éxistant est inférieur à la limite imposée alors la limite est le nombre de produits existant
         $end = ($nb_products > $limit_products) ? $limit_products : $nb_products ;     
-        $product .= '<div class="'.$tabs['class_container'].'">';
-        $product .= '<div class="catalog-list-products">';
+        $product .= '<div'.$id_container.$class_container.'>';
+        //$product .= '<div class="catalog-list-products">';
           if($title != null){
             $product .= '<p class="title">' . $title . '</p>' ;          
           }  
@@ -151,30 +165,32 @@ function smarty_function_widget_load_catalog_category_last_products($params, $te
           }else{
           	 $uri_product = magixglobal_model_rewrite::filter_catalog_product_url($cat['iso'], $cat['pathclibelle'], $cat['idclc'],null, null, $cat['urlcatalog'], $cat['idproduct'],true);
           }
-          $product .= '<div class="'.$tabs['class_elem'].$last_elem.'">';
+          $product .= '<div class="'.$class_elem.$last_elem.'">';
+          $product .= '<div'. $class_box .'>'."\n";
           if($tposition == 'top'){
-            $product .= '<p class="name"><a href="'.$uri_product.'" title="'.$cat['titlecatalog'].'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
+            $product .= '<p'.$class_name.'><a href="'.$uri_product.'" title="'.$cat['titlecatalog'].'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
           }
           if($cat['imgcatalog'] != null){
-            $product .= '<a class="'.$tabs['class_img'].'" href="'.$uri_product.'" title="'.$cat['titlecatalog'].'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" title="'.$cat['titlecatalog'].'" /></a>';
+            $product .= '<a'.$class_img.' href="'.$uri_product.'" title="'.$cat['titlecatalog'].'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" title="'.$cat['titlecatalog'].'" /></a>';
           }else{
-            $product .= '<a class="'.$tabs['class_img'].'"  href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
+            $product .= '<a'.$class_img.'  href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
           }
           if($tposition == 'bottom'){
-            $product .= '<p class="name"><a href="'.$uri_product.'" title="'.$cat['titlecatalog'].'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
+            $product .= '<p'.$class_name.'><a href="'.$uri_product.'" title="'.$cat['titlecatalog'].'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
           }
           if($description != false){
           	if($cat['desccatalog'] != null){
-           		$product .= '<span class="descr">'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</span>';
+           		$product .= '<span'.$class_desc.'>'.magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($cat['desccatalog'],$length,$delimiter)).'</span>';
           	}
           }
           if($price != false){
-            $product .= '<span class="price">€ '.number_format($cat['price'], 2, '.', ',').'</span>';
+            $product .= '<span'.$class_price.'>€ '.number_format($cat['price'], 2, '.', ',').'</span>';
           }
+          $product .= '</div>';
           $product .= '</div>';
           $i++;
          } while($i < $end);          
-        $product .= '</div>';
+        //$product .= '</div>';
         $product .= '<div class="clear"></div>';
         $product .= '</div>';
       }

@@ -43,12 +43,13 @@
  * 			{widget_catalog_rel_product 
 				idcatalog=$idcatalog 
 				css_param=[
-					'id_container'=>'',
-					'class_container'=>'ch1-4 ch-light',
-					'class_elem'=>'child',
-					'class_name' => 'name',
-					'class_img'=>'img',
-					'class_desc'=>'desc',
+					'id_container'=>'choose-id',
+					'class_container'=>'ch1-2 ch-light',
+					'class_elem' => 'child',
+					'class_box' => 'box',
+			  		'class_name' => 'name',
+					'class_img' => 'img',
+					'class_desc' => 'descr',
 					'class_price'=>'price'
 				]
 				col="2" 
@@ -60,14 +61,14 @@
 		### WITH EXCLUDE ####	
 			{widget_catalog_rel_product 
 				idcatalog=$idcatalog 
-				idcatalog=$idcatalog 
 				css_param=[
-					'id_container'=>'',
+					'id_container'=>'choose-id',
 					'class_container'=>'ch1-4 ch-light',
-					'class_elem'=>'child',
-					'class_name' => 'name',
-					'class_img'=>'img',
-					'class_desc'=>'desc',
+					'class_elem' => 'child',
+					'class_box' => 'box',
+			  		'class_name' => 'name',
+					'class_img' => 'img',
+					'class_desc' => 'descr',
 					'class_price'=>'price'
 				]
 				idexclude=['fr'=>['1,3'],'en'=>['7']]
@@ -80,14 +81,14 @@
 			### WITH SELECT ####	
 				{widget_catalog_rel_product 
 				idcatalog=$idcatalog 
-				idcatalog=$idcatalog 
 				css_param=[
-					'id_container'=>'',
-					'class_container'=>'ch1-4 ch-light',
-					'class_elem'=>'child',
-					'class_name' => 'name',
-					'class_img'=>'img',
-					'class_desc'=>'desc',
+					'id_container'=>'choose-id',
+					'class_container'=>'ch1-2 ch-light',
+					'class_elem' => 'child',
+					'class_box' => 'box',
+			  		'class_name' => 'name',
+					'class_img' => 'img',
+					'class_desc' => 'descr',
 					'class_price'=>'price'
 				]
 				idselect=['fr'=>['1,3'],'en'=>['7']]
@@ -203,12 +204,13 @@ if (isset($params['idselect'])) {
 		}
 	}else{
 		$tabs= array(
-			'id_container' => null,
-			'class_container'=>'ch1-4 ch-light',
-			'class_elem'=>'child',
-			'class_name' => 'name',
-			'class_img'=>'img',
-			'class_desc'=>'descr',
+			'id_container'=>'choose-id',
+			'class_container'=>'ch1-2 ch-light',
+			'class_elem' => 'child',
+			'class_box' => 'box',
+	  		'class_name' => 'name',
+			'class_img' => 'img',
+			'class_desc' => 'descr',
 			'class_price'=>'price'
 		);
 	}
@@ -216,6 +218,7 @@ if (isset($params['idselect'])) {
 	$id_container =  ($tabs['id_container'] != null)? ' id="' . $tabs['id_container'] . '"' : '' ;
 	$class_container = ($tabs['class_container'] != null)? ' class="' . $tabs['class_container'] . '"' : '' ;
 	$class_elem = ($tabs['class_elem'] != null)?  $tabs['class_elem'] : null ;
+	$class_box = ($tabs['class_box'] != null)?  ' class="' . $tabs['class_box'] . '"' : '' ;
 	$class_name = ($tabs['class_name'] != null)? ' class="' . $tabs['class_name'] . '"' : '' ;
 	$class_img = ($tabs['class_img'] != null)? ' class="' . $tabs['class_img'] . '"' : '' ;	
 	$class_desc = ($tabs['class_desc'] != null)? ' class="' . $tabs['class_desc'] . '"' : '' ;	
@@ -273,6 +276,7 @@ if (isset($params['idselect'])) {
 			$cat = frontend_db_block_catalog::s_catalog_product_info($prod['idproduct']);
 			$uri_product = magixglobal_model_rewrite::filter_catalog_product_url($lang,$cat['pathclibelle'],$cat['idclc'],$cat['pathslibelle'],$cat['idcls'],$cat['urlcatalog'],$cat['idproduct'],true);
 			$product .= '<div'.$class_child.'>';
+			$product .= '<div'. $class_box .'>'."\n";
 			if($tposition == 'top'){
 				$product .= '<p class="name"><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
 			}
@@ -290,6 +294,7 @@ if (isset($params['idselect'])) {
 			if($price != false){
 				$product .= '<span'.$class_price.'>€ '.number_format($cat['price'], 2, '.', ',').'</span>';
 			}
+			$product .= '</div>';
 			$product .= '</div>';
 		}
 		$product .= '<div class="clear"></div>';

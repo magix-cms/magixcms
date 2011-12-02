@@ -33,9 +33,12 @@
 /**
  * Smarty {widget_catalog_load_products 
 				css_param=[
-					'class_container'=>'',
-					'class_elem'=>'',
-					'class_img'=>''
+					'class_container'=>'ch1-4 ch-light',
+					'class_elem' => 'child',
+					'class_box' => 'box',
+			  		'class_name' => 'name',
+					'class_img' => 'img',
+					'class_desc' => 'descr'
 				] tposition="bottom" description=true price=false size=medium col="4"} 
  * function plugin
  *
@@ -46,9 +49,12 @@
  * Purpose:  
  * Examples: {widget_catalog_load_products 
 				css_param=[
-					'class_container'=>'list-div border w11-64 bg medium',
-					'class_elem'=>'list-div-elem',
-					'class_img'=>'img'
+					'class_container'=>'ch1-4 ch-light',
+					'class_elem' => 'child',
+					'class_box' => 'box',
+			  		'class_name' => 'name',
+					'class_img' => 'img',
+					'class_desc' => 'descr'
 				] tposition="bottom" description=true size=medium col="4"}
  * Output:   
  * @link http://www.magix-dev.be

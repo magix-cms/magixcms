@@ -36,12 +36,17 @@
 		tag=""
 	}
 	</div>
-	<div class="block w6-16 bg-light last">
+	<div class="block w6-16 last">
 	 	{widget_load_catalog_category_last_products 
 	 		css_param=[ 
-				'class_container'=>'ch1-2 ch-light',
-				'class_elem'=>'child',
-				'class_img'=>'img'
+	 			'id_container'=>'catalog-list-products',
+				'class_container' => 'ch1-2 ch-light',
+				'class_elem' => 'child',
+				'class_box' => 'box',
+		  		'class_name' => 'name',
+				'class_img' => 'img',
+				'class_desc' => 'descr',
+				'class_price'=>'price'
 			] 
 	 		category=["fr"=>"1"] 
 	 		limit_products="4" 
