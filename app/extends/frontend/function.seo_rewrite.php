@@ -5,7 +5,7 @@
  * @copyright  Copyright (c) 2010 - 2011 Dance connexion
  * @license    Proprietary software
  * @version    1.0
- * @author Gérits Aurélien <aurelien@web-solution-way.be>
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
  * SEO REWRITE METAS
  *
  */

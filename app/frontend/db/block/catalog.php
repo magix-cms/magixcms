@@ -25,7 +25,7 @@
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
- * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @author Gérits Aurélien <aurelien@magix-cms.com> | <gerits.aurelien@gmail.com>
  *
  */
 class frontend_db_block_catalog{

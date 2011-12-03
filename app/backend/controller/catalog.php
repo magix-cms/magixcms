@@ -2131,7 +2131,7 @@ class backend_controller_catalog extends analyzer_catalog{
 }
 /**
  * Class pour les statistiques du catalogue
- * @author Gérits Aurélien <aurelien@web-solution-way.be> | <gerits.aurelien@gmail.com>
+ * @author Gérits Aurélien <aurelien@magix-cms.com> | <gerits.aurelien@gmail.com>
  *
  */
 class analyzer_catalog{
