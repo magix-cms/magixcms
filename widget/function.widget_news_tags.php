@@ -35,22 +35,23 @@
  * function plugin
  *
  * Type:     function
- * Name:     widget news
+ * Name:     widget news tags
  * Date:     Jully 21 2011
- * Update:   8 August 2011
+ * Update:   2 December 2011 22:30
  * Purpose:  
  * Examples: {widget_news_tags
 				css_param=[
-					'class_container'=>'list-div medium',
+					'class_container'=>'ch1-2 ch-light',
 					'class_name'=>'name',
-					'class_elem'=>'list-div-elem',
+					'class_elem'=>'child',
+					'class_box'=>'box',
 					'class_img'=>'img',
-				'class_desc'=>'descr'
-				]}
+					'class_desc'=>'descr'
+				] col=2}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.5
+ * @version  1.6
  * @param array
  * @param Smarty
  * @return string
@@ -69,10 +70,17 @@ function smarty_function_widget_news_tags($params, $template){
 				'class_container'=>'ch1-2 ch-light',
 				'class_name'=>'name',
 				'class_elem'=>'child',
+				'class_box'=>'box',
 				'class_img'=>'img',
 				'class_desc'=>'descr'
 			);
 	}
+	$class_container = ($tabs['class_container'] != null)? ' class="' . $tabs['class_container'] . '"' : '' ;
+	$class_elem = ($tabs['class_elem'] != null)?  $tabs['class_elem'] : null ;
+	$class_box = ($tabs['class_box'] != null)?  ' class="' . $tabs['class_box'] . '"' : '' ;
+	$class_name = ($tabs['class_name'] != null)? ' class="' . $tabs['class_name'] . '"' : '' ;
+	$class_img = ($tabs['class_img'] != null)? ' class="' . $tabs['class_img'] . '"' : '' ;
+	$class_desc = ($tabs['class_desc'] != null)? ' class="' . $tabs['class_desc'] . '"' : '' ;
 	// Parametre pour la description du produit
 	$length = magixcjquery_filter_isVar::isPostNumeric($params['contentlength'])? $params['contentlength']: 240 ;
 	// Le délimiteur pour tronqué le texte
@@ -107,15 +115,16 @@ function smarty_function_widget_news_tags($params, $template){
 				}else{
 					$image = '<img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 				}
-				$news .= '<div class="'.$tabs['class_elem'].$last_elem.'">';
-				$news .='<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
+				$news .= '<div class="'. $class_elem . $last_elem .'">';
+				$news .= '<div'. $class_box .'>'."\n";
+				$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
 				$news .= $image;
 				$news .='</a>';
 				
-				$news .='<p class="'.$tabs['class_name'].'">';
+				$news .='<p'.$class_name .'>';
 					$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 				$news .= '</p>';
-				$news .= '<span class="'.$tabs['class_desc'].'">';
+				$news .= '<span'. $class_desc .'>';
 					$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
 				$news .= '</span>';
 				$news .= '<div class="clear"></div>';
@@ -130,6 +139,7 @@ function smarty_function_widget_news_tags($params, $template){
 					$news .= implode(',', $tagnews);
 					$news .= '</span>';
 				} 
+				$news .= '</div>';
 				$news .= '</div>';
 			}
 		}
