@@ -3,7 +3,7 @@
  * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    0.2
+ * @version    0.3
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name ns_jcatalog_product
  *
