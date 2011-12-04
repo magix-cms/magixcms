@@ -9,6 +9,7 @@
 			-jlanguage
 			-jrewritemetas
 			-jsitemap
+			-jcatalog 0.2 => 0.3
 	* Upgrade jQuery 1.5.2 => 1.7.1
 	* Adaptation des plugins tinyMCE avec jQuery 1.7
 	* Upgrade colorbox 1.3.17 => 1.3.18
@@ -28,6 +29,7 @@
 	* Adaptation des fichiers JS backend avec Jimagine (fichier setting)
 	* Fix bug pdw file browser avec php 5.3
 	* Fix bug listing des images dans pdw file browser
+	* adaptation du fichier jcatalog 0.3 + minification du fichier et inclusion dans le catalogue
 	
 2.3.5RC3
 	* Fix bug pdw configuration (tinyMCE conf)
