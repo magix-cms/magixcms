@@ -203,3 +203,8 @@ ul.list-img,
     height: 22px;
     width: 22px;
 }
+/*TAG*/
+.tag {
+	display:block;
+	margin: 5px 0;
+}
