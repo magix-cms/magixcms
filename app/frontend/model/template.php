@@ -129,36 +129,88 @@ class frontend_model_template extends db_theme{
 		return self::frontendTheme()->load_theme();
 	}
 	/**
-	 * Affiche les pages phtml
-	 * @param void $page
+	 * Chargement des widgets additionnel du template courant
+	 * @param void $smarty
+	 * @param void $rootpath
+	 * @throws Exception
 	 */
-	public static function display($page,$plugin=''){
-		return frontend_config_smarty::getInstance()->display($page);
+	public static function addWidgetDir($smarty,$rootpath,$debug=false){
+		if (!self::frontendTheme() instanceof frontend_model_template){
+			throw new Exception('template instance is not found');
+		}else{
+			$add_widget_dir = $rootpath."skin/".self::frontendTheme()->load_theme().'/widget/';
+			if(file_exists($add_widget_dir)){
+				if(is_dir($add_widget_dir)){
+					$smarty->addPluginsDir($add_widget_dir);
+				}
+			}
+			if($debug == true){
+				$firephp = new magixcjquery_debug_magixfire();
+				$firephp->magixFireDump('Widget in skin',$smarty->getPluginsDir());
+			}
+		}
 	}
 	/**
-	 * Affiche les pages phtml supplémentaire
-	 * @param void $page
+	 * @access public
+	 * Affiche le template
+	 * @param string|object $template
+	 * @param mixed $cache_id
+	 * @param mixed $compile_id
+	 * @param object $parent
 	 */
-	public static function fetch($page,$plugin=''){
-		return frontend_config_smarty::getInstance()->fetch($page);
+	public static function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
+		return frontend_config_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
 	}
 	/**
+	 * @access public
+	 * Retourne le template
+	 * @param string|object $template
+	 * @param mixed $cache_id
+	 * @param mixed $compile_id
+	 * @param object $parent
+	 * @param bool   $display           true: display, false: fetch
+     * @param bool   $merge_tpl_vars    if true parent template variables merged in to local scope
+     * @param bool   $no_output_filter  if true do not run output filter
+     * @return string rendered template output
+	 */
+	public static function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
+		return frontend_config_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+	}
+	/**
+	 * @access public
 	 * Assign les variables dans les fichiers phtml
-	 * @param void $page
+	 * @param void $tpl_var
+	 * @param string $value
+	 * @param bool $nocache
 	 */
-	public static function assign($assign,$fetch){
-		return frontend_config_smarty::getInstance()->assign($assign,$fetch);
+	public static function assign($tpl_var, $value = null, $nocache = false){
+		return frontend_config_smarty::getInstance()->assign($tpl_var,$value);
+		if (is_array($tpl_var)){
+			return frontend_config_smarty::getInstance()->assign($tpl_var);
+		}else{
+			if($tpl_var){
+				return frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+			}else{
+				throw new Exception('Unable to assign a variable in template');
+			}
+		}
 	}
 	/**
-	 * Charge les variables du fichier de config dans le site
+	 * Test si le cache est valide
+	 * @param string|object $template
+	 * @param mixed $cache_id
+	 * @param mixed $compile_id
+	 * @param object $parent
+	 */
+	public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
+		return frontend_config_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
+	}
+	/**
+	 * Charge les variables du fichier de configuration dans le site
 	 * @param string $varname
 	 */
-	public static function getConfigVars($varname){
-		if($varname != null){
-			return frontend_config_smarty::getInstance()->getConfigVars($varname);
-		}else{
-			throw new Exception("getConfigVars is null");
-		}
+	public static function getConfigVars($varname = null, $search_parents = true){
+		return frontend_config_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
 	/**
 	 * Ajoute un ou plusieurs dossier de configuration et charge les fichiers associés ainsi que les variables

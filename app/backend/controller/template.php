@@ -76,7 +76,7 @@ class backend_controller_template{
 	 */
 	public static function assign($tpl_var, $value = null, $nocache = false){
 		if (is_array($tpl_var)){
-			return frontend_config_smarty::getInstance()->assign($tpl_var);
+			return backend_config_smarty::getInstance()->assign($tpl_var);
 		}else{
 			if($tpl_var){
 				return backend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
@@ -86,7 +86,7 @@ class backend_controller_template{
 		}
 	}
 	/**
-	 * Charge les variables du fichier de config dans le site
+	 * Charge les variables du fichier de configuration dans le site
 	 * @param string $varname
 	 */
 	public static function getConfigVars($varname = null, $search_parents = true){

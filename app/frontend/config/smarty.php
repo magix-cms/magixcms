@@ -89,25 +89,26 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = array(self::setPath()."/locali18n/");
+		$this->config_dir = array(self::setPath()."locali18n/");
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = array(self::setPath()."/skin/".frontend_model_template::frontendTheme()->themeSelected().'/');
+		$this->template_dir = array(self::setPath()."skin/".frontend_model_template::frontendTheme()->themeSelected().'/');
 		/**
 		 * path plugins
 		 * @var void
 		 */
 		$this->plugins_dir = array(
-			self::setPath().'/lib/smarty3/plugins/'
-			,self::setPath().'/app/extends/core/'
-			,self::setPath().'/app/extends/frontend/'
-			,self::setPath().'/widget/'
+			self::setPath().'lib/smarty3/plugins/'
+			,self::setPath().'app/extends/core/'
+			,self::setPath().'app/extends/frontend/'
+			,self::setPath().'widget/'
 		);
+		frontend_model_template::frontendTheme()->addWidgetDir($this,self::setPath(),false);
 		/**
 		 * Path -> compile
 		 */
-		$this->compile_dir = self::setPath()."/var/templates_c/";
+		$this->compile_dir = self::setPath()."var/templates_c/";
 		/**
 		 * debugging (true/false)
 		 */
@@ -133,7 +134,7 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::setPath().'/var/cache/';
+		$this->cache_dir = self::setPath().'var/cache/';
 		/**
 		 * load pre filter
 		 */
