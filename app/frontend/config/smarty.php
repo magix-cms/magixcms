@@ -104,6 +104,9 @@ class frontend_config_smarty extends Smarty{
 			,self::setPath().'app/extends/frontend/'
 			,self::setPath().'widget/'
 		);
+		/**
+		 * Ajout du dossier additionnels des plugins smarty dans le template courant
+		 */
 		frontend_model_template::frontendTheme()->addWidgetDir($this,self::setPath(),false);
 		/**
 		 * Path -> compile

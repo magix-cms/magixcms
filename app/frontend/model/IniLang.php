@@ -22,7 +22,7 @@
  * MAGIX CMS
  * @category   MODEL 
  * @package    frontend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
@@ -115,7 +115,12 @@ class frontend_model_IniLang{
 			setlocale(LC_TIME, 'en_US.UTF8', 'en');
 		}
 	}
+	/**
+	 * @access public
+	 * autoLangSession
+	 */
 	public function autoLangSession(){
+		$this->setTimeLocal();
 		$this->loadGlobalLang();
 	}
 }

@@ -40,7 +40,7 @@ if (file_exists($config)) {
 	print 'Error config Files';
 	exit;
 }*/
-setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
+//setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
 if(defined('M_LOG')){
 	if(M_LOG == 'debug'){
 		$dis_errors = 1;
