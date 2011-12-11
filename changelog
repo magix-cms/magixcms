@@ -1,3 +1,19 @@
+2.3.5
+	* Upgrade jquery form 2.87 => 2.93
+	* Adaptation des plugins tinymce avec jquery form 2.93
+	* Adaptation du plugin clearcache avec jimagine et jquery 1.7
+	* Fix bug insertion et suppression des éléments dans le plugin contact adaptation avec jimagine)
+	* Ajout de la fonction setTimeLocal dans le passage des langues et l'utilisation des dates suivant la langue.
+	* Modification de l'entête des scripts
+	* Ajout de la surcharge des widgets dans les templates (addWidgetDir)
+	* Fix bug paramètres fetch,assign,display (template) avec is_cached
+	* Ajout de la surcharge des widgets dans le core de la classe smarty frontend
+	* Fix bug position des tags dans les news
+	* Fix bug pagination dans les news + autres modules
+	* Suppression de correctif.css
+	* Ajout de la localization dans jquery validate
+	* Modification du formulaire de contact pour le chargement de l'isovalidate
+	
 2.3.5RC4
 	* Configuration du nouveau template (default v2) + adaptation des widgets avec le framework CSS
 	* Intégration de la boite à outils JS (Jimagine) dans l'administration (backend)
