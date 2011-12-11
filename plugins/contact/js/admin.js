@@ -1,7 +1,7 @@
 /**
  * MAGIX CMS
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.0
  * @author Gérits Aurélien <aurelien@magix-cms.com>
@@ -15,15 +15,18 @@ $(function() {
      * Requête ajax pour l'ajout des contacts
      */
 	 $("#forms-plugins-contact").submit(function(){
-		$.notice({
-			ntype: "ajaxsubmit",
-    		delay: 2800,
-    		dom: this,
-    		uri: '/admin/plugins.php?name=contact&add',
-    		typesend: 'post',
-    		resetform:false,
-    		time:2,
-    		reloadhtml:true
+		$.nicenotify({
+			ntype: "submit",
+			uri: '/admin/plugins.php?name=contact&add',
+			typesend: 'post',
+			idforms: $(this),
+			beforeParams:function(){},
+			successParams:function(e){
+				$.nicenotify.initbox(e,{
+					//display:false,
+					reloadhtml:true
+				});
+			}
 		});
 		return false; 
 	});
@@ -38,19 +41,19 @@ $(function() {
 			height:140,
 			modal: true,
 			title: 'Supprimé ce contact',
-			overlay: {
-				backgroundColor: '#000',
-				opacity: 0.5
-			},
 			buttons: {
 				'Delete item': function() {
 					$(this).dialog('close');
-					$.notice({
+					$.nicenotify({
 						ntype: "ajax",
-			    		uri:  "/admin/plugins.php?name=contact&dcontact="+lg,
-			    		typesend: 'get',
-			    		time:2,
-			    		reloadhtml:true
+						uri: "/admin/plugins.php?name=contact&dcontact="+lg,
+						typesend: 'get',
+						successParams:function(e){
+							$.nicenotify.initbox(e,{
+								display:false,
+								reloadhtml:true
+							});
+						}
 					});
 				},
 				Cancel: function() {
