@@ -42,8 +42,8 @@ class plugins_clearcache_admin{
 	 * Constructor
 	 */
 	function __construct(){
-		if(magixcjquery_filter_request::isGet('clear')){
-			$this->clear = (string) magixcjquery_form_helpersforms::inputClean($_GET['clear']);
+		if(magixcjquery_filter_request::isPost('clear')){
+			$this->clear = (string) magixcjquery_form_helpersforms::inputClean($_POST['clear']);
 		}
 	}
 	/**
@@ -79,7 +79,7 @@ class plugins_clearcache_admin{
 	 * Execute le suppression du/des caches
 	 * @access private
 	 */
-	private function exec_clear(){
+	private function initStartClear(){
 		switch($this->clear){
 			case "caches":
 				$this->clear_dir_caches('caches');
@@ -99,7 +99,7 @@ class plugins_clearcache_admin{
 	public function run(){
 		//Si on veut supprimer les caches
 		if(isset($this->clear)){
-			$this->exec_clear();
+			$this->initStartClear();
 		//Si on veut modifier un onglet catalogue
 		}else{
 			// Retourne la page index.phtml

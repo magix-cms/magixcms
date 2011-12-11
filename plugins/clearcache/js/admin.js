@@ -1,9 +1,9 @@
 /**
  * MAGIX CMS
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.logiciel-referencement-professionnel.com http://www.magix-cjquery.com
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.1
+ * @version    1.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name adminjs
  * @package plugins
@@ -17,27 +17,31 @@ $(function(){
         },
         text: true
     });
-	$('#clear-minify-cache').click(function (){
+	$('#clear-minify-cache').on('click','a',function(event){
+		event.preventDefault();
 		$("#clearcache-dialog").dialog({
 			bgiframe: true,
 			resizable: false,
 			minHeight:200,
 			modal: true,
 			title: 'Suppression des fichiers de minify',
-			overlay: {
-				backgroundColor: '#000',
-				opacity: 0.5
-			},
 			buttons: {
 				'Vider le cache': function() {
 					$(this).dialog('close');
-					$.notice({
+					$.nicenotify({
 						ntype: "ajax",
-						uri: "/admin/plugins.php?name=clearcache&clear=caches",
-						typesend: 'get',
-						delay: 1800,
-						time:1,
-						reloadhtml:false
+						uri: "/admin/plugins.php?name=clearcache",
+						typesend: 'post',
+						noticedata:"clear=caches",
+						beforeParams:function(){
+							$('#clear-minify-cache a').hide();
+							$('#clear-minify-cache').prepend('<span class="min-loader"><img src="/framework/img/small_loading.gif" width="20" height="20" alt="...loading" /></span>');
+						},
+						successParams:function(e){
+							$('#clear-minify-cache a').show();
+							$('.min-loader').remove();
+							$.nicenotify.initbox(e);
+						}
 					});
 				},
 				Cancel: function() {
@@ -46,27 +50,31 @@ $(function(){
 			}
 		});
 	 });
-	$('#clear-tpl-cache').click(function (){
+	$('#clear-tpl-cache').on('click','a',function (event){
+		event.preventDefault();
 		$("#clearcache-dialog").dialog({
 			bgiframe: true,
 			resizable: false,
 			minHeight:200,
 			modal: true,
 			title: 'Suppression des fichiers temporaire',
-			overlay: {
-				backgroundColor: '#000',
-				opacity: 0.5
-			},
 			buttons: {
 				'Vider le cache': function() {
 					$(this).dialog('close');
-					$.notice({
+					$.nicenotify({
 						ntype: "ajax",
-						uri: "/admin/plugins.php?name=clearcache&clear=tpl",
-						typesend: 'get',
-						delay: 1800,
-						time:1,
-						reloadhtml:false
+						uri: "/admin/plugins.php?name=clearcache",
+						typesend: 'post',
+						noticedata:"clear=tpl",
+						beforeParams:function(){
+							$('#clear-tpl-cache a').hide();
+							$('#clear-tpl-cache').prepend('<span class="min-loader"><img src="/framework/img/small_loading.gif" width="20" height="20" alt="...loading" /></span>');
+						},
+						successParams:function(e){
+							$('#clear-tpl-cache a').show();
+							$('.min-loader').remove();
+							$.nicenotify.initbox(e);
+						}
 					});
 				},
 				Cancel: function() {
@@ -75,27 +83,31 @@ $(function(){
 			}
 		});
 	 });
-	$('#clear-admin-cache').click(function (){
+	$('#clear-admin-cache').on('click','a',function (event){
+		event.preventDefault();
 		$("#clearcache-dialog").dialog({
 			bgiframe: true,
 			resizable: false,
 			minHeight:200,
 			modal: true,
 			title: 'Suppression des fichiers temporaire',
-			overlay: {
-				backgroundColor: '#000',
-				opacity: 0.5
-			},
 			buttons: {
 				'Vider le cache': function() {
 					$(this).dialog('close');
-					$.notice({
+					$.nicenotify({
 						ntype: "ajax",
-						uri: "/admin/plugins.php?name=clearcache&clear=admin",
-						typesend: 'get',
-						delay: 1800,
-						time:1,
-						reloadhtml:false
+						uri: "/admin/plugins.php?name=clearcache",
+						typesend: 'post',
+						noticedata:"clear=admin",
+						beforeParams:function(){
+							$('#clear-admin-cache a').hide();
+							$('#clear-admin-cache').prepend('<span class="min-loader"><img src="/framework/img/small_loading.gif" width="20" height="20" alt="...loading" /></span>');
+						},
+						successParams:function(e){
+							$('#clear-admin-cache a').show();
+							$('.min-loader').remove();
+							$.nicenotify.initbox(e);
+						}
 					});
 				},
 				Cancel: function() {
