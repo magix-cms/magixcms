@@ -229,7 +229,6 @@ CREATE TABLE IF NOT EXISTS `mc_setting` (
 INSERT INTO `mc_setting` (`setting_id`, `setting_value`, `setting_type`, `setting_label`) VALUES
 ('theme', 'default', 'string', 'site theme'),
 ('microgalery', 'default', 'string', 'micro galery'),
-('sold', 'sold_product', 'string', 'Produit vendu'),
 ('webmaster', '', 'string', 'google webmasterTools'),
 ('analytics', '', 'string', 'google analytics'),
 ('editor', 'pdw_file_browser', 'string', 'tinymce'),
