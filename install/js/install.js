@@ -354,14 +354,3 @@ $(function() {
 		});
 		$("#forms-install-users").formsusers;
 });
-/**
- * Initialisation de nivoslider pour le défilement d'images
- */
-/*$(window).load(function() {
-	$('#slider').nivoSlider({
-		effect:'random',
-		pauseTime:5000, 
-		pauseOnHover:true,
-		captionOpacity:0.8 //Universal caption opacity
-	});
-});*/

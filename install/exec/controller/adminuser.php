@@ -71,8 +71,10 @@ class exec_controller_adminuser extends dbinstuser{
 	protected function insert_admin_members(){
 		if(isset($this->pseudo) AND isset($this->cryptpass) AND isset($this->email)){
 			if(!empty($this->email)){
-				parent::cuser()->i_useradmin($this->pseudo,$this->email,$this->cryptpass,$this->keyuniqid());
-				//exec_config_smarty::getInstance()->display('request/success-user.phtml');
+				if(magixcjquery_filter_isVar::isMail($this->email)){
+					parent::cuser()->i_useradmin($this->pseudo,$this->email,$this->cryptpass,$this->keyuniqid());
+					//exec_config_smarty::getInstance()->display('request/success-user.phtml');
+				}
 			}
 		}
 	}
