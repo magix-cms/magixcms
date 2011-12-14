@@ -67,7 +67,8 @@ function smarty_function_widget_cms_sidebar_page($params, $template){
 					}  
 				} else {
 					if ($i == 0) {
-						$active = ' class="active-cat"';
+						//$active = ' class="active-cat"';
+						$active = ' style="display:none;"';
 						$i++;
 					}else{
 						$active = ' style="display:none;"';
