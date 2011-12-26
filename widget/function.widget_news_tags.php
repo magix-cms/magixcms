@@ -94,6 +94,7 @@ function smarty_function_widget_news_tags($params, $template){
 		$i = 1; //Définis pour l'ajout de la class 'last'
 		$news = '';
 		$news .= '<div class="'.$tabs['class_container'].'">';
+		$dateformat = new magixglobal_model_dateformat();
 		if(frontend_db_block_news::s_sort_tagnews(urldecode($gettag)) != null){
 			foreach(frontend_db_block_news::s_sort_tagnews(urldecode($gettag)) as $pnews){
 				//Application de la class last pour enfant courant
@@ -108,8 +109,6 @@ function smarty_function_widget_news_tags($params, $template){
 				}
 				$tag = frontend_db_block_news::s_news_tag($pnews['idnews']);
 				$islang = $pnews['iso'];
-				$curl = new magixglobal_model_dateformat($pnews['date_register']);
-				$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
 				if ($pnews['n_image'] != null){
 					$image = '<img src="'.$filter->filterPathImg(array('filtermod'=>'news','img'=>'s_'.$pnews['n_image'])).'" alt="'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'" />';
 				}else{
@@ -117,18 +116,18 @@ function smarty_function_widget_news_tags($params, $template){
 				}
 				$news .= '<div class="'. $class_elem . $last_elem .'">';
 				$news .= '<div'. $class_box .'>'."\n";
-				$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
+				$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
 				$news .= $image;
 				$news .='</a>';
 				
 				$news .='<p'.$class_name .'>';
-					$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$curl->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
+					$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 				$news .= '</p>';
 				$news .= '<span'. $class_desc .'>';
 					$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
 				$news .= '</span>';
 				$news .= '<div class="clear"></div>';
-				$news .='<div class="date rfloat">'.$datepublish->SQLDate().'</div>';
+				$news .='<div class="date rfloat">'.$dateformat->SQLDate($pnews['date_publish']).'</div>';
 				if($tag != null){
 					$news .= '<span class="tag">';
 					$tagnews = '';

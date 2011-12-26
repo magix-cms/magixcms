@@ -88,10 +88,9 @@ function smarty_function_widget_news($params, $template){
 					</thead>
 					<tbody>';
 	if(backend_db_block_news::s_news_plugin($limit,$max,$offset)){
+		$dateformat = new magixglobal_model_dateformat();
 		foreach(backend_db_block_news::s_news_plugin($limit,$max,$offset) as $pnews){
 			$islang = $pnews['iso'] ? $pnews['iso']: '';
-			$dateregister = new magixglobal_model_dateformat($pnews['date_register']);
-			$datepublish = new magixglobal_model_dateformat($pnews['date_publish']);
 			switch($pnews['published']){
 				case 0:
 					$publisher = '<div class="ui-state-error" style="border:none;"><a title="Modifier l\'état de cette news" href="/admin/news.php?get_news_publication='.$pnews['idnews'].'" class="u-news-published"><span style="float:left" class="ui-icon ui-icon-close"></span></a></div>';
@@ -110,12 +109,12 @@ function smarty_function_widget_news($params, $template){
 			}
 			 $plugin .= '<tr class="line">';
 			 $plugin .=	$viewuser?'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['n_title'],100,'...').'</a></td>':'<td class="maximal"><a class="linkurl" href="/admin/news.php?edit='.$pnews['idnews'].'">'.magixcjquery_string_convert::cleanTruncate($pnews['n_title'],100,'...').'</a></td>';
-			 $plugin .=	'<td class="nowrap">'.$dateregister->SQLDate().'</td>';
-			 $plugin .=	'<td class="nowrap">'.$datepublish->SQLDate().'</td>';
+			 $plugin .=	'<td class="nowrap">'.$dateformat->SQLDate($pnews['date_register']).'</td>';
+			 $plugin .=	'<td class="nowrap">'.$dateformat->SQLDate($pnews['date_publish']).'</td>';
 			 $plugin .=	'<td class="nowrap">'.$publisher.'</td>';
 			 $plugin .= '<td class="nowrap">'.$codelang.'</td>';
 			 $plugin .=	$viewuser?'<td class="nowrap">'.$pnews['pseudo'].'</td>':'';
-			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_news_url($islang,$dateregister->date_europeen_format(),$pnews['n_uri'],$pnews['keynews'],true).'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
+			 $plugin .= '<td class="nowrap"><a class="post-preview" href="'.magixglobal_model_rewrite::filter_news_url($islang,$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'"><span style="float:left;" class="ui-icon ui-icon-zoomin"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a href="/admin/news.php?edit='.$pnews['idnews'].'"><span style="float:left;" class="ui-icon ui-icon-pencil"></span></a></td>';
 			 $plugin .= '<td class="nowrap"><a class="deletenews" rel="'.$pnews['idnews'].'" href="#"><span style="float:left;" class="ui-icon ui-icon-close"></span></a></td>';
 			 $plugin .= '</tr>';

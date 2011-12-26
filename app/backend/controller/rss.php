@@ -89,10 +89,10 @@ class backend_controller_rss extends backend_db_rss{
 		$attr_name = $setting->tabs_load_config('news');
 		if($attr_name['status'] == 1){
 		   foreach(parent::s_news_rss() as $data){
-		   		$dateformat = new magixglobal_model_dateformat($data['date_register']);
+		   		$dateformat = new magixglobal_model_dateformat();
 		   		$uri = magixglobal_model_rewrite::filter_news_url(
 					$data['iso'], 
-					$dateformat->date_europeen_format(), 
+					$dateformat->date_europeen_format($data['date_register']), 
 					$data['n_uri'], 
 					$data['keynews'],
 					true

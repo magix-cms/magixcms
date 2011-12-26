@@ -219,11 +219,11 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	         * Les news par langue
 	         */
 	        foreach(parent::s_news_sitemap() as $data){
-	        	$curl = new magixglobal_model_dateformat($data['date_register']);
+	        	$curl = new magixglobal_model_dateformat();
 	        	 $sitemap->writeMakeNode(
 	        	 	 magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_news_url(
 	        	 	 	$data['iso'],
-	        	 	 	$curl->date_europeen_format(),
+	        	 	 	$curl->date_europeen_format($data['date_register']),
 	        	 	 	$data['n_uri'],
 	        	 	 	$data['keynews'],
 	        	 	 	true

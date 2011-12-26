@@ -285,10 +285,10 @@ class backend_controller_news extends backend_db_news{
 	private function load_json_uri_news(){
 		$data = parent::s_news_record($this->getnews);
 		if($data['idnews'] != null){
-			$dateformat = new magixglobal_model_dateformat($data['date_register']);
+			$dateformat = new magixglobal_model_dateformat();
 			$uri = magixglobal_model_rewrite::filter_news_url(
 				$data['iso'], 
-				$dateformat->date_europeen_format(), 
+				$dateformat->date_europeen_format($data['date_register']), 
 				$data['n_uri'], 
 				$data['keynews'],
 				true
@@ -475,10 +475,10 @@ class backend_controller_news extends backend_db_news{
 		if($this->post_search != ''){
 			if(parent::s_search_news($this->post_search) != null){
 				foreach (parent::s_search_news($this->post_search) as $s){
-					$dateformat = new magixglobal_model_dateformat($s['date_register']);
+					$dateformat = new magixglobal_model_dateformat();
 					$uri_news = magixglobal_model_rewrite::filter_news_url(
 						$s['iso'], 
-						$dateformat->date_europeen_format(), 
+						$dateformat->date_europeen_format($s['date_register']), 
 						$s['n_uri'], 
 						$s['keynews'],
 						true

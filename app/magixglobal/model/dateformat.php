@@ -32,12 +32,28 @@
  */
 class magixglobal_model_dateformat extends DateTime{
 	/**
-	 * 
-	 * Constructor
-	 * @param $time
+	 * création de l'objet datetime
+	 * @param string $time
+	 * @param DateTimeZone $timezone
 	 */
-	public function __construct($time='now') {
-        parent::__construct($time);
+	private function create($time = "now", DateTimeZone $timezone = NULL){
+		if ($timezone != NULL)
+			return new self($time, $timezone);
+		else
+			return new self($time);
+	}
+    /**
+     * Instance la classe DateTime
+     * @param  $time
+     * @throws Exception
+     */
+    private function _datetime($time){
+    	$datetime = self::create($time);
+    	if($datetime instanceof DateTime){
+    		return $datetime;
+    	}else{
+    		throw new Exception('not instantiate the class: DateTime');
+    	}
     }
     /**
      * @access public
@@ -52,65 +68,73 @@ class magixglobal_model_dateformat extends DateTime{
 		return checkdate( $m, $d, $y ) ;
 	}
 	/**
+	 * 
+	 * @param string $format
+	 * @param string $time
+	 */
+	public function dateDefine($format='Y-m-d',$time=null){
+		return self::_datetime($time)->format($format) ;
+	}
+	/**
 	 * @access public
 	 * Retourne la date actuelle et l'heure formatée Y-m-d H:i:s
 	 * @example 
 	 * $datecreate = new magixglobal_model_dateformat();
 	 * echo $datecreate->sitemap_lastmod_dateFormat();
 	 */
-	public function sitemap_lastmod_dateFormat(){
-		return $this->format('Y-m-d H:i:s');
+	public function sitemap_lastmod_dateFormat($time=null){
+		return $this->dateDefine('Y-m-d H:i:s',$time);
 	}
 	/**
 	 * @access public
 	 * Retourne la date au format européen avec slash (2000/01/01)
 	 * @param timestamp $date
 	 * @example 
-	 * $datecreate = new magixglobal_model_dateformat('2000-01-01');
-	 * echo $datecreate->date_europeen_format();
+	 * $datecreate = new magixglobal_model_dateformat();
+	 * echo $datecreate->date_europeen_format('2000-01-01');
 	 */
-	public function date_europeen_format(){
-		return $this->format('Y/m/d');
+	public function date_europeen_format($time=null){
+		return $this->dateDefine('Y/m/d',$time);
 	}
 	/**
 	 * @access public
 	 * Retourne la date au format W3C
-	 * $datecreate = new magixglobal_model_dateformat('2005-08-15');
-	 * echo $datecreate->date_w3c();
+	 * $datecreate = new magixglobal_model_dateformat();
+	 * echo $datecreate->date_w3c('2005-08-15');
 	 * 2005-08-15T15:52:01+00:00
 	 */
-	public function date_w3c(){ 
-		return $this->format(DATE_W3C);
+	public function date_w3c($time=null){ 
+		return $this->dateDefine(DATE_W3C,$time);
 	}
 	/**
 	 * @access public
 	 * Retourne le timestamp au format unix
 	 */
-	public function getTimestamp(){
-	    return $this->format("U");
+	public function getTimestamp($time=null){
+		return $this->dateDefine("U",$time);
 	}
 	/**
 	 * @access public
 	 * Retourne la date au format SQL
 	 */
-	public function SQLDate(){
-		return $this->format("Y-m-d");
+	public function SQLDate($time=null){
+		return $this->dateDefine("Y-m-d",$time);
 	}
 	/**
 	 * @access public
 	 * Retourne la date et l'heure au format SQL
 	 */
-	public function SQLDateTime(){
-		return $this->format( 'Y-m-d H:i:s' ) ;
+	public function SQLDateTime($time=null){
+		return $this->dateDefine("Y-m-d H:i:s",$time);
 	}
 	/**
 	 * @access public
 	 * Retourne la différence entre deux dates
 	 * @param string $dateTime
 	 */
-	public function dateDiff($dateTime){
-		$datetime1 = $this;
-		$datetime2 = $dateTime;
+	public function dateDiff($time1,$time2){
+		$datetime1 = $this->SQLDate($time1);
+		$datetime2 = $this->SQLDate($time2);
 		$interval = $datetime1->diff($datetime2);
 		return $interval->format('%R%a days');
 	}
