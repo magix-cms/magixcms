@@ -13,6 +13,9 @@
 	* Suppression de correctif.css
 	* Ajout de la localization dans jquery validate
 	* Modification du formulaire de contact pour le chargement de l'isovalidate
+	* Modification de la classe magixglobal dateformat
+	* Application des modifications de dateformat dans les fichiers sitemap, rss, news et les widgets de news.
+	* Ajout de la classe CSS brush smarty dans le plugin codehighlight (tinyMCE)
 	
 2.3.5RC4
 	* Configuration du nouveau template (default v2) + adaptation des widgets avec le framework CSS
