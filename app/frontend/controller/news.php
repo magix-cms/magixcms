@@ -113,7 +113,7 @@ class frontend_controller_news extends frontend_db_news{
 	 * @param $max
 	 * @access public
 	 */
-	public function news_pagination($max,$pagination_class){
+	public function news_pagination($max,$pagination_class=null){
 		if($pagination_class != null){
 			$class_container = $pagination_class;
 		}else{

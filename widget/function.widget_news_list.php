@@ -122,7 +122,7 @@ function smarty_function_widget_news_list($params, $template){
 			}
 			$news .= '<div class="'. $class_elem . $last_elem .'">';
 			$news .= '<div'. $class_box .'>'."\n";
-			$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
+			$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'>';
 				$news .= $image;
 			$news .='</a>';
 			
@@ -150,7 +150,7 @@ function smarty_function_widget_news_list($params, $template){
 	}
 	$news .= '</div>';
 	$cnews = frontend_db_block_news::s_count_news(frontend_model_template::current_Language());
-	if($cnews['total'] >= $max){
+	if($cnews[0]['total'] >= $max){
 		$news .= $fcn->news_pagination($max,$tabs['class_pagination']);
 	}
 	return $news;

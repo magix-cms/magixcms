@@ -59,7 +59,7 @@ class frontend_db_block_news{
 		$sql = 'SELECT count(n.idnews) as total FROM mc_news AS n
 		JOIN mc_lang AS lang USING(idlang)
 		WHERE lang.iso = :iso AND n.published = 1';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->select($sql,array(
 			':iso'=>$iso
 		));
 	}
