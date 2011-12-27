@@ -122,12 +122,12 @@ function smarty_function_widget_news_list($params, $template){
 			}
 			$news .= '<div class="'. $class_elem . $last_elem .'">';
 			$news .= '<div'. $class_box .'>'."\n";
-			$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_publish']),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
+			$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
 				$news .= $image;
 			$news .='</a>';
 			
 			$news .='<p'.$class_name .'>';
-				$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_publish']),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
+				$news .= '<a href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'">'.magixcjquery_string_convert::ucFirst($pnews['n_title']).'</a>';
 			$news .= '</p>';
 			$news .= '<span'. $class_desc .'>';
 				$news .= magixcjquery_form_helpersforms::inputTagClean(magixcjquery_string_convert::cleanTruncate($pnews['n_content'],$length,$delimiter));
