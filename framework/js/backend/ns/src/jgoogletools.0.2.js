@@ -6,7 +6,7 @@
  * @version    0.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
  * @name ns_jgoogletools
- * @update 08/10/2011 21:45
+ * @update 03/01/2012 22:45
  */
 var ns_jgoogletools = {
 	/**
@@ -28,7 +28,15 @@ var ns_jgoogletools = {
 				ntype: "submit",
 				uri: '/admin/googletools.php?pgdata',
 				typesend: 'post',
-				idforms: $(this)
+				idforms: $(this),
+				successParams:function(e){
+					$.nicenotify.initbox(e,{
+						display : true,
+						time: 4,
+						reloadhtml:true,
+						delay: 3000
+					});
+				}
 			});
 			return false; 
 		});
@@ -48,7 +56,15 @@ var ns_jgoogletools = {
 				ntype: "submit",
 				uri: '/admin/googletools.php?pgdata',
 				typesend: 'post',
-				idforms: $(this)
+				idforms: $(this),
+				successParams:function(e){
+					$.nicenotify.initbox(e,{
+						display : true,
+						time: 4,
+						reloadhtml:true,
+						delay: 3000
+					});
+				}
 			});
 			return false;  
 		});
