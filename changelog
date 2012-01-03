@@ -16,6 +16,12 @@
 	* Modification de la classe magixglobal dateformat
 	* Application des modifications de dateformat dans les fichiers sitemap, rss, news et les widgets de news.
 	* Ajout de la classe CSS brush smarty dans le plugin codehighlight (tinyMCE)
+	* Fix bug formatage de la date de l'url (liste news)
+	* Fix bug pagination dans les actualités (modification du type de tableau)
+	* réintégration de la notification pour le dossier install + chmod
+	* Fix bug insertion d'un nombre flottant pour le prix.
+	* Fix bug jgoogletools (reloadhtml)
+	* Modification du lien de la documentation développeur
 	
 2.3.5RC4
 	* Configuration du nouveau template (default v2) + adaptation des widgets avec le framework CSS
