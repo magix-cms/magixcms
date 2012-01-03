@@ -38,21 +38,101 @@ $(function() {
 	 * $(".select").selectmenu({width: 200,maxWidth: 200});
 	 * $('.checkbox').checkbox();
 	 * */
-	$("#product-tabs").tabs();
+	//$("#product-tabs").tabs();
 	/**
 	 * Notification après installation pour le dossier "install"
 	 */
-	/*if ($('#notify-install').length != 0){
-		$.notice({
-			ntype: "dir",
-			nparams: 'install'
-		});
+	if ($('#notify-install').length != 0){
+		$.ajax({
+    		url:'/framework/js/jquery.meerkat.1.3.min.js',
+    		type:'get',
+    		dataType: "script",
+    		statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},401: function() {
+					console.warn("access denied");
+				},404: function() {
+					console.warn("object not found");
+				},403: function() {
+					console.warn("request forbidden");
+				},408: function() {
+					console.warn("server timed out waiting for request");
+				},500: function() {
+					console.error("Internal Server Error");
+				}
+			},
+    		success: function(data, status, xhr){
+    			if(jQuery().meerkat){
+    				$("#notify-install").destroyMeerkat();
+    				$("#notify-install").meerkat({
+						background: "#efefef",
+						width: '100%',
+						position: 'top',
+						close: '.close-notify',
+						animationIn: 'fade',
+						animationOut: 'slide',
+						animationSpeed: '750',
+						height: '80px',
+						opacity: '0.90',
+						timer: null,
+						onMeerkatShow: function() { 
+							$(this).animate({opacity: 'show'}, 1000); 
+						}
+					}).addClass('pos-top');
+				}else{
+					// plugin DOES NOT exist
+					//console.log('plugin for display DOES NOT exist');
+					console.log('plugin for display DOES NOT exist');
+				}
+    		}
+    	});
 	}else if ($('#notify-folder').length != 0){
-		$.notice({
-			ntype: "dir",
-			nparams: 'chmod'
-		});
-	}*/
+		$.ajax({
+    		url:'/framework/js/jquery.meerkat.1.3.min.js',
+    		type:'get',
+    		dataType: "script",
+    		statusCode: {
+				0: function() {
+					console.error("jQuery Error");
+				},401: function() {
+					console.warn("access denied");
+				},404: function() {
+					console.warn("object not found");
+				},403: function() {
+					console.warn("request forbidden");
+				},408: function() {
+					console.warn("server timed out waiting for request");
+				},500: function() {
+					console.error("Internal Server Error");
+				}
+			},
+    		success: function(data, status, xhr){
+    			if(jQuery().meerkat){
+    				$("#notify-folder").destroyMeerkat();
+    				$("#notify-folder").meerkat({
+						background: "#efefef",
+						width: '100%',
+						position: 'top',
+						close: '.close-notify',
+						animationIn: 'fade',
+						animationOut: 'slide',
+						animationSpeed: '750',
+						height: '80px',
+						opacity: '0.90',
+						timer: null,
+						onMeerkatShow: function() { 
+							$(this).animate({opacity: 'show'}, 1000); 
+						}
+					}).addClass('pos-top');
+				}else{
+					// plugin DOES NOT exist
+					//console.log('plugin for display DOES NOT exist');
+					console.log('plugin for display DOES NOT exist');
+				}
+    		}
+    	});
+	}
 	/**
 	 * Jquery treeview pour le catalogue
 	 */

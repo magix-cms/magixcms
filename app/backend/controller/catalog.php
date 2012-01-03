@@ -361,7 +361,7 @@ class backend_controller_catalog extends analyzer_catalog{
 			$this->desccatalog = (string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['desccatalog']);
 		}
 		if(magixcjquery_filter_request::isPost('price')){
-			$this->price = (integer) magixcjquery_filter_isVar::isPostFloat($_POST['price']);
+			$this->price = magixcjquery_filter_isVar::isPostFloat($_POST['price']);
 		}
 		if(magixcjquery_filter_request::isPost('ordercatalog')){
 			$this->ordercatalog = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['ordercatalog']);

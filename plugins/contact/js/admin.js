@@ -33,7 +33,8 @@ $(function() {
 	 /**
      * Requête ajax pour la suppression des contacts
      */
-	$('.d-plugins-contact').click(function (){
+	$('.d-plugins-contact').click(function (event){
+		event.preventDefault();
 		var lg = $(this).attr("title");
 		$("#dialog").dialog({
 			bgiframe: true,
