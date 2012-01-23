@@ -116,7 +116,7 @@ function smarty_function_widget_news_tags($params, $template){
 				}
 				$news .= '<div class="'. $class_elem . $last_elem .'">';
 				$news .= '<div'. $class_box .'>'."\n";
-				$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'" class="'.$tabs['class_img'].'">';
+				$news .='<a'.$class_img .' href="'.magixglobal_model_rewrite::filter_news_url($pnews['iso'],$dateformat->date_europeen_format($pnews['date_register']),$pnews['n_uri'],$pnews['keynews'],true).'">';
 				$news .= $image;
 				$news .='</a>';
 				

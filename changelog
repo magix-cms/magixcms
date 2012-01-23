@@ -1,3 +1,5 @@
+2.3.6
+	* Fix bug Doublon d'une classe CSS dans la balise <a> des images du widget_news_tags
 2.3.5
 	* Upgrade jquery form 2.87 => 2.93
 	* Adaptation des plugins tinymce avec jquery form 2.93
