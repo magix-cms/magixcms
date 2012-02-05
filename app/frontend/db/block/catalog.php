@@ -97,6 +97,7 @@ class frontend_db_block_catalog{
 	 * @param string $iso
 	 */
 	public static function s_product_category_by_date($idclc,$iso){
+		//AND p.idcls = 0
 	    $sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog,catalog.date_catalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
 	    FROM mc_catalog_product AS p
 	    LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
@@ -104,7 +105,7 @@ class frontend_db_block_catalog{
 	    LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 	    JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 	    LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-	    WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.iso = :iso ORDER BY catalog.date_catalog DESC';
+	    WHERE p.idclc = :idclc AND lang.iso = :iso ORDER BY catalog.date_catalog DESC';
 	    return magixglobal_model_db::layerDB()->select($sql,array(
 	      ':idclc'=>$idclc,
 	      ':iso'=>$iso

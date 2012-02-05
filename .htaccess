@@ -126,7 +126,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-zA-Z]{1,3})/(.*) 											/$2?strLangue=$1		[QSA,L]
 RewriteRule ^(?:actualites|news|nieuws)/{0,1}$   /news.php				[QSA,L]
 RewriteRule ^(?:actualites|news|nieuws)[/]page[/]([/0-9]+)/{0,1}$   /news.php?page=$1				[QSA,L]
-RewriteRule ^(?:actualites|news|nieuws)/(\d{4}/\d{2}/\d{2})/([-_0-9a-zA-Z]+)/([-_0-9a-zA-Z]+)/?$	/news.php?getdate=$1&uri_get_news=$2&getnews=$3 [QSA,L]
+RewriteRule ^(?:actualites|news|nieuws)/(\d{4}/\d{2}/\d{2})/([-._0-9a-zA-Z]+)/([-_0-9a-zA-Z]+)/?$	/news.php?getdate=$1&uri_get_news=$2&getnews=$3 [QSA,L]
 RewriteRule ^(?:actualites|news|nieuws)/tag/([-+_0-9a-zA-Z]+)/{0,1}$   /news.php?tag=$1				[QSA,L]
 RewriteRule ^(?:pages)/([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]{0,1}$        /cms.php?getidpage=$1&geturi_page=$2             [QSA,L]
 RewriteRule ^(?:pages)/([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)/{0,1}$        /cms.php?getidpage_p=$1&geturi_page_p=$2&getidpage=$3&geturi_page=$4             [QSA,L]
