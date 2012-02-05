@@ -90,7 +90,7 @@
 <IfModule mod_php5.c>
 ############################################
 ## send error if no index file
-    Options -Indexes
+    #Options -Indexes
 ############################################
 ## adjust memory limit
     php_value memory_limit 128M
@@ -112,7 +112,7 @@
 <IfModule mod_rewrite.c>
 ############################################
 ## enable rewrites
-    Options +FollowSymLinks
+    #Options +FollowSymLinks
     RewriteEngine on
 ############################################
 ## always send 404 on missing files in these folders
