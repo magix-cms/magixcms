@@ -1,5 +1,12 @@
 2.3.6
 	* Fix bug Doublon d'une classe CSS dans la balise <a> des images du widget_news_tags
+	* Upgrade swiftmailer 4.1.2 => 4.1.5
+	* Upgrade in PHPThumb with github version for fix bug
+	* Fix bug fonction non disponible par défaut chez certain hébergeur (htaccess)
+	* Fix bug dans la requête pour retourner les derniers produits
+	* Mise à jour de minify suivant les correctifs appliqués
+	* upgrade jquery form 2.93 => 2.95
+	
 2.3.5
 	* Upgrade jquery form 2.87 => 2.93
 	* Adaptation des plugins tinymce avec jquery form 2.93
