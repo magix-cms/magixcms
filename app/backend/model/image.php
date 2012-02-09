@@ -36,26 +36,52 @@ class backend_model_image {
 	 * @param $filename
 	 * @return size
 	 */
-	public static function  image_valid($filename){
-			$size = getimagesize($filename);
-			switch ($size['mime']) {
-			    case "image/gif":
-			        break;
-			    case "image/jpeg":
-			        break;
-			    case "image/png":
-			        break;
-			    case false:
-			    	break;
+	public static function image_valid($filename,$debug=false){
+		try{
+			$firebug = new magixcjquery_debug_magixfire();
+			if (!function_exists('exif_imagetype')){
+				$size = getimagesize($filename);
+				switch ($size['mime']) {
+				    case "image/gif":
+				        break;
+				    case "image/jpeg":
+				        break;
+				    case "image/png":
+				        break;
+				    case false:
+				    	break;
+				}
+				if($debug!=false){
+					$firebug->magixFireLog('exif_imagetype not exist');
+				}
+			}else{
+				$size = exif_imagetype($filename);
+				switch ($size) {
+					case IMAGETYPE_GIF:
+						break;
+					case IMAGETYPE_JPEG:
+						break;
+					case IMAGETYPE_PNG:
+						break;
+					case false:
+						break;
+				}
+				if($debug!=false){
+					$firebug->magixFireLog('exif_imagetype exist');
+				}
 			}
 			return $size;
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
+	}
 	/**
 	 * Retourne l'extension du fichier image
 	 * @param $filename
 	 * @return size
 	 */	
 	public static function image_analyze($filename){
+		try{
 		$size = getimagesize($filename);
 			switch ($size['mime']) {
 			    case "image/gif":
@@ -71,6 +97,9 @@ class backend_model_image {
 			    	break;
 			}
 			return $imgtype;
+		}catch (Exception $e){
+			magixglobal_model_system::magixlog('An error has occured :',$e);
+		}
 	}
 		/**
 		 * function fixe maxsize
@@ -107,59 +136,65 @@ class backend_model_image {
 	 * @param files $img
 	 * @param dir $path
 	 */
-	public static function upload_img($img,$path,$debug = false){
-				$error = null;
-				if (isset($_FILES[$img])) {
-					if ($_FILES[$img]['error'] == UPLOAD_ERR_OK){
-						if(self::image_valid($_FILES[$img]['tmp_name']) === false){
-							$error .='<div class="error">Mauvais format d\'image (gif,png,jpeg uniquement)</div>';		    
+	public static function upload_img($img,$path,$debug=false){
+			$error = null;
+			$firebug = new magixcjquery_debug_magixfire();
+			if (isset($_FILES[$img])) {
+				if ($_FILES[$img]['error'] == UPLOAD_ERR_OK){
+					if(self::image_valid($_FILES[$img]['tmp_name']) === false){
+						$error .= 'Mauvais format d\'image (gif,png,jpeg uniquement)';		    
+					}else{
+						if(!is_readable($_FILES[$img]["tmp_name"])){
+							$tmp_img = chmod($_FILES[$img]["tmp_name"],0777);
 						}else{
-						    if(!is_readable($_FILES[$img]["tmp_name"])){
-								$tmp_img = chmod($_FILES[$img]["tmp_name"],0777);
-							}else{
-								$tmp_img = $_FILES[$img]["tmp_name"];
-							}
-							//if(chmod($_FILES[$img]["tmp_name"],0777)){
-								if(is_uploaded_file($tmp_img)){
-									$source = $tmp_img;
-									/*$pathdir = dirname(realpath( __FILE__ ));*/
-									$cible = magixglobal_model_system::base_path().$path.'/'.magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
-									if($debug != false){
-										if(M_LOG == 'debug'){
-											magixcjquery_debug_magixfire::magixFireGroup('Upload Log:',
-								                array('Collapsed' => false,
-								                      'Color' => '#042139')
-								          	);
-								          	magixcjquery_debug_magixfire::magixFireInfo($source,"Img source");
-									        magixcjquery_debug_magixfire::magixFireInfo($cible,"Path target");
-											magixcjquery_debug_magixfire::magixFireGroupEnd();
+							$tmp_img = $_FILES[$img]["tmp_name"];
+						}
+						//if(chmod($_FILES[$img]["tmp_name"],0777)){
+							if(is_uploaded_file($_FILES[$img]["tmp_name"])){
+								$source = $tmp_img;
+								$cible = magixglobal_model_system::base_path().$path.'/'.magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
+								if (self::imgSizeMax($source,2500,2500) == false) {
+									$error .= 'La taille maximum excéde';
+								}elseif (self::imgSizeMin($source,5,5) == false) {
+									$error .= 'Le fichier est trop petit';
+								}else{
+									if (!move_uploaded_file($source, $cible)) {
+										$error .= 'Erreur de fichier temporaire';
+									}else{
+										if($debug != false){
+											$firebug->magixFireGroup('Upload image infos');
+											$firebug->magixFireLog('Success','Status');
+											$firebug->magixFireLog($source,'Source');
+											$firebug->magixFireLog($cible,'Cible');
+											$firebug->magixFireGroupEnd();
 										}
 									}
-									if (self::imgSizeMax($source,3000,3000) == false) {
-											$error .= '<div class="error">La taille maximum excéde</div>';
-										}else{
-											if (!move_uploaded_file($source, $cible)) {
-												$error .= '<div class="error">Erreur de fichier temporaire</div>';
-											}
-										}	
-								}else{
-									$error .= 'Erreur d\'écriture du disque</div>';
-								}
-							//}
-						}
+								}	
+							}else{
+								$error .= 'Erreur d\'écriture du disque';
+							}
+						//}
 					}
-				}elseif (UPLOAD_ERR_NO_FILE == true){
-					$error .= '<div class="error">Aucun fichier</div>';
 				}elseif (UPLOAD_ERR_INI_SIZE == true){
-					$error .=  '<div class="error">Le fichier est trop grand</div>';
+					$error .=  'Le fichier est trop grand';
 				}elseif (UPLOAD_ERR_CANT_WRITE == true){
-					$error .= '<div class="error">Erreur d\'écriture du disque</div>';	
+					$error .= 'Erreur d\'écriture du disque';	
 				}elseif (UPLOAD_ERR_FORM_SIZE == true){
-					$error .= '<div class="error">Le fichier est trop grand <br /> Taille maximum 800x600</div>';
-				}else{
-					$error .= '<div class="error">Erreur d\'écriture du disque</div>';
+					$error .= 'Le fichier est trop grand: Taille maximum 2000x2000';
 				}
-			return $error;
+			}elseif (UPLOAD_ERR_NO_FILE == true){
+				$error .= 'Aucun fichier';
+			}else{
+				$error .= 'Erreur d\'écriture du disque';
+			}
+		if($error != null){
+			$n = $firebug->magixFireGroup('Upload image analyse');
+			$n .= $firebug->magixFireLog($error);
+			$n .= $firebug->magixFireGroupEnd();
+		}else{
+			$n = NULL;
 		}
+		return $n;
+	}
 }
 ?>
