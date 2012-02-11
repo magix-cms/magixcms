@@ -7,7 +7,7 @@
 			<tr>
 				<td>
 				<input type="hidden" id="idlang" name="idlang" value="{$idlang}" />
-				<input type="text" id="iso" name="iso" class="inputtext ui-corner-all" value="{$iso}" size="3" />
+				{$iso}
 				</td>
 			</tr>
 			<tr>
@@ -17,8 +17,17 @@
 				<td><input type="text" id="language" name="language" class="inputtext ui-corner-all" value="{$language}" size="20" /></td>
 			</tr>
 			<tr>
+				<td class="label"><label for="default_lang" class="inlinelabel">Langue par défaut :</label></td>
+			</tr>
+			<tr>
 				<td>
-					Langue par défaut&nbsp;<input type="checkbox" id="default_lang" name="default_lang" {if $default_lang eq 1}checked="checked"{/if} value="1" />
+				{if $default_lang eq '1'}
+					Non <input type="radio" id="default_lang_off" name="default_lang" value="0" />
+					Oui <input type="radio" id="default_lang_on" name="default_lang" value="1" checked="checked" />
+				{else}
+					Non <input type="radio" id="default_lang_off" name="default_lang" value="0" checked="checked" />
+					Oui <input type="radio" id="default_lang_on" name="default_lang" value="1" />
+				{/if}
 				</td>
 			</tr>
 		</table>			

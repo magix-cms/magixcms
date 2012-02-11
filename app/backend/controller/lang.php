@@ -131,7 +131,8 @@ class backend_controller_lang extends backend_db_lang{
 	private function load_data_language(){
 		$db = parent::s_lang_edit($this->edit);
 		backend_controller_template::assign('idlang', $db['idlang']);
-		backend_controller_template::assign('iso', $db['iso']);
+		$iso = backend_model_forms::code_iso("iso",$db['iso']);
+		backend_controller_template::assign('iso', $iso);
 		backend_controller_template::assign('language', $db['language']);
 		backend_controller_template::assign('default_lang', $db['default_lang']);
 	}
@@ -256,6 +257,8 @@ class backend_controller_lang extends backend_db_lang{
 				$header->json_header("UTF-8");
 				$this->json_language_chart();
 			}else{
+				$iso = backend_model_forms::code_iso("iso");
+				backend_controller_template::assign('iso', $iso);
 				backend_controller_template::display('lang/index.phtml');
 			}
 		}
