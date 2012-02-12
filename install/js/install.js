@@ -38,21 +38,49 @@ $(function() {
 		 * Notification après installation pour le dossier "install"
 		 */
 		if ($('#notify-folder').length != 0){
-			$('#notify-folder').destroyMeerkat();
-			$('#notify-folder').meerkat({
-				background:"#efefef",
-				width: '100%',
-				position: 'top',
-				close: '.close-notify',
-				dontShowAgain: '.dont-notify',
-				animationIn: 'fade',
-				animationOut: 'slide',
-				animationSpeed: '750',
-				//removeCookie: '.reset',
-				height: '80px',
-				opacity: '0.90',
-				onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
-			}).addClass('pos-top');
+			$.ajax({
+	    		url:'/framework/js/jquery.meerkat.1.3.min.js',
+	    		type:'get',
+	    		dataType: "script",
+	    		statusCode: {
+					0: function() {
+						console.error("jQuery Error");
+					},401: function() {
+						console.warn("access denied");
+					},404: function() {
+						console.warn("object not found");
+					},403: function() {
+						console.warn("request forbidden");
+					},408: function() {
+						console.warn("server timed out waiting for request");
+					},500: function() {
+						console.error("Internal Server Error");
+					}
+				},
+	    		success: function(data, status, xhr){
+	    			if(jQuery().meerkat){
+	    				$('#notify-folder').destroyMeerkat();
+	    				$('#notify-folder').meerkat({
+	    					background:"#efefef",
+	    					width: '100%',
+	    					position: 'top',
+	    					close: '.close-notify',
+	    					dontShowAgain: '.dont-notify',
+	    					animationIn: 'fade',
+	    					animationOut: 'slide',
+	    					animationSpeed: '750',
+	    					//removeCookie: '.reset',
+	    					height: '80px',
+	    					opacity: '0.90',
+	    					onMeerkatShow: function() { $(this).animate({opacity: 'show'}, 1000); }
+	    				}).addClass('pos-top');
+					}else{
+						// plugin DOES NOT exist
+						//console.log('plugin for display DOES NOT exist');
+						console.log('plugin for display DOES NOT exist');
+					}
+	    		}
+	    	});
 		}
 		/**
 		 * Système d'analyse des fonctions disponible sur l'hébergement
