@@ -1,0 +1,5 @@
+Version 1.1
+    - Fixed a minor issue where the content in the selected grid cell was selected after insertion.
+    
+Version 1.0
+    - Initial release
