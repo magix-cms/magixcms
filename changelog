@@ -9,6 +9,8 @@
 	* Amélioration du système de début de l'upload des images
 	* Fix bug sur les notifications d'erreurs de l'upload des images
 	* Modifications de la taille maximum des images via MAX_FILE_SIZE
+	* Suppression de tinymce 3.4.8
+	* Ajout de tinymce 3.4.9
 	
 2.3.5
 	* Upgrade jquery form 2.87 => 2.93
