@@ -24,7 +24,7 @@
  * @copyright  MAGIX DEV Copyright (c) 2011 - 2012 Gerits Aurelien, 
  * http://www.magix-dev.be
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    0.1
+ * @version    0.2
  * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
  * @name showitmenu
  * @category plugin jquery
@@ -32,22 +32,26 @@
 /**
  * Exemple : 
  * $('a.showit').showitmenu({
-	   showcontener : 'div.showcontent'
+	   showcontener : 'div.showcontent',
+	   open: 'open',
+	   debug: false
    });
  */
 (function($){
 	$.fn.showitmenu = function(options){
 		var defaults = {
 			showcontener : 'div.showcontent',
+			open: 'open',
 			debug : false
 		},
 		opts = $.extend(true,{}, defaults, options);
 		return this.each(function(i, item){
 			var jObjContainers = $(opts.showcontener);
 			jObjContainers.hide();
-			$(item).click(function(e){
+			$(item).on('click',function(e){
 				e.preventDefault();
-				var selfid = $(this).attr('href');
+				var selfelem = $(this);
+				var selfid = selfelem.attr('href');
 				var jObjShowit = $(selfid);
 				//var jObjShowit = $(opts.elem_id + $(this).data("showit"));
 				if(opts.debug!=false){
@@ -59,7 +63,15 @@
 						$(jtem).slideToggle();
 					}
 				});
-				jObjShowit.slideToggle();
+				//jObjShowit.slideToggle();
+				jObjShowit.slideToggle('slow', function() {
+					$('.showit'+'.'+opts.open).removeClass(opts.open);
+					if (jObjShowit.is(":visible")) {
+						selfelem.addClass(opts.open);
+			        } else {
+			        	selfelem.removeClass(opts.open);
+			        }
+				 });
 				return false;
 			});
 		});
