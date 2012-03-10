@@ -152,9 +152,6 @@ class GdFilterImageLib{
 		 */
 		if(is_string($this->filterType)){
 			switch($this->filterType){
-				case 'grayscale':
-					$this->workingFilter($this->workingImage, $filter);
-				break;
 				case 'brightness':
 					if(count($this->filterArg) != 1){
 						throw new Exception('brightness arg1 is not define');
@@ -203,6 +200,9 @@ class GdFilterImageLib{
 						//$this->workingFilter($this->workingImage, self::$filter['brightness'], array(-20));
 						$this->workingFilter($this->workingImage, self::$filter['colorize'], $arg);
 					}
+				break;
+				default:
+					$this->workingFilter($this->workingImage, $filter);
 				break;
 			}
 		}else{
