@@ -156,35 +156,35 @@ class GdFilterImageLib{
 					$this->workingFilter($this->workingImage, $filter);
 				break;
 				case 'brightness':
-					if(count($filterArg) != 1){
+					if(count($this->filterArg) != 1){
 						throw new Exception('brightness arg1 is not define');
 					}else{
 						$this->workingFilter($this->workingImage, $filter, $this->filterArg);
 					}
 				break;
 				case 'contrast':
-					if(count($filterArg)  != 1){
+					if(count($this->filterArg)  != 1){
 						throw new Exception('contrast arg1 is not define');
 					}else{
 						$this->workingFilter($this->workingImage, $filter, $this->filterArg);
 					}
 				break;
 				case 'colorize':
-					if(count($filterArg)  != 3){
+					if(count($this->filterArg)  != 3){
 						throw new Exception('colorize arg1,arg2,arg3 is not define');
 					}else{
 						$this->workingFilter($this->workingImage, $filter, $this->filterArg);
 					}
 				break;
 				case 'smooth':
-					if(count($filterArg)  != 1){
+					if(count($this->filterArg)  != 1){
 						throw new Exception('smooth arg1 is not define');
 					}else{
 						$this->workingFilter($this->workingImage, $filter, $this->filterArg);
 					}
 				break;
 				case 'pixelate':
-					if(count($filterArg)  != 2){
+					if(count($this->filterArg)  != 2){
 						throw new Exception('pixelate arg1,arg2 is not define');
 					}else{
 						$this->workingFilter($this->workingImage, $filter, $this->filterArg);
