@@ -923,8 +923,9 @@ var ns_jcatalog_product = {
 						$(this).dialog('close');
 						$.nicenotify({
 							ntype: "ajax",
-							uri: "/admin/catalog.php?product&delproduct="+lg,
-							typesend: 'get',
+							uri: "/admin/catalog.php?product",
+							typesend: 'post',
+							noticedata:'delproduct='+lg,
 							successParams:function(e){
 								$.nicenotify.initbox(e,{
 									reloadhtml:true
