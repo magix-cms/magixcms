@@ -148,9 +148,9 @@ function smarty_function_widget_catalog_cat_load_products($params, $template){
 						$product .= '<p'.$class_name.'><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
 					}
 					if($cat['imgcatalog'] != null){
-						$product .= '<a'.$class_img.'" href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$product .= '<a'.$class_img.' href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('filtermod'=>'catalog','img'=>$sizecapture.'/'.$cat['imgcatalog'],'levelmod'=>'product')).'" alt="'.$cat['titlecatalog'].'" /></a>';
 					}else{
-						$product .= '<a'.$class_img.'" href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
+						$product .= '<a'.$class_img.' href="'.$uri_product.'"><img src="'.$filter->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png')).'" alt="'.$cat['titlecatalog'].'" /></a>';
 					}
 					if($tposition == 'bottom'){
 						$product .= '<p'.$class_name.'><a href="'.$uri_product.'">'.magixcjquery_string_convert::ucFirst($cat['titlecatalog']).'</a></p>';
