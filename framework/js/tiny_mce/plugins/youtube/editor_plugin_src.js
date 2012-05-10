@@ -92,8 +92,8 @@
 				longname : 'YouTube plugin',
 				author : 'Gerits Aurelien',
 				authorurl : 'http://www.magix-cms.com',
-				infourl : 'http://www.magix-cms.com',
-				version : "1.3"
+				infourl : 'http://www.magix-dev.be',
+				version : "1.4"
 			};
 		}
 	});
