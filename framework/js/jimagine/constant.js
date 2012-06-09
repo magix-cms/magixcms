@@ -24,7 +24,7 @@
  * @copyright  MAGIX DEV Copyright (c) 2011 - 2012 Gerits Aurelien, 
  * http://www.magix-dev.be
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    0.1
+ * @version    0.2
  * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
  * @name constant
  * @exemple :
@@ -47,7 +47,7 @@
  * jm_constant.get("test"); //mon test
  */
 "use strict";
-var jm_constant = (function(){
+var jm_constant = (function($, undefined){
 	var constants = {},
 	ownProp = Object.prototype.hasOwnProperty,
 	allowed = {
@@ -72,8 +72,10 @@ var jm_constant = (function(){
 		get: function(name){
 			if(this.defined(name)){
 				return constants[name];
-			}
+			}else{
+                		console.warn('Constants:'+name+' is not defined');
+            		}
 			return null;
 		}
 	};
-}());
+})(jQuery);

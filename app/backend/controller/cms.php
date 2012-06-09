@@ -276,7 +276,7 @@ class backend_controller_cms extends backend_db_cms{
 			backend_controller_template::assign('title_page', $db['title_page']);
 			backend_controller_template::assign('iso', $db['iso']);
 			backend_controller_template::assign('uri_page', $db['uri_page']);
-			backend_controller_template::assign('content_page', $db['content_page']);
+			backend_controller_template::assign('content_page', magixcjquery_form_helpersforms::inputClean($db['content_page']));
 			backend_controller_template::assign('seo_title_page', $db['seo_title_page']);
 			backend_controller_template::assign('seo_desc_page', $db['seo_desc_page']);
 			backend_controller_template::assign('selectexcludelang',backend_model_blockDom::select_other_lang($db['idlang']));

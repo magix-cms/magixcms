@@ -1396,7 +1396,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	private function load_data_product_forms(){
 		$data = backend_db_catalog::adminDbCatalog()->s_data_forms($this->editproduct);
 		backend_controller_template::assign('titlecatalog',$data['titlecatalog']);
-		backend_controller_template::assign('desccatalog',$data['desccatalog']);
+		backend_controller_template::assign('desccatalog',magixcjquery_form_helpersforms::inputClean($data['desccatalog']));
 		backend_controller_template::assign('price',$data['price']);
 		backend_controller_template::assign('idlang',$data['idlang']);
 		backend_controller_template::assign('iso',$data['iso']);

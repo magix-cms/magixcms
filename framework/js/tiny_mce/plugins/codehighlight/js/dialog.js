@@ -1,7 +1,7 @@
 /** 
- * http://www.magix-cms.com, http://www.magix-cjquery.com
+ * http://www.magix-dev.be, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.0
+ * @version    1.2
  * @author Gérits Aurélien <gerits.aurelien@gmail.com>
  * @package    TinyMCE
  * @name	   codehighlight
