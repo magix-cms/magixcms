@@ -5,11 +5,11 @@
  * @author Gérits Aurélien <gerits.aurelien@gmail.com>
  * @package    TinyMCE
  * @name	   codehighlight
+ * GPL 3 LICENCES
  */
 tinyMCEPopup.requireLangPack();
 var CodeHighLightDialog = {
-	init : function() {
-	},
+	init : function() {},
 	insert : function() {
 		var f = document.forms[0], objectCode, options = '';
 		//If no code just return.
