@@ -82,7 +82,8 @@ class backend_db_sessions{
 	 * @return void
 	 */
 	function delLast_modified($limit){
-		$sql = 'DELETE FROM mc_admin_session WHERE last_modified < :limit';
+		$sql = 'DELETE FROM mc_admin_session
+		WHERE TO_DAYS(DATE_FORMAT(NOW(), "%Y%m%d")) - TO_DAYS(DATE_FORMAT(last_modified, "%Y%m%d")) > :limit';
 		magixglobal_model_db::layerDB()->delete($sql,
 		array(':limit'=>$limit));
 	}

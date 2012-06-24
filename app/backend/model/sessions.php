@@ -38,8 +38,10 @@ class backend_model_sessions extends session_register{
 	 */
 	private function dbClean() {
 		//On supprime les enregistrements de plus de deux jours
-		$limit = date('Y-m-d H-i-s', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
-		backend_db_sessions::adminDbSession()->delLast_modified($limit);
+		$date = new DateTime('NOW');
+        $date->modify('-1 day');
+        $limit = $date->format('Y-m-d H:i:s');
+        backend_db_sessions::adminDbSession()->delLast_modified($limit);
 	}
 	/**
 	 * Open session
