@@ -742,8 +742,8 @@ input.ui-button { padding: .1em 1em; }
 #viewskin .img-screen{padding:2px;text-align:center;}
 #viewskin .img-screen a{}
 #viewskin .img-screen a:hover{cursor:pointer;}
-#viewskin .title-skin{padding:4px 5px 4px 5px;margin:0;}
-.skin-name{float:left;width:100px;display:block;}
+#viewskin .title-skin{padding:4px 5px 4px 5px;height:16px;margin:0;}
+.skin-name{float:left;width:100px;display:block;min-height:16px;}
 .template-delete,.template-edit{border:none;height:16px;width:16px;}
 #version{font-size:12px;padding-top:3px;}
 /**

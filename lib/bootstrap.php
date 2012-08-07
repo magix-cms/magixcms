@@ -61,7 +61,7 @@ if (file_exists($magixjquery)) {
 	throw new Exception('Error load library');
 	exit;
 }
-$mailer = dirname(__FILE__).'/swift-4.1.5/swift_required.php';
+$mailer = dirname(__FILE__).'/swift-4.2.1/lib/swift_required.php';
 if (file_exists($mailer)) {
 	require ($mailer);
 }else{

@@ -31,12 +31,61 @@
  * Model from FORMS & INPUT dynamic
  */
 class backend_model_forms{
-	/**
-	 * Menu select pour les langues original
-	 * @param string $cvalue
-	 */
+
+    /**
+     * Menu select pour les langues original
+     * @param string $name
+     * @param string $cvalue
+     * @return string
+     */
 	public static function code_iso($name="iso",$cvalue=null){
-		$tabs_iso = array('ar', 'az', 'bg', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es', 'et', 'fi', 'fr', 'he', 'hr', 'hu', 'hy', 'is', 'it', 'ja', 'ko', 'lt', 'lv', 'mk', 'mn', 'mt', 'nl', 'no', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sq', 'sr', 'sv', 'sz', 'th', 'tr', 'uk', 'uz', 'vi', 'zh');
+		$tabs_iso = array(
+            "ar"=>"Arabic",
+            "az"=>"Azerbaijani",
+            "bg"=>"Bulgarian",
+            "bs"=>"Bosnian",
+            "ca"=>"Catalan",
+            "cs"=>"Czech",
+            "da"=>"Danish",
+            "de"=>"German",
+            "el"=>"Greek",
+            "en"=>"English",
+            "es"=>"Spanish",
+            "et"=>"Estonian",
+            "fi"=>"Finnish",
+            "fr"=>"French",
+            "he"=>"Hebrew",
+            "hr"=>"Croatian",
+            "hu"=>"Hungarian",
+            "hy"=>"Armenian",
+            "is"=>"Icelandic",
+            "it"=>"Italian",
+            "ja"=>"Japanese",
+            "ko"=>"Korean",
+            "lt"=>"Lithuanian",
+            "lv"=>"Latvian",
+            "mk"=>"Macedonian",
+            "mn"=>"Mongolian",
+            "mt"=>"Maltese",
+            "nl"=>"Dutch",
+            "no"=>"Norwegian",
+            "pl"=>"Polish",
+            "pt"=>"Portuguese",
+            "ro"=>"Romanian",
+            "ru"=>"Russian",
+            "sk"=>"Slovak",
+            "sl"=>"Slovenian",
+            "sq"=>"Albanian",
+            "sr"=>"Serbian",
+            "sv"=>"Swedish",
+            "sz"=>"Montenegrin",
+            "th"=>"Thai",
+            "tr"=>"Turkish",
+            "uk"=>"Ukrainian",
+            "uz"=>"Uzbek",
+            "vi"=>"Vietnamese",
+            "zh"=>"Chinese"
+        );
 		$mselect = '<select id="'.$name.'" name="'.$name.'" class="ui-widget-content">';
 		if($cvalue != null){
 			$mselect .= '<option selected="selected" value="'.$cvalue.'">'.magixcjquery_string_convert::upTextCase($cvalue).'</option>';
@@ -44,8 +93,8 @@ class backend_model_forms{
 		}else{
 			$mselect .= '<option value="">Choisissez une langue</option>';
 		}
-		foreach($tabs_iso as $row){
-			$mselect .= '<option value="'.$row.'">'.magixcjquery_string_convert::upTextCase($row).'</option>';
+		foreach($tabs_iso as $key => $value){
+			$mselect .= '<option value="'.$key.'">'.magixcjquery_string_convert::upTextCase($key).' ('.$value.')'.'</option>';
 		}
 		$mselect .= '</select>';
 		return $mselect;

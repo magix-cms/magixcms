@@ -51,13 +51,13 @@ CREATE TABLE IF NOT EXISTS `mc_catalog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
-  `idclc` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `idclc` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `clibelle` varchar(125) NOT NULL,
   `pathclibelle` varchar(125) NOT NULL,
   `img_c` varchar(125) DEFAULT NULL,
   `c_content` text,
   `idlang` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `corder` tinyint(3) NOT NULL,
+  `corder` smallint(5) NOT NULL,
   PRIMARY KEY (`idclc`),
   KEY `idlang` (`idlang`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_img` (
 CREATE TABLE IF NOT EXISTS `mc_catalog_product` (
   `idproduct` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `idcatalog` int(6) unsigned NOT NULL,
-  `idclc` tinyint(3) unsigned NOT NULL,
-  `idcls` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `idclc` smallint(5) unsigned NOT NULL,
+  `idcls` smallint(5) unsigned NOT NULL DEFAULT '0',
   `orderproduct` int(6) NOT NULL,
   PRIMARY KEY (`idproduct`),
   KEY `idclc` (`idclc`),
@@ -97,13 +97,13 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_rel_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
-  `idcls` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `idcls` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `slibelle` varchar(125) NOT NULL,
   `pathslibelle` varchar(125) NOT NULL,
   `img_s` varchar(125) DEFAULT NULL,
   `s_content` text,
-  `idclc` tinyint(3) unsigned NOT NULL,
-  `sorder` tinyint(3) NOT NULL,
+  `idclc` smallint(5) unsigned NOT NULL,
+  `sorder` smallint(5) NOT NULL,
   PRIMARY KEY (`idcls`),
   KEY `idclc` (`idclc`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

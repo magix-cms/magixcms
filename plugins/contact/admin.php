@@ -185,31 +185,6 @@ class plugins_contact_admin extends database_plugins_contact{
 		}
 	}
 	/**
-	 * Fonction pour la création des urls dans le sitemap
-	 * !!! createSitemap obligatoire pour l'ajout dans le sitemap
-	 */
-	/*public function createSitemap(){
-		/*instance la classe*/
-        /*$sitemap = new magixcjquery_xml_sitemap();
-        $dblang = backend_db_lang::dblang()->s_full_lang();
-	    $sitemap->writeMakeNode(
-			magixcjquery_html_helpersHtml::getUrl().'/magixmod/contact/',
-			date('d-m-Y'),
-			'always',
-			0.7
-	    );
-		if($dblang != null){
-	        foreach ($dblang as $l){
-	        	$sitemap->writeMakeNode(
-					magixcjquery_html_helpersHtml::getUrl().'/'.$l['iso'].'/magixmod/contact/',
-					date('d-m-Y'),
-					'always',
-					0.7
-		   		);
-	        }
-        }
-	}*/
-	/**
 	 * @access public
 	 * Options de reecriture des métas
 	 */

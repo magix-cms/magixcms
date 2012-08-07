@@ -99,12 +99,12 @@ class backend_controller_templates{
 			if($makefiles->scanDir($themePath) != null){
 				if(file_exists($themePath.'/screenshot.png')){
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
-					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'.'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a></div>';
+					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'./*'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a>*/'</div>';
 					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img width="150" height="125" src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/'.$d.'/screenshot.png" alt="" /></a></div>';
 					$dossier .= '</div>';
 				}else{
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
-					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'.'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a></div>';
+					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'./*'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a>*/'</div>';
 					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img width="150" height="130" src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png" alt="" /></a></div>';
 					$dossier .= '</div>';
 				}

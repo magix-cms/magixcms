@@ -1,11 +1,28 @@
 2.3.6
+    * Upgrade jQuery 1.7 => 1.7.2
+    * Upgrade jQuery validate 1.9 => jquery validate 2.0.0.pre
+    * Modification du menu select des langues (code ISO + Langue)
+    * Modification du sélecteur de template (affichage succint)
+    * Application du patch pour la faille détectée dans pdwfileupload (tinymce + ckeditor)
+    * Fix bug sur le calcul de temps pour effacement des sessions expirés (Changement dans SQL + script)
+    * Ajout de la licence dans codehightlight (tinyMCE)
+    * Ajout du script compressé dans codehighlight (tinyMCE)
+    * Fix bug dans le chargement de contenu dans l'éditeur tinymce avec codehighlight (catalog,cms)
+    * Ajout des changements apportés dans Jimagine (constants et fbwidgets)
+    * Ajout de la nouvelle version 1.2 de codehighlight dans tinymce (prise en charge du nouvel affichage des scripts)
+    * Upgrade youtube plugin tinymce 1.3 => 1.4
+    * Fix bug erreur de fermeture d'une balise dans le widget "cat load products"
+    * Fix bug Suppression de produit (modification requête POST)
+    * Ajout des options supplémentaire des effets de imagefilter
+    * Ajout du paramètre de class css d'ouverture (open)
+    * Ajout du plugin imagefilter dans phpthumb (Création magix dev) pour la création de filtre pour les images
 	* Fix bug Doublon d'une classe CSS dans la balise <a> des images du widget_news_tags
-	* Upgrade swiftmailer 4.1.2 => 4.1.5
+	* Upgrade swiftmailer 4.1.2 => 4.2.1
 	* Upgrade in PHPThumb with github version for fix bug
 	* Fix bug fonction non disponible par défaut chez certain hébergeur (htaccess)
 	* Fix bug dans la requête pour retourner les derniers produits
 	* Mise à jour de minify suivant les correctifs appliqués
-	* upgrade jquery form 2.93 => 2.95
+	* upgrade jquery form 2.93 => 3.0.3
 	* Amélioration du système de début de l'upload des images
 	* Fix bug sur les notifications d'erreurs de l'upload des images
 	* Modifications de la taille maximum des images via MAX_FILE_SIZE
