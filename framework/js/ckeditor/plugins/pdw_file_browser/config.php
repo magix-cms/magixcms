@@ -27,8 +27,11 @@ THE SOFTWARE.
 $ckeditor_img_dir = dirname(realpath( __FILE__ ));
 $ckeditor_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'ckeditor'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'pdw_file_browser');
 $ckeditor_path = str_replace($ckeditor_array_dir,array('') , $ckeditor_img_dir);
-if(!isset($_SESSION)){ session_start();}  
-
+//if(!isset($_SESSION)){ session_start();}
+include $ckeditor_path.'lib/mcbackend.php';
+$members = new backend_controller_admin();
+$members->securePage();
+$members->closeSession();
 /*
  * Uncomment lines below to enable PHP error reporting and displaying PHP errors.
  * Do not do this on a production server. Might be helpful when debugging why PDW File Browser

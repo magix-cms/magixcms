@@ -27,7 +27,14 @@ THE SOFTWARE.
 $tinymce_img_dir = dirname(realpath( __FILE__ ));
 $tinymce_array_dir = array('framework'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tiny_mce'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'pdw_file_browser');
 $tinymce_path = str_replace($tinymce_array_dir,array('') , $tinymce_img_dir);
-if(!isset($_SESSION)){ session_start();}  
+include $tinymce_path.'lib/mcbackend.php';
+/*if(!isset($_SESSION)){
+    session_start();
+
+}*/
+$members = new backend_controller_admin();
+$members->securePage();
+$members->closeSession();
 
 /*
  * Uncomment lines below to enable PHP error reporting and displaying PHP errors.

@@ -33,8 +33,15 @@
 /**
  * Charge toutes les Classes de l'application
  */
-$magixglobal = '../app/magixglobal/autoload.php';
-$mcbackend = '../app/backend/autoload.php';
+final class backendConfig{
+    public static function backendLoaderFiles($files,array $arraydir){
+        $libraryArraydir = $arraydir;
+        return str_replace($libraryArraydir, array('') , $files);
+    }
+}
+
+$magixglobal = backendConfig::backendLoaderFiles(dirname(realpath( __FILE__ )).'app/magixglobal/autoload.php',array('lib'));
+$mcbackend = backendConfig::backendLoaderFiles(dirname(realpath( __FILE__ )).'app/backend/autoload.php',array('lib'));
 if (!file_exists($magixglobal) || !file_exists($mcbackend)) {
 	throw new Exception("Autoload is not found Contact Webmestre: support@magix-cms.com");
 	exit;
@@ -42,14 +49,15 @@ if (!file_exists($magixglobal) || !file_exists($mcbackend)) {
 	require($magixglobal);
 	require($mcbackend);
 }
-$loaderFilename = '../lib/loaderIniclass.php';
+$loaderFilename = dirname(realpath( __FILE__ )).'/loaderIniclass.php';
 if (!file_exists($loaderFilename)) {
 	print "<p>Loader is not found<br />Contact Support Magix CMS: support@magix-cms.com</p>";
 	exit;
 }else{
 	require $loaderFilename;
 }
-$config = '../app/config/config.php';
+
+$config = backendConfig::backendLoaderFiles(dirname(realpath( __FILE__ )).'app/config/config.php',array('lib'));
 if (!file_exists($config)) {
 	print '<p>La base de donnée n\'existe pas, veuillez suivre la procédure pour faire l\'<a href="/install/">installation</a> de Magix CMS</p>';
 	exit;
