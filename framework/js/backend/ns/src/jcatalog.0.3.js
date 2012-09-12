@@ -15,42 +15,43 @@ var ns_jcatalog_subcategory = {
 		     * Ajout d'une class au survol d'une catégorie
 		     */
 		    $('#sortproduct li').hover(
-					function() { $(this).addClass('ui-state-hover'); },
-					function() { $(this).removeClass('ui-state-hover'); }
+                function() { $(this).addClass('ui-state-hover'); },
+                function() { $(this).removeClass('ui-state-hover'); }
 			);
 		    /**
 		     * Initialisation du drag and drop pour les catégories (catalogue ou cms)
 		     * Requête ajax pour l'enregistrement du déplacement
 		     */
-			$("#sortproduct").sortable({
+		    $("ul#sortproduct").sortable({
 				placeholder: 'ui-state-highlight',
 				dropOnEmpty: false,
 				axis: "y",
 				cursor: "move",
-				update : function () {
-					serial = $('#sortproduct').sortable('serialize');
-					$.nicenotify({
+				update: function () {
+					var serial = $(this).sortable("serialize");//.replace(/=\[\]/g, '-');
+                    //var serial = $(this).sortable('serialize',{key:'string'});
+                    $.nicenotify({
 						ntype: "ajax",
 						uri: '/admin/catalog.php?catalog&order',
 						typesend: 'post',
-						noticedata:serial,
+						noticedata: serial,
 						successParams:function(e){
 							$.nicenotify.initbox(e,{
 								display:false
 							});
 						}
 					});
-				}
+                }
 			});
-		}else{
+		}/*else{
 			/**
 		     * Ajout d'une class au survol d'une catégorie
 		     */
-		    $('#sortcat li,#sortsubcat li').hover(
-					function() { $(this).addClass('ui-state-hover'); },
-					function() { $(this).removeClass('ui-state-hover'); }
+		    /*$('#sortcat li,#sortsubcat li').hover(
+                function() { $(this).addClass('ui-state-hover'); },
+                function() { $(this).removeClass('ui-state-hover'); }
 			);
-		}
+		}*/
 	},
 	_load_json_subcat:function(upcat){
 		$.nicenotify({
@@ -213,7 +214,7 @@ var ns_jcatalog_subcategory = {
 		/**
 	     * Requête ajax pour la suppression des sous catégories dans le catalogue
 	     */
-		$('.dels').live("click",function(event){
+		$(document).on("click",'.dels',function(event){
 			event.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -290,8 +291,8 @@ var ns_jcatalog_category = {
 		     * Ajout d'une class au survol d'une catégorie
 		     */
 		    $('#sortcat li,#sortsubcat li').hover(
-					function() { $(this).addClass('ui-state-hover'); },
-					function() { $(this).removeClass('ui-state-hover'); }
+                function() { $(this).addClass('ui-state-hover'); },
+                function() { $(this).removeClass('ui-state-hover'); }
 			);
 		}
 	},
@@ -456,7 +457,7 @@ var ns_jcatalog_category = {
 		/**
 		 * Mise à jour d'une catégorie
 		 */
-		$("#forms-catalog-editcategory").submit(function(){
+		$("#forms-catalog-editcategory").on('submit',function(){
 			var url = '/admin/catalog.php?upcat='+idcategory;
 			$.nicenotify({
 				ntype: "submit",
@@ -471,7 +472,7 @@ var ns_jcatalog_category = {
 		});
 	},
 	_editCatImg:function(idcategory){
-		$("#forms-catalog-editcategory-img").submit(function(){
+		$("#forms-catalog-editcategory-img").on('submit',function(){
 			var urleditcat = '/admin/catalog.php?upcat='+idcategory;
 			$.nicenotify({
 				ntype: "submit",
@@ -494,7 +495,7 @@ var ns_jcatalog_category = {
 		/**
 	     * Requête ajax pour la suppression des catégories
 	     */
-		$('.delc').live("click",function(event){
+		$(document).on("click",'.delc',function(event){
 			event.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -607,7 +608,7 @@ var ns_jcatalog_product = {
 		/**
 		 * Supprime une création de produit dans une catégorie/ou sous catégorie
 		 */
-		$('.d-in-product').live("click",function (event){
+		$(document).on("click",'.d-in-product',function (event){
 			event.preventDefault();
 			var inproduct = $(this).attr("title");
 			$("#dialog").dialog({
@@ -634,7 +635,7 @@ var ns_jcatalog_product = {
 					}
 				}
 			});
-		 });
+		});
 	},
 	_load_rel_product:function(idcatalog){
 		$.nicenotify({
@@ -693,7 +694,7 @@ var ns_jcatalog_product = {
 		/**
 		 * Supprime une liaison de produit avec une fiche catalogue
 		 */
-		$('.d-rel-product').live("click",function (event){
+		$(document).on("click",'.d-rel-product',function (event){
 			event.preventDefault();
 			var relproduct = $(this).attr("title");
 			$("#dialog").dialog({
@@ -876,7 +877,7 @@ var ns_jcatalog_product = {
 		$("#forms-catalog-galery").valgalery;
 	},
 	_deleteMicroGalery:function(idproduct){
-		$('.delmicro').live("click",function(event){
+		$(document).on("click",'.delmicro',function(event){
 			event.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -909,7 +910,7 @@ var ns_jcatalog_product = {
 		/**
 	     * Requête ajax pour la suppression des produits
 	     */
-		$('.deleteproduct').live("click",function (event){
+		$(document).on("click",'.deleteproduct',function (event){
 			event.preventDefault();
 			var lg = $(this).attr("title");
 			$("#dialog").dialog({
@@ -983,7 +984,7 @@ var ns_jcatalog_product = {
 		/**
 		 * Soumission ajax d'un produit dans le catalogue
 		 */
-		$("#forms-catalog-product").submit(function(){
+		$("#forms-catalog-product").on('submit',function(){
 			if(productid != null){
 				$.nicenotify({
 					ntype: "submit",
@@ -1002,7 +1003,7 @@ var ns_jcatalog_product = {
 		});
 	},
 	_addRelProduct:function(productid){
-		$("#forms-catalog-rel-product").submit(function(){
+		$("#forms-catalog-rel-product").on('submit',function(){
 			if(productid != null){
 				$.nicenotify({
 					ntype: "submit",
@@ -1024,7 +1025,7 @@ var ns_jcatalog_product = {
 		/**
 		 * Recherche simple dans les titres des catalogues
 		 */
-		$("#forms-search-catalog").submit(function(){
+		$("#forms-search-catalog").on('submit',function(){
 			$.nicenotify({
 				ntype: "submit",
 				uri: '/admin/catalog.php?get_search_page=true',

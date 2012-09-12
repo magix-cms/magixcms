@@ -232,7 +232,7 @@ INSERT INTO `mc_setting` (`setting_id`, `setting_value`, `setting_type`, `settin
 ('webmaster', '', 'string', 'google webmasterTools'),
 ('analytics', '', 'string', 'google analytics'),
 ('editor', 'pdw_file_browser', 'string', 'tinymce'),
-('magix_version', '2.3.5', 'string', 'Version Magix CMS');
+('magix_version', '2.3.6', 'string', 'Version Magix CMS');
 
 ALTER TABLE `mc_admin_session`
   ADD CONSTRAINT `mc_admin_session_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `mc_admin_member` (`idadmin`);
