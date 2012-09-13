@@ -987,6 +987,9 @@
 	background-position: -20px -40px !important;
 }
 
-.cirkuitSkin span.mce_visualblocks {
+/*.cirkuitSkin span.mce_visualblocks {
     background-position: -520px 0 !important;
+}*/
+.cirkuitSkin span.mce_visualblocks {
+    background-position: -40px -40px;!important
 }
