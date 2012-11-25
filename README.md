@@ -11,10 +11,11 @@ Authors
 
  * Gerits Aurelien (Author-Developer) <aurelien[at]magix-cms[point]com>
  
-Pages
+Site officiel
 -----
 
-http://gtraxx.github.com/magixcms
+ * http://www.magix-cms.com (site officiel)
+ * http://www.magix-cms.net (documentation développeur)
 
 Requirements
 ------------
