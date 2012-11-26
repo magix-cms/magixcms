@@ -30,7 +30,14 @@ Requirements
      * PDO
  * MYSQL
 
-### Library
+### Required Library
+
+    Smarty 3 (http://www.smarty.net/download)
+    copy to: /lib/smarty3
+
+    Magixcjquery (http://sourceforge.net/projects/magixcjquery/files/magixcjquery-stable/3.x/)
+    copy to: /lib/magixcjquery
+
 Il faut ajouté le dossier smarty3 et magixcjquery dans le dossier lib,
 vous pouvez télécharger les dernières versions pour être compatible avec magix cms.
 
