@@ -2,3 +2,10 @@
 .svn
 .idea
 .DS_STORE
+/app/config/config.php
+/upload/*
+/media/*
+/var/caches/minify_*
+/var/templates_c/*
+/var/tpl_admin/*
+/var/pdw_file_cache/*
