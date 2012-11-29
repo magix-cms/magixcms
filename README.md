@@ -9,7 +9,15 @@ Magix cms est un gestionnaire de contenu optimisé pour le référencement
 Authors
 -------
 
- * Gerits Aurelien (Author-Developer) <aurelien[at]magix-cms[point]com>
+ * Gerits Aurelien (Author-Developer) contact[at]aurelien-gerits[point]be - aurelien[at]magix-cms[point]com
+    * [magixcms](http://www.magix-cms.com)
+    * [CV Aurelien Gerits](http://www.aurelien-gerits.be)
+    * [Github Aurelien Gerits](https://github.com/gtraxx/)
+    * [MagixcjQuery](http://www.magix-cjquery.com)
+
+## Contributors
+
+ * Lesire Samuel (www.sire-sam.be)
  
 Site officiel
 -----
@@ -48,11 +56,11 @@ Licence
 This file is part of Magix CMS.
 Magix CMS, a CMS optimized for SEO
 
-Copyright (C) 2008 - 2012 magix-cms.com <support[at]magix-cms[point]com>
+Copyright (C) 2008 - 2012 magix-cms.com support[at]magix-cms[point]com
 
 OFFICIAL TEAM :
 
--  Gerits Aurelien (Author - Developer) <aurelien[at]magix-cms[point]com>
+-  Gerits Aurelien (Author - Developer) contact[at]aurelien-gerits[point]be - aurelien[at]magix-cms[point]com
 
 Redistributions of files must retain the above copyright notice.
 This program is free software: you can redistribute it and/or modify
