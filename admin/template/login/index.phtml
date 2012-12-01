@@ -2,25 +2,24 @@
 <title>Test</title>
 </head>
 <body class="module-login">
-<div id="content" class="container">
-    <div class="row content-login">
-        <div id="contentCol" class="span4">
+<div class="container">
+    <div class="row-fluid">
+        <div class="container span5 box-login">
             <h1>Connexion</h1>
-            <form id="forms-log" method="post" action="{geturl}/login.php">
+            <form id="forms-log" method="post" action="{geturl}/admin/login.php">
                 <p>
                     <label for="acmail">Email :</label>
-                    <input type="text" id="acmail" name="acmail" value="" size="30" />
+                    <input type="text" class="input-xlarge" placeholder="Text input" id="acmail" name="acmail" value="" />
                 </p>
                 <p>
                     <label for="acpass">Password :</label>
-                    <input type="password" id="acpass" name="acpass" value="" size="30" />
+                    <input type="password" class="input-xlarge" id="acpass" name="acpass" value="" />
                 </p>
                 <p>
                     <input type="hidden" id="hashtoken" name="hashtoken" value="{$hashpass}" />
-                    <input type="submit" value="Connexion" />
+                    <input type="submit" class="btn" value="Connexion" />
                 </p>
             </form>
-            {*<a title="Récupération de votre mot de passe" href="{geturl}/login.php?newlogin=1">Mot de passe oublié ?</a>*}
         </div>
     </div>
 </div>
