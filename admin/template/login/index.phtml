@@ -1,0 +1,29 @@
+{include file="section/head.phtml"}
+<title>Test</title>
+</head>
+<body class="module-login">
+<div id="content" class="container">
+    <div class="row content-login">
+        <div id="contentCol" class="span4">
+            <h1>Connexion</h1>
+            <form id="forms-log" method="post" action="{geturl}/login.php">
+                <p>
+                    <label for="acmail">Email :</label>
+                    <input type="text" id="acmail" name="acmail" value="" size="30" />
+                </p>
+                <p>
+                    <label for="acpass">Password :</label>
+                    <input type="password" id="acpass" name="acpass" value="" size="30" />
+                </p>
+                <p>
+                    <input type="hidden" id="hashtoken" name="hashtoken" value="{$hashpass}" />
+                    <input type="submit" value="Connexion" />
+                </p>
+            </form>
+            {*<a title="Récupération de votre mot de passe" href="{geturl}/login.php?newlogin=1">Mot de passe oublié ?</a>*}
+        </div>
+    </div>
+</div>
+{*{include file="login/internal/js.phtml"}*}
+</body>
+</html>

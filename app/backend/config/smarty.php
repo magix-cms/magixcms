@@ -82,7 +82,7 @@ class backend_config_smarty extends Smarty{
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = array(self::setPath()."/framework/skin/backend/");
+		$this->template_dir = array(self::setPath()."/admin/template/");
 		/**
 		 * path plugins
 		 * @var void
@@ -95,7 +95,7 @@ class backend_config_smarty extends Smarty{
 		/**
 		 * Path -> compile
 		 */
-		$this->compile_dir = self::setPath()."/var/tpl_admin/";
+		$this->compile_dir = self::setPath()."/admin/caching/templates_c/";
 		/**
 		 * debugging (true/false)
 		 */
@@ -121,7 +121,7 @@ class backend_config_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::setPath().'/var/tmp/';
+		$this->cache_dir = self::setPath().'/admin/caching/cache/';
 		/**
 		 * load pre filter
 		 */
