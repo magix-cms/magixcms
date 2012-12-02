@@ -4,7 +4,14 @@
 Presentation
 ------------
 
-Magix cms est un gestionnaire de contenu optimisé pour le référencement
+Magix cms est un gestionnaire de contenu développé en PHP 5,
+proposant une multitude d'outils intégrés.
+Le gestionnaire est simple et intuitif permettant une adaptation rapide pour tout utilisateur,
+ainsi qu'une indexation optimal dans les moteurs de recherches.
+
+## Note
+N'utiliser pas la version de ce dépôt pour autre chose que vos propres tests,
+la dernière version stable sur le site est optimisé pour la mise en production.
 
 Authors
 -------
