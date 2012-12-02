@@ -1,23 +1,37 @@
 <?php
-# -- BEGIN LICENSE BLOCK ----------------------------------
-#
-# This file is part of Magix CMS.
-# Magix CMS, a CMS optimized for SEO
-# Copyright (C) 2010 - 2011  Gerits Aurelien <aurelien@magix-cms.com>
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+/*
+ # -- BEGIN LICENSE BLOCK ----------------------------------
+ #
+ # This file is part of MAGIX CMS.
+ # MAGIX CMS, The content management system optimized for users
+ # Copyright (C) 2008 - 2012 sc-box.com <support@magix-cms.com>
+ #
+ # OFFICIAL TEAM :
+ #
+ #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
+ #
+ # Redistributions of files must retain the above copyright notice.
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# -- END LICENSE BLOCK -----------------------------------
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # -- END LICENSE BLOCK -----------------------------------
+
+ # DISCLAIMER
+
+ # Do not edit or add to this file if you wish to upgrade MAGIX CMS to newer
+ # versions in the future. If you wish to customize MAGIX CMS for your
+ # needs please refer to http://www.magix-cms.com for more information.
+ */
 /**
  * MAGIX CMS
  * @category   Controller 
@@ -36,11 +50,19 @@ class backend_controller_dashboard{
 	 * @var readInstance
 	 */
 	static protected $SimpleXMLElement;
+    /**
+     * @var string
+     */
+    public $action;
 	/**
 	 * function construct
 	 *
 	 */
-	function __construct(){}
+	function __construct(){
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+    }
 	/**
 	 * Charge le fichier version.xml courant
 	 * @return string
@@ -75,22 +97,23 @@ class backend_controller_dashboard{
 	/*
 	 * Affiche la version du CMS ainsi que le message attaché
 	 */
-	public function version_cms(){
-			$version = '<strong>'.self::read_local_version().'</strong> ('.self::read_local_phase().')';
-			backend_config_smarty::getInstance()->assign('version', $version);
-			backend_config_smarty::getInstance()->display('dashboard/version.phtml');
-	}
-	/**
-	 * Retourne le dashboard
-	 */
-	private function display(){
-		backend_config_smarty::getInstance()->display('dashboard/index.phtml');
+	private function format_version($create){
+        $version = '<strong>'.self::read_local_version().'</strong> ('.self::read_local_phase().')';
+        $create->assign('version', $version, true);
+        $create->display('dashboard/version.phtml');
 	}
 	/**
 	 * Execute les scripts du dashboard
 	 */
 	public function run(){
-		self::display();
+        $create = new backend_controller_template();
+        if(isset($this->action)){
+            if($this->action == 'version'){
+                $this->format_version($create);
+            }
+        }else{
+            $create->display('dashboard/index.phtml');
+        }
 	}
 }
 ?>

@@ -31,65 +31,74 @@
  *
  */
 class backend_controller_template{
-	/**
-	 * @access public
-	 * Affiche le template
-	 * @param string|object $template
-	 * @param mixed $cache_id
-	 * @param mixed $compile_id
-	 * @param object $parent
-	 */
-	public static function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
-		return backend_config_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
-	}
-	/**
-	 * @access public
-	 * Retourne le template
-	 * @param string|object $template
-	 * @param mixed $cache_id
-	 * @param mixed $compile_id
-	 * @param object $parent
-	 * @param bool   $display           true: display, false: fetch
+    /**
+     * @access public
+     * Affiche le template
+     * @param string|object $template
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     */
+    public static function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
+        if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+            backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
+        }else{
+            backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
+        }
+    }
+    /**
+     * @access public
+     * Retourne le template
+     * @param string|object $template
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     * @param bool   $display           true: display, false: fetch
      * @param bool   $merge_tpl_vars    if true parent template variables merged in to local scope
      * @param bool   $no_output_filter  if true do not run output filter
      * @return string rendered template output
-	 */
-	public static function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
-		return backend_config_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
-	}
-	/**
-	 * Test si le cache est valide
-	 * @param string|object $template
-	 * @param mixed $cache_id
-	 * @param mixed $compile_id
-	 * @param object $parent
-	 */
-	public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
-		return backend_config_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
-	}
-	/**
-	 * @access public
-	 * Assign les variables dans les fichiers phtml
-	 * @param void $tpl_var
-	 * @param string $value
-	 * @param bool $nocache
-	 */
-	public static function assign($tpl_var, $value = null, $nocache = false){
-		if (is_array($tpl_var)){
-			return backend_config_smarty::getInstance()->assign($tpl_var);
-		}else{
-			if($tpl_var){
-				return backend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
-			}else{
-				throw new Exception('Unable to assign a variable in template');
-			}
-		}
-	}
+     */
+    public static function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
+        if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+            backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+        }else{
+            backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+        }
+    }
+    /**
+     * @access public
+     * Assign les variables dans les fichiers phtml
+     * @param void $tpl_var
+     * @param string $value
+     * @param bool $nocache
+     */
+    public static function assign($tpl_var, $value = null, $nocache = false){
+        return backend_model_smarty::getInstance()->assign($tpl_var,$value);
+        if (is_array($tpl_var)){
+            backend_model_smarty::getInstance()->assign($tpl_var);
+        }else{
+            if($tpl_var){
+                backend_model_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+            }else{
+                throw new Exception('Unable to assign a variable in template');
+            }
+        }
+    }
+    /**
+     * Test si le cache est valide
+     * @param string|object $template
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     */
+    public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
+        backend_model_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
+    }
 	/**
 	 * Charge les variables du fichier de configuration dans le site
 	 * @param string $varname
 	 */
 	public static function getConfigVars($varname = null, $search_parents = true){
-		return backend_config_smarty::getInstance()->getConfigVars($varname, $search_parents);
+		return backend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
 }

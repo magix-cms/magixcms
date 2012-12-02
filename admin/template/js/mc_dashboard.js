@@ -7,7 +7,7 @@
  #
  # OFFICIAL TEAM :
  #
- #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com>
+ #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
  #
  # Redistributions of files must retain the above copyright notice.
  # This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ var MC_dashboard = (function ($, undefined) {
     function loadVersion(){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/version.php',
+            uri: '/admin/dashboard.php?action=version',
             typesend: 'get',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("min-loader").append(
