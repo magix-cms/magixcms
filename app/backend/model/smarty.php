@@ -41,6 +41,9 @@ if (file_exists($inc)) {
 }else{
 	exit();
 }
+if (!defined('PATHADMIN')) {
+    exit('Error defined PATHADMIN');
+}
 //if(!defined('REQUIRED_SMARTY_DIR')) define('REQUIRED_SMARTY_DIR','./');
 /**
  * Extend class smarty
@@ -90,7 +93,7 @@ class backend_config_smarty extends Smarty{
 		$this->plugins_dir = array(
 			self::setPath().'/lib/smarty3/plugins/'
 			,self::setPath().'/app/extends/core/'
-			,self::setPath().'/app/extends/backend/'
+			,self::setPath().PATHADMIN.'/template/widget/'
 		);
 		/**
 		 * Path -> compile
