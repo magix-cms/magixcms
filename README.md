@@ -10,8 +10,8 @@ Le gestionnaire est simple et intuitif permettant une adaptation rapide pour tou
 ainsi qu'une indexation optimal dans les moteurs de recherches.
 
 ## Note
-N'utiliser pas la version de ce dépôt pour autre chose que vos propres tests,
-la dernière version stable sur le site est optimisé pour la mise en production.
+    N'utilisez pas la version de ce dépôt pour autre chose que vos propres tests,
+    la dernière version stable sur le site est optimisé pour la mise en production.
 
 Authors
 -------
