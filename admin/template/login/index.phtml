@@ -2,22 +2,26 @@
 <title>Test</title>
 </head>
 <body class="module-login">
-<div class="container">
+<div class="container-fluid">
     <div class="row-fluid">
-        <div class="container span5 box-login">
+        <div class="span4 box-login">
             <h1>Connexion</h1>
             <form id="forms-log" method="post" action="{geturl}/admin/login.php">
-                <p>
-                    <label for="acmail">Email :</label>
-                    <input type="text" class="input-xlarge" placeholder="Text input" id="acmail" name="acmail" value="" />
+                <p class="input-prepend">
+                    <span class="add-on">
+                        <span class="icon-envelope"></span>
+                    </span>
+                    <input type="text" class="input-xlarge" placeholder="Indiquer le login" id="acmail" name="acmail" value="" />
                 </p>
-                <p>
-                    <label for="acpass">Password :</label>
-                    <input type="password" class="input-xlarge" id="acpass" name="acpass" value="" />
+                <p class="input-prepend">
+                    <span class="add-on">
+                        <span class="icon-key"></span>
+                    </span>
+                    <input type="password" class="input-xlarge" placeholder="Indiquer le password" id="acpass" name="acpass" value="" />
                 </p>
                 <p>
                     <input type="hidden" id="hashtoken" name="hashtoken" value="{$hashpass}" />
-                    <input type="submit" class="btn" value="Connexion" />
+                    <input type="submit" class="btn btn-primary" value="Connexion" />
                 </p>
             </form>
         </div>
