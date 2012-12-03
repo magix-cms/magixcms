@@ -1,11 +1,4 @@
 <?php
-$configdir = 'pathadmin.php';
-if(file_exists($configdir)){
-    require $configdir;
-    if(!defined('PATHADMIN')){
-        throw new Exception('PATHADMIN is not defined');
-    }
-}
 /**
  * Groups configuration for default Minify implementation
  * @package Minify
@@ -25,5 +18,5 @@ return array(
 	'//framework/library/jimagine/plugins/jquery.nicenotify.js','///framework/library/jimagine/plugins/jquery.jmShowIt.js'
 	),
 	'globalize'=> array('//framework/library/globalize/globalize.js','//framework/library/globalize/cultures/globalize.cultures.js'),
-    'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.1.css','//'.PATHADMIN.'/template/css/bootstrap-responsive.2.2.1.css','//'.PATHADMIN.'/template/css/font-awesome.css','//'.PATHADMIN.'/template/css/style.css')
+    'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.1.css','//'.PATHADMIN.'/template/css/font-awesome.css','//'.PATHADMIN.'/template/css/style.css')
 );

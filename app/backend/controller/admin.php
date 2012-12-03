@@ -141,7 +141,7 @@ class backend_controller_admin{
 	private function authSession($debug = false){
 		$token = isset($_SESSION['mc_auth_token']) ? $_SESSION['mc_auth_token'] : magixglobal_model_cryptrsa::tokenId();
 		$tokentools = $this->hashPassCreate($token);
-		backend_config_smarty::getInstance()->assign('hashpass',$tokentools);
+		backend_controller_template::assign('hashpass',$tokentools);
 		if (isset($this->acpass) AND isset($this->acmail) AND isset($this->hashtoken)) {
 			if(strcasecmp($this->hashtoken,$tokentools) == 0){
 				if($debug == true){
@@ -192,12 +192,12 @@ class backend_controller_admin{
 						magixglobal_model_redirect::backend_redirect_login(false);	
 					}
 				}else{
-					$fetch = backend_config_smarty::getInstance()->fetch('login/request/failed.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					$fetch = backend_controller_template::fetch('login/request/failed.phtml');
+					backend_controller_template::assign('msg',$fetch);
 				}
 			}else{
-					$fetch = backend_config_smarty::getInstance()->fetch('login/request/hash.phtml');
-					backend_config_smarty::getInstance()->assign('msg',$fetch);
+					$fetch = backend_controller_template::fetch('login/request/hash.phtml');
+					backend_controller_template::assign('msg',$fetch);
 			}
 		}
 	}
@@ -241,6 +241,6 @@ class backend_controller_admin{
 		$this->start_session();
 		$this->tokenInitSession();
 		$this->authSession($debug);
-		backend_config_smarty::getInstance()->display('login/index.phtml');
+		backend_controller_template::display('login/index.phtml');
 	}
 }

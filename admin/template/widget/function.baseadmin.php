@@ -1,12 +1,12 @@
 <?php
 /**
- * Smarty {pathadmin} function plugin
+ * Smarty {baseadmin} function plugin
  *
  * Type:     function
- * Name:     pathadmin
+ * Name:     baseadmin
  * Date:     01/12/2012 19:07
  * Purpose:  Récupère L'URL de l'admin.
- * Examples: {pathadmin}
+ * Examples: {baseadmin}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
@@ -15,6 +15,6 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_pathadmin($params, $template){
+function smarty_function_baseadmin($params, $template){
 	return PATHADMIN;
 }

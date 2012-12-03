@@ -47,9 +47,9 @@
 /**
  * Charge toutes les Classes de l'application
  */
-$pathadmin = 'pathadmin.php';
-if(file_exists($pathadmin)){
-    require $pathadmin;
+$baseadmin = 'baseadmin.php';
+if(file_exists($baseadmin)){
+    require $baseadmin;
     if(!defined('PATHADMIN')){
         throw new Exception('PATHADMIN is not defined');
     }

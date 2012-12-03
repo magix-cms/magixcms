@@ -89,7 +89,7 @@ class backend_model_smarty extends Smarty{
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = array(self::setPath()."/admin/template/");
+		$this->template_dir = array(self::setPath().'/'.PATHADMIN.'/template/');
 		/**
 		 * path plugins
 		 * @var void
@@ -97,12 +97,12 @@ class backend_model_smarty extends Smarty{
 		$this->plugins_dir = array(
 			self::setPath().'/lib/smarty3/plugins/'
 			,self::setPath().'/app/extends/core/'
-			,self::setPath().PATHADMIN.'/template/widget/'
+			,self::setPath().'/'.PATHADMIN.'/template/widget/'
 		);
 		/**
 		 * Path -> compile
 		 */
-		$this->compile_dir = self::setPath()."/admin/caching/templates_c/";
+		$this->compile_dir = self::setPath().'/'.PATHADMIN.'/caching/templates_c/';
 		/**
 		 * debugging (true/false)
 		 */
@@ -128,7 +128,7 @@ class backend_model_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::setPath().'/admin/caching/cache/';
+		$this->cache_dir = self::setPath().'/'.PATHADMIN.'/caching/cache/';
 		/**
 		 * load pre filter
 		 */

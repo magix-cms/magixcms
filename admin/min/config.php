@@ -1,7 +1,10 @@
 <?php
-$configdir = '../pathadmin.php';
-if(file_exists($configdir)){
-	require $configdir;
+$baseadmin = '../baseadmin.php';
+if(file_exists($baseadmin)){
+    require $baseadmin;
+    if(!defined('PATHADMIN')){
+        throw new Exception('PATHADMIN is not defined');
+    }
 }
 $mindir = dirname(realpath( __FILE__ ));
 $minarraydir = array(PATHADMIN.DIRECTORY_SEPARATOR.'min');
@@ -34,7 +37,7 @@ $min_builderPassword = 'admin';
  * If you want to use a custom error logger, set this to your logger
  * instance. Your object should have a method log(string $message).
  */
-$min_errorLogger = false;
+$min_errorLogger = true;
 
 
 /**
