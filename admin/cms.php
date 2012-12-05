@@ -44,6 +44,13 @@
  * @name home
  *
  */
+$baseadmin = 'baseadmin.php';
+if(file_exists($baseadmin)){
+    require $baseadmin;
+    if(!defined('PATHADMIN')){
+        throw new Exception('PATHADMIN is not defined');
+    }
+}
 /**
  * Charge toutes les Classes de l'application
  */

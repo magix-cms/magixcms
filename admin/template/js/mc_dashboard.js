@@ -40,10 +40,10 @@
  */
 var MC_dashboard = (function ($, undefined) {
     //Fonction Private
-    function loadVersion(){
+    function loadVersion(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/dashboard.php?action=version',
+            uri: '/'+baseadmin+'/dashboard.php?action=version',
             typesend: 'get',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("min-loader").append(
@@ -65,8 +65,8 @@ var MC_dashboard = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        run:function () {
-            loadVersion();
+        run:function (baseadmin) {
+            loadVersion(baseadmin);
         }
     };
 })(jQuery);

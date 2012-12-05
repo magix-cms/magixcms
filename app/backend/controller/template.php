@@ -94,10 +94,13 @@ class backend_controller_template{
     public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
         backend_model_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
     }
-	/**
-	 * Charge les variables du fichier de configuration dans le site
-	 * @param string $varname
-	 */
+
+    /**
+     * Charge les variables du fichier de configuration dans le site
+     * @param string $varname
+     * @param bool $search_parents
+     * @return string
+     */
 	public static function getConfigVars($varname = null, $search_parents = true){
 		return backend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
