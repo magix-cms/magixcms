@@ -19,5 +19,6 @@ return array(
     '//'.PATHADMIN.'/template/js/setting.js'),
 	'globalize'=> array('//framework/library/globalize/globalize.js','//framework/library/globalize/cultures/globalize.cultures.js'),
     'tinymce' => array('//'.PATHADMIN.'/template/js/tiny_mce.'.VERSION_EDITOR.'/jquery.tinymce.js'),
-    'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.1.css','//'.PATHADMIN.'/template/css/font-awesome.css','//'.PATHADMIN.'/template/css/style.css')
+    'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.1.css','//'.PATHADMIN.'/template/css/font-awesome.css',
+    '//'.PATHADMIN.'/template/css/ui-bootstrap/jquery-ui-1.9.2.custom.css','//'.PATHADMIN.'/template/css/style.css')
 );

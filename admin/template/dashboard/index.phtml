@@ -16,9 +16,14 @@
                     </div>
                 </div>
                 <div class="span6">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                    <p>
+                        <a href="#" id="dialog_link">
+                            <span class="icon-share"></span> Open Dialog
+                        </a>
+                    </p>
+                    <div id="dialog" title="Dialog Title">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
                 </div>
             </div>
             <div class="row-fluid">
@@ -35,8 +40,8 @@
             </div>
         </div>
     </div>
-    {include file="section/footer.phtml"}
 </div>
+{include file="section/footer.phtml"}
 {include file="section/js.phtml"}
 {include file="dashboard/section/js.phtml"}
 </body>
