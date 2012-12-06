@@ -1,3 +1,35 @@
+#### 2.4.0
+alpha 3
+    * Ajout de jquery ui bootstrap …
+    * Modification de la mise en page du footer
+    * Premier test avec jQuery UI et les éléments boostrap
+    * Configuration de l'éditeur + définition des constantes
+    * Déplacement de tinymce
+    * Fix bug avec la classe smarty (backend)
+    * Ajout de la constante PATHADMIN
+    * Déplacement des favicons dans le template admin
+
+alpha 2
+    * Modification du fichier JS dashboard
+    * Modification du fichier dashboard + suppression fichier version
+    * Ajout d'une adresse mail dans la licence GPL3
+    * Organisation du modele dashboard
+    * Suppression des icônes de boostrap dans la feuille principal (prise en charge "font")
+    * Organisation des sections
+    * Modification de l'entête HTML
+alpha 1
+    * Ajout de font awesome pour bootstrap
+    * Ajout du modèle pour le dashboard
+    * Ajout des icônes pour les champs login
+    * Modification de l'entête html
+    * Fix bug chemin du fichier icônes de bootstrap
+    * Ajout de la nouvelle page de login
+
+pre alpha
+    * Modification des informations du fichier README
+    * Ajout des dossiers manquants + gitignore
+    * Ajout des nouveaux fichiers pour la modification de l'architecture de l'admin
+
 2.3.6
     * Fix bug avec jquery live => remplacement par on dans jquery 1.7.2
     * Modification du chargement de jquery et jquery form dans les plugins de tinymce de magix cms (cms,catalog,news)
