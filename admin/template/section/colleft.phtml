@@ -1,19 +1,22 @@
 <div class="span3">
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
-            {*<li class="nav-header">Configuration</li>
-            <li class="active"><a href="#">Link</a></li>
+            <li class="nav-header">Configuration</li>
+            <li><a href="/{baseadmin}/users.php">Utilisateurs</a></li>
+            <li><a href="/{baseadmin}/config.php">Paramètres</a></li>
+            <li><a href="/{baseadmin}/editor.php">Editeur Wysiwyg</a></li>
             <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li class="nav-header">Sidebar</li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>*}
-            {sidebar_nav}
+            <li class="nav-header">Pages</li>
+            <li><a href="/{baseadmin}/home.php">Page d'accueil</a></li>
+            <li class="active">
+                <a href="/{baseadmin}/cms.php">CMS</a>
+                <ul class="nav nav-list">
+                    <li>
+                        <a href="/{baseadmin}/cms.php?getlang=1">FR</a>
+                    </li>
+                </ul>
+            </li>
+            {* {sidebar_nav} *}
         </ul>
     </div>
 </div>

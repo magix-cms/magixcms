@@ -1,3 +1,14 @@
 {include file="section/editor.phtml"}
 {script src="/{baseadmin}/min/?g=tinymce" type="javascript"}
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js" type="javascript"}
+{script src="/{baseadmin}/min/?g=charts" type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_pages.js" type="javascript"}
+<script type="text/javascript">
+$(function(){
+    if (typeof MC_pages == "undefined")
+    {
+        console.log("MC_pages is not defined");
+    }else{
+        MC_pages.runCharts();
+    }
+});
+</script>

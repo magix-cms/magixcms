@@ -560,35 +560,16 @@ class backend_controller_cms extends backend_db_cms{
 	 * Requête JSON pour les statistiques du CMS
 	 */
 	private function json_google_chart(){
-		if(parent::count_lang_parent_p() != null){
-			foreach (parent::count_lang_parent_p() as $s){
-				$rowParent[]= $s['parent_p_count'];
-			}
-		}else{
-			$rowParent = array(0);
-		}
-		if(parent::count_lang_child_p() != null){
-			foreach (parent::count_lang_child_p() as $s){
-				$rowChild[]= $s['child_p_count'];
-			}
-		}else{
-			$rowChild = array(0);
-		}
-		if(parent::s_iso_lang() != null){
-			foreach (parent::s_iso_lang() as $s){
-				$rowLang[]= json_encode(magixcjquery_string_convert::upTextCase($s['iso']));
-			}
-		}else{
-			$rowLang = array(0);
-		}
-		if(parent::count_related_lang() != null){
-			foreach (parent::count_related_lang() as $s){
-				$relatedLang[]= $s['rel_lang_child'];
-			}
-		}else{
-			$relatedLang = array(0);
-		}
-		print '{"parent_p_count":['.implode(',',$rowParent).'],"child_p_count":['.implode(',',$rowChild).'],"rel_lang_child":['.implode(',',$relatedLang).'],"lang":['.implode(',',$rowLang).']}';
+        if(parent::s_stats_pages() != null){
+            foreach (parent::s_stats_pages() as $key){
+                $stat[]= array(
+                    'x'=>magixcjquery_string_convert::upTextCase($key['iso']),
+                    'y'=>$key['PARENT'],
+                    'z'=>$key['CHILD']
+                );
+            }
+            print json_encode($stat);
+        }
 	}
 	/**
 	 * @access private

@@ -1,10 +1,10 @@
 body {
     padding-top: 60px;
-    padding-bottom: 40px;
+    /*padding-bottom: 40px;*/
 }
-.sidebar-nav {
-    padding: 9px 0;
-}
+/**
+* LOGIN
+*/
 .box-login {
     background-color: #FFFFFF;
     background-image: linear-gradient(to bottom, #E6E6E6, #FFFFFF);
@@ -21,9 +21,10 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
-.nav-header {
-    font-size:14px;
-}
+/*
+* ==== FOOTER
+*/
+
 .navbar-static-bottom {
     position: static;
     margin-top:20px;
@@ -36,4 +37,20 @@ body {
     -moz-border-radius: 0;
     border-radius: 0;
     border-width: 1px 0 1px;
+}
+/**
+ ===== SIDEBAR
+*/
+
+.nav-header {
+    font-size:14px;
+}
+.sidebar-nav {
+    padding: 9px 0;
+}
+/**
+ ====    loader
+*/
+.loader > img{
+    margin-top: 20px;
 }

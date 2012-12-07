@@ -233,6 +233,27 @@ class backend_db_cms{
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 	/*######################## Statistiques ##############################*/
+    protected function s_stats_pages(){
+        $sql = 'SELECT lang.iso, IF(parent.p_count>0,parent.p_count,0) AS PARENT,
+        IF(child.p_count>0,child.p_count,0) AS CHILD
+        FROM mc_lang AS lang
+        LEFT OUTER JOIN (
+            SELECT lang.idlang,lang.iso,count(cms.idpage) as p_count
+            FROM mc_cms_pages AS cms
+            JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+            WHERE cms.idcat_p = 0
+            GROUP BY cms.idlang
+        )parent ON (parent.idlang = lang.idlang)
+        LEFT OUTER JOIN (
+            SELECT lang.idlang,lang.iso,count(cms.idpage) as p_count
+            FROM mc_cms_pages AS cms
+            JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+            WHERE cms.idcat_p != 0
+            GROUP BY cms.idlang
+        )child ON (child.idlang = lang.idlang)
+		GROUP BY lang.idlang';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
 	/**
 	 * @access protected
 	 * Compte le nombre de page parente par langue

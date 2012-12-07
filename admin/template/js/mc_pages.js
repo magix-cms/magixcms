@@ -40,9 +40,44 @@
  */
 var MC_pages = (function ($, undefined) {
     //Fonction Private
+    function graph(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/cms.php?json_google_chart_pages=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                $('#graph').html(loader);
+            },
+            successParams:function(data){
+                $('#graph').empty();
+                $.nicenotify.initbox(data,{
+                    display:false
+                });
+                var $graph = data;
+                //var obj = $.parseJSON($graph);
+                //console.log($graph);
+                Morris.Bar({
+                    element: 'graph',
+                    data: $graph,
+                    xkey: 'x',
+                    ykeys: ['y', 'z'],
+                    labels: ['PARENT', 'CHILD']
+                });
+            }
+        });
+    }
     return {
         //Fonction Public        
-        run:function () {
+        run:function () {},
+        runCharts:function(){
+            graph();
         }
     };
 })(jQuery);
