@@ -44,4 +44,9 @@ $(function(){
         open: 'open',
         debug: false
     });
+    $('.dropdown-toggle').dropdown();
+    $('.nav-collapse > .brand').on('click',function(event){
+        event.preventDefault();
+        return false;
+    });
 });

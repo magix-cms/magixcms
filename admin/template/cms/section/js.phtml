@@ -8,7 +8,14 @@ $(function(){
     {
         console.log("MC_pages is not defined");
     }else{
-        MC_pages.runCharts();
+        {if $smarty.get.getlang}
+            {if $smarty.get.edit}
+            {else}
+                MC_pages.runParents(getlang);
+            {/if}
+        {else}
+            MC_pages.runCharts();
+        {/if}
     }
 });
 </script>

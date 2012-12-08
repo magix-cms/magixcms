@@ -2,6 +2,15 @@ body {
     padding-top: 60px;
     /*padding-bottom: 40px;*/
 }
+h1{
+    font-size: 28.5px;
+}
+h2{
+    font-size: 24.5px;
+}
+h3 {
+    font-size: 20.5px;
+}
 /**
 * LOGIN
 */
@@ -53,4 +62,13 @@ body {
 */
 .loader > img{
     margin-top: 20px;
+}
+
+.hide {
+    display: none;
+}
+
+tbody.ui-sortable{}
+tbody.ui-sortable > .ui-sortable-helper{
+    width: 100%;
 }

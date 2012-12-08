@@ -1,5 +1,8 @@
 #### 2.4.0
 alpha 3
+    * Modification du listing des pages parentes
+    * Listing sous forme de tableaux (sortable)
+    * Ajout d'un sous menu pour gérer les "modules" (dropdown)
     * Ajout de jquery ui bootstrap …
     * Modification de la mise en page du footer
     * Premier test avec jQuery UI et les éléments boostrap
