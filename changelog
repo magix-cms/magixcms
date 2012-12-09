@@ -1,5 +1,7 @@
 #### 2.4.0
 alpha 3
+    * Construction des url CMS dans l'édition des pages
+    * Modification de l'édition des pages CMS
     * Modification du listing des pages parentes
     * Listing sous forme de tableaux (sortable)
     * Ajout d'un sous menu pour gérer les "modules" (dropdown)

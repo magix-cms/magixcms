@@ -10,10 +10,11 @@ $(function(){
     }else{
         {if $smarty.get.getlang}
             {if $smarty.get.edit}
+                MC_pages.runEdit(edit);
             {else}
                 MC_pages.runParents(getlang);
             {/if}
-        {else}
+        {elseif !$smarty.get.edit}
             MC_pages.runCharts();
         {/if}
     }

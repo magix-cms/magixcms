@@ -49,4 +49,16 @@ $(function(){
         event.preventDefault();
         return false;
     });
+    $('.unlocked').on('click',function(event){
+        event.preventDefault();
+        var lock = $('span.icon-lock',this);
+        var unlock = $('span.icon-unlock',this);
+        if (lock.length != 0) {
+            $(this).prev().removeAttr("readonly");
+            lock.removeClass('icon-lock').addClass('icon-unlock');
+        } else {
+            $(this).prev().attr("readonly","readonly");
+            unlock.removeClass('icon-unlock').addClass('icon-lock');
+        }
+    });
 });

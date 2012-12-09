@@ -56,10 +56,10 @@ class backend_controller_cms extends backend_db_cms{
 	$content_page,
 	$seo_title_page,
 	$seo_desc_page,
-	$pageorderp,
+	$order_pages,
 	$sidebar_page,
 	$rel_title_page;
-	public $getlang,$get_page_p,$edit;
+	public $getlang,$get_page_p,$edit,$action;
 	public $post_search,$get_search_page,$title_p_lang,$title_p_move,$callback;
 	public $cat_p_lang;
 	public $del_relang_p,$delpage,$movepage;
@@ -91,8 +91,8 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isPost('seo_desc_page')){
 			$this->seo_desc_page = magixcjquery_form_helpersforms::inputClean($_POST['seo_desc_page']);
 		}
-		if(magixcjquery_filter_request::isPost('pageorderp')){
-			$this->pageorderp = magixcjquery_form_helpersforms::arrayClean($_POST['pageorderp']);
+		if(magixcjquery_filter_request::isPost('order_pages')){
+			$this->order_pages = magixcjquery_form_helpersforms::arrayClean($_POST['order_pages']);
 		}
 		if(magixcjquery_filter_request::isPost('sidebar_page')){
 			$this->sidebar_page = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['sidebar_page']);
@@ -142,6 +142,9 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isGet('callback')){
 			$this->callback = (string) magixcjquery_form_helpersforms::inputClean($_GET['callback']);
 		}
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 	}
 	/**
 	 * @access private
@@ -246,7 +249,7 @@ class backend_controller_cms extends backend_db_cms{
 						//Si le nombre maximal de page est atteint
 						backend_controller_template::display('request/maxpage.phtml');
 					}else{
-						$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
+						$uri_page = magixcjquery_url_clean::rplMagixString($title_page,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 						parent::i_new_parent_page(
 							backend_model_member::s_idadmin(), 
 							$this->idlang, 
@@ -321,7 +324,7 @@ class backend_controller_cms extends backend_db_cms{
 	 * @access private
 	 * Chargement JSON des données URL pour information
 	 */
-	private function load_json_uri_cms($edit){
+	private function json_uricms($edit){
 		$db = parent::s_edit_page($edit);
 		if($db['idpage'] != null){
 			$parent_page = parent::s_data_parent_page($db['idcat_p']);
@@ -493,8 +496,8 @@ class backend_controller_cms extends backend_db_cms{
 	 *
 	 */
 	private function update_order_page(){
-		if(isset($this->pageorderp)){
-			$p = $this->pageorderp;
+		if(isset($this->order_pages)){
+			$p = $this->order_pages;
 			for ($i = 0; $i < count($p); $i++) {
 				parent::u_orderpage($i,$p[$i]);
 			}
@@ -580,7 +583,7 @@ class backend_controller_cms extends backend_db_cms{
 	 * @access private
 	 * Requête JSON pour les statistiques du CMS
 	 */
-	private function json_google_chart(){
+	private function json_graph(){
         if(parent::s_stats_pages() != null){
             foreach (parent::s_stats_pages() as $key){
                 $stat[]= array(
@@ -660,58 +663,58 @@ class backend_controller_cms extends backend_db_cms{
 					backend_controller_template::assign('language', $this->parent_language($this->getlang));
 					backend_controller_template::display('cms/child_page.phtml');	
 				}
-			}else{
+			}elseif(magixcjquery_filter_request::isGet('edit')){
+                if(magixcjquery_filter_request::isPost('idlang_p')){
+                    $this->insert_new_rel_lang_p($this->idlang_p);
+                }elseif(magixcjquery_filter_request::isPost('title_page')){
+                    $this->update_page($this->title_page);
+                }elseif(magixcjquery_filter_request::isPost('del_relang_p')){
+                    $this->delete_related_lang();
+                }elseif(magixcjquery_filter_request::isGet('json_uricms')){
+                    $this->json_uricms($this->edit);
+                }elseif(magixcjquery_filter_request::isGet('json_child_lang_page')){
+                    $this->json_other_language_page($this->edit);
+                }else{
+                    $this->load_edit_page($this->edit);
+                    backend_controller_template::display('cms/edit.phtml');
+                }
+            }elseif(magixcjquery_filter_request::isGet('add_parent_p')){
+                $this->insert_new_page_p($this->title_page,$this->idlang);
+            }elseif(magixcjquery_filter_request::isGet('movepage')){
+                if(magixcjquery_filter_request::isPost('idlang')){
+                    $this->update_move_page();
+                }else{
+                    $this->load_data_move_page($this->movepage);
+                    backend_controller_template::display('cms/movepage.phtml');
+                }
+            }elseif(magixcjquery_filter_request::isGet('get_search_page')){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                self::search_title_page();
+            }elseif(magixcjquery_filter_request::isPost('delpage')){
+                $this->delete_page();
+            }elseif(magixcjquery_filter_request::isPost('idpage')){
+                $this->update_sidebar_status();
+            }elseif(isset($this->order_pages)){
+                $this->update_order_page();
+            }else{
 				backend_controller_template::assign('selectlang',null);
 				backend_controller_template::assign('language', $this->parent_language($this->getlang));
 				backend_controller_template::display('cms/parent_page.phtml');
 			}
-		}elseif(magixcjquery_filter_request::isGet('add_parent_p')){
-			$this->insert_new_page_p($this->title_page,$this->idlang);
-		}elseif(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isPost('idlang_p')){
-				$this->insert_new_rel_lang_p($this->idlang_p);
-			}elseif(magixcjquery_filter_request::isPost('title_page')){
-				$this->update_page($this->title_page);
-			}elseif(magixcjquery_filter_request::isPost('del_relang_p')){
-				$this->delete_related_lang();
-			}elseif(magixcjquery_filter_request::isGet('load_json_uri_cms')){
-				$this->load_json_uri_cms($this->edit);
-			}elseif(magixcjquery_filter_request::isGet('json_child_lang_page')){
-				$this->json_other_language_page($this->edit);
-			}else{
-				$this->load_edit_page($this->edit);
-				backend_controller_template::display('cms/edit.phtml');
-			}
-		}elseif(magixcjquery_filter_request::isGet('movepage')){
-			if(magixcjquery_filter_request::isPost('idlang')){
-				$this->update_move_page();
-			}else{
-				$this->load_data_move_page($this->movepage);
-				backend_controller_template::display('cms/movepage.phtml');
-			}
-		}elseif(magixcjquery_filter_request::isGet('get_search_page')){
-			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-			$header->pragma();
-			$header->cache_control("nocache");
-			$header->getStatus('200');
-			$header->json_header("UTF-8");
-			self::search_title_page();
-		}elseif(magixcjquery_filter_request::isPost('delpage')){
-			$this->delete_page();
-		}elseif(magixcjquery_filter_request::isPost('idpage')){
-			$this->update_sidebar_status();
-		}elseif(magixcjquery_filter_request::isGet('order_page')){
-			$this->update_order_page();
 		}else{
-			if(magixcjquery_filter_request::isGet('json_google_chart_pages')){
+			if(magixcjquery_filter_request::isGet('json_graph')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
 				$header->pragma();
 				$header->cache_control("nocache");
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
-				$this->json_google_chart();
+				$this->json_graph();
 			}else{
 				backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
 				backend_controller_template::display('cms/index.phtml');

@@ -72,3 +72,8 @@ tbody.ui-sortable{}
 tbody.ui-sortable > .ui-sortable-helper{
     width: 100%;
 }
+
+.post-preview{
+    font-size: 28.5px;
+    padding-bottom: 6px;
+}

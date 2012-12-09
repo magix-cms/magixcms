@@ -43,7 +43,7 @@ var MC_pages = (function ($, undefined) {
     function graph(){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?json_google_chart_pages=true',
+            uri: '/admin/cms.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
@@ -131,6 +131,14 @@ var MC_pages = (function ($, undefined) {
                             $(document.createElement("th")).append("Metas Description"),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
+                                    .addClass("icon-move")
+                            ),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-group")
+                            ),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
                                     .addClass("icon-eye-open")
                             ),
                             $(document.createElement("th"))
@@ -169,6 +177,22 @@ var MC_pages = (function ($, undefined) {
                         }else{
                             var seo_desc_page = $(document.createElement("span")).addClass("icon-warning-sign");
                         }
+                        var child = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/cms.php?getlang='+idlang+'&get_page_p='+item.idpage)
+                                .attr("title", "Gestion des pages enfants de : "+item.title_page)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-group")
+                            )
+                        );
+                        var move = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&movepage='+item.idpage)
+                                .attr("title", "Déplacement de la page: "+item.title_page)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-move")
+                            )
+                        );
                         if(item.sidebar_page == '0'){
                             var active = $(document.createElement("td")).append(
                                 $(document.createElement("a"))
@@ -190,7 +214,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?edit='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&edit='+item.idpage)
                                 .attr("title", "Editer "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -218,6 +242,10 @@ var MC_pages = (function ($, undefined) {
                                 $(document.createElement("td")).append(content_page),
                                 $(document.createElement("td")).append(seo_title_page),
                                 $(document.createElement("td")).append(seo_desc_page),
+                                move
+                                ,
+                                child
+                                ,
                                 active
                                 ,
                                 edit
@@ -235,7 +263,7 @@ var MC_pages = (function ($, undefined) {
                             var serial = $('#table_pages > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: "/admin/cms.php?order_page=true",
+                                uri: '/admin/cms.php?getlang='+getlang,
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -274,10 +302,43 @@ var MC_pages = (function ($, undefined) {
                             ),
                             $(document.createElement("td")).append(
                                 $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
                             )
                         )
                     )
                 }
+            }
+        });
+    }
+    function JsonUrlPage(edit){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/cms.php?getlang='+getlang+'&edit='+edit+'&json_uricms=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                $("#cmslink").hide().val('');
+                var loader = $(document.createElement("span")).addClass("loader").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                loader.insertAfter('#cmslink');
+            },
+            successParams:function(j){
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                $('.loader').remove();
+                var uri = j.cmsuri;
+                $("#cmslink").show();
+                $("#cmslink").val(uri);
+                $(".post-preview").attr({
+                    href:uri
+                });
             }
         });
     }
@@ -289,6 +350,9 @@ var MC_pages = (function ($, undefined) {
         runParents:function (getlang) {
             add();
             jsonListParent(getlang);
+        },
+        runEdit:function(edit){
+            JsonUrlPage(edit);
         }
     };
 })(jQuery);
