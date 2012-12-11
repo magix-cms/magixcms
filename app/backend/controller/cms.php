@@ -49,7 +49,6 @@ class backend_controller_cms extends backend_db_cms{
 	public 
 	$idpage,
 	$idlang,
-	$idcat_p,
 	$idlang_p,
 	$title_page,
 	$uri_page,
@@ -69,9 +68,6 @@ class backend_controller_cms extends backend_db_cms{
 	function __construct(){
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
-		}
-		if(magixcjquery_filter_request::isPost('idcat_p')){
-			$this->idcat_p = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idcat_p']);
 		}
 		if(magixcjquery_filter_request::isPost('idlang_p')){
 			$this->idlang_p = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang_p']);
@@ -235,8 +231,8 @@ class backend_controller_cms extends backend_db_cms{
 	 * @param string $title_page
 	 * @param integer $idlang
 	 */
-	private function insert_new_page_p($title_page,$idlang){
-		if(isset($title_page) AND isset($idlang)){
+	private function insert_new_page_p($title_page){
+		if(isset($title_page)){
 			// Verifier que le module exist
 			$numbermod = $config = backend_model_setting::tabs_load_config('cms');
 			/*$firebug = new magixcjquery_debug_magixfire();
@@ -252,12 +248,9 @@ class backend_controller_cms extends backend_db_cms{
 						$uri_page = magixcjquery_url_clean::rplMagixString($title_page,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 						parent::i_new_parent_page(
 							backend_model_member::s_idadmin(), 
-							$this->idlang, 
+							$this->getlang,
 							$this->title_page, 
-							$uri_page, 
-							$this->content_page, 
-							$this->seo_title_page, 
-							$this->seo_desc_page
+							$uri_page
 						);
 						backend_controller_template::display('request/success.phtml');
 					}
@@ -265,12 +258,9 @@ class backend_controller_cms extends backend_db_cms{
 				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
 				parent::i_new_parent_page(
 					backend_model_member::s_idadmin(), 
-					$this->idlang, 
+					$this->getlang,
 					$this->title_page, 
-					$uri_page, 
-					$this->content_page, 
-					$this->seo_title_page, 
-					$this->seo_desc_page
+					$uri_page
 				);
 				backend_controller_template::display('request/success.phtml');
 			}
@@ -282,21 +272,18 @@ class backend_controller_cms extends backend_db_cms{
 	 * @param string $title_page
 	 * @param integer $idlang
 	 */
-	private function insert_new_child_page($title_page,$idlang){
-		if(isset($title_page) AND isset($idlang)){
-			if(empty($title_page) OR empty($idlang)){
+	private function insert_new_child_page($title_page,$get_page_p){
+		if(isset($title_page)){
+			if(empty($title_page)){
 				backend_controller_template::display('request/empty.phtml');
 			}else{
 				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
 				parent::i_new_child_page(
 					backend_model_member::s_idadmin(), 
-					$this->idlang,
-					$this->idcat_p,
+					$this->getlang,
+                    $get_page_p,
 					$this->title_page, 
-					$uri_page, 
-					$this->content_page, 
-					$this->seo_title_page, 
-					$this->seo_desc_page
+					$uri_page
 				);
 				backend_controller_template::display('request/success.phtml');
 			}
@@ -653,12 +640,14 @@ class backend_controller_cms extends backend_db_cms{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				$this->json_parent_cat_p();
-			}elseif(magixcjquery_filter_request::isGet('get_page_p')){
+			}elseif(isset($this->get_page_p)){
 				if(magixcjquery_filter_request::isGet('json_child_p')){
 					$this->json_child_page();
-				}elseif(magixcjquery_filter_request::isPost('idcat_p')){
+				}/*elseif(magixcjquery_filter_request::isPost('idcat_p')){
 					$this->insert_new_child_page($this->title_page,$this->idlang);
-				}else{
+				}*/elseif(isset($this->title_page)){
+                    $this->insert_new_child_page($this->title_page,$this->get_page_p);
+                }else{
 					backend_controller_template::assign('parent_page',$this->parent_page($this->get_page_p));
 					backend_controller_template::assign('language', $this->parent_language($this->getlang));
 					backend_controller_template::display('cms/child_page.phtml');	
@@ -702,9 +691,13 @@ class backend_controller_cms extends backend_db_cms{
             }elseif(isset($this->order_pages)){
                 $this->update_order_page();
             }else{
-				backend_controller_template::assign('selectlang',null);
-				backend_controller_template::assign('language', $this->parent_language($this->getlang));
-				backend_controller_template::display('cms/parent_page.phtml');
+                if(isset($this->title_page)){
+                    $this->insert_new_page_p($this->title_page);
+                }else{
+                    backend_controller_template::assign('selectlang',null);
+                    backend_controller_template::assign('language', $this->parent_language($this->getlang));
+                    backend_controller_template::display('cms/parent_page.phtml');
+                }
 			}
 		}else{
 			if(magixcjquery_filter_request::isGet('json_graph')){

@@ -73,19 +73,54 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
-    function add(){
+    function add(getParent){
+        if(getParent != 0){
+            var idforms = $("#forms_cms_add_child");
+            var url = '/admin/cms.php?getlang='+getlang+'&get_page_p='+getParent;
+        }else{
+            var idforms = $("#forms_cms_add_parent");
+            var url = '/admin/cms.php?getlang='+getlang;
+        }
+        var formsAddPages = idforms.validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                title_page: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:true,
+                    successParams:function(data){
+                        $("#open-add").dialog('close');
+                        $.nicenotify.initbox(data,{
+                            display:false
+                        });
+                    }
+                });
+                return false;
+            }
+        });
         $('#open-add').on('click',function(){
             $('#forms-add').dialog({
                 modal: true,
                 resizable: true,
                 width: 400,
-                height:220,
+                height:240,
                 buttons: {
-                    "Save": function () {
-                        $(this).dialog("close");
+                    'Save': function() {
+                        $(this).dialog('close');
+                        idforms.submit();
                     },
-                    "Cancel": function () {
-                        $(this).dialog("close");
+                    Cancel: function() {
+                        $(this).dialog('close');
+                        formsAddPages.resetForm();
                     }
                 }
             });
@@ -348,8 +383,11 @@ var MC_pages = (function ($, undefined) {
             graph();
         },
         runParents:function (getlang) {
-            add();
+            add(0);
             jsonListParent(getlang);
+        },
+        runChild:function(getParent){
+            add(getParent);
         },
         runEdit:function(edit){
             JsonUrlPage(edit);

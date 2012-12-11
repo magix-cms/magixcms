@@ -3,6 +3,9 @@
 {script src="/{baseadmin}/min/?g=charts" type="javascript"}
 {script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_pages.js" type="javascript"}
 <script type="text/javascript">
+{if $smarty.get.get_page_p}
+var getParent = "{$smarty.get.get_page_p}";
+{/if}
 $(function(){
     if (typeof MC_pages == "undefined")
     {
@@ -11,6 +14,8 @@ $(function(){
         {if $smarty.get.getlang}
             {if $smarty.get.edit}
                 MC_pages.runEdit(edit);
+            {elseif $smarty.get.get_page_p}
+                MC_pages.runChild(getlang,getParent);
             {else}
                 MC_pages.runParents(getlang);
             {/if}
