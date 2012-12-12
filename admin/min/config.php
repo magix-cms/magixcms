@@ -37,7 +37,7 @@ $min_builderPassword = 'admin';
  * If you want to use a custom error logger, set this to your logger
  * instance. Your object should have a method log(string $message).
  */
-$min_errorLogger = true;
+$min_errorLogger = false;
 
 
 /**

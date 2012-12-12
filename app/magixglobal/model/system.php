@@ -115,5 +115,91 @@ class magixglobal_model_system{
 		//texte générique à remplacer
 		return str_replace($search ,$replace,$str);
 	}
+
+    /**
+     * @access public
+     * @static
+     * getUrlConcat Retourne la concaténation de la minification de fichiers
+     * @param $options
+     * @return string
+     * @throws Exception
+     */
+    public static function getUrlConcat($options){
+        if(is_array($options)){
+            if(array_key_exists('caches', $options)){
+                $min_cachePath = $options['caches'];
+            }else{
+                throw new Exception("Error caches dir is not defined");
+            }
+            if(array_key_exists('href', $options)){
+                $url = $options["href"];
+                $ext = 'css';
+            }elseif(array_key_exists('src', $options)){
+                $url = $options["src"];
+                $ext = 'js';
+            }
+            if(array_key_exists('filesgroups', $options)){
+                $filesgroups = $options['filesgroups'];
+            }else{
+                $filesgroups = 'min/groupsConfig.php';
+            }
+            if(array_key_exists('minDir', $options)){
+                $minDir = $options['minDir'];
+            }else{
+                $minDir = '/min/';
+            }
+            if(array_key_exists('callback', $options)){
+                $callback = $options['callback'];
+            }else{
+                $callback = '';
+            }
+        }else{
+            throw new Exception("Error options is not array");
+        }
+
+        $name = "";
+        //Parse a URL and return its components
+        $parseurl = parse_url($url);
+
+        //return position
+        $position = strpos($parseurl['query'], '=');
+
+        //return first query
+        $query = substr($parseurl['query'],0,$position);
+
+        //return url after query
+        $filesPath = substr(strrchr($parseurl['query'], '='), 1);
+        // Group
+        if($query === 'g'){
+            $filesCollection = array();
+            if(file_exists($filesgroups)){
+                $groups = (require $filesgroups);
+                foreach(explode(",", $filesPath) as $group){
+                    $filesCollection = array_merge($filesCollection, isset($groups[$group]) ? $groups[$group] : array());
+                }
+            }else{
+                throw new Exception("filesgroups is not exist");
+            }
+        // Files
+        }elseif($query === 'f'){
+            $filesCollection = explode(",", $filesPath);
+        }
+        foreach($filesCollection as &$file){
+            $file = ltrim($file, "/");
+            $name .= $file . "|" . filemtime(self::base_path().$file) . "|" . filesize(self::base_path().$file) . "/";
+        };
+        $sha1name = sha1($name) . "." . $ext;
+        if(file_exists($min_cachePath) AND is_writable($min_cachePath)){
+            $filepath = realpath(".") . "/" . $min_cachePath . "/" . $sha1name;
+            if (!file_exists($filepath)){
+                $content = file_get_contents(magixcjquery_html_helpersHtml::getUrl().$minDir.'?f=' . implode(",", $filesCollection));
+	            file_put_contents($filepath, $content);
+	        }
+            return $callback."/" . $min_cachePath . "/" . $sha1name;
+        }else{
+            throw new Exception("Error ".$min_cachePath." is not writable");
+        }
+    }
+
 }
 ?>

@@ -128,7 +128,7 @@ class backend_model_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::setPath().'/'.PATHADMIN.'/caching/cache/';
+		$this->cache_dir = self::setPath().'/'.PATHADMIN.'/caching/tpl_caches/';
 		/**
 		 * load pre filter
 		 */
