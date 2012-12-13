@@ -1,4 +1,10 @@
 #### 2.4.0
+alpha 4
+    * Modification de la structure du fichier login suivant le modèle de bootstrap
+    * Ajout de filemanager open source
+    * Upgrade de bootstrap 2.2.1 => 2.2.2
+    * Remplacement de variable en double dans mcbackend
+    * Remplacement des liens incorrect dans groupsConfig.php (admin)
 alpha 3
     * Construction des url CMS dans l'édition des pages
     * Modification de l'édition des pages CMS
