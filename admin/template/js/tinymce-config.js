@@ -30,7 +30,7 @@ $(function() {
         pdw_toggle_on : 1,
         pdw_toggle_toolbars : "3,4",
         // Available table grid settings
-        //file_browser_callback: openKCFinder,
+        file_browser_callback: openFilemanager,
         tablegrid_row_size: 10,
         tablegrid_col_size: 10,
         theme_advanced_toolbar_location : "top",
@@ -65,6 +65,22 @@ $(function() {
         language : 'fr'
     });
 });
+function openFilemanager(field_name, url, type, win) {
+    tinyMCE.activeEditor.windowManager.open({
+        file : '/admin/template/js/tiny_mce.'+editor_version+'/plugins/filemanager/index.php',
+        title : 'File Browser',
+        width : 800,
+        height : 600,
+        resizable: "yes",
+        inline: true,
+        close_previous: "no",
+        popup_css: false
+    }, {
+        window : win,
+        input : field_name
+    });
+    return false;
+}
 /*function openKCFinder(field_name, url, type, win) {
     tinyMCE.activeEditor.windowManager.open({
         file: '/admin/template/js/tiny_mce/plugins/kcfinder/browse.php?opener=tinymce&type=' + type+'&lng=fr',

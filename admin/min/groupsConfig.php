@@ -20,7 +20,7 @@ return array(
 	'globalize'=> array('//framework/library/globalize/globalize.js','//framework/library/globalize/cultures/globalize.cultures.js'),
     'charts'=>array('//framework/library/raphael-min.js','//framework/library/morris.min.js'),
     'tinymce' => array('//'.PATHADMIN.'/template/js/tiny_mce.'.VERSION_EDITOR.'/jquery.tinymce.js'),
-    'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.1.css','//'.PATHADMIN.'/template/css/font-awesome.css',
+    'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.2.css','//'.PATHADMIN.'/template/css/font-awesome.css',
     '//'.PATHADMIN.'/template/css/ui-bootstrap/jquery-ui-1.9.2.custom.css','//'.PATHADMIN.'/template/css/style.css'),
     'maxAge' => 31536000,
     'setExpires' => time() + 86400 * 365

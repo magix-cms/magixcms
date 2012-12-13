@@ -71,8 +71,8 @@ if (!file_exists($loaderFilename)) {
 	require $loaderFilename;
 }
 
-$config = backendConfig::backendLoaderFiles(dirname(realpath( __FILE__ )).'app/config/config.php',array('lib'));
-if (!file_exists($config)) {
+$dbconfig = backendConfig::backendLoaderFiles(dirname(realpath( __FILE__ )).'app/config/config.php',array('lib'));
+if (!file_exists($dbconfig)) {
 	print '<p>La base de donnée n\'existe pas, veuillez suivre la procédure pour faire l\'<a href="/install/">installation</a> de Magix CMS</p>';
 	exit;
 }

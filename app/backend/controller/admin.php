@@ -210,10 +210,10 @@ class backend_controller_admin{
 		$this->start_session();
 		if (!isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
 			if (!isset($this->acmail)) {
-				magixglobal_model_redirect::backend_redirect_login(true);	
+				magixglobal_model_redirect::backend_redirect_login(true);
 			}
 		}elseif(!backend_model_sessions::compareSessionId()){
-			magixglobal_model_redirect::backend_redirect_login(true);	
+			magixglobal_model_redirect::backend_redirect_login(true);
 		}
 	}
 	/**
