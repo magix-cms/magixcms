@@ -13,7 +13,7 @@ $(function(){
     }else{
         {if $smarty.get.getlang}
             {if $smarty.get.edit}
-                MC_pages.runEdit(edit);
+                MC_pages.runEdit(getlang,edit);
             {elseif $smarty.get.get_page_p}
                 MC_pages.runChild(getlang,getParent);
             {else}

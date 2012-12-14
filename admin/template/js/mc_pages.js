@@ -73,7 +73,7 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
-    function add(getParent){
+    function add(getlang,getParent){
         if(getParent != 0){
             var idforms = $("#forms_cms_add_child");
             var url = '/admin/cms.php?getlang='+getlang+'&get_page_p='+getParent;
@@ -98,10 +98,10 @@ var MC_pages = (function ($, undefined) {
                     idforms: $(form),
                     resetform:true,
                     successParams:function(data){
-                        $("#open-add").dialog('close');
                         $.nicenotify.initbox(data,{
-                            display:false
+                            display:true
                         });
+                        jsonListParent(getlang);
                     }
                 });
                 return false;
@@ -127,10 +127,40 @@ var MC_pages = (function ($, undefined) {
             return false;
         });
     }
-    function jsonListParent(idlang){
+    function update(getlang,edit){
+        var url = '/admin/cms.php?getlang='+getlang+'&edit='+edit;
+        var formsUpdatePages = $('#forms_cms_edit').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                title_page: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        JsonUrlPage(getlang,edit);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_cms_edit').formsUpdatePages;
+    }
+    function jsonListParent(getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?getlang='+idlang+'&json_page_p=true',
+            uri: '/admin/cms.php?getlang='+getlang+'&json_page_p=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
@@ -214,7 +244,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var child = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+idlang+'&get_page_p='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&get_page_p='+item.idpage)
                                 .attr("title", "Gestion des pages enfants de : "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-group")
@@ -347,7 +377,7 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
-    function JsonUrlPage(edit){
+    function JsonUrlPage(getlang,edit){
         $.nicenotify({
             ntype: "ajax",
             uri: '/admin/cms.php?getlang='+getlang+'&edit='+edit+'&json_uricms=true',
@@ -377,20 +407,57 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
+    function remove(getlang){
+        $(document).on('click','.delete-pages',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/cms.php?getlang='+getlang,
+                            typesend: 'post',
+                            noticedata : {delpage:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:true
+                                });
+                                jsonListParent(getlang);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
             graph();
         },
         runParents:function (getlang) {
-            add(0);
+            add(getlang,0);
             jsonListParent(getlang);
+            remove(getlang);
         },
-        runChild:function(getParent){
-            add(getParent);
+        runChild:function(getlang,getParent){
+            add(getlang,getParent);
         },
-        runEdit:function(edit){
-            JsonUrlPage(edit);
+        runEdit:function(getlang,edit){
+            JsonUrlPage(getlang,edit);
+            update(getlang,edit);
         }
     };
 })(jQuery);

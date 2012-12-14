@@ -1,5 +1,9 @@
 {script src="/{baseadmin}/min/?g=adminjs,jimagine" type="javascript"}
 <script type="text/javascript">
+    $.nicenotify.notifier = {
+        box:"",
+        elemclass : '.mc-message'
+    };
     var editor_version = "{$smarty.const.VERSION_EDITOR}";
     var baseadmin = "{baseadmin}";
     var edit = "{$smarty.get.edit}";

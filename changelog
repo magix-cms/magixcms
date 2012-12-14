@@ -1,5 +1,10 @@
 #### 2.4.0
 alpha 4
+    * Edition des pages CMS
+    * Construction du sous menu CMS (parent/enfant)
+    * Upgrade de jQuery UI Bootstrap
+    * Ajout des fichiers callback des requêtes ajax (cms)
+    * Modification des requêtes SQL ajout et édition CMS(optimisations)
     * Modification de la structure du fichier login suivant le modèle de bootstrap
     * Ajout de filemanager open source
     * Upgrade de bootstrap 2.2.1 => 2.2.2

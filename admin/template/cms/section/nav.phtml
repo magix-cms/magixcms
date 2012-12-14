@@ -7,13 +7,17 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">Gestion des pages <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Ajouter une page parente</a></li>
                             <li><a href="/{baseadmin}/cms.php?getlang={$smarty.get.getlang}">Liste des pages parente</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            {if $idcat_p > 0 OR $smarty.get.get_page_p}
+                                {if $idcat_p}
+                                    {assign var="parent_id" value=$idcat_p}
+                                {else}
+                                    {assign var="parent_id" value=$smarty.get.get_page_p}
+                                {/if}
                             <li class="divider"></li>
-                            <li class="nav-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li class="nav-header">{$parent_title}</li>
+                            <li><a href="/{baseadmin}/cms.php?getlang={$smarty.get.getlang}&get_page_p={$parent_id}">Liste des pages enfants</a></li>
+                            {/if}
                         </ul>
                     </li>
                 </ul>

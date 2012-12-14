@@ -129,8 +129,12 @@ class backend_db_cms{
 	 * @param integer $edit
 	 */
 	protected function s_edit_page($edit){
-    	$sql = 'SELECT cms.*,lang.iso
-    	FROM mc_cms_pages AS cms 
+    	$sql = 'SELECT cms.*,lang.iso,rel.parent_title
+    	FROM mc_cms_pages AS cms
+    	LEFT OUTER JOIN (
+            SELECT parent.idpage,parent.title_page AS parent_title
+            FROM mc_cms_pages AS parent
+        )rel ON (rel.idpage = cms.idcat_p)
     	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
     	WHERE cms.idpage = :edit';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(

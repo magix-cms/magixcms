@@ -237,13 +237,13 @@ class backend_controller_cms extends backend_db_cms{
 			$numbermod = $config = backend_model_setting::tabs_load_config('cms');
 			/*$firebug = new magixcjquery_debug_magixfire();
 			$firebug->magixFireLog($numbermod['setting_value']);*/
-			if(empty($title_page) OR empty($idlang)){
-				backend_controller_template::display('request/empty.phtml');
+			if(empty($title_page) OR empty($this->getlang)){
+				backend_controller_template::display('cms/request/empty.phtml');
 			}elseif($numbermod['max_record'] != 0){
-					$cpage = parent::s_count_page_max_by_language($idlang);
+					$cpage = parent::s_count_page_max_by_language($this->getlang);
 					if($cpage['total'] >= $numbermod['max_record']){
 						//Si le nombre maximal de page est atteint
-						backend_controller_template::display('request/maxpage.phtml');
+						backend_controller_template::display('cms/request/maxpage.phtml');
 					}else{
 						$uri_page = magixcjquery_url_clean::rplMagixString($title_page,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 						parent::i_new_parent_page(
@@ -252,7 +252,7 @@ class backend_controller_cms extends backend_db_cms{
 							$this->title_page, 
 							$uri_page
 						);
-						backend_controller_template::display('request/success.phtml');
+                        backend_controller_template::display('cms/request/success_add.phtml');
 					}
 			}else{
 				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
@@ -262,7 +262,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->title_page, 
 					$uri_page
 				);
-				backend_controller_template::display('request/success.phtml');
+                backend_controller_template::display('cms/request/success_add.phtml');
 			}
 		}
 	}
@@ -275,7 +275,7 @@ class backend_controller_cms extends backend_db_cms{
 	private function insert_new_child_page($title_page,$get_page_p){
 		if(isset($title_page)){
 			if(empty($title_page)){
-				backend_controller_template::display('request/empty.phtml');
+				backend_controller_template::display('cms/request/empty.phtml');
 			}else{
 				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
 				parent::i_new_child_page(
@@ -285,7 +285,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->title_page, 
 					$uri_page
 				);
-				backend_controller_template::display('request/success.phtml');
+				backend_controller_template::display('cms/request/success_add.phtml');
 			}
 		}
 	}
@@ -301,6 +301,8 @@ class backend_controller_cms extends backend_db_cms{
 			backend_controller_template::assign('title_page', $db['title_page']);
 			backend_controller_template::assign('iso', $db['iso']);
 			backend_controller_template::assign('uri_page', $db['uri_page']);
+            backend_controller_template::assign('idcat_p', $db['idcat_p']);
+            backend_controller_template::assign('parent_title', $db['parent_title']);
 			backend_controller_template::assign('content_page', magixcjquery_form_helpersforms::inputClean($db['content_page']));
 			backend_controller_template::assign('seo_title_page', $db['seo_title_page']);
 			backend_controller_template::assign('seo_desc_page', $db['seo_desc_page']);
@@ -346,7 +348,7 @@ class backend_controller_cms extends backend_db_cms{
 	private function update_page($title_page){
 		if(isset($title_page)){
 			if(empty($title_page)){
-				backend_controller_template::display('request/empty.phtml');
+				backend_controller_template::display('cms/request/empty.phtml');
 			}else{
 				if(!empty($this->uri_page)){
 					$uri_page = $this->uri_page;
@@ -362,7 +364,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->seo_desc_page,
 					$this->edit
 				);
-				backend_controller_template::display('request/success.phtml');
+				backend_controller_template::display('cms/request/success_update.phtml');
 			}
 		}
 	}
@@ -473,7 +475,7 @@ class backend_controller_cms extends backend_db_cms{
 			if($verify['childpages'] == 0){
 				parent::d_page($this->delpage);
 			}else{
-				backend_controller_template::display('cms/request/element-child-exist.phtml');
+				backend_controller_template::display('cms/request/child-exist.phtml');
 			}
 		}
 	}
@@ -648,7 +650,7 @@ class backend_controller_cms extends backend_db_cms{
 				}*/elseif(isset($this->title_page)){
                     $this->insert_new_child_page($this->title_page,$this->get_page_p);
                 }else{
-					backend_controller_template::assign('parent_page',$this->parent_page($this->get_page_p));
+					backend_controller_template::assign('parent_title',$this->parent_page($this->get_page_p));
 					backend_controller_template::assign('language', $this->parent_language($this->getlang));
 					backend_controller_template::display('cms/child_page.phtml');	
 				}
