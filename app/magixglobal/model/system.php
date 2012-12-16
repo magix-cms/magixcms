@@ -51,7 +51,8 @@ class magixglobal_model_system{
 	 * @param array $arraydir
 	 * @param array $dirname
 	 * @param string $pathdir
-	 */
+     * @return mixed
+     */
 	public static function root_path($arraydir=array(),$dirname=array(),$pathdir){
 		try {
 			if (is_array($arraydir) AND is_array($dirname)) {
@@ -101,7 +102,8 @@ class magixglobal_model_system{
 	 * @param array $search
 	 * @param array $replace
 	 * @param string $str
-	 * @throws Exception
+     * @return mixed
+     * @throws Exception
 	 */
 	public static function vars_replace(array $search,array $replace, $str){
 		//Tableau des variables à rechercher
@@ -123,6 +125,7 @@ class magixglobal_model_system{
      * @param $options
      * @return string
      * @throws Exception
+     * @author Gérits Aurelien and JB Demonte (http://jb.demonte.fr/)
      */
     public static function getUrlConcat($options){
         if(is_array($options)){
