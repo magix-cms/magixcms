@@ -181,8 +181,29 @@ class backend_controller_cms extends backend_db_cms{
 	 */
 	private function json_child_page(){
 		if(parent::s_child_page($this->get_page_p) != null){
-			foreach (parent::s_child_page($this->get_page_p) as $s){
-				$json[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).',"sidebar_page":'.json_encode($s['sidebar_page']).'}';
+			foreach (parent::s_child_page($this->get_page_p) as $key){
+                if($key['content_page'] != null){
+                    $content = 1;
+                }else{
+                    $content = 0;
+                }
+                if($key['seo_title_page'] != null){
+                    $seo_title = 1;
+                }else{
+                    $seo_title = 0;
+                }
+                if($key['seo_desc_page'] != null){
+                    $seo_desc = 1;
+                }else{
+                    $seo_desc = 0;
+                }
+				$json[]= '{"idpage":'.json_encode($key['idpage']).
+                    ',"title_page":'.json_encode($key['title_page']).
+                    ',"content_page":'.json_encode($content).
+                    ',"seo_title_page":'.json_encode($seo_title).
+                    ',"seo_desc_page":'.json_encode($seo_desc).
+                    ',"sidebar_page":'.json_encode($key['sidebar_page']).
+                    '}';
 			}
 			print '['.implode(',',$json).']';
 		}

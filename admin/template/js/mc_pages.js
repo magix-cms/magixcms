@@ -261,6 +261,7 @@ var MC_pages = (function ($, undefined) {
                         if(item.sidebar_page == '0'){
                             var active = $(document.createElement("td")).append(
                                 $(document.createElement("a"))
+                                    .addClass("active-pages")
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
@@ -270,6 +271,7 @@ var MC_pages = (function ($, undefined) {
                         }else if(item.sidebar_page == '1'){
                             var active = $(document.createElement("td")).append(
                                 $(document.createElement("a"))
+                                    .addClass("active-pages")
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
@@ -407,7 +409,212 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
-    function remove(getlang){
+    function jsonListChild(getlang,getParent){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/cms.php?getlang='+getlang+'&get_page_p='+getParent+'&json_child_p=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                $('#list_child').html(loader);
+            },
+            successParams:function(j){
+                $('#list_child').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_pages")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("Title"),
+                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append("Metas Title"),
+                            $(document.createElement("th")).append("Metas Description"),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-move")
+                            ),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-eye-open")
+                            ),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-edit")
+                            )
+                            ,
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-remove")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_child');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        if(item.content_page != 0){
+                            var content_page = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var content_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.seo_title_page != 0){
+                            var seo_title_page = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var seo_title_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.seo_desc_page != 0){
+                            var seo_desc_page = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var seo_desc_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        var move = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&movepage='+item.idpage)
+                                .attr("title", "Déplacement de la page: "+item.title_page)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-move")
+                            )
+                        );
+                        if(item.sidebar_page == '0'){
+                            var active = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("active-pages")
+                                    .attr("href", "#")
+                                    .attr("data-active", item.idpage)
+                                    .attr("title", item.title_page).append(
+                                    $(document.createElement("span")).addClass("icon-eye-close")
+                                )
+                            )
+                        }else if(item.sidebar_page == '1'){
+                            var active = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("active-pages")
+                                    .attr("href", "#")
+                                    .attr("data-active", item.idpage)
+                                    .attr("title", item.title_page).append(
+                                    $(document.createElement("span")).addClass("icon-eye-open")
+                                )
+                            )
+                        }
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&edit='+item.idpage)
+                                .attr("title", "Editer "+item.title_page)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-edit")
+                            )
+                        );
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-pages")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idpage)
+                                .attr("title", "Supprimer "+": "+item.title_page)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-remove")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .attr("id","order_pages_"+item.idpage)
+                                //.addClass("ui-state-default")
+                                .append(
+                                $(document.createElement("td")).append(
+                                    item.idpage
+                                ),
+                                $(document.createElement("td")).append(item.title_page),
+                                $(document.createElement("td")).append(content_page),
+                                $(document.createElement("td")).append(seo_title_page),
+                                $(document.createElement("td")).append(seo_desc_page),
+                                move
+                                ,
+                                active
+                                ,
+                                edit
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                    $('#table_pages > tbody').sortable({
+                        items: "> tr",
+                        placeholder: "ui-state-highlight",
+                        cursor: "move",
+                        axis: "y",
+                        update : function() {
+                            var serial = $('#table_pages > tbody').sortable('serialize');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/cms.php?getlang='+getlang,
+                                typesend: 'post',
+                                noticedata : serial,
+                                successParams:function(e){
+                                    $.nicenotify.initbox(e,{
+                                        display:false
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    $('#table_pages > tbody').disableSelection();
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
+    }
+    function remove(getlang,getParent){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -430,7 +637,11 @@ var MC_pages = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonListParent(getlang);
+                                if(getParent != 0){
+                                    jsonListChild(getlang,getParent);
+                                }else{
+                                    jsonListParent(getlang);
+                                }
                             }
                         });
                     },
@@ -442,6 +653,68 @@ var MC_pages = (function ($, undefined) {
             return false;
         });
     }
+    function updateActive(getlang,getParent){
+        $(document).on("click","a.active-pages",function(event){
+            event.preventDefault();
+            var id = $(this).data("active");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $("#window-dialog").dialog({
+                resizable: false,
+                height:180,
+                width:350,
+                modal: true,
+                title: "Changer le status d'une page",
+                buttons: [
+                    {
+                        text: "Activer",
+                        click: function() {
+                            $(this).dialog('close');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/cms.php?getlang='+getlang,
+                                typesend: 'post',
+                                noticedata:{sidebar_page:1,idpage:id},
+                                successParams:function(j){
+                                    $.nicenotify.initbox(j,{
+                                        display:false
+                                    });
+                                    if(getParent != 0){
+                                        jsonListChild(getlang,getParent);
+                                    }else{
+                                        jsonListParent(getlang);
+                                    }
+                                }
+                            });
+                            return false;
+                        }
+                    },
+                    {
+                        text: "Désactiver",
+                        click: function() {
+                            $(this).dialog('close');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/cms.php?getlang='+getlang,
+                                typesend: 'post',
+                                noticedata:{sidebar_page:0,idpage:id},
+                                successParams:function(j){
+                                    $.nicenotify.initbox(j,{
+                                        display:false
+                                    });
+                                    if(getParent != 0){
+                                        jsonListChild(getlang,getParent);
+                                    }else{
+                                        jsonListParent(getlang);
+                                    }
+                                }
+                            });
+                            return false;
+                        }
+                    }
+                ]
+            });
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
@@ -450,10 +723,14 @@ var MC_pages = (function ($, undefined) {
         runParents:function (getlang) {
             add(getlang,0);
             jsonListParent(getlang);
-            remove(getlang);
+            updateActive(getlang,0);
+            remove(getlang,0);
         },
         runChild:function(getlang,getParent){
+            jsonListChild(getlang,getParent);
             add(getlang,getParent);
+            updateActive(getlang,getParent);
+            remove(getlang,getParent);
         },
         runEdit:function(getlang,edit){
             JsonUrlPage(getlang,edit);

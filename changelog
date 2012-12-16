@@ -1,5 +1,8 @@
 #### 2.4.0
 alpha 4
+    * Modification du système de notification lors d'une requête
+    * Suppression des pages CMS
+    * Changement de status d'une page dans la sidebar dynamique du template
     * Edition des pages CMS
     * Construction du sous menu CMS (parent/enfant)
     * Upgrade de jQuery UI Bootstrap
