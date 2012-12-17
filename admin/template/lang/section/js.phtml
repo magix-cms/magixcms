@@ -1,0 +1,12 @@
+{script src="/{baseadmin}/min/?g=charts" type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/mc_lang.js" type="javascript"}
+<script type="text/javascript">
+$(function(){
+    if (typeof MC_lang == "undefined")
+    {
+        console.log("MC_lang is not defined");
+    }else{
+        MC_lang.runCharts();
+    }
+});
+</script>

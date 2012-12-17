@@ -154,6 +154,39 @@ class backend_db_lang{
 				GROUP BY catalog.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
+    protected function s_stats_lang(){
+        $sql ='SELECT lang.*,IF(rel_home.home_count>0,rel_home.home_count,0) AS HOME,
+        IF(rel_news.news_count>0,rel_news.news_count,0) AS NEWS,
+        IF(rel_pages.pages_count>0,rel_pages.pages_count,0) AS PAGES,
+        IF(rel_product.product_count>0,rel_product.product_count,0) AS PRODUCT
+        FROM mc_lang AS lang
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, count( h.idhome ) AS home_count
+            FROM mc_page_home AS h
+            JOIN mc_lang AS lang ON ( h.idlang = lang.idlang )
+            GROUP BY h.idlang
+            )rel_home ON ( rel_home.idlang = lang.idlang )
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, count( n.idnews ) AS news_count
+            FROM mc_news AS n
+            JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
+            GROUP BY n.idlang
+            )rel_news ON ( rel_news.idlang = lang.idlang )
+        LEFT OUTER JOIN (
+            SELECT lang.idlang,count(cms.idpage) AS pages_count
+            FROM mc_cms_pages AS cms
+            JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+            GROUP BY cms.idlang
+            )rel_pages ON ( rel_pages.idlang = lang.idlang )
+        LEFT OUTER JOIN (
+            SELECT lang.idlang,count( catalog.idcatalog ) AS product_count
+            FROM mc_catalog AS catalog
+            JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+            GROUP BY catalog.idlang
+            )rel_product ON ( rel_product.idlang = lang.idlang )
+        GROUP BY lang.idlang';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
 	/**
 	 * Compte et additionne le nombre de pages,news,home
 	 * @param $idlang

@@ -203,7 +203,7 @@ class backend_controller_lang extends backend_db_lang{
 	 * @access private
 	 * Requête JSON pour les statistiques du CMS
 	 */
-	private function json_language_chart(){
+	/*private function json_language_chart(){
 		if(parent::count_lang_pages() != null){
 			foreach (parent::count_lang_pages() as $s){
 				$rowCms[]= $s['countpages'];
@@ -233,7 +233,25 @@ class backend_controller_lang extends backend_db_lang{
 			$rowLang = array(0);
 		}
 		print '{"cms_pages_count":['.implode(',',$rowCms).'],"product_count":['.implode(',',$rowProduct).'],"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).']}';
-	}
+	}*/
+    /**
+     * @access private
+     * Requête JSON pour les statistiques des langues
+     */
+    private function json_graph(){
+        if(parent::s_stats_lang() != null){
+            foreach (parent::s_stats_lang() as $key){
+                $stat[]= array(
+                    'x'=>magixcjquery_string_convert::upTextCase($key['iso']),
+                    'y'=>$key['HOME'],
+                    'z'=>$key['NEWS'],
+                    'a'=>$key['PAGES'],
+                    'b'=>$key['PRODUCT']
+                );
+            }
+            print json_encode($stat);
+        }
+    }
 	/**
 	 * @access public
 	 * Execution de la structure
@@ -262,14 +280,14 @@ class backend_controller_lang extends backend_db_lang{
 		}else{
 			if(magixcjquery_filter_request::isPost('iso')){
 				$this->insert_new_lang();
-			}elseif(magixcjquery_filter_request::isGet('json_google_chart_lang')){
+			}elseif(magixcjquery_filter_request::isGet('json_graph')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
 				$header->pragma();
 				$header->cache_control("nocache");
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
-				$this->json_language_chart();
+				$this->json_graph();
 			}else{
 				$iso = backend_model_forms::code_iso("iso");
 				backend_controller_template::assign('iso', $iso);
