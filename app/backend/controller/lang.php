@@ -66,7 +66,7 @@ class backend_controller_lang extends backend_db_lang{
 	 * @var $edit
 	 * @var $dellang
 	 */
-	public $edit,$dellang;
+	public $edit,$dellang,$action;
 	/**
 	 * Constructor
 	 */
@@ -86,6 +86,9 @@ class backend_controller_lang extends backend_db_lang{
 		if(magixcjquery_filter_request::isPost('active_lang')){
 			$this->active_lang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['active_lang']);
 		}
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 		//DELETE
 		if(magixcjquery_filter_request::isPost('dellang')){
 			$this->dellang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['dellang']);
@@ -199,41 +202,7 @@ class backend_controller_lang extends backend_db_lang{
 			parent::u_activate_lang_status($this->active_lang, $this->idlang);
 		}
 	}
-	/**
-	 * @access private
-	 * Requête JSON pour les statistiques du CMS
-	 */
-	/*private function json_language_chart(){
-		if(parent::count_lang_pages() != null){
-			foreach (parent::count_lang_pages() as $s){
-				$rowCms[]= $s['countpages'];
-			}
-		}else{
-			$rowCms = array(0);
-		}
-		if(parent::count_lang_news() != null){
-			foreach (parent::count_lang_news() as $s){
-				$rowNews[]= $s['countnews'];
-			}
-		}else{
-			$rowNews = array(0);
-		}
-		if(parent::count_lang_product() != null){
-			foreach (parent::count_lang_product() as $s){
-				$rowProduct[]= $s['countproduct'];
-			}
-		}else{
-			$rowProduct = array(0);
-		}
-		if(parent::s_lang() != null){
-			foreach (parent::s_lang() as $s){
-				$rowLang[]= json_encode(magixcjquery_string_convert::upTextCase($s['iso']));
-			}
-		}else{
-			$rowLang = array(0);
-		}
-		print '{"cms_pages_count":['.implode(',',$rowCms).'],"product_count":['.implode(',',$rowProduct).'],"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).']}';
-	}*/
+
     /**
      * @access private
      * Requête JSON pour les statistiques des langues
