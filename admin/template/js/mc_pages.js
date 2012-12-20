@@ -101,6 +101,7 @@ var MC_pages = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:true
                         });
+                        $('#forms-add').dialog('close');
                         jsonListParent(getlang);
                     }
                 });
@@ -112,10 +113,10 @@ var MC_pages = (function ($, undefined) {
                 modal: true,
                 resizable: true,
                 width: 400,
-                height:240,
+                height:'auto',
+                minHeight: 210,
                 buttons: {
                     'Save': function() {
-                        $(this).dialog('close');
                         idforms.submit();
                     },
                     Cancel: function() {
@@ -215,7 +216,7 @@ var MC_pages = (function ($, undefined) {
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-remove")
+                                    .addClass("icon-trash")
                             )
                         )
                     ),
@@ -294,7 +295,7 @@ var MC_pages = (function ($, undefined) {
                                 .attr("data-delete", item.idpage)
                                 .attr("title", "Supprimer "+": "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-remove")
+                                $(document.createElement("span")).addClass("icon-trash")
                             )
                         );
                         tbody.append(
@@ -463,7 +464,7 @@ var MC_pages = (function ($, undefined) {
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-remove")
+                                    .addClass("icon-trash")
                             )
                         )
                     ),
@@ -534,7 +535,7 @@ var MC_pages = (function ($, undefined) {
                                 .attr("data-delete", item.idpage)
                                 .attr("title", "Supprimer "+": "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-remove")
+                                $(document.createElement("span")).addClass("icon-trash")
                             )
                         );
                         tbody.append(

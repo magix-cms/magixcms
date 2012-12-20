@@ -48,6 +48,7 @@
 		return this.each(function(i, item){
 			var jObjContainers = $(opts.showcontener);
 			jObjContainers.hide();
+			$(item).off();
 			$(item).on('click',function(e){
 				e.preventDefault();
 				var selfelem = $(this);

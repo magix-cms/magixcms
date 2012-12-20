@@ -227,26 +227,33 @@ class backend_controller_lang extends backend_db_lang{
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
-		if(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isPost('iso')){
-				$this->edit_lang();
-			}else{
-				$this->load_data_language();
-				backend_controller_template::display('lang/edit.phtml');
-			}
-		}elseif(magixcjquery_filter_request::isGet('json_list_lang')){
-			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-			$header->pragma();
-			$header->cache_control("nocache");
-			$header->getStatus('200');
-			$header->json_header("UTF-8");
-			$this->json_listing_language();
-		}elseif(magixcjquery_filter_request::isPost('dellang')){
-			$this->delete_lang_record();
-		}elseif(magixcjquery_filter_request::isPost('active_lang')){
-			$this->post_activate_lang();
-		}else{
+        $create = new backend_controller_template();
+        if(isset($this->action)){
+            if($this->action == 'list'){
+                if(magixcjquery_filter_request::isGet('json_list_lang')){
+                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                    $header->pragma();
+                    $header->cache_control("nocache");
+                    $header->getStatus('200');
+                    $header->json_header("UTF-8");
+                    $this->json_listing_language();
+                }else{
+                    $iso = backend_model_forms::code_iso("iso");
+                    $create->assign('iso', $iso);
+                    $create->display('lang/list.phtml');
+                }
+            }elseif($this->action == 'edit'){
+                if(magixcjquery_filter_request::isGet('edit')){
+                    if(magixcjquery_filter_request::isPost('iso')){
+                        $this->edit_lang();
+                    }else{
+                        $this->load_data_language();
+                        backend_controller_template::display('lang/edit.phtml');
+                    }
+                }
+            }
+        }else{
 			if(magixcjquery_filter_request::isPost('iso')){
 				$this->insert_new_lang();
 			}elseif(magixcjquery_filter_request::isGet('json_graph')){
@@ -257,7 +264,11 @@ class backend_controller_lang extends backend_db_lang{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				$this->json_graph();
-			}else{
+			}elseif(magixcjquery_filter_request::isPost('dellang')){
+                $this->delete_lang_record();
+            }elseif(magixcjquery_filter_request::isPost('active_lang')){
+                $this->post_activate_lang();
+            }else{
 				$iso = backend_model_forms::code_iso("iso");
 				backend_controller_template::assign('iso', $iso);
 				backend_controller_template::display('lang/index.phtml');

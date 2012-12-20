@@ -71,10 +71,222 @@ var MC_lang = (function ($, undefined) {
             }
         });
     }
+    function jsonLang(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/lang.php?action=list&json_list_lang=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                $('#list_lang').html(loader);
+            },
+            successParams:function(j){
+                $('#list_lang').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_lang")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("ISO"),
+                            $(document.createElement("th")).append("Language"),
+                            $(document.createElement("th")).append("Défaut"),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span")).addClass("icon-eye-open")
+                            ),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-edit")
+                            )
+                            ,
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-trash")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_lang');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        if(item.default_lang != 0){
+                            var default_lang = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var default_lang = $(document.createElement("span")).addClass("icon-check-empty");
+                        }
+                        if(item.active_lang == '0'){
+                            var active = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("active-pages")
+                                    .attr("href", "#")
+                                    .attr("data-active", item.idlang)
+                                    .attr("title", "Activer la langue: "+item.iso).append(
+                                    $(document.createElement("span")).addClass("icon-eye-close")
+                                )
+                            )
+                        }else if(item.active_lang == '1'){
+                            var active = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("active-pages")
+                                    .attr("href", "#")
+                                    .attr("data-active", item.idlang)
+                                    .attr("title", "Activer la langue: "+item.iso).append(
+                                    $(document.createElement("span")).addClass("icon-eye-open")
+                                )
+                            )
+                        }
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/lang.php?getlang='+getlang+'&action=edit&edit='+item.idlang)
+                                .attr("title", "Editer "+item.iso)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-edit")
+                            )
+                        );
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-lang")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idlang)
+                                .attr("title", "Supprimer "+": "+item.iso)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-trash")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .append(
+                                $(document.createElement("td")).append(
+                                    item.idlang
+                                ),
+                                $(document.createElement("td")).append(item.iso),
+                                $(document.createElement("td")).append(item.language)
+                                ,
+                                $(document.createElement("td")).append(
+                                    default_lang
+                                )
+                                ,
+                                active
+                                ,
+                                edit
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
+    }
+    function add(){
+        var formsAddLang = $("#forms_lang_add").validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                iso: {
+                    required: true
+                },
+                language: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/lang.php?action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:true,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        $('#forms-add').dialog('close');
+                        jsonLang();
+                    }
+                });
+                return false;
+            }
+        });
+        $('#open-add').on('click',function(){
+            $('#forms-add').dialog({
+                modal: true,
+                resizable: true,
+                width: 350,
+                height:'auto',
+                minHeight: 300,
+                buttons: {
+                    'Save': function() {
+                        //$(this).dialog('close');
+                        $("#forms_lang_add").submit();
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                        formsAddLang.resetForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
             graph();
+        },
+        runList:function(){
+            jsonLang();
+            add();
         }
     };
 })(jQuery);

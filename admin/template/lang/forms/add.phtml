@@ -1,6 +1,15 @@
-<form id="forms_add_lang" method="post" action="">
-    <p>
+<form id="forms_lang_add" method="post" action="">
+    <p class="control-group">
         <label for="iso">ISO *</label>
         {$iso}
+    </p>
+    <p class="control-group">
+        <label for="language">Nom *</label>
+        <input type="text" placeholder="Nom de la langue" class="input-large" id="language" name="language" value="" size="50" />
+    </p>
+    <p class="control-group">
+        <label>Langue par défaut :</label>
+        Non <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" checked="checked" />
+        Oui <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" />
     </p>
 </form>

@@ -100,7 +100,7 @@ class backend_model_forms{
             "vi"=>"Vietnamese",
             "zh"=>"Chinese"
         );
-		$mselect = '<select id="'.$name.'" name="'.$name.'" class="ui-widget-content">';
+		$mselect = '<select id="'.$name.'" name="'.$name.'">';
 		if($cvalue != null){
 			$mselect .= '<option selected="selected" value="'.$cvalue.'">'.magixcjquery_string_convert::upTextCase($cvalue).'</option>';
 			$mselect .= '<option value="">---------------------</option>';

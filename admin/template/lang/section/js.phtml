@@ -6,7 +6,11 @@ $(function(){
     {
         console.log("MC_lang is not defined");
     }else{
-        MC_lang.runCharts();
+        if($('#list_lang').length != 0){
+            MC_lang.runList();
+        }else{
+            MC_lang.runCharts();
+        }
     }
 });
 </script>
