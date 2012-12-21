@@ -405,7 +405,7 @@ var MC_pages = (function ($, undefined) {
                 $("#cmslink").show();
                 $("#cmslink").val(uri);
                 $(".post-preview").attr({
-                    href:uri
+                    'data-fancybox-href':uri
                 });
             }
         });

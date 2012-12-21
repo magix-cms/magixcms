@@ -104,7 +104,13 @@ var MC_lang = (function ($, undefined) {
                                 $(document.createElement("span"))
                                     .addClass("icon-key")
                             ),
-                            $(document.createElement("th")).append("ISO"),
+                            $(document.createElement("th"))
+                            .append(
+                                $(document.createElement("span"))
+                                    .attr("title","first tooltip")
+                                    .attr("rel","tooltip")
+                                    .append("ISO")
+                            ),
                             $(document.createElement("th")).append("Language"),
                             $(document.createElement("th")).append("Défaut"),
                             $(document.createElement("th")).append(
@@ -279,6 +285,91 @@ var MC_lang = (function ($, undefined) {
             return false;
         });
     }
+    function update(edit){
+        var formsUpdatelang = $('#forms_lang_edit').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                iso: {
+                    required: true
+                },
+                language: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/lang.php?action=edit&edit='+edit,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_lang_edit').formsUpdatelang;
+    }
+    function updateActive(){
+        $(document).on("click","a.active-pages",function(event){
+            event.preventDefault();
+            var id = $(this).data("active");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $("#window-dialog").dialog({
+                resizable: false,
+                height:180,
+                width:350,
+                modal: true,
+                title: "Changer le status d'une langue",
+                buttons: [
+                    {
+                        text: "Activer",
+                        click: function() {
+                            $(this).dialog('close');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/lang.php?action=edit',
+                                typesend: 'post',
+                                noticedata:{active_lang:1,idlang:id},
+                                successParams:function(j){
+                                    $.nicenotify.initbox(j,{
+                                        display:false
+                                    });
+                                    jsonLang();
+                                }
+                            });
+                            return false;
+                        }
+                    },
+                    {
+                        text: "Désactiver",
+                        click: function() {
+                            $(this).dialog('close');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/lang.php?action=edit',
+                                typesend: 'post',
+                                noticedata:{active_lang:0,idlang:id},
+                                successParams:function(j){
+                                    $.nicenotify.initbox(j,{
+                                        display:false
+                                    });
+                                    jsonLang();
+                                }
+                            });
+                            return false;
+                        }
+                    }
+                ]
+            });
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
@@ -287,6 +378,10 @@ var MC_lang = (function ($, undefined) {
         runList:function(){
             jsonLang();
             add();
+            updateActive();
+        },
+        runEdit:function(edit){
+            update(edit);
         }
     };
 })(jQuery);

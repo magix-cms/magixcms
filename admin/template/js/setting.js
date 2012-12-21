@@ -44,11 +44,11 @@ $(function(){
         open: 'open',
         debug: false
     });
-    /*$('.dropdown-toggle').dropdown();
+    $('.dropdown-toggle').dropdown();
     $('.nav-collapse > .brand').on('click',function(event){
         event.preventDefault();
         return false;
-    });*/
+    });
     $('.unlocked').on('click',function(event){
         event.preventDefault();
         var lock = $('span.icon-lock',this);
@@ -61,6 +61,7 @@ $(function(){
             unlock.removeClass('icon-unlock').addClass('icon-lock');
         }
     });
+    $(".alert").alert('close');
     /*$("a[rel=popover]").popover({
         placement: 'right',
         offset: 15,
@@ -99,6 +100,29 @@ $(function(){
             timer = setTimeout(function(){hidePopover(popover_parent)},300);
         }
     }, '.popover');*/
+    $(document).on({
+        mouseenter: function() {
+            //stuff to do on mouseover
+            $(this).tooltip({
+                placement:'top'
+            });
+        },
+        mouseleave: function() {
+            //stuff to do on mouseleave
+            $(this).tooltip('hide');
+        }
+
+    },'thead th span[rel=tooltip]');
+    /*$("a.post-preview").on('click',function(event){
+        event.preventDefault();
+        return false;
+    });*/
+    $("a.post-preview").fancybox({
+        type: 'iframe',
+        autoSize : false,
+        width : '90%',
+        padding : 5
+    });
     /*####################Formulaire Validation######################*/
     $.validator.setDefaults({
         debug: false,

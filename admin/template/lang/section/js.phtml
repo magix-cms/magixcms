@@ -8,6 +8,8 @@ $(function(){
     }else{
         if($('#list_lang').length != 0){
             MC_lang.runList();
+        }else if($('#forms_lang_edit').length != 0){
+            MC_lang.runEdit(edit);
         }else{
             MC_lang.runCharts();
         }

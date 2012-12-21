@@ -137,7 +137,7 @@ class backend_controller_lang extends backend_db_lang{
 					}
 				}
 			}else{
-				backend_controller_template::display('lang/request/element-exist.phtml');
+                $create->display('lang/request/element-exist.phtml');
 			}
 		}
 	}
@@ -197,7 +197,7 @@ class backend_controller_lang extends backend_db_lang{
 	 * @access private
 	 * Modifie le status d'une langue
 	 */
-	private function post_activate_lang(){
+	private function update_activate_lang(){
 		if(isset($this->active_lang)){
 			parent::u_activate_lang_status($this->active_lang, $this->idlang);
 		}
@@ -243,6 +243,10 @@ class backend_controller_lang extends backend_db_lang{
                     $create->assign('iso', $iso);
                     $create->display('lang/list.phtml');
                 }
+            }elseif($this->action == 'add'){
+                if(isset($this->iso)){
+                    $this->insert_new_lang($create);
+                }
             }elseif($this->action == 'edit'){
                 if(magixcjquery_filter_request::isGet('edit')){
                     if(isset($this->iso)){
@@ -251,12 +255,14 @@ class backend_controller_lang extends backend_db_lang{
                         $this->load_data_language();
                         backend_controller_template::display('lang/edit.phtml');
                     }
+                }else{
+                    if(isset($this->active_lang)){
+                        $this->update_activate_lang();
+                    }
                 }
             }
         }else{
-			if(isset($this->iso)){
-				$this->insert_new_lang($create);
-			}elseif(magixcjquery_filter_request::isGet('json_graph')){
+			if(magixcjquery_filter_request::isGet('json_graph')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
 				$header->pragma();
@@ -266,8 +272,6 @@ class backend_controller_lang extends backend_db_lang{
 				$this->json_graph();
 			}elseif(magixcjquery_filter_request::isPost('delete_lang')){
                 $this->delete_lang_record();
-            }elseif(isset($this->active_lang)){
-                $this->post_activate_lang();
             }else{
 				$iso = backend_model_forms::code_iso("iso");
 				backend_controller_template::assign('iso', $iso);

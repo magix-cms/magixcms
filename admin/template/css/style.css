@@ -65,6 +65,12 @@ h3 {
 a.menu:after, .dropdown-toggle:after {
     content: none;
 }*/
+.dropdown .dropdown-menu .nav-header {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
 /**
  ====    loader
 */
@@ -84,4 +90,5 @@ tbody.ui-sortable > .ui-sortable-helper{
 .post-preview{
     font-size: 28.5px;
     padding-bottom: 6px;
+    font-weight: lighter;
 }
