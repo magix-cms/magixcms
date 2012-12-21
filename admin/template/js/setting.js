@@ -44,11 +44,11 @@ $(function(){
         open: 'open',
         debug: false
     });
-    $('.dropdown-toggle').dropdown();
+    /*$('.dropdown-toggle').dropdown();
     $('.nav-collapse > .brand').on('click',function(event){
         event.preventDefault();
         return false;
-    });
+    });*/
     $('.unlocked').on('click',function(event){
         event.preventDefault();
         var lock = $('span.icon-lock',this);
