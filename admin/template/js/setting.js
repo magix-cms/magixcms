@@ -61,6 +61,44 @@ $(function(){
             unlock.removeClass('icon-unlock').addClass('icon-lock');
         }
     });
+    /*$("a[rel=popover]").popover({
+        placement: 'right',
+        offset: 15,
+        trigger: 'manual',
+        delay: { show: 350, hide: 100 },
+        html: true,
+        title: 'Twitter Bootstrap Popover',
+        content: function(){
+            return $(this).next('.nav-lang').html();
+        }
+    });
+    var timer,
+        popover_parent;
+    function hidePopover(elem) {
+        $(elem).popover('hide');
+    }
+    $("a[rel=popover]").hover(
+        function() {
+            var self = this;
+            clearTimeout(timer);
+            $('.popover').hide(); //Hide any open popovers on other elements.
+            popover_parent = self
+            $(self).popover('show');
+        },
+        function() {
+            var self = this;
+            timer = setTimeout(function(){hidePopover(self)},300);
+        }
+    );
+    $(document).on({
+        mouseenter: function() {
+            clearTimeout(timer);
+        },
+        mouseleave: function() {
+            var self = this;
+            timer = setTimeout(function(){hidePopover(popover_parent)},300);
+        }
+    }, '.popover');*/
     /*####################Formulaire Validation######################*/
     $.validator.setDefaults({
         debug: false,

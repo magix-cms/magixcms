@@ -59,6 +59,12 @@ h3 {
 .sidebar-nav {
     padding: 9px 0;
 }
+/*.dropdown:hover .dropdown-menu {
+    display: block;
+}
+a.menu:after, .dropdown-toggle:after {
+    content: none;
+}*/
 /**
  ====    loader
 */

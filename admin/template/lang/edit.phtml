@@ -1,0 +1,46 @@
+{include file="section/head.phtml"}
+<title>Magix CMS | Admin</title>
+</head>
+<body class="module-cms">
+{include file="section/top.phtml"}
+<div class="container-fluid">
+    <div class="row-fluid">
+    {include file="section/colleft.phtml"}
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span12">
+                    {include file="lang/section/nav.phtml"}
+                        <h1>Edition de la langue : {$idlang}</h1>
+                    <form id="forms_lang_edit" method="post" action="">
+                        <p class="control-group">
+                            <label for="iso">ISO *</label>
+                        {$iso}
+                        </p>
+                        <p class="control-group">
+                            <label for="language">Nom *</label>
+                            <input type="text" placeholder="Nom de la langue" class="input-large" id="language" name="language" value="{$language}" size="50" />
+                        </p>
+                        <p class="control-group">
+                            <label>Langue par défaut :</label>
+                            {if $default_lang eq '1'}
+                            Non <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" />
+                            Oui <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" checked="checked" />
+                            {else}
+                            Non <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" checked="checked" />
+                            Oui <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" />
+                            {/if}
+                        </p>
+                        <p>
+                            <input type="submit" class="btn" />
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="section/footer.phtml"}
+{include file="section/js.phtml"}
+{include file="lang/section/js.phtml"}
+</body>
+</html>
