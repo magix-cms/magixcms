@@ -83,7 +83,7 @@ var MC_lang = (function ($, undefined) {
                         .attr('src','/framework/img/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
-                )
+                );
                 $('#list_lang').html(loader);
             },
             successParams:function(j){

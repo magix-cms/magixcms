@@ -432,7 +432,8 @@ class backend_controller_cms extends backend_db_cms{
 							true
 						);
 					}
-					$search[]= '{"idrel_lang":'.json_encode($s['idrel_lang']).',"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
+					$search[]= '{"idrel_lang":'.json_encode($s['idrel_lang']).',"idpage":'.json_encode($s['idpage']).
+                    ',"title_page":'.json_encode($s['title_page']).
 					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode($s['iso']).
 					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).
 					',"seo_title_page":'.$metatitle.',"seo_desc_page":'.$metadescription.

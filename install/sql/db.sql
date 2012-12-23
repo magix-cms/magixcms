@@ -1,17 +1,19 @@
 CREATE TABLE IF NOT EXISTS `mc_admin_member` (
-  `idadmin` tinyint(2) NOT NULL AUTO_INCREMENT,
+  `idadmin` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(20) NOT NULL,
   `email` varchar(40) NOT NULL,
   `cryptpass` varchar(50) NOT NULL,
   `keyuniqid` varchar(50) NOT NULL,
   PRIMARY KEY (`idadmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_admin_perms` (
-  `idadmin` tinyint(2) NOT NULL AUTO_INCREMENT,
-  `perms` tinyint(1) NOT NULL,
+  `id_perms` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `idadmin` smallint(5) unsigned NOT NULL,
+  `perms` smallint(3) unsigned NOT NULL,
+  PRIMARY KEY (`id_perms`),
   KEY `idadmin` (`idadmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_admin_session` (
   `sid` tinytext NOT NULL,
@@ -24,31 +26,31 @@ CREATE TABLE IF NOT EXISTS `mc_admin_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
-  `idlang` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `iso` varchar(3) NOT NULL,
-  `language` varchar(30) NOT NULL,
-  `default_lang` tinyint(1) NOT NULL DEFAULT '0',
-  `active_lang` tinyint(1) NOT NULL DEFAULT '0',
+  `idlang` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `iso` varchar(10) NOT NULL,
+  `language` varchar(40) DEFAULT NULL,
+  `default_lang` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `active_lang` smallint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1, 1);
 
 CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `idcatalog` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `idlang` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `idadmin` tinyint(2) NOT NULL,
+  `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',
+  `idadmin` smallint(5) unsigned NOT NULL,
   `urlcatalog` varchar(125) NOT NULL,
   `titlecatalog` varchar(125) NOT NULL,
   `desccatalog` text,
   `price` decimal(12,2) DEFAULT NULL,
   `ordercatalog` int(6) NOT NULL,
-  `publish` tinyint(1) NOT NULL DEFAULT '1',
+  `publish` smallint(1) unsigned NOT NULL DEFAULT '1',
   `date_catalog` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcatalog`),
   KEY `idclc` (`idlang`),
   KEY `idadmin` (`idadmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
   `idclc` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -56,11 +58,11 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
   `pathclibelle` varchar(125) NOT NULL,
   `img_c` varchar(125) DEFAULT NULL,
   `c_content` text,
-  `idlang` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',
   `corder` smallint(5) NOT NULL,
   PRIMARY KEY (`idclc`),
   KEY `idlang` (`idlang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_galery` (
   `idmicro` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -68,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_galery` (
   `imgcatalog` varchar(125) NOT NULL,
   PRIMARY KEY (`idmicro`),
   KEY `idcatalog` (`idcatalog`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_img` (
   `idcatalog` int(6) unsigned NOT NULL,
@@ -85,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_product` (
   PRIMARY KEY (`idproduct`),
   KEY `idclc` (`idclc`),
   KEY `idcatalog` (`idcatalog`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_rel_product` (
   `idrelproduct` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -94,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_rel_product` (
   PRIMARY KEY (`idrelproduct`),
   KEY `idcatalog` (`idcatalog`),
   KEY `idproduct` (`idproduct`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
   `idcls` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -106,24 +108,24 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
   `sorder` smallint(5) NOT NULL,
   PRIMARY KEY (`idcls`),
   KEY `idclc` (`idclc`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_cms_pages` (
   `idpage` int(7) unsigned NOT NULL AUTO_INCREMENT,
-  `idadmin` tinyint(3) NOT NULL,
-  `idlang` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `idadmin` smallint(5) unsigned NOT NULL,
+  `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',
   `idcat_p` int(7) unsigned NOT NULL DEFAULT '0',
-  `title_page` varchar(125) NOT NULL,
-  `uri_page` varchar(125) NOT NULL,
+  `title_page` varchar(150) NOT NULL,
+  `uri_page` varchar(150) NOT NULL,
   `content_page` text,
-  `seo_title_page` tinytext,
-  `seo_desc_page` tinytext,
+  `seo_title_page` varchar(180) DEFAULT NULL,
+  `seo_desc_page` varchar(180) DEFAULT NULL,
   `order_page` smallint(5) NOT NULL DEFAULT '0',
-  `sidebar_page` tinyint(1) NOT NULL DEFAULT '0',
+  `sidebar_page` smallint(1) unsigned NOT NULL DEFAULT '0',
   `date_register` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idpage`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_cms_rel_lang` (
   `idrel_lang` int(7) unsigned NOT NULL AUTO_INCREMENT,
@@ -131,13 +133,27 @@ CREATE TABLE IF NOT EXISTS `mc_cms_rel_lang` (
   `idlang_p` int(7) unsigned NOT NULL,
   PRIMARY KEY (`idrel_lang`),
   KEY `idpage` (`idpage`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `mc_page_home` (
+  `idhome` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `subject` varchar(150) NOT NULL,
+  `content` text,
+  `metatitle` varchar(180) DEFAULT NULL,
+  `metadescription` varchar(180) DEFAULT NULL,
+  `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',
+  `idadmin` smallint(3) unsigned NOT NULL,
+  `date_home` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idhome`),
+  KEY `idlang` (`idlang`),
+  KEY `idadmin` (`idadmin`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_config` (
-  `idconfig` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `idconfig` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
   `attr_name` varchar(20) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `max_record` tinyint(1) NOT NULL DEFAULT '0',
+  `status` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `max_record` smallint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`idconfig`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
@@ -151,7 +167,7 @@ INSERT INTO `mc_config` (`idconfig`, `attr_name`, `status`, `max_record`) VALUES
 
 CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
   `id_size_img` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `idconfig` tinyint(3) unsigned NOT NULL,
+  `idconfig` smallint(3) unsigned NOT NULL,
   `config_size_attr` varchar(40) NOT NULL,
   `width` decimal(4,0) NOT NULL,
   `height` decimal(4,0) NOT NULL,
@@ -204,20 +220,6 @@ CREATE TABLE IF NOT EXISTS `mc_news_tag` (
   PRIMARY KEY (`idnews_tag`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `mc_page_home` (
-  `idhome` tinyint(1) NOT NULL AUTO_INCREMENT,
-  `subject` varchar(125) NOT NULL,
-  `content` text NOT NULL,
-  `metatitle` varchar(150) DEFAULT NULL,
-  `metadescription` varchar(180) DEFAULT NULL,
-  `idlang` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `idadmin` tinyint(2) NOT NULL,
-  `date_home` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idhome`),
-  KEY `idlang` (`idlang`),
-  KEY `idadmin` (`idadmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
 CREATE TABLE IF NOT EXISTS `mc_setting` (
   `setting_id` varchar(255) NOT NULL,
   `setting_value` text,
@@ -231,22 +233,5 @@ INSERT INTO `mc_setting` (`setting_id`, `setting_value`, `setting_type`, `settin
 ('microgalery', 'default', 'string', 'micro galery'),
 ('webmaster', '', 'string', 'google webmasterTools'),
 ('analytics', '', 'string', 'google analytics'),
-('editor', 'pdw_file_browser', 'string', 'tinymce'),
-('magix_version', '2.3.6', 'string', 'Version Magix CMS');
-
-ALTER TABLE `mc_admin_session`
-  ADD CONSTRAINT `mc_admin_session_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `mc_admin_member` (`idadmin`);
-
-ALTER TABLE `mc_catalog_img`
-  ADD CONSTRAINT `mc_catalog_img_ibfk_1` FOREIGN KEY (`idcatalog`) REFERENCES `mc_catalog` (`idcatalog`);
-
-ALTER TABLE `mc_catalog_product`
-  ADD CONSTRAINT `mc_catalog_product_ibfk_1` FOREIGN KEY (`idcatalog`) REFERENCES `mc_catalog` (`idcatalog`),
-  ADD CONSTRAINT `mc_catalog_product_ibfk_2` FOREIGN KEY (`idclc`) REFERENCES `mc_catalog_c` (`idclc`);
-
-ALTER TABLE `mc_catalog_rel_product`
-  ADD CONSTRAINT `mc_catalog_rel_product_ibfk_1` FOREIGN KEY (`idcatalog`) REFERENCES `mc_catalog` (`idcatalog`),
-  ADD CONSTRAINT `mc_catalog_rel_product_ibfk_2` FOREIGN KEY (`idproduct`) REFERENCES `mc_catalog_product` (`idproduct`) ON DELETE CASCADE;
-
-ALTER TABLE `mc_catalog_s`
-  ADD CONSTRAINT `mc_catalog_s_ibfk_1` FOREIGN KEY (`idclc`) REFERENCES `mc_catalog_c` (`idclc`);
+('editor', 'openFilemanager', 'string', 'tinymce'),
+('magix_version', '2.4.0', 'string', 'Version Magix CMS');

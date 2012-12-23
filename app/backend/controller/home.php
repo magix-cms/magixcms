@@ -36,11 +36,11 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2012 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    3.0
- * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
+ * @version    2.0
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
  * @name home
  *
  */
@@ -49,7 +49,7 @@ class backend_controller_home extends backend_db_home{
 	 * gethome
 	 * @var getedit (get edit)
 	 */
-	public $edit;
+	public $edit,$action;
 	/**
 	 * string
 	 * @var subject
@@ -74,7 +74,7 @@ class backend_controller_home extends backend_db_home{
 	 * integer
 	 * @var delhome
 	 */
-	public $del_home;
+	public $delete_home;
 	/**
 	 * function construct
 	 *
@@ -87,7 +87,7 @@ class backend_controller_home extends backend_db_home{
 			$this->subject = magixcjquery_form_helpersforms::inputClean($_POST['subject']);
 		}
 		if(magixcjquery_filter_request::isPost('content')){
-			$this->content = ($_POST['content']);
+			$this->content = magixcjquery_form_helpersforms::inputCleanQuote($_POST['content']);
 		}
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
@@ -98,17 +98,20 @@ class backend_controller_home extends backend_db_home{
 		if(magixcjquery_filter_request::isPost('metadescription')){
 			$this->metadescription = magixcjquery_form_helpersforms::inputTagClean($_POST['metadescription']);
 		}
-		if(magixcjquery_filter_request::isPost('del_home')){
-			$this->del_home = magixcjquery_filter_isVar::isPostNumeric($_POST['del_home']);
+		if(magixcjquery_filter_request::isPost('delete_home')){
+			$this->delete_home = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_home']);
 		}
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 	}
 	/**
 	 * @access private
 	 * Requête JSON pour retourner la liste des langues
 	 */
-	private function json_listing_home_page(){
-		if(parent::s_listing_home_page() != null){
-			foreach (parent::s_listing_home_page() as $s){
+	private function json_list_home(){
+		if(parent::s_list_home() != null){
+			foreach (parent::s_list_home() as $s){
 				if ($s['metatitle'] != null){
 					$metatitle = 1;
 				}else{
@@ -127,22 +130,22 @@ class backend_controller_home extends backend_db_home{
 			print '['.implode(',',$json).']';
 		}
 	}
-	private function load_data_forms(){
-		$data = parent::s_home_page_record($this->edit);
-		backend_controller_template::assign('subject',$data['subject']);
-		backend_controller_template::assign('content',$data['content']);
-		backend_controller_template::assign('idlang',$data['idlang']);
-		backend_controller_template::assign('iso',$data['iso']);
-		backend_controller_template::assign('metatitle',$data['metatitle']);
-		backend_controller_template::assign('metadescription',$data['metadescription']);
+	private function load_data_forms($create){
+		$data = parent::s_edit_home($this->edit);
+		$create->assign('subject',$data['subject']);
+		$create->assign('content',$data['content']);
+		$create->assign('idlang',$data['idlang']);
+		$create->assign('iso',$data['iso']);
+		$create->assign('metatitle',$data['metatitle']);
+		$create->assign('metadescription',$data['metadescription']);
 	}
-	private function insert_data_forms(){
+	private function insert_data_forms($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				backend_controller_template::display('request/empty.phtml');
+				$create->display('request/empty.phtml');
 			}else{
-				if(parent::s_home_page_b_lang($this->idlang) == null){
-					parent::i_new_home_page(
+				if(parent::s_lang_home($this->idlang) == null){
+					parent::i_new_home(
 						$this->subject,
 						$this->content,
 						$this->metatitle,
@@ -150,28 +153,28 @@ class backend_controller_home extends backend_db_home{
 						$this->idlang,
 						backend_model_member::s_idadmin()
 					);
-					backend_controller_template::display('request/success.phtml');
+					$create->display('request/success.phtml');
 				}else{
-					backend_controller_template::display('request/element-exist.phtml');
+					$create->display('request/element-exist.phtml');
 				}
 			}
 		}
 	}
-	private function update_data_forms(){
+	private function update_data_forms($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				backend_controller_template::display('request/empty.phtml');
+				$create->display('request/empty.phtml');
 			}else{
-					parent::u_home_page(
-						$this->subject,
-						$this->content,
-						$this->metatitle,
-						$this->metadescription,
-						$this->idlang,
-						backend_model_member::s_idadmin(),
-						$this->edit
-					);
-					backend_controller_template::display('request/success.phtml');
+                parent::u_home(
+                    $this->subject,
+                    $this->content,
+                    $this->metatitle,
+                    $this->metadescription,
+                    $this->idlang,
+                    backend_model_member::s_idadmin(),
+                    $this->edit
+                );
+                $create->display('request/success.phtml');
 			}
 		}
 	}
@@ -179,41 +182,79 @@ class backend_controller_home extends backend_db_home{
 	 * Supprime une page home
 	 * @access private
 	 */
-	private function delete_home_page(){
-		if(isset($this->del_home)){
-			parent::d_home($this->del_home);
+	private function remove_home(){
+		if(isset($this->delete_home)){
+			parent::d_home($this->delete_home);
 		}
 	}
-	
+
+    /**
+     * @access private
+     * Requête JSON pour les statistiques des pages d'accueil
+     */
+    private function json_graph(){
+        if(parent::s_count_home() != null){
+            foreach (parent::s_count_home() as $key){
+                $stat[]= array(
+                    'x'=>magixcjquery_string_convert::upTextCase($key['iso']),
+                    'y'=>$key['counthome']
+                );
+            }
+            print json_encode($stat);
+        }
+    }
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
-		if(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isPost('subject')){
-				$this->update_data_forms();
-			}else{
-				$this->load_data_forms();
-				backend_controller_template::display('home/edit.phtml');
-			}
-		}elseif(magixcjquery_filter_request::isPost('subject')){
-			$this->insert_data_forms();
-		}elseif(magixcjquery_filter_request::isGet('json_list_home_page')){
-			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-			$header->pragma();
-			$header->cache_control("nocache");
-			$header->getStatus('200');
-			$header->json_header("UTF-8");
-			$this->json_listing_home_page();
-		}elseif(magixcjquery_filter_request::isPost('del_home')){
-			$this->delete_home_page();
-		}else{
-			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-			backend_controller_template::display('home/index.phtml');
-		}
+        $create = new backend_controller_template();
+        if(isset($this->action)){
+            if($this->action == 'list'){
+                if(magixcjquery_filter_request::isGet('json_list_home')){
+                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                    $header->pragma();
+                    $header->cache_control("nocache");
+                    $header->getStatus('200');
+                    $header->json_header("UTF-8");
+                    $this->json_list_home();
+                }else{
+                    $create->display('home/list.phtml');
+                }
+            }elseif($this->action == 'add'){
+                if(isset($this->subject)){
+                    $this->insert_data_forms($create);
+                }
+            }elseif($this->action == 'edit'){
+                if(magixcjquery_filter_request::isGet('edit')){
+                    if(isset($this->subject)){
+                        $this->update_data_forms($create);
+                    }else{
+                        $this->load_data_forms($create);
+                        $create->display('home/edit.phtml');
+                    }
+                }
+            }elseif($this->action == 'remove'){
+                if(isset($this->delete_home)){
+                    $this->remove_home();
+                }
+            }
+        }else{
+            if(magixcjquery_filter_request::isGet('json_graph')){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_graph();
+            }else{
+                $create->assign('selectlang',backend_model_blockDom::select_language());
+                $create->display('home/index.phtml');
+            }
+        }
 	}
 }
 ?>

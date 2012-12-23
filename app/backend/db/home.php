@@ -36,45 +36,59 @@
  * MAGIX CMS
  * @category   DB 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2012 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.4
- * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
+ * @version    2.0
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
  * @name home
  *
  */
 class backend_db_home{
-	protected function s_listing_home_page(){
+    protected function s_count_home(){
+        $sql = 'SELECT count(h.idhome) AS counthome,lang.iso
+        FROM mc_page_home AS h
+        JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
+        GROUP BY h.idlang';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+    /**
+     * Retourne la liste des pages
+     * @return array
+     */
+    protected function s_list_home(){
 		$sql = 'SELECT h.idhome,h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang,m.pseudo
-				FROM mc_page_home AS h
-				LEFT JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
-				LEFT JOIN mc_admin_member AS m ON(h.idadmin = m.idadmin)';
+        FROM mc_page_home AS h
+        JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
+        JOIN mc_admin_member AS m ON(h.idadmin = m.idadmin)';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
-	/**
-	 * Affiche les données (dans les champs) pour une modification
-	 * @param $gethome
-	 */
-	protected function s_home_page_record($gethome){
+
+    /**
+     * Affiche les données (dans les champs) pour une modification
+     * @param $idhome
+     * @return array
+     */
+	protected function s_edit_home($idhome){
 		$sql = 'SELECT h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang
-				FROM mc_page_home AS h
-				JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
-				WHERE idhome = :gethome';
+        FROM mc_page_home AS h
+        JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
+        WHERE idhome = :idhome';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-		':gethome'=>$gethome
+		    ':idhome'=>$idhome
 		));
 	}
 	/**
 	 * selectionne les données suivant la langue
 	 * @param $idlang
-	 */
-	protected function s_home_page_b_lang($idlang){
+     * @return array
+     */
+	protected function s_lang_home($idlang){
 		$sql ='SELECT h.idhome,h.idlang
-				FROM mc_page_home AS h
-				WHERE h.idlang =:idlang';
+        FROM mc_page_home AS h
+        WHERE h.idlang =:idlang';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-		':idlang'=>$idlang
+		    ':idlang'=>$idlang
 		));
 	}
 	/**
@@ -86,9 +100,9 @@ class backend_db_home{
 	 * @param $idlang
 	 * @param $idadmin
 	 */
-	protected function i_new_home_page($subject,$content,$metatitle,$metadescription,$idlang,$idadmin){
+	protected function i_new_home($subject,$content,$metatitle,$metadescription,$idlang,$idadmin){
 		$sql = 'INSERT INTO mc_page_home (subject,content,metatitle,metadescription,idlang,idadmin) 
-				VALUE(:subject,:content,:metatitle,:metadescription,:idlang,:idadmin)';
+        VALUE(:subject,:content,:metatitle,:metadescription,:idlang,:idadmin)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':subject'			=>	$subject,
@@ -109,7 +123,7 @@ class backend_db_home{
 	 * @param $idadmin
 	 * @param $idhome
 	 */
-	protected function u_home_page($subject,$content,$metatitle,$metadescription,$idlang,$idadmin,$idhome){
+	protected function u_home($subject,$content,$metatitle,$metadescription,$idlang,$idadmin,$idhome){
 		$sql = 'UPDATE mc_page_home 
 		SET subject=:subject,content=:content,metatitle=:metatitle,metadescription=:metadescription,idlang=:idlang,idadmin=:idadmin,date_home=NOW()
 		WHERE idhome = :idhome';
@@ -126,13 +140,13 @@ class backend_db_home{
 	}
 	/**
 	 * Suppression d'une page d'accueil
-	 * @param $delhome
+	 * @param $delete_home
 	 */
-	protected function d_home($delhome){
-		$sql = 'DELETE FROM mc_page_home WHERE idhome = :delhome';
-			magixglobal_model_db::layerDB()->delete($sql,
-			array(
-				':delhome'	=>	$delhome
-			)); 
+	protected function d_home($delete_home){
+		$sql = 'DELETE FROM mc_page_home WHERE idhome = :delete_home';
+        magixglobal_model_db::layerDB()->delete($sql,
+        array(
+            ':delete_home'	=>	$delete_home
+        ));
 	}
 }
