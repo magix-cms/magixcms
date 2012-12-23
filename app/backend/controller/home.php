@@ -4,7 +4,7 @@
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2012 magix-cms.com <support@magix-cms.com>
+ # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
  #
  # OFFICIAL TEAM :
  #
@@ -36,7 +36,7 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2008 - 2012 Gerits Aurelien,
+ * @copyright  MAGIX CMS Copyright (C) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    2.0

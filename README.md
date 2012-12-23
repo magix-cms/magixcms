@@ -63,7 +63,7 @@ Licence
 This file is part of Magix CMS.
 Magix CMS, a CMS optimized for SEO
 
-Copyright (C) 2008 - 2012 magix-cms.com support[at]magix-cms[point]com
+Copyright (C) 2008 - 2013 magix-cms.com support[at]magix-cms[point]com
 
 OFFICIAL TEAM :
 

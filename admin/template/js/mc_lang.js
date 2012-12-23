@@ -3,7 +3,7 @@
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2012 sc-box.com <support@magix-cms.com>
+ # Copyright (C) 2008 - 2013 sc-box.com <support@magix-cms.com>
  #
  # OFFICIAL TEAM :
  #

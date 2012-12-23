@@ -4,7 +4,7 @@
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2012 magix-cms.com <support@magix-cms.com>
+ # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
  #
  # OFFICIAL TEAM :
  #

@@ -1,5 +1,9 @@
 #### 2.4.0
 alpha 5
+    * Ajout du fichier SQL de mise à jour vers la 2.4.0
+    * Ajout de la nouvelle base de données avec les adaptations
+    * Ajout du module pour la gestion des pages d'accueil
+    * Statistiques ds pages d'accueil
     * Organisation des sous menu avec dropdown (sidebar admin)
     * Système de mise à jour des langues
     * Système d'ajout de langues
