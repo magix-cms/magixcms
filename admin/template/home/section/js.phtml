@@ -1,5 +1,7 @@
+{include file="section/editor.phtml"}
+{script src="/{baseadmin}/min/?g=tinymce" type="javascript"}
 {script src="/{baseadmin}/min/?g=charts" type="javascript"}
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/mc_home.js" type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_home.js" type="javascript"}
 <script type="text/javascript">
 $(function(){
     if (typeof MC_home == "undefined")
@@ -8,6 +10,8 @@ $(function(){
     }else{
         if($('#list_home').length != 0){
             MC_home.runList();
+        }else if($('#forms_home_edit').length != 0){
+            MC_home.runEdit(edit);
         }else{
             MC_home.runCharts();
         }

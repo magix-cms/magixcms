@@ -165,7 +165,7 @@ var MC_lang = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/lang.php?getlang='+getlang+'&action=edit&edit='+item.idlang)
+                                .attr("href", '/admin/lang.php?action=edit&edit='+item.idlang)
                                 .attr("title", "Editer "+item.iso)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")

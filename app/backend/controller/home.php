@@ -105,26 +105,51 @@ class backend_controller_home extends backend_db_home{
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
 	}
+    private function lang_select(){
+        $idlang = '';
+        $iso = '';
+        foreach(backend_db_block_lang::s_data_lang() as $key){
+            $idlang[]=$key['idlang'];
+            $iso[]=$key['iso'];
+        }
+        $lang_conb = array_combine($idlang,$iso);
+        $select = backend_model_forms::select_static_row(
+            $lang_conb
+            ,
+            array(
+                'attr_name'=>'idlang',
+                'attr_id'=>'idlang',
+                'default_value'=>'',
+                'empty_value'=>'Selectionner les langues',
+                'upper_case'=>true
+            )
+        );
+        return $select;
+    }
 	/**
 	 * @access private
 	 * Requête JSON pour retourner la liste des langues
 	 */
 	private function json_list_home(){
 		if(parent::s_list_home() != null){
-			foreach (parent::s_list_home() as $s){
-				if ($s['metatitle'] != null){
+			foreach (parent::s_list_home() as $key){
+				if ($key['metatitle'] != null){
 					$metatitle = 1;
 				}else{
 					$metatitle = 0;
 				}
-				if ($s['metadescription'] != null){
+				if ($key['metadescription'] != null){
 					$metadescription = 1;
 				}else{
 					$metadescription = 0;
 				}
-				$uri = magixcjquery_html_helpersHtml::getUrl().'/'.$s['iso'].'/';
-				$json[]= '{"idhome":'.json_encode($s['idhome']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($s['iso']))
-				.',"subject":'.json_encode($s['subject']).',"pseudo":'.json_encode($s['pseudo']).',"uri_home":'.json_encode($uri).',"metatitle":'.json_encode($metatitle).
+                if ($key['content'] != null){
+                    $content = 1;
+                }else{
+                    $content = 0;
+                }
+				$json[]= '{"idhome":'.json_encode($key['idhome']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($key['iso']))
+				.',"subject":'.json_encode($key['subject']).',"pseudo":'.json_encode($key['pseudo']).',"content":'.json_encode($content).',"metatitle":'.json_encode($metatitle).
 				',"metadescription":'.json_encode($metadescription).'}';
 			}
 			print '['.implode(',',$json).']';
@@ -139,23 +164,20 @@ class backend_controller_home extends backend_db_home{
 		$create->assign('metatitle',$data['metatitle']);
 		$create->assign('metadescription',$data['metadescription']);
 	}
-	private function insert_data_forms($create){
+	private function insert_new_page($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				$create->display('request/empty.phtml');
+				$create->display('home/request/empty.phtml');
 			}else{
 				if(parent::s_lang_home($this->idlang) == null){
 					parent::i_new_home(
 						$this->subject,
-						$this->content,
-						$this->metatitle,
-						$this->metadescription,
 						$this->idlang,
 						backend_model_member::s_idadmin()
 					);
-					$create->display('request/success.phtml');
+					$create->display('home/request/success_add.phtml');
 				}else{
-					$create->display('request/element-exist.phtml');
+					$create->display('home/request/element_exist.phtml');
 				}
 			}
 		}
@@ -163,18 +185,17 @@ class backend_controller_home extends backend_db_home{
 	private function update_data_forms($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				$create->display('request/empty.phtml');
+				$create->display('home/request/empty.phtml');
 			}else{
                 parent::u_home(
                     $this->subject,
                     $this->content,
                     $this->metatitle,
                     $this->metadescription,
-                    $this->idlang,
                     backend_model_member::s_idadmin(),
                     $this->edit
                 );
-                $create->display('request/success.phtml');
+                $create->display('home/request/success_update.phtml');
 			}
 		}
 	}
@@ -221,11 +242,13 @@ class backend_controller_home extends backend_db_home{
                     $header->json_header("UTF-8");
                     $this->json_list_home();
                 }else{
+
+                    $create->assign('select_lang',$this->lang_select());
                     $create->display('home/list.phtml');
                 }
             }elseif($this->action == 'add'){
                 if(isset($this->subject)){
-                    $this->insert_data_forms($create);
+                    $this->insert_new_page($create);
                 }
             }elseif($this->action == 'edit'){
                 if(magixcjquery_filter_request::isGet('edit')){
@@ -251,7 +274,6 @@ class backend_controller_home extends backend_db_home{
                 $header->json_header("UTF-8");
                 $this->json_graph();
             }else{
-                $create->assign('selectlang',backend_model_blockDom::select_language());
                 $create->display('home/index.phtml');
             }
         }

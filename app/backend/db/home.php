@@ -100,15 +100,12 @@ class backend_db_home{
 	 * @param $idlang
 	 * @param $idadmin
 	 */
-	protected function i_new_home($subject,$content,$metatitle,$metadescription,$idlang,$idadmin){
-		$sql = 'INSERT INTO mc_page_home (subject,content,metatitle,metadescription,idlang,idadmin) 
-        VALUE(:subject,:content,:metatitle,:metadescription,:idlang,:idadmin)';
+	protected function i_new_home($subject,$idlang,$idadmin){
+		$sql = 'INSERT INTO mc_page_home (subject,idlang,idadmin)
+        VALUE(:subject,:idlang,:idadmin)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':subject'			=>	$subject,
-			':content'			=>	$content,
-			':metatitle'		=>	$metatitle,
-			':metadescription'  =>	$metadescription,
 			':idlang'			=>	$idlang,
 			':idadmin'			=>	$idadmin
 		));
@@ -123,9 +120,9 @@ class backend_db_home{
 	 * @param $idadmin
 	 * @param $idhome
 	 */
-	protected function u_home($subject,$content,$metatitle,$metadescription,$idlang,$idadmin,$idhome){
+	protected function u_home($subject,$content,$metatitle,$metadescription,$idadmin,$idhome){
 		$sql = 'UPDATE mc_page_home 
-		SET subject=:subject,content=:content,metatitle=:metatitle,metadescription=:metadescription,idlang=:idlang,idadmin=:idadmin,date_home=NOW()
+		SET subject=:subject,content=:content,metatitle=:metatitle,metadescription=:metadescription,idadmin=:idadmin,date_home=NOW()
 		WHERE idhome = :idhome';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
@@ -133,7 +130,6 @@ class backend_db_home{
 			':content'			=>	$content,
 			':metatitle'		=>	$metatitle,
 			':metadescription'  =>	$metadescription,
-			':idlang'			=>	$idlang,
 			':idadmin'			=>	$idadmin,
 			':idhome'			=>	$idhome
 		));

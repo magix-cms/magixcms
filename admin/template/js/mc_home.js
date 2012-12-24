@@ -71,17 +71,165 @@ var MC_home = (function ($, undefined) {
             }
         });
     }
+    function jsonHome(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/home.php?action=list&json_list_home=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#list_home').html(loader);
+            },
+            successParams:function(j){
+                $('#list_home').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_home")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("ISO"),
+                            $(document.createElement("th")).append("subject"),
+                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append("pseudo"),
+                            $(document.createElement("th")).append("Metas Title"),
+                            $(document.createElement("th")).append("Metas Description"),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-edit")
+                            )
+                            ,
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-trash")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_home');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+
+                        if(item.content != 0){
+                            var content = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var content = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.metatitle != 0){
+                            var metatitle = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var metatitle = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.metadescription != 0){
+                            var metadescription = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var metadescription = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/home.php?action=edit&edit='+item.idhome)
+                                .attr("title", "Editer "+item.iso)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-edit")
+                            )
+                        );
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-home")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idhome)
+                                .attr("title", "Supprimer "+": "+item.iso)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-trash")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .append(
+                                $(document.createElement("td")).append(item.idhome),
+                                $(document.createElement("td")).append(item.iso),
+                                $(document.createElement("td")).append(item.subject),
+                                $(document.createElement("td")).append(content),
+                                $(document.createElement("td")).append(item.pseudo),
+                                $(document.createElement("td")).append(metatitle),
+                                $(document.createElement("td")).append(metadescription)
+                                ,
+                                edit
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
+    }
     function add(){
         var formsAddHome = $("#forms_home_add").validate({
             onsubmit: true,
             event: 'submit',
             rules: {
-                iso: {
-                    required: true
-                },
-                language: {
+                subject: {
                     required: true,
                     minlength: 2
+                },
+                idlang: {
+                    required: true
                 }
             },
             submitHandler: function(form) {
@@ -123,13 +271,46 @@ var MC_home = (function ($, undefined) {
             return false;
         });
     }
+    function update(edit){
+        var url = '/admin/home.php?action=edit&edit='+edit;
+        var formsUpdatePages = $('#forms_home_edit').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                subject: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_home_edit').formsUpdatePages;
+    }
     return {
         //Fonction Public        
         runCharts:function(){
             graph();
         },
         runList:function(){
+            jsonHome();
             add();
+        },
+        runEdit:function(edit){
+            update(edit);
         }
     };
 })(jQuery);

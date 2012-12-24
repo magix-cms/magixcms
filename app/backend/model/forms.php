@@ -113,4 +113,100 @@ class backend_model_forms{
 		$mselect .= '</select>';
 		return $mselect;
 	}
+    /**
+     * Construction du menu select
+     * @param array $default_array
+     * @param $options
+     * @return string
+     * @throws Exception
+     */
+    public static function select_static_row(array $default_array,$options){
+        if(is_array($default_array)){
+            if(array_key_exists('attr_name',$options)){
+                $attr_name = $options['attr_name'];
+            }else{
+                $attr_name = 'name_field';
+            }
+            if(array_key_exists('empty_value',$options)){
+                $empty_value = $options['empty_value'];
+            }else{
+                $empty_value = '';
+            }
+            if(array_key_exists('class',$options)){
+                $class = ' class="'.$options['class'].'"';
+            }else{
+                $class = '';
+            }
+            if(array_key_exists('attr_id',$options)){
+                $attr_id= ' id="'.$options['attr_id'].'"';
+            }else{
+                $attr_id = '';
+            }
+            if(array_key_exists('attr_multiple',$options)){
+                if($options['attr_multiple'] === true){
+                    $attr_multiple = ' multiple="multiple"';
+                }else{
+                    $attr_multiple = '';
+                }
+            }else{
+                $attr_multiple = '';
+            }
+            if(array_key_exists('upper_case',$options)){
+                if($options['upper_case'] === true){
+                    $upper_case = true;
+                }else{
+                    $upper_case = false;
+                }
+            }else{
+                $upper_case = false;
+            }
+            $mselect = '<select'.$attr_id.' name="'.$attr_name.'"'.$class.$attr_multiple.'>';
+            if(array_key_exists('attr_multiple',$options)){
+                if($options['attr_multiple'] === true){
+                    $multiple = true;
+                }else{
+                    $multiple = false;
+                }
+            }else{
+                $multiple = false;
+            }
+            if($multiple != false){
+                if(array_key_exists('default_value',$options)){
+                    if(is_array($options['default_value'])){
+                        foreach($options['default_value'] as $key => $value){
+                            $mselect .= '<option selected="selected" value="'.$key.'">'.$value.'</option>';
+                        }
+
+                    }
+                }
+                foreach($default_array as $row => $val){
+                    $row_value = $row;
+                    $row_name = $upper_case ? magixcjquery_string_convert::upTextCase($val) : $val;
+                    $mselect .= '<option value="'.$row_value.'">'.$row_name.'</option>';
+                }
+
+            }else{
+                if(array_key_exists('default_value',$options)){
+                    if($options['default_value'] != null || $options['default_value'] != ''){
+                        $default_value = $upper_case ? magixcjquery_string_convert::upTextCase($options['default_value']) : $options['default_value'];
+                        $mselect .= '<option selected="selected" value="'.$options['default_value'].'">'.$default_value.'</option>';
+                        $mselect .= '<option value="">---------------------</option>';
+                    }else{
+                        $mselect .= '<option value="">'.$empty_value.'</option>';
+                    }
+                }else{
+                    $mselect .= '<option value="">'.$empty_value.'</option>';
+                }
+                foreach($default_array as $row => $val){
+                    $row_value = $row;
+                    $row_name = $upper_case ? magixcjquery_string_convert::upTextCase($val) : $val;
+                    $mselect .= '<option value="'.$row_value.'">'.$row_name.'</option>';
+                }
+            }
+            $mselect .= '</select>';
+            return $mselect;
+        }else{
+            throw new Exception('Params default_array is not array');
+        }
+    }
 }

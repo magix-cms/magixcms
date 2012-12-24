@@ -142,15 +142,16 @@ $(function(){
                 error.insertAfter(element);
             }else if ( element.is(":checkbox") ){
                 error.insertAfter(element);
-            }/*else if ( element.is("select")){
-                if(element.next().is(":submit")){
+            }else if ( element.is("select")){
+                /*if(element.next().is(":submit")){
                     error.insertAfter(element.next());
                     $("<br />").insertBefore(error);
                 }else{
                     error.insertAfter(element);
                     $("<br /><br />").insertBefore(error);
-                }
-            }*/else if ( element.is(".checkMail") ){
+                }*/
+                error.insertAfter(element);
+            }else if ( element.is(".checkMail") ){
                 error.insertAfter(element.next());
             }else if ( element.is("#cryptpass") ){
                 error.insertAfter(element.next());
