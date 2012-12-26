@@ -12,3 +12,5 @@
 /admin/caching/minify/*
 /admin/caching/cache/*
 /admin/caching/templates_c/*
+/lib/magixcjquery/*
+/lib/smarty3/*

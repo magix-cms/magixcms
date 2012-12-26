@@ -105,6 +105,11 @@ class backend_controller_home extends backend_db_home{
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
 	}
+
+    /**
+     * Construction du menu select
+     * @return string
+     */
     private function lang_select(){
         $idlang = '';
         $iso = '';
@@ -155,16 +160,29 @@ class backend_controller_home extends backend_db_home{
 			print '['.implode(',',$json).']';
 		}
 	}
-	private function load_data_forms($create){
+
+    /**
+     * Chargement des données de la page
+     * @param $create
+     */
+    private function load_data_page($create){
 		$data = parent::s_edit_home($this->edit);
-		$create->assign('subject',$data['subject']);
-		$create->assign('content',$data['content']);
-		$create->assign('idlang',$data['idlang']);
-		$create->assign('iso',$data['iso']);
-		$create->assign('metatitle',$data['metatitle']);
-		$create->assign('metadescription',$data['metadescription']);
+        if($data){
+            $create->assign('idhome',$this->edit);
+            $create->assign('subject',$data['subject']);
+            $create->assign('content',$data['content']);
+            $create->assign('idlang',$data['idlang']);
+            $create->assign('iso',$data['iso']);
+            $create->assign('metatitle',$data['metatitle']);
+            $create->assign('metadescription',$data['metadescription']);
+        }
 	}
-	private function insert_new_page($create){
+
+    /**
+     * Insertion d'une page d'accueil
+     * @param $create
+     */
+    private function insert_new_page($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
 				$create->display('home/request/empty.phtml');
@@ -182,7 +200,12 @@ class backend_controller_home extends backend_db_home{
 			}
 		}
 	}
-	private function update_data_forms($create){
+
+    /**
+     * Mise à jour de la page d'accueil
+     * @param $create
+     */
+    private function update_data_page($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
 				$create->display('home/request/empty.phtml');
@@ -253,9 +276,9 @@ class backend_controller_home extends backend_db_home{
             }elseif($this->action == 'edit'){
                 if(magixcjquery_filter_request::isGet('edit')){
                     if(isset($this->subject)){
-                        $this->update_data_forms($create);
+                        $this->update_data_page($create);
                     }else{
-                        $this->load_data_forms($create);
+                        $this->load_data_page($create);
                         $create->display('home/edit.phtml');
                     }
                 }

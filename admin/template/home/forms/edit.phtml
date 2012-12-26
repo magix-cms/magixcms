@@ -1,12 +1,11 @@
 <form id="forms_home_edit" method="post" action="">
-    <p class="controls controls-row">
-        <label for="subject">Titre *</label>
-        <input type="text" placeholder="Nom de la page" class="input-large" id="subject" name="subject" value="{$subject}" size="50" />
-        <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
+    <p class="controls">
+        <label for="subject">Titre *:</label>
+        <input type="text" placeholder="Nom de la page" class="input-xlarge" id="subject" name="subject" value="{$subject}" size="50" />
     </p>
     <p class="controls">
-        <label for="iso">ISO</label>
-
+        <label for="iso">ISO:</label>
+        <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
     </p>
     <p class="controls">
         <label for="content" class="inlinelabel">Contenu :</label>

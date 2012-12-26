@@ -1,13 +1,29 @@
 <div class="span3">
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
+        {* -- START CONFIGURATION -- *}
             <li class="nav-header">Configuration</li>
             <li><a href="/{baseadmin}/users.php">Utilisateurs</a></li>
             <li><a href="/{baseadmin}/config.php">Paramètres</a></li>
             <li><a href="/{baseadmin}/editor.php">Editeur Wysiwyg</a></li>
             <li><a href="/{baseadmin}/lang.php">Langues</a></li>
+            <li><a href="/{baseadmin}/templates.php">Thèmes</a></li>
+            <li><a href="/{baseadmin}/imagesize.php">Tailles des images</a></li>
+            <li><a href="/{baseadmin}/rewritemetas.php">Réécriture des métas</a></li>
+        {* -- END CONFIGURATION -- *}
+        {* -- START PAGES -- *}
             <li class="nav-header">Pages</li>
-            <li><a href="/{baseadmin}/home.php">Page d'accueil</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page d'accueil <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/{baseadmin}/home.php"><span class="icon-bar-chart"></span>Statistiques</a>
+                    </li>
+                    <li>
+                        <a href="/{baseadmin}/home.php?action=list"><span class="icon-list-ul"></span>Liste</a>
+                    </li>
+                </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMS <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -23,6 +39,7 @@
                     </li>
                 </ul>
             </li>
+        {* -- END PAGES -- *}
             {* {sidebar_nav} *}
         </ul>
     </div>
