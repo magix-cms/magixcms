@@ -15,6 +15,14 @@ CREATE TABLE IF NOT EXISTS `mc_admin_perms` (
   KEY `idadmin` (`idadmin`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `mc_admin_role_user` (
+  `id_role` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_role`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_admin_role_user` VALUES(1, 'administrator');
+
 CREATE TABLE IF NOT EXISTS `mc_admin_session` (
   `sid` varchar(150) NOT NULL,
   `userid` smallint(5) unsigned NOT NULL,
