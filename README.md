@@ -32,6 +32,11 @@ Site officiel
  * http://www.magix-cms.com (site officiel)
  * http://www.magix-cms.net (documentation développeur)
 
+Ressources
+-----
+ * https://github.com/sire-sam/Magix-CMS_Widget-Frontend
+ * https://github.com/sire-sam/Magix-CMS_Templates
+
 Requirements
 ------------
 

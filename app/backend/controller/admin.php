@@ -36,15 +36,15 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    4.0
+ * @version    5.0
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name ADMIN
  *
  */
-class backend_controller_admin{
+class backend_controller_admin extends backend_db_admin{
 	/**
 	 *
 	 *
@@ -157,7 +157,7 @@ class backend_controller_admin{
 					$firebug->magixFireLog($_SESSION);
 					$firebug->magixFireGroupEnd();
 				}
-				if(count(backend_db_admin::adminDbMember()->s_auth_exist($this->acmail,$this->acpass)) == true){
+				if(count(parent::s_auth_exist($this->acmail,$this->acpass)) == true){
 					$session = new backend_model_sessions();
 					$string = $_SERVER['HTTP_USER_AGENT'];
 					$string .= 'SHIFLETT';
@@ -166,10 +166,11 @@ class backend_controller_admin{
 					//Fermeture de la première session, ses données sont sauvegardées.
 					session_write_close();
 					$this->start_session();
-					$const_url = backend_db_admin::adminDbMember()->s_t_profil_url($this->acmail);
+					$const_url = parent::s_member_data_by_mail($this->acmail);
 					if (!isset($_SESSION['useradmin']) AND !isset($_SESSION['userkeyid'])) {
 						$session->openSession($const_url['idadmin'],session_regenerate_id(true), $const_url['keyuniqid']);
 						//session_regenerate_id(true);
+                        $_SESSION['useridadmin'] = $const_url['idadmin'];
 		    			$_SESSION['useradmin'] = $this->acmail;
 		    			$_SESSION['userkeyid'] = $const_url['keyuniqid'];
 						if($debug == true){
@@ -181,8 +182,9 @@ class backend_controller_admin{
 		    			magixglobal_model_redirect::backend_redirect_login(false);	
 					}else{
 						$session->openSession($const_url['idadmin'],null, $const_url['keyuniqid']);
-						$_SESSION['useradmin'] = $this->acmail;
-						$_SESSION['userkeyid'] = $const_url['keyuniqid'];
+                        $_SESSION['useridadmin'] = $const_url['idadmin'];
+                        $_SESSION['useradmin'] = $this->acmail;
+                        $_SESSION['userkeyid'] = $const_url['keyuniqid'];
 						if($debug == true){
 							$firebug = new magixcjquery_debug_magixfire();
 							$firebug->magixFireGroup('usersession');
@@ -233,10 +235,12 @@ class backend_controller_admin{
 			}
 		}
 	}
-	/**
-	 * Affiche le formulaire d'identification
-	 * @return void
-	 */
+
+    /**
+     * Affiche le formulaire d'identification
+     * @param $debug
+     * @return void
+     */
 	public function login($debug){
 		$this->start_session();
 		$this->tokenInitSession();

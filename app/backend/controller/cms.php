@@ -141,14 +141,16 @@ class backend_controller_cms extends backend_db_cms{
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
+        //Role admin
 	}
 	/**
 	 * @access private
 	 * Requête JSON suivant la langue sélectionner pour retourner les pages parente
 	 */
 	private function json_parent_p(){
-		if(parent::s_parent_p($this->getlang) != null){
-			foreach (parent::s_parent_p($this->getlang) as $key){
+        $role = new backend_model_role();
+		if(parent::s_parent_p($this->getlang,$role->sql_arg()) != null){
+			foreach (parent::s_parent_p($this->getlang,$role->sql_arg()) as $key){
                 if($key['content_page'] != null){
                     $content = 1;
                 }else{
@@ -180,8 +182,9 @@ class backend_controller_cms extends backend_db_cms{
 	 * Requête JSON suivant la langue sélectionner pour retourner les pages enfants
 	 */
 	private function json_child_page(){
-		if(parent::s_child_page($this->get_page_p) != null){
-			foreach (parent::s_child_page($this->get_page_p) as $key){
+        $role = new backend_model_role();
+		if(parent::s_child_page($this->get_page_p,$role->sql_arg()) != null){
+			foreach (parent::s_child_page($this->get_page_p,$role->sql_arg()) as $key){
                 if($key['content_page'] != null){
                     $content = 1;
                 }else{

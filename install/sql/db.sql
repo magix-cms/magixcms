@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `mc_admin_perms` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_admin_session` (
-  `sid` tinytext NOT NULL,
-  `userid` tinyint(2) NOT NULL,
+  `sid` varchar(150) NOT NULL,
+  `userid` smallint(5) unsigned NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` varchar(20) NOT NULL,
   `browser` varchar(50) DEFAULT NULL,

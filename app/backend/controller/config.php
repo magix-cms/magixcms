@@ -208,14 +208,15 @@ class backend_controller_config extends backend_db_config{
 	 * load global attribute configuration
 	 */
 	public static function load_attribute_config(){
-		self::load_config_lang();
+		/*self::load_config_lang();
 		self::load_config_cms();
 		self::load_config_news();
 		self::load_config_catalog();
 		self::load_config_metasrewrite();
 		self::load_limited_cms_number();
 		self::load_wysiwyg_config_editor();
-		self::admin_config();
+		self::admin_config();*/
+        self::load_wysiwyg_config_editor();
 	}
 	/**
 	 * @access public

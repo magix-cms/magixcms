@@ -60,36 +60,135 @@ class backend_db_admin{
         }
     	return self::$adminDbMember;
     }
-	/**
-	 * connexion des membres ou vérification du membre
-	 *
-	 * @return void
-	 */
-	function s_auth_exist($email, $cryptpass){
-		$sql='SELECT idadmin from mc_admin_member where email = :email AND cryptpass = :cryptpass';
+
+    /**
+     * connexion des membres ou vérification du membre
+     *
+     * @param $email
+     * @param $cryptpass
+     * @return void
+     */
+	protected function s_auth_exist($email, $cryptpass){
+		$sql='SELECT m.idadmin
+        FROM mc_admin_member AS m
+		WHERE m.email = :email AND m.cryptpass = :cryptpass';
 		return magixglobal_model_db::layerDB()->select($sql,
 		array(
 			':email'=> $email,
 			':cryptpass' => $cryptpass
 			)
 		);
-	}
+    }
+    /**
+     * Retourne les données du profil suivant son adresse mail
+     * @param $email
+     * @return array
+     */
+    protected function s_member_data_by_mail($email){
+        $sql='SELECT m.*,r.role_name
+        FROM mc_admin_member AS m
+		JOIN mc_admin_role_user AS r ON(r.id_role=m.id_role)
+		WHERE m.email = :email';
+        return magixglobal_model_db::layerDB()->selectOne($sql,
+            array(
+                ':email'=> $email
+            )
+        );
+    }
+
+    /**
+     * Retourne les données du profil suivant son identifiant
+     * @param $idadmin
+     * @return array
+     */
+    public function s_member_data($idadmin){
+        $sql='SELECT m.*,r.role_name
+        FROM mc_admin_member AS m
+		JOIN mc_admin_role_user AS r ON(r.id_role=m.id_role)
+		WHERE m.idadmin = :idadmin';
+        return magixglobal_model_db::layerDB()->selectOne($sql,
+            array(
+                ':idadmin'=> $idadmin
+            )
+        );
+    }
+
+    /**
+     * Retourne les statistiques des utilisateurs
+     * @return array
+     */
+    protected function s_stats_user(){
+        $sql ='SELECT admin.pseudo,admin.email,IF(rel_home.home_count>0,rel_home.home_count,0) AS HOME,
+        IF(rel_news.news_count>0,rel_news.news_count,0) AS NEWS,
+        IF(rel_pages.pages_count>0,rel_pages.pages_count,0) AS PAGES,
+        IF(rel_product.product_count>0,rel_product.product_count,0) AS PRODUCT
+        FROM mc_admin_member AS admin
+        LEFT OUTER JOIN (
+            SELECT admin.idadmin, count( h.idhome ) AS home_count
+            FROM mc_page_home AS h
+            JOIN mc_admin_member AS admin ON ( h.idadmin = admin.idadmin )
+            GROUP BY h.idadmin
+            )rel_home ON ( rel_home.idadmin = admin.idadmin )
+        LEFT OUTER JOIN (
+            SELECT admin.idadmin, count( n.idnews ) AS news_count
+            FROM mc_news AS n
+            JOIN mc_admin_member AS admin ON ( n.idadmin = admin.idadmin )
+            GROUP BY n.idadmin
+            )rel_news ON ( rel_news.idadmin = admin.idadmin )
+        LEFT OUTER JOIN (
+            SELECT admin.idadmin,count(cms.idadmin) AS pages_count
+            FROM mc_cms_pages AS cms
+            JOIN mc_admin_member AS admin ON(cms.idadmin = admin.idadmin)
+            GROUP BY cms.idadmin
+            )rel_pages ON ( rel_pages.idadmin = admin.idadmin )
+        LEFT OUTER JOIN (
+            SELECT admin.idadmin,count( catalog.idcatalog ) AS product_count
+            FROM mc_catalog AS catalog
+            JOIN mc_admin_member AS admin ON ( catalog.idadmin = admin.idadmin )
+            GROUP BY catalog.idadmin
+            )rel_product ON ( rel_product.idadmin = admin.idadmin )
+        GROUP BY admin.idadmin';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+
+    /**
+     * Retourne la liste des rôles
+     * @return array
+     */
+    protected function s_role(){
+        $sql='SELECT r.id_role,r.role_name
+        FROM mc_admin_role_user AS r';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+    /**
+     * Retourne la liste des utilisateurs
+     * @return array
+     */
+    protected function s_users(){
+        $sql='SELECT m.*,r.role_name
+        FROM mc_admin_member AS m
+        JOIN mc_admin_role_user as r USING(id_role)';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+
+    /**
+     * Retourne le rôle de l'utilisateur (pour edition)
+     * @param $idadmin
+     * @return array
+     */
+    protected function s_user_role($idadmin){
+        $sql='SELECT r.id_role,r.role_name
+        FROM mc_admin_member AS m
+		JOIN mc_admin_role_user AS r ON(r.id_role=m.id_role)
+		WHERE m.idadmin = :idadmin';
+        return magixglobal_model_db::layerDB()->select($sql,
+            array(
+                ':idadmin'=> $idadmin
+            )
+        );
+    }
 	/**
-	 * retourne l identifiant, le mail et le pseudo via l'adresse mail
-	 * @param $email
-	 * @return void
-	 */
-	function s_t_profil_url($email){
-		$sql='SELECT * FROM 
-		mc_admin_member 
-		WHERE email = :email';
-		return magixglobal_model_db::layerDB()->selectOne($sql,
-		array(
-			':email'=> $email
-			)
-		);
-	}
-	/**
+     * @deprecated
 	 * Retourne les personnes connecté ou online
 	 * @return void
 	 */
@@ -104,120 +203,68 @@ class backend_db_admin{
 				LEFT JOIN mc_admin_perms AS p ON ( p.idadmin = pr.idadmin )';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
-	/**
-	 * retourne les permissions de ce membre
-	 * @param $email
-	 */
-	function perms_session_membres($email){
-		$sql='SELECT p.perms from mc_admin_member m
-		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)
-		where email = :email';
-		return magixglobal_model_db::layerDB()->selectOne($sql,
-		array(
-			':email'=> $email
-			)
-		);
+
+    /**
+     * Insert un nouvel utilisateur
+     * @param $id_role
+     * @param $pseudo
+     * @param $email
+     * @param $cryptpass
+     * @param $keyuniqid
+     */
+    protected function i_new_user($id_role,$pseudo,$email,$cryptpass,$keyuniqid){
+		$sql = 'INSERT INTO mc_admin_member(id_role,pseudo,email,cryptpass,keyuniqid)
+		VALUE(:id_role,:pseudo,:email,:cryptpass,:keyuniqid)';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':id_role'		=>	$id_role,
+                ':pseudo'		=>	$pseudo,
+                ':email'		=>	$email,
+                ':cryptpass'	=>	$cryptpass,
+                ':keyuniqid'	=>	$keyuniqid
+            ));
 	}
-	/**
-	 * retourne la liste des membres avec le pseudo, l'email et les permissions
-	 * @return array()
-	 */
-	function view_list_members(){
-		$sql='SELECT m.idadmin,m.pseudo,m.email,p.perms from mc_admin_member m
-		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
-	/**
-	 * Retourne les informations de l'utilisateur
-	 */
-	function view_info_members($idadmin){
-		$sql='SELECT m.idadmin,m.pseudo,m.email,m.keyuniqid,p.perms from mc_admin_member m
-		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) WHERE m.idadmin = :idadmin';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idadmin'=> $idadmin
-		));
-	}
-	/**
-	 * retourne le nombre total de membres
-	 * @return array()
-	 */
-	function c_max_members(){
-		$sql = 'SELECT count( m.idadmin ) as countadmin
-				from mc_admin_member m
-				LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)';
-		return magixglobal_model_db::layerDB()->selectOne($sql);
-	}
-	/**
-	 * retourne le nombre de membres par hierarchie (permissions)
-	 * @return array()
-	 */
-	function c_members_by_perms(){
-		$sql = 'SELECT count( m.idadmin ) as countadmin,p.perms
-				from mc_admin_member m
-				LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)
-				GROUP BY p.perms ORDER BY p.perms';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
-	/**
-	 * Insert un nouveau membre dans la table mc_admin_member
-	 * 
-	 */
-	function i_n_members($pseudo,$email,$cryptpass,$keyuniqid,$perms){
-		$sql = array(
-		'INSERT INTO mc_admin_member (pseudo,email,cryptpass,keyuniqid) VALUE("'.$pseudo.'","'.$email.'","'.$cryptpass.'","'.$keyuniqid.'")',
-		'INSERT INTO mc_admin_perms (perms) VALUE("'.$perms.'")'
-		);
-		magixglobal_model_db::layerDB()->transaction($sql);
-	}
-	/**
-	 * Mise à jour d'un membre
-	 * @param $pseudo
-	 * @param $email
-	 * @param $cryptpass
-	 * @param $idadmin
-	 */
-	function u_n_members($pseudo,$email,$cryptpass,$keyuniqid,$perms,$idadmin){
-		if($keyuniqid == false){
-			$sql = 'UPDATE mc_admin_member as m LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) 
-			SET m.pseudo= :pseudo, m.email = :email, m.cryptpass=:cryptpass,p.perms=:perms WHERE m.idadmin = :idadmin';
-			magixglobal_model_db::layerDB()->update($sql,array(
-				':pseudo'=>$pseudo,
-				':email'=>$email,
-				':cryptpass'=>$cryptpass,
-				':perms'=>$perms,
-				':idadmin'=>$idadmin
-			));
-		}else{
-			$sql = 'UPDATE mc_admin_member as m LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin) 
-			SET m.pseudo= :pseudo, m.email = :email, m.cryptpass=:cryptpass,m.keyuniqid=:keyuniqid,p.perms=:perms WHERE m.idadmin = :idadmin';
-			magixglobal_model_db::layerDB()->update($sql,array(
-				':pseudo'=>$pseudo,
-				':email'=>$email,
-				':cryptpass'=>$cryptpass,
-				':keyuniqid'=>$keyuniqid,
-				':perms'=>$perms,
-				':idadmin'=>$idadmin
-			));
-		}
-	}
-	/**
-	 * Selectionne les membres avec un statut plus grand que 3 (user admin et user)
-	 */
-	function s_members_user_states(){
-		$sql='SELECT m.pseudo,m.email,p.perms from mc_admin_member m
-		LEFT JOIN mc_admin_perms p ON(m.idadmin = p.idadmin)
-		WHERE p.perms >= 3';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
+
+    /**
+     * @param $idadmin
+     * @param $pseudo
+     * @param $email
+     * @param $id_role
+     */
+    protected function u_user_data($idadmin,$pseudo,$email,$id_role){
+        $sql = 'UPDATE mc_admin_member as m
+		SET m.pseudo= :pseudo, m.email = :email, m.id_role=:id_role
+		WHERE m.idadmin = :idadmin';
+        magixglobal_model_db::layerDB()->update($sql,array(
+            ':pseudo'=>$pseudo,
+            ':email'=>$email,
+            ':id_role'=>$id_role,
+            ':idadmin'=>$idadmin
+        ));
+    }
+
+    /**
+     * @param $idadmin
+     * @param $cryptpass
+     */
+    protected function u_user_password($idadmin,$cryptpass){
+        $sql = 'UPDATE mc_admin_member as m
+		SET m.cryptpass=:cryptpass
+		WHERE m.idadmin = :idadmin';
+        magixglobal_model_db::layerDB()->update($sql,array(
+            ':cryptpass'=>$cryptpass,
+            ':idadmin'=>$idadmin
+        ));
+    }
 	/**
 	 * supprime un utilisateur
 	 * @param $idadmin
 	 */
-	function d_members_user($idadmin){
-		$sql = array(
-		'DELETE FROM mc_admin_member WHERE idadmin = "'.$idadmin.'"',
-		'DELETE FROM mc_admin_perms WHERE idadmin = "'.$idadmin.'"'
-		);
-		magixglobal_model_db::layerDB()->transaction($sql);
+	protected function d_user($idadmin){
+        $sql = 'DELETE FROM mc_admin_member
+        WHERE idadmin =:idadmin';
+        magixglobal_model_db::layerDB()->delete($sql,array(
+            ':idadmin'=>$idadmin
+        ));
 	}
 }

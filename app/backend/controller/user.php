@@ -44,7 +44,7 @@
  * @name user
  *
  */
-class backend_controller_user extends statesUserAdmin{
+class backend_controller_user extends backend_db_admin{
 	/**
 	 * Pseudo
 	 * @var string
@@ -64,17 +64,17 @@ class backend_controller_user extends statesUserAdmin{
 	 * perms (permission)
 	 * @var string
 	 */
-	public $perms;
+	public $id_role;
 	/**
 	 * deluser
 	 * @var string
 	 */
-	public $deluser;
+	public $delele_user;
 	/**
 	 * edit
 	 * @var string
 	 */
-	public $edit;
+	public $edit,$action;
 	/**
 	 * Constructor
 	 */
@@ -88,247 +88,207 @@ class backend_controller_user extends statesUserAdmin{
 		if(magixcjquery_filter_request::isPost('cryptpass')){
 			$this->cryptpass = magixcjquery_form_helpersforms::inputClean(sha1($_POST['cryptpass']));
 		}
-		if(magixcjquery_filter_request::isPost('perms')){
-			$this->perms = magixcjquery_form_helpersforms::inputClean(magixcjquery_filter_isVar::isPostNumeric($_POST['perms']));
+		if(magixcjquery_filter_request::isPost('id_role')){
+			$this->id_role = magixcjquery_filter_isVar::isPostNumeric($_POST['id_role']);
 		}
-		if(magixcjquery_filter_request::isPost('deluser')){
-			$this->deluser = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['deluser']);
+		if(magixcjquery_filter_request::isPost('delele_user')){
+			$this->delele_user = magixcjquery_filter_isVar::isPostNumeric($_POST['delele_user']);
 		}
 		if(magixcjquery_filter_request::isGet('edit')){
-			$this->edit = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 	}
-	/**
-	 * Insert un nouvel utilisateur
-	 */
-	protected function insert_members(){
+
+    /**
+     * Construction du menu select pour les rôles
+     * @param null $idadmin
+     * @return null|string
+     */
+    private function role_select($idadmin=null){
+        if($idadmin != null){
+            $user_role = parent::s_user_role($idadmin);
+            foreach($user_role as $key){
+                $id_user_role[]=$key['id_role'];
+                $role_user_name[]=$key['role_name'];
+            }
+            $user_role_conb = array_combine($id_user_role,$role_user_name);
+        }else{
+            $user_role_conb = null;
+        }
+        if(parent::s_role() != null){
+            $id_role = '';
+            $role_name = '';
+            foreach(parent::s_role() as $key){
+                $id_role[]=$key['id_role'];
+                $role_name[]=$key['role_name'];
+            }
+            $role_conb = array_combine($id_role,$role_name);
+            $select = backend_model_forms::select_static_row(
+                $role_conb
+                ,
+                array(
+                    'attr_name'=>'id_role',
+                    'attr_id'=>'id_role',
+                    'default_value'=>$user_role_conb,
+                    'empty_value'=>'Selectionner les rôles',
+                    'upper_case'=>false
+                )
+            );
+        }else{
+            $select = null;
+        }
+        return $select;
+    }
+
+    /**
+     * Retourne au format JSON la liste des utilisateurs
+     */
+    private function json_list_user(){
+        if(parent::s_users() != null){
+            foreach (parent::s_users() as $key){
+                $json[]= '{"idadmin":'.json_encode($key['idadmin']).',"pseudo":'.json_encode($key['pseudo'])
+                .',"email":'.json_encode($key['email']).',"role_name":'.json_encode($key['role_name'])
+                .'}';
+            }
+            print '['.implode(',',$json).']';
+        }
+    }
+
+    /**
+     * Insert un nouvel utilisateur
+     * @param $create
+     */
+    private function insert_user($create){
 		if(isset($this->pseudo) AND isset($this->cryptpass)){
-			backend_db_admin::adminDbMember()->i_n_members($this->pseudo,$this->email,$this->cryptpass,magixglobal_model_cryptrsa::uuid_generator(),$this->perms);
-			backend_controller_template::display('user/request/success.phtml');
+			parent::i_new_user(
+                $this->id_role,
+                $this->pseudo,
+                $this->email,
+                $this->cryptpass,
+                magixglobal_model_cryptrsa::uuid_generator()
+            );
+            $create->display('user/request/success_add.phtml');
 		}
 	}
-	/**
-	 * Update un utilisateur
-	 */
-	protected function update_members(){
-		if(isset($this->edit)){
-			if(isset($this->pseudo) AND isset($this->cryptpass)){
-				try{
-					$info = backend_db_admin::adminDbMember()->view_info_members($this->edit);
-					if($info['keyuniqid'] != null){
-						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,false,$this->perms,$this->edit);
-					}else{
-						backend_db_admin::adminDbMember()->u_n_members($this->pseudo,$this->email,$this->cryptpass,magixglobal_model_cryptrsa::uuid_generator(),$this->perms,$this->edit);
-					}
-					backend_controller_template::display('user/request/update.phtml');
-				}catch(Exception $e) {
-		         	magixcjquery_debug_magixfire::magixFireError($e);
-				} 
-			}
-		}
-	}
-	/**
-	 * Block pour afficher le nombre total de membres
-	 */
-	private function block_states_members(){
-		$states = null;
-		$states .=  parent::count_maximum_members();
-		return $states;
-	}
-	/**
-	 * Block pour afficher le nombre total de membres suivant les permissions
-	 */
-	private function block_members_perms(){
-		$states = null;
-		$states .=  parent::count_members_in_perms();
-		return $states;
-	}
-	/**
-	 * Block pour afficher le nombre total de news par membres
-	 */
-	private function block_news_members(){
-		$states = null;
-		$states .=  parent::count_news_by_members();
-		return $states;
-	}
-	/**
-	 * Block pour afficher le nombre total de page CMS par membres
-	 */
-	private function block_cms_members(){
-		$states = null;
-		$states .=  parent::count_cms_by_members();
-		return $states;
-	}
-	/**
-	 * Requête POST pour l'insertion des membres
-	 */
-	private function post(){
-		self::insert_members();
-	}
-	/**
-	 * Requête POST pour la mise à jour des membres
-	 */
-	private function update_post(){
-		self::update_members();
-	}
+
+    /**
+     * Mise à jour des données utilisateur
+     * @param $create
+     */
+    private function update_user_data($create){
+        if(isset($this->pseudo) AND isset($this->email)){
+            parent::u_user_data($this->edit,$this->pseudo,$this->email,$this->id_role);
+            $create->display('user/request/success_update.phtml');
+        }
+    }
+
+    /**
+     * Mise à jour du mot de passe utilisateur
+     * @param $create
+     */
+    private function update_user_password($create){
+        if(isset($this->cryptpass)){
+            parent::u_user_password($this->edit,$this->cryptpass);
+            $create->display('user/request/success_update.phtml');
+        }
+    }
 	/**
 	 * Suppression d'utilisateur
 	 */
-	private function delete_user(){
-		if(isset($this->deluser)){
-			backend_db_admin::adminDbMember()->d_members_user($this->deluser);
+	private function remove_user(){
+		if(isset($this->delele_user)){
+			parent::d_user($this->delele_user);
 		}
 	}
-	/**
-	 * Affiche la page des utilisateurs
-	 */
-	private function display(){
-		backend_controller_template::assign('block_states_users',self::block_states_members());
-		backend_controller_template::assign('block_members_perms',self::block_members_perms());
-		backend_controller_template::assign('block_news_members',self::block_news_members());
-		backend_controller_template::assign('block_cms_members',self::block_cms_members());
-		backend_controller_template::display('user/index.phtml');
-	}
-	/**
-	 * Affiche la page des utilisateurs
-	 */
-	private function display_edit(){
-		parent::load_param_form($this->edit);
-		backend_controller_template::assign('current_perm',backend_model_member::s_perms_current_admin());
-		backend_controller_template::display('user/edit.phtml');
-	}
+    /**
+     * @access private
+     * Requête JSON pour les statistiques des langues
+     */
+    private function json_graph(){
+        if(parent::s_stats_user() != null){
+            foreach (parent::s_stats_user() as $key){
+                $stat[]= array(
+                    'x'=>magixcjquery_string_convert::upTextCase($key['pseudo']),
+                    'y'=>$key['HOME'],
+                    'z'=>$key['NEWS'],
+                    'a'=>$key['PAGES'],
+                    'b'=>$key['PRODUCT']
+                );
+            }
+            print json_encode($stat);
+        }
+    }
+
+    /**
+     * Chargement des données pour l'édition de l'utilisateur
+     * @param $create
+     */
+    private function load_data($create){
+        $data = parent::s_member_data($this->edit);
+        $assign_exclude = array(
+            'cryptpass','keyuniqid'
+        );
+        foreach($data as $key => $val){
+            if( !(array_search($key,$assign_exclude) ) ){
+                $create->assign($key,$val);
+            }
+        }
+    }
 	/**
 	 * 
 	 * run
 	 */
 	public function run(){
-		if(magixcjquery_filter_request::isGet('add')){
-			self::post();
-		}elseif(magixcjquery_filter_request::isPost('deluser')){
-			self::delete_user();
-		}elseif(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isGet('post')){
-				self::update_post();
-			}else{
-				self::display_edit();
-			}
-		}else{
-			self::display();
-		}
-	}
-}
-/**
- * Class pour les statistiques utilisateurs
- * @author Gérits Aurelien
- *
- */
-class statesUserAdmin{
-	/**
-	 * Compte le nombre de membres
-	 */
-	protected static function count_maximum_members(){
-		$dbmembers = backend_db_admin::adminDbMember()->c_max_members();
-		$states = '<table class="clear">
-						<thead>
-							<tr>
-							<th><span style="float:left;" class="ui-icon ui-icon-bookmark"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
-		$states .= '<tr class="line">';
-		$states .=	'<td class="maximal">Total</td>';
-		$states .=	'<td class="nowrap">'.$dbmembers['countadmin'].'</td>';
-		$states .= '</tr>';
-		$states .= '</tbody></table>';
-		return $states;
-	}
-	/**
-	 * Compte 
-	 */
-	protected static function count_members_in_perms(){
-		$perms = null;
-		$states = '<table class="clear">
-						<thead>
-							<tr>
-							<th><span style="float:left;" class="ui-icon ui-icon-key"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
-		foreach(backend_db_admin::adminDbMember()->c_members_by_perms() as $members){
-			switch($members['perms']){
-					case 1:
-						$perms = 'Seo Agency';
-						break;
-					case 2:
-						$perms = 'Web Agency';
-						break;
-					case 3:
-						$perms = 'User admin';
-						break;
-					case 4:
-						$perms = 'User';
-						break;
-			}
-			$states .= '<tr class="line">';
-			$states .=	'<td class="maximal">'.$perms.'</td>';
-			$states .=	'<td class="nowrap">'.$members['countadmin'].'</td>';
-			$states .= '</tr>';
-		}
-		$states .= '</tbody></table>';
-		return $states;
-	}
-	/**
-	 * Compte le nombre de news inserer par membre
-	 */
-	protected static function count_news_by_members(){
-		/*$states = '<table class="clear">
-						<thead>
-							<tr>
-							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-calendar"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
-		foreach(backend_db_news::adminDbNews()->c_news_user() as $members){
-			$states .= '<tr class="line">';
-			$states .=	'<td class="maximal">'.$members['pseudo'].'</td>';
-			$states .=	'<td class="nowrap">'.$members['usernews'].'</td>';
-			$states .= '</tr>';
-		}
-		$states .= '</tbody></table>';
-		return $states;*/
-	}
-	/**
-	 * Compte le nombre de page par membre
-	 */
-	protected static function count_cms_by_members(){
-		/*$states = '<table class="clear">
-						<thead>
-							<tr>
-							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-document-b"></span></th>
-							</tr>
-						</thead>
-						<tbody>';
-		foreach(backend_db_cms::adminDbCms()->c_cms_user() as $members){
-			$states .= '<tr class="line">';
-			$states .=	'<td class="maximal">'.$members['pseudo'].'</td>';
-			$states .=	'<td class="nowrap">'.$members['usercms'].'</td>';
-			$states .= '</tr>';
-		}
-		$states .= '</tbody></table>';
-		return $states;*/
-	}
-	/**
-	 * Charge les donnée du formulaire de mise à jour
-	 */
-	protected static function load_param_form($edit){
-		$userperm = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
-		$info = backend_db_admin::adminDbMember()->view_info_members($edit);
-		backend_controller_template::assign('user_perms',$info['perms']);
-		backend_controller_template::assign('pseudo',$info['pseudo']);
-		backend_controller_template::assign('email',$info['email']);
+        $header= new magixglobal_model_header();
+        $create = new backend_controller_template();
+        if(isset($this->action)){
+            if($this->action === 'add'){
+                if(isset($this->email)){
+                    $this->insert_user($create);
+                }
+            }elseif($this->action === 'list'){
+                if(magixcjquery_filter_request::isGet('json_list_user')){
+                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                    $header->pragma();
+                    $header->cache_control("nocache");
+                    $header->getStatus('200');
+                    $header->json_header("UTF-8");
+                    $this->json_list_user();
+                }else{
+                    $create->assign('role_select',$this->role_select());
+                    $create->display('user/list.phtml');
+                }
+            }elseif($this->action === 'edit'){
+                if(isset($this->email)){
+                    $this->update_user_data($create);
+                }elseif(isset($this->cryptpass)){
+                    $this->update_user_password($create);
+                }else{
+                    $this->load_data($create);
+                    $create->assign('role_select',$this->role_select($this->edit));
+                    $create->display('user/edit.phtml');
+                }
+            }elseif($this->action === 'remove'){
+                if(isset($this->delele_user)){
+                    $this->remove_user();
+                }
+            }
+        }else{
+            if(magixcjquery_filter_request::isGet('json_graph')){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_graph();
+            }else{
+                $create->display('user/index.phtml');
+            }
+        }
 	}
 }

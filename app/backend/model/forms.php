@@ -188,8 +188,14 @@ class backend_model_forms{
             }else{
                 if(array_key_exists('default_value',$options)){
                     if($options['default_value'] != null || $options['default_value'] != ''){
-                        $default_value = $upper_case ? magixcjquery_string_convert::upTextCase($options['default_value']) : $options['default_value'];
-                        $mselect .= '<option selected="selected" value="'.$options['default_value'].'">'.$default_value.'</option>';
+                        if(is_array($options['default_value'])){
+                            foreach($options['default_value'] as $key => $value){
+                                $mselect .= '<option selected="selected" value="'.$key.'">'.$value.'</option>';
+                            }
+                        }else{
+                            $default_value = $upper_case ? magixcjquery_string_convert::upTextCase($options['default_value']) : $options['default_value'];
+                            $mselect .= '<option selected="selected" value="'.$options['default_value'].'">'.$default_value.'</option>';
+                        }
                         $mselect .= '<option value="">---------------------</option>';
                     }else{
                         $mselect .= '<option value="">'.$empty_value.'</option>';

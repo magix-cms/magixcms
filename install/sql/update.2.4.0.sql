@@ -49,6 +49,14 @@ CHANGE `perms` `perms` SMALLINT( 3 ) UNSIGNED NOT NULL;
 
 ALTER TABLE `mc_admin_perms` ADD `id_perms` SMALLINT( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
 
+CREATE TABLE IF NOT EXISTS `mc_admin_role_user` (
+  `id_role` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `mc_admin_member` ADD `id_role` SMALLINT( 3 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `idadmin`;
+
 ALTER TABLE `mc_catalog_c` CHANGE `idlang` `idlang` SMALLINT( 3 ) UNSIGNED NOT NULL DEFAULT '1';
 
 ALTER TABLE `mc_catalog` CHANGE `idlang` `idlang` SMALLINT( 3 ) UNSIGNED NOT NULL DEFAULT '1',

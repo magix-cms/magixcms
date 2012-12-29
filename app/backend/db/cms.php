@@ -45,17 +45,20 @@
  *
  */
 class backend_db_cms{
-	/**
-	 * @access protected
-	 * Sélectionne les pages parentes dans la langue
-	 * @param integer $getlang
-	 */
-	protected function s_parent_p($getlang){
+    /**
+     * @access protected
+     * Sélectionne les pages parentes dans la langue
+     * @param integer $getlang
+     * @param $select_role
+     * @return array
+     */
+	protected function s_parent_p($getlang,$select_role){
     	$sql = 'SELECT cms.*,lang.iso
-    	FROM mc_cms_pages AS cms 
-    	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
-    	WHERE cms.idlang = :getlang AND cms.idcat_p = 0
-    	ORDER BY cms.order_page';
+        FROM mc_cms_pages AS cms
+        JOIN mc_admin_member AS m ON(m.idadmin=cms.idadmin)
+        JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
+        WHERE cms.idlang = :getlang AND cms.idcat_p = 0 AND m.id_role IN('.$select_role.')
+        ORDER BY cms.order_page';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getlang' => $getlang
 		));
@@ -65,11 +68,12 @@ class backend_db_cms{
 	 * Sélectionne les pages enfants du parent
 	 * @param integer $get_page_p
 	 */
-	protected function s_child_page($get_page_p){
+	protected function s_child_page($get_page_p,$select_role){
 		$sql = 'SELECT cms.*,lang.iso
-    	FROM mc_cms_pages AS cms 
+    	FROM mc_cms_pages AS cms
+    	JOIN mc_admin_member AS m ON(m.idadmin=cms.idadmin)
     	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
-    	WHERE cms.idcat_p = :get_page_p
+    	WHERE cms.idcat_p = :get_page_p AND m.id_role IN('.$select_role.')
     	ORDER BY cms.order_page';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':get_page_p' => $get_page_p
