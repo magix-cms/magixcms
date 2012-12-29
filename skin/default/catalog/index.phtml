@@ -1,45 +1,46 @@
-{include file="common/header.phtml" section="prepend"}
+{include file="section/head.phtml" section="prepend"}
 {headmeta meta="description" content={seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>{#topmenu_catalog_t#}]}}
-    <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>{#topmenu_catalog_t#}]}</title>
-{include file="common/css.phtml"}
+<title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>{#topmenu_catalog_t#}]}</title>
+{include file="section/css.phtml"}
 </head>
-<body class="catalog root">
-	{include file="common/top.phtml"}
-	<div id="content" class="full">
-		<div class="full-top"></div>
-		<div class="full-repeat">
-			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat">
-					    <ol class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a> > </li>
-					   		<li>{#topmenu_catalog_t#|firststring}</li>
-						</ol>          						
-						{widget_catalog_cat_display 
-							css_param=[
-								'id_container' => 'choose-id1', 
-								'class_container' => 'ch1-2 ch-light',
-								'class_elem' => 'child',
-								'class_box' => 'box',
-			  					'class_name' => 'name',
-								'class_img' => 'img',
-			  					'class_desc' =>'descr'
-							] 
-							tposition="bottom" 
-			 				col=2 
-			 				description=true
-							delimiter='...'
-							length=100
-						}
-						<div class="clear"></div>
-					</div>
-				<div id="rightCol" class="block w6-16 lfloat last">
-					{include file="common/colright.phtml"}	
-				</div>
-				<div class="clear">&nbsp;</div>
-			</div>
-		</div>
-		<div class="full-bottom"></div>
-	</div>
-{include file="common/footer.phtml"}
+<body id="catalog-root">
+<div id="page" class="container">
+{include file="section/header.phtml"}
+    <div id="content" class="row">
+    {include file="section/sidebar.phtml"}
+        <div id="article" class="span9">
+            <div id="article-inner" class="span8">
+                    <h1>{#catalog_root_h1#}</h1>
+                        {widget_catalog_display
+                            htmlStructure = [
+                                'container' => [
+                                    'htmlBefore' => '<h2>Catégories</h2><ul class="thumbnails">',
+                                    'htmlAfter' => '</ul>'
+                                ],
+                                'item' => [
+                                    'htmlBefore' => '<li class="span4"><div class="thumbnail">',
+                                    'htmlAfter' => '</div></div></li>'
+                                ],
+                                'img' => [
+                                    'classLink' => 'none'
+                                ],
+                                'name' => [
+                                    'htmlBefore' => '<div class="caption"> <h3>',
+                                    'classLink' => 'name',
+                                    'htmlAfter' => '</h3>'
+                                ],
+                                'descr' => [
+                                    'htmlBefore' => '<p>',
+                                    'htmlAfter' => '</p>'
+                                ]
+                            ]
+                        }
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+{include file="section/footer.phtml"}
+</div>
+{include file="section/foot.phtml"}
 </body>
 </html>

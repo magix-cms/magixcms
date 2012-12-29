@@ -1,0 +1,15 @@
+{script src="/min/?g=publicjs,jimagine" type="javascript"}
+<script type="text/javascript">
+	var iso = "{getlang}";
+</script>
+{script src="/min/?f=skin/{template}/js/bootstrap.js,skin/{template}/js/form.js,skin/{template}/js/global.js" type="javascript"}
+{google_tools tools='analytics'}
+{literal}
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+	window.___gcfg = {
+	   lang: "{/literal}{getlang}{literal}"
+	};
+	gapi.plusone.render("googlebtn",{"parsetags": "explicit","size": "medium", "count": "true"});
+</script>
+{/literal}

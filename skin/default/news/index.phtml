@@ -1,41 +1,23 @@
-{include file="common/header.phtml" section="prepend"}
+{include file="section/head.phtml" section="prepend"}
 {headmeta meta="description" content={seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>#seo_t_static_news#]}}
     <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_news#]}</title>
-{include file="common/css.phtml"}
+{include file="section/css.phtml"}
 </head>
-<body class="news root">
-	{include file="common/top.phtml"}
-	<div id="content" class="full">
-		<div class="full-top"></div>
-		<div class="full-repeat">
-			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat">
-						<ul class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
-							<li>></li>
-							<li>{#topmenu_news_t#|firststring}</li>
-						</ul>
-						<h1>{#topmenu_news_t#|firststring}</h1>
-						{widget_news_list 
-						css_param=[
-							'class_container'=>'ch1-2 ch-light',
-							'class_name'=>'name',
-							'class_elem'=>'child',
-							'class_box'=>'box',
-							'class_img'=>'rfloat img',
-							'class_desc'=>'descr',
-							'class_pagination'=>'clear pagination'
-						] 
-						max=10 delimiter="" col=2}
-					</div>
-				<div id="rightCol" class="block w6-16 lfloat last">
-					{include file="common/colright.phtml"}	
-				</div>
-				<div class="clear">&nbsp;</div>
-			</div>
-		</div>
-		<div class="full-bottom"></div>
-	</div>
-{include file="common/footer.phtml"}
+<body id="news-root">
+<div id="page" class="container">
+{include file="section/header.phtml"}
+    <div id="content" class="row">
+    {include file="section/sidebar.phtml"}
+        <div id="article" class="span9">
+            <div id="article-inner" class="span8">
+                <h1>{#news_root_h1#}</h1>
+                    {widget_news_display}
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+{include file="section/footer.phtml"}
+</div>
+{include file="section/foot.phtml"}
 </body>
 </html>

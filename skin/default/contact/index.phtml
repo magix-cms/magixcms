@@ -1,0 +1,103 @@
+{include file="section/head.phtml" section="prepend"}
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>#seo_d_static_plugin_contact#]}}
+    <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_plugin_contact#]}</title>
+{include file="section/css.phtml"}
+</head>
+<body id="contact">
+<div id="page" class="container">
+{include file="section/header.phtml"}
+    <div id="content" class="row">
+    {include file="section/sidebar.phtml"}
+        <div id="article" class="span9">
+            <div id="article-inner" class="span8">
+            <h1>{#contact_root_h1#}</h1>
+             <legend>{#contact_fiels_resquest#}</legend>
+            <form id="forms-plugin-contact" method="post" action="" class="form-horizontal">
+                <div class="control-group span6">
+                    <label class="control-label" for="nom">
+                        {#pn_contact_lastname#}* :
+                    </label>
+                    <div class="controls">
+                        <input id="nom" type="text" name="nom" value="" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" for="prenom">
+                        {#pn_contact_firstname#}* :
+                    </label>
+                    <div class="controls">
+                        <input id="prenom" type="text" name="prenom" value="" size="40" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" for="email">
+                        {#pn_contact_mail#}* :
+                    </label>
+                    <div class="controls">
+                        <input id="email" type="text" name="email" value="" size="40" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" for="tel">
+                    {#pn_contact_phone#} :
+                    </label>
+                    <div class="controls">
+                        <input id="tel" type="text" name="tel" value="" size="20" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" for="adresse">
+                    {#pn_contact_address#} :
+                    </label>
+                    <div class="controls">
+                        <input id="adresse" type="text" name="adresse" value="" size="40" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" for="programme">
+                    {#pn_contact_programme#} :
+                    </label>
+                    <div class="controls">
+                        <input id="programme" type="text" name="programme" value="{$smarty.post.moreinfo}" size="40" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label" for="programme">
+                    {#pn_contact_message#} :
+                    </label>
+                    <div class="controls">
+                        <textarea id="message" name="message" rows="5" cols="50"></textarea>
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <p class="control-label">
+                        &nbsp;
+                    </p>
+                    <div class="controls">
+                        <input id="getLanguage" type="hidden" name="getLanguage" value="{getlang}" />
+                        <input type="submit" class="btn btn-primary" value="{#pn_contact_send#|firststring}" />
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+{include file="section/footer.phtml"}
+</div>
+{include file="section/foot.phtml"}
+{script src="/min/?f=framework/js/isovalidate/messages_{getlang}.js" type="javascript"}
+<script type="text/javascript">
+$(function(){
+	$.getScript('/plugins/contact/js/public.0.2.js',function(){
+		if (typeof plugins_contact == "undefined") 
+		{
+		  console.log("plugins_contact is not defined");
+		}else{
+			plugins_contact.run(iso);
+		}
+	});
+});
+</script>
+</body>
+</html>

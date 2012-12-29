@@ -1,0 +1,92 @@
+<div id="primary-sidebar" class="span3">
+    {* Pages de contenus *}
+    {if $smarty.server.SCRIPT_NAME == '/cms.php' OR $smarty.server.SCRIPT_NAME == '/index.php'}
+        {widget_cms_nav
+            hierarchy=[
+                'select' => 'all',
+                'level' => 'all'
+            ]
+            htmlAttribut=[
+                'id_container' => 'secondary-nav',
+                'class_container' => 'nav nav-list well',
+                'class_current'     => 'active'
+            ]
+            htmlPrepend='<li class="nav-header">Découvrir Magix CMS</li>'
+        }
+    {/if}
+    {* Catalogue *}
+    {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
+        {widget_catalog_nav
+            dataSelect=[
+                'select' => 'all',
+                'level'   => ['category' => 'subcategory']
+            ]
+            htmlPrepend='<li class="nav-header">Fonctionalités Magix CMS</li>'
+            htmlAttribut=[
+                'id_container' => 'secondary-nav',
+                'class_container' => 'nav nav-list well',
+                'class_current'     => 'active'
+            ]
+        }
+        {widget_catalog_display
+            dataSelect = [
+                'level' => 'last-product',
+                'limit' => 1
+            ]
+            htmlStructure = [
+                'item' => [
+                    'htmlBefore' => '<li class="span3"><div class="thumbnail">'
+                ],
+                'name' => [
+                    'htmlBefore' => '<div class="caption"> <p class="lead">',
+                    'htmlAfter' => '</p>'
+                ],
+                'price' => [
+                    'htmlBefore' => '<a class="btn" href="|#url#|">',
+                    'htmlAfter' => '</a>'
+                ],
+                'display' => [1 => ['name', 'img', 'price']]
+            ]
+        }
+    {/if}
+    {* Actualités *}
+    {if $smarty.server.SCRIPT_NAME == '/news.php'}
+        {widget_news_nav
+            htmlAttribut=[
+                'id_container' => 'secondary-nav',
+                'class_container' => 'nav nav-list well',
+                'class_current'     => 'active'
+            ]
+            htmlPrepend='<li class="nav-header">Actualités par thèmes</li>'
+        }
+        {widget_news_display
+            dataSelect=[
+                'level' => 'last-news',
+                'limit' => 3
+            ]
+        htmlPrepend = '<li class="nav-header">Dernière actualité</li>'
+        htmlStructure = [
+                'container' => [
+                    'htmlBefore' => '<ul class="thumbnails">',
+                    'htmlAfter' => '</ul>'
+                    ],
+                'item' => [
+                    'htmlBefore' => '<li class="span3"><div class="thumbnail">'
+                    ],
+                'img' => [
+                    'classLink' => 'img'
+                    ],
+                'name' => [
+                    'htmlBefore' => '<div class="caption"> <p>',
+                    'classLink' => 'name lead',
+                    'htmlAfter' => ' '
+                    ],
+                'tag' => [
+                    'htmlBefore' => '<p>',
+                    'htmlAfter' => '</p>'
+                    ]
+            ]
+
+        }
+    {/if}
+</div>

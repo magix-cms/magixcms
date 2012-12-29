@@ -1,38 +1,23 @@
-{include file="common/header.phtml" section="prepend"}
+{include file="section/head.phtml" section="prepend"}
 {headmeta meta="description" content="{cms_seo config_param=['seo'=>$seo_desc_page,'default'=>$title_page]}"}
-    <title>{cms_seo config_param=['seo'=>$seo_title_page,'default'=>$title_page]}</title>
-{include file="common/css.phtml"}
+<title>{cms_seo config_param=['seo'=>$seo_title_page,'default'=>$title_page]}</title>
+{include file="section/css.phtml"}
 </head>
-<body class="cms">
-	{include file="common/top.phtml"}
-	<div id="content" class="full">
-		<div class="full-top"></div>
-		<div class="full-repeat">
-			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat">
-						<ol class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a> > </li>
-							{if $uri_page_p != null}
-					   		<li><a href="{$uri_page_p}">{$title_page_p}</a> > </li>
-					   		<li>{$title_page}</li>
-					   		{else}
-					   		<li>{$title_page}</li>
-					   		{/if}
-					   	</ol>
-						<div class="date rfloat">{$last_update|date_format:"%d-%m-%y"}</div>
-						<h1>{$title_page}</h1>
-						<div class="user-content">
-							{$content_page}
-						</div>
-					</div>
-				<div id="rightCol" class="block w6-16 lfloat last">
-					{include file="common/colright.phtml"}	
-				</div>
-				<div class="clear"></div>
-			</div>
-		</div>
-		<div class="full-bottom"></div>
-	</div>
-{include file="common/footer.phtml"}
+<body id="cms">
+<div id="page" class="container">
+{include file="section/header.phtml"}
+    <div id="content" class="row">
+    {include file="section/sidebar.phtml"}
+        <div id="article" class="span9">
+            <div id="article-inner" class="span8">
+                <h1>{$title_page}</h1>
+                {$content_page}
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+        </div>
+    {include file="section/footer.phtml"}
+    </div>
+{include file="section/foot.phtml"}
 </body>
 </html>

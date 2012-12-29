@@ -1,29 +1,24 @@
-{include file="common/header.phtml" section="prepend"}
+{include file="section/head.phtml"}
 {headmeta meta="googleSiteVerification" content="{google_tools tools='webmaster'}"}
 {headmeta meta="description" content="{static_metas param='' dynamic=$description}"}
-    <title>{static_metas param='' dynamic=$title}</title>
-{include file="common/css.phtml"}
+<title>{static_metas param='' dynamic=$title}</title>
+{include file="section/css.phtml"}
 </head>
-<body class="home">
-	{include file="common/top.phtml"}
-	<div id="content" class="full">
-		<div class="full-top"></div>
-		<div class="full-repeat">
-			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat">
-					<h1>{$subject}</h1>
-					<div class="user-content">
-						{$content}
-					</div>
-					</div>
-				<div id="rightCol" class="block w6-16 lfloat last"> 
-					{include file="common/colright.phtml"}	
-				</div>
-				<div class="clear">&nbsp;</div>
-			</div>
-		</div>
-		<div class="full-bottom"></div>
-	</div>
-{include file="common/footer.phtml"}
+<body id="home">
+<div id="page" class="container">
+{include file="section/header.phtml"}
+    <div id="content" class="row">
+    {include file="section/sidebar.phtml"}
+        <div id="article" class="span9">
+            <div id="article-inner" class="span8">
+                <h1>{$subject}</h1>
+                {$content}
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+{include file="section/footer.phtml"}
+</div>
+{include file="section/foot.phtml"}
 </body>
 </html>

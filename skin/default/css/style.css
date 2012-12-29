@@ -1,104 +1,110 @@
 body {
-	color: #4c4c4c;
-	background-image: url(../img/framework-css/body-bg.png);
-	background-color: #EFEEEE;
-	background-repeat: repeat-x;
-	background-position: center -58px;
+    background-color: #F5F5F5;
 }
 
-.full-top {
-	background-color: transparent;
-	background-image: url(../img/framework-css/block/full-top.png);
-	background-repeat: no-repeat;
-	background-position: center top;
-	height: 10px;
+#page {
+    margin: 40px auto;
+    background-color: #FFF;
+    box-shadow: 0px 0px 12px 6px rgba(0,0,0,.2);
 }
 
-.full-repeat {
-	background-color: transparent;
-	background-image: url(../img/framework-css/block/full-repeat.png);
-	background-repeat: repeat-y;
-	background-position: center top;
-}
-
-.full-bottom {
-	background-color: transparent;
-	background-image: url(../img/framework-css/block/full-bottom.png);
-	background-repeat: no-repeat;
-	background-position: center top;
-	height: 10px;
-}
-
-.bg-dark {
-	background-color: #444444;
-	padding: 10px;
-}
-
-.bg-dark div, .bg-dark h1, .bg-dark h2, .bg-dark h3, .bg-dark h4, .bg-dark h5, .bg-dark h6, .bg-dark li, .bg-dark a, .bg-dark a:link, .bg-dark a:hover, .bg-dark a:visited, .bg-dark a:hover, .bg-dark span, .bg-dark p, .bg-dark strong, .bg-dark table, .bg-dark td, .bg-dark p,
-div.bg-dark, h1.bg-dark, h2.bg-dark, h3.bg-dark, h4.bg-dark, h5.bg-dark, h6.bg-dark, li.bg-dark, a.bg-dark, a:link.bg-dark, a:hover.bg-dark , a:visited.bg-dark, a:hover.bg-dark, span.bg-dark, p.bg-dark, strong.bg-dark, table.bg-dark, td.bg-dark, p.bg-dark {	
-	color: #FFFFFF;
-}
-
-.bg-light {
-	background-color: #eeeeee;
-	padding: 10px;
-}
-
-.bg-light div, .bg-light h1, .bg-light h2, .bg-light h3, .bg-light h4, .bg-light h5, .bg-light h6, .bg-light li, .bg-light a, .bg-light a:link, .bg-light a:hover, .bg-light a:visited, .bg-light a:hover, .bg-light span, .bg-light p, .bg-light strong, .bg-light table, .bg-light td, .bg-light p,
-div.bg-light, h1.bg-light, h2.bg-light, h3.bg-light, h4.bg-light, h5.bg-light, h6.bg-light, li.bg-light, a.bg-light, a:link.bg-light, a:hover.bg-light , a:visited.bg-light, a:hover.bg-light, span.bg-light, p.bg-light, strong.bg-light, table.bg-light, td.bg-light, p.bg-light {
-	color: #4c4c4c;
-}
-
-.ch-dark .child {
-	background-color: #444444;
-}
-
-.ch-dark div, .ch-dark h1, .ch-dark h2, .ch-dark h3, .ch-dark h4, .ch-dark h5, .ch-dark h6, .ch-dark li, .ch-dark a, .ch-dark a:link, .ch-dark a:hover, .ch-dark a:visited, .ch-dark a:hover, .ch-dark span, .ch-dark p, .ch-dark strong, .ch-dark table, .ch-dark td, .ch-dark p,
-div.ch-dark, h1.ch-dark, h2.ch-dark, h3.ch-dark, h4.ch-dark, h5.ch-dark, h6.ch-dark, li.ch-dark, a.ch-dark, a:link.ch-dark, a:hover.ch-dark , a:visited.ch-dark, a:hover.ch-dark, span.ch-dark, p.ch-dark, strong.ch-dark, table.ch-dark, td.ch-dark, p.ch-dark { 
-	color: #FFFFFF;
-}
-
-.ch-light .child {
-	background-color: #eeeeee;
-}
-
-.ch-light div, .ch-light h1, .ch-light h2, .ch-light h3, .ch-light h4, .ch-light h5, .ch-light h6, .ch-light li, .ch-light a, .ch-light a:link, .ch-light a:hover, .ch-light a:visited, .ch-light a:hover, .ch-light span, .ch-light p, .ch-light strong, .ch-light table, .ch-light td, .ch-light p,
-div.ch-light, h1.ch-light, h2.ch-light, h3.ch-light, h4.ch-light, h5.ch-light, h6.ch-light, li.ch-light, a.ch-light, a:link.ch-light, a:hover.ch-light , a:visited.ch-light, a:hover.ch-light, span.ch-light, p.ch-light, strong.ch-light, table.ch-light, td.ch-light, p.ch-light { 
-	color: #4c4c4c;
-}
-
-.treeview a {
-	text-decoration: none;
+.ie7 #page {
+    border: 1px solid #CCC;
 }
 
 #header {
-	background-color: transparent;
-	min-height: 155px;
-	margin: 0 0 10px 0;
-	overflow: visible;
+    position: relative;
+    top: -10px;
 }
 
-#header .container {
-	overflow: visible; /** Allow subnav vision **/
-	position: relative;
+    #header-navbar {
+        margin-bottom: 0px;
+    }
+
+        #logo {
+                margin: 0;
+                padding: 0;
+        }
+
+    #primary-nav > li > a {
+        height: 40px;
+        line-height: 40px;
+    }
+
+    #breadcrumb {
+        margin-bottom: 0px;
+        margin-top: 0px;
+        padding: 8px 20px;
+        background: transparent;
+    }
+
+    #breadcrumb > li {
+        font-size: 11px;
+    }
+
+#primary-sidebar {
+    margin-left: 40px;
 }
 
-#prelude {
-	position: absolute;
-	top: 5px;
-	left: 0px;
+    #secondary-nav {
+        margin-bottom: 20px;
+    }
+
+#article {
+    margin-left: 0;
 }
 
-#prelude a{
-	color: #666;
-	font-size: 12px;
-	font-weight: bold;
-	padding:0 3px;
-}
-#prelude a:hover{
-	color: black;
+    #article-inner {
+        float: none;
+        margin: 0 auto;
+    }
+
+    #article-inner > h1:first-child {
+        margin: 0 0 20px 0;
+    }
+
+        #product-info {
+            text-align: center;
+        }
+
+#footer-inner {
+    margin-bottom: 0;
 }
 
-#product-img{
-	overflow:hidden;
-} 
+.stateVal {
+    visibility: hidden;
+    margin-top: -1px;
+    height: 1px;
+}
+
+/*** Extend nav-list to sub-,av-list ***/
+.subnav-list {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+    .subnav-list > li {
+        list-style: none;
+        font-size: .9em;
+    }
+
+        .subnav-list > li > a {
+            display: block;
+            color: #555;
+        }
+
+        .subnav-list > li.active > a {
+            font-weight: bold;
+        }
+
+/*** Remove border-radius on nav-bar **/
+.navbar-inner {
+    border-radius: 0;
+}
+
+/*** Pagination html structure pas compatible ***/
+.pagination > div,
+.pagination > a {
+    display: inline-block;
+    padding: 5px;
+}

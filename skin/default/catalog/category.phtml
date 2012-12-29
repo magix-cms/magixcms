@@ -1,62 +1,35 @@
-{include file="common/header.phtml" section="prepend"}
+{include file="section/head.phtml" section="prepend"}
 {headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>$clibelle] category=$clibelle}}
     <title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>$clibelle]  category=$clibelle}</title>
-{include file="common/css.phtml"}
+{include file="section/css.phtml"}
 </head>
-<body class="catalog cat">
-	{include file="common/top.phtml"}
-	<div id="content" class="full">
-		<div class="full-top"></div>
-		<div class="full-repeat">
-			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat">
-					    <ol class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a> > </li>
-					   		<li><a href="{geturl}/{getlang}/{#topmenu_catalog_uri#}/" title="{#topmenu_catalog_t#|firststring}">{#topmenu_catalog_t#|firststring}</a> > </li>
-							<li>{$clibelle}</li>
-						</ol>          						
-						<h1>{$clibelle}</h1>
-						<div class="user-content">
-							{$c_content}
-						</div>	
-						{widget_catalog_cat_load_products 
-							css_param=[
-								'class_container' => 'ch1-4 ch-light',
-								'class_elem' => 'child',
-								'class_box' => 'box',
-			  					'class_name' => 'name',
-								'class_img' => 'img',
-								'class_desc' => 'descr'
-							]
-							tposition="bottom" 
-							price=false 
-							description=false 
-							size="mini" 
-							col="4"
-						}
-						<div class="clear"></div>
-						{widget_catalog_subcategory_display
-							css_param=[
-								'class_container'=>'ch1-2 ch-dark',
-								'class_elem' => 'child',
-								'class_box' => 'box',
-			  					'class_name' => 'name',
-								'class_img' => 'img',
-								'class_desc' => 'descr'
-							]
-							tposition="bottom" 
-							col="2"
-							description=false
-						}
-					</div>
-				<div id="rightCol" class="block w6-16 lfloat last">
-					{include file="common/colright.phtml"}	
-				</div>
-				<div class="clear"></div>
-			</div>
-		</div>
-		<div class="full-bottom"></div>
-	</div>
-{include file="common/footer.phtml"}
+<body id="catalog-cat">
+<div id="page" class="container">
+{include file="section/header.phtml"}
+    <div id="content" class="row">
+    {include file="section/sidebar.phtml"}
+        <div id="article" class="span9">
+            <div id="article-inner" class="span8">
+                <h1>{$clibelle}</h1>
+                {$c_content}
+                {widget_catalog_display}
+                {widget_catalog_display
+                    dataSelect=[
+                    'level' =>  'product'
+                    ]
+                    structureHTML = [
+                        'item' => [
+                            'htmlBefore' => '<li class="span8"><div class="thumbnail">',
+                            'htmlAfter' => '</div></div></li>'
+                            ]
+                    ]
+                }
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+{include file="section/footer.phtml"}
+</div>
+{include file="section/foot.phtml"}
 </body>
 </html>

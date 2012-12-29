@@ -1,0 +1,27 @@
+<div id="header" class="row-fluid">
+    <div id="header-navbar" class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <a id="logo" class="brand" href="/{getlang}/" title="{#logo_link_title#}">
+                <img src="/skin/{template}/img/logo-magix_cms.png" alt="{#logo_img_alt#}" />
+            </a>
+            {include file="section/primary-nav.phtml"}
+            <ul class="nav pull-right">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="icon-comment icon-white">&nbsp;</span>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{geturl}/fr/" title="Voir la page en francais">FR</a>
+                        </li>
+                        <li>
+                            <a href="{geturl}/en/" title="Show page in english">EN</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {include file="section/breadcrumb.phtml"}
+</div>

@@ -327,4 +327,170 @@ class frontend_db_catalog{
 			':iso'		=>	$iso)
 		);
 	}
+
+    /*
+     * Extend function for list & nav display
+     ***************************************/
+
+    /**
+     * @access public
+     * Sélection des catégorie
+     * @param string $lang_iso
+     * @param string $sort_id
+     * @param string $sort_type
+     */
+    protected static function s_category($lang_iso,$sort_id=null,$sort_type=null,$limit=null){
+        $filter = null;
+        if ($sort_id != null) {
+            $filter = 'AND c.idclc';
+            $filter .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
+            $filter .= $sort_id;
+            $filter .= ') ';
+        }
+        $limit_clause = null;
+        if (is_int($limit)){
+            $limit_clause = 'LIMIT '.$limit;
+        }
+        $sql = "SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, lang.iso, c.img_c
+				FROM mc_catalog_c AS c
+				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE lang.iso = :iso
+				{$filter}
+				ORDER BY corder
+				{$limit_clause}";
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':iso'	=>	$lang_iso
+        ));
+    }
+    /**
+     * @access public
+     * Sélection des catégorie
+     * @param string $lang_iso
+     * @param string $sort_id
+     * @param string $sort_type
+     */
+    protected static function s_subcategory($lang_iso,$sort_id=null,$sort_type=null,$limit=null){
+        $filter = null;
+        if ($sort_id != null) {
+            $filter = 'AND s.idcls';
+            $filter .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
+            $filter .= $sort_id;
+            $filter .= ') ';
+        }
+        $limit_clause = null;
+        if (is_int($limit)){
+            $limit_clause = 'LIMIT '.$limit;
+        }
+        $sql = "SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, lang.iso
+				FROM mc_catalog_s AS s
+				JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE lang.iso = :iso {$filter}
+				{$limit_clause}
+				ORDER BY sorder";
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':iso'	=>	$lang_iso
+        ));
+    }
+    /**
+     * @access public
+     * Sélection des sous-catégorie d'une catégorie
+     * @param iso
+     * @param idclc
+     */
+    protected static function s_sub_category_in_cat($idclc,$limit=null){
+        $limit_clause = null;
+        if (is_int($limit)){
+            $limit_clause = 'LIMIT '.$limit;
+        }
+        $sql = "SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, lang.iso
+				FROM mc_catalog_s AS s
+				JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+				WHERE c.idclc = :idclc
+				{$limit_clause}
+				ORDER BY sorder";
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idclc'	=>	$idclc
+        ));
+    }
+
+    /**
+     * @access public
+     * Charge les articles de la sous catégorie (avec langue)
+     * @param $idclc
+     * @param $idcls
+     */
+    protected static function s_product($idclc=null,$idcls=null,$limit=null){
+        $order_clause = 'ORDER BY p.orderproduct';
+        if($idclc == null and $idcls == null){
+            $where_clause = 'WHERE lang.iso = \''.frontend_model_template::current_Language().'\'';
+            $order_clause = 'ORDER BY p.idproduct';
+        } else {
+            $where_clause      = 'WHERE ';
+            $where_clause     .= ($idclc != null) ? 'p.idclc = '.$idclc.' AND ' : '';
+            $where_clause     .= ($idcls != null) ? 'p.idcls = '.$idcls.' ' : 'p.idcls = 0 ';
+        }
+        $limit_clause = null;
+        if (is_int($limit)){
+            $limit_clause = 'LIMIT '.$limit;
+        }
+
+        $sql = "SELECT
+        p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
+		FROM mc_catalog_product AS p
+		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
+		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
+		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
+		JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+		{$where_clause}
+		{$order_clause}
+		{$limit_clause}";
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+
+    /**
+     * @access public
+     * Charge les produits liés à un produit
+     * @param $idproduct
+     */
+    protected static function s_product_in_product($idproduct,$sort_id=null,$sort_type=null,$limit=null) {
+        // set CLAUSE
+        $filter = null;
+        if ($sort_id != null) {
+            $filter = 'WHERE p.idclc';
+            $filter .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
+            $filter .= $sort_id;
+            $filter .= ') ';
+        }
+        $limit_clause = null;
+        if (is_int($limit)){
+            $limit_clause = 'LIMIT '.$limit;
+        }
+        // SQL
+        $sql = "
+            SELECT
+            p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
+            FROM (
+              SELECT idcatalog
+              FROM mc_catalog_product
+              WHERE idproduct = :idproduct
+            ) AS cur_p
+            LEFT JOIN mc_catalog_rel_product as rel_p ON (cur_p.idcatalog = rel_p.idcatalog)
+            LEFT JOIN mc_catalog_product as p ON (rel_p.idproduct = p.idproduct)
+            LEFT JOIN mc_catalog as catalog ON (p.idcatalog = catalog.idcatalog)
+            LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+            LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
+            LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
+            JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+            {$filter}
+            ORDER BY p.orderproduct
+            {$limit_clause}";
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idproduct'	=>	$idproduct
+        ));
+    }
+
+
 }

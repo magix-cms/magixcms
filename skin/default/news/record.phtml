@@ -1,39 +1,27 @@
-{include file="common/header.phtml" section="prepend"}
+{include file="section/head.phtml" section="prepend"}
 {headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>$n_title] record=$n_title}}
-    <title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$n_title] record=$n_title}</title>
-{include file="common/css.phtml"}
+<title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$n_title] record=$n_title}</title>
+{include file="section/css.phtml"}
 </head>
-<body class="news record">
-	{include file="common/top.phtml"}
-	<div id="content" class="full">
-		<div class="full-top"></div>
-		<div class="full-repeat">
-			<div class="container">
-				<div id="contentCol" class="block w10-16 lfloat">
-						<ul class="ariane">
-					   		<li class="first"><a href="{geturl}/{getlang}/" title="{#topmenu_home_t#|firststring}">{#topmenu_home_t#|firststring}</a></li>
-							<li>></li>
-							<li><a href="{geturl}/{getlang}/{#topmenu_news_uri#}" title="{#topmenu_news_t#|firststring}">{#topmenu_news_t#|firststring}</a></li>
-							<li>></li>
-							<li>{$n_title}</li>
-						</ul>
-						<div class="date rfloat">
-							{$date_publish|date_format:"%d-%m-%Y"}
-						</div>
-						<h1>{$n_title}</h1>
-						<img src="{$n_image}" alt="{$n_title}" class="rfloat" />
-						<div class="user-content">
-							{$n_content}
-						</div>
-					</div>
-				<div id="rightCol" class="block w6-16 lfloat last">
-					{include file="common/colright.phtml"}	
-				</div>
-				<div class="clear">&nbsp;</div>
-			</div>
-		</div>
-		<div class="full-bottom"></div>
-	</div>
-{include file="common/footer.phtml"}
+<body id="news-record">
+<div id="page" class="container">
+{include file="section/header.phtml"}
+    <div id="content" class="row">
+    {include file="section/sidebar.phtml"}
+        <div id="article" class="span9">
+            <div id="article-inner" class="span8">
+                <h1>{$n_title}</h1>
+                <div class="span2 pull-right">
+                    {$date_publish|date_format:"%d-%m-%Y"}
+                    <img src="{$n_image}" alt="{$n_title}" class="rfloat" />
+                </div>
+                {$n_content}
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+{include file="section/footer.phtml"}
+</div>
+{include file="section/foot.phtml"}
 </body>
 </html>

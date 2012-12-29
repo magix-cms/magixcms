@@ -1,0 +1,111 @@
+<ol id="breadcrumb" class="breadcrumb">
+{if $smarty.server.SCRIPT_NAME != '/index.php'}
+    <li>
+        <a href="{geturl}/{getlang}/" title="{#nav_home_title#}">
+            {#nav_home#}
+        </a>
+        <span class="divider">/</span>
+    </li>
+        {**** Content pages (CMS) ****}
+    {if $smarty.server.SCRIPT_NAME == '/cms.php'}
+        {if $smarty.get.getidpage_p}
+            <li>
+                <a href="{geturl}/{getlang}/{$uri_page}" title="{#show_page#}: {$title_page_p}">
+                    {$title_page_p}
+                </a>
+                <span class="divider">/</span>
+            </li>
+        {/if}
+        <li>
+            {$title_page}
+        </li>
+    {/if}
+        {**** catalog ****}
+    {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
+        {if $smarty.get.idclc}
+                {* root *}
+            <li>
+                <a href="{geturl}/{getlang}/{#nav_catalog_uri#}" title="{#nav_catalog_title#}">
+                    {#nav_catalog#}
+                </a>
+                <span class="divider">/</span>
+            </li>
+            {if $smarty.get.idcls OR $smarty.get.idproduct}
+                    {* cat *}
+                <li>
+                    <a href="{geturl}/{$uri_cat}/" title="{#show_category#}: {$clibelle}">
+                        {$clibelle}{$category}
+                    </a>
+                    <span class="divider">/</span>
+                </li>
+                {if $smarty.get.idcls AND $smarty.get.idproduct}
+                        {* subcat *}
+                    <li>
+                        <a href="{geturl}/{$uri_subcat}/" title="{#show_subcategory#}: {$slibelle}">
+                            {$slibelle}{$subcategory}
+                        </a>
+                        <span class="divider">/</span>
+                    </li>
+                {else}
+                        {* /subcat *}
+                    <li>
+                        {$slibelle}
+                    </li>
+                {/if}
+                {if $smarty.get.idproduct}
+                    {* product *}
+                    <li>
+                        {$titlecatalog}
+                    </li>
+                {/if}
+            {else}
+                    {* /cat *}
+                <li>
+                    {$clibelle}
+                </li>
+            {/if}
+        {else}
+                {* /root *}
+            <li>
+                {#nav_catalog#}
+            </li>
+        {/if}
+        {**** /catalog ****}
+    {/if}
+        {**** news ****}
+    {if $smarty.server.SCRIPT_NAME == '/news.php'}
+            <li>
+                {if $smarty.get.tag OR $smarty.get.uri_get_news}
+                    <a href="{geturl}/{getlang}/{#nav_news_uri#}/" title="{#nav_news_title#}">
+                        {#nav_news#}
+                    </a>
+                    <span class="divider">/</span>
+                    {else}
+                    {#nav_news#}
+                {/if}
+            </li>
+            {if $smarty.get.uri_get_news}
+                <li>
+                    {$n_title}
+                </li>
+            {/if}
+            {if $smarty.get.tag}
+                <li>
+                   {#nav_tag#}: {$current_name_tag}
+                </li>
+            {/if}
+    {/if}
+        {**** Plugins ****}
+    {if $smarty.server.SCRIPT_NAME == '/plugins.php'}
+        {if $smarty.get.magixmod == 'contact'}
+            <li>
+                {#contact_form#|firststring}
+            </li>
+        {/if}
+    {/if}
+    {else}
+    <li>
+        {#nav_home#}
+    </li>
+{/if}
+</ol>
