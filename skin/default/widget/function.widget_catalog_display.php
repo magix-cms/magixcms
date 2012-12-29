@@ -60,7 +60,7 @@ function smarty_function_widget_catalog_display($params, $template) {
 
     // *** load SQL DATA
     $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
-    $data = frontend_controller_catalog::set_sql_data($sort_config,$id_current);
+    $data = frontend_model_catalog::set_sql_data($sort_config,$id_current);
 
     $output = null;
     if ($data != null){
@@ -114,7 +114,7 @@ function smarty_function_widget_catalog_display($params, $template) {
 
         // *** Update html struct & item setting with custom var (params['structureHTML'])
         $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-        $strucHtml = frontend_controller_catalog::set_html_struct($strucHtml_default,$structHtml_custom);
+        $strucHtml = frontend_model_catalog::set_html_struct($strucHtml_default,$structHtml_custom);
 
         // *** Format setting
         // Variables de gestion des niveaux dans la boucle
@@ -191,13 +191,13 @@ function smarty_function_widget_catalog_display($params, $template) {
                     $row[$deep]['img_size'] = $structHtml['img']['size'];
 
                 // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
-                $item_dataVal  = frontend_controller_catalog::set_data_item($row[$deep],$id_current);
+                $item_dataVal  = frontend_model_catalog::set_data_item($row[$deep],$id_current);
 
                 // Configuration de la structure HTML de l'item
                 $strucHtml['is_current'] = ($item_dataVal['current'] == 'true' OR $item_dataVal['current'] == 'parent') ? 1 : 0;
                 $strucHtml['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
                 $strucHtml['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
-                $strucHtml_item = frontend_controller_catalog::set_html_struct_item($strucHtml,$deep,$i[$deep]);
+                $strucHtml_item = frontend_model_catalog::set_html_struct_item($strucHtml,$deep,$i[$deep]);
 
                 // remise à zero du compteur si élément est le dernier de la ligne
                 if ($strucHtml_item['is_last'] == 1){

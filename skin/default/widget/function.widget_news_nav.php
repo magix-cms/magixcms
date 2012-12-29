@@ -65,7 +65,7 @@ function smarty_function_widget_news_nav($params, $template){
     $lang_iso           = frontend_model_template::current_Language();
     $current_tag_name   =   ($_GET['tag']) ? magixcjquery_form_helpersforms::inputClean($_GET['tag']) : null;
         //Récupération langue courante
-    $data = s_tag_all($lang_iso);
+    $data = frontend_db_news::s_tag_all($lang_iso);
     $output = null;
 
     if ($data != null){
@@ -109,20 +109,4 @@ function smarty_function_widget_news_nav($params, $template){
         $output .= '</ul>';
     }
     return $output;
-}
-/**
- * Return all tag in language grouped by name and related to published news
- * @param string $lang_iso
- * @return array
- */
-function s_tag_all($lang_iso){
-    $sql = 'SELECT tag.name_tag, lang.iso
-            FROM mc_news_tag AS tag
-            LEFT JOIN mc_news AS news ON (news.idnews = tag.idnews)
-            LEFT JOIN mc_lang AS lang ON (lang.idlang = news.idlang)
-            WHERE lang.iso = :lang_iso AND news.published = 1
-            GROUP BY tag.name_tag';
-    return magixglobal_model_db::layerDB()->select($sql,array(
-        ':lang_iso'=> $lang_iso
-    ));
 }

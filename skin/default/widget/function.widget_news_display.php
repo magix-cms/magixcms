@@ -58,7 +58,7 @@ function smarty_function_widget_news_display($params, $template){
 
     // *** load SQL DATA
     $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
-    $data = frontend_controller_news::set_sql_data($sort_config,$id_current);
+    $data = frontend_model_news::set_sql_data($sort_config,$id_current);
 
     // *** set pagination
     $pagination = null;
@@ -127,7 +127,7 @@ function smarty_function_widget_news_display($params, $template){
 
         // *** Update html struct & item setting with custom var (params['structureHTML'])
         $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-        $strucHtml = frontend_controller_news::set_html_struct($strucHtml_default,$structHtml_custom);
+        $strucHtml = frontend_model_news::set_html_struct($strucHtml_default,$structHtml_custom);
 
         // *** Format setting
         $items = null;
@@ -140,13 +140,13 @@ function smarty_function_widget_news_display($params, $template){
                 $i++;
 
                 // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
-                $item_dataVal  = frontend_controller_news::set_data_item($row,$id_current);
+                $item_dataVal  = frontend_model_news::set_data_item($row,$id_current);
 
                 // Configuration de la structure HTML de l'item
                 $strucHtml['is_current'] = ($item_dataVal['current'] == 'true') ? 1 : 0;
                 $strucHtml['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
                 $strucHtml['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
-                $strucHtml_item = frontend_controller_news::set_html_struct_item($strucHtml,$i);
+                $strucHtml_item = frontend_model_news::set_html_struct_item($strucHtml,$i);
 
                 // remise à zero du compteur si élément est le dernier de la ligne
                 if ($strucHtml_item['is_last'] == 1){
@@ -223,8 +223,4 @@ function smarty_function_widget_news_display($params, $template){
         $output .=  $pagination_ouput;
     }
 	return $output;
-}
-
-class news_sql {
-
 }

@@ -151,6 +151,24 @@ class frontend_db_news{
         {$limit_clause}";
         return magixglobal_model_db::layerDB()->select($sql);
     }
+
+    /**
+     * Return all tag in language grouped by name and related to published news
+     * @param string $lang_iso
+     * @return array
+     */
+    function s_tag_all($lang_iso){
+        $sql = 'SELECT tag.name_tag, lang.iso
+            FROM mc_news_tag AS tag
+            LEFT JOIN mc_news AS news ON (news.idnews = tag.idnews)
+            LEFT JOIN mc_lang AS lang ON (lang.idlang = news.idlang)
+            WHERE lang.iso = :lang_iso AND news.published = 1
+            GROUP BY tag.name_tag';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':lang_iso'=> $lang_iso
+        ));
+    }
+
 	//////
 	/**
 	 * Affiche les données d'une news
