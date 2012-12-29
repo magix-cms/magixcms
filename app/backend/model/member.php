@@ -49,8 +49,11 @@ class backend_model_member{
 	 * Retourne l'identifiant du membre
 	 */
 	public static function s_idadmin(){
-		$const_url = backend_db_admin::adminDbMember()->s_t_profil_url($_SESSION['useradmin']);
-		return $const_url['idadmin'];
+		/*$const_url = backend_db_admin::adminDbMember()->s_t_profil_url($_SESSION['useradmin']);
+		return $const_url['idadmin'];*/
+        if(isset($_SESSION['useridadmin'])){
+            return $_SESSION['useridadmin'];
+        }
 	}
 	/**
 	 * Retourne les permissions de l'utilisateur courant
