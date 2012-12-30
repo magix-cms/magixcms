@@ -1,18 +1,11 @@
 CREATE TABLE IF NOT EXISTS `mc_admin_member` (
   `idadmin` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `id_role` smallint(3) unsigned NOT NULL DEFAULT '1',
   `pseudo` varchar(20) NOT NULL,
   `email` varchar(40) NOT NULL,
   `cryptpass` varchar(50) NOT NULL,
   `keyuniqid` varchar(50) NOT NULL,
   PRIMARY KEY (`idadmin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `mc_admin_perms` (
-  `id_perms` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `idadmin` smallint(5) unsigned NOT NULL,
-  `perms` smallint(3) unsigned NOT NULL,
-  PRIMARY KEY (`id_perms`),
-  KEY `idadmin` (`idadmin`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_admin_role_user` (
@@ -229,17 +222,17 @@ CREATE TABLE IF NOT EXISTS `mc_news_tag` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_setting` (
+  `id_setting` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `setting_id` varchar(255) NOT NULL,
   `setting_value` text,
   `setting_type` varchar(8) NOT NULL DEFAULT 'string',
   `setting_label` text,
-  KEY `setting_id` (`setting_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id_setting`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
-INSERT INTO `mc_setting` (`setting_id`, `setting_value`, `setting_type`, `setting_label`) VALUES
-('theme', 'default', 'string', 'site theme'),
-('microgalery', 'default', 'string', 'micro galery'),
-('webmaster', '', 'string', 'google webmasterTools'),
-('analytics', '', 'string', 'google analytics'),
-('editor', 'openFilemanager', 'string', 'tinymce'),
-('magix_version', '2.4.0', 'string', 'Version Magix CMS');
+INSERT INTO `mc_setting` VALUES
+(1, 'theme', 'default', 'string', 'site theme'),
+(2, 'webmaster', '', 'string', 'google webmasterTools'),
+(3, 'analytics', '', 'string', 'google analytics'),
+(4, 'filemanager', 'openFilemanager', 'string', 'tinymce'),
+(5, 'magix_version', '2.4.0', 'string', 'Version Magix CMS');

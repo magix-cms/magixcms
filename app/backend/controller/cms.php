@@ -47,6 +47,7 @@
  */
 class backend_controller_cms extends backend_db_cms{
 	public 
+    $idadmin,
 	$idpage,
 	$idlang,
 	$idlang_p,
@@ -66,6 +67,9 @@ class backend_controller_cms extends backend_db_cms{
 	 * function construct class
 	 */
 	function __construct(){
+        if(magixcjquery_filter_request::isSession('useridadmin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        }
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
 		}
@@ -271,7 +275,7 @@ class backend_controller_cms extends backend_db_cms{
 					}else{
 						$uri_page = magixcjquery_url_clean::rplMagixString($title_page,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 						parent::i_new_parent_page(
-							backend_model_member::s_idadmin(), 
+							$this->idadmin, 
 							$this->getlang,
 							$this->title_page, 
 							$uri_page
@@ -281,7 +285,7 @@ class backend_controller_cms extends backend_db_cms{
 			}else{
 				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
 				parent::i_new_parent_page(
-					backend_model_member::s_idadmin(), 
+					$this->idadmin, 
 					$this->getlang,
 					$this->title_page, 
 					$uri_page
@@ -303,7 +307,7 @@ class backend_controller_cms extends backend_db_cms{
 			}else{
 				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
 				parent::i_new_child_page(
-					backend_model_member::s_idadmin(), 
+					$this->idadmin, 
 					$this->getlang,
                     $get_page_p,
 					$this->title_page, 
@@ -380,7 +384,7 @@ class backend_controller_cms extends backend_db_cms{
 					$uri_page = magixcjquery_url_clean::rplMagixString($this->title_page);
 				}
 				parent::u_page(
-					backend_model_member::s_idadmin(),
+					$this->idadmin,
 					$this->title_page, 
 					$uri_page, 
 					$this->content_page, 

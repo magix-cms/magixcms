@@ -47,13 +47,24 @@
 class backend_db_config{
     /**
      * Selectionne la configuration global suivant la variable
-     * @param $named
+     * @param $attr_name
+     * @internal param $named
+     * @return array
      */
     protected function s_config_named($attr_name){
-    	$sql = 'SELECT attr_name,status FROM mc_config WHERE attr_name = :attr_name';
+    	$sql = 'SELECT attr_name,status FROM mc_config
+    	WHERE attr_name = :attr_name';
     	return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':attr_name' =>	$attr_name
 		));
+    }
+    protected function s_data_config(){
+        $sql = 'SELECT * FROM mc_config';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+    protected function s_data_setting(){
+        $sql = 'SELECT * FROM mc_setting';
+        return magixglobal_model_db::layerDB()->select($sql);
     }
     /**
      * mise à jour d'un status global suivant un nom de variable dans la table global_config

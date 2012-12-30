@@ -49,7 +49,7 @@ class backend_controller_lang extends backend_db_lang{
 	 * string
 	 * @var iso
 	 */
-	public $iso;
+	public $idadmin,$iso;
 	/**
 	 * string
 	 * @var language
@@ -71,6 +71,9 @@ class backend_controller_lang extends backend_db_lang{
 	 * Constructor
 	 */
 	function __construct(){
+        if(magixcjquery_filter_request::isSession('useridadmin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        }
 		if(magixcjquery_filter_request::isPost('iso')){
 			$this->iso = magixcjquery_form_helpersforms::inputCleanStrolower($_POST['iso']);
 		}

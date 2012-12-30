@@ -49,7 +49,7 @@ class backend_controller_home extends backend_db_home{
 	 * gethome
 	 * @var getedit (get edit)
 	 */
-	public $edit,$action;
+	public $idadmin,$edit,$action;
 	/**
 	 * string
 	 * @var subject
@@ -80,6 +80,9 @@ class backend_controller_home extends backend_db_home{
 	 *
 	 */
 	function __construct(){
+        if(magixcjquery_filter_request::isSession('useridadmin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        }
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
@@ -191,7 +194,7 @@ class backend_controller_home extends backend_db_home{
 					parent::i_new_home(
 						$this->subject,
 						$this->idlang,
-						backend_model_member::s_idadmin()
+						$this->idadmin
 					);
 					$create->display('home/request/success_add.phtml');
 				}else{
@@ -215,7 +218,7 @@ class backend_controller_home extends backend_db_home{
                     $this->content,
                     $this->metatitle,
                     $this->metadescription,
-                    backend_model_member::s_idadmin(),
+                    $this->idadmin,
                     $this->edit
                 );
                 $create->display('home/request/success_update.phtml');

@@ -44,11 +44,6 @@ ALTER TABLE `mc_admin_member` CHANGE `idadmin` `idadmin` SMALLINT( 5 ) UNSIGNED 
 ALTER TABLE `mc_admin_session` CHANGE `sid` `sid` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 CHANGE `userid` `userid` SMALLINT( 5 ) UNSIGNED NOT NULL;
 
-ALTER TABLE `mc_admin_perms` CHANGE `idadmin` `idadmin` SMALLINT( 5 ) UNSIGNED NOT NULL ,
-CHANGE `perms` `perms` SMALLINT( 3 ) UNSIGNED NOT NULL;
-
-ALTER TABLE `mc_admin_perms` ADD `id_perms` SMALLINT( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
-
 CREATE TABLE IF NOT EXISTS `mc_admin_role_user` (
   `id_role` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) NOT NULL,
@@ -56,6 +51,8 @@ CREATE TABLE IF NOT EXISTS `mc_admin_role_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `mc_admin_member` ADD `id_role` SMALLINT( 3 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `idadmin`;
+
+DROP TABLE IF EXISTS `mc_admin_perms`;
 
 ALTER TABLE `mc_catalog_c` CHANGE `idlang` `idlang` SMALLINT( 3 ) UNSIGNED NOT NULL DEFAULT '1';
 
