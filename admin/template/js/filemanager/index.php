@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿<?php
+$pathadmin = '../../../baseadmin.php';
+$filemanager_auth = 'auth.php';//
+if(file_exists($pathadmin)){
+    require_once $pathadmin;
+    require_once $filemanager_auth;
+    $auth = new fileManagerAuth();
+    $tinymce_version = $auth->tinyMceVersion();
+}
+?>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -47,6 +57,11 @@
 <script type="text/javascript" src="scripts/jquery.impromptu-3.1.min.js"></script>
 <script type="text/javascript" src="scripts/jquery.tablesorter-2.0.5b.min.js"></script>
 <script type="text/javascript" src="scripts/filemanager.config.js"></script>
-<script type="text/javascript" src="scripts/filemanager.js"></script></div>
+<script type="text/javascript">
+// Set culture to display localized messages
+var culture = "<?php print 'fr'; ?>";
+</script>
+<script type="text/javascript" src="scripts/filemanager.js"></script>
+<script type="text/javascript" src="../tiny_mce.<?php print $tinymce_version;?>/tiny_mce_popup.js"></script></div>
 </body>
 </html>

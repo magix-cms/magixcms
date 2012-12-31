@@ -66,6 +66,13 @@ class backend_db_config{
         $sql = 'SELECT * FROM mc_setting';
         return magixglobal_model_db::layerDB()->select($sql);
     }
+    protected function s_setting_id($setting_id){
+        $sql = 'SELECT setting_label,setting_value
+    	FROM mc_setting WHERE setting_id = :setting_id';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':setting_id'	=>	$setting_id
+        ));
+    }
     /**
      * mise à jour d'un status global suivant un nom de variable dans la table global_config
      * @param $status

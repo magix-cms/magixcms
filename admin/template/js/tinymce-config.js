@@ -67,7 +67,7 @@ $(function() {
 });
 function openFilemanager(field_name, url, type, win) {
     tinyMCE.activeEditor.windowManager.open({
-        file : '/admin/template/js/tiny_mce.'+editor_version+'/plugins/filemanager/index.php',
+        file : '/admin/template/js/filemanager/index.php',
         title : 'File Browser',
         width : 800,
         height : 600,

@@ -123,6 +123,19 @@ class backend_controller_config extends backend_db_config{
 			$this->idconfig = magixcjquery_filter_isVar::isPostNumeric($_POST['idconfig']);
 		}
 	}
+    private function load_data_config($create){
+        $data = parent::s_data_config();
+        /*$assign_exclude = array(
+            'lesson_level','lesson_days','lesson_category','lesson_teachers'
+        );*/
+        foreach($data as $key){
+            /*$iso = $val;
+            if( !(array_search($key,$assign_exclude) ) ){
+                $create->append_assign($key,$val);
+            }*/
+            $create->assign($key['attr_name'],$key['status']);
+        }
+    }
 	/**
 	 * @access private
 	 * function load configuration lang
@@ -208,15 +221,10 @@ class backend_controller_config extends backend_db_config{
 	 * load global attribute configuration
 	 */
 	public static function load_attribute_config(){
-		/*self::load_config_lang();
-		self::load_config_cms();
-		self::load_config_news();
-		self::load_config_catalog();
-		self::load_config_metasrewrite();
-		self::load_limited_cms_number();
-		self::load_wysiwyg_config_editor();
-		self::admin_config();*/
-        self::load_wysiwyg_config_editor();
+        $create = new backend_controller_template();
+        self::load_data_config($create);
+        $config = parent::s_setting_id('editor');
+        $create->assign('manager_setting',$config['setting_value']);
 	}
 	/**
 	 * @access public
@@ -225,11 +233,12 @@ class backend_controller_config extends backend_db_config{
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
+        $create = new backend_controller_template();
 		/**
 	 	* update states for configuration
 	 	* @access private
 	 	*/
-		if(isset($this->configlang)){
+		/*if(isset($this->configlang)){
 			parent::u_config_states($this->configlang,'lang');
 		}elseif(isset($this->configcms)){
 			parent::u_config_states($this->configcms,'cms');
@@ -243,6 +252,7 @@ class backend_controller_config extends backend_db_config{
 			parent::u_limited_module($this->idconfig,$this->max_record);
 		}else{
 			backend_controller_template::display('config/params.phtml');	
-		}
+		}*/
+
 	}
 }

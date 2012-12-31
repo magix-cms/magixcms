@@ -3,7 +3,7 @@
 ---------------------------------------------------------*/
 
 // Set culture to display localized messages
-var culture = 'fr';
+//var culture = 'fr';
 
 // Set default view mode : 'grid' or 'list'
 var defaultViewMode = 'grid';
@@ -36,8 +36,8 @@ var imagesExt = ['jpg', 'jpeg', 'gif', 'png'];
 
 //Add the name of scripts you want to load in addition to the standard ones
 //For example use this to load tiny_mce_popup.js
-var extra_js = ['../../tiny_mce_popup.js'];
-
+//var extra_js = ['../../tiny_mce_popup.js'];
+var extra_js = [''];
 // Videos player support
 // -----------------------------------------
 var showVideoPlayer = true;
