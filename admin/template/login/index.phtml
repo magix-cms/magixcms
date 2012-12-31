@@ -4,21 +4,23 @@
 <body class="module-login">
 <div class="container-fluid">
     <div class="box-login">
+        <h2>
+            <img src="/{baseadmin}/template/img/logo-magix_cms.png" />
+        </h2>
         <form id="forms-log" method="post" action="{geturl}/admin/login.php">
-            <h2>Connexion</h2>
             <p class="input-prepend">
                     <span class="add-on">
                         <span class="icon-envelope"></span>
                     </span>
-                <input type="text" class="input-xlarge" placeholder="Indiquer le login" id="acmail" name="acmail" value="" />
+                <input type="text" class="input-large" placeholder="Indiquer le login" id="acmail" name="acmail" value="" />
             </p>
             <p class="input-prepend">
                     <span class="add-on">
                         <span class="icon-key"></span>
                     </span>
-                <input type="password" class="input-xlarge" placeholder="Indiquer le password" id="acpass" name="acpass" value="" />
+                <input type="password" class="input-large" placeholder="Indiquer le password" id="acpass" name="acpass" value="" />
             </p>
-            <p>
+            <p class="input-btn">
                 <input type="hidden" id="hashtoken" name="hashtoken" value="{$hashpass}" />
                 <input type="submit" class="btn btn-default btn-primary" value="Connexion" />
             </p>
