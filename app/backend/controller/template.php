@@ -60,9 +60,9 @@ class backend_controller_template{
      */
     public static function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-            backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+            return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }else{
-            backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+            return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }
     }
     /**
@@ -73,7 +73,7 @@ class backend_controller_template{
      * @param bool $nocache
      */
     public static function assign($tpl_var, $value = null, $nocache = false){
-        return backend_model_smarty::getInstance()->assign($tpl_var,$value);
+        //return backend_model_smarty::getInstance()->assign($tpl_var,$value);
         if (is_array($tpl_var)){
             backend_model_smarty::getInstance()->assign($tpl_var);
         }else{
@@ -91,7 +91,7 @@ class backend_controller_template{
      * @param mixed $compile_id
      * @param object $parent
      */
-    public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
+    public static function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
         backend_model_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
     }
 

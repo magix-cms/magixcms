@@ -2,14 +2,22 @@
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
         {* -- START CONFIGURATION -- *}
-            <li class="nav-header">Configuration</li>
-            <li><a href="/{baseadmin}/users.php">Utilisateurs</a></li>
-            <li><a href="/{baseadmin}/config.php">Paramètres</a></li>
-            <li><a href="/{baseadmin}/editor.php">Editeur Wysiwyg</a></li>
+            <li class="nav-header">Système</li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuration <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/{baseadmin}/users.php"><span class="icon-user"></span>Utilisateurs</a></li>
+                    <li><a href="/{baseadmin}/config.php"><span class="icon-cog"></span>Paramètres</a></li>
+                    <li><a href="/{baseadmin}/editor.php"><span class="icon-list-alt"></span>Editeur Wysiwyg</a></li>
+                    <li><a href="/{baseadmin}/templates.php"><span class="icon-columns"></span>Thèmes</a></li>
+                    <li><a href="/{baseadmin}/imagesize.php"><span class="icon-picture"></span>Tailles des images</a></li>
+                </ul>
+            </li>
             <li><a href="/{baseadmin}/lang.php">Langues</a></li>
-            <li><a href="/{baseadmin}/templates.php">Thèmes</a></li>
-            <li><a href="/{baseadmin}/imagesize.php">Tailles des images</a></li>
-            <li><a href="/{baseadmin}/rewritemetas.php">Réécriture des métas</a></li>
+            <li class="nav-header">Outils</li>
+            <li><a href="/{baseadmin}/rewritemetas.php">SEO</a></li>
+            <li><a href="#">Google Tools</a></li>
+            <li><a href="#">Sitemap</a></li>
         {* -- END CONFIGURATION -- *}
         {* -- START PAGES -- *}
             <li class="nav-header">Pages</li>

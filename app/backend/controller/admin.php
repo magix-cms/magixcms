@@ -194,12 +194,12 @@ class backend_controller_admin extends backend_db_admin{
 						magixglobal_model_redirect::backend_redirect_login(false);	
 					}
 				}else{
-					$fetch = backend_controller_template::fetch('login/request/failed.phtml');
-					backend_controller_template::assign('msg',$fetch);
+                    $fetch = backend_controller_template::fetch('login/request/error.phtml');
+					backend_controller_template::assign('login_message',$fetch);
 				}
 			}else{
-					$fetch = backend_controller_template::fetch('login/request/hash.phtml');
-					backend_controller_template::assign('msg',$fetch);
+                $fetch = backend_controller_template::fetch('login/request/hash.phtml');
+                backend_controller_template::assign('login_message',$fetch);
 			}
 		}
 	}

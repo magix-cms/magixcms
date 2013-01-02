@@ -7,7 +7,8 @@
         <h2>
             <img src="/{baseadmin}/template/img/logo-magix_cms.png" />
         </h2>
-        <form id="forms-log" method="post" action="{geturl}/admin/login.php">
+        {$login_message}
+        <form id="forms-log" method="post" action="{geturl}/{baseadmin}/login.php">
             <p class="input-prepend">
                     <span class="add-on">
                         <span class="icon-envelope"></span>
@@ -27,6 +28,6 @@
         </form>
     </div>
 </div>
-{*{include file="login/internal/js.phtml"}*}
+{include file="login/section/js.phtml"}
 </body>
 </html>

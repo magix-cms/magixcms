@@ -36,6 +36,9 @@ h3 {
     background-repeat: repeat-x;
     border-color: #252525;
 }
+.box-login .alert{
+    margin-bottom: 0;
+}
 .box-login #forms-log{
     margin: 0;
     padding: 10px 25px 10px;

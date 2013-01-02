@@ -167,7 +167,7 @@ var MC_user = (function ($, undefined) {
                             ),
                             $(document.createElement("th")).append("Pseudo"),
                             $(document.createElement("th")).append("Email"),
-                            $(document.createElement("th")).append("role_name"),
+                            $(document.createElement("th")).append("Rôle"),
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
