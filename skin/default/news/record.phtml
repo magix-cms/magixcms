@@ -1,6 +1,6 @@
 {include file="section/head.phtml" section="prepend"}
-{headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>$n_title] record=$n_title}}
-<title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$n_title] record=$n_title}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>$name_news] record=$name_news}}
+<title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$name_news] record=$name_news}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="news-record">
@@ -10,12 +10,17 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-                <h1>{$n_title}</h1>
+                <h1>{$name_news}</h1>
                 <div class="span2 pull-right">
-                    {$date_publish|date_format:"%d-%m-%Y"}
-                    <img src="{$n_image}" alt="{$n_title}" class="rfloat" />
+                    Publiée le {$dateRegister_news|date_format:"%d-%m-%Y"}
+                    {if $dateUpdate_news|date_format:"%d-%m-%Y" != $dateRegister_news|date_format:"%d-%m-%Y"}
+                         mis à jour le {$dateUpdate_news|date_format:"%d-%m-%Y"}
+                    {/if}
+                    {if $imgPath_news != null}
+                        <img src="{$imgPath_news}" alt="{$name_news}" class="rfloat" />
+                    {/if}
                 </div>
-                {$n_content}
+                {$content_news}
             </div>
         </div>
         <div class="clear">&nbsp;</div>

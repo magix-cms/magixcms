@@ -144,17 +144,15 @@ class frontend_controller_news extends frontend_db_news {
 			$plitdate = explode('/', $this->getdate);
 			$page = parent::s_specific_news($getnews,$date_register);
 			if($page['idnews'] != null){
-				if($page['n_image'] != null){
-					$img = '/upload/news/'.$page['n_image'];
-				}else{
-					$img = '/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/no-picture.png';
+                $imgPath = null;
+				if($page['n_image'] != null) {
+                    $imgPath = '/upload/news/'.$page['n_image'];
 				}
-				frontend_model_template::assign('date_publish',$page['date_publish']);
-				frontend_model_template::assign('n_title',$page['n_title']);
-				frontend_model_template::assign('n_content',$page['n_content']);
-				frontend_model_template::assign('n_image',$img);
-			}else{
-				
+                frontend_model_template::assign('dateRegister_news',$page['date_register']);
+				frontend_model_template::assign('dateUpdate_news',$page['date_publish']);
+				frontend_model_template::assign('name_news',$page['n_title']);
+				frontend_model_template::assign('content_news',$page['n_content']);
+				frontend_model_template::assign('imgPath_news',$imgPath);
 			}
 		}
 	}
@@ -167,7 +165,7 @@ class frontend_controller_news extends frontend_db_news {
 			$this->display_getnews($this->getnews,$this->getdate);
 			frontend_model_template::display('news/record.phtml');
 		}elseif(magixcjquery_filter_request::isGet('tag')){
-			frontend_model_template::assign('current_name_tag', urldecode($this->tag));
+			frontend_model_template::assign('name_tag', urldecode($this->tag));
 			frontend_model_template::display('news/tag.phtml');
 		}else{
 			frontend_model_template::display('news/index.phtml');
