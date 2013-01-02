@@ -305,21 +305,23 @@ class backend_db_cms{
 		return magixglobal_model_db::layerDB()->select($sql);
     }
     /*###################### AUTOCOMPLETE #########################*/
-	/**
-     * 
-     * Recherche une page dans la langue sélectionner n'appartenant à aucune page
-     * @param string $title_p_move
-     * @param integer $idlang
+    /**
+     *
+     * Recherche une page dans la langue sélectionner
+     * @param $title_search
+     * @param $getlang
+     * @return array
      */
-	protected function s_parent_cat_p($title_p_move,$idlang){
-		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
+	protected function s_title_search($title_search,$getlang){
+		$sql = 'SELECT p.idpage, p.title_page, p.idlang
 		FROM mc_cms_pages AS p
-		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
+		LEFT JOIN mc_cms_pages AS parent ON ( parent.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
-		WHERE p.idlang = :idlang AND p.title_page LIKE "%'.$title_p_move.'%" AND p.idcat_p = 0';
+		WHERE p.idlang = :idlang AND p.title_page LIKE :title_search';
 		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idlang'=>$idlang
+			':idlang'=>$getlang,
+            ':title_search'=>'%'.$title_search.'%'
 		));
 	}
     /**

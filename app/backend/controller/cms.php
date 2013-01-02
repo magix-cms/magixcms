@@ -59,7 +59,7 @@ class backend_controller_cms extends backend_db_cms{
 	$order_pages,
 	$sidebar_page,
 	$rel_title_page;
-	public $getlang,$get_page_p,$edit,$action;
+	public $getlang,$get_page_p,$edit,$title_search,$action;
 	public $post_search,$get_search_page,$title_p_lang,$title_p_move,$callback;
 	public $cat_p_lang;
 	public $del_relang_p,$delpage,$movepage;
@@ -142,6 +142,9 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isGet('callback')){
 			$this->callback = (string) magixcjquery_form_helpersforms::inputClean($_GET['callback']);
 		}
+        if(magixcjquery_filter_request::isGet('title_search')){
+            $this->title_search = magixcjquery_form_helpersforms::inputClean($_GET['title_search']);
+        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -253,12 +256,14 @@ class backend_controller_cms extends backend_db_cms{
 			return $db['title_page'];
 		}
 	}
-	/**
-	 * @access private
-	 * Insertion d'une nouvelle page parent
-	 * @param string $title_page
-	 * @param integer $idlang
-	 */
+
+    /**
+     * @access private
+     * Insertion d'une nouvelle page parent
+     * @param string $title_page
+     * @return void
+     * @internal param int $idlang
+     */
 	private function insert_new_page_p($title_page){
 		if(isset($title_page)){
 			// Verifier que le module exist
@@ -294,12 +299,15 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
-	/**
-	 * @access private
-	 * Insertion d'une page enfant
-	 * @param string $title_page
-	 * @param integer $idlang
-	 */
+
+    /**
+     * @access private
+     * Insertion d'une page enfant
+     * @param string $title_page
+     * @param $get_page_p
+     * @return void
+     * @internal param int $idlang
+     */
 	private function insert_new_child_page($title_page,$get_page_p){
 		if(isset($title_page)){
 			if(empty($title_page)){
@@ -534,14 +542,14 @@ class backend_controller_cms extends backend_db_cms{
 	 * @access private
 	 * Retourne les pages CMS suivant la langue pour l'autocomplete
 	 */
-	private function json_parent_cat_p(){
-		if(parent::s_parent_cat_p($this->title_p_move,$this->getlang) != null){
-			foreach(parent::s_parent_cat_p($this->title_p_move,$this->getlang) as $value){
-				$j[]= '{"id":'.json_encode($value['idpage']).',"value":'.json_encode($value['title_page']).'}';
+	private function json_autocomplete(){
+		if(parent::s_title_search($this->title_search,$this->getlang) != null){
+			foreach(parent::s_title_search($this->title_search,$this->getlang) as $value){
+				$j[]= '{"idpage":'.json_encode($value['idpage']).',"title_page":'.json_encode($value['title_page']).'}';
 			}
 			print $this->callback.'(['.implode(',',$j).'])';
 		}else{
-			print $this->callback.'([{"id":"0","value":"Aucune valeur"}])';
+			print $this->callback.'([{"idpage":"0","title_page":"Aucune valeur"}])';
 		}
 	}
 	/**
@@ -663,14 +671,14 @@ class backend_controller_cms extends backend_db_cms{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				$this->json_cat_p_lang();
-			}elseif(magixcjquery_filter_request::isGet('title_p_move')){
+			}elseif(magixcjquery_filter_request::isGet('title_search')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
 				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
 				$header->pragma();
 				$header->cache_control("nocache");
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
-				$this->json_parent_cat_p();
+				$this->json_autocomplete();
 			}elseif(isset($this->get_page_p)){
 				if(magixcjquery_filter_request::isGet('json_child_p')){
 					$this->json_child_page();

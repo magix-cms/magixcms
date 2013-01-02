@@ -716,6 +716,42 @@ var MC_pages = (function ($, undefined) {
             });
         });
     }
+    function autoCompleteSearch(getlang){
+        $( "#title_search" ).autocomplete({
+            minLength: 2,
+            source: function(req, add){
+                //pass request to server
+                $.ajax({
+                    url:'/admin/cms.php?getlang='+getlang+'&callback=?',
+                    type:"get",
+                    dataType: 'json',
+                    data: 'title_search='+req.term,
+                    async: true,
+                    cache: true,
+                    success: function(data){
+                        add($.map(data, function(item) {
+                            return {
+                                value : item.title_page,
+                                url : '/admin/cms.php?getlang='+getlang+'&edit='+item.idpage
+                            }
+                        }));
+                    }
+                });
+            },
+            focus : function(event, ui) {
+                $(this).val(ui.item.title_page);
+                return false;
+            },
+            select : function(event, ui) {
+                window.location.href = ui.item.url;
+                return false;
+            }
+        }).data("autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>").data("item.autocomplete", item).append(
+                '<a href="'+item.url+'">' + item.value + '</span></a>')
+                .appendTo(ul.addClass('list-row'));
+        };
+    }
     return {
         //Fonction Public
         runCharts:function(){
@@ -726,16 +762,19 @@ var MC_pages = (function ($, undefined) {
             jsonListParent(getlang);
             updateActive(getlang,0);
             remove(getlang,0);
+            autoCompleteSearch(getlang);
         },
         runChild:function(getlang,getParent){
             jsonListChild(getlang,getParent);
             add(getlang,getParent);
             updateActive(getlang,getParent);
             remove(getlang,getParent);
+            autoCompleteSearch(getlang);
         },
         runEdit:function(getlang,edit){
             JsonUrlPage(getlang,edit);
             update(getlang,edit);
+            autoCompleteSearch(getlang);
         }
     };
 })(jQuery);
