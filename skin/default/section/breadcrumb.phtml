@@ -34,7 +34,7 @@
                     {* cat *}
                 <li>
                     <a href="{geturl}/{$uri_cat}/" title="{#show_category#}: {$clibelle}">
-                        {$clibelle}{$category}
+                        {$name_cat}
                     </a>
                     <span class="divider">/</span>
                 </li>
@@ -42,14 +42,14 @@
                         {* subcat *}
                     <li>
                         <a href="{geturl}/{$uri_subcat}/" title="{#show_subcategory#}: {$slibelle}">
-                            {$slibelle}{$subcategory}
+                            {$name_subcat}
                         </a>
                         <span class="divider">/</span>
                     </li>
                 {else}
                         {* /subcat *}
                     <li>
-                        {$slibelle}
+                        {$name_subcat}
                     </li>
                 {/if}
                 {if $smarty.get.idproduct}
@@ -61,7 +61,7 @@
             {else}
                     {* /cat *}
                 <li>
-                    {$clibelle}
+                    {$name_cat}
                 </li>
             {/if}
         {else}

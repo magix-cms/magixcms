@@ -95,8 +95,8 @@ class frontend_controller_catalog extends frontend_db_catalog{
 		frontend_model_template::assign('idproduct',$products['idproduct']);
 		frontend_model_template::assign('date_catalog',$products['date_catalog']);
 		frontend_model_template::assign('titlecatalog',$products['titlecatalog']);
-		frontend_model_template::assign('category',$products['clibelle']);
-		frontend_model_template::assign('subcategory',$products['slibelle']);
+		frontend_model_template::assign('name_cat',$products['clibelle']);
+		frontend_model_template::assign('name_subcat',$products['slibelle']);
 		frontend_model_template::assign('price',$products['price']);
 		frontend_model_template::assign('imgcatalog',$imgc);
 		frontend_model_template::assign('desccatalog',$products['desccatalog']);
@@ -112,7 +112,7 @@ class frontend_controller_catalog extends frontend_db_catalog{
 	 */
 	private function load_data_category(){
 		$catname = parent::s_current_name_category($this->idclc);
-		frontend_model_template::assign('clibelle',magixcjquery_string_convert::ucFirst($catname['clibelle']));
+		frontend_model_template::assign('name_cat',magixcjquery_string_convert::ucFirst($catname['clibelle']));
 		frontend_model_template::assign('c_content',$catname['c_content']);
 	}
 	/**
@@ -121,8 +121,8 @@ class frontend_controller_catalog extends frontend_db_catalog{
 	 */
 	private function load_data_subcategory(){
 		$subcatname = parent::s_current_name_subcategory($this->idcls);
-		frontend_model_template::assign('clibelle',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
-		frontend_model_template::assign('slibelle',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
+		frontend_model_template::assign('name_cat',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
+		frontend_model_template::assign('name_subcat',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
 		frontend_model_template::assign('s_content',$subcatname['s_content']);
 		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(), $subcatname['pathclibelle'],$subcatname['idclc'],true);			
 		frontend_model_template::assign('uri_cat',$uri_cat);
