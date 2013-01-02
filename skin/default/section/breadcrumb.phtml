@@ -10,14 +10,14 @@
     {if $smarty.server.SCRIPT_NAME == '/cms.php'}
         {if $smarty.get.getidpage_p}
             <li>
-                <a href="{geturl}/{getlang}/{$uri_page}" title="{#show_page#}: {$title_page_p}">
-                    {$title_page_p}
+                <a href="{geturl}/{$url_page_p}" title="{#show_page#}: {$name_page_p}">
+                    {$name_page_p}
                 </a>
                 <span class="divider">/</span>
             </li>
         {/if}
         <li>
-            {$title_page}
+            {$name_page}
         </li>
     {/if}
         {**** catalog ****}
@@ -33,7 +33,7 @@
             {if $smarty.get.idcls OR $smarty.get.idproduct}
                     {* cat *}
                 <li>
-                    <a href="{geturl}/{$uri_cat}/" title="{#show_category#}: {$clibelle}">
+                    <a href="{geturl}/{$url_cat}/" title="{#show_category#}: {$name_cat}">
                         {$name_cat}
                     </a>
                     <span class="divider">/</span>
@@ -41,7 +41,7 @@
                 {if $smarty.get.idcls AND $smarty.get.idproduct}
                         {* subcat *}
                     <li>
-                        <a href="{geturl}/{$uri_subcat}/" title="{#show_subcategory#}: {$slibelle}">
+                        <a href="{geturl}/{$url_subcat}/" title="{#show_subcategory#}: {$name_subcat}">
                             {$name_subcat}
                         </a>
                         <span class="divider">/</span>
@@ -55,7 +55,7 @@
                 {if $smarty.get.idproduct}
                     {* product *}
                     <li>
-                        {$titlecatalog}
+                        {$name_product}
                     </li>
                 {/if}
             {else}

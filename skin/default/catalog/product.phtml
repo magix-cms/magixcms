@@ -1,6 +1,6 @@
 {include file="section/head.phtml" section="prepend"}
-{headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>$titlecatalog] category=$category subcategory=$subcategory record=$titlecatalog}}
-    <title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$titlecatalog] category=$category subcategory=$subcategory record=$titlecatalog}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>$name_product] category=$category subcategory=$subcategory record=$name_product}}
+    <title>{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$name_product] category=$name_cat subcategory=$name_subcat record=$name_product}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="product">
@@ -10,23 +10,27 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-                <h1>{$titlecatalog}</h1>
+                <h1>{$name_product}</h1>
                 <div id="product-info" class="span3 well pull-right">
-                    {$imgcatalog}
+                    {if $imgPath_product != null}
+                        <img src="{$imgcatalog}" alt="{$name_product}" />
+                    {else}
+                        <img src="/skin/{template}/img/catalog/product-default.png" alt="{$name_product}" />
+                    {/if}
                     <p>
-                    {if $price != 0}
-                        <span class="price">{$price} € TTC</span>
+                    {if $price_product != 0}
+                        <span class="price">{$price_product} € TTC</span>
                     {/if}
                     </p>
                     <form action="{geturl}/{getlang}/magixmod/contact/" method="post">
-                        <p class="lead">Intéressé par {$titlecatalog} ?</p>
+                        <p class="lead">Intéressé par {$name_product} ?</p>
                         <p>
-                            <input type="hidden" name="moreinfo" value="{$titlecatalog}"/>
+                            <input type="hidden" name="moreinfo" value="{$name_product}"/>
                             <input id="more-info" type="submit" class="btn btn-primary" value="{#contact_form#|firststring}" />
                         </p>
                     </form>
                 </div>
-                {$desccatalog}
+                {$content_product}
                 <div id="product-galery">
                     <p class="title">{#gallery#|firststring}</p>
                     {widget_catalog_microgalery

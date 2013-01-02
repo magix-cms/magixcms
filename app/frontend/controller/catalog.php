@@ -83,28 +83,24 @@ class frontend_controller_catalog extends frontend_db_catalog{
 		/**
 		 * Charge L'image d'une fiche catalogue si elle existe sinon retourne une image fictive
 		 */
-		$imgc = '<div class="img-product">';
-		if($products['imgcatalog'] != null){
-			$imgc .= '<a class="imagebox" href="/upload/catalogimg/product/'.$products['imgcatalog'].'" title="'.$products['titlecatalog'].'"><img src="/upload/catalogimg/medium/'.$products['imgcatalog'].'" alt="'.$products['titlecatalog'].'" /></a>';
-		}else{
-			$imgc .= '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog'.magixcjquery_html_helpersHtml::unixSeparator().'no-picture.png'.'" alt="'.$products['titlecatalog'].'" />';
-		}
-		$imgc .= '</div>';
+        $imgPath = null;
+		if($products['imgcatalog'] != null)
+            $imgPath = '/upload/catalogimg/medium/'.$products['imgcatalog'];
 		$uri = magixglobal_model_rewrite::filter_catalog_product_url($products['iso'], $products['pathclibelle'], $products['idclc'],$products['pathslibelle'], $products['idcls'], $products['urlcatalog'], $products['idproduct'],true);
-		frontend_model_template::assign('idcatalog',$products['idcatalog']);
-		frontend_model_template::assign('idproduct',$products['idproduct']);
+		frontend_model_template::assign('id_catalog',$products['idcatalog']);
+		frontend_model_template::assign('id_product',$products['idproduct']);
 		frontend_model_template::assign('date_catalog',$products['date_catalog']);
-		frontend_model_template::assign('titlecatalog',$products['titlecatalog']);
+		frontend_model_template::assign('name_product',$products['titlecatalog']);
 		frontend_model_template::assign('name_cat',$products['clibelle']);
 		frontend_model_template::assign('name_subcat',$products['slibelle']);
-		frontend_model_template::assign('price',$products['price']);
-		frontend_model_template::assign('imgcatalog',$imgc);
-		frontend_model_template::assign('desccatalog',$products['desccatalog']);
-		frontend_model_template::assign('urlcatalog',$uri);
+		frontend_model_template::assign('price_product',$products['price']);
+		frontend_model_template::assign('imgPath_product',$imgPath);
+		frontend_model_template::assign('content_product',$products['desccatalog']);
+		frontend_model_template::assign('url_product',$uri);
 		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($products['iso'], $products['pathclibelle'],$products['idclc'],true);			
 		$uri_subcat = magixglobal_model_rewrite::filter_catalog_subcategory_url($products['iso'], $products['pathclibelle'],$products['idclc'],$products['pathslibelle'],$products['idcls'],true);	
-		frontend_model_template::assign('uri_cat',$uri_cat);
-		frontend_model_template::assign('uri_subcat',$uri_subcat);
+		frontend_model_template::assign('url_cat',$uri_cat);
+		frontend_model_template::assign('url_subcat',$uri_subcat);
 	}
 	/**
 	 * Affiche la page des categories du catalogue
@@ -113,7 +109,7 @@ class frontend_controller_catalog extends frontend_db_catalog{
 	private function load_data_category(){
 		$catname = parent::s_current_name_category($this->idclc);
 		frontend_model_template::assign('name_cat',magixcjquery_string_convert::ucFirst($catname['clibelle']));
-		frontend_model_template::assign('c_content',$catname['c_content']);
+		frontend_model_template::assign('content_cat',$catname['c_content']);
 	}
 	/**
 	 * Affiche la page des sous categories du catalogue
@@ -123,9 +119,9 @@ class frontend_controller_catalog extends frontend_db_catalog{
 		$subcatname = parent::s_current_name_subcategory($this->idcls);
 		frontend_model_template::assign('name_cat',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
 		frontend_model_template::assign('name_subcat',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
-		frontend_model_template::assign('s_content',$subcatname['s_content']);
+		frontend_model_template::assign('content_subcat',$subcatname['s_content']);
 		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(), $subcatname['pathclibelle'],$subcatname['idclc'],true);			
-		frontend_model_template::assign('uri_cat',$uri_cat);
+		frontend_model_template::assign('url_cat',$uri_cat);
 	}
 	/**
 	 * 

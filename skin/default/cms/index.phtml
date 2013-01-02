@@ -1,6 +1,6 @@
 {include file="section/head.phtml" section="prepend"}
-{headmeta meta="description" content="{cms_seo config_param=['seo'=>$seo_desc_page,'default'=>$title_page]}"}
-<title>{cms_seo config_param=['seo'=>$seo_title_page,'default'=>$title_page]}</title>
+{headmeta meta="description" content="{cms_seo config_param=['seo'=>$seoDescr_page,'default'=>$name_page]}"}
+<title>{cms_seo config_param=['seo'=>$seoTitle_page,'default'=>$name_page]}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="cms">
@@ -10,7 +10,15 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-                <h1>{$title_page}</h1>
+                <h1>{$name_page}</h1>
+                <p>
+                    <small>
+                        Publié le {$dateRegister_page}
+                        {if $dateUpdate_page}
+                        , mis à jour le {$dateUpdate_page}
+                        {/if}
+                    </small>
+                </p>
                 {$content_page}
                 {widget_cms_display
                     dataSelect= [

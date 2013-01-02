@@ -121,15 +121,15 @@ class frontend_controller_cms extends frontend_db_cms{
 				true
 			);
 		}
-		frontend_model_template::assign('uri_page',$uri_page);
-		frontend_model_template::assign('title_page_p',$title_page_p);
-		frontend_model_template::assign('uri_page_p',$uri_page_p);
-		frontend_model_template::assign('last_update',$cms['last_update']);
-		frontend_model_template::assign('date_register',$cms['date_register']);
-		frontend_model_template::assign('title_page',magixcjquery_string_convert::ucFirst($cms['title_page']));
+		frontend_model_template::assign('url_page',$uri_page);
+		frontend_model_template::assign('name_page_p',$title_page_p);
+		frontend_model_template::assign('url_page_p',$uri_page_p);
+		frontend_model_template::assign('dateUpdate_page',$cms['last_update']);
+		frontend_model_template::assign('dateRegister_page',$cms['date_register']);
+		frontend_model_template::assign('name_page',magixcjquery_string_convert::ucFirst($cms['title_page']));
 		frontend_model_template::assign('content_page',$cms['content_page']);
-		frontend_model_template::assign('seo_title_page',$cms['seo_title_page']);
-		frontend_model_template::assign('seo_desc_page',$cms['seo_desc_page']);
+		frontend_model_template::assign('seoTitle_page',$cms['seo_title_page']);
+		frontend_model_template::assign('seoDescr_page',$cms['seo_desc_page']);
 	}
 	/**
 	 * 
