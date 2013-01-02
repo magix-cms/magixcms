@@ -1,4 +1,22 @@
 #### 2.4.0
+alpha 6
+    * Ajout des langues dynamique dans la configuration (backend)
+    * Mise en place d'un menu horizontal (backend) à définir
+    * Fix Issue #8 - Nommage des variables catalogue
+        Issues #8 :
+        https://github.com/gtraxx/magixcms/issues/8
+        * revision du nommage des variable smarty dans la partie catalog
+        * clibelle & category => name_cat
+        * slibelle & subcategory => name_subcat
+    * Modification de la sidebar admin + message login
+    * Ajout d'une nouvelle page de login
+    * Modification du système de configuration
+    * Déplacement du plugin filemanager en dehors de l'architecture de tinymce pour permettre l'ajout du filemanager officiel
+    * Suppression du système model member
+    * Déplacement des functions de formatage et de configuration des listes des class controller au class model
+    * widget_news_display: déplacement de la function s_tag_al (SQL query) vers la class fontend_db_news
+    * Création des modèles de classe pour cms, catalog et news
+
 alpha 5
     * Ajout du fichier SQL de mise à jour vers la 2.4.0
     * Ajout de la nouvelle base de données avec les adaptations
