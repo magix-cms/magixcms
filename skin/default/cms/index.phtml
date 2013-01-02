@@ -12,6 +12,12 @@
             <div id="article-inner" class="span8">
                 <h1>{$title_page}</h1>
                 {$content_page}
+                {widget_cms_display
+                    dataSelect= [
+                        'select' => 'current',
+                        'level' => 'child'
+                    ]
+                }
             </div>
         </div>
         <div class="clear">&nbsp;</div>

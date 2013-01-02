@@ -138,6 +138,7 @@ function smarty_function_widget_cms_nav($params, $template){
      *
      */
 
+
     if($data != null){
             // ***HTML attributs var
         if ($params['htmlAttribut']){

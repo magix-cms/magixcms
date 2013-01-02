@@ -166,6 +166,8 @@ function smarty_function_widget_catalog_display($params, $template) {
                         // ====> désactive le tableaux de sous-données du parent et retourne au niveau de mon parent
                         unset ($row[$deep_minus]['subdata']);
                         unset ($i[$deep]);
+                        // @TODO test if there's no other solution too englobe items with container
+                        $items[$deep] = $strucHtml_item['container']['htmlBefore'].$items[$deep].$strucHtml_item['container']['htmlAfter'];
                         $deep--;
                         $deep_minus = $deep  - 1;
                         $deep_plus = $deep  + 1;
@@ -269,17 +271,17 @@ function smarty_function_widget_catalog_display($params, $template) {
             // *** list format END
 
             // Si $data est vide => arrête la boucle
-            if (empty($data))
+            if (empty($data) AND $row[1] == null)
                 $data_empty = true;
 
         }while($data_empty == false);
 
         // OUTPUT
         // ***********
-        if ($items[$deep] != null) {
+        if ($items[1] != null) {
             $output .= $strucHtml['container']['htmlBefore'];
             $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-            $output .=  $items[$deep];
+            $output .=  $items[1];
             $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
             $output .= $strucHtml['container']['htmlAfter'];
         }else{

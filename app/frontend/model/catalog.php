@@ -211,7 +211,7 @@ class frontend_model_catalog extends frontend_db_catalog {
         $data_sort['limit'] = null;
         $lang =  frontend_model_template::current_Language();
 
-        // default values: display
+        // default values: level
         if ($id_current['subcategory'] != null) {
             $level[1] = 'product';
         }elseif ($id_current['category'] != null){
@@ -271,8 +271,7 @@ class frontend_model_catalog extends frontend_db_catalog {
             }
         }
 
-        // SET SQL DATA
-        // *************
+        // *** Load SQL data
         $data = null;
         if ( $level[1] == 'category' OR $level[1] == 'all' ){
             $data = parent::s_category($lang,$data_sort['id'],$data_sort['type'],$data_sort['limit']);

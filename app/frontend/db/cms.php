@@ -50,7 +50,7 @@ class frontend_db_cms{
      * ################################ Pages ###############################
      */
 	/**
-	 * Affiche les données d'une page CMS
+	 * Collecte les données d'une page CMS
 	 * @param $getidpage
 	 */
 	protected function s_data_current_page($iso,$getidpage){
@@ -64,7 +64,7 @@ class frontend_db_cms{
 		));
 	}
 	/**
-	 * Affiche les données d'une page CMS
+	 * Collecte les données d'une page CMS
 	 * @param $getidpage
 	 */
 	protected function s_data_parent_page($getidpage_p){
@@ -76,4 +76,79 @@ class frontend_db_cms{
 			':getidpage_p'=>$getidpage_p
 		));
 	}
+
+    /**
+     * @access protected
+     * Collecte les pages de premier niveaux (parents)
+     * @param string $lang_iso
+     * @param string/numéric $sort_id
+     * @param string $sort_type
+     * @param numeric $limit
+     * @param numeric $level
+     */
+    protected function s_page($lang_iso,$sort_id=null,$sort_type=null,$limit=null){
+        $where_clause = null;
+        if ($sort_id != null) {
+            $where_clause = 'AND p.idpage';
+            $where_clause .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
+            $where_clause .= $sort_id;
+            $where_clause .= ') ';
+        }
+        $limit_clause = null;
+        if (is_int($limit)){
+            $limit_clause = 'LIMIT '.$limit;
+        }
+        $sql = "SELECT p.idpage,p.title_page,p.uri_page,p.content_page,lang.iso
+    	FROM mc_cms_pages AS p
+    	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
+    	WHERE lang.iso = :lang_iso AND sidebar_page = 1 AND p.idcat_p = 0
+    	  {$where_clause}
+    	ORDER BY p.order_page
+    	  {$limit_clause}";
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':lang_iso' => $lang_iso
+        ));
+    }
+
+    /**
+     * @access protected
+     * Collecte les pages de second niveaux (enfants)
+     * @param string $lang_iso
+     * @param string/numéric $sort_id
+     * @param string $sort_type
+     * @param numeric $limit
+     * @param numeric $level
+     */
+    protected function s_page_child($lang_iso,$sort_id,$sort_type=null,$limit=null){
+        if(isset($sort_id)){
+            $where_clause = 'AND p.idcat_p ';
+            $where_clause .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
+            $where_clause .= $sort_id;
+            $where_clause .= ') ';
+        }else{
+            $where_clause = 'AND p.idcat_p != 0 ';
+        }
+        $limit_clause = null;
+        if (is_int($limit)){
+            $limit_clause = 'LIMIT '.$limit;
+        }
+        // ### Querry
+        $sql = "
+        SELECT p.idpage,p.title_page,p.uri_page,p.content_page,lang.iso,p.idcat_p,page_p.uri_page_p
+    	FROM mc_cms_pages AS p
+        JOIN (
+            SELECT idpage AS idpage_p, uri_page AS uri_page_p
+            FROM mc_cms_pages
+        ) as page_p on (page_p.idpage_p = p.idcat_p)
+    	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
+    	WHERE lang.iso = :lang_iso AND p.sidebar_page = 1
+    	  {$where_clause}
+    	ORDER BY p.order_page
+    	  {$limit_clause}";
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':lang_iso' => $lang_iso
+        ));
+    }
+
+
 }
