@@ -136,6 +136,15 @@ class backend_controller_config extends backend_db_config{
             $create->assign($key['attr_name'],$key['status']);
         }
     }
+    private function load_lang_config(){
+        $data = backend_db_block_lang::s_data_lang();
+        foreach($data as $key){
+            //$create->assign($key['idlang'],$key['iso']);
+            $id[]=$key['idlang'];
+            $iso[]=$key['iso'];
+        }
+        return array_combine($id,$iso);
+    }
 	/**
 	 * @access private
 	 * function load configuration lang
@@ -225,6 +234,7 @@ class backend_controller_config extends backend_db_config{
         self::load_data_config($create);
         $config = parent::s_setting_id('editor');
         $create->assign('manager_setting',$config['setting_value']);
+        $create->assign('array_lang',self::load_lang_config());
 	}
 	/**
 	 * @access public

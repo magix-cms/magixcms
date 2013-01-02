@@ -40,11 +40,13 @@
                     </li>
                     <li class="divider"></li>
                     <li class="nav-header">Langues</li>
+                    {foreach $array_lang as $key => $value nocache}
                     <li>
-                        <a href="/{baseadmin}/cms.php?getlang=1">
-                            <img src="/{baseadmin}/template/img/flags/fr.png" />
+                        <a href="/{baseadmin}/cms.php?getlang={$key}">
+                            <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
                         </a>
                     </li>
+                    {/foreach}
                 </ul>
             </li>
         {* -- END PAGES -- *}
