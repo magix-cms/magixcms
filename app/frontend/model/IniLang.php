@@ -137,5 +137,30 @@ class frontend_model_IniLang{
 		$this->setTimeLocal();
 		$this->loadGlobalLang();
 	}
+    /**
+     * Construction du tableau contenant la structure html
+     * @params array $default
+     * @params array $custom
+     */
+    public function set_html_struct($default,$custom){
+        // *** Merge default and custom structure
+        if (is_array($custom)){
+            $default['display'] = array();
+            foreach($custom AS $k => $v){
+                foreach($v AS $sk => $sv){
+                    if ($sv != null){
+                        $default[$k][$sk] = $sv;
+                    }
+                }
+                if (array_search($k,$default['allow']))
+                    $default['display'][1][] = $k;
+            }
+        }
+        // *** push null value on case[0] (allow array search on format function)
+        foreach($default['display'] AS $k => $v){
+            array_unshift($default['display'][$k],null);
+        }
+        return $default;
+    }
 }
 ?>
