@@ -1,4 +1,3 @@
-<?php
 /*
  # -- BEGIN LICENSE BLOCK ----------------------------------
  #
@@ -33,37 +32,38 @@
  # needs please refer to http://www.magix-cms.com for more information.
  */
 /**
- * MAGIX CMS
- * @category   admin
- * @package    Exec Files
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, magix-cms.com http://www.magix-cjquery.com
- * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.2
- * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name home
- *
+ * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
+ * Copyright: MAGIX CMS
+ * Date: 2/01/13
+ * Time: 23:53
+ * License: Dual licensed under the MIT or GPL Version
  */
-/**
- * Charge toutes les Classes de l'application
- */
-$baseadmin = 'baseadmin.php';
-if(file_exists($baseadmin)){
-    require $baseadmin;
-    if(!defined('PATHADMIN')){
-        throw new Exception('PATHADMIN is not defined');
+var MC_tpl = (function ($, undefined) {
+    //Fonction Private
+    function update(){
+        $("#theming").on("click",'.skin-tpl', function(event){
+            event.preventDefault();
+            var skin = $(this).data("skin");
+            if(skin != null){
+                $.nicenotify({
+                    ntype: "ajax",
+                    uri: '/admin/templates.php?action=edit',
+                    typesend: 'post',
+                    noticedata:{theme:skin},
+                    successParams:function(j){
+                        $.nicenotify.initbox(j,{
+                            display:false
+                        });
+                    }
+                });
+                return false;
+            }
+        });
     }
-}
-require('../lib/mcbackend.php');
-/**
- * Autoload Frontend
- */
-$members = new backend_controller_admin();
-$members->securePage();
-$members->closeSession();
-if(magixcjquery_filter_request::isSession('useradmin')){
-	backend_controller_config::load_attribute_config();
-	$tpl = new backend_controller_templates();
-	$tpl->run();
-}
-?>
+    return {
+        //Fonction Public        
+        run:function () {
+            update();
+        }
+    };
+})(jQuery);

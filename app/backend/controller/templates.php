@@ -59,9 +59,12 @@ class backend_controller_templates{
 	 * function construct
 	 */
 	function __construct(){
-		if(isset($_POST['theme'])){
-			$this->ptheme = magixcjquery_filter_isVar::isPostAlphaNumeric($_POST['theme']);
-		}
+        if(magixcjquery_filter_request::isPost('theme')){
+            $this->ptheme = magixcjquery_form_helpersforms::inputClean($_POST['theme']);
+        }
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 	}
 	/**
 	 * @access private
@@ -74,15 +77,6 @@ class backend_controller_templates{
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
-	/**
-	 * @access private
-	 * @see backend_model_template
-	 * Theme selectionné dans la base de donnée
-	 */
-	private function tpl_identifier(){
-		return backend_model_template::backendTheme()->themeSelected();
-	}
-	private function register_template(){}
 	/**
 	 * @access private
 	 * Scanne le dossier skin (public) et retourne les images ou capture des thèmes
@@ -101,38 +95,46 @@ class backend_controller_templates{
 		if(!is_array($dir)){
 			throw new exception('skin is not array');
 		}
-		$dossier = null;
+        $template = null;
 		foreach($dir as $d){
-			if($d == self::tpl_identifier()){
-				$selected = ' ui-state-highlight';
+			if($d == backend_model_template::backendTheme()->themeSelected()){
+				$btn_class = ' btn-primary';
+                $btn_title = 'Sélectionner';
 			}else{
-				$selected = ' ui-state-disabled';
 				$ctpl = '';
+                $btn_class = '';
+                $btn_title = 'Choisir';
 			}
 			$themePath = self::directory_skin().$d;
 			if($makefiles->scanDir($themePath) != null){
-				if(file_exists($themePath.'/screenshot.png')){
+				/*if(file_exists($themePath.'/screenshot.png')){
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
-					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'./*'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a>*/'</div>';
+					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'.'</div>';
 					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img width="150" height="125" src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/'.$d.'/screenshot.png" alt="" /></a></div>';
 					$dossier .= '</div>';
 				}else{
 					$dossier .= '<div class="list-screen ui-widget-content ui-corner-all'.$selected.'">';
-					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'./*'<a href="#" class="template-edit">Edit template</a><a href="#" class="template-delete">Delete template</a>*/'</div>';
+					$dossier .= '<div class="title-skin ui-widget-header ui-corner-all"><div class="skin-name">'.$d.'</div>'.'</div>';
 					$dossier .= '<div class="img-screen">'.'<a title="'.$d.'" href="#"><img width="150" height="130" src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png" alt="" /></a></div>';
 					$dossier .= '</div>';
-				}
+				}*/
+                if(file_exists($themePath.'/screenshot.png')){
+                    $img = magixcjquery_html_helpersHtml::getUrl().'/skin/'.$d.'/screenshot.png';
+                }else{
+                    $img = magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png';
+                }
+                $template .= '<li class="span3">';
+                    $template .= '<div class="thumbnail">';
+                        $template .= '<img src="'.$img.'" data-src="holder.js/260x180" alt="'.$btn_title.'">';
+                        $template .= '<div class="caption">';
+                        $template .= '<h3>'.$d.'</h3>';
+                        $template .= '<p><a data-skin="'.$d.'" class="skin-tpl btn btn-large btn-block'.$btn_class.'" href="#">'.$btn_title.'</a></p>';
+                        $template .= '</div>';
+                    $template .= '</div>';
+                $template .= '</li>';
 			}
 		}
-		$dossier .= '<div class="clearleft"></div>';
-		return $dossier;
-	}
-	/**
-	 * @access private
-	 * Assigne une variable pour les themes
-	 */
-	private function assign_screen(){
-		return backend_config_smarty::getInstance()->assign('themes',self::scanTemplateDir());
+		return $template;
 	}
 	/**
 	 * @access private
@@ -147,25 +149,20 @@ class backend_controller_templates{
 	 */
 	private function send_post_template(){
 		self::change_tpl();
-		backend_config_smarty::getInstance()->display('request/success-templates.phtml');
+		backend_controller_template::display('request/success-templates.phtml');
 	}
-	/**
-	 * @access private
-	 * Affiche la page pour la sélection ou le changement de template
-	 */
-	private function view_tpl_screen(){
-		self::assign_screen();
-		backend_config_smarty::getInstance()->display('templates/index.phtml');
-	}
+
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
 	 */
 	public function run(){
+        $create = new backend_controller_template();
 		if(magixcjquery_filter_request::isGet('post')){
 			self::send_post_template();
 		}else{
-			self::view_tpl_screen();
+            $create->assign('themes',self::scanTemplateDir());
+            $create->display('tpl/index.phtml');
 		}
 	}
 }
