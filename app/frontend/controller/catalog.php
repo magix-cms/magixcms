@@ -110,8 +110,8 @@ class frontend_controller_catalog extends frontend_db_catalog{
 		$catname = parent::s_current_name_category($this->idclc);
         $filter_img = new magixglobal_model_imagepath;
         $imgPath = null;
-        if ($catname['img_s'] != null)
-            $imgPath = $filter_img->filterPathImg(array('filtermod'=>'catalog','img'=>$catname['img_s'],'levelmod'=>'subcategory'));
+        if ($catname['img_c'] != null)
+            $imgPath = $filter_img->filterPathImg(array('filtermod'=>'catalog','img'=>$catname['img_c'],'levelmod'=>'category'));
         frontend_model_template::assign('name_cat',magixcjquery_string_convert::ucFirst($catname['clibelle']));
 		frontend_model_template::assign('content_cat',$catname['c_content']);
         frontend_model_template::assign('imgPath_cat',$imgPath);
