@@ -9,12 +9,11 @@
         <div class="span9">
             <div class="row-fluid">
                 <div class="span12">
-                    {include file="tpl/section/nav.phtml"}
+                    {*{include file="theming/section/nav.phtml"}*}
                     <h1>Gestion des thémes</h1>
+                    <div class="mc-message clearfix"></div>
                     <div id="theming">
-                        <ul class="thumbnails">
-                            {$themes}
-                        </ul>
+                        {include file="theming/req.phtml"}
                     </div>
                 </div>
             </div>
@@ -23,6 +22,6 @@
 </div>
 {include file="section/footer.phtml"}
 {include file="section/js.phtml"}
-{include file="tpl/section/js.phtml"}
+{include file="theming/section/js.phtml"}
 </body>
 </html>

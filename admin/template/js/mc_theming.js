@@ -38,8 +38,40 @@
  * Time: 23:53
  * License: Dual licensed under the MIT or GPL Version
  */
-var MC_tpl = (function ($, undefined) {
+var MC_theming = (function ($, undefined) {
     //Fonction Private
+    /**
+     * Rafraichissement de la liste des templates
+     */
+    function refresh(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/theming.php?action=list&ajax_tpl=true',
+            typesend: 'get',
+            datatype: 'html',
+            beforeParams:function(){
+                $('#theming').empty();
+                var loader = $(document.createElement("span")).addClass("loader").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                loader.appendTo('#theming');
+            },
+            successParams:function(data){
+                $.nicenotify.initbox(data,{
+                    display:false
+                });
+                $('.loader').remove();
+                $('#theming').html(data);
+            }
+        });
+    }
+
+    /**
+     * changement de template
+     */
     function update(){
         $("#theming").on("click",'.skin-tpl', function(event){
             event.preventDefault();
@@ -47,13 +79,14 @@ var MC_tpl = (function ($, undefined) {
             if(skin != null){
                 $.nicenotify({
                     ntype: "ajax",
-                    uri: '/admin/templates.php?action=edit',
+                    uri: '/admin/theming.php?action=edit',
                     typesend: 'post',
                     noticedata:{theme:skin},
                     successParams:function(j){
                         $.nicenotify.initbox(j,{
-                            display:false
+                            display:true
                         });
+                        refresh();
                     }
                 });
                 return false;

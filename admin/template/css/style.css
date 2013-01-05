@@ -43,8 +43,8 @@ h3 {
     margin: 0;
     padding: 10px 25px 10px;
 }
-.input-btn{
-    margin-top:15px;
+#forms-log .input-prepend{
+    margin-bottom:15px;
 }
 /*
 * ==== FOOTER
@@ -107,4 +107,10 @@ tbody.ui-sortable > .ui-sortable-helper{
     font-size: 28.5px;
     padding-bottom: 6px;
     font-weight: lighter;
+}
+/**
+* =====    Thumbails
+**/
+#theming .thumbnail img{
+    margin-top:5px;
 }
