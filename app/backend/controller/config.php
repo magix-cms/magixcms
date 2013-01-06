@@ -65,16 +65,23 @@ class backend_controller_config extends backend_db_config{
 	 * @var string
 	 */
 	public $catalog;
+    /**
+     *
+     * Configure l'éditeur HTML
+     * @var string
+     */
+    public $manager_setting;
 	/**
 	 * @access public
 	 * @var string
 	 */
 	public $metasrewrite,$plugins;
-    public $action;
+    public $action,$tab;
 	/**
 	 * function construct
 	 */
 	function __construct(){
+        //Config
 		if(magixcjquery_filter_request::isPost('lang')){
 			$this->lang = magixcjquery_filter_isVar::isPostNumeric($_POST['lang']);
 		}
@@ -95,6 +102,13 @@ class backend_controller_config extends backend_db_config{
 		}
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('tab')){
+            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
+        //manager setting
+        if(magixcjquery_filter_request::isPost('manager_setting')){
+            $this->manager_setting = magixcjquery_form_helpersforms::inputClean($_POST['manager_setting']);
         }
 	}
 
@@ -170,7 +184,7 @@ class backend_controller_config extends backend_db_config{
     /**
      * @access private
      */
-    private function update(){
+    private function update_config(){
         if(isset($this->lang)){
             parent::u_config_states($this->lang,'lang');
         }
@@ -201,6 +215,39 @@ class backend_controller_config extends backend_db_config{
         $create->assign('manager_setting',$config['setting_value']);
         $create->assign('array_lang',self::load_lang_config());
 	}
+
+    /**
+     * Chargement du manager d'images et de fichiers pour tinyMCE
+     * @param $create
+     */
+    private function load_editor_data($create){
+        $config = parent::s_setting_id('editor');
+        $array_manager = array(
+            "openFilemanager"=>"openFilemanager(intégré)",
+            "imagemanager"=>"imagemanager(payant)",
+            "filemanager"=>"filemanager(payant)"
+        );
+        //$create->assign('array_manager',$array_manager);
+        $select = backend_model_forms::select_static_row(
+            $array_manager,
+            array(
+                'attr_name'=>'manager_setting',
+                'attr_id'=>'manager_setting',
+                'class'=>'',
+                'attr_multiple'=>false,
+                'default_value'=>$config['setting_value'],
+                'empty_value'=>'Selectionner le manager',
+                'upper_case'=>false
+            )
+        );
+        backend_controller_template::assign('select_manager',$select);
+    }
+    private function update_manager_setting($create){
+        if(isset($this->manager_setting)){
+            parent::u_setting_value('editor',$this->manager_setting);
+            $create->display('config/request/success_update.phtml');
+        }
+    }
 	/**
 	 * @access public
 	 * 
@@ -209,14 +256,25 @@ class backend_controller_config extends backend_db_config{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
-        if(isset($this->action)){
-            if($this->action == 'edit'){
-                $this->update();
-                $create->display('config/request/success_update.phtml');
+        if(isset($this->tab)){
+            if(isset($this->action)){
+                if($this->action == 'edit'){
+                    $this->update_manager_setting($create);
+                }
+            }else{
+                $this->load_editor_data($create);
+                $create->display('config/editor.phtml');
             }
         }else{
-            $create->assign('array_radio_config',$this->load_data_config($create));
-            $create->display('config/index.phtml');
+            if(isset($this->action)){
+                if($this->action == 'edit'){
+                    $this->update_config();
+                    $create->display('config/request/success_update.phtml');
+                }
+            }else{
+                $create->assign('array_radio_config',$this->load_data_config($create));
+                $create->display('config/index.phtml');
+            }
         }
 	}
 }

@@ -114,4 +114,19 @@ class backend_db_config{
 			':max_record'	=>	$max_record
 		));
 	}
+    /**
+     * Mise à jour du setting selectionner
+     * @param $setting_id
+     * @param $setting_value
+     */
+    protected function u_setting_value($setting_id,$setting_value){
+        $sql = 'UPDATE mc_setting SET setting_value = :setting_value
+    	WHERE setting_id = :setting_id';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':setting_id'	=>	$setting_id,
+                ':setting_value'=>	$setting_value
+            )
+        );
+    }
 }

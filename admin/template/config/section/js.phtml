@@ -5,7 +5,13 @@ $(function(){
     {
         console.log("MC_config is not defined");
     }else{
-        MC_config.run();
+        {if $smarty.get.tab}
+            {if $smarty.get.tab eq 'editor'}
+            MC_config.runEditor();
+            {/if}
+        {else}
+            MC_config.runConfig();
+        {/if}
     }
 });
 </script>

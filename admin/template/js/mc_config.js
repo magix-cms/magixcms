@@ -40,7 +40,7 @@
  */
 var MC_config = (function ($, undefined) {
     //Fonction Private
-    function update(){
+    function updateConfig(){
         $('#forms_config_edit').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
@@ -56,10 +56,40 @@ var MC_config = (function ($, undefined) {
             return false;
         })
     }
+    function updateManager(){
+        var formsUpdate = $('#forms_editor_edit').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                manager_setting: {
+                    required: true
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/config.php?tab=editor&action=edit',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_editor_edit').formsUpdate;
+    }
     return {
         //Fonction Public        
-        run:function () {
-            update();
+        runConfig:function () {
+            updateConfig();
+        },
+        runEditor:function () {
+            updateManager();
         }
     };
 })(jQuery);
