@@ -266,12 +266,22 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
+
+    /**
+     * @param $type
+     * @return mixed
+     */
     private function img_size_type($type){
         //Tableau des variables à rechercher
         $search = array('small','medium','large');
         $replace = array('Mini','Moyen','Grand');
         return str_replace($search ,$replace,$type);
     }
+
+    /**
+     * @param $attr_name
+     * @return array
+     */
     private function load_img_forms($attr_name){
         $tab_img = array();
         $tab_img[] = array();
@@ -289,6 +299,11 @@ class backend_controller_config extends backend_db_config{
         }
         return $tab_img;
     }
+
+    /**
+     * Mise à jour de la configuration de taille des images
+     * @param $create
+     */
     private function update_imagesize($create){
         if(isset($this->id_size_img)){
             parent::u_size_img_config(
