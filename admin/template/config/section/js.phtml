@@ -6,9 +6,11 @@ $(function(){
         console.log("MC_config is not defined");
     }else{
         {if $smarty.get.tab}
-            {if $smarty.get.tab eq 'editor'}
+        {if $smarty.get.tab eq 'editor'}
             MC_config.runEditor();
-            {/if}
+        {elseif $smarty.get.tab eq 'imagesize'}
+            MC_config.runImages();
+        {/if}
         {else}
             MC_config.runConfig();
         {/if}

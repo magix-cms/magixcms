@@ -66,27 +66,6 @@ class backend_db_config{
         $sql = 'SELECT * FROM mc_config';
         return magixglobal_model_db::layerDB()->select($sql);
     }
-
-    /**
-     * @return array
-     */
-    protected function s_data_setting(){
-        $sql = 'SELECT * FROM mc_setting';
-        return magixglobal_model_db::layerDB()->select($sql);
-    }
-
-    /**
-     * @param $setting_id
-     * @return array
-     */
-    protected function s_setting_id($setting_id){
-        $sql = 'SELECT setting_label,setting_value
-    	FROM mc_setting WHERE setting_id = :setting_id';
-        return magixglobal_model_db::layerDB()->selectOne($sql,array(
-            ':setting_id'	=>	$setting_id
-        ));
-    }
-
     /**
      * mise à jour d'un status global suivant un nom de variable dans la table global_config
      * @param $status
@@ -114,6 +93,26 @@ class backend_db_config{
 			':max_record'	=>	$max_record
 		));
 	}
+    //SETTING
+    /**
+     * @return array
+     */
+    protected function s_data_setting(){
+        $sql = 'SELECT * FROM mc_setting';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+
+    /**
+     * @param $setting_id
+     * @return array
+     */
+    protected function s_setting_id($setting_id){
+        $sql = 'SELECT setting_label,setting_value
+    	FROM mc_setting WHERE setting_id = :setting_id';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':setting_id'	=>	$setting_id
+        ));
+    }
     /**
      * Mise à jour du setting selectionner
      * @param $setting_id
@@ -128,5 +127,101 @@ class backend_db_config{
                 ':setting_value'=>	$setting_value
             )
         );
+    }
+
+    /**
+     * Mise à jour du setting selectionner
+     * @param $setting_id
+     * @param $setting_label
+     */
+    protected function u_setting_label($setting_id,$setting_label){
+        $sql = 'UPDATE mc_setting SET setting_label = :setting_label WHERE setting_id = :setting_id';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':setting_id'	=>	$setting_id,
+                ':setting_label'=>	$setting_label
+            ));
+    }
+    //IMAGES
+    /**
+     * @access protected
+     * Charge la configuration de la taille des images suivant sont attribut
+     * @param string $attr_name
+     * @return array
+     */
+    protected function s_attribute_img_size_config($attr_name){
+        $sql = 'SELECT ci.*,c.attr_name
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name
+    	ORDER BY id_size_img,config_size_attr ASC';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':attr_name'=>$attr_name
+        ));
+    }
+
+    /**
+     * @param $attr_name
+     * @param $config_size_attr
+     * @return array
+     */
+    protected function s_load_img_size($attr_name,$config_size_attr){
+        $sql = 'SELECT ci.*,c.attr_name
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':attr_name'=>$attr_name,
+            ':config_size_attr'=>$config_size_attr
+        ));
+    }
+
+    /**
+     * @param $attr_name
+     * @param $config_size_attr
+     * @param $type
+     * @return array
+     */
+    protected function s_uniq_img_size($attr_name,$config_size_attr,$type){
+        $sql = 'SELECT ci.*,c.attr_name
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr AND type = :type';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':attr_name'=>$attr_name,
+            ':config_size_attr'=>$config_size_attr,
+            ':type'=>$type
+        ));
+    }
+
+    /**
+     * @return array
+     */
+    protected function s_config_img_size(){
+        $sql = 'SELECT ci.*,c.attr_name
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+
+    /**
+     * @access protected
+     * Mise à jour des tailles d'image
+     * @param $width
+     * @param $height
+     * @param $img_resizing
+     * @param $id_size_img
+     */
+    protected function u_size_img_config($width,$height,$img_resizing,$id_size_img){
+        $sql = 'UPDATE mc_config_size_img
+		SET width = :width,height = :height,img_resizing = :img_resizing
+		WHERE id_size_img = :id_size_img';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':width'  =>	$width,
+                ':height'  =>	$height,
+                ':img_resizing'  =>	$img_resizing,
+                ':id_size_img' =>	$id_size_img
+            ));
     }
 }

@@ -83,6 +83,17 @@ var MC_config = (function ($, undefined) {
         });
         $('#forms_editor_edit').formsUpdate;
     }
+    function updateImage(formsId){
+        $('#'+formsId).on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/admin/config.php?tab=imagesize&action=edit',
+                typesend: 'post',
+                idforms: $(this)
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public        
         runConfig:function () {
@@ -90,6 +101,15 @@ var MC_config = (function ($, undefined) {
         },
         runEditor:function () {
             updateManager();
+        },
+        runImages:function () {
+            $('.spincount').spinner({
+                min: 50
+            });
+            $(".forms-config").each(function(){
+                var formsId = $(this).attr('id');
+                updateImage(formsId);
+            });
         }
     };
 })(jQuery);

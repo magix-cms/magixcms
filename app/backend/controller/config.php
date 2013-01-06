@@ -77,6 +77,7 @@ class backend_controller_config extends backend_db_config{
 	 */
 	public $metasrewrite,$plugins;
     public $action,$tab;
+    public $id_size_img,$config_size_attr,$width,$height,$img_resizing;
 	/**
 	 * function construct
 	 */
@@ -109,6 +110,16 @@ class backend_controller_config extends backend_db_config{
         //manager setting
         if(magixcjquery_filter_request::isPost('manager_setting')){
             $this->manager_setting = magixcjquery_form_helpersforms::inputClean($_POST['manager_setting']);
+        }
+        if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
+            $this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
+            $this->height = magixcjquery_filter_isVar::isPostNumeric($_POST['height']);
+        }
+        if(magixcjquery_filter_request::isPost('img_resizing')){
+            $this->img_resizing = magixcjquery_form_helpersforms::inputClean($_POST['img_resizing']);
+        }
+        if(magixcjquery_filter_request::isPost('id_size_img')){
+            $this->id_size_img = magixcjquery_filter_isVar::isPostNumeric($_POST['id_size_img']);
         }
 	}
 
@@ -242,7 +253,7 @@ class backend_controller_config extends backend_db_config{
                 'upper_case'=>false
             )
         );
-        backend_controller_template::assign('select_manager',$select);
+        $create->assign('select_manager',$select);
     }
 
     /**
@@ -255,6 +266,40 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
+    private function img_size_type($type){
+        //Tableau des variables à rechercher
+        $search = array('small','medium','large');
+        $replace = array('Mini','Moyen','Grand');
+        return str_replace($search ,$replace,$type);
+    }
+    private function load_img_forms($attr_name){
+        $tab_img = array();
+        $tab_img[] = array();
+        $i = 0;
+        foreach(parent::s_attribute_img_size_config($attr_name) as $row){
+            $tab_img[$i]['id_size_img'] = $row['id_size_img'];
+            $tab_img[$i]['attr_name'] = $row['attr_name'];
+            $tab_img[$i]['config_size_attr'] = $row['config_size_attr'];
+            $tab_img[$i]['type'] = $row['type'];
+            $tab_img[$i]['width'] = $row['width'];
+            $tab_img[$i]['height'] = $row['height'];
+            $tab_img[$i]['img_resizing'] = $row['img_resizing'];
+            $tab_img[$i]['img_size_type'] = $this->img_size_type($row['type']);
+            $i++;
+        }
+        return $tab_img;
+    }
+    private function update_imagesize($create){
+        if(isset($this->id_size_img)){
+            parent::u_size_img_config(
+                $this->width,
+                $this->height,
+                $this->img_resizing,
+                $this->id_size_img
+            );
+            $create->display('config/request/success_update.phtml');
+        }
+    }
 	/**
 	 * @access public
 	 * 
@@ -264,13 +309,25 @@ class backend_controller_config extends backend_db_config{
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
         if(isset($this->tab)){
-            if(isset($this->action)){
-                if($this->action == 'edit'){
-                    $this->update_manager_setting($create);
+            if($this->tab == 'editor'){
+                if(isset($this->action)){
+                    if($this->action == 'edit'){
+                        $this->update_manager_setting($create);
+                    }
+                }else{
+                    $this->load_editor_data($create);
+                    $create->display('config/editor.phtml');
                 }
-            }else{
-                $this->load_editor_data($create);
-                $create->display('config/editor.phtml');
+            }elseif($this->tab == 'imagesize'){
+                if(isset($this->action)){
+                    if($this->action == 'edit'){
+                        $this->update_imagesize($create);
+                    }
+                }else{
+                    $create->assign('imgsize_news',$this->load_img_forms('news'));
+                    $create->assign('imgsize_catalog',$this->load_img_forms('catalog'));
+                    $create->display('config/imagesize.phtml');
+                }
             }
         }else{
             if(isset($this->action)){
