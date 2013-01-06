@@ -58,14 +58,27 @@ class backend_db_config{
 			':attr_name' =>	$attr_name
 		));
     }
+
+    /**
+     * @return array
+     */
     protected function s_data_config(){
         $sql = 'SELECT * FROM mc_config';
         return magixglobal_model_db::layerDB()->select($sql);
     }
+
+    /**
+     * @return array
+     */
     protected function s_data_setting(){
         $sql = 'SELECT * FROM mc_setting';
         return magixglobal_model_db::layerDB()->select($sql);
     }
+
+    /**
+     * @param $setting_id
+     * @return array
+     */
     protected function s_setting_id($setting_id){
         $sql = 'SELECT setting_label,setting_value
     	FROM mc_setting WHERE setting_id = :setting_id';
@@ -73,13 +86,15 @@ class backend_db_config{
             ':setting_id'	=>	$setting_id
         ));
     }
+
     /**
      * mise à jour d'un status global suivant un nom de variable dans la table global_config
      * @param $status
-     * @param $named
+     * @param $attr_name
      */
     protected function u_config_states($status,$attr_name){
-    	$sql = 'UPDATE mc_config SET status = :status WHERE attr_name = :attr_name';
+    	$sql = 'UPDATE mc_config SET status = :status
+    	WHERE attr_name = :attr_name';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':status'  =>	$status,

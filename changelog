@@ -1,5 +1,13 @@
 #### 2.4.0
 alpha 6
+* Modification de la page login
+* Ajout du nouveau screenshot du thème par defaut
+    * Ajout des nouveaux fichiers pour le theming
+    * Ajout du theming + suppression des anciens fichiers
+    * Ajout du widget dans skin/default/widget
+        Issues #24 :
+        * ajout de l'appel dans header.phtml
+        * Ajout de fonction dans frontend/IniLang.php
     * Ajout des langues dynamique dans la configuration (backend)
     * Mise en place d'un menu horizontal (backend) à définir
     * Fix Issue #8 - Nommage des variables catalogue

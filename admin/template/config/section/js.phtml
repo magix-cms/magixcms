@@ -1,0 +1,11 @@
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/mc_config.js" type="javascript"}
+<script type="text/javascript">
+$(function(){
+    if (typeof MC_config == "undefined")
+    {
+        console.log("MC_config is not defined");
+    }else{
+        MC_config.run();
+    }
+});
+</script>

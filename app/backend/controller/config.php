@@ -49,82 +49,89 @@ class backend_controller_config extends backend_db_config{
 	 * @access public
 	 * @var string
 	 */
-	public $configlang;
+	public $lang;
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $configcms;
+	public $cms;
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $confignews;
+	public $news;
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $configcatalog;
+	public $catalog;
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $configforms;
-	/**
-	 * @access public
-	 * @var string
-	 */
-	public $configmicrogalery;
-	/**
-	 * @access public
-	 * @var string
-	 */
-	public $configrmetas;
-	/**
-	 * intéger number for limited configuration
-	 * @var number
-	 */
-	public $max_record;
-	/**
-	 * 
-	 * idconfig
-	 * @var idconfig
-	 */
-	public $idconfig;
+	public $metasrewrite,$plugins;
+    public $action;
 	/**
 	 * function construct
 	 */
 	function __construct(){
-		if(magixcjquery_filter_request::isPost('configlang')){
-			$this->configlang = magixcjquery_filter_isVar::isPostNumeric($_POST['configlang']);
+		if(magixcjquery_filter_request::isPost('lang')){
+			$this->lang = magixcjquery_filter_isVar::isPostNumeric($_POST['lang']);
 		}
-		if(magixcjquery_filter_request::isPost('configcms')){
-			$this->configcms = magixcjquery_filter_isVar::isPostNumeric($_POST['configcms']);
+		if(magixcjquery_filter_request::isPost('cms')){
+			$this->cms = magixcjquery_filter_isVar::isPostNumeric($_POST['cms']);
 		}
-		if(magixcjquery_filter_request::isPost('confignews')){
-			$this->confignews = magixcjquery_filter_isVar::isPostNumeric($_POST['confignews']);
+		if(magixcjquery_filter_request::isPost('news')){
+			$this->news = magixcjquery_filter_isVar::isPostNumeric($_POST['news']);
 		}
-		if(magixcjquery_filter_request::isPost('configcatalog')){
-			$this->configcatalog = magixcjquery_filter_isVar::isPostNumeric($_POST['configcatalog']);
+		if(magixcjquery_filter_request::isPost('catalog')){
+			$this->catalog = magixcjquery_filter_isVar::isPostNumeric($_POST['catalog']);
 		}
-		if(magixcjquery_filter_request::isPost('configforms')){
-			$this->configforms = magixcjquery_filter_isVar::isPostNumeric($_POST['configforms']);
+		if(magixcjquery_filter_request::isPost('metasrewrite')){
+			$this->metasrewrite = magixcjquery_filter_isVar::isPostNumeric($_POST['metasrewrite']);
 		}
-		if(magixcjquery_filter_request::isPost('configmicrogalery')){
-			$this->configmicrogalery = magixcjquery_filter_isVar::isPostNumeric($_POST['configmicrogalery']);
+		if(magixcjquery_filter_request::isPost('plugins')){
+			$this->plugins = magixcjquery_filter_isVar::isPostNumeric($_POST['plugins']);
 		}
-		if(magixcjquery_filter_request::isPost('configrmetas')){
-			$this->configrmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['configrmetas']);
-		}
-		if(magixcjquery_filter_request::isPost('max_record')){
-			$this->max_record = magixcjquery_filter_isVar::isPostNumeric($_POST['max_record']);
-		}
-		if(magixcjquery_filter_request::isPost('idconfig')){
-			$this->idconfig = magixcjquery_filter_isVar::isPostNumeric($_POST['idconfig']);
-		}
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 	}
+
+    /**
+     * @param $create
+     * @return array
+     */
     private function load_data_config($create){
         $data = parent::s_data_config();
+        /*$assign_exclude = array(
+            'lesson_level','lesson_days','lesson_category','lesson_teachers'
+        );*/
+        foreach($data as $key){
+            $id[]=$key['attr_name'];
+            $status[]=$key['status'];
+        }
+        return array_combine($id,$status);
+    }
+
+    /**
+     * @return array
+     */
+    private function load_lang_config(){
+        $data = backend_db_block_lang::s_data_lang();
+        foreach($data as $key){
+            //$create->assign($key['idlang'],$key['iso']);
+            $id[]=$key['idlang'];
+            $iso[]=$key['iso'];
+        }
+        return array_combine($id,$iso);
+    }
+
+    /**
+     * @param $create
+     */
+    private function load_data_setting($create){
+        $data = parent::s_data_setting();
         /*$assign_exclude = array(
             'lesson_level','lesson_days','lesson_category','lesson_teachers'
         );*/
@@ -136,84 +143,20 @@ class backend_controller_config extends backend_db_config{
             $create->assign($key['attr_name'],$key['status']);
         }
     }
-    private function load_lang_config(){
-        $data = backend_db_block_lang::s_data_lang();
-        foreach($data as $key){
-            //$create->assign($key['idlang'],$key['iso']);
-            $id[]=$key['idlang'];
-            $iso[]=$key['iso'];
-        }
-        return array_combine($id,$iso);
-    }
-	/**
-	 * @access private
-	 * function load configuration lang
-	 * @string
-	 */
-	private function load_config_lang(){
-		$config = backend_model_setting::tabs_load_config('lang');
-		//$config = backend_db_config::adminDbConfig()->s_config_named('lang');
-		backend_controller_template::assign('configlang',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function load configuration cms
-	 * @string
-	 */
-	private function load_config_cms(){
-		$config = backend_model_setting::tabs_load_config('cms');
-		backend_controller_template::assign('configcms',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function load configuration news
-	 * @string
-	 */
-	private function load_config_news(){
-		$config = backend_model_setting::tabs_load_config('news');
-		backend_controller_template::assign('confignews',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function load configuration catalog
-	 * @string
-	 */
-	private function load_config_catalog(){
-		$config = backend_model_setting::tabs_load_config('catalog');
-		backend_controller_template::assign('configcatalog',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function load rewrite metas
-	 * @string
-	 */
-	private function load_config_metasrewrite(){
-		$config = backend_model_setting::tabs_load_config('metasrewrite');
-		backend_controller_template::assign('configmetasrewrite',$config['status']);
-	}
-	/**
-	 * @access private
-	 * function admin configuration
-	 * @string
-	 */
-	private function admin_config(){
-		$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
-		backend_controller_template::assign('perms',$perms['perms']);
-	}
 	/**
 	 * @access private
 	 * function load limited_cms_number
 	 * @intégrer
 	 */
-	private function load_limited_cms_number(){
+	/*private function load_limited_cms_number(){
 		$config = backend_model_setting::tabs_load_config('cms');
 		backend_controller_template::assign('idconfigcms',$config['idconfig']);
 		backend_controller_template::assign('max_record',$config['max_record']);
-	}
+	}*/
 	/**
 	 * Charge les données concernant l'éditeur wysiwyg
 	 */
-	private function load_wysiwyg_config_editor(){
+	/*private function load_wysiwyg_config_editor(){
 		if(file_exists(magixglobal_model_system::base_path().'framework/js/tiny_mce/plugins/filemanager/')){
 			$Init_Filemanager = 1;
 		}else{
@@ -223,7 +166,30 @@ class backend_controller_config extends backend_db_config{
 		backend_controller_template::assign('editor',$config['setting_label']);
 		backend_controller_template::assign('tinymce_filemanager',$Init_Filemanager);
 		backend_controller_template::assign('manager_setting',$config['setting_value']);
-	}
+	}*/
+    /**
+     * @access private
+     */
+    private function update(){
+        if(isset($this->lang)){
+            parent::u_config_states($this->lang,'lang');
+        }
+        if(isset($this->cms)){
+            parent::u_config_states($this->cms,'cms');
+        }
+        if(isset($this->news)){
+            parent::u_config_states($this->news,'news');
+        }
+        if(isset($this->catalog)){
+            parent::u_config_states($this->catalog,'catalog');
+        }
+        if(isset($this->metasrewrite)){
+            parent::u_config_states($this->metasrewrite,'metasrewrite');
+        }
+        if(isset($this->plugins)){
+            parent::u_config_states($this->plugins,'plugins');
+        }
+    }
 	/**
 	 * @access public
 	 * @static
@@ -231,7 +197,6 @@ class backend_controller_config extends backend_db_config{
 	 */
 	public static function load_attribute_config(){
         $create = new backend_controller_template();
-        self::load_data_config($create);
         $config = parent::s_setting_id('editor');
         $create->assign('manager_setting',$config['setting_value']);
         $create->assign('array_lang',self::load_lang_config());
@@ -244,25 +209,14 @@ class backend_controller_config extends backend_db_config{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
-		/**
-	 	* update states for configuration
-	 	* @access private
-	 	*/
-		/*if(isset($this->configlang)){
-			parent::u_config_states($this->configlang,'lang');
-		}elseif(isset($this->configcms)){
-			parent::u_config_states($this->configcms,'cms');
-		}elseif(isset($this->confignews)){
-			parent::u_config_states($this->confignews,'news');
-		}elseif(isset($this->configcatalog)){
-			parent::u_config_states($this->configcatalog,'catalog');
-		}elseif(isset($this->configrmetas)){
-			parent::u_config_states($this->configrmetas,'metasrewrite');
-		}elseif(isset($this->max_record)){
-			parent::u_limited_module($this->idconfig,$this->max_record);
-		}else{
-			backend_controller_template::display('config/params.phtml');	
-		}*/
-
+        if(isset($this->action)){
+            if($this->action == 'edit'){
+                $this->update();
+                $create->display('config/request/success_update.phtml');
+            }
+        }else{
+            $create->assign('array_radio_config',$this->load_data_config($create));
+            $create->display('config/index.phtml');
+        }
 	}
 }
