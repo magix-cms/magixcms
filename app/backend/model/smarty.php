@@ -96,7 +96,7 @@ class backend_model_smarty extends Smarty{
 		 */
 		$this->plugins_dir = array(
 			self::setPath().'/lib/smarty3/plugins/'
-			,self::setPath().'/app/extends/core/'
+			,self::setPath().'/app/wdcore/'
 			,self::setPath().'/'.PATHADMIN.'/template/widget/'
 		);
 		/**

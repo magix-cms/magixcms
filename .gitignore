@@ -8,9 +8,9 @@
 /var/caches/minify_*
 /var/templates_c/*
 /var/tpl_admin/*
-/var/pdw_file_cache/*
 /admin/caching/minify/*
 /admin/caching/cache/*
 /admin/caching/templates_c/*
 /lib/magixcjquery/*
 /lib/smarty3/*
+/old_widget/*
