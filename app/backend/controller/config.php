@@ -227,7 +227,9 @@ class backend_controller_config extends backend_db_config{
             "imagemanager"=>"imagemanager(payant)",
             "filemanager"=>"filemanager(payant)"
         );
-        //$create->assign('array_manager',$array_manager);
+        /**
+         * Création du menu select pour la sélection du gestionnaire de fichiers
+         */
         $select = backend_model_forms::select_static_row(
             $array_manager,
             array(
@@ -242,6 +244,11 @@ class backend_controller_config extends backend_db_config{
         );
         backend_controller_template::assign('select_manager',$select);
     }
+
+    /**
+     * Mise à jour du gestionnaire de fichiers pour tinymce
+     * @param $create
+     */
     private function update_manager_setting($create){
         if(isset($this->manager_setting)){
             parent::u_setting_value('editor',$this->manager_setting);
