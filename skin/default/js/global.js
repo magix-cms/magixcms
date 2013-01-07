@@ -33,8 +33,14 @@ $(function() {
     /**
      * Initialise imagebox
      */
-    $(".imagebox").colorbox();
-    $(".video").colorbox({iframe:true, innerWidth:425, innerHeight:344});
+    //$(".imagebox").colorbox();
+    //$(".video").colorbox({iframe:true, innerWidth:425, innerHeight:344});
+    $(".imagebox").fancybox();
+    $(".video").fancybox({
+        type: 'iframe',
+        autoSize : true,
+        padding : 5
+    });
     /*
      * $(".select").selectmenu({width: 200,maxWidth: 200});
      * $('.checkbox').checkbox();
