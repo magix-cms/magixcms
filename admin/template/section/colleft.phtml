@@ -1,34 +1,16 @@
 <div class="span3">
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
-        {* -- START CONFIGURATION -- *}
-            <li class="nav-header">Système</li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuration <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/{baseadmin}/users.php"><span class="icon-user"></span>Utilisateurs</a></li>
-                    <li><a href="/{baseadmin}/config.php"><span class="icon-cog"></span>Paramètres</a></li>
-                    <li><a href="/{baseadmin}/config.php?tab=editor"><span class="icon-list-alt"></span>Editeur Wysiwyg</a></li>
-                    <li><a href="/{baseadmin}/theming.php"><span class="icon-columns"></span>Thèmes</a></li>
-                    <li><a href="/{baseadmin}/config.php?tab=imagesize"><span class="icon-picture"></span>Tailles des images</a></li>
-                </ul>
-            </li>
-            <li><a href="/{baseadmin}/lang.php">Langues</a></li>
-            <li class="nav-header">Outils</li>
-            <li><a href="/{baseadmin}/rewritemetas.php">SEO</a></li>
-            <li><a href="#">Google Tools</a></li>
-            <li><a href="#">Sitemap</a></li>
-        {* -- END CONFIGURATION -- *}
         {* -- START PAGES -- *}
             <li class="nav-header">Pages</li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page d'accueil <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="/{baseadmin}/home.php"><span class="icon-bar-chart"></span>Statistiques</a>
+                        <a href="/{baseadmin}/home.php"><span class="icon-bar-chart"></span> Statistiques</a>
                     </li>
                     <li>
-                        <a href="/{baseadmin}/home.php?action=list"><span class="icon-list-ul"></span>Liste</a>
+                        <a href="/{baseadmin}/home.php?action=list"><span class="icon-list-ul"></span> Liste</a>
                     </li>
                 </ul>
             </li>
@@ -36,7 +18,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMS <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="/{baseadmin}/cms.php"><span class="icon-bar-chart"></span>Statistiques</a>
+                        <a href="/{baseadmin}/cms.php"><span class="icon-bar-chart"></span> Statistiques</a>
                     </li>
                     <li class="divider"></li>
                     <li class="nav-header">Langues</li>
@@ -50,7 +32,22 @@
                 </ul>
             </li>
         {* -- END PAGES -- *}
+        {* -- START NEWS -- *}
+            <li class="nav-header">Actualités</li>
+        {* -- END NEWS -- *}
+        {* -- START CATALOG -- *}
+            <li class="nav-header">Catalogue</li>
+        {* -- END CATALOG -- *}
             {* {sidebar_nav} *}
+        </ul>
+    </div>
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+        {* -- START NEWS -- *}
+            <li class="nav-header">Plugins</li>
+            <li><a href="#"><span class="icon-envelope"></span> Contact</a></li>
+            <li><a href="#"><span class="icon-trash"></span> Clearcache</a></li>
+        {* -- END NEWS -- *}
         </ul>
     </div>
 </div>
