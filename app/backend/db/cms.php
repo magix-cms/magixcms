@@ -230,15 +230,19 @@ class backend_db_cms{
 	/**
 	 * Fonctions de recherche de page cms dans les titres
 	 * @param $searchpage
-	 */
+     * @return array
+     */
 	public function r_search_cms_title($searchpage){
-		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
+		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p,
+		p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
 		FROM mc_cms_pages AS p
 		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
 		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
-		WHERE p.title_page LIKE "%'.$searchpage.'%"';
-		return magixglobal_model_db::layerDB()->select($sql);
+		WHERE p.title_page LIKE :searchpage';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+            ':searchpage'=>'%'.$searchpage.'%'
+        ));
 	}
 	/*######################## Statistiques ##############################*/
     protected function s_stats_pages(){

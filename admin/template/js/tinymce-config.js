@@ -58,7 +58,7 @@ $(function() {
         /*skin : "o2k7",
          skin_variant : "silver",
          */
-        skin : "cirkuit",
+        skin : "bootstrap",
         width: '98%',
         height:'300px',
         theme_advanced_resizing_min_width : 320,
