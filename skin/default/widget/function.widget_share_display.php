@@ -126,6 +126,7 @@ function smarty_function_widget_share_display($params, $template){
 
     // *** Set share data
     // ******************
+    $name = str_replace(' ','%20',$name); // W3C validation require no ' ' in url
     $data = array (
       array(
           'name' => 'facebook',
@@ -134,7 +135,7 @@ function smarty_function_widget_share_display($params, $template){
       ),
         array(
             'name' => 'twitter',
-            'url' => 'http://twitthis.com/twit?url='.$url['share'].'&amp;title='.$name,
+            'url' => 'https://twitter.com/intent/tweet?text='.$name.'&amp;url='.$url['share'],
             'img' => 'twitter.png'
         ),
         array(
@@ -144,15 +145,59 @@ function smarty_function_widget_share_display($params, $template){
         )
     );
 
+    // *** Set htmlStruc
+    // *****************
+    $strucHtml = array(
+        'container'     =>  array(
+            'htmlBefore'    => '<ul class="nav">',
+            // items injected here
+            'htmlAfter'     => '</ul>'
+        ),
+        'item'          =>  array(
+            'htmlBefore'    => '<li>',
+            // item's elements injected here (name, img, descr)
+            'htmlAfter'     => '</li>'
+        ),
+        'icon'         =>  array(
+            'htmlBefore'    =>  ' ',
+            'htmlAfter'     =>  ' '
+        ),
+        'name'        =>  array(
+            'htmlBefore'    =>  ' ',
+            'htmlAfter'     =>  ' '
+        ),
+        'iso'       =>  array(
+            'htmlBefore'    => '(',
+            'htmlAfter'     => ')'
+        ),
+        'current'     =>  array(
+            'class'         =>  ' current'
+        ),
+        'last'        =>  array(
+            'class'         => ' last',
+            'col'           =>  1
+        )
+    );
+
+
     // *** Format share list
     // *********************
     $items = null;
     foreach ($data as $row){
-        $items .= '<a id="share-'.$row['name'].'" class="targetblank shareLink" href="'.$row['url'].'">';
-            $items .= '<img src="'.'/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/share/'.$row['img'].'" alt="'.$row['name'].'" />';
-        $items .= '</a>';
+        $icon = '<a id="share-'.$row['name'].'" class="targetblank shareLink" href="'.$row['url'].'">';
+            $icon .= '<img src="'.'/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/share/'.$row['img'].'" alt="'.$row['name'].'" />';
+        $icon .= '</a>';
+
+        $items .= $strucHtml['item']['htmlBefore'];
+        $items .= $icon;
+        $items .= $strucHtml['item']['htmlAfter'];
     }
-    $output = $items;
+
+    $output = $strucHtml['container']['htmlBefore'];
+    $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+    $output .=  $items;
+    $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+    $output .= $strucHtml['container']['htmlAfter'];
 
 	return $output;
 }
