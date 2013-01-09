@@ -149,7 +149,7 @@ function smarty_function_widget_share_display($params, $template){
     // *****************
     $strucHtml = array(
         'container'     =>  array(
-            'htmlBefore'    => '<ul class="nav">',
+            'htmlBefore'    => '<ul class="dropdown-menu">', // @TODO 2- remove attribut class
             // items injected here
             'htmlAfter'     => '</ul>'
         ),
@@ -166,10 +166,6 @@ function smarty_function_widget_share_display($params, $template){
             'htmlBefore'    =>  ' ',
             'htmlAfter'     =>  ' '
         ),
-        'iso'       =>  array(
-            'htmlBefore'    => '(',
-            'htmlAfter'     => ')'
-        ),
         'current'     =>  array(
             'class'         =>  ' current'
         ),
@@ -179,15 +175,17 @@ function smarty_function_widget_share_display($params, $template){
         )
     );
 
+    //@TODO 1- récupérer les paramètres smarty de structure HTML et fusionner les tableaux
 
     // *** Format share list
     // *********************
     $items = null;
     foreach ($data as $row){
-        $icon = '<a id="share-'.$row['name'].'" class="targetblank shareLink" href="'.$row['url'].'">';
+        $icon = '<a id="share-'.$row['name'].'" class="targetblank" href="'.$row['url'].'">';
             $icon .= '<img src="'.'/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/share/'.$row['img'].'" alt="'.$row['name'].'" />';
         $icon .= '</a>';
 
+        // @TODO 3- boucle sur les éléments autorisé ('name', 'icon') pour savoir lesquel afficher et dans quelle ordre NOTE: les deux élément seront entourés de la même balise  <a>
         $items .= $strucHtml['item']['htmlBefore'];
         $items .= $icon;
         $items .= $strucHtml['item']['htmlAfter'];

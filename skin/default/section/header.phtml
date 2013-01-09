@@ -22,5 +22,22 @@
             </ul>
         </div>
     </div>
+    <ul class="nav pull-right">
+        <li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="icon-share">&nbsp;</span>
+                Partager
+                <b class="caret"></b>
+            </a>
+        {widget_share_display
+        htmlStructure=[
+        'container' => [
+        'htmlBefore' => '<ul class="dropdown-menu">'
+        ]
+        ]
+        }
+        </li>
+    </ul>
+
     {include file="section/breadcrumb.phtml"}
 </div>
