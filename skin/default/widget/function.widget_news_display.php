@@ -160,7 +160,7 @@ function smarty_function_widget_news_display($params, $template){
                 $item = null;
 
                 foreach ($strucHtml_item['display'][1] as $elem_type ){
-                    // BOUCLE de formatage des éléments contenus dans item
+                    // loop format elements in item
                     $strucHtml_elem = $strucHtml_item[$elem_type ];
                     if(array_search($elem_type,$strucHtml_item['display'][1])){
                         // Config class link

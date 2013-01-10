@@ -8,9 +8,9 @@ body {
     box-shadow: 0px 0px 12px 6px rgba(0,0,0,.2);
 }
 
-.ie7 #page {
-    border: 1px solid #CCC;
-}
+    .ie7 #page {
+        border: 1px solid #CCC;
+    }
 
 #header {
     position: relative;
@@ -21,26 +21,45 @@ body {
         margin-bottom: 0px;
     }
 
-        #logo {
-                margin: 0;
-                padding: 0;
+    #logo {
+        margin: 0;
+        padding: 0;
+    }
+
+        #primary-nav > li > a {
+            height: 40px;
+            line-height: 40px;
         }
 
-    #primary-nav > li > a {
-        height: 40px;
-        line-height: 40px;
-    }
-
-    #breadcrumb {
-        margin-bottom: 0px;
-        margin-top: 0px;
-        padding: 8px 20px;
-        background: transparent;
-    }
+#breadcrumb {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 8px 20px;
+    background: transparent;
+}
 
     #breadcrumb > li {
         font-size: 11px;
     }
+
+#share-box {
+    position: relative;
+    float: right;
+}
+
+    #share-box > li > .dropdown-menu {
+        left: auto;
+        right: 0;
+    }
+
+        #share-nav > li > a > img {
+            margin-right: 10px;
+        }
+
+        #share-google-inner {
+            padding: 3px 20px;
+
+        }
 
 #primary-sidebar {
     margin-left: 40px;
@@ -71,6 +90,7 @@ body {
     margin-bottom: 0;
 }
 
+/*** Désactivation temporaire du .stateVal en attendant refonte du formulaire de contact ***/
 .stateVal {
     visibility: hidden;
     margin-top: -1px;
