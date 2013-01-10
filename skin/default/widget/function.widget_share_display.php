@@ -125,31 +125,41 @@ function smarty_function_widget_share_display($params, $template){
         }
 
     // *** Set share data
-    // ******************
     $name = str_replace(' ','%20',$name); // W3C validation require no ' ' in url
-    $data = array (
-      array(
+    $data_default = array (
+      'facebook' => array(
           'name' => 'facebook',
           'url' => 'http://www.facebook.com/share.php?u='.$url['share'],
           'img' => 'facebook.png'
       ),
-        array(
+      'twitter' =>  array(
             'name' => 'twitter',
             'url' => 'https://twitter.com/intent/tweet?text='.$name.'&amp;url='.$url['share'],
             'img' => 'twitter.png'
         ),
-        array(
+        'viadeo' => array(
             'name' => 'viadeo',
             'url' => 'http://www.viadeo.com/shareit/share/?url='.$url['share'].'&amp;title='.$name.'&amp;overview='.$name,
             'img' => 'viadeo.png'
         )
     );
 
-    // *** Set htmlStruc
-    // *****************
-    $strucHtml = array(
+    // *** Select Data
+    if (isset($params['dataSelect']['select'])){
+        $dataSelect = explode(',',$params['dataSelect']['select']);
+        foreach($dataSelect as $share){
+            if(array_key_exists($share,$data_default)){
+                $data[] = $data_default[$share];
+            }
+        }
+    }else{
+        $data = $data_default;
+    }
+
+    // *** Default html Strucure
+    $strucHtml_default = array(
         'container'     =>  array(
-            'htmlBefore'    => '<ul class="dropdown-menu">', // @TODO 2- remove attribut class
+            'htmlBefore'    => '<ul>',
             // items injected here
             'htmlAfter'     => '</ul>'
         ),
@@ -158,7 +168,7 @@ function smarty_function_widget_share_display($params, $template){
             // item's elements injected here (name, img, descr)
             'htmlAfter'     => '</li>'
         ),
-        'icon'         =>  array(
+        'img'         =>  array(
             'htmlBefore'    =>  ' ',
             'htmlAfter'     =>  ' '
         ),
@@ -175,19 +185,66 @@ function smarty_function_widget_share_display($params, $template){
         )
     );
 
-    //@TODO 1- récupérer les paramètres smarty de structure HTML et fusionner les tableaux
+    // *** Default item setting
+    $strucHtml_default['allow']     = array('', 'name', 'img');
+    $strucHtml_default['display']   = array(
+        1 =>    array('','img', 'name')
+    );
+
+    // *** Update html struct & item setting with custom var (params['htmlStructure'])
+    $custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
+    $default = $strucHtml_default;
+    if (is_array($custom)){
+        $default['display'] = array();
+        foreach($custom AS $k => $v){
+            foreach($v AS $sk => $sv){
+                if ($sv != null){
+                    $default[$k][$sk] = $sv;
+                }
+            }
+            if (array_search($k,$default['allow']))
+                $default['display'][1][] = $k;
+        }
+    }
+
+    // *** Update html struct with display params (params['htmlDisplay'])
+    if(isset($params['htmlDisplay']))
+        $default['display'] = $params['htmlDisplay'];
+
+    // *** push null value on case[0] (allow array search on format function)
+    foreach($default['display'] AS $k => $v){
+        array_unshift($default['display'][$k],null);
+    }
+    $strucHtml = $default;
+
+    if ($strucHtml['display'][1] == null)
+        $strucHtml['display'][1] = $strucHtml_default['display'][1];
+
+    // *** Format setting
+        $items = null;
 
     // *** Format share list
-    // *********************
     $items = null;
     foreach ($data as $row){
-        $icon = '<a id="share-'.$row['name'].'" class="targetblank" href="'.$row['url'].'">';
-            $icon .= '<img src="'.'/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/share/'.$row['img'].'" alt="'.$row['name'].'" />';
-        $icon .= '</a>';
-
-        // @TODO 3- boucle sur les éléments autorisé ('name', 'icon') pour savoir lesquel afficher et dans quelle ordre NOTE: les deux élément seront entourés de la même balise  <a>
+            // *** loop format elements in item
+        $icon = '<img src="'.'/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/share/'.$row['img'].'" alt="'.$row['name'].'" />';
+        $name = ucfirst($row['name']);
+        $elem = null;
+        foreach ($strucHtml['display'][1] as $elem_type ){
+            if(array_search($elem_type,$strucHtml['display'][1])){
+                switch($elem_type){
+                    case 'name':
+                        $elem .= $name;
+                        break;
+                    case 'img':
+                        $elem .= $icon;
+                }
+            }
+        }
         $items .= $strucHtml['item']['htmlBefore'];
-        $items .= $icon;
+            $items .= '<a id="share-'.$row['name'].'" class="targetblank" href="'.$row['url'].'" title="'.$name.'">';
+                $items .= $elem;
+            $items .= '</a>';
         $items .= $strucHtml['item']['htmlAfter'];
     }
 
