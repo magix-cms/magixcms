@@ -70,6 +70,19 @@ ALTER TABLE `mc_setting` DROP INDEX `setting_id`;
 
 ALTER TABLE `mc_setting` ADD `id_setting` SMALLINT( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
 
+DELETE FROM `mc_setting` WHERE `setting_id` = 'microgalery';
+
 UPDATE `mc_setting` SET `setting_value` = 'openFilemanager' WHERE `setting_id` = 'editor';
 
 UPDATE `mc_setting` SET `setting_value` = '2.4.0' WHERE `setting_id` = 'magix_version';
+
+INSERT INTO `mc_setting` (
+`id_setting` ,
+`setting_id` ,
+`setting_value` ,
+`setting_type` ,
+`setting_label`
+)
+VALUES (
+NULL , 'content_css', NULL , 'string', NULL
+);
