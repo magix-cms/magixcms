@@ -70,7 +70,7 @@ class backend_controller_config extends backend_db_config{
      * Configure l'éditeur HTML
      * @var string
      */
-    public $manager_setting;
+    public $manager_setting,$content_css;
 	/**
 	 * @access public
 	 * @var string
@@ -110,6 +110,9 @@ class backend_controller_config extends backend_db_config{
         //manager setting
         if(magixcjquery_filter_request::isPost('manager_setting')){
             $this->manager_setting = magixcjquery_form_helpersforms::inputClean($_POST['manager_setting']);
+        }
+        if(magixcjquery_filter_request::isPost('content_css')){
+            $this->content_css = magixcjquery_form_helpersforms::inputClean($_POST['content_css']);
         }
         if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
             $this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
@@ -157,15 +160,14 @@ class backend_controller_config extends backend_db_config{
      */
     private function load_data_setting($create){
         $data = parent::s_data_setting();
-        /*$assign_exclude = array(
-            'lesson_level','lesson_days','lesson_category','lesson_teachers'
-        );*/
+        $assign_exclude = array(
+            'theme','webmaster','analytics','magix_version'
+        );
         foreach($data as $key){
-            /*$iso = $val;
-            if( !(array_search($key,$assign_exclude) ) ){
-                $create->append_assign($key,$val);
-            }*/
-            $create->assign($key['attr_name'],$key['status']);
+            /*$iso = $val;*/
+            if( !(array_search($key['setting_id'],$assign_exclude) ) ){
+                $create->assign($key['setting_id'],$key['setting_value']);
+            }
         }
     }
 	/**
@@ -222,8 +224,10 @@ class backend_controller_config extends backend_db_config{
 	 */
 	public static function load_attribute_config(){
         $create = new backend_controller_template();
-        $config = parent::s_setting_id('editor');
+        /*$config = parent::s_setting_id('editor');
         $create->assign('manager_setting',$config['setting_value']);
+        $create->assign('array_lang',self::load_lang_config());*/
+        self::load_data_setting($create);
         $create->assign('array_lang',self::load_lang_config());
 	}
 
@@ -266,7 +270,17 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
-
+    private function update_content_css($create){
+        if(isset($this->content_css)){
+            if(empty($this->content_css)){
+                $content_css = null;
+            }else{
+                $content_css = $this->content_css;
+            }
+            parent::u_setting_value('content_css',$content_css);
+            $create->display('config/request/success_update.phtml');
+        }
+    }
     /**
      * @param $type
      * @return mixed
@@ -327,7 +341,11 @@ class backend_controller_config extends backend_db_config{
             if($this->tab == 'editor'){
                 if(isset($this->action)){
                     if($this->action == 'edit'){
-                        $this->update_manager_setting($create);
+                        if(isset($this->manager_setting)){
+                            $this->update_manager_setting($create);
+                        }elseif(isset($this->content_css)){
+                            $this->update_content_css($create);
+                        }
                     }
                 }else{
                     $this->load_editor_data($create);

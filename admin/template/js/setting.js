@@ -157,7 +157,7 @@ $(function(){
                 error.insertAfter(element.next());
                 $("<br />").insertBefore(error);
             }else{
-                if(element.next().is(":button") || element.next().is(":file") || element.is("textarea")){
+                if(element.next().is(":button") || element.next().is(":file")){
                     error.insertAfter(element);
                     $("<br />").insertBefore(error);
                 }else if ( element.next().is(":submit") ){

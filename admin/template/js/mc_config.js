@@ -83,6 +83,23 @@ var MC_config = (function ($, undefined) {
         });
         $('#forms_editor_edit').formsUpdate;
     }
+    function updateContentCss(){
+        $('#forms_editor_css_edit').on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/admin/config.php?tab=editor&action=edit',
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        });
+    }
     function updateImage(formsId){
         $('#'+formsId).on('submit',function(){
             $.nicenotify({
@@ -101,6 +118,7 @@ var MC_config = (function ($, undefined) {
         },
         runEditor:function () {
             updateManager();
+            updateContentCss();
         },
         runImages:function () {
             $('.spincount').spinner({

@@ -9,13 +9,13 @@
     var catalog_tinymce_button = "";
 </script>
 {/if}
-{if $manager_setting eq 'imagemanager'}
+{if $editor eq 'imagemanager'}
 <script type="text/javascript">
     var manager_tinymce_plugin = ",imagemanager";
     var manager_tinymce_button = ",insertimage";
     var tinymce_call_back = "";
 </script>
-    {elseif $manager_setting eq 'openFilemanager'}
+    {elseif $editor eq 'openFilemanager'}
 <script type="text/javascript">
     var manager_tinymce_plugin = "";
     var manager_tinymce_button = "";
@@ -33,3 +33,6 @@
     var filemanager_tinymce_button = "";
 </script>
 {/if}
+<script type="text/javascript">
+    content_css = "{$content_css}";
+</script>

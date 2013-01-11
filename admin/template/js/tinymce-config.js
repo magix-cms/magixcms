@@ -50,7 +50,7 @@ $(function() {
 
         // End container block element when pressing enter inside an empty block
         end_container_on_empty_block: true,
-
+        content_css : content_css,
         cleanup : true,
         cleanup_on_startup : true,
         valid_elements : "*[*]",
