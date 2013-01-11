@@ -86,6 +86,10 @@ body {
             text-align: center;
         }
 
+#product-gallery {
+    clear: both;
+}
+
 #footer-inner {
     margin-bottom: 0;
 }

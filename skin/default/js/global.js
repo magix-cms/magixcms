@@ -31,22 +31,6 @@ $(function() {
         }
     });
     /**
-     * Initialise imagebox
-     */
-    //$(".imagebox").colorbox();
-    //$(".video").colorbox({iframe:true, innerWidth:425, innerHeight:344});
-    $(".imagebox").fancybox();
-    $(".video").fancybox({
-        type: 'iframe',
-        autoSize : true,
-        padding : 5
-    });
-    /*
-     * $(".select").selectmenu({width: 200,maxWidth: 200});
-     * $('.checkbox').checkbox();
-     * */
-    //$("#product-tabs").tabs();
-    /**
      * Notification après installation pour le dossier "install"
      */
     if ($('#notify-install').length != 0){
@@ -140,4 +124,10 @@ $(function() {
             }
         });
     }
+
+    /**
+     * Initialise gallerie
+     */
+    $(".gallery-link").fancybox();
+
 });

@@ -449,7 +449,6 @@ class frontend_db_catalog{
 		{$limit_clause}";
         return magixglobal_model_db::layerDB()->select($sql);
     }
-
     /**
      * @access public
      * Charge les produits liés à un produit
@@ -491,6 +490,22 @@ class frontend_db_catalog{
             ':idproduct'	=>	$idproduct
         ));
     }
-
+    /**
+     * @access public
+     * Charge les produits liés à un produit
+     * @param $idproduct
+     */
+    protected static function s_product_gallery($idproduct) {
+        $sql = 'SELECT gallery.idmicro,gallery.imgcatalog
+        FROM (
+              SELECT idcatalog
+              FROM mc_catalog_product
+              WHERE idproduct = :idproduct
+            ) AS cur_p
+        LEFT JOIN mc_catalog_galery as gallery ON (cur_p.idcatalog = gallery.idcatalog)';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idproduct'	=>	$idproduct
+        ));
+    }
 
 }

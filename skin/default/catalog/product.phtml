@@ -31,14 +31,14 @@
                     </form>
                 </div>
                 {$content_product}
-                <div id="product-galery">
+                <div id="product-gallery">
                     <p class="title">{#gallery#|firststring}</p>
-                    {widget_catalog_microgalery
-                        css_param=[
-                            'class_container'=>'list-img',
-                            'class_img'=>'img'
+                    {widget_product_gallery
+                        htmlStructure = [
+                            'container' => [
+                                'htmlBefore' => '<ul class="thumbnails">'
+                            ]
                         ]
-                        col="5"
                     }
                  </div>
                 {widget_catalog_display

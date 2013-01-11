@@ -105,7 +105,12 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data_item['img_src']   = $filter_img->filterPathImg(array('filtermod'=>'catalog','img'=>$row['img_c'],'levelmod'=>'category'));
                 }else{
                     $data_item['img_src']   = $filter_img->filterPathImg(array('img'=>'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/catalog/category-default.png'));
-                }            }
+                }
+            }elseif(isset($row['idmicro'])){
+                $data_item['id']        = $row['idmicro'];
+                $data_item['img_src']['mini']   = $filter_img->filterPathImg(array('filtermod'=>'catalog','img'=>'mini/'.$row['imgcatalog'],'levelmod'=>'galery'));
+                $data_item['img_src']['maxi']   = $filter_img->filterPathImg(array('filtermod'=>'catalog','img'=>'maxi/'.$row['imgcatalog'],'levelmod'=>'galery'));
+            }
             return $data_item;
         }
     }
@@ -268,6 +273,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 if ( $sort_config['level'] == 'product')  {  $level[1] = 'product';}
                 if ( $sort_config['level'] == 'last-product')  {  $level[1] = 'last-product';}
                 if ( $sort_config['level'] == 'all')  {  $level[1] = 'all';}
+                if ( $sort_config['level'] == 'product-gallery')  {  $level[1] = 'product-gallery';}
             }
         }
 
@@ -328,6 +334,8 @@ class frontend_model_catalog extends frontend_db_catalog {
             }
         }elseif ($level[1] == 'last-product'){
             $data = parent::s_product(null,null,$data_sort['limit']);
+        }elseif($level[1] == 'product-gallery'){
+            $data = parent::s_product_gallery($id_current['product']);
         }
         return $data;
     }
