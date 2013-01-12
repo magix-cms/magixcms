@@ -1,7 +1,61 @@
 #### 2.4.0
+alpha 7
+    * Début du nettoyage du fichier news.php (backend)
+    * pagination révision de la méthode pour récupération et formatage de la pagination (frontend)
+        * la pagination n'est plus crée dans méthod set_data mais dans le widget
+        * set_data retourne les valeurs nécessaire pour la création de pagination 'total', 'limit'
+        * utilisation de la function setdatapager
+    * Déplacement des fichiers JS utilisés uniquement dans le backend
+    * Modification pour l'affichage du module des news (backend)
+        * Ajout de l'icône pour la class open du block de métas
+        * Modification d'un champ dans la table news (n_content)
+        * Ajout du fichier js pour le module des news (backend)
+        * Ajout des fichiers index et list.phtml pour le module des news(backend)
+    * Work on #31 - Refonte galerie d'image produit
+        * new widget_product_gallery
+        * remove widget_catalog_microgalery
+        * intégration de fancybox dans le thème (js + css) & appels
+        * retrait de l'appel de fancybox dans groupConfig
+        * suppression de fancybox de framework/config
+        * ajout des condition pour gallerie dans la class model du catalog
+        * ajout requête dans class db du catalog
+    * Ajout du système de chargement dynamique de CSS dans l'éditeur (issues #29)
+    * Modification du chargement du setting de l'éditeur
+    * Translate update (minor)
+    * fix #26 - widget_share_display & dropdown bootstrap + clean comment on widget_news_display
+        * intégration du partage dans le template
+    * Work on #26 - widget_share_display
+        * Paramètre smarty dataSelect['select'] pour définir les type de partage et leur ordre
+        * Structure Html configurable depuis paramètre smarty (sauf lien)
+    * Modification des menus de l'admin (globale)
+    * Ajout de la suppression des champs inutile dans la table setting
+    * Insertion champs supplémentaire dans setting
+    * Nettoyage champs inutile dans setting
+    * Revision widget_social_network
+        * Changement de l'url de partaga twitter
+        * balisage dynamique en construction
+    * Suppression de tinyMCE 3.5.6
+    * Ajout du skin tinymce bootstrap (Voir commit précédent)
+    * Upgrade de tinyMCE 3.5.6 => 3.5.8
+    * Update Font awesome 2 => 3.0
+    * Modification du menu top et left principal (backend)
+    * Mise à jour de jQuery UI (frontend)
+    * Suppression de l'ancien architecture de minify (frontend)
+    * Ajout d'une nouvelle structure pour minify (frontend)
+    * Suppression du dossier frontend dans app/extends
+    * Suppression du dossier core dans extends
+    * Début du nettoyage des widgets et déplacement dans les dossiers définitif
+    * Update des champs settings dans mysql (voir fichier update.2.4.0.sql)
+    * Système de configuration des images
+    * Modification du menu de configuration
+    * Modification des intitulés de liens du menu de la configuration
+    * Ajout de la configuration du manager de fichier pour tinymce
+    
 alpha 6
-* Modification de la page login
-* Ajout du nouveau screenshot du thème par defaut
+    * Ajout du menu pour les éléments de configuration
+    * Ajout du système de configuration des modules
+    * Modification de la page login
+    * Ajout du nouveau screenshot du thème par defaut
     * Ajout des nouveaux fichiers pour le theming
     * Ajout du theming + suppression des anciens fichiers
     * Ajout du widget dans skin/default/widget
