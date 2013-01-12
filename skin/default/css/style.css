@@ -94,6 +94,10 @@ body {
     margin-bottom: 0;
 }
 
+    #footer-inner > .well {
+        margin: 0;
+    }
+
 /*** Désactivation temporaire du .stateVal en attendant refonte du formulaire de contact ***/
 .stateVal {
     visibility: hidden;
