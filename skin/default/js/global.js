@@ -128,6 +128,11 @@ $(function() {
     /**
      * Initialise gallerie
      */
+    $(".zoom-link").fancybox();
     $(".gallery-link").fancybox();
-
+    $(".video").fancybox({
+        type: 'iframe',
+        autoSize : true,
+        padding : 5
+    });
 });
