@@ -49,21 +49,17 @@
  * @subpackage plugins
  */
 /**
- * Smarty {widget_lang_prelude} function plugin
+ * Smarty {widget_lang_display} function plugin
  *
  * Type:     function
- * Name:     widget_lang_prelude
- * Date:     25/11/2010
- * Date Update : 10/08/2011
- * Examples: {widget_lang_prelude 
-  				config_param=[
-  				'display'=>true,
-  				'icons'=>true,
-  				'separator'=>''
-  			  ]}
- * Output:   
- * @link 
- * @version  1.3
+ * Name:     widget_lang_display
+ * Date:     03/01/2013
+ * Date Update : 12/01/2013
+ * Output:
+ * @author   Sire Sam (http://www.sire-sam.be)
+ * @author   Gerits Aurélien (http://www.magix-dev.be)
+ * @link
+ * @version  1.0
  * @param $params
  * @param $template
  * @return string
@@ -71,14 +67,15 @@
 
 function smarty_function_widget_lang_display($params, $template){
 
-    // ***Catch $_GET var
+    // *** Catch location var
     $iso_current     =       magixcjquery_filter_request::isGet('strLangue');
 
-    // *** load SQL DATA
+    // *** Load SQL DATA
     $data = frontend_db_lang::s_fetch_lang();
 
     $output = null;
     if ($data != null){
+        // *** set default html structure
         $strucHtml_default = array(
             'container'     =>  array(
                 'htmlBefore'    => '<ul class="nav">',
@@ -111,39 +108,38 @@ function smarty_function_widget_lang_display($params, $template){
             )
         );
 
-    // *** Default item setting
+    // *** Set default elem to display
     $strucHtml_default['allow']     = array('', 'icon', 'name', 'iso');
     $strucHtml_default['display']   = array(
         1 =>    array('', 'icon', 'name', 'iso')
     );
 
-    // *** Update html struct & item setting with custom var (params['structureHTML'])
+    // *** Update html struct & item setting with custom var (params['structureHTML']) @TODO vérifier si le paramaètre htmlDispaly tj opérationnel
     $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
     $strucHtml = frontend_model_catalog::set_html_struct($strucHtml_default,$structHtml_custom);
 
-    // *** Format setting
+    // *** Set translation var
+    $t_go_to_version = frontend_model_template::getConfigVars('go_to_version');
+
+    // *** format items loop (foreach item)
     $items = null;
     $i = 0;
-    // *** boucle / loop
-    // *** list format START
-    // ***************************
     foreach($data as $row){
         $i++;
 
-        // ### Configuration de la structure HTML de l'item
+        // *** set additional var in htmlStruct
         $strucHtml['is_current'] = ($iso_current == $row['iso']) ? 1 : 0;
-
         $strucHtml['is_last'] = 0;
         if ($i == $strucHtml['last']['col']){
             $strucHtml['is_last'] = 1;
             $i = 0;
         }
 
-        // Si affichage null, récupération affichage par default
+        // *** in case diplay is null, we take default value
         if ($strucHtml['display'][1] == null)
             $strucHtml['display'][1] = $strucHtml_default['display'][1];
 
-        // Config class link
+        // *** set link class
         $item_classLink = null;
         if($strucHtml['is_last'] == 1 OR $strucHtml['is_current'] == 1){
             $item_class = ' class="';
@@ -152,12 +148,11 @@ function smarty_function_widget_lang_display($params, $template){
             $item_class .= '"';
         }
 
+        // *** format item loop (foreach element)
         $item = null;
         foreach ($strucHtml['display'][1] as $elem_type ){
-            // BOUCLE de formatage des éléments contenus dans item
             $strucHtml_elem = $strucHtml[$elem_type ];
             if(array_search($elem_type,$strucHtml['display'][1])) {
-                // Format element on switch
                 switch($elem_type){
                     case 'name':
                         $elem = $row['language'];
@@ -171,6 +166,7 @@ function smarty_function_widget_lang_display($params, $template){
                     default:
                         $elem = null;
                 }
+                // *** elem construct
                 if ($elem != null){
                     $item .= $strucHtml_elem['htmlBefore'];
                     $item .= $elem;
@@ -178,21 +174,20 @@ function smarty_function_widget_lang_display($params, $template){
                 }
             }
         }
+        // *** item construct
         $items .= $strucHtml['item']['htmlBefore'];
-            $items .= '<a href="/'.$row['iso'].'/" hreflang="'.$row['iso'].'">';
+            $items .= '<a href="/'.$row['iso'].'/" hreflang="'.$row['iso'].'" title="'.ucfirst($t_go_to_version).': '.$row['language'].'">';
                 $items .= $item;
             $items .= '</a>';
         $items .= $strucHtml['item']['htmlAfter'];
     }
-    // OUTPUT
-    // ***********
+    // *** container construct
     $output .= $strucHtml['container']['htmlBefore'];
-    $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-    $output .=  $items;
-    $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+        $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+            $output .=  $items;
+        $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
     $output .= $strucHtml['container']['htmlAfter'];
     }
     return $output;
-
 }
 ?>

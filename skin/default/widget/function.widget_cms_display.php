@@ -40,49 +40,30 @@
  *
  * Type:     function
  * Name:     widget_cms_display
- * Date:     December 29, 2012
- * Update:   December 29, 2012
- * Purpose:  
- * Output:   http://www.magix-dev.be, htt://www.sire-sam.be
- * @link 
- * @author   Gerits Aurelien
- * @author   Samuel Lesire
+ * Date:     29-12-2012
+ * Update:   12-01-2013
+ * Purpose:
+ * Output:
+ * @author   Sire Sam (http://www.sire-sam.be)
+ * @author   Gerits Aurélien (http://www.magix-dev.be)
  * @version  1.0
  * @param array
  * @param Smarty
  * @return string
- * Examples:
-
-    {widget_cms_display}
-
-    {widget_cms_display
-        htmlAttribut=[
-            'id_container' => 'nav-cms',
-            'class_container' => 'v-nav',
-            'class_current' => 'current'
-
-        ]
-        hierarchy=[
-            'select' => 'current',
-            'level'  => 'child'
-        ]
-        title='<p class="title">Découvrir Magix CMS</p>'
-     }
  */
 function smarty_function_widget_cms_display($params, $template){
 
-        // ***Catching $_GET var
+    // *** Catch location var
     $id_current['page'] = isset($_GET['getidpage']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage']) : null;
     $id_current['page_p'] = isset($_GET['getidpage_p']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage_p']) : null;
 
-        // *** load SQL DATA
+    // *** Load SQL data
     $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
     $data = frontend_model_cms::set_sql_data($sort_config,$id_current);
 
     $output = null;
     if($data != null){
-
-        // *** Default html Structure
+        // *** set default html structure
         $strucHtml_default = array(
             'container'     =>  array(
                 'htmlBefore'    => '<ul class="thumbnails">',
@@ -114,7 +95,7 @@ function smarty_function_widget_cms_display($params, $template){
             )
         );
 
-        // *** Default item setting
+        // *** Set default elem to display
         $strucHtml_default['allow']     = array('', 'name', 'descr');
         $strucHtml_default['display']   = array(
             1 =>    array('','name', 'descr'),
@@ -125,24 +106,24 @@ function smarty_function_widget_cms_display($params, $template){
         $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
         $strucHtml = frontend_model_cms::set_html_struct($strucHtml_default,$structHtml_custom);
 
+        // *** Set translation var
+        $tr_show_page = ucfirst(frontend_model_template::getConfigVars('show_page'));
 
-        // *** Format setting
-        // Variables de gestion des niveaux dans la boucle
+        // *** format items loop (foreach item)
+        // ** Loop management var
         $deep = 1;
         $deep_minus = $deep  - 1;
         $deep_plus = $deep  + 1;
         $pass_trough = 0;
         $data_empty = false;
 
-        // Variables pour formatage des données
+        // ** Loop format & output var
         $row = array();
         $items = array();
         $i[$deep] = 0;
 
-        // *** boucle / loop
         do{
             // *** loop management START
-            // ***************************
             if ($pass_trough == 0){
                 // Si je n'ai plus de données à traiter je vide ma variable
                 $row[$deep] = null;
@@ -192,7 +173,6 @@ function smarty_function_widget_cms_display($params, $template){
             // *** loop management END
 
             // *** list format START
-            // ***************************
             if ($row[$deep] != null AND $pass_trough != 1){
                 $i[$deep]++;
 
@@ -238,7 +218,7 @@ function smarty_function_widget_cms_display($params, $template){
                         // Format element on switch
                         switch($elem_type){
                             case 'name':
-                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'. $item_dataVal['name'].'">' : '';
+                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'.$tr_show_page.': '.$item_dataVal['name'].'">' : '';
                                 $elem .= $item_dataVal['name'];
                                 $elem .= ($item_classLink != 'none') ? '</a>'  : '';
                                 break;
@@ -270,8 +250,8 @@ function smarty_function_widget_cms_display($params, $template){
             }
 
         }while($data_empty == false);
-        // OUTPUT
-        // ***********
+
+        // *** container construct
         if ($items[$deep] != null) {
             $output .= $strucHtml['container']['htmlBefore'];
             $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
@@ -281,8 +261,6 @@ function smarty_function_widget_cms_display($params, $template){
         }else{
             $output = null;
         }
-
-
     }
 	return $output;
 }

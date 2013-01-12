@@ -40,89 +40,42 @@
  *
  * Type:     function
  * Name:     widget_catalog_nav
- * Date:     September 27, 2012
- * Update:   December  29, 2012
- * Purpose:
+ * Date:     27/09/2012
+ * Update:   12/01/2013
  * Output:
- * @link    htt://www.sire-sam.be, http://www.magix-dev.be
- * @author   Samuel Lesire
- * @author   Gerits Aurelien
+ * @author   Sire Sam (http://www.sire-sam.be)
+ * @author   Gerits Aurélien (http://www.magix-dev.be)
  * @version  1.0
  * @param array
  * @param Smarty
  * @return string
-
- * Examples:
- *************
- *
- * basic :
- *-------
-{widget_catalog_nav}
-
- *
- * HTML before :
- *-------------
-{widget_catalog_onstructor
-title='<p class="title">Fonctionalités Magix CMS</p>'
-}
-
- *  Data config :
- *--------------
-{widget_catalog_nav
-hierarchy=[
-'select' => 'all',
-'level'   => 'all'
-]
-}
-
-    - Allowed values & syntax
-    'select' => 'all' (default),
-                'current' (current page),
-                ['fr'=>['1']] (only parent with idclc == 1 in FR version)
-                ['fr'=>['1','6'],'en'=>['8']] (only parent with idclc == 1 AND 6 in FR version, 8 for EN Version)
-
-    'exclude' => ['fr'=>['1']] (all excepted parent with idclc == 1 in FR version)
-                ['fr'=>['1','6'],'en'=>['8']] (all excepted parent with idclc == 1 AND 6 in FR version, 8 for EN Version)
-
-    'level'  => 'all'(default)
-        'category'      (only first level category)
-        'subcategory'   (only second level category)
-        'product'       (only products)
-        ['category] => 'subcategory'            ( first level categories with associated children)
-        ['category] => ['subcategory' => 'product']             (first level categories with associated children ans their associated products )
-        ['category'] => 'products']         ( first level categories with associated products)
-
-
-
- *
  */
 function smarty_function_widget_catalog_nav($params, $template) {
 
-    // ***Catch $_GET var
+    // *** Catch location var
     $id_current['category']     =       magixcjquery_filter_isVar::isPostNumeric($_GET['idclc'])        ;
     $id_current['subcategory']  =       magixcjquery_filter_isVar::isPostNumeric($_GET['idcls'])        ;
     $id_current['product']      =       magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct'])    ;
-
-    // ***Current language iso
     $lang =  frontend_model_template::current_Language();
+
+    // *** Load SQL DATA
     $sort_config = array(
         'level' => 'all'
     );
     $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : $sort_config;
     $data = frontend_model_catalog::set_sql_data($sort_config,$id_current);
 
-    // FORMAT DATA
-    // ***********
     $i = 1;
     $items = null;
     $output = null;
     if ($data != null){
-         // ***HTML attributs var
+        // *** set html attribut
        $htmlAttr = isset($params['htmlAttribut']) ? $params['htmlAttribut'] : null;
        $id_container       =       isset($htmlAttr['id_container'])       ? ' id="'.$htmlAttr['id_container'].'"'      : null;
        $class_container    =       isset($htmlAttr['class_container'])    ? ' class="'.$htmlAttr['class_container'].'"'   : null;
-        $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current'] : 'current';
+       $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current'] : 'current';
 
+        // *** format items loop (foreach item)
         foreach($data as $row_1){
             $items_2 = null;
             if ( isset($row_1['subdata']) AND is_array($row_1['subdata']) AND $row_1['subdata'] != null){
@@ -175,8 +128,7 @@ function smarty_function_widget_catalog_nav($params, $template) {
             $items .= '</li>';
         }
 
-        // OUTPUT
-        // ***********
+        // *** container construct
         if ($items != null) {
             $output .= isset($params['title']) ? $params['title'] : null;
             $output .= '<ul'.$id_container.$class_container.'>';

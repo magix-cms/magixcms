@@ -40,61 +40,26 @@
  *
  * Type:     function
  * Name:     widget_cms_nav
- * Date:     September 22, 2012
- * Update:   december 29, 2012
- * Purpose:  
- * Output:   http://www.magix-dev.be, htt://www.sire-sam.be
- * @link 
- * @author   Gerits Aurelien
- * @author   Samuel Lesire
+ * Date:     22/09/2012
+ * Update:   12/01/2012
+ * Output:
+ * @author   Sire Sam (http://www.sire-sam.be)
+ * @author   Gerits Aurélien (http://www.magix-dev.be)
  * @version  1.1
  * @param array
  * @param Smarty
  * @return string
- * Examples:
-
-    {widget_cms_nav}
-
-    {widget_cms_nav
-        htmlAttribut=[
-            'id_container' => 'nav-cms',
-            'class_container' => 'v-nav',
-            'class_current' => 'current'
-
-        ]
-        hierarchy=[
-            'select' => 'current',
-            'level'  => 'child'
-        ]
-        title='<p class="title">Découvrir Magix CMS</p>'
-     }
-
- * ABOUT hierarchy :
- *
- * SELECT OR EXCLUDE:
- * You can manage page to display or not display using 'select' or 'exclude' key with associed values:
- * 'select' => 'all' (default),
- *             'current' (current page),
- *              ['fr'=>['1']] (only parent with idpage == 1 in FR version)
- *              ['fr'=>['1','6'],'en'=>['8']] (only parent with idpage == 1 AND 6 in FR version, 8 for EN Version)
- * 'exclude' => ['fr'=>['1']] (all excepted parent with idpage == 1 in FR version)
- *              ['fr'=>['1','6'],'en'=>['8']] (all excepted parent with idpage == 1 AND 6 in FR version, 8 for EN Version)
- * LEVEL:
- * Without relation with previous key, allow you to display only child or only parents:
- * 'level'  => 'all'(default)
- *              'parent' (display only first level pages)
- *              'child' (display only second level pages)
- *
  */
 function smarty_function_widget_cms_nav($params, $template){
 
-        // ***Catching $_GET var
+    // *** Catch location var
     $id_current = isset($_GET['getidpage']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage']) : null;
     $id_current_p = isset($_GET['getidpage_p']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage_p']) : null;
-
-        // ***Current language iso
     $lang =  frontend_model_template::current_Language();
 
+    /**
+     * @TODO revoir en profondeur les méthodes de ce widget pour être en cohérence avec les autres méthodes (voir: widget_cms_display)
+     */
     // ***Hierarchy level Display var
     $data_sort_id = null;
     $data_sort_type = null;
@@ -129,14 +94,6 @@ function smarty_function_widget_cms_nav($params, $template){
         // ****SQL DATA
     $data_sort_id = (is_array($data_sort_id)) ? implode(',',$data_sort_id) : magixcjquery_form_helpersforms::inputNumeric($data_sort_id);
     $data = frontend_db_block_cms::s_parent_p($lang,$data_sort_id,$data_sort_type);
-    /**
-     * Afin d'effectuer le tris sur la requête la function s_parent_p à été modifier
-     * Voir la page suivant:
-     * https://github.com/sire-sam/Magix-CMS_Widget-Frontend/blob/master/function.widget_cms_nav.txt
-     * Contacter @sire_sam pour plus d'informations
-     * #TODO Injecter la function dans le widget
-     *
-     */
 
 
     if($data != null){
@@ -152,7 +109,7 @@ function smarty_function_widget_cms_nav($params, $template){
         $title = isset($params['title']) ? $params['title'] : null;
 
             // ***tanslation var
-        $tr_show_page = frontend_model_template::getConfigVars('show_page');
+        $tr_show_page = ucfirst(frontend_model_template::getConfigVars('show_page'));
 
         /*** FORMATTING ***/
         /**********************/

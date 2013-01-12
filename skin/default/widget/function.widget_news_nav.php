@@ -61,37 +61,39 @@
  * @return string
  */
 function smarty_function_widget_news_nav($params, $template){
-        //Récupération variables localisation
+
+    // *** Catch location var
     $lang_iso           = frontend_model_template::current_Language();
     $current_tag_name   =   ($_GET['tag']) ? magixcjquery_form_helpersforms::inputClean($_GET['tag']) : null;
-        //Récupération langue courante
-    $data = frontend_db_news::s_tag_all($lang_iso);
-    $output = null;
 
+    // *** Load SQL DATA
+    $data = frontend_db_news::s_tag_all($lang_iso);
+
+    $output = null;
     if ($data != null){
-            // ***HTML attributs var
+        // *** set default html attributs
         if ($params['htmlAttribut']){
             $htmlAttr = $params['htmlAttribut'];
             $id_container       =       isset($htmlAttr['id_container'])       ? ' id="'.$htmlAttr['id_container'].'"'      : null;
             $class_container    =       isset($htmlAttr['class_container'])    ? ' class="'.$htmlAttr['class_container'].'"'   : null;
             $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current']    : 'current';
         }
-            // ***HTML injection var
+
+        // *** set html preprend var
         $title = isset($params['title']) ? $params['title'] : null;
 
-            // ***tanslation var
+        // *** Set translation var
         $tr_show_news = frontend_model_template::getConfigVars('show_news');
 
-        /*** FORMATTING ***/
-        /**********************/
+        // *** format items loop (foreach item)
         $items = null;
         foreach($data as $row){
-            /** DATA (parent pages)**/
             $current_item = ($row['name_tag'] == $current_tag_name) ? $class_current : null;
             $uri_item = magixglobal_model_rewrite::filter_news_tag_url($row['iso'],urlencode($row['name_tag']),true);
             $name_item = $row['name_tag'];
             $class_item = ($current_item != null) ? ' class="'.$current_item.'"' : null;
 
+            // *** item construct
             $item =  '<li'.$class_item.'>';
             $item .= '<a href="'.$uri_item.'" title="'.$tr_show_news .': '.$name_item.'">';
             $item .= $name_item;
@@ -101,6 +103,7 @@ function smarty_function_widget_news_nav($params, $template){
 
         }
 
+        // *** container construct
         $output  = isset($title) ? $title : null;
         $output .= '<ul'.$id_container.$class_container.'>';
             $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;

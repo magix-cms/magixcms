@@ -1,16 +1,16 @@
 <ol id="breadcrumb" class="breadcrumb">
 {if $smarty.server.SCRIPT_NAME != '/index.php'}
     <li>
-        <a href="{geturl}/{getlang}/" title="{#nav_home_title#}">
-            {#nav_home#}
+        <a href="{geturl}/{getlang}/" title="{#show_home#|firststring}">
+            {#home#|firststring}
         </a>
         <span class="divider">/</span>
     </li>
-        {**** Content pages (CMS) ****}
+        {* # Pages *}
     {if $smarty.server.SCRIPT_NAME == '/cms.php'}
         {if $smarty.get.getidpage_p}
             <li>
-                <a href="{geturl}/{$url_page_p}" title="{#show_page#}: {$name_page_p}">
+                <a href="{geturl}/{$url_page_p}" title="{#show_page#|firststring}: {$name_page_p}">
                     {$name_page_p}
                 </a>
                 <span class="divider">/</span>
@@ -20,68 +20,68 @@
             {$name_page}
         </li>
     {/if}
-        {**** catalog ****}
+        {* # Catalogue *}
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
         {if $smarty.get.idclc}
-                {* root *}
+                {* ## Root *}
             <li>
-                <a href="{geturl}/{getlang}/{#nav_catalog_uri#}" title="{#nav_catalog_title#}">
-                    {#nav_catalog#}
+                <a href="{geturl}/{getlang}/{#nav_catalog_uri#}" title="{#show_catalog#|firststring}">
+                    {#catalog#|firststring}
                 </a>
                 <span class="divider">/</span>
             </li>
             {if $smarty.get.idcls OR $smarty.get.idproduct}
-                    {* cat *}
+                {* ## Catégories *}
                 <li>
-                    <a href="{geturl}/{$url_cat}/" title="{#show_category#}: {$name_cat}">
+                    <a href="{geturl}/{$url_cat}/" title="{#show_category#|firststring}}: {$name_cat}">
                         {$name_cat}
                     </a>
                     <span class="divider">/</span>
                 </li>
                 {if $smarty.get.idcls AND $smarty.get.idproduct}
-                        {* subcat *}
+                    {* ## Sous-catégories *}
                     <li>
-                        <a href="{geturl}/{$url_subcat}/" title="{#show_subcategory#}: {$name_subcat}">
+                        <a href="{geturl}/{$url_subcat}/" title="{#show_subcategory#|firststring}}: {$name_subcat}">
                             {$name_subcat}
                         </a>
                         <span class="divider">/</span>
                     </li>
                 {else}
-                        {* /subcat *}
                     <li>
                         {$name_subcat}
                     </li>
+                    {* /sous-catégories *}
                 {/if}
                 {if $smarty.get.idproduct}
-                    {* product *}
+                    {* ## Produits *}
                     <li>
                         {$name_product}
                     </li>
                 {/if}
             {else}
-                    {* /cat *}
                 <li>
                     {$name_cat}
                 </li>
+                {* /Catégories *}
             {/if}
         {else}
-                {* /root *}
             <li>
-                {#nav_catalog#}
+                {#catalog#|firststring}
             </li>
+            {* /root *}
         {/if}
         {**** /catalog ****}
     {/if}
-        {**** news ****}
+        {* # Actualités *}
     {if $smarty.server.SCRIPT_NAME == '/news.php'}
             <li>
                 {if $smarty.get.tag OR $smarty.get.uri_get_news}
-                    <a href="{geturl}/{getlang}/{#nav_news_uri#}/" title="{#nav_news_title#}">
-                        {#nav_news#}
+                    <a href="{geturl}/{getlang}/{#nav_news_uri#}/" title="{#show_news#|firststring}">
+                        {#news#|firststring}
                     </a>
                     <span class="divider">/</span>
                     {else}
-                    {#nav_news#}
+                    {#news#|firststring}
                 {/if}
             </li>
             {if $smarty.get.uri_get_news}
@@ -91,7 +91,7 @@
             {/if}
             {if $smarty.get.tag}
                 <li>
-                   {#nav_tag#}: {$name_tag}
+                   {#theme#|firststring}: {$name_tag}
                 </li>
             {/if}
     {/if}
@@ -105,7 +105,7 @@
     {/if}
     {else}
     <li>
-        {#nav_home#}
+        {#home#|firststring}
     </li>
 {/if}
 </ol>

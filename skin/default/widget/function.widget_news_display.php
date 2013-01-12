@@ -52,17 +52,18 @@
  */
 function smarty_function_widget_news_display($params, $template){
 
-    // ***Catch $_GET var
+    // *** Catch location var
     $id_current['tag']          = (isset($_GET['tag']))     ? $_GET['tag']          : null;
     $id_current['news']         = (isset($_GET['getnews'])) ? $_GET['getnews']      : null;
     $id_current['pagination']   = (isset($_GET['page']))   ? intval($_GET['page'])         : 1;
     $id_current['lang']         = frontend_model_template::current_Language();
 
-    // *** load SQL DATA
+    // *** Load SQL data
     $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
     $data = frontend_model_news::set_sql_data($sort_config,$id_current);
 
-    // *** set pagination
+    // *** Set pagination
+    $pagination = null;
     if (isset($data['total']) AND isset($data['limit'])){
         $lib_pagination     = new magixcjquery_pager_pagination();
         $lib_rewrite        = new magixglobal_model_rewrite();
@@ -74,6 +75,7 @@ function smarty_function_widget_news_display($params, $template){
             'seo'       => 'slash'
         );
 
+        // *** Format Pagination
         $pagination = $lib_pagination->setPagerData($data['total'],$data['limit'],$pager_config);
 
         unset($data['total']);
@@ -82,7 +84,7 @@ function smarty_function_widget_news_display($params, $template){
 
     $output = null;
     if ($data != null){
-        // *** Default html Structure
+        // *** set default html structure
         $strucHtml_default = array(
             'container'     =>  array(
                 'htmlBefore'    =>  '<ul class="thumbnails">',
@@ -132,7 +134,7 @@ function smarty_function_widget_news_display($params, $template){
             )
         );
 
-        // *** Default item setting
+        // *** Set default elem to display
         $strucHtml_default['allow']     = array('','img', 'name', 'descr', 'date', 'tag');
         $strucHtml_default['display']   = array( 1 => array('','name', 'img', 'descr', 'date', 'tag'));
 
@@ -140,45 +142,42 @@ function smarty_function_widget_news_display($params, $template){
         $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
         $strucHtml = frontend_model_news::set_html_struct($strucHtml_default,$structHtml_custom);
 
-        // *** Format setting
+        // *** format items loop (foreach item)
+        // ** Loop management var
         $items = null;
         $i = 0;
-
-        // *** loop for list format
             foreach($data as $row){
                 $i++;
 
-                // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
+                // ** Set items data (with specific key)
                 $item_dataVal  = frontend_model_news::set_data_item($row,$id_current);
 
-                // Configuration de la structure HTML de l'item
+                // *** set item html structure & var
                 $strucHtml['is_current'] = ($item_dataVal['current'] == 'true') ? 1 : 0;
                 $strucHtml['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
                 $strucHtml['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
                 $strucHtml_item = frontend_model_news::set_html_struct_item($strucHtml,$i);
 
-                // remise à zero du compteur si élément est le dernier de la ligne
+                // *** Reset iteration if item is last on the line
                 if ($strucHtml_item['is_last'] == 1){
                     $i = 0;
                 }
 
-                // Si affichage null, récupération affichage par default
+                // *** in case diplay is null, we take default value
                 if ($strucHtml_item['display'][1] == null)
                     $strucHtml_item['display'][1] = $strucHtml_default['display'][1];
 
+                // *** format item loop (foreach element)
                 $item = null;
-
                 foreach ($strucHtml_item['display'][1] as $elem_type ){
-                    // loop format elements in item
                     $strucHtml_elem = $strucHtml_item[$elem_type ];
                     if(array_search($elem_type,$strucHtml_item['display'][1])){
-                        // Config class link
+                        // *** set link class
                         $item_classLink = null;
                         if(isset($strucHtml_elem['classLink'])){
                             $item_classLink = ' class="'.$strucHtml_elem['classLink'].'"';
                             $item_classLink = ($strucHtml_elem['classLink'] == 'none') ? 'none' : $item_classLink;
                         }
-                        // Format element on switch
                         switch($elem_type){
                             case 'name':
                                 $elem = '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'. $item_dataVal['name'].'">';
@@ -202,6 +201,7 @@ function smarty_function_widget_news_display($params, $template){
                             default:
                                 $elem = null;
                         }
+                        // *** elem construct
                         if ($elem != null){
                             $item .= $strucHtml_elem['htmlBefore'];
                             $item .= $elem;
@@ -210,25 +210,18 @@ function smarty_function_widget_news_display($params, $template){
                     }
 
                 }
+                // *** item construct
                 $items .= $strucHtml_item['item']['htmlBefore'];
                 $items .= $item;
                 $items .= $strucHtml_item['item']['htmlAfter'];
             }
-        // *** list format END
-        if($pagination != null) {
-            // *** Format pagination
-            $pagination_ouput  = $strucHtml['pagination']['htmlBefore'];
-            $pagination_ouput .= $pagination;
-            $pagination_ouput .= $strucHtml['pagination']['htmlAfter'];
-        }
-
-        // *** ouput
+        // *** container construct
         $output .= $strucHtml['container']['htmlBefore'];
-        $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-        $output .=  $items;
-        $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-        $output .= $strucHtml['container']['htmlAfter'];
-        $output .=  $pagination_ouput;
+                $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+                    $output .=  $items;
+                $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+            $output .= $strucHtml['container']['htmlAfter'];
+        $output .=  $pagination;
     }
 	return $output;
 }

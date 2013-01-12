@@ -53,18 +53,18 @@
 
 function smarty_function_widget_catalog_display($params, $template) {
 
-    // ***Catch $_GET var
+    // *** Catch location var
     $id_current['category']     =       magixcjquery_filter_isVar::isPostNumeric($_GET['idclc'])        ;
     $id_current['subcategory']  =       magixcjquery_filter_isVar::isPostNumeric($_GET['idcls'])        ;
     $id_current['product']      =       magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct'])    ;
 
-    // *** load SQL DATA
+    // *** Load SQL data
     $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
     $data = frontend_model_catalog::set_sql_data($sort_config,$id_current);
 
     $output = null;
     if ($data != null){
-        // *** Default html Structure
+        // *** set default html structure
         $strucHtml_default = array(
             'container'     =>  array(
                 'htmlBefore'    => '<ul class="thumbnails">',
@@ -104,7 +104,7 @@ function smarty_function_widget_catalog_display($params, $template) {
                 )
         );
 
-        // *** Default item setting
+        // *** Set default elem to display
         $strucHtml_default['allow']     = array('', 'img', 'name', 'price', 'descr');
         $strucHtml_default['display']   = array(
             1 =>    array('','name', 'img', 'descr', 'price'),
@@ -116,15 +116,15 @@ function smarty_function_widget_catalog_display($params, $template) {
         $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
         $strucHtml = frontend_model_catalog::set_html_struct($strucHtml_default,$structHtml_custom);
 
-        // *** Format setting
-        // Variables de gestion des niveaux dans la boucle
+        // *** format items loop (foreach item)
+        // ** Loop management var
         $deep = 1;
         $deep_minus = $deep  - 1;
         $deep_plus = $deep  + 1;
         $pass_trough = 0;
         $data_empty = false;
 
-        // Variables pour formatage des données
+        // ** Loop format & output var
         $row = array();
         $items = array();
         $i[$deep] = 0;
@@ -132,7 +132,6 @@ function smarty_function_widget_catalog_display($params, $template) {
         // *** boucle / loop
         do{
             // *** loop management START
-            // ***************************
             if ($pass_trough == 0){
                 // Si je n'ai plus de données à traiter je vide ma variable
                 $row[$deep] = null;
@@ -182,7 +181,6 @@ function smarty_function_widget_catalog_display($params, $template) {
             // *** loop management END
 
             // *** list format START
-            // ***************************
             if ($row[$deep] != null AND $pass_trough != 1){
                 $i[$deep]++;
 
@@ -276,8 +274,7 @@ function smarty_function_widget_catalog_display($params, $template) {
 
         }while($data_empty == false);
 
-        // OUTPUT
-        // ***********
+        // *** container construct
         if ($items[1] != null) {
             $output .= $strucHtml['container']['htmlBefore'];
             $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;

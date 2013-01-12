@@ -36,24 +36,15 @@
  * @subpackage plugins
  */
 /**
- * Smarty {widget_social_network} function plugin
+ * Smarty {widget_share_display} function plugin
  *
  * Type:     function
- * Name:     widget_get_social
- * Date:     18-07-2011
- * Update:   01-08-2011
- * Purpose:  Display social bookmark
- * Examples:
-     {widget_social_network 
-  		config_param=[
-  		'news'=>[{#topmenu_news_t#},$n_title],
-  		'cms'=>[$title_page],
-  		'catalog'=>[{#topmenu_catalog_t#},$clibelle,$slibelle,$titlecatalog],
-  		'plugins'=>['contact'=>{#pn_contact_forms#}]
-  		] size="medium" default=$subject}
- * Output:   
- * @link 	http://www.magix-dev.be
- * @author   Gerits Aurélien
+ * Name:     widget_share_display
+ * Date:     04/01/2012
+ * Update:   12/01/2013
+ * Output:
+ * @author   Sire Sam (http://www.sire-sam.be)
+ * @author   Gerits Aurélien (http://www.magix-dev.be)
  * @version  1.0
  * @param array
  * @param Smarty
@@ -62,24 +53,22 @@
 function smarty_function_widget_share_display($params, $template){
 
     // *** Load active script var
-    // **************************
-
-        // ***Catch Domain var
+        // ** Catch Domain var
         $url['root']        =       magixcjquery_html_helpersHtml::getUrl();
         $url['relativ']     =       $_SERVER["REQUEST_URI"];
             //strrpos récupère la dernière occurence de / et de .
             $url['share'] = $url['root'].$url['relativ'];
 
-        // *** Catch module's page name
+        // ** Catch module's page name
         $smarty = frontend_config_smarty::getInstance();
 
-            ///  identify active module
+        // ** identify active module
         $script['fileName'] = substr($_SERVER['SCRIPT_NAME'],1);
         $script['chartBeforeExt'] = strpos($script['fileName'], '.');
         $active_mod = substr($script['fileName'], 0, $script['chartBeforeExt']);
 
-            /// Found good name for active module
-            $name = null;
+        // ** set active module name
+        $name = null;
         switch($active_mod){
             case 'index':
                 $name = $smarty->getTemplateVars('title'); // Catch meta Title content
@@ -144,19 +133,19 @@ function smarty_function_widget_share_display($params, $template){
         )
     );
 
-    // *** Select Data
-    if (isset($params['dataSelect']['select'])){
-        $dataSelect = explode(',',$params['dataSelect']['select']);
-        foreach($dataSelect as $share){
-            if(array_key_exists($share,$data_default)){
-                $data[] = $data_default[$share];
+        // ** Select Data
+        if (isset($params['dataSelect']['select'])){
+            $dataSelect = explode(',',$params['dataSelect']['select']);
+            foreach($dataSelect as $share){
+                if(array_key_exists($share,$data_default)){
+                    $data[] = $data_default[$share];
+                }
             }
+        }else{
+            $data = $data_default;
         }
-    }else{
-        $data = $data_default;
-    }
 
-    // *** Default html Strucure
+    // *** Set default html structure
     $strucHtml_default = array(
         'container'     =>  array(
             'htmlBefore'    => '<ul>',
@@ -185,73 +174,73 @@ function smarty_function_widget_share_display($params, $template){
         )
     );
 
-    // *** Default item setting
-    $strucHtml_default['allow']     = array('', 'name', 'img');
-    $strucHtml_default['display']   = array(
-        1 =>    array('','img', 'name')
-    );
+        // ** Set default elem to display
+        $strucHtml_default['allow']     = array('', 'name', 'img');
+        $strucHtml_default['display']   = array(
+            1 =>    array('','img', 'name')
+        );
 
-    // *** Update html struct & item setting with custom var (params['htmlStructure'])
-    $custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-    $default = $strucHtml_default;
-    if (is_array($custom)){
-        $default['display'] = array();
-        foreach($custom AS $k => $v){
-            foreach($v AS $sk => $sv){
-                if ($sv != null){
-                    $default[$k][$sk] = $sv;
+        // ** Update html struct & item setting with custom var (params['htmlStructure'])
+        $custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
+        $default = $strucHtml_default;
+        if (is_array($custom)){
+            $default['display'] = array();
+            foreach($custom AS $k => $v){
+                foreach($v AS $sk => $sv){
+                    if ($sv != null){
+                        $default[$k][$sk] = $sv;
+                    }
                 }
+                if (array_search($k,$default['allow']))
+                    $default['display'][1][] = $k;
             }
-            if (array_search($k,$default['allow']))
-                $default['display'][1][] = $k;
         }
-    }
 
-    // *** Update html struct with display params (params['htmlDisplay'])
-    if(isset($params['htmlDisplay']))
-        $default['display'] = $params['htmlDisplay'];
+        // ** Update html struct with display params (params['htmlDisplay'])
+        if(isset($params['htmlDisplay']))
+            $default['display'] = $params['htmlDisplay'];
 
-    // *** push null value on case[0] (allow array search on format function)
-    foreach($default['display'] AS $k => $v){
-        array_unshift($default['display'][$k],null);
-    }
-    $strucHtml = $default;
+            // * push null value on case[0] (allow array search on format function)
+            foreach($default['display'] AS $k => $v){
+                array_unshift($default['display'][$k],null);
+            }
+            $strucHtml = $default;
 
-    if ($strucHtml['display'][1] == null)
-        $strucHtml['display'][1] = $strucHtml_default['display'][1];
+        // ** in cas diplay is null, we take default value
+        if ($strucHtml['display'][1] == null)
+            $strucHtml['display'][1] = $strucHtml_default['display'][1];
 
-    // *** Format setting
-        $items = null;
+    // *** Set translation var
+    $t_share_on = frontend_model_template::getConfigVars('share_on');
 
-    // *** Format share list
+    // *** format items loop (foreach item)
     $items = null;
     foreach ($data as $row){
-            // *** loop format elements in item
-        $icon = '<img src="'.'/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/share/'.$row['img'].'" alt="'.$row['name'].'" />';
-        $name = ucfirst($row['name']);
+        // ** format item loop (foreach element)
         $elem = null;
         foreach ($strucHtml['display'][1] as $elem_type ){
             if(array_search($elem_type,$strucHtml['display'][1])){
                 switch($elem_type){
                     case 'name':
-                        $elem .= $name;
+                        $elem .= ucfirst($row['name']);
                         break;
                     case 'img':
-                        $elem .= $icon;
+                        $elem .= '<img src="'.'/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/share/'.$row['img'].'" alt="'.$row['name'].'" />';
                 }
             }
         }
+        // ** item construct
         $items .= $strucHtml['item']['htmlBefore'];
-            $items .= '<a id="share-'.$row['name'].'" class="targetblank" href="'.$row['url'].'" title="'.$name.'">';
+            $items .= '<a id="share-'.$row['name'].'" class="targetblank" href="'.$row['url'].'" title="'.ucfirst($t_share_on).': '.$row['name'].'">';
                 $items .= $elem;
             $items .= '</a>';
         $items .= $strucHtml['item']['htmlAfter'];
     }
-
+    // *** container construct
     $output = $strucHtml['container']['htmlBefore'];
-    $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-    $output .=  $items;
-    $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+        $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+            $output .=  $items;
+        $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
     $output .= $strucHtml['container']['htmlAfter'];
 
 	return $output;

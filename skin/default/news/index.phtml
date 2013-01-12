@@ -11,7 +11,11 @@
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
                 <h1>{#news_root_h1#}</h1>
-                    {widget_news_display}
+                    {widget_news_display
+                        dataSelect=[
+                            'limit' => 1
+                        ]
+                    }
             </div>
         </div>
         <div class="clear">&nbsp;</div>
