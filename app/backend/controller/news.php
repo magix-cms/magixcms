@@ -49,7 +49,7 @@ class backend_controller_news extends backend_db_news{
 	 * 
 	 * @var integer
 	 */
-	public $getnews;
+	public $edit;
 	/**
 	 * 
 	 * @var string
@@ -86,7 +86,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var intéger
 	 */
 	public $delnews;
-	public $status_news,$get_news_publication,$name_tag,$del_tag;
+	public $status_news,$get_news_publication,$name_tag,$del_tag,$action,$getlang;
 	/**
 	 * Recherche dans les news
 	 */
@@ -96,9 +96,18 @@ class backend_controller_news extends backend_db_news{
 	 * 
 	 */
 	public function __construct(){
+        if(magixcjquery_filter_request::isSession('useridadmin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        }
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 		if(magixcjquery_filter_request::isGet('edit')){
-			$this->getnews = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
+        if(magixcjquery_filter_request::isGet('getlang')){
+            $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
+        }
 		if(magixcjquery_filter_request::isPost('n_title')){
 			$this->n_title = magixcjquery_form_helpersforms::inputClean($_POST['n_title']);
 		}
@@ -157,6 +166,81 @@ class backend_controller_news extends backend_db_news{
 			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
 		}
 	}
+    /**
+     * offset for pager in pagination
+     * @param $max
+     * @return int
+     */
+    private function offset_pager($max){
+        $pagination = new magixcjquery_pager_pagination();
+        return $pagination->pageOffset($max,$this->getpage);
+    }
+
+    /**
+     * Construction de la pagination
+     * @param $max
+     * @return string
+     */
+    private function news_pager($max){
+        $pagination = new magixcjquery_pager_pagination();
+        $request = parent::s_count_max_news();
+        $setConfig = array(
+            'url'=>'/admin/news.php?getlang='.$this->getlang.'&amp;action=list&amp;',
+            'getPage'=> $this->getpage,
+            'seo'=>'none',
+            'pageName'=>'page',
+            'pageNumber'=> true,
+            'pageNumberLight'=>false,
+            'uriOption'=>false,
+            'arrow'=>true,
+            'arrowthick'=>true
+        );
+        return $pagination->setPagerData(
+            $request['total'],$max,$setConfig
+        );
+    }
+
+    /**
+     * Retourne la liste des news au format JSON
+     * @param $max
+     */
+    private function json_list_news($max){
+        $offset = $this->offset_pager($max);
+        $limit = $max;
+        if(parent::s_news_list($this->getlang,$limit,$max,$offset) != null){
+            foreach (parent::s_news_list($this->getlang,$limit,$max,$offset) as $key){
+                if ($key['n_content'] != null){
+                    $content = 1;
+                }else{
+                    $content = 0;
+                }
+                $json[]= '{"idnews":'.json_encode($key['idnews']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($key['iso']))
+                .',"n_title":'.json_encode($key['n_title']).',"n_content":'.json_encode($content).',"pseudo":'.json_encode($key['pseudo'])
+                .'}';
+            }
+            print '['.implode(',',$json).']';
+        }
+    }
+    /**
+     * @access private
+     * insertion d'une nouvelle news
+     */
+    private function insert_news_data(){
+        if(isset($this->n_title)){
+            if(empty($this->n_title)){
+                backend_controller_template::display('news/request/empty.phtml');
+            }else{
+                parent::i_news(
+                    $this->extract_random_idnews(20),
+                    $this->getlang,
+                    $this->idadmin,
+                    $this->n_title,
+                    magixcjquery_url_clean::rplMagixString($this->n_title)
+                );
+                backend_controller_template::display('news/request/success.phtml');
+            }
+        }
+    }
 	/**
 	 * @access private
 	 * Le dossier images des news 
@@ -253,45 +337,21 @@ class backend_controller_news extends backend_db_news{
 	private function insert_data_forms(){
 		if(isset($this->n_title) AND isset($this->n_content)){
 			if(empty($this->n_title) OR empty($this->n_content)){
-				backend_controller_template::display('request/empty.phtml');
+				backend_controller_template::display('news/request/empty.phtml');
 			}else{
 					parent::i_new_news(
 						$this->extract_random_idnews(20),
 						$this->idlang,
-						backend_model_member::s_idadmin(),
+						$this->idadmin,
 						$this->n_title,
 						magixcjquery_url_clean::rplMagixString($this->n_title),
 						$this->n_content
 					);
-					backend_controller_template::display('request/success.phtml');
+					backend_controller_template::display('news/request/success.phtml');
 				}
 			}
 	}
-	/**
-	 * offset for pager in pagination
-	 * @param $max
-	 */
-	public function offset_pager($max){
-		$pagination = new magixcjquery_pager_pagination();
-		return $pagination->pageOffset($max,$this->getpage);
-	}
-	/**
-	 * pagination for news
-	 * @param $max
-	 */
-	public function news_pager($max){
-		$pagination = new magixcjquery_pager_pagination();
-		$request = parent::s_count_news_pager_max();
-		return $pagination->pagerData(
-			$request,
-			'total',
-			$max,$this->getpage,
-			'/admin/news.php?',
-			false,
-			false,
-			'page'
-		);
-	}
+
 	/**
 	 * @access private
 	 * Chargement de l'url public courante avec JSON
@@ -335,9 +395,9 @@ class backend_controller_news extends backend_db_news{
 	 */
 	private function news_image($news_img){
 		if($news_img != null){
-			$img = '<img style="position:relative;margin:auto;" src="/upload/news/s_'.$news_img.'" alt="" />';
+			$img = '<img src="/upload/news/s_'.$news_img.'" alt="" />';
 		}else{
-			$img = '<img style="" src="/framework/img/no-picture.png" alt="" />';
+			$img = '<img src="/framework/img/no-picture.png" alt="" />';
 		}
 		print $img;
 	}
@@ -420,34 +480,22 @@ class backend_controller_news extends backend_db_news{
 			parent::d_news($this->delnews);
 		}
 	}
-	/**
-	 * @access private
-	 * Requête JSON pour les statistiques du CMS
-	 */
-	private function json_news_chart(){
-		if(parent::s_count_news_by_lang() != null){
-			foreach (parent::s_count_news_by_lang() as $s){
-				$rowNews[]= $s['countnews'];
-			}
-		}else{
-			$rowNews = array(0);
-		}
-		if(backend_db_block_lang::s_data_lang() != null){
-			foreach (backend_db_block_lang::s_data_lang() as $s){
-				$rowLang[]= json_encode(magixcjquery_string_convert::upTextCase($s['iso']));
-			}
-		}else{
-			$rowLang = array(0);
-		}
-		if(parent::s_count_list_tag() != null){
-			foreach (parent::s_count_list_tag() as $s){
-				$rowTag[]= $s['ctag'];
-			}
-		}else{
-			$rowTag = array(0);
-		}
-		print '{"news_count":['.implode(',',$rowNews).'],"lang":['.implode(',',$rowLang).'],"tag_count":['.implode(',',$rowTag).']}';
-	}
+    /**
+     * @access private
+     * Requête JSON pour les statistiques du CMS
+     */
+    private function json_graph(){
+        if(parent::s_stats_pages() != null){
+            foreach (parent::s_stats_pages() as $key){
+                $stat[]= array(
+                    'x'=>magixcjquery_string_convert::upTextCase($key['iso']),
+                    'y'=>$key['PAGES'],
+                    'z'=>$key['TAGS']
+                );
+            }
+            print json_encode($stat);
+        }
+    }
 	/**
 	 * @access private
 	 * Ajouter un tag à une news
@@ -511,7 +559,7 @@ class backend_controller_news extends backend_db_news{
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
-		if(magixcjquery_filter_request::isGet('edit')){
+		/*if(magixcjquery_filter_request::isGet('edit')){
 			$data = parent::s_news_record($this->getnews);
 			if(magixcjquery_filter_request::isPost('n_title')){
 				$this->update_data_forms();
@@ -568,6 +616,46 @@ class backend_controller_news extends backend_db_news{
 			}else{
 				backend_controller_template::display('news/index.phtml');
 			}
-		}
+		}*/
+        $header= new magixglobal_model_header();
+        $create = new backend_controller_template();
+        if(magixcjquery_filter_request::isGet('getlang')){
+            if(isset($this->action)){
+                if($this->action == 'list'){
+                    $max = 20;
+                    if(magixcjquery_filter_request::isGet('json_list_news')){
+                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->pragma();
+                        $header->cache_control("nocache");
+                        $header->getStatus('200');
+                        $header->json_header("UTF-8");
+                        $this->json_list_news($max);
+                    }else{
+                        $create->display('news/list.phtml');
+                    }
+                }elseif($this->action == 'add'){
+                    if(isset($this->n_title)){
+                        $this->insert_news_data();
+                    }
+                }elseif($this->action == 'edit'){
+
+                }elseif($this->action == 'remove'){
+
+                }
+            }
+        }else{
+            if(magixcjquery_filter_request::isGet('json_graph')){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_graph();
+            }else{
+                backend_controller_template::display('news/index.phtml');
+            }
+        }
 	}
 }

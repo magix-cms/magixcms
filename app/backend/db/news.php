@@ -47,28 +47,69 @@
  *
  */
 class backend_db_news{
-	/**
-	 * insertion d'un nouvel enregistrement pour une news
-	 * @param $subject
-	 * @param $content
-	 * @param $idlang
-	 * @param $idadmin
-	 */
-	protected function i_new_news($keynews,$idlang,$idadmin,$n_title,$n_uri,$n_content){
-		/*$sql = array('INSERT INTO mc_news (subject,rewritelink,content,idlang,idadmin,date_sent) 
-				VALUE('.magixglobal_model_db::layerDB()->escape_string($subject).','.magixglobal_model_db::layerDB()->escape_string($rewritelink).','.magixglobal_model_db::layerDB()->escape_string($content).',"'.$idlang.'","'.$idadmin.'",NOW())',
-		'INSERT INTO mc_news_publication (date_publication,publish) VALUE("0000-00-00 00:00:00","0")');
-		magixglobal_model_db::layerDB()->transaction($sql);*/
-		$sql = 'INSERT INTO mc_news (keynews,idlang,idadmin,n_title,n_uri,n_content)
-		VALUE (:keynews,:idlang,:idadmin,:n_title,:n_uri,:n_content)';
-		magixglobal_model_db::layerDB()->update($sql,
-		array(
+    /*######################## Statistiques ##############################*/
+    /**
+     * @return array
+     */
+    protected function s_stats_pages(){
+        $sql = 'SELECT lang.iso, IF( p.page_count >0, p.page_count, 0 ) AS PAGES,
+        IF( t.tag_count >0, t.tag_count, 0 ) AS TAGS
+        FROM mc_lang AS lang
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, lang.iso, count( news.idnews ) AS page_count
+            FROM mc_news AS news
+            JOIN mc_lang AS lang ON ( news.idlang = lang.idlang )
+            GROUP BY news.idlang
+            )p ON ( p.idlang = lang.idlang )
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, lang.iso, tag.idnews_tag, count( tag.idnews_tag ) AS tag_count
+            FROM mc_news AS news
+            JOIN mc_lang AS lang ON ( news.idlang = lang.idlang )
+            JOIN mc_news_tag AS tag ON ( tag.idnews = news.idnews )
+            GROUP BY news.idlang
+            )t ON ( t.idlang = lang.idlang )
+        GROUP BY lang.idlang';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+
+    /**
+     * @param bool $limit
+     * @param null $max
+     * @param null $offset
+     * @return array
+     */
+    protected function s_news_list($getlang,$limit=false,$max=null,$offset=null){
+        $limit = $limit ? ' LIMIT '.$max : '';
+        $offset = !empty($offset) ? ' OFFSET '.$offset: '';
+        $sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_content,lang.iso,n.idlang,
+        n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
+        FROM mc_news AS n
+        JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+        JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin)
+        WHERE n.idlang = :getlang
+        ORDER BY n.idnews DESC'.$limit.$offset;
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':getlang'	=>	$getlang
+        ));
+    }
+
+    /**
+     * insertion d'un nouvel enregistrement pour une news
+     * @param $keynews
+     * @param $getlang
+     * @param $idadmin
+     * @param $n_title
+     * @param $n_uri
+     */
+    protected function i_news($keynews,$getlang,$idadmin,$n_title,$n_uri){
+		$sql = 'INSERT INTO mc_news (keynews,getlang,idadmin,n_title,n_uri)
+		VALUE (:keynews,:getlang,:idadmin,:n_title,:n_uri)';
+		magixglobal_model_db::layerDB()->insert($sql,array(
 			':keynews'		=>	$keynews,
-			':idlang'		=>	$idlang,
+			':getlang'		=>	$getlang,
 			':idadmin'		=>	$idadmin,
 			':n_title'		=>	$n_title,
-			':n_uri'		=>	$n_uri,
-			':n_content'	=>	$n_content
+			':n_uri'		=>	$n_uri
 		));
 	}
 	/**
@@ -86,7 +127,7 @@ class backend_db_news{
 	 * Retourne le nombre maximum de news
 	 * @return void
 	 */
-	protected function s_count_news_pager_max(){
+	protected function s_count_max_news(){
 		$sql = 'SELECT count(n.idnews) as total
 		FROM mc_news AS n';
 		return magixglobal_model_db::layerDB()->select($sql);

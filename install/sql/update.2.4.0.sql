@@ -37,6 +37,7 @@ CHANGE `sidebar_page` `sidebar_page` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0'
 
 ALTER TABLE `mc_news` CHANGE `idadmin` `idadmin` SMALLINT( 5 ) UNSIGNED NOT NULL ,
 CHANGE `idlang` `idlang` SMALLINT( 3 ) UNSIGNED NOT NULL DEFAULT '1',
+CHANGE `n_content` `n_content` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
 CHANGE `published` `published` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
 
 ALTER TABLE `mc_admin_member` CHANGE `idadmin` `idadmin` SMALLINT( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT;

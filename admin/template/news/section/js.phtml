@@ -1,0 +1,19 @@
+{include file="section/editor.phtml"}
+{script src="/{baseadmin}/min/?g=tinymce" type="javascript"}
+{script src="/{baseadmin}/min/?g=charts" type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_news.js" type="javascript"}
+<script type="text/javascript">
+$(function(){
+    if (typeof MC_news == "undefined")
+    {
+        console.log("MC_news is not defined");
+    }else{
+        {if $smarty.get.getlang}
+            {if $smarty.get.edit}
+            {/if}
+        {elseif !$smarty.get.edit}
+            MC_news.runCharts();
+        {/if}
+    }
+});
+</script>

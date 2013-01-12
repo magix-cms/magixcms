@@ -171,3 +171,7 @@ tbody.ui-sortable > .ui-sortable-helper{
 #theming .thumbnail img{
     margin-top:5px;
 }
+/*
+* Changer d'icône pour Showit
+*/
+.showit.open > .icon-plus:before { content: "\f068"; }

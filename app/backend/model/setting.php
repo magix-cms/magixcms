@@ -44,7 +44,7 @@
  * @name setting
  * Model setting
  */
-class backend_model_setting extends backend_db_setting{
+class backend_model_setting extends backend_db_config{
 	/**
 	 * Constructor
 	 */
@@ -58,7 +58,7 @@ class backend_model_setting extends backend_db_setting{
 	 */
 	public static function update_setting_value($setting_id,$setting_value){
 		if(isset($setting_id)){
-			backend_db_setting::u_setting_value($setting_id,$setting_value);
+			parent::u_setting_value($setting_id,$setting_value);
 		}
 	}
 	/**
@@ -69,7 +69,7 @@ class backend_model_setting extends backend_db_setting{
 	 */
 	public static function update_setting_label($setting_id,$setting_label){
 		if(isset($setting_id)){
-			backend_db_setting::u_setting_label($setting_id,$setting_label);
+            parent::u_setting_label($setting_id,$setting_label);
 		}
 	}
 	/**
