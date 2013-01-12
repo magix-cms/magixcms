@@ -64,7 +64,7 @@ class backend_controller_news extends backend_db_news{
 	 * 
 	 * @var string
 	 */
-	public $n_content;
+	public $n_content,$idadmin;
 	/**
 	 * 
 	 * @var string
@@ -167,6 +167,15 @@ class backend_controller_news extends backend_db_news{
 		}
 	}
     /**
+     * @access private
+     * Génération d'un identifiant alphanumérique avec une longueur définie
+     * @param integer $numString
+     * @return string
+     */
+    private function extract_random_idnews($numString){
+        return magixglobal_model_cryptrsa::short_alphanumeric_id($numString);
+    }
+    /**
      * offset for pager in pagination
      * @param $max
      * @return int
@@ -248,14 +257,7 @@ class backend_controller_news extends backend_db_news{
 	private function dir_img_news(){
 		return magixglobal_model_system::base_path().'/upload/news/';
 	}
-	/**
-	 * @access private
-	 * Génération d'un identifiant alphanumérique avec une longueur définie
-	 * @param integer $numString
-	 */
-	private function extract_random_idnews($numString){
-		return magixglobal_model_cryptrsa::short_alphanumeric_id($numString);
-	}
+
 	/**
 	 * @access private
 	 * Insert une image dans les news
@@ -329,27 +331,6 @@ class backend_controller_news extends backend_db_news{
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
-	}
-	/**
-	 * @access private
-	 * insertion d'une nouvelle news
-	 */
-	private function insert_data_forms(){
-		if(isset($this->n_title) AND isset($this->n_content)){
-			if(empty($this->n_title) OR empty($this->n_content)){
-				backend_controller_template::display('news/request/empty.phtml');
-			}else{
-					parent::i_new_news(
-						$this->extract_random_idnews(20),
-						$this->idlang,
-						$this->idadmin,
-						$this->n_title,
-						magixcjquery_url_clean::rplMagixString($this->n_title),
-						$this->n_content
-					);
-					backend_controller_template::display('news/request/success.phtml');
-				}
-			}
 	}
 
 	/**
