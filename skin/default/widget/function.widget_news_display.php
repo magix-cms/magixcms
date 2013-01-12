@@ -37,14 +37,14 @@
  * Type:     function
  * Name:     widget_news_display
  * Update:   December  25, 2012
- * Update:   December  29, 2012
+ * Update:   January   12, 2013
  * Purpose:  
  * Examples: {widget_news_display}
  * Output:   
  * @link
  * @author   Gerits Aurelien
  * @author   Sire Sam (sire-sam.be)
- * @version  1.0
+ * @version  1.0.1
  * @param array
  * @param Smarty
  * @return string
@@ -53,22 +53,33 @@
 function smarty_function_widget_news_display($params, $template){
 
     // ***Catch $_GET var
-    $id_current['tag']     = (isset($_GET['tag'])) ? $_GET['tag'] : null;
-    $id_current['news']    = (isset($_GET['getnews'])) ? $_GET['getnews'] : null;
+    $id_current['tag']          = (isset($_GET['tag']))     ? $_GET['tag']          : null;
+    $id_current['news']         = (isset($_GET['getnews'])) ? $_GET['getnews']      : null;
+    $id_current['pagination']   = (isset($_GET['page']))   ? intval($_GET['page'])         : 1;
+    $id_current['lang']         = frontend_model_template::current_Language();
 
     // *** load SQL DATA
     $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
     $data = frontend_model_news::set_sql_data($sort_config,$id_current);
 
     // *** set pagination
-    $pagination = null;
-    if (isset($data['pagination'])){
-        $pagination = $data['pagination'];
-        unset($data['pagination']);
+    if (isset($data['total']) AND isset($data['limit'])){
+        $lib_pagination     = new magixcjquery_pager_pagination();
+        $lib_rewrite        = new magixglobal_model_rewrite();
+
+        $pager_config = array(
+            'url'       => '/'.$id_current['lang'].$lib_rewrite->mod_news_lang($id_current['lang']),
+            'getPage'   => $id_current['pagination'],
+            'pageName'  => 'page',
+            'seo'       => 'slash'
+        );
+
+        $pagination = $lib_pagination->setPagerData($data['total'],$data['limit'],$pager_config);
+
+        unset($data['total']);
+        unset($data['limit']);
     }
 
-    // FORMAT DATA
-    // ***********
     $output = null;
     if ($data != null){
         // *** Default html Structure
@@ -133,9 +144,7 @@ function smarty_function_widget_news_display($params, $template){
         $items = null;
         $i = 0;
 
-        // *** boucle / loop
-            // *** list format START
-            // ***************************
+        // *** loop for list format
             foreach($data as $row){
                 $i++;
 
@@ -213,8 +222,7 @@ function smarty_function_widget_news_display($params, $template){
             $pagination_ouput .= $strucHtml['pagination']['htmlAfter'];
         }
 
-        // OUTPUT
-        // ***********
+        // *** ouput
         $output .= $strucHtml['container']['htmlBefore'];
         $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
         $output .=  $items;

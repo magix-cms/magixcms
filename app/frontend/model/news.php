@@ -161,6 +161,17 @@ class frontend_model_news extends frontend_db_news {
     }
     /**
      * Retourne les données sql sur base des paramètres passés en paramète
+     * @param numeric $limit
+     * @param numeric $current
+     * @return numerice
+     */
+    public function set_pagination_offset($limit,$current){
+        $pagination = new magixcjquery_pager_pagination();
+        return $pagination->pageOffset($limit,$current);
+    }
+
+    /**
+     * Retourne les données sql sur base des paramètres passés en paramète
      * @param array $sort_config
      * @param array $id_current
      * @return array|null
@@ -171,11 +182,12 @@ class frontend_model_news extends frontend_db_news {
             exit;
 
         $controller = new frontend_controller_news();
+        $model      = new frontend_model_news();
         // default values: data_sort
         $data_sort['tag'] = $id_current['tag']; // sot tags (string)
         $data_sort['type'] = null; // sort type (string)
         $data_sort['limit'] = 10;
-        $data_sort['offset'] = $controller->news_offset_pager($data_sort['limit']);
+        $data_sort['offset'] = $model->set_pagination_offset($data_sort['limit'],$id_current['pagination']);
         $lang =  frontend_model_template::current_Language();
 
         // custom values: data_sort
@@ -201,23 +213,21 @@ class frontend_model_news extends frontend_db_news {
         }
         if ($sort_config['limit']) {
             $data_sort['limit'] = $sort_config['limit'];
-            $data_sort['offset'] = $controller->news_offset_pager($data_sort['limit']);
+            $data_sort['offset'] = $model->set_pagination_offset($data_sort['limit'],$id_current['pagination']);
         }
         if (isset($sort_config['level'])){
             if ( $sort_config['level'] == 'last-news')  {  $level = 'last-news';}
         }
-        // SET SQL DATA
-        // *************
+        // *** set sql data
         if ($data_sort['tag'] != null){
             $data = parent::s_news_in_tag($lang,$data_sort['tag'],$data_sort['type'],$data_sort['limit']);
         }elseif ($level == 'last-news'){
-            $data = parent::s_news(frontend_model_template::current_Language(),true,$data_sort['limit'],0);
+            $data = parent::s_news($lang,true,$data_sort['limit'],0);
         }else {
-            $data = parent::s_news(frontend_model_template::current_Language(),true,$data_sort['limit'],$data_sort['offset']);
-            $count_news = frontend_db_block_news::s_count_news(frontend_model_template::current_Language());
-            if($count_news >= $data_sort['limit'] AND ($level) != 'last-news'){
-                $data['pagination'] = $controller->news_pagination($data_sort['limit'],'pagination');
-            }
+            $data = parent::s_news($lang,true,$data_sort['limit'],$data_sort['offset']);
+            $data['total'] = parent::s_news_lang_total($lang);
+            $data['total'] = $data['total']['total']; // @TODO revoir autre function pour acepté numerice en place de array
+            $data['limit'] = $data_sort['limit'];
         }
         return $data;
     }
