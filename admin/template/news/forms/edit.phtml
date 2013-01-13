@@ -1,3 +1,16 @@
+{if $smarty.get.tab eq "image"}
+<form id="forms_news_edit_image" method="post" action="" enctype="multipart/form-data">
+    <p>
+        <label for="n_image">Image :</label>
+        <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
+        <input type="file" id="n_image" name="n_image" value="" />
+        <input type="submit" class="btn btn-primary" value="Envoyer" />
+    </p>
+</form>
+<div id="load_news_img">
+    <div id="contener_image"></div>
+</div>
+{else}
 <form id="forms_news_edit" method="post" action="">
     <p>
         En ligne <input type="radio" name="published" value="1"{if $published eq 1} checked="checked"{/if} />
@@ -30,3 +43,4 @@
         <input type="submit" class="btn btn-primary" value="Envoyer" />
     </p>
 </form>
+{/if}

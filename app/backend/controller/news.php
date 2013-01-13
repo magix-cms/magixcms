@@ -86,7 +86,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var intéger
 	 */
 	public $delnews;
-	public $status_news,$get_news_publication,$name_tag,$del_tag,$action,$getlang;
+	public $idnews,$status_news,$get_news_publication,$name_tag,$del_tag,$action,$tab,$getlang;
 	/**
 	 * Recherche dans les news
 	 */
@@ -102,11 +102,17 @@ class backend_controller_news extends backend_db_news{
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
+        if(magixcjquery_filter_request::isGet('tab')){
+            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
+        }
+        if(magixcjquery_filter_request::isPost('idnews')){
+            $this->idnews = magixcjquery_filter_isVar::isPostNumeric($_POST['idnews']);
         }
 		if(magixcjquery_filter_request::isPost('n_title')){
 			$this->n_title = magixcjquery_form_helpersforms::inputClean($_POST['n_title']);
@@ -278,7 +284,7 @@ class backend_controller_news extends backend_db_news{
 			try{
 				$makeFiles = new magixcjquery_files_makefiles();
 				if($update == true){
-					$vimage = parent::s_n_image_news($this->getnews);
+					$vimage = parent::s_n_image_news($this->edit);
 					if(file_exists(self::dir_img_news().$vimage['n_image'])){
 						$makeFiles->removeFile(self::dir_img_news(),$vimage['n_image']);
 						$makeFiles->removeFile(self::dir_img_news(),'s_'.$vimage['n_image']);
@@ -289,7 +295,11 @@ class backend_controller_news extends backend_db_news{
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
 				 */
-				backend_model_image::upload_img($confimg,'upload'.DIRECTORY_SEPARATOR.'news'.DIRECTORY_SEPARATOR);
+				backend_model_image::upload_img(
+                    $confimg,
+                    'upload'.DIRECTORY_SEPARATOR.'news'.DIRECTORY_SEPARATOR,
+                    false
+                );
 				/**
 				 * Analyze l'extension du fichier en traitement
 				 * @var $fileextends
@@ -330,9 +340,9 @@ class backend_controller_news extends backend_db_news{
 				//Supprime le fichier original pour gagner en espace
 				if(file_exists(self::dir_img_news().$nimage)){
 					$makeFiles->removeFile(self::dir_img_news(),$nimage);
-				}else{
+				}/*else{
 					throw new Exception('file: '.$nimage.' is not found');
-				}
+				}*/
 				return $imageuri;
 			}catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -344,8 +354,7 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Chargement de l'url public courante avec JSON
 	 */
-	private function json_uri(){
-		$data = parent::s_news_data($this->edit);
+	private function json_uri($data){
 		if($data['idnews'] != null){
 			$dateformat = new magixglobal_model_dateformat();
 			$uri = magixglobal_model_rewrite::filter_news_url(
@@ -363,12 +372,12 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Charge les données du formulaire pour la mise à jour
 	 */
-	private function load_edit_data($create){
+	private function load_edit_data($create,$data){
 		/**
 		 * Retourne un tableau des données
 		 * @var 
 		 */
-        $data = parent::s_news_data($this->edit);
+        $create->assign('idnews',$data['idnews']);
 		$create->assign('n_title',$data['n_title']);
         $create->assign('n_content',$data['n_content']);
         $create->assign('n_uri',$data['n_uri']);
@@ -383,11 +392,11 @@ class backend_controller_news extends backend_db_news{
 	 * Charge les données de l'image de la news
 	 * @param string $news_img
 	 */
-	private function news_image($news_img){
+	private function ajax_image($news_img){
 		if($news_img != null){
-			$img = '<img src="/upload/news/s_'.$news_img.'" alt="" />';
+			$img = '<img src="/upload/news/s_'.$news_img.'" class="img-polaroid" alt="" />';
 		}else{
-			$img = '<img src="/framework/img/no-picture.png" alt="" />';
+			$img = '<img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" />';
 		}
 		print $img;
 	}
@@ -435,30 +444,29 @@ class backend_controller_news extends backend_db_news{
 	 */
 	private function update_news_image(){
 		if(isset($this->n_image)){
-			if($this->n_image != null){
+            if($this->n_image != null){
 				$img = self::insert_image_news($this->n_image,'n_image',true);
 			}else{
 				$makeFiles = new magixcjquery_files_makefiles();
-				$vimage = parent::s_n_image_news($this->getnews);
+				$vimage = parent::s_n_image_news($this->edit);
 				if(file_exists(self::dir_img_news().$vimage['n_image'])){
 					$makeFiles->removeFile(self::dir_img_news(),$vimage['n_image']);
 					$makeFiles->removeFile(self::dir_img_news(),'s_'.$vimage['n_image']);
 				}
 				$img = null;
 			}
-			parent::u_news_image($img, $this->getnews);
-			//backend_controller_template::display('request/success.phtml');
+			parent::u_news_image($img, $this->edit);
 		}
 	}
 	/**
 	 * @access private
 	 * Modifie le status de la news
 	 */
-	private function update_status_publication(){
-		if(isset($this->status_news)){
-			parent::u_status_publication_of_news($this->get_news_publication,$this->status_news);
-			$rss = new backend_controller_rss();
-				$rss->run('news');
+	private function update_published(){
+		if(isset($this->idnews) AND isset($this->published)){
+			parent::u_status_published($this->idnews,$this->published);
+			/*$rss = new backend_controller_rss();
+		    $rss->run('news');*/
 		}
 	}
 	/**
@@ -629,18 +637,35 @@ class backend_controller_news extends backend_db_news{
                         $this->insert_news_data();
                     }
                 }elseif($this->action == 'edit'){
-                    if(magixcjquery_filter_request::isGet('json_urinews')){
-                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-                        $header->pragma();
-                        $header->cache_control("nocache");
-                        $header->getStatus('200');
-                        $header->json_header("UTF-8");
-                        $this->json_uri($this->edit);
-                    }elseif(isset($this->n_title)){
-                        $this->update_news_data($create);
+                    if(isset($this->edit)){
+                        $data = parent::s_news_data($this->edit);
+                        if(magixcjquery_filter_request::isGet('json_urinews')){
+                            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                            $header->pragma();
+                            $header->cache_control("nocache");
+                            $header->getStatus('200');
+                            $header->json_header("UTF-8");
+                            $this->json_uri($data);
+                        }elseif(magixcjquery_filter_request::isGet('ajax_image')){
+                            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                            $header->pragma();
+                            $header->cache_control("nocache");
+                            $header->getStatus('200');
+                            $header->html_header("UTF-8");
+                            $this->ajax_image($data['n_image']);
+                        }elseif(isset($this->n_image)){
+                            $this->update_news_image();
+                        }elseif(isset($this->n_title)){
+                            $this->update_news_data($create);
+                        }else{
+                            $this->load_edit_data($create,$data);
+                        }
                     }else{
-                        $this->load_edit_data($create);
+                        if(isset($this->published)){
+                            $this->update_published();
+                        }
                     }
                 }elseif($this->action == 'remove'){
 

@@ -20,7 +20,15 @@
                             </a>
                         </span>
                     </div>
-                    <div class="mc-message clearfix"></div>
+                    <ul class="nav nav-tabs clearfix">
+                        <li{if !$smarty.get.tab} class="active"{/if}>
+                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}">Texte</a>
+                        </li>
+                        <li{if $smarty.get.tab eq "image"} class="active"{/if}>
+                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=image">Image</a>
+                        </li>
+                    </ul>
+                    <div class="mc-message"></div>
                     {include file="news/forms/edit.phtml"}
                 </div>
             </div>

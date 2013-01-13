@@ -117,7 +117,7 @@ var MC_news = (function ($, undefined) {
                                 $(document.createElement("span"))
                                     .addClass("icon-picture")
                             ),
-                            $(document.createElement("th")).append("pseudo"),
+                            $(document.createElement("th")).append("Rédacteur"),
                             $(document.createElement("th")).append("Date register"),
                             $(document.createElement("th")).append("Date published"),
                             $(document.createElement("th")).append(
@@ -311,7 +311,60 @@ var MC_news = (function ($, undefined) {
             return false;
         });
     }
-
+    function updateActive(getlang){
+        $(document).on("click","a.active-pages",function(event){
+            event.preventDefault();
+            var id = $(this).data("active");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $("#window-dialog").dialog({
+                resizable: false,
+                height:180,
+                width:350,
+                modal: true,
+                title: "Changer le status d'une page",
+                buttons: [
+                    {
+                        text: "Activer",
+                        click: function() {
+                            $(this).dialog('close');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/news.php?getlang='+getlang+'&action=edit',
+                                typesend: 'post',
+                                noticedata:{published:1,idnews:id},
+                                successParams:function(j){
+                                    $.nicenotify.initbox(j,{
+                                        display:false
+                                    });
+                                    jsonPages(getlang);
+                                }
+                            });
+                            return false;
+                        }
+                    },
+                    {
+                        text: "Désactiver",
+                        click: function() {
+                            $(this).dialog('close');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/news.php?getlang='+getlang+'&action=edit',
+                                typesend: 'post',
+                                noticedata:{published:0,idnews:id},
+                                successParams:function(j){
+                                    $.nicenotify.initbox(j,{
+                                        display:false
+                                    });
+                                    jsonPages(getlang);
+                                }
+                            });
+                            return false;
+                        }
+                    }
+                ]
+            });
+        });
+    }
     /**
      *
      * @param getlang
@@ -348,35 +401,87 @@ var MC_news = (function ($, undefined) {
             }
         });
     }
-    function update(getlang,edit){
-        var url = '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit;
-        var formsUpdatePages = $('#forms_news_edit').validate({
-            onsubmit: true,
-            event: 'submit',
-            rules: {
-                n_title: {
-                    required: true,
-                    minlength: 2
+    function getImage(getlang,edit){
+        if($('#load_news_img').length!=0){
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit+'&ajax_image=true',
+                typesend: 'get',
+                beforeParams:function(){
+                    var loader = $(document.createElement("span")).addClass("loader").append(
+                        $(document.createElement("img"))
+                            .attr('src','/framework/img/small_loading.gif')
+                            .attr('width','20px')
+                            .attr('height','20px')
+                    )
+                    $('#load_news_img #contener_image').html(loader);
+                },
+                successParams:function(e){
+                    $('#load_news_img #contener_image').html(e);
+                    Holder.run({
+                        themes: {
+                            "simple":{
+                                background:"white",
+                                foreground:"gray",
+                                size:12
+                            }
+                        },
+                        images: ".ajax-image"
+                    });
                 }
-            },
-            submitHandler: function(form) {
+            });
+
+        }
+    }
+    function update(getlang,edit,tab){
+        var url = '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit;
+        if(tab === 'text'){
+            var formsUpdatePages = $('#forms_news_edit').validate({
+                onsubmit: true,
+                event: 'submit',
+                rules: {
+                    n_title: {
+                        required: true,
+                        minlength: 2
+                    }
+                },
+                submitHandler: function(form) {
+                    $.nicenotify({
+                        ntype: "submit",
+                        uri: url,
+                        typesend: 'post',
+                        idforms: $(form),
+                        resetform:false,
+                        successParams:function(data){
+                            $.nicenotify.initbox(data,{
+                                display:true
+                            });
+                            JsonUrlPage(getlang,edit);
+                        }
+                    });
+                    return false;
+                }
+            });
+            $('#forms_news_edit').formsUpdatePages;
+        }else if(tab === 'image'){
+            $("#forms_news_edit_image").on('submit',function(){
                 $.nicenotify({
                     ntype: "submit",
                     uri: url,
                     typesend: 'post',
-                    idforms: $(form),
-                    resetform:false,
+                    idforms: $(this),
+                    resetform:true,
                     successParams:function(data){
+                        $('#n_image:file').val('');
                         $.nicenotify.initbox(data,{
-                            display:true
+                            display:false
                         });
-                        JsonUrlPage(getlang,edit);
+                        getImage(getlang,edit);
                     }
                 });
                 return false;
-            }
-        });
-        $('#forms_news_edit').formsUpdatePages;
+            });
+        }
     }
     return {
         //Fonction Public        
@@ -386,10 +491,13 @@ var MC_news = (function ($, undefined) {
         runList:function(getlang){
             add(getlang);
             jsonPages(getlang);
+            updateActive(getlang);
         },
         runEdit:function(getlang,edit){
             JsonUrlPage(getlang,edit);
-            update(getlang,edit);
+            getImage(getlang,edit);
+            update(getlang,edit,'text');
+            update(getlang,edit,'image');
         }
     };
 })(jQuery);

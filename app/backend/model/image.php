@@ -166,7 +166,7 @@ class backend_model_image {
 						//if(chmod($_FILES[$img]["tmp_name"],0777)){
 							if(is_uploaded_file($_FILES[$img]["tmp_name"])){
 								$source = $tmp_img;
-								$cible = magixglobal_model_system::base_path().$path.'/'.magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
+								$cible = magixglobal_model_system::base_path().$path.magixcjquery_url_clean::rplMagixString($_FILES[$img]["name"]);
 								if (self::imgSizeMax($source,2500,2500) == false) {
 									$error .= 'La taille maximum excéde';
 								}elseif (self::imgSizeMin($source,5,5) == false) {

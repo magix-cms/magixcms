@@ -123,6 +123,10 @@ $(function(){
         width : '90%',
         padding : 5
     });
+    Holder.add_theme(
+        "bright",
+        { background: "white", foreground: "gray", size: 12 }
+    );
     /*####################Formulaire Validation######################*/
     $.validator.setDefaults({
         debug: false,

@@ -160,16 +160,18 @@ class backend_db_news{
 				GROUP BY news.idlang';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
-	/**
-	 * @access protected
-	 * Sélectionne l'image de la news
-	 * @param integer $idnews
-	 */
-	protected function s_n_image_news($idnews){
+
+    /**
+     * @access protected
+     * Sélectionne l'image de la news
+     * @param $edit
+     * @return array
+     */
+	protected function s_n_image_news($edit){
 		$sql = 'SELECT n.n_image FROM mc_news AS n
-		WHERE n.idnews = :idnews';
+		WHERE n.idnews = :edit';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idnews' 	 => $idnews
+			':edit' => $edit
 		));
 	}
 	/**
@@ -250,17 +252,19 @@ class backend_db_news{
 	 * @param integer $idnews
 	 * @param statut $published
 	 */
-	protected function u_status_publication_of_news($idnews,$published){
+	protected function u_status_published($idnews,$published){
 		switch($published){
 			case 0:
-				$sql = 'UPDATE mc_news SET date_publish = "0000-00-00 00:00:00",published = 0 WHERE idnews = :idnews';
+				$sql = 'UPDATE mc_news SET date_publish = "0000-00-00 00:00:00",
+				published = :published WHERE idnews = :idnews';
 			break;
 			case 1:
-				$sql = 'UPDATE mc_news SET date_publish = NOW(),published = 1 WHERE idnews = :idnews';
+				$sql = 'UPDATE mc_news SET date_publish = NOW(),published = :published WHERE idnews = :idnews';
 			break;
 		}
 		magixglobal_model_db::layerDB()->update($sql,array(
-			':idnews' 	 => $idnews
+			':idnews' 	 => $idnews,
+            ':published' => $published
 		));
 	}
 	/**
