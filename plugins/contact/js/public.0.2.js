@@ -1,15 +1,7 @@
 var plugins_contact = {
-	_init:function(){
-		/**
-		 * Support input button with jquery ui button
-		 */
-		$(".subcontact:submit").button();
-	},
 	_postFieldData:function(lang){
-		/**
-	     * Ajout d'un utilisateur
-	     */
-	    var formsplugincontact = $("#forms-plugin-contact").validate({
+        // *** Set required fields for validation
+	    var formsplugincontact = $("#contact-form").validate({
 			onsubmit: true,
 			event: 'submit',
 			rules: {
@@ -41,10 +33,9 @@ var plugins_contact = {
 			 	return false;
 		 	}
 		});
-		$("#forms-plugin-contact").formsplugincontact;
+		$("#contact-form").formsplugincontact;
 	},
 	run:function(iso){
-		this._init();
 		this._postFieldData(iso);
 	}
 };

@@ -9,7 +9,8 @@
 *
 */
 $(function() {
-    //In case you don't have firebug...
+
+        // *** In case you don't have firebug...
     if (!window.console || !console.firebug) {
         var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
         window.console = {};
@@ -17,22 +18,21 @@ $(function() {
     }
     var ie6 = ($.browser.msie && $.browser.version < 7);
     var ie7 = ($.browser.msie && $.browser.version > 6);
-    //function replace targetblank for valid w3c
+
+        // *** targetblank in JS for W3C validation
     $('a.targetblank').click( function() {
         window.open($(this).attr('href'));
         return false;
     });
-    /**
-     * Construction du bouton de fermeture de la notification
-     */
+
+    // *** Notification closing button
     $(".close-notify").button({
         icons: {
             primary: "ui-icon-closethick"
         }
     });
-    /**
-     * Notification après installation pour le dossier "install"
-     */
+
+    // *** Notification "Remove install folder"
     if ($('#notify-install').length != 0){
         $.ajax({
             url:'/framework/js/jquery.meerkat.1.3.min.js',
@@ -78,7 +78,9 @@ $(function() {
                 }
             }
         });
+        // *** Notification for ...
     }else if ($('#notify-folder').length != 0){
+
         $.ajax({
             url:'/framework/js/jquery.meerkat.1.3.min.js',
             type:'get',
@@ -118,18 +120,22 @@ $(function() {
                     }).addClass('pos-top');
                 }else{
                     // plugin DOES NOT exist
-                    //console.log('plugin for display DOES NOT exist');
                     console.log('plugin for display DOES NOT exist');
                 }
             }
         });
     }
 
-    /**
-     * Initialise gallerie
-     */
+    // *** Fancybox gallery
+        // *** for one picture
     $(".zoom-link").fancybox();
-    $(".gallery-link").fancybox();
+        // *** for gallery pictures
+    $(".gallery-link").fancybox({
+        helpers : {
+            title : null
+        }
+    });
+        // *** for gallery videos
     $(".video").fancybox({
         type: 'iframe',
         autoSize : true,

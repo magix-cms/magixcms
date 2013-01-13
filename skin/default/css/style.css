@@ -90,6 +90,11 @@ body {
     clear: both;
 }
 
+#contact-form > .control-group > .controls > .alert {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 #footer-inner {
     margin-bottom: 0;
 }
@@ -97,13 +102,6 @@ body {
     #footer-inner > .well {
         margin: 0;
     }
-
-/*** Désactivation temporaire du .stateVal en attendant refonte du formulaire de contact ***/
-.stateVal {
-    visibility: hidden;
-    margin-top: -1px;
-    height: 1px;
-}
 
 /*** Extend nav-list to sub-,av-list ***/
 .subnav-list {
@@ -130,7 +128,9 @@ body {
     border-radius: 0;
 }
 
-/*** Pagination html structure pas compatible ***/
+/*** Pagination html structure pas compatible
+    @TODO revoir le CSS une fois le formatage compatible Bootstrap
+***/
 .pagination > div,
 .pagination > a {
     display: inline-block;
