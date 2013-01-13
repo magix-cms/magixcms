@@ -91,9 +91,13 @@ class frontend_db_catalog{
 	}
 	/*############# SOUS CATEGORIE ###################*/
 	protected function s_current_name_subcategory($idcls){
-    	$sql = 'SELECT s.slibelle,s.pathslibelle,s.s_content,s.img_s,c.idclc,c.clibelle,c.pathclibelle
+    	$sql = 'SELECT
+        s.slibelle,s.pathslibelle,s.s_content,s.img_s,
+        c.idclc,c.clibelle,c.pathclibelle,
+        lang.iso
     	FROM mc_catalog_s as s 
     	LEFT JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		WHERE s.idcls = :idcls';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idcls'=>$idcls
@@ -154,7 +158,7 @@ class frontend_db_catalog{
 			':idproduct'	=>	$idproduct
 		));
 	}
-	protected function s_product_page($idclc,$idproduct,$iso){
+	protected function s_product_page($idclc,$idproduct){
 		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog, p.idclc, p.idcls, catalog.price,
 		catalog.desccatalog,c.clibelle, c.pathclibelle,s.slibelle, s.pathslibelle, img.imgcatalog, lang.iso
 		FROM mc_catalog_product AS p
@@ -163,11 +167,10 @@ class frontend_db_catalog{
 		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
 		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
 		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idproduct = :idproduct AND lang.iso = :iso';
+		WHERE p.idclc = :idclc AND p.idproduct = :idproduct';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idclc'		=>	$idclc,
-			':idproduct'	=>	$idproduct,
-			':iso'		=>	$iso
+			':idproduct'	=>	$idproduct
 		));
 	}
 /*################## menu #############################*/

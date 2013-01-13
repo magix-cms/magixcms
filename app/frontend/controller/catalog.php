@@ -88,10 +88,17 @@ class frontend_controller_catalog extends frontend_db_catalog
             // ** Set image path
         $data['imgPath'] = null;
         if ($data['img_c'] != null) {
-            $data['imgPath'] = magixglobal_model_imagepath::filterPathImg(array('filtermod'=>'catalog','img'=>$data['img_c'],'levelmod'=>'category'));
+            $modelImagePath = new magixglobal_model_imagepath();
+            $data['imgPath'] = $modelImagePath->filterPathImg(array(
+                                    'filtermod' =>  'catalog',
+                                    'img'       =>  $data['img_c'],
+                                    'levelmod'  =>  'category'
+                                ));
         }
         // *** Assign data to Smarty var
-        frontend_model_template::assign(
+        $template = new frontend_model_template();
+        /** @noinspection PhpParamsInspection */
+        $template->assign(
             array(
                 'name_cat'      =>  $data['clibelle'],
                 'content_cat'   =>  $data['c_content'],
@@ -110,10 +117,24 @@ class frontend_controller_catalog extends frontend_db_catalog
             // ** Set image path
         $data['imgPath'] = null;
         if ($data['img_s'] != null) {
-            $data['imgPath'] = magixglobal_model_imagepath::filterPathImg(array('filtermod'=>'catalog','img'=>$data['img_s'],'levelmod'=>'subcategory'));
+            $modelImagePath = new magixglobal_model_imagepath();
+            $data['imgPath'] =  $modelImagePath->filterPathImg(
+                                    array(
+                                        'filtermod' =>  'catalog',
+                                        'img'       =>  $data['img_s'],
+                                        'levelmod'  =>  'subcategory'
+                                    )
+                                );
         }
             // ** Set url
-        $data['url']['cat'] = magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(), $data['pathclibelle'],$data['idclc'],true);
+        $data['url']['cat'] =   magixglobal_model_rewrite::filter_catalog_category_url(
+                                    $data['iso'],
+                                    $data['pathclibelle'],
+                                    $data['idclc'],
+                                    true
+                                );
+        // *** Assign data to Smarty var
+        /** @noinspection PhpParamsInspection */
         frontend_model_template::assign(
             array(
                 'name_subcat'       =>  $data['slibelle'],
@@ -131,7 +152,7 @@ class frontend_controller_catalog extends frontend_db_catalog
     private function load_product_data()
     {
         // *** Load Sql data
-        $data = parent::s_product_page($this->idclc,$this->idproduct,frontend_model_template::current_Language());
+        $data = parent::s_product_page($this->idclc,$this->idproduct);
         // ** Set image path
         $data['imgPath'] = null;
         if ($data['imgcatalog'] != null) {
@@ -139,10 +160,32 @@ class frontend_controller_catalog extends frontend_db_catalog
         }
         // ** Set url
         $rewrite    = new magixglobal_model_rewrite();
-        $data['url']['product'] = $rewrite->filter_catalog_product_url($data['iso'], $data['pathclibelle'], $data['idclc'],$data['pathslibelle'], $data['idcls'], $data['urlcatalog'], $data['idproduct'],true);
-        $data['url']['cat']     = $rewrite->filter_catalog_category_url($data['iso'], $data['pathclibelle'],$data['idclc'],true);
-        $data['url']['subcat']  = $rewrite->filter_catalog_subcategory_url($data['iso'], $data['pathclibelle'],$data['idclc'],$data['pathslibelle'],$data['idcls'],true);
+        $data['url']['product'] = $rewrite->filter_catalog_product_url(
+                                                $data['iso'],
+                                                $data['pathclibelle'],
+                                                $data['idclc'],
+                                                $data['pathslibelle'],
+                                                $data['idcls'],
+                                                $data['urlcatalog'],
+                                                $data['idproduct'],
+                                                true
+                                            );
+        $data['url']['cat']     = $rewrite->filter_catalog_category_url(
+                                                $data['iso'],
+                                                $data['pathclibelle'],
+                                                $data['idclc'],
+                                                true
+                                            );
+        $data['url']['subcat']  = $rewrite->filter_catalog_subcategory_url(
+                                                $data['iso'],
+                                                $data['pathclibelle'],
+                                                $data['idclc'],
+                                                $data['pathslibelle'],
+                                                $data['idcls'],
+                                                true
+                                            );
         // *** Assign data to Smarty var
+        /** @noinspection PhpParamsInspection */
         frontend_model_template::assign(
             array(
                 // ** Assign Product Data
