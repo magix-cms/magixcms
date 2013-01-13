@@ -73,10 +73,323 @@ var MC_news = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Retourne un tableau HTML des actualités
+     * @param getlang
+     */
+    function jsonPages(getlang){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/news.php?getlang='+getlang+'&action=list&json_list_news=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#list_news').html(loader);
+            },
+            successParams:function(j){
+                $('#list_news').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_news")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("subject"),
+                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-picture")
+                            ),
+                            $(document.createElement("th")).append("pseudo"),
+                            $(document.createElement("th")).append("Date register"),
+                            $(document.createElement("th")).append("Date published"),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-eye-open")
+                            ),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-edit")
+                            )
+                            ,
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-trash")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_news');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+
+                        if(item.n_content != 0){
+                            var content = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var content = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.n_image != 0){
+                            var image = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var image = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.date_publish != "0000-00-00 00:00:00"){
+                            var date_publish = item.date_publish;
+                        }else{
+                            var date_publish = $(document.createElement("span")).addClass("icon-minus");
+                        }
+                        if(item.published == '0'){
+                            var active = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("active-pages")
+                                    .attr("href", "#")
+                                    .attr("data-active", item.idnews)
+                                    .attr("title", item.n_title).append(
+                                    $(document.createElement("span")).addClass("icon-eye-close")
+                                )
+                            )
+                        }else if(item.published == '1'){
+                            var active = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("active-pages")
+                                    .attr("href", "#")
+                                    .attr("data-active", item.idnews)
+                                    .attr("title", item.n_title).append(
+                                    $(document.createElement("span")).addClass("icon-eye-open")
+                                )
+                            )
+                        }
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
+                                .attr("title", "Editer "+item.n_title)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-edit")
+                            )
+                        );
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-news")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idnews)
+                                .attr("title", "Supprimer "+": "+item.n_title)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-trash")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .append(
+                                $(document.createElement("td")).append(item.idnews),
+                                $(document.createElement("td")).append(item.n_title),
+                                $(document.createElement("td")).append(content),
+                                $(document.createElement("td")).append(image),
+                                $(document.createElement("td")).append(item.pseudo),
+                                $(document.createElement("td")).append(item.date_register),
+                                $(document.createElement("td")).append(date_publish),
+                                active
+                                ,
+                                edit
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
+    }
+
+    /**
+     * Ajout d'une news
+     * @param getlang
+     */
+    function add(getlang){
+        var formsAddNews = $("#forms_news_add").validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                n_title: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/news.php?getlang='+getlang+'&action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:true,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        $('#forms-add').dialog('close');
+                        jsonPages(getlang);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#open-add').on('click',function(){
+            $('#forms-add').dialog({
+                modal: true,
+                resizable: true,
+                width: 350,
+                height:'auto',
+                minHeight: 210,
+                buttons: {
+                    'Save': function() {
+                        $("#forms_news_add").submit();
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                        formsAddNews.resetForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+    /**
+     *
+     * @param getlang
+     * @param edit
+     * @constructor
+     */
+    function JsonUrlPage(getlang,edit){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit+'&json_urinews=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                $("#newslink").hide().val('');
+                var loader = $(document.createElement("span")).addClass("loader").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                loader.insertAfter('#newslink');
+            },
+            successParams:function(j){
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                $('.loader').remove();
+                var uri = j.newslink;
+                $("#newslink").show();
+                $("#newslink").val(uri);
+                $(".post-preview").attr({
+                    'data-fancybox-href':uri
+                });
+            }
+        });
+    }
+    function update(getlang,edit){
+        var url = '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit;
+        var formsUpdatePages = $('#forms_news_edit').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                n_title: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        JsonUrlPage(getlang,edit);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_news_edit').formsUpdatePages;
+    }
     return {
         //Fonction Public        
         runCharts:function(){
             graph();
+        },
+        runList:function(getlang){
+            add(getlang);
+            jsonPages(getlang);
+        },
+        runEdit:function(getlang,edit){
+            JsonUrlPage(getlang,edit);
+            update(getlang,edit);
         }
     };
 })(jQuery);

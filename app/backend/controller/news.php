@@ -223,8 +223,15 @@ class backend_controller_news extends backend_db_news{
                 }else{
                     $content = 0;
                 }
-                $json[]= '{"idnews":'.json_encode($key['idnews']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($key['iso']))
-                .',"n_title":'.json_encode($key['n_title']).',"n_content":'.json_encode($content).',"pseudo":'.json_encode($key['pseudo'])
+                if ($key['n_image'] != null){
+                    $image = 1;
+                }else{
+                    $image = 0;
+                }
+                $json[]= '{"idnews":'.json_encode($key['idnews']).',"n_image":'.json_encode($image)
+                .',"n_title":'.json_encode($key['n_title']).',"n_content":'.json_encode($content)
+                .',"pseudo":'.json_encode($key['pseudo']).',"date_register":'.json_encode($key['date_register'])
+                .',"date_publish":'.json_encode($key['date_publish']).',"published":'.json_encode($key['published'])
                 .'}';
             }
             print '['.implode(',',$json).']';
@@ -246,7 +253,7 @@ class backend_controller_news extends backend_db_news{
                     $this->n_title,
                     magixcjquery_url_clean::rplMagixString($this->n_title)
                 );
-                backend_controller_template::display('news/request/success.phtml');
+                backend_controller_template::display('news/request/success_add.phtml');
             }
         }
     }
@@ -337,8 +344,8 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Chargement de l'url public courante avec JSON
 	 */
-	private function load_json_uri_news(){
-		$data = parent::s_news_record($this->getnews);
+	private function json_uri(){
+		$data = parent::s_news_data($this->edit);
 		if($data['idnews'] != null){
 			$dateformat = new magixglobal_model_dateformat();
 			$uri = magixglobal_model_rewrite::filter_news_url(
@@ -348,7 +355,7 @@ class backend_controller_news extends backend_db_news{
 				$data['keynews'],
 				true
 			);
-			$input= '{"newsuri":'.json_encode(magixcjquery_url_clean::rplMagixString($uri)).'}';
+			$input= '{"newslink":'.json_encode(magixcjquery_url_clean::rplMagixString($uri)).'}';
 			print $input;
 		}
 	}
@@ -356,18 +363,20 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Charge les données du formulaire pour la mise à jour
 	 */
-	private function load_data_forms($data){
+	private function load_edit_data($create){
 		/**
 		 * Retourne un tableau des données
 		 * @var 
 		 */
-		backend_controller_template::assign('n_title',$data['n_title']);
-		backend_controller_template::assign('n_content',$data['n_content']);
-		backend_controller_template::assign('n_uri',$data['n_uri']);
-		backend_controller_template::assign('idlang',$data['idlang']);
-		backend_controller_template::assign('iso',$data['iso']);
-		backend_controller_template::assign('date_register',$data['date_register']);
-		backend_controller_template::assign('published',$data['published']);
+        $data = parent::s_news_data($this->edit);
+		$create->assign('n_title',$data['n_title']);
+        $create->assign('n_content',$data['n_content']);
+        $create->assign('n_uri',$data['n_uri']);
+        $create->assign('idlang',$data['idlang']);
+        $create->assign('iso',$data['iso']);
+        $create->assign('date_register',$data['date_register']);
+        $create->assign('published',$data['published']);
+        $create->display('news/edit.phtml');
 	}
 	/**
 	 * @access private
@@ -386,10 +395,10 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * POST le formulaire de mise à jour des données
 	 */
-	private function update_data_forms(){
-		if(isset($this->n_title) AND isset($this->n_content)){
-			if(empty($this->n_title) OR empty($this->n_content)){
-				backend_controller_template::display('request/empty.phtml');
+	private function update_news_data($create){
+		if(isset($this->n_title)){
+			if(empty($this->n_title)){
+				$create->display('news/request/empty.phtml');
 			}else{
 				switch($this->published){
 					case 0:
@@ -409,14 +418,14 @@ class backend_controller_news extends backend_db_news{
 					$this->n_title,
 					$uri,
 					$this->n_content,
-					backend_model_member::s_idadmin(),
+					$this->idadmin,
 					$date_publication,
 					$this->published,
-					$this->getnews
+					$this->edit
 				);
-				$rss = new backend_controller_rss();
-				$rss->run('news');
-				backend_controller_template::display('request/success.phtml');
+				/*$rss = new backend_controller_rss();
+				$rss->run('news');*/
+                $create->display('news/request/success_update.phtml');
 			}
 		}
 	}
@@ -620,7 +629,19 @@ class backend_controller_news extends backend_db_news{
                         $this->insert_news_data();
                     }
                 }elseif($this->action == 'edit'){
-
+                    if(magixcjquery_filter_request::isGet('json_urinews')){
+                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->pragma();
+                        $header->cache_control("nocache");
+                        $header->getStatus('200');
+                        $header->json_header("UTF-8");
+                        $this->json_uri($this->edit);
+                    }elseif(isset($this->n_title)){
+                        $this->update_news_data($create);
+                    }else{
+                        $this->load_edit_data($create);
+                    }
                 }elseif($this->action == 'remove'){
 
                 }

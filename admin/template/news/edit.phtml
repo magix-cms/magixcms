@@ -10,21 +10,22 @@
             <div class="row-fluid">
                 <div class="span12">
                     {include file="news/section/nav.phtml"}
-                    <h1>Liste des actualités</h1>
-                    <p>
-                        <a class="btn btn-primary" href="#" id="open-add">
-                            <span class="icon-plus"></span> Ajouter une page
-                        </a>
-                    </p>
+                    <div class="row-fluid">
+                        <span class="span10">
+                            <h1>Edition de la page {$idnews}</h1>
+                        </span>
+                        <span class="span2">
+                            <a class="btn btn-primary btn-large post-preview" href="#">
+                                <span class="icon-zoom-in"></span>
+                            </a>
+                        </span>
+                    </div>
                     <div class="mc-message clearfix"></div>
-                    <div id="list_news"></div>
+                    {include file="news/forms/edit.phtml"}
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div id="forms-add" class="hide" title="Ajouter une nouvelle page">
-{include file="news/forms/add.phtml"}
 </div>
 {include file="section/footer.phtml"}
 {include file="section/js.phtml"}

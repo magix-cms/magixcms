@@ -10,6 +10,9 @@ $(function(){
     }else{
         {if $smarty.get.getlang}
             {if $smarty.get.edit}
+            MC_news.runEdit(getlang,edit);
+            {else}
+            MC_news.runList(getlang);
             {/if}
         {elseif !$smarty.get.edit}
             MC_news.runCharts();

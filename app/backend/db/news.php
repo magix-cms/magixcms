@@ -71,7 +71,9 @@ class backend_db_news{
         GROUP BY lang.idlang';
         return magixglobal_model_db::layerDB()->select($sql);
     }
-
+    /*
+     * LISTES
+     * */
     /**
      * @param bool $limit
      * @param null $max
@@ -81,7 +83,7 @@ class backend_db_news{
     protected function s_news_list($getlang,$limit=false,$max=null,$offset=null){
         $limit = $limit ? ' LIMIT '.$max : '';
         $offset = !empty($offset) ? ' OFFSET '.$offset: '';
-        $sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_content,lang.iso,n.idlang,
+        $sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_image,n.n_content,lang.iso,n.idlang,
         n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
         FROM mc_news AS n
         JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
@@ -102,7 +104,7 @@ class backend_db_news{
      * @param $n_uri
      */
     protected function i_news($keynews,$getlang,$idadmin,$n_title,$n_uri){
-		$sql = 'INSERT INTO mc_news (keynews,getlang,idadmin,n_title,n_uri)
+		$sql = 'INSERT INTO mc_news (keynews,idlang,idadmin,n_title,n_uri)
 		VALUE (:keynews,:getlang,:idadmin,:n_title,:n_uri)';
 		magixglobal_model_db::layerDB()->insert($sql,array(
 			':keynews'		=>	$keynews,
@@ -137,14 +139,14 @@ class backend_db_news{
 	 * Affiche les données (dans les champs) pour une modification
 	 * @param $getnews
 	 */
-	protected function s_news_record($getnews){
-		$sql = 'SELECT n.idnews,n.keynews, n.n_title,n.n_uri, n.n_image, n.n_content, n.published, lang.iso, n.idlang, n.date_register, m.pseudo
-				FROM mc_news AS n
-				LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
-				LEFT JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
-				WHERE n.idnews = :getnews';
+	protected function s_news_data($edit){
+		$sql = 'SELECT n.*,lang.iso
+        FROM mc_news AS n
+        JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
+        JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
+        WHERE n.idnews = :edit';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':getnews'=>$getnews
+			':edit'=>$edit
 		));
 	}
 	/**
@@ -211,10 +213,11 @@ class backend_db_news{
 	 * @param $idadmin
 	 * @param $idnews
 	 */
-	protected function u_news_page($n_title,$n_uri,$n_content,$idadmin,$date_publish,$published,$idnews){
+	protected function u_news_page($n_title,$n_uri,$n_content,$idadmin,$date_publish,$published,$edit){
 		$sql = 'UPDATE mc_news 
-		SET n_title=:n_title,n_uri=:n_uri, n_content = :n_content, idadmin = :idadmin,date_publish = :date_publish, published=:published 
-		WHERE idnews = :idnews';
+		SET n_title=:n_title,n_uri=:n_uri, n_content = :n_content, idadmin = :idadmin,
+		date_publish = :date_publish, published=:published
+		WHERE idnews = :edit';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
 			':n_title'		=>	$n_title,
@@ -223,7 +226,7 @@ class backend_db_news{
 			':idadmin'		=>	$idadmin,
 			':date_publish'	=>	$date_publish,
 			':published'	=>	$published,
-			':idnews'		=>	$idnews
+			':edit'		=>	$edit
 		));
 	}
 	/**
