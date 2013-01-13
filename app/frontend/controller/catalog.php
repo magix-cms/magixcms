@@ -39,24 +39,25 @@
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    2.14
+ * @version    2.2
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
+ * @author Sire Sam <samuel.lesire@gmail.com>
  * @name catalog
- *
  */
-class frontend_controller_catalog extends frontend_db_catalog{
+class frontend_controller_catalog extends frontend_db_catalog
+{
 	/**
-	 * identifiant Categorie
+	 * idclc catch on GET
 	 * @var integer
 	 */
 	public $idclc;
 	/**
-	 * identifiant sous Categorie
+     * idcls catch on GET
 	 * @var integer
 	 */
 	public $idcls;
 	/**
-	 * identifiant produit
+     * idproduct catch on GET
 	 * @var integer
 	 */
 	public $idproduct;
@@ -64,98 +65,128 @@ class frontend_controller_catalog extends frontend_db_catalog{
 	 * function construct
 	 *
 	 */
-	function __construct(){
-		if(magixcjquery_filter_request::isGet('idclc')){
+	function __construct()
+    {
+		if (magixcjquery_filter_request::isGet('idclc')) {
 			$this->idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
 		}
-		if(magixcjquery_filter_request::isGet('idcls')){
+		if (magixcjquery_filter_request::isGet('idcls')) {
 			$this->idcls = magixcjquery_filter_isVar::isPostNumeric($_GET['idcls']);
 		}
-		if(magixcjquery_filter_request::isGet('idproduct')){
+		if (magixcjquery_filter_request::isGet('idproduct')) {
 			$this->idproduct = magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct']);
 		}
 	}
-	/**
-	 * Charge le titre d'une fiche catalogue
-	 */
-	private function load_product_page(){
-		$products = parent::s_product_page($this->idclc,$this->idproduct,frontend_model_template::current_Language());
-		/**
-		 * Charge L'image d'une fiche catalogue si elle existe sinon retourne une image fictive
-		 */
-        $imgPath = null;
-		if($products['imgcatalog'] != null)
-            $imgPath = '/upload/catalogimg/medium/'.$products['imgcatalog'];
-		$uri = magixglobal_model_rewrite::filter_catalog_product_url($products['iso'], $products['pathclibelle'], $products['idclc'],$products['pathslibelle'], $products['idcls'], $products['urlcatalog'], $products['idproduct'],true);
-		frontend_model_template::assign('id_catalog',$products['idcatalog']);
-		frontend_model_template::assign('id_product',$products['idproduct']);
-		frontend_model_template::assign('date_catalog',$products['date_catalog']);
-		frontend_model_template::assign('name_product',$products['titlecatalog']);
-		frontend_model_template::assign('name_cat',$products['clibelle']);
-		frontend_model_template::assign('name_subcat',$products['slibelle']);
-		frontend_model_template::assign('price_product',$products['price']);
-		frontend_model_template::assign('imgPath_product',$imgPath);
-		frontend_model_template::assign('content_product',$products['desccatalog']);
-		frontend_model_template::assign('url_product',$uri);
-		$uri_cat = magixglobal_model_rewrite::filter_catalog_category_url($products['iso'], $products['pathclibelle'],$products['idclc'],true);			
-		$uri_subcat = magixglobal_model_rewrite::filter_catalog_subcategory_url($products['iso'], $products['pathclibelle'],$products['idclc'],$products['pathslibelle'],$products['idcls'],true);	
-		frontend_model_template::assign('url_cat',$uri_cat);
-		frontend_model_template::assign('url_subcat',$uri_subcat);
+    /**
+     * Assign category's data to smarty
+     * @access private
+     */
+	private function load_category_data()
+    {
+        // *** Load Sql data
+		$data = parent::s_current_name_category($this->idclc);
+            // ** Set image path
+        $data['imgPath'] = null;
+        if ($data['img_c'] != null) {
+            $data['imgPath'] = magixglobal_model_imagepath::filterPathImg(array('filtermod'=>'catalog','img'=>$data['img_c'],'levelmod'=>'category'));
+        }
+        // *** Assign data to Smarty var
+        frontend_model_template::assign(
+            array(
+                'name_cat'      =>  $data['clibelle'],
+                'content_cat'   =>  $data['c_content'],
+                'imgPath_cat'   =>  $data['imgPath']
+            )
+        );
 	}
-	/**
-	 * Affiche la page des categories du catalogue
-	 * @access public
-	 */
-	private function load_data_category(){
-		$catname = parent::s_current_name_category($this->idclc);
-        $filter_img = new magixglobal_model_imagepath;
-        $imgPath = null;
-        if ($catname['img_c'] != null)
-            $imgPath = $filter_img->filterPathImg(array('filtermod'=>'catalog','img'=>$catname['img_c'],'levelmod'=>'category'));
-        frontend_model_template::assign('name_cat',magixcjquery_string_convert::ucFirst($catname['clibelle']));
-		frontend_model_template::assign('content_cat',$catname['c_content']);
-        frontend_model_template::assign('imgPath_cat',$imgPath);
+    /**
+     * Assign subcategory's data to smarty
+     * @access private
+     */
+	private function load_subcategory_data()
+    {
+        // *** Load Sql data
+		$data = parent::s_current_name_subcategory($this->idcls);
+            // ** Set image path
+        $data['imgPath'] = null;
+        if ($data['img_s'] != null) {
+            $data['imgPath'] = magixglobal_model_imagepath::filterPathImg(array('filtermod'=>'catalog','img'=>$data['img_s'],'levelmod'=>'subcategory'));
+        }
+            // ** Set url
+        $data['url']['cat'] = magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(), $data['pathclibelle'],$data['idclc'],true);
+        frontend_model_template::assign(
+            array(
+                'name_subcat'       =>  $data['slibelle'],
+                'content_subcat'    =>  $data['s_content'],
+                'imgPath_subcat'    =>  $data['imgPath'],
+                'name_cat'          =>  $data['clibelle'],
+                'url_cat'           =>  $data['url']['cat']
+            )
+        );
 	}
+    /**
+     * Assign product's data to smarty
+     * @access private
+     */
+    private function load_product_data()
+    {
+        // *** Load Sql data
+        $data = parent::s_product_page($this->idclc,$this->idproduct,frontend_model_template::current_Language());
+        // ** Set image path
+        $data['imgPath'] = null;
+        if ($data['imgcatalog'] != null) {
+            $data['imgPath'] = '/upload/catalogimg/medium/'.$data['imgcatalog'];
+        }
+        // ** Set url
+        $rewrite    = new magixglobal_model_rewrite();
+        $data['url']['product'] = $rewrite->filter_catalog_product_url($data['iso'], $data['pathclibelle'], $data['idclc'],$data['pathslibelle'], $data['idcls'], $data['urlcatalog'], $data['idproduct'],true);
+        $data['url']['cat']     = $rewrite->filter_catalog_category_url($data['iso'], $data['pathclibelle'],$data['idclc'],true);
+        $data['url']['subcat']  = $rewrite->filter_catalog_subcategory_url($data['iso'], $data['pathclibelle'],$data['idclc'],$data['pathslibelle'],$data['idcls'],true);
+        // *** Assign data to Smarty var
+        frontend_model_template::assign(
+            array(
+                // ** Assign Product Data
+                'id_catalog'        =>  $data['idcatalog'],
+                'id_product'        =>  $data['idproduct'],
+                'name_product'      =>  $data['titlecatalog'],
+                'price_product'     =>  $data['price'],
+                'imgPath_product'   =>  $data['imgPath'],
+                'content_product'   =>  $data['desccatalog'],
+                'date_product'      =>  $data['date_catalog'],
+                'url_product'       =>  $data['url']['product'],
+                // ** Assign parent cat data
+                'name_cat'          =>  $data['clibelle'],
+                'url_cat'           =>  $data['url']['cat'],
+                'name_subcat'       =>  $data['slibelle'],
+                'url_subcat'        =>  $data['url']['cat']
+            )
+        );
+    }
 	/**
-	 * Affiche la page des sous categories du catalogue
-	 * @access public
+	 * Control, loading and display
+     * @access public
 	 */
-	private function load_data_subcategory(){
-		$subcatname = parent::s_current_name_subcategory($this->idcls);
-        $filter_img = new magixglobal_model_imagepath;
-        $imgPath = null;
-        if ($subcatname['img_s'] != null)
-            $imgPath = $filter_img->filterPathImg(array('filtermod'=>'catalog','img'=>$subcatname['img_s'],'levelmod'=>'subcategory'));
-        $uri_cat = magixglobal_model_rewrite::filter_catalog_category_url(frontend_model_template::current_Language(), $subcatname['pathclibelle'],$subcatname['idclc'],true);
-        frontend_model_template::assign('name_cat',magixcjquery_string_convert::ucFirst($subcatname['clibelle']));
-		frontend_model_template::assign('name_subcat',magixcjquery_string_convert::ucFirst($subcatname['slibelle']));
-		frontend_model_template::assign('content_subcat',$subcatname['s_content']);
-		frontend_model_template::assign('url_subcat',$uri_cat);
-        frontend_model_template::assign('imgPath_subcat',$imgPath);
-	}
-	/**
-	 * 
-	 * Execution du catalogue
-	 */
-	public function run(){
-		if(isset($this->idclc)){
-			if(isset($this->idcls)){
-				if(isset($this->idproduct)){
-					$this->load_product_page();
-					frontend_model_template::display('catalog/product.phtml');
-				}else{
-					$this->load_data_subcategory();
-					frontend_model_template::display('catalog/subcategory.phtml');
+	public function run()
+    {
+        $template = new frontend_model_template;
+		if (isset($this->idclc)) {
+			if (isset($this->idcls)) {
+				if (isset($this->idproduct)) {
+					$this->load_product_data();
+                    $template->display('catalog/product.phtml');
+				} else {
+					$this->load_subcategory_data();
+                    $template->display('catalog/subcategory.phtml');
 				}
-			}elseif(isset($this->idproduct)){
-				$this->load_product_page();
-				frontend_model_template::display('catalog/product.phtml');
-			}else{
-				$this->load_data_category();
-				frontend_model_template::display('catalog/category.phtml');
+			} elseif(isset($this->idproduct)) {
+				$this->load_product_data();
+                $template->display('catalog/product.phtml');
+			} else {
+				$this->load_category_data();
+                $template->display('catalog/category.phtml');
 			}
-		}else{
-			frontend_model_template::display('catalog/index.phtml');
+		} else {
+            $template->display('catalog/index.phtml');
 		}
 	}
 }
