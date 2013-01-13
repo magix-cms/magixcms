@@ -84,16 +84,18 @@ class frontend_controller_catalog extends frontend_db_catalog
 	private function load_category_data()
     {
         // *** Load Sql data
-		$data = parent::s_current_name_category($this->idclc);
+		$data = parent::s_category_data($this->idclc);
             // ** Set image path
         $data['imgPath'] = null;
         if ($data['img_c'] != null) {
             $modelImagePath = new magixglobal_model_imagepath();
-            $data['imgPath'] = $modelImagePath->filterPathImg(array(
-                                    'filtermod' =>  'catalog',
-                                    'img'       =>  $data['img_c'],
-                                    'levelmod'  =>  'category'
-                                ));
+            $data['imgPath'] =  $modelImagePath->filterPathImg(
+                                    array(
+                                        'filtermod' =>  'catalog',
+                                        'img'       =>  $data['img_c'],
+                                        'levelmod'  =>  'category'
+                                    )
+                                );
         }
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
@@ -113,7 +115,7 @@ class frontend_controller_catalog extends frontend_db_catalog
 	private function load_subcategory_data()
     {
         // *** Load Sql data
-		$data = parent::s_current_name_subcategory($this->idcls);
+		$data = parent::s_subcategory_data($this->idcls);
             // ** Set image path
         $data['imgPath'] = null;
         if ($data['img_s'] != null) {
@@ -152,7 +154,7 @@ class frontend_controller_catalog extends frontend_db_catalog
     private function load_product_data()
     {
         // *** Load Sql data
-        $data = parent::s_product_page($this->idclc,$this->idproduct);
+        $data = parent::s_product_data($this->idproduct);
         // ** Set image path
         $data['imgPath'] = null;
         if ($data['imgcatalog'] != null) {
@@ -160,30 +162,30 @@ class frontend_controller_catalog extends frontend_db_catalog
         }
         // ** Set url
         $rewrite    = new magixglobal_model_rewrite();
-        $data['url']['product'] = $rewrite->filter_catalog_product_url(
-                                                $data['iso'],
-                                                $data['pathclibelle'],
-                                                $data['idclc'],
-                                                $data['pathslibelle'],
-                                                $data['idcls'],
-                                                $data['urlcatalog'],
-                                                $data['idproduct'],
-                                                true
-                                            );
-        $data['url']['cat']     = $rewrite->filter_catalog_category_url(
-                                                $data['iso'],
-                                                $data['pathclibelle'],
-                                                $data['idclc'],
-                                                true
-                                            );
-        $data['url']['subcat']  = $rewrite->filter_catalog_subcategory_url(
-                                                $data['iso'],
-                                                $data['pathclibelle'],
-                                                $data['idclc'],
-                                                $data['pathslibelle'],
-                                                $data['idcls'],
-                                                true
-                                            );
+        $data['url']['product'] =   $rewrite->filter_catalog_product_url(
+                                        $data['iso'],
+                                        $data['pathclibelle'],
+                                        $data['idclc'],
+                                        $data['pathslibelle'],
+                                        $data['idcls'],
+                                        $data['urlcatalog'],
+                                        $data['idproduct'],
+                                        true
+                                    );
+        $data['url']['cat']     =   $rewrite->filter_catalog_category_url(
+                                        $data['iso'],
+                                        $data['pathclibelle'],
+                                        $data['idclc'],
+                                        true
+                                    );
+        $data['url']['subcat']  =   $rewrite->filter_catalog_subcategory_url(
+                                        $data['iso'],
+                                        $data['pathclibelle'],
+                                        $data['idclc'],
+                                        $data['pathslibelle'],
+                                        $data['idcls'],
+                                        true
+                                    );
         // *** Assign data to Smarty var
         /** @noinspection PhpParamsInspection */
         frontend_model_template::assign(

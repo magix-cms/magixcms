@@ -40,309 +40,99 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    4.0
  * @author Gérits Aurélien <aurelien@magix-cms.com> | <gerits.aurelien@gmail.com>
- *
+ * @author Sire Sam <samuel.lesire@gmail.com>
  */
-class frontend_db_catalog{
-/*####### CATEGORIE #######*/
-    protected function s_current_name_category($idclc){
-    	$sql = 'SELECT c.clibelle,c.pathclibelle,c.c_content,c.img_c
-		FROM mc_catalog_c as c WHERE c.idclc = :idclc';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idclc'=>$idclc
-		));
+class frontend_db_catalog
+{
+    /**
+     * Load data category by id
+     * @access protected
+     * @param int $idclc
+     * @return array
+     */
+    protected function s_category_data($idclc)
+    {
+    	$select = '
+          SELECT
+            c.clibelle,c.pathclibelle,c.c_content,c.img_c
+	      FROM mc_catalog_c as c
+		  WHERE c.idclc = :idclc
+		';
+        return magixglobal_model_db::layerDB()->selectOne(
+            $select,
+            array(
+			    ':idclc'=>$idclc
+		    )
+        );
     }
     /**
-     * Charge les articles de la catégorie (sans langue) (root catégorie)
-     * pour la liste en image
-     * @param $idclc
+     * Load data subcategory by id
+     * @access protected
+     * @param int $idcls
+     * @return array
      */
-	function s_product_in_category_no_language($idclc){
-		$sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = 0 AND catalog.idlang = 0
-		ORDER BY p.orderproduct DESC';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idclc'=>$idclc
-		));
-	}
-	/**
-     * Charge les articles de la catégorie (avec la langue) pour la liste en image
-     * @param $idclc
-     * @param $iso
-     */
-	function s_product_in_category_with_language($idclc,$iso){
-		$sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = 0 AND lang.iso = :iso ORDER BY p.orderproduct';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idclc'=>$idclc,
-			':iso'=>$iso
-		));
-	}
-	/*############# SOUS CATEGORIE ###################*/
-	protected function s_current_name_subcategory($idcls){
-    	$sql = 'SELECT
-        s.slibelle,s.pathslibelle,s.s_content,s.img_s,
-        c.idclc,c.clibelle,c.pathclibelle,
-        lang.iso
-    	FROM mc_catalog_s as s 
-    	LEFT JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
-		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		WHERE s.idcls = :idcls';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idcls'=>$idcls
-		));
+	protected function s_subcategory_data($idcls)
+    {
+        $select = '
+            SELECT
+                s.slibelle,s.pathslibelle,s.s_content,s.img_s,
+                c.idclc,c.clibelle,c.pathclibelle,
+                lang.iso
+            FROM mc_catalog_s as s
+            LEFT JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+            LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+            WHERE s.idcls = :idcls
+        ';
+		return magixglobal_model_db::layerDB()->selectOne(
+            $select,
+            array(
+			    ':idcls'=>$idcls
+		    )
+        );
     }
-	/**
-     * Charge les articles de la sous catégorie (sans langue)
-     * @param $idclc
-     */
-	function s_sub_category_page_no_language($idclc,$idcls){
-		$sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = :idcls AND catalog.idlang = 0 ORDER BY p.orderproduct';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idclc'=>$idclc,
-			':idcls'=>$idcls
-		));
-	}
-	/**
-     * Charge les articles de la sous catégorie (avec langue)
-     * @param $idclc
-     * @param $idcls
-     * @param $iso
-     */
-	function s_sub_category_page_with_language($idclc,$idcls,$iso){
-		$sql = 'SELECT p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idcls = :idcls AND lang.iso = :iso ORDER BY p.orderproduct';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idclc'	=>$idclc,
-			':idcls'	=>$idcls,
-			':iso' =>$iso
-		));
-	}
-/*############### Product ##############*/
-	function s_product_page_no_language($idclc,$idproduct){
-		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog, p.idclc, p.idcls, 
-		catalog.price,catalog.desccatalog, c.clibelle,c.pathclibelle,s.slibelle, s.pathslibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idproduct = :idproduct AND catalog.idlang = 0';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idclc'		=>	$idclc,
-			':idproduct'	=>	$idproduct
-		));
-	}
-	protected function s_product_page($idclc,$idproduct){
-		$sql = 'SELECT p.idproduct,p.idcatalog, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog, p.idclc, p.idcls, catalog.price,
-		catalog.desccatalog,c.clibelle, c.pathclibelle,s.slibelle, s.pathslibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		WHERE p.idclc = :idclc AND p.idproduct = :idproduct';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idclc'		=>	$idclc,
-			':idproduct'	=>	$idproduct
-		));
-	}
-/*################## menu #############################*/
-	/**
-	 * construction menu des catégories (sans langue)
-	 */
-	function s_category_menu_no_lang(){
-		$sql = 'SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, lang.iso
-				FROM mc_catalog_c AS c
-				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idlang = 0 ORDER BY corder';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
-	/**
-	 * construction menu des catégories (avec langue)
-	 */
-	function s_category_menu_with_lang($iso){
-		$sql = 'SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, lang.iso
-				FROM mc_catalog_c AS c
-				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE lang.iso = :iso ORDER BY corder';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-		':iso'		=>	$iso
-		));
-	}
-	/**
-	 * construction menu des sous catégories (sans langue)
-	 * @param idclc
-	 */
-	function s_sub_category_menu_no_lang($idclc){
-		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.iso
-				FROM mc_catalog_c AS c
-				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
-				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idclc = :idclc AND c.idlang =0 ORDER BY sorder';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idclc'=>$idclc
-		));
-	}
-	/**
-	 * construction menu des sous categories (avec langue) + catégories
-	 */
-	function s_sub_category_menu_all_no_lang(){
-		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.iso
-				FROM mc_catalog_c AS c
-				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
-				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idlang = 0 ORDER BY corder';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
-	/**
-	 * construction menu des sous catégories (avec langue)
-	 * @param iso
-	 * @param idclc
-	 */
-	function s_sub_category_menu_with_lang($iso,$idclc){
-		$sql = 'SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.pathslibelle, s.idcls, lang.iso
-				FROM mc_catalog_c AS c
-				JOIN mc_catalog_s AS s ON ( s.idclc = c.idclc )
-				LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idclc = :idclc AND lang.iso = :iso ORDER BY sorder';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':iso'		=>	$iso,
-			':idclc'		=>	$idclc
-		));
-	}
-	/**
-	 * construction menu des produits (sans langue,avec catégorie)
-	 * @param idclc
-	 */
-	function s_product_menu_no_lang($idcls){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.idclc, p.idcls, c.clibelle, c.pathclibelle, s.slibelle, s.pathslibelle,img.imgcatalog, lang.iso
-		FROM mc_catalog AS p
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idcls = :idcls AND p.idlang = 0';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':idcls'=>$idcls
-		));
-	}
-	/**
-	 * construction menu des produits (sans langue,avec catégorie)
-	 * @param idclc
-	 */
-	function s_product_menu_no_lang_no_cat(){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.idclc, p.idcls, c.clibelle, c.pathclibelle, s.slibelle, s.pathslibelle,img.imgcatalog, lang.iso
-		FROM mc_catalog AS p
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idcls = 0 AND p.idlang = 0';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
-	/**
-	 * construction menu des produits (sans langue,avec catégorie)
-	 * @param idclc
-	 */
-	function s_product_menu_with_lang_no_cat($iso){
-		$sql = 'SELECT p.idcatalog, p.urlcatalog, p.titlecatalog, p.desccatalog, p.idlang, p.idclc, p.idcls, c.clibelle, c.pathclibelle, s.slibelle, s.pathslibelle,img.imgcatalog, lang.iso
-		FROM mc_catalog AS p
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idcls = 0 AND lang.iso = :iso';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':iso'		=>	$iso
-		));
-	}
-	/**
-	 * Construction du menu des catégories avec capture des derniers articles (sans langue)
-	 */
-	function s_category_withimg_nolang(){
-		/*$sql = 'SELECT p.idcatalog, p.urlcatalog, p.idlang, 
-		p.idclc, p.idcls, c.pathclibelle,clibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog AS p
-		JOIN (
-			SELECT max( p.idcatalog ) id, c.idclc FROM mc_catalog AS p
-			LEFT JOIN mc_catalog_c AS c ON c.idclc = p.idclc
-			GROUP BY c.idclc
-		)catalog_id_max ON ( p.idcatalog = catalog_id_max.id )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE p.idlang = 0';*/
-		$sql = 'SELECT c.idclc,c.pathclibelle,c.clibelle,c.img_c,c.idlang, lang.iso
-		FROM mc_catalog_c AS c
-		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		WHERE c.idlang = 0 ORDER BY corder';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
-	/**
-	 * Construction du menu des catégories avec capture des derniers articles (avec langue)
-	 * @param $iso (langue)
-	 */
-	function s_category_withimg_lang($iso){
-		/*$sql = 'SELECT p.idcatalog, p.urlcatalog, p.idlang, 
-		p.idclc, p.idcls, c.pathclibelle,clibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog AS p
-		JOIN (
-			SELECT max( p.idcatalog ) id, c.idclc FROM mc_catalog AS p
-			LEFT JOIN mc_catalog_c AS c ON c.idclc = p.idclc
-			GROUP BY c.idclc
-		)catalog_id_max ON ( p.idcatalog = catalog_id_max.id )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		LEFT JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		WHERE lang.iso = :iso';*/
-		$sql = 'SELECT c.idclc,c.pathclibelle,c.clibelle,c.img_c,c.idlang, lang.iso
-		FROM mc_catalog_c AS c
-		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		WHERE lang.iso = :iso ORDER BY corder';
-		return magixglobal_model_db::layerDB()->select($sql,array(
-			':iso'		=>	$iso)
-		);
-	}
-
-    /*
-     * Extend function for list & nav display
-     ***************************************/
-
     /**
-     * @access public
-     * Sélection des catégorie
+     * Load data product by id
+     * @access protected
+     * @param int $idproduct
+     * @return array
+     */
+	protected function s_product_data($idproduct)
+    {
+        $select = '
+            SELECT
+                p.idproduct,p.idcatalog,p.idclc, p.idcls,
+                catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog,
+                catalog.price,catalog.desccatalog,
+                c.clibelle,c.pathclibelle,s.slibelle,
+                s.pathslibelle,
+                img.imgcatalog,
+                lang.iso
+            FROM mc_catalog_product AS p
+            LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
+            LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+            LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
+            LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
+            LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+            WHERE p.idproduct = :idproduct
+        ';
+		return magixglobal_model_db::layerDB()->selectOne(
+            $select,
+            array(
+			    ':idproduct'    =>	$idproduct
+    		)
+        );
+	}
+    /**
+     * Select all categories by lang, or by option params sort
+     * @access protected
      * @param string $lang_iso
      * @param string $sort_id
      * @param string $sort_type
+     * @param int $limit
+     * @return array
      */
-    protected static function s_category($lang_iso,$sort_id=null,$sort_type=null,$limit=null){
+    protected static function s_category($lang_iso,$sort_id=null,$sort_type=null,$limit=null)
+    {
         $filter = null;
         if ($sort_id != null) {
             $filter = 'AND c.idclc';
@@ -354,25 +144,33 @@ class frontend_db_catalog{
         if (is_int($limit)){
             $limit_clause = 'LIMIT '.$limit;
         }
-        $sql = "SELECT c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, lang.iso, c.img_c
+        $select = "SELECT
+                c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, c.img_c,
+                lang.iso
 				FROM mc_catalog_c AS c
 				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 				WHERE lang.iso = :iso
 				{$filter}
 				ORDER BY corder
 				{$limit_clause}";
-        return magixglobal_model_db::layerDB()->select($sql,array(
-            ':iso'	=>	$lang_iso
-        ));
+        return magixglobal_model_db::layerDB()->select(
+            $select,
+            array(
+                ':iso'	=>	$lang_iso
+            )
+        );
     }
     /**
-     * @access public
-     * Sélection des catégorie
+     * Select all categories by lang, or by option params sort
+     * @access protected
      * @param string $lang_iso
      * @param string $sort_id
      * @param string $sort_type
+     * @param int $limit
+     * @return array
      */
-    protected static function s_subcategory($lang_iso,$sort_id=null,$sort_type=null,$limit=null){
+    protected static function s_subcategory($lang_iso,$sort_id=null,$sort_type=null,$limit=null)
+    {
         $filter = null;
         if ($sort_id != null) {
             $filter = 'AND s.idcls';
@@ -384,45 +182,63 @@ class frontend_db_catalog{
         if (is_int($limit)){
             $limit_clause = 'LIMIT '.$limit;
         }
-        $sql = "SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, lang.iso
-				FROM mc_catalog_s AS s
-				JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
-				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE lang.iso = :iso {$filter}
-				{$limit_clause}
-				ORDER BY sorder";
-        return magixglobal_model_db::layerDB()->select($sql,array(
-            ':iso'	=>	$lang_iso
-        ));
+        $select = "
+          SELECT
+              c.idlang, c.clibelle, c.pathclibelle, c.idclc,
+              s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s,
+              lang.iso
+          FROM mc_catalog_s AS s
+		  JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+		  JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+		  WHERE lang.iso = :iso {$filter}
+		  {$limit_clause}
+		  ORDER BY sorder
+		";
+        return magixglobal_model_db::layerDB()->select(
+            $select,
+            array(
+                ':iso'	=>	$lang_iso
+            )
+        );
     }
     /**
-     * @access public
-     * Sélection des sous-catégorie d'une catégorie
-     * @param iso
-     * @param idclc
+     * Select all subcategories in idclc
+     * @access protected
+     * @param int $idclc
+     * @param int $limit
+     * @return array
      */
     protected static function s_sub_category_in_cat($idclc,$limit=null){
         $limit_clause = null;
         if (is_int($limit)){
             $limit_clause = 'LIMIT '.$limit;
         }
-        $sql = "SELECT c.idlang, c.clibelle, c.pathclibelle, c.idclc, s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, lang.iso
-				FROM mc_catalog_s AS s
-				JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
-				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE c.idclc = :idclc
-				{$limit_clause}
-				ORDER BY sorder";
-        return magixglobal_model_db::layerDB()->select($sql,array(
-            ':idclc'	=>	$idclc
-        ));
+        $select = "
+            SELECT
+                c.idlang, c.clibelle, c.pathclibelle, c.idclc,
+                s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s,
+                lang.iso
+            FROM mc_catalog_s AS s
+            JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+            JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+            WHERE c.idclc = :idclc
+            {$limit_clause}
+            ORDER BY sorder
+		";
+        return magixglobal_model_db::layerDB()->select(
+            $select,
+            array(
+                ':idclc'	=>	$idclc
+            )
+        );
     }
-
     /**
-     * @access public
-     * Charge les articles de la sous catégorie (avec langue)
-     * @param $idclc
-     * @param $idcls
+     * Select all product in idclc or idcls
+     * @access protected
+     * @param int $idclc
+     * @param int $idcls
+     * @param int $limit
+     * @return array
      */
     protected static function s_product($idclc=null,$idcls=null,$limit=null){
         $order_clause = 'ORDER BY p.orderproduct';
@@ -439,23 +255,34 @@ class frontend_db_catalog{
             $limit_clause = 'LIMIT '.$limit;
         }
 
-        $sql = "SELECT
-        p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
-		FROM mc_catalog_product AS p
-		LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
-		LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
-		LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
-		JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-		{$where_clause}
-		{$order_clause}
-		{$limit_clause}";
-        return magixglobal_model_db::layerDB()->select($sql);
+        $select = "
+            SELECT
+                p.idproduct,p.idclc, p.idcls,
+                catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
+                c.pathclibelle,
+                s.pathslibelle,
+                img.imgcatalog,
+                lang.iso
+            FROM mc_catalog_product AS p
+            LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
+            LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+            LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
+            LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
+            JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+            {$where_clause}
+            {$order_clause}
+            {$limit_clause}
+		";
+        return magixglobal_model_db::layerDB()->select($select);
     }
     /**
-     * @access public
-     * Charge les produits liés à un produit
-     * @param $idproduct
+     * Select all product related to idproduct
+     * @access protected
+     * @param int $idproduct
+     * @param string $sort_id
+     * @param string $sort_type
+     * @param int $limit
+     * @return array
      */
     protected static function s_product_in_product($idproduct,$sort_id=null,$sort_type=null,$limit=null) {
         // set CLAUSE
@@ -471,9 +298,14 @@ class frontend_db_catalog{
             $limit_clause = 'LIMIT '.$limit;
         }
         // SQL
-        $sql = "
+        $select = "
             SELECT
-            p.idproduct, catalog.urlcatalog, catalog.titlecatalog, catalog.idlang, p.idclc, p.idcls, catalog.price,catalog.desccatalog, c.pathclibelle, s.pathslibelle, img.imgcatalog, lang.iso
+                p.idproduct,p.idclc, p.idcls,
+                catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
+                c.pathclibelle,
+                s.pathslibelle,
+                img.imgcatalog,
+                lang.iso
             FROM (
               SELECT idcatalog
               FROM mc_catalog_product
@@ -488,27 +320,35 @@ class frontend_db_catalog{
             JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
             {$filter}
             ORDER BY p.orderproduct
-            {$limit_clause}";
-        return magixglobal_model_db::layerDB()->select($sql,array(
-            ':idproduct'	=>	$idproduct
-        ));
+            {$limit_clause}
+        ";
+        return magixglobal_model_db::layerDB()->select(
+            $select,
+            array(
+                ':idproduct'	=>	$idproduct
+            )
+        );
     }
     /**
-     * @access public
-     * Charge les produits liés à un produit
-     * @param $idproduct
+     * Select all image gallery related to idproduct
+     * @access protected
+     * @param int $idproduct
+     * @return array
      */
     protected static function s_product_gallery($idproduct) {
-        $sql = 'SELECT gallery.idmicro,gallery.imgcatalog
+        $select = 'SELECT gallery.idmicro,gallery.imgcatalog
         FROM (
               SELECT idcatalog
               FROM mc_catalog_product
               WHERE idproduct = :idproduct
             ) AS cur_p
         LEFT JOIN mc_catalog_galery as gallery ON (cur_p.idcatalog = gallery.idcatalog)';
-        return magixglobal_model_db::layerDB()->select($sql,array(
-            ':idproduct'	=>	$idproduct
-        ));
+        return magixglobal_model_db::layerDB()->select(
+            $select,
+            array(
+                ':idproduct'	=>	$idproduct
+            )
+        );
     }
 
 }
