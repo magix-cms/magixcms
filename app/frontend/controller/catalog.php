@@ -158,7 +158,7 @@ class frontend_controller_catalog extends frontend_db_catalog
                 'name_cat'          =>  $data['clibelle'],
                 'url_cat'           =>  $data['url']['cat'],
                 'name_subcat'       =>  $data['slibelle'],
-                'url_subcat'        =>  $data['url']['cat']
+                'url_subcat'        =>  $data['url']['subcat']
             )
         );
     }
@@ -169,24 +169,21 @@ class frontend_controller_catalog extends frontend_db_catalog
 	public function run()
     {
         $template = new frontend_model_template;
-		if (isset($this->idclc)) {
-			if (isset($this->idcls)) {
-				if (isset($this->idproduct)) {
-					$this->load_product_data();
-                    $template->display('catalog/product.phtml');
-				} else {
-					$this->load_subcategory_data();
-                    $template->display('catalog/subcategory.phtml');
-				}
-			} elseif(isset($this->idproduct)) {
-				$this->load_product_data();
-                $template->display('catalog/product.phtml');
-			} else {
-				$this->load_category_data();
-                $template->display('catalog/category.phtml');
-			}
-		} else {
+        if (isset($this->idproduct)) {
+                // *** Display product
+            $this->load_product_data();
+            $template->display('catalog/product.phtml');
+        } elseif (isset($this->idcls)) {
+                // *** Display subcategory
+            $this->load_subcategory_data();
+            $template->display('catalog/subcategory.phtml');
+        } elseif (isset($this->idclc)) {
+                // *** Display category
+            $this->load_category_data();
+            $template->display('catalog/category.phtml');
+        } else {
+                // *** Display root
             $template->display('catalog/index.phtml');
-		}
+        }
 	}
 }
