@@ -401,6 +401,12 @@ var MC_news = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Chargement de l'image associée à la news
+     * @param getlang
+     * @param edit
+     */
     function getImage(getlang,edit){
         if($('#load_news_img').length!=0){
             $.nicenotify({
@@ -418,16 +424,18 @@ var MC_news = (function ($, undefined) {
                 },
                 successParams:function(e){
                     $('#load_news_img #contener_image').html(e);
-                    Holder.run({
-                        themes: {
-                            "simple":{
-                                background:"white",
-                                foreground:"gray",
-                                size:12
-                            }
-                        },
-                        images: ".ajax-image"
-                    });
+                    if($('.ajax-image').length != 0){
+                        Holder.run({
+                            themes: {
+                                "simple":{
+                                    background:"white",
+                                    foreground:"gray",
+                                    size:12
+                                }
+                            },
+                            images: ".ajax-image"
+                        });
+                    }
                 }
             });
 

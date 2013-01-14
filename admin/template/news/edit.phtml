@@ -27,6 +27,9 @@
                         <li{if $smarty.get.tab eq "image"} class="active"{/if}>
                             <a href="/admin/news.php?getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=image">Image</a>
                         </li>
+                        <li{if $smarty.get.tab eq "tags"} class="active"{/if}>
+                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=tags">Tags</a>
+                        </li>
                     </ul>
                     <div class="mc-message"></div>
                     {include file="news/forms/edit.phtml"}
