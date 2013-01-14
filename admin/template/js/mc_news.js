@@ -502,6 +502,44 @@ var MC_news = (function ($, undefined) {
             updateActive(getlang);
         },
         runEdit:function(getlang,edit){
+            $('#name_tag').tagsInput({
+                defaultText:'Ajouter un tag',
+                width:'',
+                onAddTag:function(tag){
+                    if ($(this).tagExist(tag)) {
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit,
+                            typesend: 'post',
+                            idforms: $(this),
+                            resetform:false,
+                            noticedata:{name_tag:tag},
+                            successParams:function(data){
+                                $.nicenotify.initbox(data,{
+                                    display:false
+                                });
+                            }
+                        });
+                        return false;
+                    }
+                },
+                onRemoveTag:function(tag){
+                    $.nicenotify({
+                        ntype: "ajax",
+                        uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit,
+                        typesend: 'post',
+                        idforms: $(this),
+                        resetform:false,
+                        noticedata:{delete_tag:tag},
+                        successParams:function(data){
+                            $.nicenotify.initbox(data,{
+                                display:false
+                            });
+                        }
+                    });
+                    return false;
+                }
+            });
             JsonUrlPage(getlang,edit);
             getImage(getlang,edit);
             update(getlang,edit,'text');

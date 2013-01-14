@@ -140,8 +140,13 @@ class backend_db_news{
 	 * @param $getnews
 	 */
 	protected function s_news_data($edit){
-		$sql = 'SELECT n.*,lang.iso
+		$sql = 'SELECT n.*, lang.iso, rel.WORD_LIST
         FROM mc_news AS n
+        LEFT OUTER JOIN (
+            SELECT tag.idnews, GROUP_CONCAT( tag.name_tag ORDER BY tag.idnews_tag SEPARATOR "," ) AS WORD_LIST
+                FROM mc_news_tag AS tag
+                GROUP BY tag.idnews
+            )rel ON ( rel.idnews = n.idnews )
         JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
         JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
         WHERE n.idnews = :edit';
@@ -180,11 +185,11 @@ class backend_db_news{
 	 * @access protected
 	 * @param integer $edit
 	 */
-	protected function s_list_tag($getnews){
+	protected function s_list_tag($edit){
 		$sql = 'SELECT at.* FROM mc_news_tag AS at
-		WHERE idnews=:getnews';
+		WHERE idnews = :edit';
 		return magixglobal_model_db::layerDB()->select($sql,array(
-			':getnews'	=>	$getnews
+			':edit'	=>	$edit
 		));
 	}
 	/**
@@ -300,12 +305,12 @@ class backend_db_news{
 	 * @param string $name_tag
 	 * @param integer $edit
 	 */
-	protected function i_rel_tag($name_tag,$getnews){
+	protected function i_reltag($name_tag,$edit){
 		$sql = 'INSERT INTO mc_news_tag (name_tag,idnews) 
-		VALUE(:name_tag,:getnews)';
+		VALUE(:name_tag,:edit)';
 		magixglobal_model_db::layerDB()->insert($sql,array(
 			':name_tag'	=>	$name_tag,
-			':getnews'	=>	$getnews
+			':edit'	=>	$edit
 		));
 	}
 	/**
@@ -324,10 +329,16 @@ class backend_db_news{
 	 * Suppression d'un tag des news
 	 * @param integer $del_tag
 	 */
-	protected function d_tagnews($del_tag){
-		$sql = 'DELETE FROM mc_news_tag WHERE idnews_tag = :del_tag';
+	protected function d_tagnews($edit,$delete_tag){
+		/*$sql = 'DELETE FROM mc_news_tag WHERE idnews_tag = :delete_tag';
 		magixglobal_model_db::layerDB()->delete($sql,array(
-			':del_tag' => $del_tag
-		));
+			':delete_tag' => $delete_tag
+		));*/
+        $sql = 'DELETE FROM mc_news_tag
+        WHERE idnews = :edit AND name_tag = :delete_tag';
+        magixglobal_model_db::layerDB()->delete($sql,array(
+            ':delete_tag'	=>	$delete_tag,
+            ':edit'	=>	$edit
+        ));
 	}
 }

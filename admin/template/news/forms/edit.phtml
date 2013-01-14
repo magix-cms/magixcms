@@ -11,7 +11,10 @@
     <div id="contener_image"></div>
 </div>
 {elseif $smarty.get.tab eq "tags"}
-
+<p>
+    <label for="name_tag">Tags</label>
+    <input type="text" class="input-xxlarge" id="name_tag" class="tags" value="{$tags}" />
+</p>
 {else}
 <form id="forms_news_edit" method="post" action="">
     <p>

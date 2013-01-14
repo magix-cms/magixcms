@@ -86,7 +86,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var intéger
 	 */
 	public $delnews;
-	public $idnews,$status_news,$get_news_publication,$name_tag,$del_tag,$action,$tab,$getlang;
+	public $idnews,$status_news,$get_news_publication,$name_tag,$delete_tag,$action,$tab,$getlang;
 	/**
 	 * Recherche dans les news
 	 */
@@ -161,8 +161,8 @@ class backend_controller_news extends backend_db_news{
 		if(magixcjquery_filter_request::isPost('name_tag')){
 			$this->name_tag = (string) magixcjquery_url_clean::make2tagString($_POST['name_tag']);
 		}
-		if(magixcjquery_filter_request::isPost('del_tag')){
-			$this->del_tag = magixcjquery_filter_isVar::isPostNumeric($_POST['del_tag']);
+		if(magixcjquery_filter_request::isPost('delete_tag')){
+			$this->delete_tag = magixcjquery_form_helpersforms::inputClean($_POST['delete_tag']);
 		}
 		//SEARCH
 		if(magixcjquery_filter_request::isGet('get_search_news')){
@@ -377,14 +377,15 @@ class backend_controller_news extends backend_db_news{
 		 * Retourne un tableau des données
 		 * @var 
 		 */
-        $create->assign('idnews',$data['idnews']);
-		$create->assign('n_title',$data['n_title']);
-        $create->assign('n_content',$data['n_content']);
-        $create->assign('n_uri',$data['n_uri']);
-        $create->assign('idlang',$data['idlang']);
-        $create->assign('iso',$data['iso']);
-        $create->assign('date_register',$data['date_register']);
-        $create->assign('published',$data['published']);
+        $create->assign('idnews',$data['idnews'],true);
+		$create->assign('n_title',$data['n_title'],true);
+        $create->assign('n_content',$data['n_content'],true);
+        $create->assign('n_uri',$data['n_uri'],true);
+        $create->assign('idlang',$data['idlang'],true);
+        $create->assign('iso',$data['iso'],true);
+        $create->assign('date_register',$data['date_register'],true);
+        $create->assign('published',$data['published'],true);
+        $create->assign('tags',$data['WORD_LIST'],true);
         $create->display('news/edit.phtml');
 	}
 	/**
@@ -473,7 +474,7 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Supprime une news
 	 */
-	private function del_news(){
+	private function delele_news(){
 		if(isset($this->delnews)){
 			parent::d_news($this->delnews);
 		}
@@ -498,10 +499,10 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Ajouter un tag à une news
 	 */
-	private function add_rel_tag(){
+	private function add_reltag(){
 		if(isset($this->name_tag)){
 			if(!empty($this->name_tag)){
-				parent::i_rel_tag($this->name_tag,$this->getnews);
+				parent::i_reltag($this->name_tag,$this->edit);
 			}
 		}
 	}
@@ -509,21 +510,21 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * Charge les tags d'une news en JSON
 	 */
-	private function load_json_tagnews(){
-		if(parent::s_list_tag($this->getnews) != null){
-			foreach (parent::s_list_tag($this->getnews) as $list){
+	/*private function load_json_tagnews(){
+		if(parent::s_list_tag($this->edit) != null){
+			foreach (parent::s_list_tag($this->edit) as $list){
 				$listing[]= '{"idnews_tag":'.json_encode($list['idnews_tag']).',"name_tag":'.json_encode($list['name_tag']).'}';
 			}
 			print '['.implode(',',$listing).']';
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Suppression d'un tag d'une news
 	 */
-	private function delete_tag(){
-		if(isset($this->del_tag)){
-			parent::d_tagnews($this->del_tag);
+	private function remove_tag(){
+		if(isset($this->delete_tag)){
+			parent::d_tagnews($this->edit,$this->delete_tag);
 		}
 	}
 	//SEARCH
@@ -659,6 +660,10 @@ class backend_controller_news extends backend_db_news{
                             $this->update_news_image();
                         }elseif(isset($this->n_title)){
                             $this->update_news_data($create);
+                        }elseif(isset($this->name_tag)){
+                            $this->add_reltag();
+                        }elseif(isset($this->delete_tag)){
+                            $this->remove_tag();
                         }else{
                             $this->load_edit_data($create,$data);
                         }
