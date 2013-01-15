@@ -42,49 +42,44 @@
  * @version    2.0 $Id$
  * @id $Rev$
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
+ * @author Sire Sam <samuel.lesire@gmail.com>
  * @name cms
  *
  */
-class frontend_db_cms{
+class frontend_db_cms
+{
     /**
-     * ################################ Pages ###############################
+     * Load data page by id
+     * @access protected
+     * @param int $idpage
+     * @return array
      */
-	/**
-	 * Collecte les données d'une page CMS
-	 * @param $getidpage
-	 */
-	protected function s_data_current_page($iso,$getidpage){
-		$sql = 'SELECT p.idpage,p.idcat_p,title_page,uri_page,content_page,seo_title_page,seo_desc_page,date_register,last_update,lang.iso
+	protected function s_page_data($idpage)
+    {
+		$select = 'SELECT
+                  p.idpage,p.idcat_p,p.title_page,p.uri_page,p.content_page,
+                  p.seo_title_page,p.seo_desc_page,p.date_register,p.last_update,
+                  parent.idpage as idpage_p,
+                  parent.uri_page as uri_page_p,
+                  parent.title_page as title_page_p,
+                  lang.iso
 				FROM mc_cms_pages as p
+				LEFT JOIN mc_cms_pages as parent ON (parent.idpage = p.idcat_p)
 				JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
-				WHERE lang.iso = :iso AND p.idpage = :getidpage';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':iso'=>$iso,
-			':getidpage'=>$getidpage
-		));
-	}
-	/**
-	 * Collecte les données d'une page CMS
-	 * @param $getidpage
-	 */
-	protected function s_data_parent_page($getidpage_p){
-		$sql = 'SELECT p.idpage,title_page,uri_page,lang.iso
-				FROM mc_cms_pages as p
-				JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
-				WHERE p.idpage = :getidpage_p';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':getidpage_p'=>$getidpage_p
+				WHERE p.idpage = :idpage';
+		return magixglobal_model_db::layerDB()->selectOne($select,array(
+			':idpage'=>$idpage
 		));
 	}
 
     /**
      * @access protected
-     * Collecte les pages de premier niveaux (parents)
+     * Select all categories by lang, or by option params sort
      * @param string $lang_iso
-     * @param string/numéric $sort_id
+     * @param string|int $sort_id
      * @param string $sort_type
-     * @param numeric $limit
-     * @param numeric $level
+     * @param int $limit
+     * @return array
      */
     protected function s_page($lang_iso,$sort_id=null,$sort_type=null,$limit=null){
         $where_clause = null;
@@ -98,14 +93,14 @@ class frontend_db_cms{
         if (is_int($limit)){
             $limit_clause = 'LIMIT '.$limit;
         }
-        $sql = "SELECT p.idpage,p.title_page,p.uri_page,p.content_page,lang.iso
+        $select = "SELECT p.idpage,p.title_page,p.uri_page,p.content_page,lang.iso
     	FROM mc_cms_pages AS p
     	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
     	WHERE lang.iso = :lang_iso AND sidebar_page = 1 AND p.idcat_p = 0
     	  {$where_clause}
     	ORDER BY p.order_page
     	  {$limit_clause}";
-        return magixglobal_model_db::layerDB()->select($sql,array(
+        return magixglobal_model_db::layerDB()->select($select,array(
             ':lang_iso' => $lang_iso
         ));
     }
@@ -114,10 +109,10 @@ class frontend_db_cms{
      * @access protected
      * Collecte les pages de second niveaux (enfants)
      * @param string $lang_iso
-     * @param string/numéric $sort_id
+     * @param string|int $sort_id
      * @param string $sort_type
-     * @param numeric $limit
-     * @param numeric $level
+     * @param int $limit
+     * @param int $level
      */
     protected function s_page_child($lang_iso,$sort_id,$sort_type=null,$limit=null){
         if(isset($sort_id)){
@@ -133,7 +128,7 @@ class frontend_db_cms{
             $limit_clause = 'LIMIT '.$limit;
         }
         // ### Querry
-        $sql = "
+        $select = "
         SELECT p.idpage,p.title_page,p.uri_page,p.content_page,lang.iso,p.idcat_p,page_p.uri_page_p
     	FROM mc_cms_pages AS p
         JOIN (
@@ -145,7 +140,7 @@ class frontend_db_cms{
     	  {$where_clause}
     	ORDER BY p.order_page
     	  {$limit_clause}";
-        return magixglobal_model_db::layerDB()->select($sql,array(
+        return magixglobal_model_db::layerDB()->select($select,array(
             ':lang_iso' => $lang_iso
         ));
     }

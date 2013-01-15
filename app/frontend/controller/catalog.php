@@ -178,14 +178,6 @@ class frontend_controller_catalog extends frontend_db_catalog
                                         $data['idclc'],
                                         true
                                     );
-        $data['url']['subcat']  =   $rewrite->filter_catalog_subcategory_url(
-                                        $data['iso'],
-                                        $data['pathclibelle'],
-                                        $data['idclc'],
-                                        $data['pathslibelle'],
-                                        $data['idcls'],
-                                        true
-                                    );
         // *** Assign data to Smarty var
         /** @noinspection PhpParamsInspection */
         frontend_model_template::assign(
@@ -201,11 +193,28 @@ class frontend_controller_catalog extends frontend_db_catalog
                 'url_product'       =>  $data['url']['product'],
                 // ** Assign parent cat data
                 'name_cat'          =>  $data['clibelle'],
-                'url_cat'           =>  $data['url']['cat'],
-                'name_subcat'       =>  $data['slibelle'],
-                'url_subcat'        =>  $data['url']['subcat']
+                'url_cat'           =>  $data['url']['cat']
             )
         );
+        // ** Assign parent subcat data
+        if ($data['idcls'] != 0) {
+            $data['url']['subcat']  =   $rewrite->filter_catalog_subcategory_url(
+                $data['iso'],
+                $data['pathclibelle'],
+                $data['idclc'],
+                $data['pathslibelle'],
+                $data['idcls'],
+                true
+            );
+            /** @noinspection PhpParamsInspection */
+            frontend_model_template::assign(
+                array(
+                    // ** Assign Product Data
+                    'name_subcat'       =>  $data['slibelle'],
+                    'url_subcat'        =>  $data['url']['subcat']
+                )
+            );
+        }
     }
 	/**
 	 * Control, loading and display

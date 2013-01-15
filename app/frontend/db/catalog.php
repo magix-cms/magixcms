@@ -52,8 +52,7 @@ class frontend_db_catalog
      */
     protected function s_category_data($idclc)
     {
-    	$select = '
-          SELECT
+    	$select = 'SELECT
             c.clibelle,c.pathclibelle,c.c_content,c.img_c
 	      FROM mc_catalog_c as c
 		  WHERE c.idclc = :idclc
@@ -73,8 +72,7 @@ class frontend_db_catalog
      */
 	protected function s_subcategory_data($idcls)
     {
-        $select = '
-            SELECT
+        $select = 'SELECT
                 s.slibelle,s.pathslibelle,s.s_content,s.img_s,
                 c.idclc,c.clibelle,c.pathclibelle,
                 lang.iso
@@ -98,8 +96,7 @@ class frontend_db_catalog
      */
 	protected function s_product_data($idproduct)
     {
-        $select = '
-            SELECT
+        $select = 'SELECT
                 p.idproduct,p.idcatalog,p.idclc, p.idcls,
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog,
                 catalog.price,catalog.desccatalog,
@@ -182,8 +179,7 @@ class frontend_db_catalog
         if (is_int($limit)){
             $limit_clause = 'LIMIT '.$limit;
         }
-        $select = "
-          SELECT
+        $select = "SELECT
               c.idlang, c.clibelle, c.pathclibelle, c.idclc,
               s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s,
               lang.iso
@@ -213,8 +209,7 @@ class frontend_db_catalog
         if (is_int($limit)){
             $limit_clause = 'LIMIT '.$limit;
         }
-        $select = "
-            SELECT
+        $select = "SELECT
                 c.idlang, c.clibelle, c.pathclibelle, c.idclc,
                 s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s,
                 lang.iso
@@ -255,8 +250,7 @@ class frontend_db_catalog
             $limit_clause = 'LIMIT '.$limit;
         }
 
-        $select = "
-            SELECT
+        $select = "SELECT
                 p.idproduct,p.idclc, p.idcls,
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
                 c.pathclibelle,
@@ -298,8 +292,7 @@ class frontend_db_catalog
             $limit_clause = 'LIMIT '.$limit;
         }
         // SQL
-        $select = "
-            SELECT
+        $select = "SELECT
                 p.idproduct,p.idclc, p.idcls,
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
                 c.pathclibelle,
@@ -336,13 +329,14 @@ class frontend_db_catalog
      * @return array
      */
     protected static function s_product_gallery($idproduct) {
-        $select = 'SELECT gallery.idmicro,gallery.imgcatalog
-        FROM (
-              SELECT idcatalog
-              FROM mc_catalog_product
-              WHERE idproduct = :idproduct
-            ) AS cur_p
-        JOIN mc_catalog_galery as gallery ON (cur_p.idcatalog = gallery.idcatalog)';
+        $select = 'SELECT
+              gallery.idmicro,gallery.imgcatalog
+            FROM (
+                  SELECT idcatalog
+                  FROM mc_catalog_product
+                  WHERE idproduct = :idproduct
+                ) AS cur_p
+            JOIN mc_catalog_galery as gallery ON (cur_p.idcatalog = gallery.idcatalog)';
         return magixglobal_model_db::layerDB()->select(
             $select,
             array(
