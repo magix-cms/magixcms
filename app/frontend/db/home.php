@@ -42,22 +42,19 @@
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  *
  */
-class frontend_db_home{
-	/**
-	 * selection du titre et du contenu de la page home ou index
-	 */
-	protected function s_get_home_page_default(){
-		$sql = 'SELECT h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang
-				FROM mc_page_home AS h
-				JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
-				WHERE lang.default_lang = 1';
-		return magixglobal_model_db::layerDB()->selectOne($sql);
-	}
-	/**
-	 * selection du titre et du contenu de la page home ou index
-	 */
-	protected function s_get_home_page($iso){
-		$sql = 'SELECT h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang
+class frontend_db_home
+{
+    /**
+     * Load data home by lang
+     * @access protected
+     * @param string $iso
+     * @return array
+     */
+	protected function s_data_home($iso)
+    {
+		$sql = 'SELECT
+                h.subject,h.content,h.metatitle,h.metadescription,h.idlang,
+                lang.iso
 				FROM mc_page_home AS h
 				JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
 				WHERE lang.iso = :iso';

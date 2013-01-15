@@ -44,48 +44,54 @@
  * @name home
  *
  */
-class frontend_controller_home extends frontend_db_home{
-	/**
-	 * 
-	 * Paramètre get des langues
-	 * @var string
-	 */
+class frontend_controller_home extends frontend_db_home
+{
+    /**
+     * strLangue catch on GET
+     * @var integer
+     */
 	public $getlang;
 	/**
 	 * function construct
 	 *
 	 */
-	function __construct(){
-		if(magixcjquery_filter_request::isGet('strLangue')){
+	function __construct()
+    {
+		if (magixcjquery_filter_request::isGet('strLangue')) {
 			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
 		}
 	}
-	/*
-	 * Charge contenu de la page d'accueil courante
-	 * @access public
-	 */
-	private function load_home_content(){
-		if(isset($this->getlang)){
-			$home = parent::s_get_home_page($this->getlang);
-		}else{
-			if(parent::s_get_home_page_default() != null){
-				$home = parent::s_get_home_page_default();
-			}elseif(magixcjquery_filter_request::isSession('strLangue')){
-				$lang = magixcjquery_filter_join::getCleanAlpha($_SESSION['strLangue'],3);
-				$home = parent::s_get_home_page($lang);
-			}
-		}
-		frontend_model_template::assign('subject',magixcjquery_string_convert::ucFirst($home['subject']));
-		frontend_model_template::assign('content',$home['content']);
-		frontend_model_template::assign('title',$home['metatitle']);
-		frontend_model_template::assign('description',$home['metadescription']);
+    /**
+     * Assign home's data to smarty
+     * @access private
+     */
+	private function load_home_content()
+    {
+        // *** Load Sql data
+    	$data = parent::s_data_home($this->getlang);
+
+        // *** Assign data to Smarty var
+        $template = new frontend_model_template();
+        /** @noinspection PhpParamsInspection */
+        $template->assign(
+            array(
+                'name_home'         => $data['subject'],
+                'content_home'      =>$data['content'],
+                'seoTitle_home'     =>$data['metatitle'],
+                'seoDescr_home'     =>$data['metadescription']
+            )
+        );
 	}
-	/**
-	 * Exec home script
-	 */
-	public function run(){
-		$this->load_home_content();
-		frontend_model_template::display('home/index.phtml');
+    /**
+     * Control, loading and display
+     * @access public
+     */
+	public function run()
+    {
+        if(isset($this->getlang)){
+            $this->load_home_content();
+            frontend_model_template::display('home/index.phtml');
+        }
 	}
 }
 ?>

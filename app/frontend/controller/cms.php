@@ -142,7 +142,8 @@ class frontend_controller_cms extends frontend_db_cms
      * Control, loading and display
      * @access public
      */
-	public function run(){
+	public function run()
+    {
 		if(isset($this->getidpage)){
 			$this->load_page_data();
 			frontend_model_template::display('cms/index.phtml');

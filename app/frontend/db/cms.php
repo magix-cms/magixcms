@@ -81,7 +81,8 @@ class frontend_db_cms
      * @param int $limit
      * @return array
      */
-    protected function s_page($lang_iso,$sort_id=null,$sort_type=null,$limit=null){
+    protected function s_page($lang_iso,$sort_id=null,$sort_type=null,$limit=null)
+    {
         $where_clause = null;
         if ($sort_id != null) {
             $where_clause = 'AND p.idpage';
@@ -114,7 +115,8 @@ class frontend_db_cms
      * @param int $limit
      * @param int $level
      */
-    protected function s_page_child($lang_iso,$sort_id,$sort_type=null,$limit=null){
+    protected function s_page_child($lang_iso,$sort_id,$sort_type=null,$limit=null)
+    {
         if(isset($sort_id)){
             $where_clause = 'AND p.idcat_p ';
             $where_clause .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';

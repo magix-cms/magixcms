@@ -176,7 +176,7 @@ class frontend_db_catalog
             $filter .= ') ';
         }
         $limit_clause = null;
-        if (is_int($limit)){
+        if (is_int($limit)) {
             $limit_clause = 'LIMIT '.$limit;
         }
         $select = "SELECT
@@ -204,9 +204,10 @@ class frontend_db_catalog
      * @param int $limit
      * @return array
      */
-    protected static function s_sub_category_in_cat($idclc,$limit=null){
+    protected static function s_sub_category_in_cat($idclc,$limit=null)
+    {
         $limit_clause = null;
-        if (is_int($limit)){
+        if (is_int($limit)) {
             $limit_clause = 'LIMIT '.$limit;
         }
         $select = "SELECT
@@ -235,9 +236,10 @@ class frontend_db_catalog
      * @param int $limit
      * @return array
      */
-    protected static function s_product($idclc=null,$idcls=null,$limit=null){
+    protected static function s_product($idclc=null,$idcls=null,$limit=null)
+    {
         $order_clause = 'ORDER BY p.orderproduct';
-        if($idclc == null and $idcls == null){
+        if ($idclc == null and $idcls == null) {
             $where_clause = 'WHERE lang.iso = \''.frontend_model_template::current_Language().'\'';
             $order_clause = 'ORDER BY p.idproduct';
         } else {
@@ -246,7 +248,7 @@ class frontend_db_catalog
             $where_clause     .= ($idcls != null) ? 'p.idcls = '.$idcls.' ' : 'p.idcls = 0 ';
         }
         $limit_clause = null;
-        if (is_int($limit)){
+        if (is_int($limit)) {
             $limit_clause = 'LIMIT '.$limit;
         }
 
@@ -278,7 +280,8 @@ class frontend_db_catalog
      * @param int $limit
      * @return array
      */
-    protected static function s_product_in_product($idproduct,$sort_id=null,$sort_type=null,$limit=null) {
+    protected static function s_product_in_product($idproduct,$sort_id=null,$sort_type=null,$limit=null)
+    {
         // set CLAUSE
         $filter = null;
         if ($sort_id != null) {
@@ -288,7 +291,7 @@ class frontend_db_catalog
             $filter .= ') ';
         }
         $limit_clause = null;
-        if (is_int($limit)){
+        if (is_int($limit)) {
             $limit_clause = 'LIMIT '.$limit;
         }
         // SQL
@@ -328,7 +331,8 @@ class frontend_db_catalog
      * @param int $idproduct
      * @return array
      */
-    protected static function s_product_gallery($idproduct) {
+    protected static function s_product_gallery($idproduct)
+    {
         $select = 'SELECT
               gallery.idmicro,gallery.imgcatalog
             FROM (
