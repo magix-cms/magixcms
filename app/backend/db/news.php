@@ -80,15 +80,15 @@ class backend_db_news{
      * @param null $offset
      * @return array
      */
-    protected function s_news_list($getlang,$limit=false,$max=null,$offset=null){
+    protected function s_news_list($getlang,$select_role,$limit=false,$max=null,$offset=null){
         $limit = $limit ? ' LIMIT '.$max : '';
         $offset = !empty($offset) ? ' OFFSET '.$offset: '';
         $sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_image,n.n_content,lang.iso,n.idlang,
         n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
         FROM mc_news AS n
         JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-        JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin)
-        WHERE n.idlang = :getlang
+        JOIN mc_admin_member AS m ON(m.idadmin=n.idadmin)
+        WHERE n.idlang = :getlang AND m.id_role IN('.$select_role.')
         ORDER BY n.idnews DESC'.$limit.$offset;
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':getlang'	=>	$getlang
@@ -114,31 +114,27 @@ class backend_db_news{
 			':n_uri'		=>	$n_uri
 		));
 	}
-	/**
-	 * @access protected
-	 * Retourne le nombre maximum de news
-	 * @return void
-	 */
-	protected function s_count_news_max(){
-		$sql = 'SELECT count(n.idnews) as total
-		FROM mc_news AS n';
-		return magixglobal_model_db::layerDB()->selectOne($sql);
-	}
-	/**
-	 * @access protected
-	 * Retourne le nombre maximum de news
-	 * @return void
-	 */
-	protected function s_count_max_news(){
-		$sql = 'SELECT count(n.idnews) as total
-		FROM mc_news AS n';
+
+    /**
+     * @access protected
+     * Retourne le nombre maximum de news
+     * @param $select_role
+     * @return void
+     */
+	protected function s_count_max_news($select_role){
+        $sql = 'SELECT count(n.idnews) as total
+		FROM mc_news AS n
+		JOIN mc_admin_member AS m ON(m.idadmin=n.idadmin)
+		WHERE m.id_role IN('.$select_role.')';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
-	/**
-	 * @access protected
-	 * Affiche les données (dans les champs) pour une modification
-	 * @param $getnews
-	 */
+
+    /**
+     * @access protected
+     * Affiche les données (dans les champs) pour une modification
+     * @param $edit
+     * @return array
+     */
 	protected function s_news_data($edit){
 		$sql = 'SELECT n.*, lang.iso, rel.WORD_LIST
         FROM mc_news AS n
@@ -153,17 +149,6 @@ class backend_db_news{
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':edit'=>$edit
 		));
-	}
-	/**
-	 * @access protected
-	 * Compte le nombre de news par langue
-	 */
-	protected function s_count_news_by_lang(){
-		$sql = 'SELECT count( news.idnews ) AS countnews, lang.iso, lang.language
-				FROM mc_news AS news
-				LEFT JOIN mc_lang AS lang ON ( news.idlang = lang.idlang )
-				GROUP BY news.idlang';
-		return magixglobal_model_db::layerDB()->select($sql);
 	}
 
     /**
@@ -192,15 +177,7 @@ class backend_db_news{
 			':edit'	=>	$edit
 		));
 	}
-	/**
-	 * @access protected
-	 * Compte le nombre de tags de news
-	 */
-	protected function s_count_list_tag(){
-		$sql = 'SELECT count(at.idnews_tag) as ctag
-		FROM mc_news_tag AS at';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
+
 	/**
      * @access public
      * Recherche le ou les mots dans le titre des news
@@ -260,8 +237,7 @@ class backend_db_news{
 	protected function u_status_published($idnews,$published){
 		switch($published){
 			case 0:
-				$sql = 'UPDATE mc_news SET date_publish = "0000-00-00 00:00:00",
-				published = :published WHERE idnews = :idnews';
+				$sql = 'UPDATE mc_news SET published = :published WHERE idnews = :idnews';
 			break;
 			case 1:
 				$sql = 'UPDATE mc_news SET date_publish = NOW(),published = :published WHERE idnews = :idnews';

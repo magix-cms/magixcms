@@ -70,7 +70,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var string
 	 */
 	public $idlang;
-	public $n_image,$post;
+	public $n_image;
 	/**
 	 * 
 	 * @var string
@@ -85,8 +85,8 @@ class backend_controller_news extends backend_db_news{
 	 * 
 	 * @var intéger
 	 */
-	public $delnews;
-	public $idnews,$status_news,$get_news_publication,$name_tag,$delete_tag,$action,$tab,$getlang;
+
+	public $idnews,$delete_news,$name_tag,$delete_tag,$action,$tab,$getlang;
 	/**
 	 * Recherche dans les news
 	 */
@@ -126,9 +126,6 @@ class backend_controller_news extends backend_db_news{
 		if(isset($_FILES['n_image']["name"])){
 			$this->n_image = magixcjquery_url_clean::rplMagixString($_FILES['n_image']["name"]);
 		}
-		if(magixcjquery_filter_request::isGet('post')){
-			$this->post = magixcjquery_form_helpersforms::inputClean($_GET['post']);
-		}
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
 		}
@@ -146,14 +143,8 @@ class backend_controller_news extends backend_db_news{
 		if(magixcjquery_filter_request::isPost('published')){
 			$this->published = magixcjquery_filter_isVar::isPostNumeric($_POST['published']);
 		}
-		if(magixcjquery_filter_request::isPost('delnews')){
-			$this->delnews = magixcjquery_filter_isVar::isPostNumeric($_POST['delnews']);
-		}
-		if(magixcjquery_filter_request::isPost('status_news')) {
-			$this->status_news = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['status_news']);
-		}
-		if(magixcjquery_filter_request::isGet('get_news_publication')) {
-			$this->get_news_publication = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['get_news_publication']);
+		if(magixcjquery_filter_request::isPost('delete_news')){
+			$this->delete_news = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_news']);
 		}
 		/**
 		 * Système de tags
@@ -197,8 +188,9 @@ class backend_controller_news extends backend_db_news{
      * @return string
      */
     private function news_pager($max){
+        $role = new backend_model_role();
         $pagination = new magixcjquery_pager_pagination();
-        $request = parent::s_count_max_news();
+        $request = parent::s_count_max_news($role->sql_arg());
         $setConfig = array(
             'url'=>'/admin/news.php?getlang='.$this->getlang.'&amp;action=list&amp;',
             'getPage'=> $this->getpage,
@@ -220,10 +212,11 @@ class backend_controller_news extends backend_db_news{
      * @param $max
      */
     private function json_list_news($max){
+        $role = new backend_model_role();
         $offset = $this->offset_pager($max);
         $limit = $max;
-        if(parent::s_news_list($this->getlang,$limit,$max,$offset) != null){
-            foreach (parent::s_news_list($this->getlang,$limit,$max,$offset) as $key){
+        if(parent::s_news_list($this->getlang,$role->sql_arg(),$limit,$max,$offset) != null){
+            foreach (parent::s_news_list($this->getlang,$role->sql_arg(),$limit,$max,$offset) as $key){
                 if ($key['n_content'] != null){
                     $content = 1;
                 }else{
@@ -277,7 +270,8 @@ class backend_controller_news extends backend_db_news{
 	 * @param string $nimage
 	 * @param void $confimg
 	 * @param bool $update
-	 * @throws Exception
+     * @return string
+     * @throws Exception
 	 */
 	private function insert_image_news($nimage,$confimg,$update=false){
 		if(isset($nimage)){
@@ -368,6 +362,7 @@ class backend_controller_news extends backend_db_news{
 			print $input;
 		}
 	}
+
 	/**
 	 * @access private
 	 * Charge les données du formulaire pour la mise à jour
@@ -388,6 +383,7 @@ class backend_controller_news extends backend_db_news{
         $create->assign('tags',$data['WORD_LIST'],true);
         $create->display('news/edit.phtml');
 	}
+
 	/**
 	 * @access private
 	 * Charge les données de l'image de la news
@@ -401,6 +397,7 @@ class backend_controller_news extends backend_db_news{
 		}
 		print $img;
 	}
+
 	/**
 	 * @access private
 	 * POST le formulaire de mise à jour des données
@@ -439,6 +436,7 @@ class backend_controller_news extends backend_db_news{
 			}
 		}
 	}
+
 	/**
 	 * @access private
 	 * Mise à jour d'une image d'une news
@@ -459,6 +457,7 @@ class backend_controller_news extends backend_db_news{
 			parent::u_news_image($img, $this->edit);
 		}
 	}
+
 	/**
 	 * @access private
 	 * Modifie le status de la news
@@ -470,15 +469,17 @@ class backend_controller_news extends backend_db_news{
 		    $rss->run('news');*/
 		}
 	}
+
 	/**
 	 * @access private
 	 * Supprime une news
 	 */
-	private function delele_news(){
-		if(isset($this->delnews)){
-			parent::d_news($this->delnews);
+	private function remove_news(){
+		if(isset($this->delete_news)){
+			parent::d_news($this->delete_news);
 		}
 	}
+
     /**
      * @access private
      * Requête JSON pour les statistiques du CMS
@@ -495,6 +496,7 @@ class backend_controller_news extends backend_db_news{
             print json_encode($stat);
         }
     }
+
 	/**
 	 * @access private
 	 * Ajouter un tag à une news
@@ -518,6 +520,7 @@ class backend_controller_news extends backend_db_news{
 			print '['.implode(',',$listing).']';
 		}
 	}*/
+
 	/**
 	 * @access private
 	 * Suppression d'un tag d'une news
@@ -527,6 +530,7 @@ class backend_controller_news extends backend_db_news{
 			parent::d_tagnews($this->edit,$this->delete_tag);
 		}
 	}
+
 	//SEARCH
 /**
 	 * @access private
@@ -673,7 +677,9 @@ class backend_controller_news extends backend_db_news{
                         }
                     }
                 }elseif($this->action == 'remove'){
-
+                    if(isset($this->delete_news)){
+                        $this->remove_news();
+                    }
                 }
             }
         }else{

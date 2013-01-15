@@ -365,6 +365,41 @@ var MC_news = (function ($, undefined) {
             });
         });
     }
+    function remove(getlang){
+        $(document).on('click','.delete-news',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/news.php?getlang='+getlang+'&action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_news:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:true
+                                });
+                                jsonPages(getlang);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     /**
      *
      * @param getlang
@@ -500,6 +535,7 @@ var MC_news = (function ($, undefined) {
             add(getlang);
             jsonPages(getlang);
             updateActive(getlang);
+            remove(getlang);
         },
         runEdit:function(getlang,edit){
             $('#name_tag').tagsInput({
