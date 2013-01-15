@@ -52,13 +52,13 @@ class frontend_db_home
      */
 	protected function s_data_home($iso)
     {
-		$sql = 'SELECT
+		$select = 'SELECT
                 h.subject,h.content,h.metatitle,h.metadescription,h.idlang,
                 lang.iso
 				FROM mc_page_home AS h
 				JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 
 				WHERE lang.iso = :iso';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
+		return magixglobal_model_db::layerDB()->selectOne($select,array(
 			':iso'=>$iso
 		));
 	}

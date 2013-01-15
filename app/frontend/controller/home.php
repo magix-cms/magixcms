@@ -53,7 +53,6 @@ class frontend_controller_home extends frontend_db_home
 	public $getlang;
 	/**
 	 * function construct
-	 *
 	 */
 	function __construct()
     {
@@ -65,7 +64,7 @@ class frontend_controller_home extends frontend_db_home
      * Assign home's data to smarty
      * @access private
      */
-	private function load_home_content()
+	private function load_home_data()
     {
         // *** Load Sql data
     	$data = parent::s_data_home($this->getlang);
@@ -89,7 +88,7 @@ class frontend_controller_home extends frontend_db_home
 	public function run()
     {
         if(isset($this->getlang)){
-            $this->load_home_content();
+            $this->load_home_data();
             frontend_model_template::display('home/index.phtml');
         }
 	}
