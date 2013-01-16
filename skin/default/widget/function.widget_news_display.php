@@ -48,14 +48,14 @@
  * @param array
  * @param Smarty
  * @return string
- * @TODO formatage de la date suivant valeur passée en paramètre (valeur à définir)
+ * @TODO formatage de la date suivant valeur passée en paramètre (valeurs à définir)
  */
 function smarty_function_widget_news_display($params, $template){
 
     // *** Catch location var
     $id_current['tag']          = (isset($_GET['tag']))     ? $_GET['tag']          : null;
     $id_current['news']         = (isset($_GET['getnews'])) ? $_GET['getnews']      : null;
-    $id_current['pagination']   = (isset($_GET['page']))   ? intval($_GET['page'])         : 1;
+    $id_current['pagination']   = (isset($_GET['page']))   ? intval($_GET['page'])  : 1;
     $id_current['lang']         = frontend_model_template::current_Language();
 
     // *** Load SQL data
@@ -63,23 +63,43 @@ function smarty_function_widget_news_display($params, $template){
     $data = frontend_model_news::set_sql_data($sort_config,$id_current);
 
     // *** Set pagination
-    $pagination = null;
-    if (isset($data['total']) AND isset($data['limit'])){
-        $lib_pagination     = new magixcjquery_pager_pagination();
+    $dataPager = null;
+    if (isset($data['total']) AND isset($data['limit'])) {
         $lib_rewrite        = new magixglobal_model_rewrite();
-
-        $pager_config = array(
-            'url'       => '/'.$id_current['lang'].$lib_rewrite->mod_news_lang($id_current['lang']),
-            'getPage'   => $id_current['pagination'],
-            'pageName'  => 'page',
-            'seo'       => 'slash'
-        );
-
-        // *** Format Pagination
-        $pagination = $lib_pagination->setPagerData($data['total'],$data['limit'],$pager_config);
-
+        $basePath = '/'.$id_current['lang'].$lib_rewrite->mod_news_lang($id_current['lang']);
+        $dataPager = frontend_model_news::set_pagination_data($data['total'],$data['limit'],$basePath,$id_current['pagination'],'/');
         unset($data['total']);
         unset($data['limit']);
+        $pagination = null;
+        if ($dataPager != null) {
+            $pagination = '<div class="pagination">';
+            $pagination .= '<ul>';
+            foreach ($dataPager as $row) {
+                switch ($row['name']){
+                    case 'first':
+                        $name = '<<';
+                        break;
+                    case 'previous':
+                        $name = '<';
+                        break;
+                    case 'next':
+                        $name = '>';
+                        break;
+                    case 'last':
+                        $name = '>>';
+                        break;
+                    default:
+                        $name = $row['name'];
+                }
+                $pagination .= '<li>';
+                $pagination .= '<a href="'.$row['url'].'" title="'.$name.'" >';
+                    $pagination .= $name;
+                $pagination .= '</a>';
+                $pagination .= '</li>';
+            }
+            $pagination .= '</ul>';
+            $pagination .= '</div>';
+        }
     }
 
     $output = null;

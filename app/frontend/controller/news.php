@@ -44,131 +44,110 @@
  * @name news
  *
  */
-class frontend_controller_news extends frontend_db_news {
-	/**
-	 * parametre GET de la langue
-	 * @var string
-	 */
+class frontend_controller_news extends frontend_db_news
+{
+    /**
+     * strLangue catch on GET
+     * @var integer
+     */
 	public $getlang;
 	/**
 	 * variable de sessions deslangues
 	 * @var string
 	 */
 	public $slang;
-	/**
-	 * 
-	 * @var parametre identifiant la news
-	 */
+    /**
+     * getnews catch on GET
+     * @var string
+     */
 	public $getnews;
-	/**
-	 * Parametre de date dans url
-	 * @var string
-	 */
+    /**
+     * getdate catch on GET
+     * @var date
+     */
 	public $getdate;
-	/**
-	 * 
-	 * URL de la news
-	 * @var $uri_get_news
-	 */
-	public $uri_get_news,$tag;
+    /**
+     * uri_get_news catch on GET
+     * @var string
+     */
+	public $uri_get_news,
+     /**
+     * tag catch on GET
+     * @var string
+     */
+     $tag;
 	/**
 	 * function construct
 	 *
 	 */
-	function __construct(){
-		if(magixcjquery_filter_request::isGet('strLangue')){
+	function __construct()
+    {
+		if (magixcjquery_filter_request::isGet('strLangue')) {
 			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
 		}
-		if(magixcjquery_filter_request::isGet('getnews')){
+		if (magixcjquery_filter_request::isGet('getnews')) {
 			$this->getnews = magixcjquery_filter_var::clean($_GET['getnews']);
 		}
-		if(magixcjquery_filter_request::isGet('getdate')){
+		if (magixcjquery_filter_request::isGet('getdate')) {
 			$this->getdate = ($_GET['getdate']);
 		}
-		if(magixcjquery_filter_request::isGet('uri_get_news')){
+		if (magixcjquery_filter_request::isGet('uri_get_news')) {
 			$this->uri_get_news = magixcjquery_url_clean::rplMagixString($_GET['uri_get_news']);
 		}
-		if(magixcjquery_filter_request::isGet('page')) {
+		if (magixcjquery_filter_request::isGet('page')) {
 				// si numéric
-		      if(is_numeric($_GET['page'])){
+		      if (is_numeric($_GET['page'])) {
 		          $this->getpage = intval($_GET['page']);
-		      }else{
+		      } else {
 		      	// Sinon retourne la première page
 		          $this->getpage = 1;        
-		           }
-		 }else {
+               }
+		 } else {
 		    $this->getpage = 1;
 		}
-		if(magixcjquery_filter_request::isGet('tag')){
+		if (magixcjquery_filter_request::isGet('tag')) {
 			$this->tag = magixcjquery_url_clean::make2tagString($_GET['tag']);
 		}
 	}
-	/**
-	 * offset for pager in pagination
-	 * @param $max
-	 */
-	public function news_offset_pager($max){
-		$pagination = new magixcjquery_pager_pagination();
-		return $pagination->pageOffset($max,$this->getpage);
-	}
-	/**
-	 * Appel la pagination pour les articles (news)
-	 * @param $max
-	 * @access public
-	 */
-	private function news_pager($max){
-		$pagination = new magixcjquery_pager_pagination();
-		$request = frontend_db_block_news::s_count_news($this->getlang);
-		$rewrite = new magixglobal_model_rewrite();
-		return $pagination->pagerData($request,'total',$max,$this->getpage,'/'.$this->getlang.$rewrite->mod_news_lang($this->getlang),false,true,'page');
-	}
-	/**
-	 * Retourne la pagination des news
-	 * @param $max
-	 * @access public
-	 */
-	public function news_pagination($max,$pagination_class=null){
-		if($pagination_class != null){
-			$class_container = $pagination_class;
-		}else{
-			$class_container = 'pagination';
-		}
-		return '<div class="'.$class_container.'">'.self::news_pager($max).'</div>';
-	}
-	/**
-	 * Retourne la page de la news courante
-	 * @access public
-	 */
-	private function display_getnews($getnews,$date_register){
-		if(isset($getnews) AND isset($date_register)){
-			$plitdate = explode('/', $this->getdate);
-			$page = parent::s_specific_news($getnews,$date_register);
-			if($page['idnews'] != null){
-                $imgPath = null;
-				if($page['n_image'] != null) {
-                    $imgPath = '/upload/news/'.$page['n_image'];
-				}
-                frontend_model_template::assign('dateRegister_news',$page['date_register']);
-				frontend_model_template::assign('dateUpdate_news',$page['date_publish']);
-				frontend_model_template::assign('name_news',$page['n_title']);
-				frontend_model_template::assign('content_news',$page['n_content']);
-				frontend_model_template::assign('imgPath_news',$imgPath);
-			}
-		}
+    /**
+     * Assign news' data to smarty
+     * @access private
+     */
+	private function load_news_data()
+    {
+        $data = parent::s_specific_news($this->getnews,$this->getdate);
+        $data['imgPath'] = null;
+        if ($data['n_image'] != null) {
+            $data['imgPath'] = '/upload/news/'.$data['n_image'];
+        }
+        // *** Assign data to Smarty var
+        $template = new frontend_model_template();
+        /** @noinspection PhpParamsInspection */
+        $template->assign(
+            array(
+                'name_news'         =>  $data['n_title'],
+                'content_news'      =>  $data['n_content'],
+                'dateRegister_news' =>  $data['date_register'],
+                'dateUpdate_news'   =>  $data['date_publish'],
+                'imgPath_news'      =>  $data['imgPath']
+            )
+        );
 	}
 	/**
 	 * 
 	 * fonction run
 	 */
-	public function run(){
-		if(isset($this->getnews)){
-			$this->display_getnews($this->getnews,$this->getdate);
-			frontend_model_template::display('news/record.phtml');
-		}elseif(magixcjquery_filter_request::isGet('tag')){
-			frontend_model_template::assign('name_tag', urldecode($this->tag));
-			frontend_model_template::display('news/tag.phtml');
-		}else{
-			frontend_model_template::display('news/index.phtml');
+	public function run()
+    {
+        $template = new frontend_model_template();
+		if (isset($this->getnews)) {
+			$this->load_news_data();
+            $template->display('news/record.phtml');
+		} elseif (magixcjquery_filter_request::isGet('tag')) {
+            $template->assign('name_tag', urldecode($this->tag));
+            $template->display('news/tag.phtml');
+		} else {
+            $template->display('news/index.phtml');
 		}
 	}
 }
