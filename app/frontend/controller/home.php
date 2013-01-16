@@ -58,7 +58,9 @@ class frontend_controller_home extends frontend_db_home
     {
 		if (magixcjquery_filter_request::isGet('strLangue')) {
 			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
-		}
+		} else {
+            $this->getlang = frontend_model_template::current_Language();
+        }
 	}
     /**
      * Assign home's data to smarty
