@@ -526,6 +526,40 @@ var MC_news = (function ($, undefined) {
             });
         }
     }
+    function removeImage(getlang,edit){
+        $(document).on('click','.delete-image',function(event){
+            event.preventDefault();
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/news.php?getlang='+getlang+'&action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_image:edit},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                getImage(getlang,edit);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public        
         runCharts:function(){
@@ -578,6 +612,7 @@ var MC_news = (function ($, undefined) {
             });
             JsonUrlPage(getlang,edit);
             getImage(getlang,edit);
+            removeImage(getlang,edit);
             update(getlang,edit,'text');
             update(getlang,edit,'image');
         }

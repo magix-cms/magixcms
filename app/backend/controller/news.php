@@ -86,7 +86,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var intéger
 	 */
 
-	public $idnews,$delete_news,$name_tag,$delete_tag,$action,$tab,$getlang;
+	public $idnews,$delete_news,$delete_image,$name_tag,$delete_tag,$action,$tab,$getlang;
 	/**
 	 * Recherche dans les news
 	 */
@@ -146,6 +146,9 @@ class backend_controller_news extends backend_db_news{
 		if(magixcjquery_filter_request::isPost('delete_news')){
 			$this->delete_news = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_news']);
 		}
+        if(magixcjquery_filter_request::isPost('delete_image')){
+            $this->delete_image = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_image']);
+        }
 		/**
 		 * Système de tags
 		 */
@@ -391,9 +394,10 @@ class backend_controller_news extends backend_db_news{
 	 */
 	private function ajax_image($news_img){
 		if($news_img != null){
-			$img = '<img src="/upload/news/s_'.$news_img.'" class="img-polaroid" alt="" />';
+            $img = '<p><img src="/upload/news/s_'.$news_img.'" class="img-polaroid" alt="" /></p>';
+            $img .= '<p><a class="delete-image">Supprimer</a></p>';
 		}else{
-			$img = '<img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" />';
+			$img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
 		}
 		print $img;
 	}
@@ -480,6 +484,21 @@ class backend_controller_news extends backend_db_news{
 		}
 	}
 
+    /**
+     * Suppression d'image
+     */
+    private function remove_image(){
+        if(isset($this->delete_image)){
+            $makeFiles = new magixcjquery_files_makefiles();
+            $vimage = parent::s_n_image_news($this->delete_image);
+            if(file_exists(self::dir_img_news().$vimage['n_image'])){
+                $makeFiles->removeFile(self::dir_img_news(),$vimage['n_image']);
+                $makeFiles->removeFile(self::dir_img_news(),'s_'.$vimage['n_image']);
+            }
+            $img = null;
+            parent::u_news_image($img, $this->delete_image);
+        }
+    }
     /**
      * @access private
      * Requête JSON pour les statistiques du CMS
@@ -679,6 +698,8 @@ class backend_controller_news extends backend_db_news{
                 }elseif($this->action == 'remove'){
                     if(isset($this->delete_news)){
                         $this->remove_news();
+                    }elseif(isset($this->delete_image)){
+                        $this->remove_image();
                     }
                 }
             }
