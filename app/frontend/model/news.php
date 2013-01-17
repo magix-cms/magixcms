@@ -34,6 +34,7 @@
 */
 /**
  * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
+ * @author Sire Sam <samuel.lesire@gmail.com>
  * Copyright: MAGIX CMS
  * Date: 29/12/12
  * Time: 15:04
@@ -246,7 +247,7 @@ class frontend_model_news extends frontend_db_news {
         $total['perPage']   = $perPage;
 
         if ($total['items'] >= $total['perPage']) {
-            $total['page'] = round($total['items']/$total['perPage'],0,PHP_ROUND_HALF_UP);
+            $total['page'] = ceil(round($total['items']/$total['perPage'],0));
 
                 // Si je ne suis pas sur la première page, je retourne les liens first et previous
             if ($currentPage > 1) {
