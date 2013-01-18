@@ -3,90 +3,101 @@
         <ul class="nav nav-list">
         {* -- START PAGES -- *}
             <li class="nav-header">Pages</li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page d'accueil <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="/{baseadmin}/home.php"><span class="icon-bar-chart"></span> Statistiques</a>
-                    </li>
-                    <li>
-                        <a href="/{baseadmin}/home.php?action=list"><span class="icon-list-ul"></span> Liste</a>
-                    </li>
-                </ul>
+            <li>
+                <a href="#home1" class="showit">
+                    <span class="icon-plus"></span> Page d'accueil
+                </a>
+                <div class="showcontent" id="home1">
+                    <ul>
+                        <li>
+                            <a href="/{baseadmin}/home.php?action=list"><span class="icon-list-ul"></span> Liste</a>
+                        </li>
+                        <li>
+                            <a href="/{baseadmin}/home.php"><span class="icon-bar-chart"></span> Statistiques</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">CMS <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="/{baseadmin}/cms.php"><span class="icon-bar-chart"></span> Statistiques</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li class="nav-header">Langues</li>
-                    {foreach $array_lang as $key => $value nocache}
-                    <li>
-                        <a href="/{baseadmin}/cms.php?getlang={$key}">
-                            <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
-                        </a>
-                    </li>
-                    {/foreach}
-                </ul>
+            <li>
+                <a href="#cms" class="showit">
+                    <span class="icon-plus"></span> Pages
+                </a>
+                <div class="showcontent" id="cms">
+                    <ul>
+                        {foreach $array_lang as $key => $value nocache}
+                        <li>
+                            <a href="/{baseadmin}/cms.php?getlang={$key}">
+                                <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
+                            </a>
+                        </li>
+                        {/foreach}
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/{baseadmin}/cms.php"><span class="icon-bar-chart"></span> Statistiques</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
-        {* -- END PAGES -- *}
         </ul>
-    </div>
-    <div class="well sidebar-nav">
         <ul class="nav nav-list">
         {* -- START NEWS -- *}
             <li class="nav-header">Actualités</li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Articles <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="/{baseadmin}/news.php"><span class="icon-bar-chart"></span> Statistiques</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li class="nav-header">Langues</li>
-                    {foreach $array_lang as $key => $value nocache}
-                    <li>
-                        <a href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
-                            <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
-                        </a>
-                    </li>
-                    {/foreach}
-                </ul>
+            <li>
+                <a href="#news" class="showit">
+                    <span class="icon-plus"></span> Articles
+                </a>
+                <div class="showcontent" id="news">
+                    <ul>
+                        {foreach $array_lang as $key => $value nocache}
+                        <li>
+                            <a href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
+                                <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
+                            </a>
+                        </li>
+                        {/foreach}
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/{baseadmin}/news.php"><span class="icon-bar-chart"></span> Statistiques</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         {* -- END NEWS -- *}
         </ul>
-    </div>
-    <div class="well sidebar-nav">
         <ul class="nav nav-list">
         {* -- START CATALOG -- *}
             <li class="nav-header">Catalogue</li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Catégories <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li class="nav-header">Langues</li>
-                {foreach $array_lang as $key => $value nocache}
-                    <li>
-                        <a href="/{baseadmin}/catalog.php?getlang={$key}">
-                            <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
-                        </a>
-                    </li>
-                {/foreach}
-                </ul>
+            <li>
+                <a href="#catalog-category" class="showit">
+                    <span class="icon-plus"></span> Catégories
+                </a>
+                <div class="showcontent" id="catalog-category">
+                    <ul>
+                        {foreach $array_lang as $key => $value nocache}
+                        <li>
+                            <a href="/{baseadmin}/catalog.php?getlang={$key}">
+                                <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
+                            </a>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
             </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Produits <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li class="nav-header">Langues</li>
-                {foreach $array_lang as $key => $value nocache}
-                    <li>
-                        <a href="/{baseadmin}/catalog.php?getlang={$key}">
-                            <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
-                        </a>
-                    </li>
-                {/foreach}
-                </ul>
+            <li>
+                <a href="#catalog-product" class="showit">
+                    <span class="icon-plus"></span> Produits
+                </a>
+                <div class="showcontent" id="catalog-product">
+                    <ul>
+                    {foreach $array_lang as $key => $value nocache}
+                        <li>
+                            <a href="/{baseadmin}/catalog.php?getlang={$key}">
+                                <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
+                            </a>
+                        </li>
+                    {/foreach}
+                    </ul>
+                </div>
             </li>
         {* -- END CATALOG -- *}
         </ul>
