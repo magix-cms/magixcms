@@ -172,9 +172,12 @@ tbody.ui-sortable > .ui-sortable-helper{
     margin-top:5px;
 }
 /*
-* Changer d'icône pour Showit
+* jmShowIt
 */
 .showit.open > .icon-plus:before { content: "\f068"; }
-.showcontent{
+.collapse-item{
     display:none;
+}
+.collapse-item .on{
+    display:block;
 }

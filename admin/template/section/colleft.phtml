@@ -4,10 +4,10 @@
         {* -- START PAGES -- *}
             <li class="nav-header">Pages</li>
             <li>
-                <a href="#home1" class="showit">
+                <a data-href="#home" href="#" class="showit">
                     <span class="icon-plus"></span> Page d'accueil
                 </a>
-                <div class="showcontent" id="home1">
+                <div class="collapse-item" id="home">
                     <ul>
                         <li>
                             <a href="/{baseadmin}/home.php?action=list"><span class="icon-list-ul"></span> Liste</a>
@@ -22,7 +22,7 @@
                 <a href="#cms" class="showit">
                     <span class="icon-plus"></span> Pages
                 </a>
-                <div class="showcontent" id="cms">
+                <div class="collapse-item" id="cms">
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
@@ -46,7 +46,7 @@
                 <a href="#news" class="showit">
                     <span class="icon-plus"></span> Articles
                 </a>
-                <div class="showcontent" id="news">
+                <div class="collapse-item" id="news">
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
@@ -71,7 +71,7 @@
                 <a href="#catalog-category" class="showit">
                     <span class="icon-plus"></span> Catégories
                 </a>
-                <div class="showcontent" id="catalog-category">
+                <div class="collapse-item" id="catalog-category">
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
@@ -87,7 +87,7 @@
                 <a href="#catalog-product" class="showit">
                     <span class="icon-plus"></span> Produits
                 </a>
-                <div class="showcontent" id="catalog-product">
+                <div class="collapse-item" id="catalog-product">
                     <ul>
                     {foreach $array_lang as $key => $value nocache}
                         <li>

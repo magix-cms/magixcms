@@ -39,10 +39,16 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 $(function(){
-    $('a.showit').jmShowIt({
+    /*$('a.showit').jmShowIt({
         showcontener : 'div.showcontent',
         open: 'open',
         debug: false
+    });*/
+    $('a.showit').jmShowIt({
+        open: 'open',
+        contenerClass : 'div.collapse-item',
+        activeClass : 'on',
+        debug : false
     });
     $('.dropdown-toggle').dropdown();
     $('.nav-collapse > .brand').on('click',function(event){

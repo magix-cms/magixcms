@@ -21,10 +21,10 @@
 */
 /**
  * MAGIX DEV
- * @copyright  MAGIX DEV Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * @copyright  MAGIX DEV Copyright (c) 2011 - 2013 Gerits Aurelien,
  * http://www.magix-dev.be
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    0.2
+ * @version    0.3
  * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
  * @name jmShowIt
  * @category plugin jquery
@@ -32,47 +32,80 @@
 /**
  * Exemple : 
  * $('a.showit').jmShowIt({
-	   showcontener : 'div.showcontent',
 	   open: 'open',
-	   debug: false
+        contenerClass : 'div.collapse-item',
+        activeClass : 'on',
+        debug : false
    });
+ HTML without data:
+
+     <a data-href="#mydiv" href="#" class="showit">
+        My test
+     </a>
+     <div id="mydiv">
+        <p>Foo</p>
+     </div>
+
+ HTML with data:
+
+     <a href="#mydiv" class="showit">
+         My test
+     </a>
+     <div id="mydiv">
+        <p>Foo</p>
+     </div>
  */
 (function($){
 	$.fn.jmShowIt = function(options){
 		var defaults = {
-			showcontener : 'div.showcontent',
-			open: 'open',
+            open: 'open',
+			contenerClass : 'div.collapse-item',
+            activeClass : 'on',
 			debug : false
+            //showcontener:'div.showcontent',
 		},
 		opts = $.extend(true,{}, defaults, options);
 		return this.each(function(i, item){
-			var jObjContainers = $(opts.showcontener);
-			jObjContainers.hide();
+			var jObjContainers = $(opts.contenerClass);
+            //Suppression du gestionnaire d'évènement
 			$(item).off();
 			$(item).on('click',function(e){
 				e.preventDefault();
 				var selfelem = $(this);
-				var selfid = selfelem.attr('href');
+                //Test la présence d'un attribut data
+                if (typeof selfelem.attr('data-href') !== 'undefined'
+                    && selfelem.attr('data-href') !== false
+                    && selfelem.attr('data-href') !== null) {
+                    var selfid = selfelem.attr('data-href');
+                }else{
+                    var selfid = selfelem.attr('href');
+                }
 				var jObjShowit = $(selfid);
 				//var jObjShowit = $(opts.elem_id + $(this).data("showit"));
 				if(opts.debug!=false){
-					console.log(jObjShowit);
+					console.log('%s ',selfid);
 				}
 				jObjContainers.each(function(j, jtem){
 					//console.log('jtem: ',jtem);
 					if ((jtem != jObjShowit[0]) && ($(jtem).css("display") != "none")){
+                        jObjShowit.removeClass(opts.activeClass);
 						$(jtem).slideToggle();
+                        if(opts.debug!=false){
+                            console.log('Current index closed: %i ',j);
+                        }
 					}
 				});
-				//jObjShowit.slideToggle();
 				jObjShowit.slideToggle('slow', function() {
-					$('.showit'+'.'+opts.open).removeClass(opts.open);
+                    var selfClass = selfelem.attr('class');
+					$('.'+selfClass+'.'+opts.open).removeClass(opts.open);
 					if (jObjShowit.is(":visible")) {
+                        jObjShowit.addClass(opts.activeClass);
 						selfelem.addClass(opts.open);
 			        } else {
+                        jObjShowit.removeClass(opts.activeClass);
 			        	selfelem.removeClass(opts.open);
 			        }
-				 });
+				});
 				return false;
 			});
 		});
