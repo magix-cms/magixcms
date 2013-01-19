@@ -65,12 +65,14 @@ class backend_controller_template{
             return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }
     }
+
     /**
      * @access public
      * Assign les variables dans les fichiers phtml
      * @param void $tpl_var
      * @param string $value
      * @param bool $nocache
+     * @throws Exception
      */
     public static function assign($tpl_var, $value = null, $nocache = false){
         //return backend_model_smarty::getInstance()->assign($tpl_var,$value);

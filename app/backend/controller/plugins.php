@@ -36,11 +36,11 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.6
- * update 13/03/2011
+ * @version    2.0
+ * update 19/01/2013
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name plugins
  *
@@ -67,7 +67,7 @@ class backend_controller_plugins{
 	 * 
 	 * @var string
 	 */
-	public $getplugin;
+	public $getplugin,$action,$tab;
 	/**
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
 	 * @var string
@@ -82,9 +82,15 @@ class backend_controller_plugins{
 	 * Constructor
 	 */
 	public function __construct(){
-		if(isset($_GET['name'])){
-			$this->getplugin = (string) magixcjquery_filter_isVar::isPostAlpha($_GET['name']);
+		if(magixcjquery_filter_request::isGet('name')){
+			$this->getplugin = magixcjquery_form_helpersforms::inputClean($_GET['name']);
 		}
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('tab')){
+            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
 	}
 	/**
      * instance singleton self (DataObjects)
@@ -408,6 +414,7 @@ class backend_controller_plugins{
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
+
 	/**
 	 * Retourne le nom du plugin
 	 * @access public
@@ -417,6 +424,7 @@ class backend_controller_plugins{
 	public function pluginName(){
 		return $this->getplugin();
 	}
+
 	/**
 	 * Retourne l'url du plugin
 	 * @access public
@@ -426,22 +434,27 @@ class backend_controller_plugins{
 	public function pluginUrl(){
 		return '/'.PATHADMIN.'/plugins.php?name='.$this->pluginName();
 	}
-	/**
-	 * Retourne le chemin du dossier du plugin courant
-	 */
-	public function pluginDir($plugin_folder=null){
+
+    /**
+     * Retourne le chemin du dossier du plugin courant
+     * @param null $plugin_folder
+     * @return string
+     */
+    public function pluginDir($plugin_folder=null){
 		if($plugin_folder == null){
 			return $this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR;
 		}else{
 			return $this->directory_plugins().$plugin_folder.DIRECTORY_SEPARATOR;
 		}
 	}
+
 	/**
 	 * Retourne le chemin du dossier du plugin courant
 	 */
 	public function pluginPath(){
 		return self::PATHPLUGINS.'/'.$this->getplugin();
 	}
+
 	/**
 	 * Retourne la langue courante
 	 * @return string
@@ -455,6 +468,7 @@ class backend_controller_plugins{
 			}
 		}
 	}
+
 	/**
 	 * Chargement du fichier de configuration suivant la langue.
 	 * @access private
@@ -466,72 +480,167 @@ class backend_controller_plugins{
 		} catch (Exception $e) {
 			magixglobal_model_system::magixlog("Error path config", $e);
 		}
-	}
-	/**
-	 * Affiche le template du plugin
-	 * @param void $page
-	 */
-	public function append_display($page,$cache_id = null,$compile_id = null){
-		backend_config_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
-		return backend_config_smarty::getInstance()->display($page,$cache_id,$compile_id);
-	}
-	/**
-	 * Retourne le résultat du template plugin
-	 * @param void $page
-	 */
-	public function append_fetch($page,$cache_id = null,$compile_id = null){
-		backend_config_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
-		return backend_config_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
-	}
-	/**
-	 * Assign une variable pour smarty
-	 * @param void $page
-	 */
-	public function append_assign($assign,$fetch){
-		if($assign){
-			return backend_config_smarty::getInstance()->assign($assign,$fetch);
-		}else{
-			throw new Exception('Unable to assign a variable in template');
-		}
-	}
-	/**
-	 * Charge le fichier de configuration associer à la langue
-	 * @param string $sections (optionnel) :la section à charger
-	 */
-	public function configLoad($sections = false){
+    }
+
+    /**
+     * @param $template_dir
+     */
+    public static function addTemplateDir($template_dir){
+        backend_model_smarty::getInstance()->addTemplateDir($template_dir);
+    }
+
+    /**
+     * @access public
+     * Affiche le template
+     * @param string|object $template
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     */
+    public static function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
+        self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+        if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+            backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
+        }else{
+            backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
+        }
+    }
+    /**
+     * @access public
+     * Retourne le template
+     * @param string|object $template
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     * @param bool   $display           true: display, false: fetch
+     * @param bool   $merge_tpl_vars    if true parent template variables merged in to local scope
+     * @param bool   $no_output_filter  if true do not run output filter
+     * @return string rendered template output
+     */
+    public static function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
+        self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+        if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+            return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+        }else{
+            return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+        }
+    }
+    /**
+     * @deprecated
+     * Assign une variable pour smarty
+     * @param $assign
+     * @param $fetch
+     * @throws Exception
+     * @return
+     * @internal param void $page
+     */
+    public function append_assign($assign,$fetch){
+        if($assign){
+            return backend_config_smarty::getInstance()->assign($assign,$fetch);
+        }else{
+            throw new Exception('Unable to assign a variable in template');
+        }
+    }
+
+    /**
+     * @deprecated
+     * Affiche le template du plugin
+     * @param void $page
+     * @param null $cache_id
+     * @param null $compile_id
+     * @return
+     */
+    public function append_display($page,$cache_id = null,$compile_id = null){
+        backend_config_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
+        return backend_config_smarty::getInstance()->display($page,$cache_id,$compile_id);
+    }
+
+    /**
+     * @deprecated
+     * Retourne le résultat du template plugin
+     * @param void $page
+     * @param null $cache_id
+     * @param null $compile_id
+     * @return
+     */
+    public function append_fetch($page,$cache_id = null,$compile_id = null){
+        backend_config_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
+        return backend_config_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
+    }
+
+    /**
+     * @access public
+     * Assign les variables dans les fichiers phtml
+     * @param void $tpl_var
+     * @param string $value
+     * @param bool $nocache
+     * @throws Exception
+     */
+    public static function assign($tpl_var, $value = null, $nocache = false){
+        if (is_array($tpl_var)){
+            backend_model_smarty::getInstance()->assign($tpl_var);
+        }else{
+            if($tpl_var){
+                backend_model_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+            }else{
+                throw new Exception('Unable to assign a variable in template');
+            }
+        }
+    }
+
+    /**
+     * Charge le fichier de configuration associer à la langue
+     * @param bool|string $sections (optionnel) :la section à charger
+     */
+	public static function configLoad($sections = false){
 		backend_config_smarty::getInstance()->configLoad(
-			$this->pathConfigLoad(self::$ConfigFile), $sections
+			self::pathConfigLoad(self::$ConfigFile), $sections
 		);
 	}
-	/**
-	 * Charge le fichier de configuration pour les mails associer à la langue
-	 * @param string $sections (optionnel) :la section à charger
-	 */
-	public function configLoadMail($sections = false){
+
+    /**
+     * Charge le fichier de configuration pour les mails associer à la langue
+     * @param bool|string $sections (optionnel) :la section à charger
+     */
+	public static function configLoadMail($sections = false){
 		backend_config_smarty::getInstance()->configLoad(
-			$this->pathConfigLoad(self::$MailConfigFile), $sections
+            self::pathConfigLoad(self::$MailConfigFile), $sections
 		);
 	}
-	/**
-	 * Affiche les pages phtml supplémentaire
-	 * @param void $page
-	 */
-	public function isCached($page){
-		return backend_config_smarty::getInstance()->isCached($page);
-	}
+
+    /**
+     * Test si le cache est valide
+     * @param string|object $template
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     */
+    public static function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
+        backend_model_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
+    }
+
+    /**
+     * Charge les variables du fichier de configuration dans le site
+     * @param string $varname
+     * @param bool $search_parents
+     * @return string
+     */
+    public static function getConfigVars($varname = null, $search_parents = true){
+        return backend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
+    }
 	/**
 	 * @access public
 	 * Active le système de debug de smarty 3
 	 */
 	public function getDebugging(){
-		return backend_config_smarty::getInstance()->getDebugging();
+		return backend_model_smarty::getInstance()->getDebugging();
 	}
 	/**
 	 * @access public
 	 * Active le test de l'installation de smarty 3
 	 */
 	public function testInstall(){
-		return backend_config_smarty::getInstance()->testInstall();
+		return backend_model_smarty::getInstance()->testInstall();
 	}
 	/**
 	 * @access public
