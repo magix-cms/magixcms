@@ -4,10 +4,10 @@
         {* -- START PAGES -- *}
             <li class="nav-header">Pages</li>
             <li>
-                <a data-href="#home" href="#" class="showit">
+                <a href="#home" class="showit{if {script_name} eq "home"} open{/if}">
                     <span class="icon-plus"></span> Page d'accueil
                 </a>
-                <div class="collapse-item" id="home">
+                <div class="collapse-item{if {script_name} eq "home"} on{/if}" id="home">
                     <ul>
                         <li>
                             <a href="/{baseadmin}/home.php?action=list"><span class="icon-list-ul"></span> Liste</a>
@@ -19,10 +19,10 @@
                 </div>
             </li>
             <li>
-                <a href="#cms" class="showit">
+                <a href="#cms" class="showit{if {script_name} eq "cms"} open{/if}">
                     <span class="icon-plus"></span> Pages
                 </a>
-                <div class="collapse-item" id="cms">
+                <div class="collapse-item{if {script_name} eq "cms"} on{/if}" id="cms">
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
@@ -43,10 +43,10 @@
         {* -- START NEWS -- *}
             <li class="nav-header">Actualités</li>
             <li>
-                <a href="#news" class="showit">
+                <a href="#news" class="showit{if {script_name} eq "news"} open{/if}">
                     <span class="icon-plus"></span> Articles
                 </a>
-                <div class="collapse-item" id="news">
+                <div class="collapse-item{if {script_name} eq "news"} on{/if}" id="news">
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
@@ -68,10 +68,10 @@
         {* -- START CATALOG -- *}
             <li class="nav-header">Catalogue</li>
             <li>
-                <a href="#catalog-category" class="showit">
+                <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category"} open{/if}">
                     <span class="icon-plus"></span> Catégories
                 </a>
-                <div class="collapse-item" id="catalog-category">
+                <div class="collapse-item{if {script_name} eq "catalog:category"} on{/if}" id="catalog-category">
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
@@ -84,10 +84,10 @@
                 </div>
             </li>
             <li>
-                <a href="#catalog-product" class="showit">
+                <a href="#catalog-product" class="showit{if {script_name} eq "catalog:product"} open{/if}">
                     <span class="icon-plus"></span> Produits
                 </a>
-                <div class="collapse-item" id="catalog-product">
+                <div class="collapse-item{if {script_name} eq "catalog:product"} on{/if}" id="catalog-product">
                     <ul>
                     {foreach $array_lang as $key => $value nocache}
                         <li>
@@ -106,7 +106,7 @@
         <ul class="nav nav-list">
         {* -- START NEWS -- *}
             <li class="nav-header">Plugins</li>
-            <li><a href="#"><span class="icon-envelope"></span> Contact</a></li>
+            <li><a href="/{baseadmin}/plugins.php?name=contact"><span class="icon-envelope"></span> Contact</a></li>
             <li><a href="#"><span class="icon-trash"></span> Clearcache</a></li>
         {* -- END NEWS -- *}
         </ul>

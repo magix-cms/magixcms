@@ -178,6 +178,6 @@ tbody.ui-sortable > .ui-sortable-helper{
 .collapse-item{
     display:none;
 }
-.collapse-item .on{
+.collapse-item.on{
     display:block;
 }
