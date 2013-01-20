@@ -16,7 +16,13 @@
  * @return string
  */
 function smarty_function_script_name($params, $template){
-    $array_files = array("home"=>"home","cms"=>"cms","news"=>"news","catalog"=>"catalog","plugins"=>"plugins");
+    $array_files = array(
+        "home"=>"home",
+        "cms"=>"cms",
+        "news"=>"news",
+        "catalog"=>"catalog",
+        "plugins"=>"plugins"
+    );
     $filename = substr($_SERVER['SCRIPT_NAME'],1);
     $position = strpos($filename, '.');
     $attribute =  substr($filename, 0, $position);

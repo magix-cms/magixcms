@@ -130,6 +130,9 @@ input[type='text'].ui-spinner-input {
 .sidebar-nav {
     padding: 9px 0;
 }
+.sidebar-nav ul ul{
+    list-style: none;
+}
 /*.dropdown:hover .dropdown-menu {
     display: block;
 }
