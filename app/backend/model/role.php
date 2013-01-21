@@ -63,7 +63,7 @@ class backend_model_role {
     /**
      * @return mixed
      */
-    private function data(){
+    public function data(){
         if(isset($this->useridadmin)){
             $admin = new backend_db_admin();
             $data = $admin->s_member_data($this->useridadmin);

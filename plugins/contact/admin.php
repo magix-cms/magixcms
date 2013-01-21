@@ -218,12 +218,13 @@ class plugins_contact_admin extends database_plugins_contact{
 			$this->delete_contact();
 		}else{
 			//Installation des tables mysql
-			if(self::install_table() == true){
+			/*if(self::install_table() == true){
 				$this->display_list();
 				backend_controller_plugins::create()->append_assign('selectlang',backend_model_blockDom::select_language());
 				backend_controller_plugins::create()->append_assign('selectusers',backend_model_blockDom::select_users());
-			}
+			}*/
 			// Retourne la page index.phtml
+            backend_controller_plugins::display('index.phtml');
 			backend_controller_plugins::create()->append_display('index.phtml');
 		}
 	}

@@ -67,7 +67,7 @@ class backend_controller_plugins{
 	 * 
 	 * @var string
 	 */
-	public $getplugin,$action,$tab;
+	public $getplugin;
 	/**
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
 	 * @var string
@@ -85,13 +85,8 @@ class backend_controller_plugins{
 		if(magixcjquery_filter_request::isGet('name')){
 			$this->getplugin = magixcjquery_form_helpersforms::inputClean($_GET['name']);
 		}
-        if(magixcjquery_filter_request::isGet('action')){
-            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
-        }
-        if(magixcjquery_filter_request::isGet('tab')){
-            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
-        }
 	}
+
 	/**
      * instance singleton self (DataObjects)
      * @access public
@@ -388,20 +383,27 @@ class backend_controller_plugins{
 					$load = $this->execute_plugins('plugins_'.$this->getplugin().'_admin');
 					//Si la méthode existe on ajoute le plugin dans le register et execute la fonction run()
 					if(method_exists($load,'run')){
-						$access = $this->allow_access_config($this->getplugin());
-						$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
+                        $role = new backend_model_role();
+                        $role_data = explode(',',$role->sql_arg());
+						$access = (string) $this->allow_access_config($this->getplugin());
+						//$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
 						if($debug){
 							$firebug = new magixcjquery_debug_magixfire();
 							$firebug->magixFireLog($this->getplugin().': '.$access);
 						}
-						if($access != null OR $access != ''){
-							if($access >= $perms['perms']){
+                        if($access != null OR $access != ''){
+                            if(array_key_exists($access,$role_data)){
+                                $load->run();
+                            }elseif($access == '*'){
+                                $load->run();
+                            }
+							/*if($access >= $perms['perms']){
 								$load->run();
 							}elseif($access == '*'){
 								$load->run();
 							}else{
 								exit();
-							}
+							}*/
 						}else{
 							$load->run();
 						}
@@ -485,7 +487,7 @@ class backend_controller_plugins{
     /**
      * @param $template_dir
      */
-    public static function addTemplateDir($template_dir){
+    public function addTemplateDir($template_dir){
         backend_model_smarty::getInstance()->addTemplateDir($template_dir);
     }
 
@@ -497,7 +499,7 @@ class backend_controller_plugins{
      * @param mixed $compile_id
      * @param object $parent
      */
-    public static function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
+    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
         self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
             backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
@@ -517,7 +519,7 @@ class backend_controller_plugins{
      * @param bool   $no_output_filter  if true do not run output filter
      * @return string rendered template output
      */
-    public static function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
+    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
         self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
             return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
@@ -576,7 +578,7 @@ class backend_controller_plugins{
      * @param bool $nocache
      * @throws Exception
      */
-    public static function assign($tpl_var, $value = null, $nocache = false){
+    public function assign($tpl_var, $value = null, $nocache = false){
         if (is_array($tpl_var)){
             backend_model_smarty::getInstance()->assign($tpl_var);
         }else{
@@ -649,10 +651,10 @@ class backend_controller_plugins{
 	private function display_plugins(){
 		if($this->getplugin()){
 			try{
-				backend_config_smarty::getInstance()->assign('pluginName',$this->pluginName());
-				backend_config_smarty::getInstance()->assign('pluginUrl',$this->pluginUrl());
-				backend_config_smarty::getInstance()->assign('pluginPath',$this->pluginPath());
-				backend_config_smarty::getInstance()->assign('pluginInfo',$this->load_config_info());
+                $this->assign('pluginName',$this->pluginName());
+                $this->assign('pluginUrl',$this->pluginUrl());
+                $this->assign('pluginPath',$this->pluginPath());
+                $this->assign('pluginInfo',$this->load_config_info());
 				$this->load_plugin();
 			}catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -679,9 +681,9 @@ class backend_controller_plugins{
 		try{
 			if(file_exists($this->load_sql_file($filename))){
 				if(magixglobal_model_db::create_new_sqltable($this->load_sql_file($filename,$plugin_folder))){
-					$this->append_assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.$this->pluginUrl().'">');
-					$fetch = $this->append_fetch($fetchFile);
-					$this->append_assign('install_db',$fetch);
+                    backend_controller_plugins::assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.$this->pluginUrl().'">');
+					$fetch = backend_controller_plugins::fetch($fetchFile);
+                    backend_controller_plugins::assign('install_db',$fetch);
 				}
 			}
 		}catch (Exception $e){

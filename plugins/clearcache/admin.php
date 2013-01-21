@@ -4,7 +4,7 @@
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2012 magix-cms.com <support@magix-cms.com>
+ # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
  #
  # OFFICIAL TEAM :
  #
@@ -36,10 +36,10 @@
  * MAGIX CMS
  * @category   clear 
  * @package    plugins
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com,  http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    2.0
+ * @version    3.0
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name clearcache
  * Le plugin clearcache nettoie les caches tpl et GZ de l'installation
@@ -48,76 +48,108 @@
 class plugins_clearcache_admin{
 	/**
 	 * @access public
-	 * @var GET clear
+	 * @var POST clear
 	 */
-	public $clear;
+	public $action,$tab,$clear;
 	/**
 	 * @access public
 	 * Constructor
 	 */
 	function __construct(){
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('tab')){
+            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
 		if(magixcjquery_filter_request::isPost('clear')){
 			$this->clear = (string) magixcjquery_form_helpersforms::inputClean($_POST['clear']);
 		}
 	}
-	/**
-	 * @access protected
-	 * @param nom du dossier de caches dossier $dir
-	 */
-	protected function path_var_dir($dir){
-		$vardir = magixglobal_model_system::base_path().'var'.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR;
-		if(file_exists($vardir)){
-			return $vardir;
+
+    /**
+     * @param $app
+     * @param $dir
+     * @return string
+     */
+    private function pathCacheDir($app,$dir){
+        switch($app){
+            case 'public':
+                $pathDir = magixglobal_model_system::base_path().'var'.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR;
+                break;
+            case 'admin':
+                $pathDir = magixglobal_model_system::base_path().PATHADMIN.DIRECTORY_SEPARATOR.'caching'.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR;
+                break;
+        }
+        return $pathDir;
+    }
+
+    /**
+     * @access private
+     * @param $app
+     * @param $dir
+     */
+	private function cacheDir($app,$dir){
+        $makefile = new magixcjquery_files_makefiles();
+		$pathDir = $this->pathCacheDir($app,$dir);
+		if(file_exists($pathDir)){
+            $scandir = $makefile->scanDir($pathDir,array('.htaccess','.gitignore'));
+            $clean = '';
+            if($scandir != null){
+                foreach($scandir as $file){
+                    $clean .= $makefile->removeFile($pathDir,$file);
+                }
+            }
 		} else{
 			$magixfire = new magixcjquery_debug_magixfire();
 			$magixfire->magixFireError(new Exception('Error: var is not exist'));
 		}
 	}
-	/**
-	 * @access private
-	 * @param string $dir
-	 * Suppression des caches
-	 */
-	private function clear_dir_caches($dir){
-		$makefile = new magixcjquery_files_makefiles();
-		$scandir = $makefile->scanDir($this->path_var_dir($dir),'.htaccess');
-		$clean = '';
-		if($scandir != null){
-			foreach($scandir as $file){
-				$clean .= $makefile->removeFile($this->path_var_dir($dir),$file);
-			}
-		}
-		backend_controller_plugins::create()->append_display('success.phtml');
-	}
-	/**
-	 * Execute le suppression du/des caches
-	 * @access private
-	 */
-	private function initStartClear(){
+
+    /**
+     * Execute le suppression du/des caches
+     * @access private
+     * @param $create
+     */
+    private function removeCache($create){
 		switch($this->clear){
-			case "caches":
-				$this->clear_dir_caches('caches');
-			break;
-			case "tpl":
-				$this->clear_dir_caches('templates_c');
-			break;
-			case "admin":
-				$this->clear_dir_caches('tpl_admin');
-			break;
+			case "public_caches":
+                $this->cacheDir('public','templates_c');
+                $this->cacheDir('public','tpl_caches');
+			    break;
+			case "admin_caches":
+                $this->cacheDir('admin','templates_c');
+                $this->cacheDir('admin','tpl_caches');
+			    break;
+            case "public_minify":
+                $this->cacheDir('public','caches');
+                $this->cacheDir('public','minify');
+                break;
+            case "admin_minify":
+                $this->cacheDir('admin','caches');
+                $this->cacheDir('admin','minify');
+                break;
+
 		}
+        $create->display('success_update.phtml');
 	}
+
 	/**
 	 * @access public
 	 * Execute le plugin
 	 */
 	public function run(){
-		//Si on veut supprimer les caches
-		if(isset($this->clear)){
-			$this->initStartClear();
-		//Si on veut modifier un onglet catalogue
-		}else{
+        $create = new backend_controller_plugins();
+        if(isset($this->action)){
+            if($this->action == 'remove'){
+                if(isset($this->clear)){
+                    //Si on veut supprimer les caches
+                    $this->removeCache($create);
+                }
+            }
+        }else{
 			// Retourne la page index.phtml
-			backend_controller_plugins::create()->append_display('index.phtml');
+            $create->display('index.phtml');
 		}
 	}
 }

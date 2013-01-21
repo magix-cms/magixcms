@@ -10,7 +10,7 @@
 	<acl>
 		<admin>
 			<authorized>
-				<allow_access>*</allow_access>
+				<allow_access>1</allow_access>
 			</authorized>
 			<infos>
 				<authors>

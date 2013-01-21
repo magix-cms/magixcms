@@ -1,4 +1,35 @@
 #### 2.4.0
+alpha 8
+    * Modification du plugin clearcache
+        * Modification des fichiers phtml avec la nouvelle structure
+        * Modification du fichier admin.js
+        * Modification du comportement de la suppression
+    * Modification de l'API des plugins
+    * Fix bug sidebar : list-style (backend) (issue 33)
+    * Détection des modules actifs pour le menu (backend)
+    * Upgrade de jmShowIt + adaptation nouvelle API
+        * Modification section->colleft pour jmShowIt (backend)
+    * Début de la modification du système de plugins (backend)
+    * Modification du menu vertical avec jshowit (premier test)
+        * Mise à jour de Font Awesome (3.0.2)
+    * Suppression des images dans actualités (backend)
+    * frontend - model - news / remove PHP_ROUND method
+    * work on issue 30 - frontend - revision pagination news
+    * clean - frontend - controller & db - home
+        * nettoyage des function controller
+        * suppression des function non utlisées dans db
+    * clean code structure on app/frontend + update (issues 23)
+        * nettoyage du code php
+        * Revision noms variables smarty home
+    * skin - fix breadcrumb.phtml issue
+    * frontend - controller & db - catalog & cms - clean
+        * fix bug on controller/catalog.php
+        * clean and comment update on controller/cms.php
+        * clean db/catalog.php
+        * clean comment on db/cms.php
+        * db/cms.php rename s_data_current_page => s_page_data
+        * db/cms.php remove s_data_parent_page and merge in s_page_data
+
 alpha 7
     * Début du nettoyage du fichier news.php (backend)
     * pagination révision de la méthode pour récupération et formatage de la pagination (frontend)

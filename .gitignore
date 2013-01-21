@@ -5,11 +5,14 @@
 /app/config/config.php
 /upload/*
 /media/*
-/var/caches/minify_*
+/var/caches/*
+/var/minify/*
 /var/templates_c/*
-/var/tpl_admin/*
+/var/tpl_caches/*
+/var/tmp/*
 /admin/caching/minify/*
-/admin/caching/cache/*
+/admin/caching/caches/*
 /admin/caching/templates_c/*
+/admin/caching/tpl_caches/*
 /lib/magixcjquery/*
 /lib/smarty3/*

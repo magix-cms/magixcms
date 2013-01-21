@@ -184,3 +184,9 @@ tbody.ui-sortable > .ui-sortable-helper{
 .collapse-item.on{
     display:block;
 }
+/*
+* Plugins
+*/
+.block-row{
+    margin:5px 0;
+}

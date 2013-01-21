@@ -52,7 +52,7 @@ $min_allowDebugFlag = false;
  * For best performance, specify your temp directory here. Otherwise Minify
  * will have to load extra code to guess. Some examples below:
  */
-$min_cachePath = $minpath.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'caches';
+$min_cachePath = $minpath.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'minify';
 //$min_cachePath = 'c:\\WINDOWS\\Temp';
 //$min_cachePath = '/tmp';
 //$min_cachePath = preg_replace('/^\\d+;/', '', session_save_path());
