@@ -37,7 +37,7 @@
  * Type:     function
  * Name:     widget_news_display
  * Update:   December  25, 2012
- * Update:   January   12, 2013
+ * Update:   January   17, 2013
  * Purpose:  
  * Examples: {widget_news_display}
  * Output:   
@@ -68,38 +68,39 @@ function smarty_function_widget_news_display($params, $template){
         $lib_rewrite        = new magixglobal_model_rewrite();
         $basePath = '/'.$id_current['lang'].$lib_rewrite->mod_news_lang($id_current['lang']);
         $dataPager = frontend_model_news::set_pagination_data($data['total'],$data['limit'],$basePath,$id_current['pagination'],'/');
-        unset($data['total']);
-        unset($data['limit']);
         $pagination = null;
         if ($dataPager != null) {
             $pagination = '<div class="pagination">';
-            $pagination .= '<ul>';
-            foreach ($dataPager as $row) {
-                switch ($row['name']){
-                    case 'first':
-                        $name = '<<';
-                        break;
-                    case 'previous':
-                        $name = '<';
-                        break;
-                    case 'next':
-                        $name = '>';
-                        break;
-                    case 'last':
-                        $name = '>>';
-                        break;
-                    default:
-                        $name = $row['name'];
+                $pagination .= '<ul>';
+                foreach ($dataPager as $row) {
+                    switch ($row['name']){
+                        case 'first':
+                            $name = '<<';
+                            break;
+                        case 'previous':
+                            $name = '<';
+                            break;
+                        case 'next':
+                            $name = '>';
+                            break;
+                        case 'last':
+                            $name = '>>';
+                            break;
+                        default:
+                            $name = $row['name'];
+                    }
+                    $classItem = ($name == $id_current['pagination']) ? ' class="active"' : null;
+                    $pagination .= '<li'.$classItem.'>';
+                        $pagination .= '<a href="'.$row['url'].'" title="'.$name.'" >';
+                            $pagination .= $name;
+                        $pagination .= '</a>';
+                    $pagination .= '</li>';
                 }
-                $pagination .= '<li>';
-                $pagination .= '<a href="'.$row['url'].'" title="'.$name.'" >';
-                    $pagination .= $name;
-                $pagination .= '</a>';
-                $pagination .= '</li>';
-            }
-            $pagination .= '</ul>';
+                $pagination .= '</ul>';
             $pagination .= '</div>';
         }
+        unset($data['total']);
+        unset($data['limit']);
     }
 
     $output = null;
