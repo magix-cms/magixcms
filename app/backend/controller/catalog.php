@@ -2165,7 +2165,13 @@ class backend_controller_catalog extends analyzer_catalog{
                     }
                 }
             }elseif($this->section === 'product'){
+                if(isset($this->getlang)){
+                    if(isset($this->action)){
 
+                    }else{
+                        $create->display('catalog/product/list.phtml');
+                    }
+                }
             }
         }else{
             $create->display('catalog/index.phtml');
