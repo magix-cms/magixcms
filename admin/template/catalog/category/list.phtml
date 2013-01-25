@@ -1,0 +1,33 @@
+{include file="section/head.phtml"}
+<title>Magix CMS | Admin</title>
+</head>
+<body class="module-cms">
+{include file="section/top.phtml"}
+<div class="container-fluid">
+    <div class="row-fluid">
+    {include file="section/colleft.phtml"}
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span12">
+                {include file="catalog/section/nav.phtml"}
+                    <h1>Liste des catégories</h1>
+                    <p>
+                        <a class="btn btn-primary" href="#" id="open-add">
+                            <span class="icon-plus"></span> Ajouter une catégorie
+                        </a>
+                    </p>
+                    <div class="mc-message clearfix"></div>
+                    <div id="list_catalog_category"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="forms-add" class="hide" title="Ajouter une catégorie">
+{include file="catalog/category/forms/add.phtml"}
+</div>
+{include file="section/footer.phtml"}
+{include file="section/js.phtml"}
+{include file="catalog/section/js.phtml"}
+</body>
+</html>

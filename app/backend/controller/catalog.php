@@ -327,7 +327,10 @@ class backend_controller_catalog extends analyzer_catalog{
 	public $d_rel_product;
 	public $post_search;
 	public $get_search_page;
-	public $getlang;
+    /**
+     * Les variables globales
+     */
+    public $section,$getlang,$action,$tab;
 	/**
 	 * @access public
 	 * Constructor
@@ -502,6 +505,15 @@ class backend_controller_catalog extends analyzer_catalog{
 		if(isset($_GET['get_search_page'])){
 			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
 		}
+        if(magixcjquery_filter_request::isGet('section')){
+            $this->section = magixcjquery_form_helpersforms::inputClean($_GET['section']);
+        }
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('tab')){
+            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
 	}
 	/**
 	 * @access private
@@ -1902,7 +1914,7 @@ class backend_controller_catalog extends analyzer_catalog{
 	 * @access private
 	 * Requête JSON pour les statistiques du CMS
 	 */
-	private function json_catalog_chart(){
+	/*private function json_catalog_chart(){
 		if(backend_db_block_catalog::chart_count_catalog() != null){
 			foreach (backend_db_block_catalog::chart_count_catalog() as $s){
 				$rowCatalog[]= $s['countcatalog'];
@@ -1932,14 +1944,16 @@ class backend_controller_catalog extends analyzer_catalog{
 			$rowLang = array(0);
 		}
 		print '{"catalog_count":['.implode(',',$rowCatalog).'],"lang":['.implode(',',$rowLang).'],"catalog_category_count":['.implode(',',$rowCatalogCat).'],"catalog_subcategory_count":['.implode(',',$rowCatalogSubCat).']}';
-	}
+	}*/
+
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
-		if(magixcjquery_filter_request::isGet('category')){
+        $create = new backend_controller_template();
+		/*if(magixcjquery_filter_request::isGet('category')){
 			if(magixcjquery_filter_request::isGet('delc')){
 				self::delete_catalog_category();
 			}elseif(magixcjquery_filter_request::isGet('dels')){
@@ -2140,7 +2154,22 @@ class backend_controller_catalog extends analyzer_catalog{
 			}else{
 				backend_controller_template::display('catalog/index.phtml');
 			}
-		}
+		}*/
+        if(isset($this->section)){
+            if($this->section === 'category'){
+                if(isset($this->getlang)){
+                    if(isset($this->action)){
+
+                    }else{
+                        $create->display('catalog/category/list.phtml');
+                    }
+                }
+            }elseif($this->section === 'product'){
+
+            }
+        }else{
+            $create->display('catalog/index.phtml');
+        }
 	}
 }
 /**

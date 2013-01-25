@@ -75,7 +75,7 @@
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
-                            <a href="/{baseadmin}/catalog.php?getlang={$key}">
+                            <a href="/{baseadmin}/catalog.php?section=category&amp;getlang={$key}">
                                 <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
                             </a>
                         </li>
@@ -91,7 +91,7 @@
                     <ul>
                     {foreach $array_lang as $key => $value nocache}
                         <li>
-                            <a href="/{baseadmin}/catalog.php?getlang={$key}">
+                            <a href="/{baseadmin}/catalog.php?section=product&amp;getlang={$key}">
                                 <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
                             </a>
                         </li>

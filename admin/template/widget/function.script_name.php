@@ -29,10 +29,12 @@ function smarty_function_script_name($params, $template){
     $basename = substr($attribute, strpos($filename, '/')+1);
     if(array_key_exists($basename,$array_files)){
         if($basename === 'catalog'){
-            if(isset($_GET['category'])){
-                return $basename.':category';
-            }elseif(isset($_GET['product'])){
-                return $basename.':product';
+            if(isset($_GET['section'])){
+                if($_GET['section'] === 'category'){
+                    return $basename.':category';
+                }elseif($_GET['section'] === 'product'){
+                    return $basename.':product';
+                }
             }
         }elseif($basename === 'plugins'){
             if(isset($_GET['name'])){
