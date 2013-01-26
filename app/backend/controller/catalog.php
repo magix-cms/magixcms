@@ -44,7 +44,7 @@
  * @name catalog
  *
  */
-class backend_controller_catalog extends analyzer_catalog{
+class backend_controller_catalog extends backend_db_catalog{
 	/**
 	 * ####### Categorie et sous categorie ########
 	 */
@@ -61,8 +61,14 @@ class backend_controller_catalog extends analyzer_catalog{
 	/**
 	 * Modification de l'ordre des catégories
 	 * @var corder
+     * @deprecated
 	 */
 	public $corder;
+    /**
+     * Modification de l'ordre des éléments
+     * @var $order_pages
+     */
+    public $order_pages;
 	/**
 	 * 
 	 * Contenu texte de la catégorie
@@ -330,33 +336,47 @@ class backend_controller_catalog extends analyzer_catalog{
     /**
      * Les variables globales
      */
-    public $section,$getlang,$action,$tab;
+    public $edit,$section,$getlang,$action,$tab;
 	/**
 	 * @access public
 	 * Constructor
 	 */
 	public function __construct(){
+        //Catégories
 		if(magixcjquery_filter_request::isPost('clibelle')){
 			$this->clibelle = (string) magixcjquery_form_helpersforms::inputClean($_POST['clibelle']);
-			$this->pathclibelle = (string) magixcjquery_url_clean::rplMagixString($_POST['clibelle'],true);
 		}
+        if(magixcjquery_filter_request::isPost('pathclibelle')){
+            $this->pathclibelle = magixcjquery_url_clean::rplMagixString($_POST['clibelle'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+        }
+        if(magixcjquery_filter_request::isPost('c_content')){
+            $this->c_content = magixcjquery_form_helpersforms::inputCleanQuote($_POST['c_content']);
+        }
+        //Sous catégories
+        if(magixcjquery_filter_request::isPost('slibelle')){
+            $this->slibelle = (string) magixcjquery_form_helpersforms::inputClean($_POST['slibelle']);
+
+        }
+        if(magixcjquery_filter_request::isPost('pathslibelle')){
+            $this->pathslibelle = magixcjquery_url_clean::rplMagixString($_POST['slibelle'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+        }
+        if(magixcjquery_filter_request::isPost('order_pages')){
+            $this->order_pages = magixcjquery_form_helpersforms::arrayClean($_POST['order_pages']);
+        }
+
+
 		if(magixcjquery_filter_request::isPost('update_category')){
 			$this->update_category = (string) magixcjquery_form_helpersforms::inputClean($_POST['update_category']);
 			$this->update_pathclibelle = (string) magixcjquery_url_clean::rplMagixString($_POST['update_category'],true);
 		}
-		if(magixcjquery_filter_request::isPost('slibelle')){
-			$this->slibelle = (string) magixcjquery_form_helpersforms::inputClean($_POST['slibelle']);
-			$this->pathslibelle = (string) magixcjquery_url_clean::rplMagixString($_POST['slibelle'],true);
-		}
+
 		if(magixcjquery_filter_request::isPost('update_subcategory')){
 			$this->update_subcategory = (string) magixcjquery_form_helpersforms::inputClean($_POST['update_subcategory']);
 			$this->update_pathslibelle = (string) magixcjquery_url_clean::rplMagixString($_POST['update_subcategory'],true);
 		}
-		if(magixcjquery_filter_request::isPost('c_content')){
-			$this->c_content =(string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['c_content']);
-		}
+
 		if(magixcjquery_filter_request::isPost('s_content')){
-			$this->s_content =(string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['s_content']);
+			$this->s_content = magixcjquery_form_helpersforms::inputCleanQuote($_POST['s_content']);
 		}
 		if(magixcjquery_filter_request::isPost('idclc')){
 			$this->idclc = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idclc']);
@@ -368,8 +388,11 @@ class backend_controller_catalog extends analyzer_catalog{
 			$this->idlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
 		}
 		if(magixcjquery_filter_request::isGet('getlang')){
-			$this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
+			$this->getlang = magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
 		}
+        if(magixcjquery_filter_request::isGet('edit')){
+            $this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
+        }
 		if(magixcjquery_filter_request::isPost('titlecatalog')){
 			$this->titlecatalog = (string) magixcjquery_form_helpersforms::inputClean($_POST['titlecatalog']);
 			$this->urlcatalog = (string) magixcjquery_url_clean::rplMagixString($_POST['titlecatalog'],true);
@@ -1911,6 +1934,7 @@ class backend_controller_catalog extends analyzer_catalog{
 		backend_controller_template::display('catalog/image.phtml');
 	}
 	/**
+     * @deprecated
 	 * @access private
 	 * Requête JSON pour les statistiques du CMS
 	 */
@@ -1945,7 +1969,85 @@ class backend_controller_catalog extends analyzer_catalog{
 		}
 		print '{"catalog_count":['.implode(',',$rowCatalog).'],"lang":['.implode(',',$rowLang).'],"catalog_category_count":['.implode(',',$rowCatalogCat).'],"catalog_subcategory_count":['.implode(',',$rowCatalogSubCat).']}';
 	}*/
+    /**
+     * @access private
+     * Requête JSON pour les statistiques du catalogue
+     */
+    private function json_graph(){
+        if(parent::s_stats_catalog() != null){
+            foreach (parent::s_stats_catalog() as $key){
+                $stat[]= array(
+                    'x'=>magixcjquery_string_convert::upTextCase($key['iso']),
+                    'y'=>$key['CATEGORY'],
+                    'z'=>$key['SUBCATEGORY'],
+                    'a'=>$key['CATALOG']
+                );
+            }
+            print json_encode($stat);
+        }
+    }
 
+    /**
+     * Retourne les catégories au format JSON
+     */
+    private function json_listing_category(){
+        if(parent::s_catalog_category($this->getlang) != null){
+            foreach (parent::s_catalog_category($this->getlang) as $key){
+                if($key['c_content'] != null){
+                    $content = 1;
+                }else{
+                    $content = 0;
+                }
+                if($key['img_c'] != null){
+                    $img = 1;
+                }else{
+                    $img = 0;
+                }
+                $json_data[]= '{"idclc":'.json_encode($key['idclc']).
+                    ',"clibelle":'.json_encode($key['clibelle']).
+                    ',"c_content":'.json_encode($content).
+                    ',"img":'.json_encode($img).
+                    ',"iso":'.json_encode($key['iso']).'}';
+            }
+            print '['.implode(',',$json_data).']';
+        }
+    }
+
+    /**
+     * @access private
+     * Insertion d'une catégorie
+     */
+    private function addCategory(){
+        if(isset($this->clibelle)){
+            if(!empty($this->clibelle)){
+                parent::i_catalog_category(
+                    $this->clibelle,
+                    $this->pathclibelle,
+                    $this->getlang
+                );
+            }
+        }
+    }
+    /**
+     * Execute Update AJAX FOR order
+     * @access private
+     *
+     */
+    private function update_order_category(){
+        if(isset($this->order_pages)){
+            $p = $this->order_pages;
+            for ($i = 0; $i < count($p); $i++) {
+                parent::u_order_category($i,$p[$i]);
+            }
+        }
+    }
+    private function load_category_edit_data($create,$data){
+        /**
+         * Retourne un tableau des données
+         * @var
+         */
+        $create->assign('idclc',$data['idclc'],true);
+    }
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -2159,7 +2261,29 @@ class backend_controller_catalog extends analyzer_catalog{
             if($this->section === 'category'){
                 if(isset($this->getlang)){
                     if(isset($this->action)){
-
+                        if($this->action === 'list'){
+                            if(magixcjquery_filter_request::isGet('json_list_category')){
+                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                $header->pragma();
+                                $header->cache_control("nocache");
+                                $header->getStatus('200');
+                                $header->json_header("UTF-8");
+                                $this->json_listing_category();
+                            }
+                        }elseif($this->action === 'add'){
+                            if(isset($this->clibelle)){
+                                $this->addCategory();
+                            }
+                        }elseif($this->action === 'edit'){
+                            if(isset($this->edit)){
+                                $data = parent::s_catalog_category_data($this->edit);
+                                $this->load_category_edit_data($create,$data);
+                                $create->display('catalog/category/edit.phtml');
+                            }elseif(isset($this->order_pages)){
+                                $this->update_order_category();
+                            }
+                        }
                     }else{
                         $create->display('catalog/category/list.phtml');
                     }
@@ -2174,7 +2298,17 @@ class backend_controller_catalog extends analyzer_catalog{
                 }
             }
         }else{
-            $create->display('catalog/index.phtml');
+            if(magixcjquery_filter_request::isGet('json_graph')){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_graph();
+            }else{
+                $create->display('catalog/index.phtml');
+            }
         }
 	}
 }

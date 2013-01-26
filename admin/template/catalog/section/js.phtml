@@ -1,0 +1,26 @@
+{include file="section/editor.phtml"}
+{script src="/{baseadmin}/min/?g=tinymce" type="javascript"}
+{script src="/{baseadmin}/min/?g=charts" type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_catalog.js" type="javascript"}
+<script type="text/javascript">
+    var section = "{$smarty.get.section}";
+    $(function(){
+        if (typeof MC_catalog == "undefined")
+        {
+            console.log("MC_catalog is not defined");
+        }else{
+
+        {if $smarty.get.section eq 'category'}
+            {if $smarty.get.getlang}
+                {if $smarty.get.edit}
+
+                {else}
+                    MC_catalog.runListCategory(section,getlang);
+                {/if}
+            {/if}
+        {elseif !$smarty.get.section}
+            MC_catalog.runCharts();
+        {/if}
+        }
+    });
+</script>

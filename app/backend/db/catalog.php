@@ -50,7 +50,7 @@ class backend_db_catalog{
 	 * @access public
 	 * @var void
 	 */
-	static public $admindbcatalog;
+	//static public $admindbcatalog;
 	/**
 	 * instance frontend_db_home with singleton
 	 */
@@ -133,8 +133,9 @@ class backend_db_catalog{
      * @param $pathclibelle
      * @param $idlang
      * @param $corder
+     * @deprecated
      */
-	function i_catalog_category($clibelle,$pathclibelle,$img_c,$idlang){
+	/*function i_catalog_category($clibelle,$pathclibelle,$img_c,$idlang){
 		// récupère le nombre maximum de la colonne order
 		$maxorder = self::s_max_order_catalog_category();
 		$sql = 'INSERT INTO mc_catalog_c (clibelle,pathclibelle,img_c,idlang,corder) 
@@ -147,7 +148,7 @@ class backend_db_catalog{
 			':idlang'			=>	$idlang,
 			':corder'			=>	$maxorder['clcorder'] + 1
 		));
-	}
+	}*/
 	/**
 	 * Met à jour l'ordre d'affichage des catégories
 	 * @param $i
@@ -799,4 +800,90 @@ class backend_db_catalog{
 		$sql = 'SELECT count(idcls) as subfolder FROM mc_catalog_s';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
+    //GRAPH
+    /**
+     * @return array
+     */
+    protected function s_stats_catalog(){
+        $sql = 'SELECT lang.iso, IF( c.cat_count >0, c.cat_count, 0 ) AS CATEGORY,
+        IF( s.subcat_count >0, s.subcat_count, 0 ) AS SUBCATEGORY,
+        IF( catalog.catalog_count >0, catalog.catalog_count, 0 ) AS CATALOG
+        FROM mc_lang AS lang
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, lang.iso, count( c.idclc ) AS cat_count
+            FROM mc_catalog_c AS c
+            JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+            GROUP BY c.idlang
+        )c ON ( c.idlang = lang.idlang )
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, lang.iso, count( s.idcls ) AS subcat_count
+            FROM mc_catalog_s AS s
+            JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+            JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+            GROUP BY c.idlang
+        )s ON ( s.idlang = lang.idlang )
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, lang.iso, count( catalog.idcatalog ) AS catalog_count
+            FROM mc_catalog AS catalog
+		    JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+            GROUP BY catalog.idlang
+        )catalog ON ( catalog.idlang = lang.idlang )
+        GROUP BY lang.idlang';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+    //CATEGORY
+    /**
+     * Retourne la liste des catégories dans la langue
+     * @param $getlang
+     * @return array
+     */
+    protected function s_catalog_category($getlang){
+        $sql = 'SELECT c.*,lang.iso
+        FROM mc_catalog_c AS c
+    	JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	WHERE c.idlang = :getlang
+    	ORDER BY c.corder';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':getlang'=>$getlang
+        ));
+    }
+    protected function s_catalog_category_data($edit){
+        $sql = 'SELECT c.*,lang.iso
+        FROM mc_catalog_c as c
+    	JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	WHERE c.idclc = :edit';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':edit'=>$edit
+        ));
+    }
+    /**
+     * Insertion d'une catégorie
+     * @param $clibelle
+     * @param $pathclibelle
+     * @param $idlang
+     */
+    protected function i_catalog_category($clibelle,$pathclibelle,$idlang){
+        $sql = 'INSERT INTO mc_catalog_c (clibelle,pathclibelle,idlang,corder)
+		VALUE(:clibelle,:pathclibelle,:idlang,(SELECT COUNT(c.corder) FROM mc_catalog_c as c WHERE c.idlang = :idlang))';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':clibelle'			=>	$clibelle,
+                ':pathclibelle'		=>	$pathclibelle,
+                ':idlang'			=>	$idlang
+            ));
+    }
+    /**
+     * Met à jour l'ordre d'affichage des catégories
+     * @param $i
+     * @param $id
+     */
+    protected function u_order_category($i,$id){
+        $sql = 'UPDATE mc_catalog_c SET corder = :i WHERE idclc = :id';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':i'=>$i,
+                ':id'=>$id
+            )
+        );
+    }
 }
