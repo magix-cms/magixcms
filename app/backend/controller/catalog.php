@@ -2047,6 +2047,10 @@ class backend_controller_catalog extends backend_db_catalog{
          * @var
          */
         $create->assign('idclc',$data['idclc'],true);
+        $create->assign('clibelle',$data['clibelle'],true);
+        $create->assign('pathclibelle',$data['pathclibelle'],true);
+        $create->assign('c_content',$data['c_content'],true);
+        $create->assign('iso',$data['iso'],true);
     }
 	/**
 	 * Execute le module dans l'administration
