@@ -344,7 +344,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	public function __construct(){
         //Catégories
 		if(magixcjquery_filter_request::isPost('clibelle')){
-			$this->clibelle = (string) magixcjquery_form_helpersforms::inputClean($_POST['clibelle']);
+			$this->clibelle = magixcjquery_form_helpersforms::inputClean($_POST['clibelle']);
 		}
         if(magixcjquery_filter_request::isPost('pathclibelle')){
             $this->pathclibelle = magixcjquery_url_clean::rplMagixString($_POST['clibelle'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
@@ -354,7 +354,7 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         //Sous catégories
         if(magixcjquery_filter_request::isPost('slibelle')){
-            $this->slibelle = (string) magixcjquery_form_helpersforms::inputClean($_POST['slibelle']);
+            $this->slibelle = magixcjquery_form_helpersforms::inputClean($_POST['slibelle']);
 
         }
         if(magixcjquery_filter_request::isPost('pathslibelle')){
@@ -857,14 +857,14 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @access private
 	 * Mise à jour d'un catégorie
 	 */
-	private function update_category(){
+	/*private function update_category(){
 		if(isset($this->upcat)){
 			if(isset($this->update_category)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_category($this->update_category,$this->update_pathclibelle,$this->c_content,$this->upcat);
 				backend_controller_template::display('request/update-category.phtml');
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Mise à jour de l'image d'une catégorie
@@ -1042,14 +1042,14 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @access private
 	 * Mise à jour d'une sous catégorie
 	 */
-	private function update_subcategory(){
+	/*private function update_subcategory(){
 		if(isset($this->upsubcat)){
 			if(isset($this->update_subcategory)){
 				backend_db_catalog::adminDbCatalog()->u_catalog_subcategory($this->update_subcategory,$this->update_pathslibelle,$this->s_content,$this->upsubcat);
 				backend_controller_template::display('request/update-subcategory.phtml');
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * json_img_subcategory
@@ -2017,14 +2017,16 @@ class backend_controller_catalog extends backend_db_catalog{
      * @access private
      * Insertion d'une catégorie
      */
-    private function addCategory(){
+    private function addCategory($create){
         if(isset($this->clibelle)){
             if(!empty($this->clibelle)){
+                $pathclibelle = magixcjquery_url_clean::rplMagixString($this->clibelle,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
                 parent::i_catalog_category(
                     $this->clibelle,
-                    $this->pathclibelle,
+                    $pathclibelle,
                     $this->getlang
                 );
+                $create->display('catalog/request/success_add.phtml');
             }
         }
     }
@@ -2041,6 +2043,12 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
+
+    /**
+     * Retourne les données d'édition de la catégorie
+     * @param $create
+     * @param $data
+     */
     private function load_category_edit_data($create,$data){
         /**
          * Retourne un tableau des données
@@ -2070,6 +2078,30 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
 
+    /**
+     * Mise à jour de la catégorie
+     */
+    private function update_category($create){
+        if(isset($this->clibelle)){
+            if(!empty($this->clibelle)){
+                if(!empty($this->pathclibelle)){
+                    $pathclibelle = $this->pathclibelle;
+                }else{
+                    $pathclibelle = magixcjquery_url_clean::rplMagixString($this->clibelle);
+                }
+                parent::u_catalog_category(
+                    $this->clibelle,
+                    $pathclibelle,
+                    $this->c_content,
+                    $this->edit
+                );
+                $create->display('catalog/request/success_update.phtml');
+            }
+        }
+    }
+    /**
+     * Retourne la liste des sous catégories
+     */
     private function json_listing_subcategory(){
         if(parent::s_catalog_subcategory($this->edit) != null){
             foreach (parent::s_catalog_subcategory($this->edit) as $key){
@@ -2094,6 +2126,96 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
 
+    /**
+     * @access private
+     * Insertion d'une catégorie
+     */
+    private function addSubCategory($create){
+        if(isset($this->slibelle)){
+            if(!empty($this->slibelle)){
+                $pathslibelle = magixcjquery_url_clean::rplMagixString($this->slibelle,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+                parent::i_catalog_subcategory(
+                    $this->slibelle,
+                    $pathslibelle,
+                    $this->edit
+                );
+                $create->display('catalog/request/success_add.phtml');
+            }
+        }
+    }
+
+    /**
+     * Modification de l'ordre des sous catégories
+     */
+    private function update_order_subcategory(){
+        if(isset($this->order_pages)){
+            $p = $this->order_pages;
+            for ($i = 0; $i < count($p); $i++) {
+                parent::u_order_subcategory($i,$p[$i]);
+            }
+        }
+    }
+    // SOUS CATEGORIES
+    /**
+     * Retourne les données pour l'édition de la sous catégorie
+     * @param $create
+     * @param $data
+     */
+    private function load_subcategory_edit_data($create,$data){
+        /**
+         * Retourne un tableau des données
+         * @var
+         */
+        //Categorie
+        $create->assign('idclc',$data['idclc'],true);
+        $create->assign('clibelle',$data['clibelle'],true);
+        //sous categorie
+        $create->assign('idcls',$data['idcls'],true);
+        $create->assign('slibelle',$data['slibelle'],true);
+        $create->assign('pathslibelle',$data['pathslibelle'],true);
+        $create->assign('s_content',$data['s_content'],true);
+        $create->assign('iso',$data['iso'],true);
+    }
+
+    /**
+     * Retourne l'URL de la sous catégorie
+     * @param $data
+     */
+    private function json_uri_subcategory($data){
+        if($data != null){
+            $url = magixglobal_model_rewrite::filter_catalog_subcategory_url(
+                $data['iso'],
+                $data['pathclibelle'],
+                $data['idclc'],
+                $data['pathslibelle'],
+                $data['idcls'],
+                true
+            );
+            $categoryinput= '{"subcategorylink":'.json_encode(magixcjquery_url_clean::rplMagixString($url)).'}';
+            print $categoryinput;
+        }
+    }
+    /**
+     * Mise à jour de la sous catégorie
+     */
+    private function update_subcategory($create){
+        if(isset($this->slibelle)){
+            if(!empty($this->slibelle)){
+                if(!empty($this->pathslibelle)){
+                    $pathslibelle = $this->pathslibelle;
+                }else{
+                    $pathslibelle = magixcjquery_url_clean::rplMagixString($this->slibelle);
+                }
+                parent::u_catalog_subcategory(
+                    $this->slibelle,
+                    $pathslibelle,
+                    $this->s_content,
+                    $this->edit
+                );
+                $create->display('catalog/request/success_update.phtml');
+            }
+        }
+    }
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -2319,7 +2441,7 @@ class backend_controller_catalog extends backend_db_catalog{
                             }
                         }elseif($this->action === 'add'){
                             if(isset($this->clibelle)){
-                                $this->addCategory();
+                                $this->addCategory($create);
                             }
                         }elseif($this->action === 'edit'){
                             if(isset($this->edit)){
@@ -2334,11 +2456,32 @@ class backend_controller_catalog extends backend_db_catalog{
                                     $header->getStatus('200');
                                     $header->json_header("UTF-8");
                                     $this->json_listing_subcategory();
-                                }elseif(isset($this->order_pages)){
-
                                 }else{
-                                    $this->load_category_edit_data($create,$data);
-                                    $create->display('catalog/category/edit.phtml');
+                                    if(isset($this->tab)){
+                                        if($this->tab === 'image'){
+                                            $this->load_category_edit_data($create,$data);
+                                            $create->display('catalog/category/edit.phtml');
+                                        }elseif($this->tab === 'subcat'){
+                                            if(isset($this->slibelle)){
+                                                $this->addSubCategory($create);
+                                            }elseif(isset($this->order_pages)){
+                                                $this->update_order_subcategory();
+                                            }else{
+                                                $this->load_category_edit_data($create,$data);
+                                                $create->display('catalog/category/edit.phtml');
+                                            }
+                                        }elseif($this->tab === 'product'){
+                                            $this->load_category_edit_data($create,$data);
+                                            $create->display('catalog/category/edit.phtml');
+                                        }
+                                    }else{
+                                        if(isset($this->clibelle)){
+                                            $this->update_category($create);
+                                        }else{
+                                            $this->load_category_edit_data($create,$data);
+                                            $create->display('catalog/category/edit.phtml');
+                                        }
+                                    }
                                 }
                             }else{
                                 if(isset($this->order_pages)){
@@ -2348,6 +2491,29 @@ class backend_controller_catalog extends backend_db_catalog{
                         }
                     }else{
                         $create->display('catalog/category/list.phtml');
+                    }
+                }
+            }elseif($this->section === 'subcategory'){
+                if(isset($this->getlang)){
+                    if(isset($this->action)){
+                        if($this->action === 'add'){
+
+                        }elseif($this->action === 'edit'){
+                            if(isset($this->edit)){
+                                $data = parent::s_catalog_subcategory_data($this->edit);
+                                if(magixcjquery_filter_request::isGet('json_uri_subcategory')){
+                                    $this->json_uri_subcategory($data);
+                                }else{
+                                    if(isset($this->slibelle)){
+                                        $this->update_subcategory($create);
+                                    }else{
+                                        $this->load_subcategory_edit_data($create,$data);
+                                        $create->display('catalog/subcategory/edit.phtml');
+                                    }
+                                }
+
+                            }
+                        }
                     }
                 }
             }elseif($this->section === 'product'){

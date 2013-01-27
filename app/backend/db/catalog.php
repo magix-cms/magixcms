@@ -183,7 +183,7 @@ class backend_db_catalog{
 	 * @param $pathclibelle
 	 * @param $upcat
 	 */
-	function u_catalog_category($clibelle,$pathclibelle,$c_content,$upcat){
+	/*function u_catalog_category($clibelle,$pathclibelle,$c_content,$upcat){
 		$sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle,pathclibelle = :pathclibelle,c_content = :c_content WHERE idclc = :upcat';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
@@ -193,7 +193,7 @@ class backend_db_catalog{
 			':upcat'		=>	$upcat
 			)
 		);
-	}
+	}*/
 	function u_catalog_category_image($img_c,$upcat){
 		$sql = 'UPDATE mc_catalog_c SET img_c = :img_c WHERE idclc = :upcat';
 		magixglobal_model_db::layerDB()->update($sql,
@@ -308,7 +308,7 @@ class backend_db_catalog{
 	 * @param $idlang
 	 * @param $sorder
 	 */
-	function i_catalog_subcategory($slibelle,$pathslibelle,$img_s,$idclc){
+	/*function i_catalog_subcategory($slibelle,$pathslibelle,$img_s,$idclc){
 		// récupère le nombre maximum de la colonne order
 		$maxorder = self::s_max_order_catalog_subcategory();
 		$sql = 'INSERT INTO mc_catalog_s (slibelle,pathslibelle,img_s,idclc,sorder) VALUE(:slibelle,:pathslibelle,:img_s,:idclc,:sorder)';
@@ -320,7 +320,7 @@ class backend_db_catalog{
 			':img_s'			=>	$img_s,
 			':sorder'			=>	$maxorder['clsorder'] + 1
 		));
-	}
+	}*/
 	/**
 	 * Met à jour l'ordre d'affichage des sous catégories
 	 * @param $i
@@ -341,7 +341,7 @@ class backend_db_catalog{
 	 * @param $pathclibelle
 	 * @param $upcat
 	 */
-	function u_catalog_subcategory($slibelle,$pathslibelle,$s_content,$upsubcat){
+	/*function u_catalog_subcategory($slibelle,$pathslibelle,$s_content,$upsubcat){
 		$sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle,s_content = :s_content WHERE idcls = :upsubcat';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
@@ -351,7 +351,7 @@ class backend_db_catalog{
 			':upsubcat'		=>	$upsubcat
 			)
 		);
-	}
+	}*/
 	function u_catalog_subcategory_image($img_s,$upsubcat){
 		$sql = 'UPDATE mc_catalog_s SET img_s = :img_s WHERE idcls = :upsubcat';
 		magixglobal_model_db::layerDB()->update($sql,
@@ -801,7 +801,9 @@ class backend_db_catalog{
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
     //GRAPH
+
     /**
+     * Retourne les statistiques
      * @return array
      */
     protected function s_stats_catalog(){
@@ -847,6 +849,12 @@ class backend_db_catalog{
             ':getlang'=>$getlang
         ));
     }
+
+    /**
+     * Retourne les données de la catégorie pour édition
+     * @param $edit
+     * @return array
+     */
     protected function s_catalog_category_data($edit){
         $sql = 'SELECT c.*,lang.iso
         FROM mc_catalog_c as c
@@ -856,6 +864,7 @@ class backend_db_catalog{
             ':edit'=>$edit
         ));
     }
+
     /**
      * Insertion d'une catégorie
      * @param $clibelle
@@ -872,6 +881,7 @@ class backend_db_catalog{
                 ':idlang'			=>	$idlang
             ));
     }
+
     /**
      * Met à jour l'ordre d'affichage des catégories
      * @param $i
@@ -886,7 +896,33 @@ class backend_db_catalog{
             )
         );
     }
+
+    /**
+     * Mise à jour de la catégorie
+     * @param $clibelle
+     * @param $pathclibelle
+     * @param $c_content
+     * @param $edit
+     */
+    protected function u_catalog_category($clibelle,$pathclibelle,$c_content,$edit){
+        $sql = 'UPDATE mc_catalog_c SET clibelle = :clibelle, pathclibelle = :pathclibelle,
+        c_content = :c_content WHERE idclc = :edit';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':clibelle'		=>	$clibelle,
+                ':pathclibelle'	=>	$pathclibelle,
+                ':c_content'	=>	$c_content,
+                ':edit'		    =>	$edit
+            )
+        );
+    }
     //SOUS CATEGORIE
+
+    /**
+     * Retourne la liste des sous catégories dans la catégorie
+     * @param $edit
+     * @return array
+     */
     protected function s_catalog_subcategory($edit){
         $sql = 'SELECT c.clibelle,c.pathclibelle,s.*,lang.iso
         FROM mc_catalog_c AS c
@@ -897,5 +933,74 @@ class backend_db_catalog{
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':edit'=>$edit
         ));
+    }
+
+    /**
+     * Retourne les données pour l'édition de la sous catégorie
+     * @param $edit
+     * @return array
+     */
+    protected function s_catalog_subcategory_data($edit){
+        $sql = 'SELECT c.clibelle, c.pathclibelle, s . * , lang.iso
+        FROM mc_catalog_s AS s
+        JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+        JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+        WHERE s.idcls = :edit';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':edit'=>$edit
+        ));
+    }
+
+    /**
+     * Insertion d'une sous catégorie
+     * @param $slibelle
+     * @param $pathslibelle
+     * @param $idclc
+     */
+    protected function i_catalog_subcategory($slibelle,$pathslibelle,$idclc){
+        $sql = 'INSERT INTO mc_catalog_s (idclc,slibelle,pathslibelle,sorder)
+		VALUE(:idclc,:slibelle,:pathslibelle,(SELECT COUNT(s.sorder) FROM mc_catalog_s AS s WHERE s.idclc = :idclc))';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':slibelle'			=>	$slibelle,
+                ':pathslibelle'		=>	$pathslibelle,
+                ':idclc'            =>  $idclc
+            )
+        );
+    }
+
+    /**
+     * Met à jour l'ordre d'affichage des sous catégories
+     * @param $i
+     * @param $id
+     */
+    protected function u_order_subcategory($i,$id){
+        $sql = 'UPDATE mc_catalog_s SET sorder = :i WHERE idcls = :id';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':i'=>$i,
+                ':id'=>$id
+            )
+        );
+    }
+
+    /**
+     * Mise à jour de la sous catégorie
+     * @param $slibelle
+     * @param $pathslibelle
+     * @param $s_content
+     * @param $edit
+     */
+    protected function u_catalog_subcategory($slibelle,$pathslibelle,$s_content,$edit){
+        $sql = 'UPDATE mc_catalog_s SET slibelle = :slibelle,pathslibelle = :pathslibelle,
+        s_content = :s_content WHERE idcls = :edit';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':slibelle'		=>	$slibelle,
+                ':pathslibelle'	=>	$pathslibelle,
+                ':s_content'	=>	$s_content,
+                ':edit'		    =>	$edit
+            )
+        );
     }
 }

@@ -40,6 +40,9 @@
  */
 var MC_catalog = (function ($, undefined) {
     //Fonction Private
+    /**
+     * Création du graphique de statistique
+     */
     function graph(){
         $.nicenotify({
             ntype: "ajax",
@@ -71,6 +74,12 @@ var MC_catalog = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Retourne la liste des catégories dans la langue
+     * @param section
+     * @param getlang
+     */
     function jsonListCategory(section,getlang){
         $.nicenotify({
             ntype: "ajax",
@@ -166,7 +175,12 @@ var MC_catalog = (function ($, undefined) {
                                 $(document.createElement("td")).append(
                                     item.idclc
                                 ),
-                                $(document.createElement("td")).append(item.clibelle),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                        .attr("title", "Editer "+item.clibelle)
+                                        .append(item.clibelle)
+                                ),
                                 $(document.createElement("td")).append(c_content),
                                 $(document.createElement("td")).append(img),
                                 edit
@@ -201,31 +215,22 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
-                            ),
-                            $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
-                            ),
-                            $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
-                            ),
-                            $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             )
                         )
                     )
@@ -233,6 +238,12 @@ var MC_catalog = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Ajouter une catégorie
+     * @param section
+     * @param getlang
+     */
     function addCategory(section,getlang){
         var formsAdd = $("#forms_catalog_category_add").validate({
             onsubmit: true,
@@ -281,6 +292,14 @@ var MC_catalog = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Retourne l'url de la catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     * @constructor
+     */
     function JsonUrlCategory(section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
@@ -308,11 +327,36 @@ var MC_catalog = (function ($, undefined) {
             }
         });
     }
+    function updateCategory(section,getlang,edit){
+        $('#forms_catalog_category_edit').on('submit',function(event){
+            event.preventDefault();
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                    JsonUrlCategory(section,getlang,edit)
+                }
+            });
+            return false;
+        });
+    }
     //SOUS CATEGORIE
+    /**
+     * Retourne la liste des sous catégories de la catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     */
     function jsonListSubCategory(section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_list_subcategory=true',
+            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat&json_list_subcategory=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
@@ -404,7 +448,12 @@ var MC_catalog = (function ($, undefined) {
                                 $(document.createElement("td")).append(
                                     item.idcls
                                 ),
-                                $(document.createElement("td")).append(item.slibelle),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                        .attr("title", "Editer "+item.slibelle)
+                                        .append(item.slibelle)
+                                ),
                                 $(document.createElement("td")).append(s_content),
                                 $(document.createElement("td")).append(img),
                                 edit
@@ -422,7 +471,7 @@ var MC_catalog = (function ($, undefined) {
                             var serial = $('#table_subcategory > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -439,31 +488,22 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
-                            ),
-                            $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
-                            ),
-                            $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
-                            ),
-                            $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             )
                         )
                     )
@@ -471,6 +511,13 @@ var MC_catalog = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Ajouter une sous catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     */
     function addSubCategory(section,getlang,edit){
         var formsAdd = $("#forms_catalog_subcategory_add").validate({
             onsubmit: true,
@@ -484,7 +531,7 @@ var MC_catalog = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=add',
+                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -519,6 +566,67 @@ var MC_catalog = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Retourne l'url de la sous catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     * @constructor
+     */
+    function JsonUrlSubCategory(section,getlang,edit){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_uri_subcategory=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                $("#subcategorylink").hide().val('');
+                var loader = $(document.createElement("span")).addClass("loader").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                loader.insertAfter('#subcategorylink');
+            },
+            successParams:function(j){
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                $('.loader').remove();
+                var uri = j.subcategorylink;
+                $("#subcategorylink").show();
+                $("#subcategorylink").val(uri);
+            }
+        });
+    }
+
+    /**
+     * Mise à jour de la sous catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     */
+    function updateSubCategory(section,getlang,edit){
+        $('#forms_catalog_subcategory_edit').on('submit',function(event){
+            event.preventDefault();
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                    JsonUrlSubCategory(section,getlang,edit)
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
@@ -531,9 +639,16 @@ var MC_catalog = (function ($, undefined) {
         runEditCategory:function(section,getlang,edit){
             if($("#categorylink").length != 0){
                 JsonUrlCategory(section,getlang,edit);
+                updateCategory(section,getlang,edit);
             }else if($('#list_subcategory').length != 0){
                 jsonListSubCategory(section,getlang,edit);
                 addSubCategory(section,getlang,edit);
+            }
+        },
+        runEditSubcategory:function(section,getlang,edit){
+            if($("#subcategorylink").length != 0){
+                JsonUrlSubCategory(section,getlang,edit);
+                updateSubCategory(section,getlang,edit);
             }
         }
     };
