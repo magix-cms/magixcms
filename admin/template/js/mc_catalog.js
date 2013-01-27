@@ -327,24 +327,95 @@ var MC_catalog = (function ($, undefined) {
             }
         });
     }
-    function updateCategory(section,getlang,edit){
-        $('#forms_catalog_category_edit').on('submit',function(event){
-            event.preventDefault();
-            $.nicenotify({
-                ntype: "submit",
-                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
-                typesend: 'post',
-                idforms: $(this),
-                resetform:false,
-                successParams:function(data){
-                    $.nicenotify.initbox(data,{
-                        display:true
+    function updateCategory(section,getlang,edit,tab){
+        if(tab === 'text'){
+            $('#forms_catalog_category_edit').on('submit',function(){
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                    typesend: 'post',
+                    idforms: $(this),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        JsonUrlCategory(section,getlang,edit)
+                    }
+                });
+                return false;
+            });
+        }else if(tab === 'image'){
+            $("#forms_catalog_category_image").validate({
+                onsubmit: true,
+                event: 'submit',
+                rules: {
+                    img_c: {
+                        required: true,
+                        minlength: 1,
+                        accept: "(jpe?g|gif|png|JPE?G|GIF|PNG)"
+                    }
+                },
+                submitHandler: function(form) {
+                    $.nicenotify({
+                        ntype: "submit",
+                        uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image',
+                        typesend: 'post',
+                        idforms: $(form),
+                        resetform:true,
+                        successParams:function(data){
+                            $('#img_c:file').val('');
+                            $.nicenotify.initbox(data,{
+                                display:false
+                            });
+                            getImageCategory(section,getlang,edit);
+                        }
                     });
-                    JsonUrlCategory(section,getlang,edit)
+                    return false;
                 }
             });
-            return false;
-        });
+        }
+    }
+
+    /**
+     * Chargement de l'image associée à la news
+     * @param section
+     * @param getlang
+     * @param edit
+     */
+    function getImageCategory(section,getlang,edit){
+        if($('#load_catalog_category_img').length!=0){
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image&ajax_category_image=true',
+                typesend: 'get',
+                beforeParams:function(){
+                    var loader = $(document.createElement("span")).addClass("loader").append(
+                        $(document.createElement("img"))
+                            .attr('src','/framework/img/small_loading.gif')
+                            .attr('width','20px')
+                            .attr('height','20px')
+                    )
+                    $('#load_catalog_category_img #contener_image').html(loader);
+                },
+                successParams:function(e){
+                    $('#load_catalog_category_img #contener_image').html(e);
+                    if($('.ajax-image').length != 0){
+                        Holder.run({
+                            themes: {
+                                "simple":{
+                                    background:"white",
+                                    foreground:"gray",
+                                    size:12
+                                }
+                            },
+                            images: ".ajax-image"
+                        });
+                    }
+                }
+            });
+
+        }
     }
     //SOUS CATEGORIE
     /**
@@ -639,10 +710,13 @@ var MC_catalog = (function ($, undefined) {
         runEditCategory:function(section,getlang,edit){
             if($("#categorylink").length != 0){
                 JsonUrlCategory(section,getlang,edit);
-                updateCategory(section,getlang,edit);
+                updateCategory(section,getlang,edit,'text');
             }else if($('#list_subcategory').length != 0){
                 jsonListSubCategory(section,getlang,edit);
                 addSubCategory(section,getlang,edit);
+            }else if($('#load_catalog_category_img').length != 0){
+                getImageCategory(section,getlang,edit);
+                updateCategory(section,getlang,edit,'image');
             }
         },
         runEditSubcategory:function(section,getlang,edit){

@@ -210,5 +210,15 @@ class backend_model_image {
 		}
 		return $n;
 	}
+
+    /**
+     * @param $attr_name
+     * @param $config_size_attr
+     * @return array
+     */
+    public function arrayImgSize($attr_name,$config_size_attr){
+        $dbconfig = new backend_db_config();
+        return $dbconfig->s_load_img_size($attr_name,$config_size_attr);
+    }
 }
 ?>

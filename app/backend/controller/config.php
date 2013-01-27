@@ -329,6 +329,7 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
+
 	/**
 	 * @access public
 	 * 

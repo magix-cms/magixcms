@@ -736,19 +736,19 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * retourne le dossier des images catalogue des catégories
 	 * @return string
 	 */
-	private function dir_img_category(){
+	/*private function dir_img_category(){
 		try{
 			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."category".DIRECTORY_SEPARATOR);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
-	}
+	}*/
 	/**
 	 * Insertion d'une image por la catégorie du catalogue
 	 * @access private
 	 * @return string
 	 */
-	private function insert_image_category($img,$pathclibelle,$img_c=null){
+	/*private function insert_image_category($img,$pathclibelle,$img_c=null){
 		if(isset($this->$img)){
 			try{
 				// Charge la classe pour le traitement du fichier
@@ -757,12 +757,12 @@ class backend_controller_catalog extends backend_db_catalog{
 					/**
 					 * Envoi une image dans le dossier "racine" catalogimg
 					 */
-					backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."category");
+					//backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."category");
 					/**
 					 * Analyze l'extension du fichier en traitement
 					 * @var $fileextends
 					 */
-					$fileextends = backend_model_image::image_analyze(self::dir_img_category().$this->$img);
+					/*$fileextends = backend_model_image::image_analyze(self::dir_img_category().$this->$img);
 					if (backend_model_image::imgSizeMin(self::dir_img_category().$this->$img,50,50)){
 						if(file_exists(self::dir_img_category().$pathclibelle.$fileextends)){
 							$makeFiles->removeFile(self::dir_img_category(),$img_c);
@@ -772,7 +772,7 @@ class backend_controller_catalog extends backend_db_catalog{
 						 * Initialisation de la classe phpthumb 
 						 * @var void
 						 */
-						try{
+						/*try{
 							$thumb = PhpThumbFactory::create(self::dir_img_category().$pathclibelle.$fileextends);
 						}catch (Exception $e)
 						{
@@ -782,7 +782,7 @@ class backend_controller_catalog extends backend_db_catalog{
 						 * 
 						 * Charge la taille des images des sous catégories du catalogue
 						 */
-						$imgsetting = new backend_model_setting();
+						/*$imgsetting = new backend_model_setting();
 						//$resizing = $imgsetting->select_uniq_setting('img_resizing');
 						foreach($imgsetting->data_img_size('catalog','category') as $row){
 							switch($row['img_resizing']){
@@ -814,7 +814,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
-	}
+	}*/
 	/**
 	 * insert une nouvelle catégorie dans le catalogue
 	 * @access public
@@ -869,7 +869,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @access private
 	 * Mise à jour de l'image d'une catégorie
 	 */
-	private function update_category_image(){
+	/*private function update_category_image(){
 		if(isset($this->upcat)){
 			if(isset($this->update_img_c)){
 				$clibelle = backend_db_catalog::adminDbCatalog()->s_catalog_category_id($this->upcat);
@@ -882,7 +882,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				backend_controller_template::display('request/update-image.phtml');
 			}
 		}
-	}
+	}*/
 	/**
 	 * Post la requête ajax pour la modification de l'ordre des produuits dans la catégorie
 	 *
@@ -907,6 +907,7 @@ class backend_controller_catalog extends backend_db_catalog{
 			print $img;
 		}
 	}
+
 	/**
 	 * Affiche la pop-up pour l'édition de la catégorie
 	 * @access public
@@ -2099,6 +2100,155 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
+
+    /**
+     * Retourne le chemin depuis la racine
+     * @param $pathupload
+     * @return string
+     */
+    private function imgBasePath($pathupload){
+        return magixglobal_model_system::base_path().$pathupload;
+    }
+
+    /**
+     * @access private
+     * retourne le dossier des images catalogue des catégories
+     * @return string
+     */
+    private function dirImgCategory(){
+        try{
+            return self::imgBasePath("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."category".DIRECTORY_SEPARATOR);
+        }catch (Exception $e){
+            magixglobal_model_system::magixlog('An error has occured :',$e);
+        }
+    }
+
+    /**
+     * Insertion d'une image por la catégorie du catalogue
+     * @access private
+     * @param $img
+     * @param $pathclibelle
+     * @param null $img_c
+     * @param bool $debug
+     * @throws Exception
+     * @return string
+     */
+    private function insert_image_category($img,$pathclibelle,$img_c=null,$debug=false){
+        if(isset($this->$img)){
+            try{
+                // Charge la classe pour le traitement du fichier
+                $makeFiles = new magixcjquery_files_makefiles();
+                if(!empty($this->$img)){
+                    $initImg = new backend_model_image();
+                    /**
+                     * Envoi une image dans le dossier "racine" catalogimg
+                     */
+                    $initImg->upload_img(
+                        $img,
+                        'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."category".DIRECTORY_SEPARATOR,
+                        $debug
+                    );
+                    /**
+                     * Analyze l'extension du fichier en traitement
+                     * @var $fileextends
+                     */
+                    $fileextends = $initImg->image_analyze(self::dirImgCategory().$this->$img);
+                    if ($initImg->imgSizeMin(self::dirImgCategory().$this->$img,25,25)){
+                        if(file_exists(self::dirImgCategory().$pathclibelle.$fileextends)){
+                            $makeFiles->removeFile(self::dirImgCategory(),$img_c);
+                        }
+                        // Renomme le fichier
+                        $makeFiles->renameFiles(
+                            self::dirImgCategory(),
+                            self::dirImgCategory().$this->$img,self::dirImgCategory().$pathclibelle.$fileextends
+                        );
+                        /**
+                         * Initialisation de la classe phpthumb
+                         * @var void
+                         */
+                        try{
+                            $thumb = PhpThumbFactory::create(self::dirImgCategory().$pathclibelle.$fileextends);
+                        }catch (Exception $e)
+                        {
+                            magixglobal_model_system::magixlog('An error has occured :',$e);
+                        }
+                        /**
+                         *
+                         * Charge la taille des images des sous catégories du catalogue
+                         */
+
+                        foreach($initImg->arrayImgSize('catalog','category') as $key){
+                            switch($key['img_resizing']){
+                                case 'basic':
+                                    $thumb->resize($key['width'],$key['height'])->save(self::dirImgCategory().$pathclibelle.$fileextends);
+                                    break;
+                                case 'adaptive':
+                                    $thumb->adaptiveResize($key['width'],$key['height'])->save(self::dirImgCategory().$pathclibelle.$fileextends);
+                                    break;
+                            }
+                        }
+                        // Supprime l'ancienne image
+                        if(!empty($img_c)){
+                            if(file_exists(self::dirImgCategory().$img_c)){
+                                $makeFiles->removeFile(self::dirImgCategory(),$img_c);
+                            }
+                        }
+                        return $pathclibelle.$fileextends;
+                    }else{
+                        if(file_exists(self::dirImgCategory().$this->$img)){
+                            $makeFiles->removeFile(self::dirImgCategory(),$this->$img);
+                        }else{
+                            throw new Exception('file: '.$this->$img.' is not found');
+                        }
+                    }
+                }else{
+                    if(!empty($img_c)){
+                        if(file_exists(self::dirImgCategory().$img_c)){
+                            $makeFiles->removeFile(self::dirImgCategory(),$img_c);
+                        }
+                    }
+                    return null;
+                }
+            }catch (Exception $e){
+                magixglobal_model_system::magixlog('An error has occured :',$e);
+            }
+        }
+    }
+
+    /**
+     * Mise à jour de l'image de la catégorie
+     * @param $data
+     */
+    private function update_category_image($data){
+        if(isset($this->img_c)){
+            $imgc = self::insert_image_category(
+                'img_c',
+                $data['pathclibelle'].'_'.magixglobal_model_cryptrsa::random_generic_ui(),
+                $data['img_c'],
+                false
+            );
+            parent::u_catalog_category_image($imgc,$this->edit);
+        }
+    }
+
+    /**
+     * @access private
+     * Retourne l'image de la catégorie
+     * @param string $img_c
+     */
+    private function ajax_category_image($img_c){
+        if($img_c != null){
+            if(file_exists(self::dirImgCategory().$img_c)){
+                $img = '<p><img src="/upload/catalogimg/category/'.$img_c.'" class="img-polaroid" alt="" /></p>';
+                $img .= '<p><a class="delete-image">Supprimer</a></p>';
+            }else{
+                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+            }
+        }else{
+            $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+        }
+        print $img;
+    }
     /**
      * Retourne la liste des sous catégories
      */
@@ -2459,8 +2609,20 @@ class backend_controller_catalog extends backend_db_catalog{
                                 }else{
                                     if(isset($this->tab)){
                                         if($this->tab === 'image'){
-                                            $this->load_category_edit_data($create,$data);
-                                            $create->display('catalog/category/edit.phtml');
+                                            if(isset($this->img_c)){
+                                                $this->update_category_image($data);
+                                            }elseif(magixcjquery_filter_request::isGet('ajax_category_image')){
+                                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                                $header->pragma();
+                                                $header->cache_control("nocache");
+                                                $header->getStatus('200');
+                                                $header->html_header("UTF-8");
+                                                $this->ajax_category_image($data['img_c']);
+                                            }else{
+                                                $this->load_category_edit_data($create,$data);
+                                                $create->display('catalog/category/edit.phtml');
+                                            }
                                         }elseif($this->tab === 'subcat'){
                                             if(isset($this->slibelle)){
                                                 $this->addSubCategory($create);

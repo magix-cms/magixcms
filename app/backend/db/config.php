@@ -165,7 +165,7 @@ class backend_db_config{
      * @param $config_size_attr
      * @return array
      */
-    protected function s_load_img_size($attr_name,$config_size_attr){
+    public function s_load_img_size($attr_name,$config_size_attr){
         $sql = 'SELECT ci.*,c.attr_name
     	FROM mc_config_size_img as ci
     	JOIN mc_config as c USING(idconfig)

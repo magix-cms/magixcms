@@ -166,8 +166,8 @@ $(function(){
                     error.insertAfter(element);
                     $("<br />").insertBefore(error);
                 }else if ( element.next().is(":submit") ){
-                    error.insertAfter(element.next());
-                    $("<br />").insertBefore(error);
+                    error.insertAfter(element.parent());
+                    //$("<br />").insertBefore(error);
                 }else{
                     error.insertAfter(element);
                 }
