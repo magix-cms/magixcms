@@ -281,6 +281,244 @@ var MC_catalog = (function ($, undefined) {
             return false;
         });
     }
+    function JsonUrlCategory(section,getlang,edit){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_uri_category=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                $("#categorylink").hide().val('');
+                var loader = $(document.createElement("span")).addClass("loader").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                loader.insertAfter('#categorylink');
+            },
+            successParams:function(j){
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                $('.loader').remove();
+                var uri = j.categorylink;
+                $("#categorylink").show();
+                $("#categorylink").val(uri);
+            }
+        });
+    }
+    //SOUS CATEGORIE
+    function jsonListSubCategory(section,getlang,edit){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_list_subcategory=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                $('#list_subcategory').html(loader);
+            },
+            successParams:function(j){
+                $('#list_subcategory').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_subcategory")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("Nom"),
+                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-picture")
+                            ),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-edit")
+                            ),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-trash")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_subcategory');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        if(item.s_content != 0){
+                            var s_content = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var s_content = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.img != 0){
+                            var img = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var img = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                .attr("title", "Editer "+item.slibelle)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-edit")
+                            )
+                        );
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-pages")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idcls)
+                                .attr("title", "Supprimer "+": "+item.slibelle)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-trash")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .attr("id","order_pages_"+item.idcls)
+                                //.addClass("ui-state-default")
+                                .append(
+                                $(document.createElement("td")).append(
+                                    item.idcls
+                                ),
+                                $(document.createElement("td")).append(item.slibelle),
+                                $(document.createElement("td")).append(s_content),
+                                $(document.createElement("td")).append(img),
+                                edit
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                    $('#table_subcategory > tbody').sortable({
+                        items: "> tr",
+                        placeholder: "ui-state-highlight",
+                        cursor: "move",
+                        axis: "y",
+                        update : function() {
+                            var serial = $('#table_subcategory > tbody').sortable('serialize');
+                            $.nicenotify({
+                                ntype: "ajax",
+                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                                typesend: 'post',
+                                noticedata : serial,
+                                successParams:function(e){
+                                    $.nicenotify.initbox(e,{
+                                        display:false
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    $('#table_subcategory > tbody').disableSelection();
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("typicn minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
+    }
+    function addSubCategory(section,getlang,edit){
+        var formsAdd = $("#forms_catalog_subcategory_add").validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                slibelle: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:true,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        $('#forms-add').dialog('close');
+                        jsonListSubCategory(section,getlang,edit);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#open-add').on('click',function(){
+            $('#forms-add').dialog({
+                modal: true,
+                resizable: true,
+                width: 350,
+                height:'auto',
+                minHeight: 210,
+                buttons: {
+                    'Save': function() {
+                        $("#forms_catalog_subcategory_add").submit();
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                        formsAdd.resetForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
@@ -289,6 +527,14 @@ var MC_catalog = (function ($, undefined) {
         runListCategory:function(section,getlang){
             jsonListCategory(section,getlang);
             addCategory(section,getlang);
+        },
+        runEditCategory:function(section,getlang,edit){
+            if($("#categorylink").length != 0){
+                JsonUrlCategory(section,getlang,edit);
+            }else if($('#list_subcategory').length != 0){
+                jsonListSubCategory(section,getlang,edit);
+                addSubCategory(section,getlang,edit);
+            }
         }
     };
 })(jQuery);

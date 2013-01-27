@@ -1,28 +1,50 @@
-<form id="forms_catalog_category_edit" method="post" action="">
-    <p>
-        <label for="categorylink">URL</label>
-        <input type="text" class="input-xxlarge" id="categorylink" readonly="readonly" size="50" value="" />
-    </p>
-    <p class="pull-left">
-        <label for="iso">ISO</label>
-        <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
-    </p>
-    <p class="controls-row offset1 input-append">
-        <label for="pathclibelle">URL Simplifié</label>
-        <input type="text" class="input-xlarge" id="pathclibelle" name="pathclibelle" readonly="readonly" size="30" value="{$pathclibelle}" />
-        <a class="unlocked" href="#">
-            <span class="add-on icon-lock"></span>
-        </a>
-    </p>
-    <p>
-        <label for="clibelle">Titre :</label>
-        <input type="text" class="input-xlarge" id="clibelle" name="clibelle" value="{$clibelle}" size="50" />
-    </p>
-    <p>
-        <label for="content_c" class="inlinelabel">Contenu :</label>
-        <textarea name="content_c" id="content_c" class="mceEditor">{$content_c}</textarea>
-    </p>
-    <p>
-        <input type="submit" class="btn btn-primary" value="Envoyer" />
-    </p>
-</form>
+{if $smarty.get.tab eq "image"}
+    <form id="forms_catalog_category_image" method="post" action="" enctype="multipart/form-data">
+        <p>
+            <label for="img_c">Image :</label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
+            <input type="file" id="img_c" name="img_c" value="" />
+            <input type="submit" class="btn btn-primary" value="Envoyer" />
+        </p>
+    </form>
+    <div id="load_catalog_category_img">
+        <div id="contener_image"></div>
+    </div>
+{elseif $smarty.get.tab eq "subcat"}
+<p>
+    <a class="btn btn-primary" href="#" id="open-add">
+        <span class="icon-plus"></span> Ajouter une sous catégorie
+    </a>
+</p>
+<div id="list_subcategory"></div>
+{elseif $smarty.get.tab eq "product"}
+{else}
+    <form id="forms_catalog_category_edit" method="post" action="">
+        <p>
+            <label for="categorylink">URL</label>
+            <input type="text" class="input-xxlarge" id="categorylink" readonly="readonly" size="50" value="" />
+        </p>
+        <p class="pull-left">
+            <label for="iso">ISO</label>
+            <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
+        </p>
+        <p class="controls-row offset1 input-append">
+            <label for="pathclibelle">URL Simplifié</label>
+            <input type="text" class="input-xlarge" id="pathclibelle" name="pathclibelle" readonly="readonly" size="30" value="{$pathclibelle}" />
+            <a class="unlocked" href="#">
+                <span class="add-on icon-lock"></span>
+            </a>
+        </p>
+        <p>
+            <label for="clibelle">Titre :</label>
+            <input type="text" class="input-xlarge" id="clibelle" name="clibelle" value="{$clibelle}" size="50" />
+        </p>
+        <p>
+            <label for="c_content" class="inlinelabel">Contenu :</label>
+            <textarea name="c_content" id="c_content" class="mceEditor">{$c_content}</textarea>
+        </p>
+        <p>
+            <input type="submit" class="btn btn-primary" value="Envoyer" />
+        </p>
+    </form>
+{/if}

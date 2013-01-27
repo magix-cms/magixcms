@@ -19,6 +19,12 @@
                         <li{if $smarty.get.tab eq "image"} class="active"{/if}>
                             <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=image">Image</a>
                         </li>
+                        <li{if $smarty.get.tab eq "subcat"} class="active"{/if}>
+                            <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=subcat">Sous catégories</a>
+                        </li>
+                        <li{if $smarty.get.tab eq "product"} class="active"{/if}>
+                            <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=product">Produits</a>
+                        </li>
                     </ul>
                     <div class="mc-message"></div>
                     {include file="catalog/category/forms/edit.phtml"}
@@ -27,9 +33,15 @@
         </div>
     </div>
 </div>
-<div id="forms-add" class="hide" title="Ajouter une catégorie">
-{include file="catalog/category/forms/add.phtml"}
+{if $smarty.get.tab eq "subcat"}
+<div id="forms-add" class="hide" title="Ajouter une sous catégorie">
+    {include file="catalog/subcategory/forms/add.phtml"}
 </div>
+{else}
+<div id="forms-add" class="hide" title="Ajouter une catégorie">
+    {include file="catalog/category/forms/add.phtml"}
+</div>
+{/if}
 {include file="section/footer.phtml"}
 {include file="section/js.phtml"}
 {include file="catalog/section/js.phtml"}

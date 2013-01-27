@@ -13,7 +13,7 @@
         {if $smarty.get.section eq 'category'}
             {if $smarty.get.getlang}
                 {if $smarty.get.edit}
-
+                    MC_catalog.runEditCategory(section,getlang,edit);
                 {else}
                     MC_catalog.runListCategory(section,getlang);
                 {/if}

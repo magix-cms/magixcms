@@ -2052,6 +2052,48 @@ class backend_controller_catalog extends backend_db_catalog{
         $create->assign('c_content',$data['c_content'],true);
         $create->assign('iso',$data['iso'],true);
     }
+
+    /**
+     * Retourne l'url de la catégorie
+     * @param $data
+     */
+    private function json_uri_category($data){
+        if($data != null){
+            $url = magixglobal_model_rewrite::filter_catalog_category_url(
+                $data['iso'],
+                $data['pathclibelle'],
+                $data['idclc'],
+                true
+            );
+            $categoryinput= '{"categorylink":'.json_encode(magixcjquery_url_clean::rplMagixString($url)).'}';
+            print $categoryinput;
+        }
+    }
+
+    private function json_listing_subcategory(){
+        if(parent::s_catalog_subcategory($this->edit) != null){
+            foreach (parent::s_catalog_subcategory($this->edit) as $key){
+                if($key['s_content'] != null){
+                    $content = 1;
+                }else{
+                    $content = 0;
+                }
+                if($key['img_s'] != null){
+                    $img = 1;
+                }else{
+                    $img = 0;
+                }
+                $json_data[]= '{"idcls":'.json_encode($key['idcls']).
+                    ',"idclc":'.json_encode($key['idclc']).
+                    ',"slibelle":'.json_encode($key['slibelle']).
+                    ',"s_content":'.json_encode($content).
+                    ',"img":'.json_encode($img).
+                    ',"iso":'.json_encode($key['iso']).'}';
+            }
+            print '['.implode(',',$json_data).']';
+        }
+    }
+
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -2282,10 +2324,26 @@ class backend_controller_catalog extends backend_db_catalog{
                         }elseif($this->action === 'edit'){
                             if(isset($this->edit)){
                                 $data = parent::s_catalog_category_data($this->edit);
-                                $this->load_category_edit_data($create,$data);
-                                $create->display('catalog/category/edit.phtml');
-                            }elseif(isset($this->order_pages)){
-                                $this->update_order_category();
+                                if(magixcjquery_filter_request::isGet('json_uri_category')){
+                                    $this->json_uri_category($data);
+                                }elseif(magixcjquery_filter_request::isGet('json_list_subcategory')){
+                                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                    $header->pragma();
+                                    $header->cache_control("nocache");
+                                    $header->getStatus('200');
+                                    $header->json_header("UTF-8");
+                                    $this->json_listing_subcategory();
+                                }elseif(isset($this->order_pages)){
+
+                                }else{
+                                    $this->load_category_edit_data($create,$data);
+                                    $create->display('catalog/category/edit.phtml');
+                                }
+                            }else{
+                                if(isset($this->order_pages)){
+                                    $this->update_order_category();
+                                }
                             }
                         }
                     }else{

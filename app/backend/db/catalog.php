@@ -886,4 +886,16 @@ class backend_db_catalog{
             )
         );
     }
+    //SOUS CATEGORIE
+    protected function s_catalog_subcategory($edit){
+        $sql = 'SELECT c.clibelle,c.pathclibelle,s.*,lang.iso
+        FROM mc_catalog_c AS c
+    	JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	JOIN mc_catalog_s as s ON (s.idclc = c.idclc)
+    	WHERE c.idclc = :edit
+    	ORDER BY s.sorder';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':edit'=>$edit
+        ));
+    }
 }
