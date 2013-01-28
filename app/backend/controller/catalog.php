@@ -926,19 +926,19 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * retourne le dossier des images catalogue des catégories
 	 * @return string
 	 */
-	private function dir_img_subcategory(){
+	/*private function dir_img_subcategory(){
 		try{
 			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."subcategory".DIRECTORY_SEPARATOR);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
-	}
+	}*/
 	/**
 	 * Insertion d'une image por la catégorie du catalogue
 	 * @access private
 	 * @return string
 	 */
-	private function insert_image_subcategory($img,$pathslibelle,$img_s=null){
+	/*private function insert_image_subcategory($img,$pathslibelle,$img_s=null){
 		if(isset($this->$img)){
 			try{
 				// Charge la classe pour le traitement du fichier
@@ -947,12 +947,12 @@ class backend_controller_catalog extends backend_db_catalog{
 					/**
 					 * Envoi une image dans le dossier "racine" catalogimg
 					 */
-					backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."subcategory");
+					/*backend_model_image::upload_img($img,'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."subcategory");
 					/**
 					 * Analyze l'extension du fichier en traitement
 					 * @var $fileextends
 					 */
-					$fileextends = backend_model_image::image_analyze(self::dir_img_subcategory().$this->$img);
+					/*$fileextends = backend_model_image::image_analyze(self::dir_img_subcategory().$this->$img);
 					if (backend_model_image::imgSizeMin(self::dir_img_subcategory().$this->$img,50,50)){
 						if(file_exists(self::dir_img_subcategory().$pathslibelle.$fileextends)){
 							$makeFiles->removeFile(self::dir_img_subcategory(),$img_s);
@@ -962,19 +962,19 @@ class backend_controller_catalog extends backend_db_catalog{
 						 * Initialisation de la classe phpthumb 
 						 * @var void
 						 */
-						$thumb = PhpThumbFactory::create(self::dir_img_subcategory().$pathslibelle.$fileextends);
+						/*$thumb = PhpThumbFactory::create(self::dir_img_subcategory().$pathslibelle.$fileextends);
 						/**
 						 * 
 						 * Charge la taille des images des sous catégories du catalogue
 						 */
-						$imgsetting = new backend_model_setting();
+						/*$imgsetting = new backend_model_setting();
 						foreach($imgsetting->data_img_size('catalog','subcategory') as $row){
 							/*switch($row['type']){
 								case 'small':
 									$thumb->resize($row['width'],$row['height'])->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
 								break;
 							}*/
-							switch($row['img_resizing']){
+							/*switch($row['img_resizing']){
 								case 'basic':
 									$thumb->resize($row['width'],$row['height'])->save(self::dir_img_subcategory().$pathslibelle.$fileextends);
 								break;
@@ -1003,7 +1003,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * insert une nouvelle sous catégorie dans le catalogue
@@ -2366,6 +2366,122 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
+    /**
+     * @access private
+     * retourne le dossier des images catalogue des sous catégories
+     * @return string
+     */
+    private function dirImgSubCategory(){
+        try{
+            return self::imgBasePath("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."subcategory".DIRECTORY_SEPARATOR);
+        }catch (Exception $e){
+            magixglobal_model_system::magixlog('An error has occured :',$e);
+        }
+    }
+
+    /**
+     * Insertion d'une image pour la sous catégorie du catalogue
+     * @access private
+     * @param $img
+     * @param $pathslibelle
+     * @param null $img_s
+     * @param bool $debug
+     * @throws Exception
+     * @return string
+     */
+    private function insert_image_subcategory($img,$pathslibelle,$img_s=null,$debug=false){
+        if(isset($this->$img)){
+            try{
+                // Charge la classe pour le traitement du fichier
+                $makeFiles = new magixcjquery_files_makefiles();
+                if(!empty($this->$img)){
+                    $initImg = new backend_model_image();
+                    /**
+                     * Envoi une image dans le dossier "racine" catalogimg
+                     */
+                    $initImg->upload_img(
+                        $img,
+                        'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR."subcategory".DIRECTORY_SEPARATOR,
+                        $debug
+                    );
+                    /**
+                     * Analyze l'extension du fichier en traitement
+                     * @var $fileextends
+                     */
+                    $fileextends = $initImg->image_analyze(self::dirImgSubCategory().$this->$img);
+                    if ($initImg->imgSizeMin(self::dirImgSubCategory().$this->$img,25,25)){
+                        if(file_exists(self::dirImgSubCategory().$pathslibelle.$fileextends)){
+                            $makeFiles->removeFile(self::dirImgSubCategory(),$img_s);
+                        }
+                        $makeFiles->renameFiles(
+                            self::dirImgSubCategory(),
+                            self::dirImgSubCategory().$this->$img,
+                            self::dirImgSubCategory().$pathslibelle.$fileextends
+                        );
+                        /**
+                         * Initialisation de la classe phpthumb
+                         * @var void
+                         */
+                        $thumb = PhpThumbFactory::create(self::dirImgSubCategory().$pathslibelle.$fileextends);
+                        /**
+                         *
+                         * Charge la taille des images des sous catégories du catalogue
+                         */
+                        foreach($initImg->arrayImgSize('catalog','subcategory') as $key){
+                            switch($key['img_resizing']){
+                                case 'basic':
+                                    $thumb->resize($key['width'],$key['height'])->save(self::dirImgSubCategory().$pathslibelle.$fileextends);
+                                    break;
+                                case 'adaptive':
+                                    $thumb->adaptiveResize($key['width'],$key['height'])->save(self::dirImgSubCategory().$pathslibelle.$fileextends);
+                                    break;
+                            }
+                        }
+                        // Supprime l'ancienne image
+                        if(!empty($img_s)){
+                            if(file_exists(self::dirImgSubCategory().$img_s)){
+                                $makeFiles->removeFile(self::dirImgSubCategory(),$img_s);
+                            }
+                        }
+                        return $pathslibelle.$fileextends;
+                    }else{
+                        if(file_exists(self::dirImgSubCategory().$this->$img)){
+                            $makeFiles->removeFile(self::dirImgSubCategory(),$this->$img);
+                        }else{
+                            throw new Exception('file: '.$this->$img.' is not found');
+                        }
+                    }
+                }else{
+                    if(!empty($img_s)){
+                        if(file_exists(self::dirImgSubCategory().$img_s)){
+                            $makeFiles->removeFile(self::dirImgSubCategory(),$img_s);
+                        }
+                    }
+                    return null;
+                }
+            }catch (Exception $e){
+                magixglobal_model_system::magixlog('An error has occured :',$e);
+            }
+        }
+    }
+    /**
+     * @access private
+     * Retourne l'image de la sous catégorie
+     * @param string $img_s
+     */
+    private function ajax_subcategory_image($img_s){
+        if($img_s != null){
+            if(file_exists(self::dirImgSubCategory().$img_s)){
+                $img = '<p><img src="/upload/catalogimg/subcategory/'.$img_s.'" class="img-polaroid" alt="" /></p>';
+                $img .= '<p><a class="delete-image">Supprimer</a></p>';
+            }else{
+                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+            }
+        }else{
+            $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+        }
+        print $img;
+    }
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -2663,17 +2779,34 @@ class backend_controller_catalog extends backend_db_catalog{
                         }elseif($this->action === 'edit'){
                             if(isset($this->edit)){
                                 $data = parent::s_catalog_subcategory_data($this->edit);
-                                if(magixcjquery_filter_request::isGet('json_uri_subcategory')){
-                                    $this->json_uri_subcategory($data);
+                                if(isset($this->tab)){
+                                    if($this->tab === 'image'){
+                                        if(magixcjquery_filter_request::isGet('ajax_subcategory_image')){
+                                            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                            $header->pragma();
+                                            $header->cache_control("nocache");
+                                            $header->getStatus('200');
+                                            $header->html_header("UTF-8");
+                                            $this->ajax_category_image($data['img_s']);
+                                        }else{
+                                            $this->load_subcategory_edit_data($create,$data);
+                                            $create->display('catalog/subcategory/edit.phtml');
+                                        }
+                                    }elseif($this->tab === 'product'){
+                                        $this->load_subcategory_edit_data($create,$data);
+                                        $create->display('catalog/subcategory/edit.phtml');
+                                    }
                                 }else{
-                                    if(isset($this->slibelle)){
+                                    if(magixcjquery_filter_request::isGet('json_uri_subcategory')){
+                                        $this->json_uri_subcategory($data);
+                                    }elseif(isset($this->slibelle)){
                                         $this->update_subcategory($create);
                                     }else{
                                         $this->load_subcategory_edit_data($create,$data);
                                         $create->display('catalog/subcategory/edit.phtml');
                                     }
                                 }
-
                             }
                         }
                     }
