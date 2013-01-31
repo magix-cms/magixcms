@@ -1067,7 +1067,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @access private 
 	 * Mise à jour de l'image d'une sous catégorie
 	 */
-	private function update_subcategory_image(){
+	/*private function update_subcategory_image(){
 		if(isset($this->upsubcat)){
 			if(isset($this->update_img_s)){
 				$slibelle = backend_db_catalog::adminDbCatalog()->s_catalog_subcategory_id($this->upsubcat);
@@ -1080,7 +1080,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				backend_controller_template::display('request/update-image.phtml');
 			}
 		}
-	}
+	}*/
 	/**
 	 * product_in_subcategory_order
 	 * Affiche le menu "sortable" avec les produits de la sous catégorie
@@ -2482,6 +2482,21 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         print $img;
     }
+    /**
+     * Mise à jour de l'image de la catégorie
+     * @param $data
+     */
+    private function update_subcategory_image($data){
+        if(isset($this->img_c)){
+            $imgs = self::insert_image_subcategory(
+                'img_s',
+                $data['pathslibelle'].'_'.magixglobal_model_cryptrsa::random_generic_ui(),
+                $data['img_s'],
+                false
+            );
+            parent::u_catalog_subcategory_image($imgs,$this->edit);
+        }
+    }
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -2789,6 +2804,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $header->getStatus('200');
                                             $header->html_header("UTF-8");
                                             $this->ajax_category_image($data['img_s']);
+                                        }elseif(isset($this->img_s)){
+                                            $this->update_subcategory_image($data);
                                         }else{
                                             $this->load_subcategory_edit_data($create,$data);
                                             $create->display('catalog/subcategory/edit.phtml');

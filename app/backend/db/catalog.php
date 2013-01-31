@@ -352,7 +352,7 @@ class backend_db_catalog{
 			)
 		);
 	}*/
-	function u_catalog_subcategory_image($img_s,$upsubcat){
+	/*function u_catalog_subcategory_image($img_s,$upsubcat){
 		$sql = 'UPDATE mc_catalog_s SET img_s = :img_s WHERE idcls = :upsubcat';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
@@ -360,7 +360,7 @@ class backend_db_catalog{
 			':upsubcat'		=>	$upsubcat
 			)
 		);
-	}
+	}*/
 	/**
      * Suppression d'une sous catégorie
      * @param $dels
@@ -925,6 +925,7 @@ class backend_db_catalog{
             )
         );
     }
+
     //SOUS CATEGORIE
 
     /**
@@ -1009,6 +1010,21 @@ class backend_db_catalog{
                 ':pathslibelle'	=>	$pathslibelle,
                 ':s_content'	=>	$s_content,
                 ':edit'		    =>	$edit
+            )
+        );
+    }
+
+    /**
+     * Mise 
+     * @param $img_s
+     * @param $edit
+     */
+    protected function u_catalog_subcategory_image($img_s,$edit){
+        $sql = 'UPDATE mc_catalog_s SET img_s = :img_s WHERE idcls = :edit';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':img_s'	=>	$img_s,
+                ':edit'		=>	$edit
             )
         );
     }
