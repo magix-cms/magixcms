@@ -137,8 +137,7 @@ class frontend_controller_news extends frontend_db_news
 	 * 
 	 * fonction run
 	 */
-	public function run()
-    {
+	public function run(){
         $template = new frontend_model_template();
 		if (isset($this->getnews)) {
 			$this->load_news_data();

@@ -1987,7 +1987,7 @@ class backend_controller_catalog extends backend_db_catalog{
             print json_encode($stat);
         }
     }
-
+    // ####### SECTION CATEGORIES
     /**
      * Retourne les catégories au format JSON
      */
@@ -2305,7 +2305,7 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
-    // SOUS CATEGORIES
+    // ####### SECTION SOUS CATEGORIES
     /**
      * Retourne les données pour l'édition de la sous catégorie
      * @param $create
@@ -2487,14 +2487,38 @@ class backend_controller_catalog extends backend_db_catalog{
      * @param $data
      */
     private function update_subcategory_image($data){
-        if(isset($this->img_c)){
+        if(isset($this->img_s)){
             $imgs = self::insert_image_subcategory(
                 'img_s',
                 $data['pathslibelle'].'_'.magixglobal_model_cryptrsa::random_generic_ui(),
                 $data['img_s'],
-                false
+                true
             );
             parent::u_catalog_subcategory_image($imgs,$this->edit);
+        }
+    }
+    // ####### SECTION PRODUITS
+    private function json_listing_product(){
+        if(parent::s_catalog_subcategory($this->edit) != null){
+            foreach (parent::s_catalog_subcategory($this->edit) as $key){
+                if($key['s_content'] != null){
+                    $content = 1;
+                }else{
+                    $content = 0;
+                }
+                if($key['img_s'] != null){
+                    $img = 1;
+                }else{
+                    $img = 0;
+                }
+                $json_data[]= '{"idcls":'.json_encode($key['idcls']).
+                    ',"idclc":'.json_encode($key['idclc']).
+                    ',"slibelle":'.json_encode($key['slibelle']).
+                    ',"s_content":'.json_encode($content).
+                    ',"img":'.json_encode($img).
+                    ',"iso":'.json_encode($key['iso']).'}';
+            }
+            print '['.implode(',',$json_data).']';
         }
     }
 	/**
@@ -2728,6 +2752,12 @@ class backend_controller_catalog extends backend_db_catalog{
                             if(isset($this->edit)){
                                 $data = parent::s_catalog_category_data($this->edit);
                                 if(magixcjquery_filter_request::isGet('json_uri_category')){
+                                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                    $header->pragma();
+                                    $header->cache_control("nocache");
+                                    $header->getStatus('200');
+                                    $header->json_header("UTF-8");
                                     $this->json_uri_category($data);
                                 }elseif(magixcjquery_filter_request::isGet('json_list_subcategory')){
                                     $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
@@ -2803,7 +2833,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $header->cache_control("nocache");
                                             $header->getStatus('200');
                                             $header->html_header("UTF-8");
-                                            $this->ajax_category_image($data['img_s']);
+                                            $this->ajax_subcategory_image($data['img_s']);
                                         }elseif(isset($this->img_s)){
                                             $this->update_subcategory_image($data);
                                         }else{
@@ -2816,6 +2846,12 @@ class backend_controller_catalog extends backend_db_catalog{
                                     }
                                 }else{
                                     if(magixcjquery_filter_request::isGet('json_uri_subcategory')){
+                                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                        $header->pragma();
+                                        $header->cache_control("nocache");
+                                        $header->getStatus('200');
+                                        $header->json_header("UTF-8");
                                         $this->json_uri_subcategory($data);
                                     }elseif(isset($this->slibelle)){
                                         $this->update_subcategory($create);

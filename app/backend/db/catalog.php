@@ -421,7 +421,7 @@ class backend_db_catalog{
      * Selectionne les produits correspondant au catalogue
      * @param $editproduct
      */
-	function s_catalog_product($editproduct){
+	/*function s_catalog_product($editproduct){
     	$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.iso
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog as card USING ( idcatalog )
@@ -430,7 +430,7 @@ class backend_db_catalog{
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
 		WHERE idcatalog = :editproduct';
 		return magixglobal_model_db::layerDB()->select($sql,array(":editproduct"=>$editproduct));
-    }
+    }*/
 	/**
      * Selectionne les produits correspondant à la langue du catalogue
      * @param $editproduct
@@ -489,7 +489,7 @@ class backend_db_catalog{
 		$sql = 'SELECT count(idrelproduct) as max FROM mc_catalog_rel_product';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
-	function s_catalog_product_info($idproduct){
+	/*function s_catalog_product_info($idproduct){
 		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.iso
 				FROM mc_catalog_product AS p
 				LEFT JOIN mc_catalog AS card USING ( idcatalog )
@@ -500,7 +500,7 @@ class backend_db_catalog{
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':idproduct'	=>	$idproduct
 		));
-	}
+	}*/
 	function s_catalog_rel_product($idcatalog){
 		$sql = 'SELECT rel.idrelproduct,rel.idproduct FROM mc_catalog_rel_product AS rel
 				WHERE rel.idcatalog = :idcatalog';
@@ -1015,7 +1015,7 @@ class backend_db_catalog{
     }
 
     /**
-     * Mise 
+     * Mise
      * @param $img_s
      * @param $edit
      */
@@ -1027,5 +1027,29 @@ class backend_db_catalog{
                 ':edit'		=>	$edit
             )
         );
+    }
+
+    /**
+     * @param $idlang
+     * @param bool $limit
+     * @param null $max
+     * @param null $offset
+     * @param $sort
+     * @return array
+     */
+    protected function s_catalog($idlang,$limit=false,$max=null,$offset=null,$sort){
+        $limit = $limit ? ' LIMIT '.$max : '';
+        $offset = !empty($offset) ? ' OFFSET '.$offset: '';
+        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.idlang,img.imgcatalog,
+        lang.iso, m.pseudo
+		FROM mc_catalog AS cl
+		JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
+		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		JOIN mc_admin_member as m ON ( p.idadmin = m.idadmin )
+		WHERE cl.idlang = :idlang
+		ORDER BY p.'.$sort.' DESC'.$limit.$offset;
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idlang'	=>	$idlang
+        ));
     }
 }

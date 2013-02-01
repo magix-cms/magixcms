@@ -186,7 +186,7 @@ class frontend_model_news extends frontend_db_news {
         // default values: data_sort
         $data_sort['tag'] = $id_current['tag']; // sot tags (string)
         $data_sort['type'] = null; // sort type (string)
-        $data_sort['limit'] = 10;
+        $data_sort['limit'] = 1;
         $data_sort['offset'] = $model->set_pagination_offset($data_sort['limit'],$id_current['pagination']);
         $lang =  frontend_model_template::current_Language();
 
@@ -230,59 +230,6 @@ class frontend_model_news extends frontend_db_news {
             $data['limit'] = $data_sort['limit'];
         }
         return $data;
-    }
-    /**
-     * Retourne la liste des liens pour la pagination
-     * @param int $totalItems
-     * @param int $perPage
-     * @param string $basePath
-     * @param int $currentPage
-     * @param string $separator
-     * @return array|null
-     */
-    public function set_pagination_data($totalItems,$perPage,$basePath,$currentPage=1,$separator='/',$debug=false)
-    {
-        $output = array();
-        $total['items']     = $totalItems;
-        $total['perPage']   = $perPage;
-
-        if ($total['items'] >= $total['perPage']) {
-            $total['page'] = ceil(round($total['items']/$total['perPage'],0));
-
-                // Si je ne suis pas sur la première page, je retourne les liens first et previous
-            if ($currentPage > 1) {
-                $output[] = array(
-                    'name' => 'first',
-                    'url'  => $basePath
-                );
-                $output[] = array(
-                    'name' => 'previous',
-                    'url'  => $basePath.'page'.$separator.($currentPage-1)
-                );
-            }
-
-            // Construction de chaque numéro de page
-            for ($i = 1; $i <= $total['page']; $i++)
-            {
-                $output[] = array(
-                    'name' => $i,
-                    'url'  => $basePath.'page'.$separator.$i
-                );
-            }
-
-            // Si je ne suis pas sur la dernière page, je retourne les liens next et last
-            if ($currentPage < $total['page']) {
-                $output[] = array(
-                    'name' => 'next',
-                    'url'  => $basePath.'page'.$separator.($currentPage+1)
-                );
-                $output[] = array(
-                    'name' => 'last',
-                    'url'  => $basePath.'page'.$separator.$total['page']
-                );
-            }
-        }
-        return $output;
     }
 }
 ?>

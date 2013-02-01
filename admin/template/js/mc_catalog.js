@@ -678,6 +678,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      * @param edit
+     * @param tab
      */
     function updateSubCategory(section,getlang,edit,tab){
         if(tab === 'text'){

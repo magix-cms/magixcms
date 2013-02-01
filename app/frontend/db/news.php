@@ -97,7 +97,7 @@ class frontend_db_news{
      * @param integer $offset
      */
     protected function s_news($iso,$limit=false,$max=null,$offset=null,$sort_id=null,$sort_type=null){
-        $where_clause = 'WHERE n.published = 1 AND lang.iso = \''.$iso.'\'';
+        $where_clause = 'WHERE n.published = 1 AND lang.iso = :iso';
         if ($sort_id != null){
             $where_clause .= ' AND n.idnews';
             $where_clause .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
@@ -114,8 +114,7 @@ class frontend_db_news{
 				{$where_clause}
 				{$order_clause}
 				{$limit_clause}
-				{$offset_clause}
-				";
+				{$offset_clause}";
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':iso'=>$iso
         ));

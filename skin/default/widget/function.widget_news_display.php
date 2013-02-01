@@ -67,7 +67,7 @@ function smarty_function_widget_news_display($params, $template){
     if (isset($data['total']) AND isset($data['limit'])) {
         $lib_rewrite        = new magixglobal_model_rewrite();
         $basePath = '/'.$id_current['lang'].$lib_rewrite->mod_news_lang($id_current['lang']);
-        $dataPager = frontend_model_news::set_pagination_data($data['total'],$data['limit'],$basePath,$id_current['pagination'],'/');
+        $dataPager = magixglobal_model_pager::set_pagination_data($data['total'],$data['limit'],$basePath,$id_current['pagination'],'/');
         $pagination = null;
         if ($dataPager != null) {
             $pagination = '<div class="pagination">';
