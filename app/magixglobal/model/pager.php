@@ -41,6 +41,16 @@
  */
 class magixglobal_model_pager{
     /**
+     * Retourne les données sql sur base des paramètres passés en paramète
+     * @param numeric $limit
+     * @param numeric $current
+     * @return numerice
+     */
+    public function set_pagination_offset($limit,$current){
+        $pagination = new magixcjquery_pager_pagination();
+        return $pagination->pageOffset($limit,$current);
+    }
+    /**
      * Retourne la liste des liens pour la pagination
      * @param int $totalItems
      * @param int $perPage

@@ -186,7 +186,7 @@ class frontend_model_news extends frontend_db_news {
         // default values: data_sort
         $data_sort['tag'] = $id_current['tag']; // sot tags (string)
         $data_sort['type'] = null; // sort type (string)
-        $data_sort['limit'] = 1;
+        $data_sort['limit'] = 10;
         $data_sort['offset'] = $model->set_pagination_offset($data_sort['limit'],$id_current['pagination']);
         $lang =  frontend_model_template::current_Language();
 

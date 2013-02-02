@@ -24,6 +24,13 @@
                     MC_catalog.runEditSubcategory(section,getlang,edit);
                 {/if}
             {/if}
+        {elseif $smarty.get.section eq 'product'}
+            {if $smarty.get.getlang}
+                {if $smarty.get.edit}
+                {else}
+                    MC_catalog.runListProduct(section,getlang);
+                {/if}
+            {/if}
         {elseif !$smarty.get.section}
             MC_catalog.runCharts();
         {/if}

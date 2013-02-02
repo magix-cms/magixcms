@@ -770,6 +770,158 @@ var MC_catalog = (function ($, undefined) {
 
         }
     }
+
+    /**
+     * Retourne la liste de produits dans la langue
+     * @param section
+     * @param getlang
+     */
+    function jsonListProduct(section,getlang){
+        var getpage = $('.pagination li.active').text();
+        if(getpage.length == 0){
+            getpage = 1;
+        }
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=list&json_listing_product=true&page='+getpage,
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                )
+                $('#list_catalog_product').html(loader);
+            },
+            successParams:function(j){
+                $('#list_catalog_product').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_product")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("Nom"),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-picture")
+                            ),
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-money")
+                            ),
+                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append("Rédacteur"),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-edit")
+                            ),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-trash")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_catalog_product');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        if(item.content != 0){
+                            var content = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var content = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        if(item.img != 0){
+                            var img = $(document.createElement("span")).addClass("icon-check");
+                        }else{
+                            var img = $(document.createElement("span")).addClass("icon-warning-sign");
+                        }
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                .attr("title", "Editer "+item.titlecatalog)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-edit")
+                            )
+                        );
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-pages")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idcatalog)
+                                .attr("title", "Supprimer "+": "+item.titlecatalog)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-trash")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .append(
+                                $(document.createElement("td")).append(
+                                    item.idcatalog
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                        .attr("title", "Editer "+item.titlecatalog)
+                                        .append(item.titlecatalog)
+                                ),
+                                $(document.createElement("td")).append(img),
+                                $(document.createElement("td")).append(item.price),
+                                $(document.createElement("td")).append(content),
+                                $(document.createElement("td")).append(item.pseudo),
+                                edit
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
@@ -800,6 +952,9 @@ var MC_catalog = (function ($, undefined) {
                 updateSubCategory(section,getlang,edit,'image');
             }
 
+        },
+        runListProduct:function(section,getlang){
+            jsonListProduct(section,getlang);
         }
     };
 })(jQuery);

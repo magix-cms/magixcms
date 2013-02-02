@@ -1,0 +1,38 @@
+{if $smarty.get.tab eq "image"}
+    <form id="forms_catalog_product_image" method="post" action="" enctype="multipart/form-data">
+        <p>
+            <label for="img_c">Image :</label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
+            <input type="file" id="img_c" name="img_c" value="" />
+            <input type="submit" class="btn btn-primary" value="Envoyer" />
+        </p>
+    </form>
+    <div id="load_catalog_category_img">
+        <div id="contener_image"></div>
+    </div>
+{else}
+    <form id="forms_catalog_product_edit" method="post" action="">
+        <p class="pull-left">
+            <label for="iso">ISO</label>
+            <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
+        </p>
+        <p class="controls-row offset1 input-append">
+            <label for="urlcatalog">URL Simplifié</label>
+            <input type="text" class="input-xlarge" id="urlcatalog" name="urlcatalog" readonly="readonly" size="30" value="{$urlcatalog}" />
+            <a class="unlocked" href="#">
+                <span class="add-on icon-lock"></span>
+            </a>
+        </p>
+        <p>
+            <label for="titlecatalog">Titre :</label>
+            <input type="text" class="input-xlarge" id="titlecatalog" name="titlecatalog" value="{$titlecatalog}" size="50" />
+        </p>
+        <p>
+            <label for="desccatalog" class="inlinelabel">Contenu :</label>
+            <textarea name="desccatalog" id="desccatalog" class="mceEditor">{$desccatalog}</textarea>
+        </p>
+        <p>
+            <input type="submit" class="btn btn-primary" value="Envoyer" />
+        </p>
+    </form>
+{/if}

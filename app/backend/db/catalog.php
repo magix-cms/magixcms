@@ -1037,19 +1037,36 @@ class backend_db_catalog{
      * @param $sort
      * @return array
      */
-    protected function s_catalog($idlang,$limit=false,$max=null,$offset=null,$sort){
+    protected function s_catalog($idlang,$select_role,$limit=false,$max=null,$offset=null,$sort){
         $limit = $limit ? ' LIMIT '.$max : '';
         $offset = !empty($offset) ? ' OFFSET '.$offset: '';
-        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.idlang,img.imgcatalog,
+        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.price, cl.idlang, img.imgcatalog,
         lang.iso, m.pseudo
 		FROM mc_catalog AS cl
-		JOIN mc_catalog_img as img ON ( img.idcatalog = p.idcatalog )
-		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		JOIN mc_admin_member as m ON ( p.idadmin = m.idadmin )
-		WHERE cl.idlang = :idlang
-		ORDER BY p.'.$sort.' DESC'.$limit.$offset;
+		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = cl.idcatalog )
+		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
+		JOIN mc_admin_member as m ON ( cl.idadmin = m.idadmin )
+		WHERE cl.idlang = :idlang AND m.id_role IN('.$select_role.')
+		ORDER BY cl.'.$sort.' DESC'.$limit.$offset;
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':idlang'	=>	$idlang
+        ));
+    }
+    protected function s_catalog_count($idlang){
+        $sql = 'SELECT count(cl.idcatalog) AS total
+        FROM mc_catalog AS cl
+        WHERE cl.idlang = :idlang';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':idlang'	=>	$idlang
+        ));
+    }
+    protected function s_catalog_data($edit){
+        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.idlang, cl.price, lang.iso
+		FROM mc_catalog AS cl
+		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
+		WHERE cl.idcatalog = :edit';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':edit'=>$edit
         ));
     }
 }

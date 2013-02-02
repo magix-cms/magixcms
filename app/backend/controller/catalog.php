@@ -395,8 +395,10 @@ class backend_controller_catalog extends backend_db_catalog{
         }
 		if(magixcjquery_filter_request::isPost('titlecatalog')){
 			$this->titlecatalog = (string) magixcjquery_form_helpersforms::inputClean($_POST['titlecatalog']);
-			$this->urlcatalog = (string) magixcjquery_url_clean::rplMagixString($_POST['titlecatalog'],true);
 		}
+        if(magixcjquery_filter_request::isPost('urlcatalog')){
+            $this->urlcatalog = magixcjquery_url_clean::rplMagixString($_POST['titlecatalog'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+        }
 		if(magixcjquery_filter_request::isPost('desccatalog')){
 			$this->desccatalog = (string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['desccatalog']);
 		}
@@ -2498,28 +2500,112 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
     // ####### SECTION PRODUITS
-    private function json_listing_product(){
-        if(parent::s_catalog_subcategory($this->edit) != null){
-            foreach (parent::s_catalog_subcategory($this->edit) as $key){
-                if($key['s_content'] != null){
+    /**
+     * Retourne au format JSON la liste des produits
+     * @param $limit
+     */
+    private function json_listing_product($limit){
+        $pager = new magixglobal_model_pager();
+        $max = $limit;
+        $offset= $pager->set_pagination_offset($limit,$this->getpage);
+        $role = new backend_model_role();
+        $sort = 'idcatalog';
+        if(parent::s_catalog($this->getlang,$role->sql_arg(),$limit,$max,$offset,$sort) != null){
+            foreach (parent::s_catalog($this->getlang,$role->sql_arg(),$limit,$max,$offset,$sort) as $key){
+                if($key['desccatalog'] != null){
                     $content = 1;
                 }else{
                     $content = 0;
                 }
-                if($key['img_s'] != null){
+                if($key['imgcatalog'] != null){
                     $img = 1;
                 }else{
                     $img = 0;
                 }
-                $json_data[]= '{"idcls":'.json_encode($key['idcls']).
-                    ',"idclc":'.json_encode($key['idclc']).
-                    ',"slibelle":'.json_encode($key['slibelle']).
-                    ',"s_content":'.json_encode($content).
+                if($key['price'] != null){
+                    $price = number_format($key['price'],0,',','.');
+                }else{
+                    $price = 0;
+                }
+                $json_data[]= '{"idcatalog":'.json_encode($key['idcatalog']).
+                    ',"urlcatalog":'.json_encode($key['urlcatalog']).
+                    ',"titlecatalog":'.json_encode($key['titlecatalog']).
+                    ',"content":'.json_encode($content).
+                    ',"price":'.json_encode($price).
                     ',"img":'.json_encode($img).
-                    ',"iso":'.json_encode($key['iso']).'}';
+                    ',"iso":'.json_encode($key['iso']).
+                    ',"pseudo":'.json_encode($key['pseudo']).'}';
             }
             print '['.implode(',',$json_data).']';
         }
+    }
+
+    /**
+     * Retourne la pagination pour les produits
+     * @param $limit
+     * @return null|string
+     */
+    private function product_pagination($limit){
+        $dbcatalog = parent::s_catalog_count($this->getlang);
+        $total = $dbcatalog['total'];
+        // *** Set pagination
+        $dataPager = null;
+        if (isset($total) AND isset($limit)) {
+            $lib_rewrite = new magixglobal_model_rewrite();
+            $basePath = '/'.PATHADMIN.'/catalog.php?section=product&amp;getlang='.$this->getlang.'&amp;';
+            $dataPager = magixglobal_model_pager::set_pagination_data(
+                $total,
+                $limit,
+                $basePath,
+                $this->getpage,
+                '='
+            );
+            $pagination = null;
+            if ($dataPager != null) {
+                $pagination = '<div class="pagination">';
+                $pagination .= '<ul>';
+                foreach ($dataPager as $row) {
+                    switch ($row['name']){
+                        case 'first':
+                            $name = '<<';
+                            break;
+                        case 'previous':
+                            $name = '<';
+                            break;
+                        case 'next':
+                            $name = '>';
+                            break;
+                        case 'last':
+                            $name = '>>';
+                            break;
+                        default:
+                            $name = $row['name'];
+                    }
+                    $classItem = ($name == $this->getpage) ? ' class="active"' : null;
+                    $pagination .= '<li'.$classItem.'>';
+                    $pagination .= '<a href="'.$row['url'].'" title="'.$name.'" >';
+                    $pagination .= $name;
+                    $pagination .= '</a>';
+                    $pagination .= '</li>';
+                }
+                $pagination .= '</ul>';
+                $pagination .= '</div>';
+            }
+            unset($total);
+            unset($limit);
+        }
+        return $pagination;
+    }
+    private function load_product_edit_data($create,$data){
+        $create->assign(
+            array(
+                'idcatalog'     =>  $data['idcatalog'],
+                'urlcatalog'    =>  $data['urlcatalog'],
+                'titlecatalog'  =>  $data['titlecatalog'],
+                'desccatalog'   =>  $data['desccatalog'],
+                'iso'           =>  $data['iso']
+            )
+        );
     }
 	/**
 	 * Execute le module dans l'administration
@@ -2867,8 +2953,31 @@ class backend_controller_catalog extends backend_db_catalog{
             }elseif($this->section === 'product'){
                 if(isset($this->getlang)){
                     if(isset($this->action)){
+                        if($this->action === 'list'){
+                            if(magixcjquery_filter_request::isGet('json_listing_product')){
+                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                $header->pragma();
+                                $header->cache_control("nocache");
+                                $header->getStatus('200');
+                                $header->json_header("UTF-8");
+                                $this->json_listing_product(20);
+                            }
+                        }elseif($this->action === 'add'){
 
+                        }elseif($this->action === 'edit'){
+                            $data = parent::s_catalog_data($this->edit);
+                            if(isset($this->tab)){
+                                if($this->tab === 'image'){
+
+                                }
+                            }else{
+                                $this->load_product_edit_data($create,$data);
+                                $create->display('catalog/product/edit.phtml');
+                            }
+                        }
                     }else{
+                        $create->assign('pagination',$this->product_pagination(20));
                         $create->display('catalog/product/list.phtml');
                     }
                 }
