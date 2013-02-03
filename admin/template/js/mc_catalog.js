@@ -546,6 +546,51 @@ var MC_catalog = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Suppression du produit dans la catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
+    function removeCategoryProduct(section,getlang,edit,tab){
+        $(document).on('click','.delete-pages',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            typesend: 'post',
+                            noticedata : {delete_product:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                if(tab === 'product'){
+                                    jsonListCategoryProduct(section,getlang,edit);
+                                }
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     //SOUS CATEGORIE
     /**
      * Retourne la liste des sous catégories de la catégorie
@@ -1018,6 +1063,50 @@ var MC_catalog = (function ($, undefined) {
                     )
                 }
             }
+        });
+    }
+    /**
+     * Suppression du produit dans la catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
+    function removeSubCategoryProduct(section,getlang,edit,tab){
+        $(document).on('click','.delete-pages',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            typesend: 'post',
+                            noticedata : {delete_product:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                if(tab === 'product'){
+                                    jsonListSubCategoryProduct(section,getlang,edit);
+                                }
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
         });
     }
     //PRODUCT
@@ -1567,12 +1656,13 @@ var MC_catalog = (function ($, undefined) {
             }else if($('#list_subcategory').length != 0){
                 jsonListSubCategory(section,getlang,edit);
                 addSubCategory(section,getlang,edit);
-            }else if($('#list_category_product').length != 0){
-                jsonListCategoryProduct(section,getlang,edit);
             }else if($('#load_catalog_category_img').length != 0){
                 getImageCategory(section,getlang,edit);
                 updateCategory(section,getlang,edit,'image');
                 removeImage(section,getlang,edit);
+            }else if($('#list_category_product').length != 0){
+                jsonListCategoryProduct(section,getlang,edit);
+                removeCategoryProduct(section,getlang,edit,'product');
             }
         },
         runEditSubcategory:function(section,getlang,edit){
@@ -1585,6 +1675,7 @@ var MC_catalog = (function ($, undefined) {
                 removeImage(section,getlang,edit);
             }else if($('#list_subcategory_product').length != 0){
                 jsonListSubCategoryProduct(section,getlang,edit);
+                removeSubCategoryProduct(section,getlang,edit,'product');
             }
         },
         runListProduct:function(section,getlang){

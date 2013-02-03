@@ -2616,6 +2616,7 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
+
     // ####### SECTION PRODUITS
     private function addProduct($create){
         if(isset($this->titlecatalog)){
@@ -3059,6 +3060,9 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
 
+    /**
+     * Suppression de la catégorie dans le produit
+     */
     private function remove_product_category(){
         if(isset($this->delete_product)){
             parent::d_product_category($this->delete_product);
@@ -3347,6 +3351,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $header->getStatus('200');
                                                 $header->json_header("UTF-8");
                                                 $this->json_listing_category_product();
+                                            }elseif(isset($this->delete_product)){
+                                                $this->remove_product_category();
                                             }else{
                                                 $this->load_category_edit_data($create,$data);
                                                 $create->display('catalog/category/edit.phtml');
@@ -3410,6 +3416,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $header->getStatus('200');
                                             $header->json_header("UTF-8");
                                             $this->json_listing_subcategory_product();
+                                        }elseif(isset($this->delete_product)){
+                                            $this->remove_product_category();
                                         }else{
                                             $this->load_subcategory_edit_data($create,$data);
                                             $create->display('catalog/subcategory/edit.phtml');
