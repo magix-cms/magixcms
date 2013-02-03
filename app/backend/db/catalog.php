@@ -960,7 +960,13 @@ class backend_db_catalog{
             ':edit'=>$edit
         ));
     }
-
+    /*function s_catalog_subcategory($getidclc){
+        $sql='SELECT s.idcls,s.slibelle FROM mc_catalog_c as c
+		JOIN mc_catalog_s as s USING (idclc)
+		where idclc = :idclc
+		ORDER BY s.sorder';
+        return magixglobal_model_db::layerDB()->select($sql,array(':idclc'=>$getidclc));
+    }*/
     /**
      * Insertion d'une sous catégorie
      * @param $slibelle
@@ -1029,19 +1035,10 @@ class backend_db_catalog{
         );
     }
     //PRODUCT
-    protected function i_catalog_product($titlecatalog,$urlcatalog,$idlang,$idadmin){
-        $sql = 'INSERT INTO mc_catalog (titlecatalog,urlcatalog,idlang,idadmin)
-		VALUE(:titlecatalog,:urlcatalog,:idlang,:idadmin)';
-        magixglobal_model_db::layerDB()->insert($sql,
-            array(
-                ':titlecatalog'		=>	$titlecatalog,
-                ':urlcatalog'		=>	$urlcatalog,
-                ':idlang'			=>	$idlang,
-                ':idadmin'			=>	$idadmin
-            ));
-    }
+
     /**
      * @param $idlang
+     * @param $select_role
      * @param bool $limit
      * @param null $max
      * @param null $offset
@@ -1062,6 +1059,12 @@ class backend_db_catalog{
             ':idlang'	=>	$idlang
         ));
     }
+
+    /**
+     * Compte le nombre de produit dans la langue
+     * @param $idlang
+     * @return array
+     */
     protected function s_catalog_count($idlang){
         $sql = 'SELECT count(cl.idcatalog) AS total
         FROM mc_catalog AS cl
@@ -1070,6 +1073,12 @@ class backend_db_catalog{
             ':idlang'	=>	$idlang
         ));
     }
+
+    /**
+     * Retourne les données d'un produit
+     * @param $edit
+     * @return array
+     */
     protected function s_catalog_data($edit){
         $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.idlang, cl.price,cl.imgcatalog, lang.iso
 		FROM mc_catalog AS cl
@@ -1079,6 +1088,31 @@ class backend_db_catalog{
             ':edit'=>$edit
         ));
     }
+
+    /**
+     * Retourne les catégories/ou sous catégories du produit
+     * @param $edit
+     * @return array
+     */
+    protected function s_catalog_category_product($edit){
+        $sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle,
+        cl.idcatalog,cl.titlecatalog, cl.urlcatalog, lang.iso
+		FROM mc_catalog_product AS p
+		JOIN mc_catalog as cl USING ( idcatalog )
+		JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		JOIN mc_lang AS lang ON ( lang.idlang = cl.idlang )
+		WHERE idcatalog = :edit ORDER BY idproduct DESC';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ":edit"=>$edit
+        ));
+    }
+
+    /**
+     * Mise à jour d'une image de produit
+     * @param $imgcatalog
+     * @param $edit
+     */
     protected function u_catalog_product_image($imgcatalog,$edit){
         $sql = 'UPDATE mc_catalog SET imgcatalog = :imgcatalog WHERE idcatalog = :edit';
         magixglobal_model_db::layerDB()->update($sql,
@@ -1088,6 +1122,16 @@ class backend_db_catalog{
             )
         );
     }
+
+    /**
+     * Mise à jour d'un produit
+     * @param $titlecatalog
+     * @param $urlcatalog
+     * @param $desccatalog
+     * @param $price
+     * @param $edit
+     * @param $idadmin
+     */
     protected function u_catalog_product($titlecatalog,$urlcatalog,$desccatalog,$price,$edit,$idadmin){
         $sql = 'UPDATE mc_catalog SET idadmin=:idadmin,titlecatalog=:titlecatalog
 		,urlcatalog=:urlcatalog,desccatalog=:desccatalog,price=:price,date_catalog=NOW()
@@ -1101,5 +1145,40 @@ class backend_db_catalog{
                 ':edit'		        =>	$edit,
                 ':idadmin'			=>	$idadmin
             ));
+    }
+
+    /**
+     * Insertion d'un nouveau produit
+     * @param $titlecatalog
+     * @param $urlcatalog
+     * @param $idlang
+     * @param $idadmin
+     */
+    protected function i_catalog_product($titlecatalog,$urlcatalog,$idlang,$idadmin){
+        $sql = 'INSERT INTO mc_catalog (titlecatalog,urlcatalog,idlang,idadmin)
+		VALUE(:titlecatalog,:urlcatalog,:idlang,:idadmin)';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':titlecatalog'		=>	$titlecatalog,
+                ':urlcatalog'		=>	$urlcatalog,
+                ':idlang'			=>	$idlang,
+                ':idadmin'			=>	$idadmin
+            ));
+    }
+
+    /**
+     * Insertion d'un produit dans une catégorie/ou sous catégorie
+     * @param $edit
+     * @param $idclc
+     * @param $idcls
+     */
+    protected function i_catalog_category_product($edit,$idclc,$idcls){
+        $sql = 'INSERT INTO mc_catalog_product (idcatalog,idclc,idcls) VALUE(:edit,:idclc,:idcls)';
+        magixglobal_model_db::layerDB()->insert($sql,
+        array(
+            ':edit'     =>	$edit,
+            ':idclc'	=>	$idclc,
+            ':idcls'	=>	$idcls
+        ));
     }
 }

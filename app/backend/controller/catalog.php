@@ -338,6 +338,7 @@ class backend_controller_catalog extends backend_db_catalog{
      * Les variables globales
      */
     public $edit,$section,$getlang,$action,$tab,$idadmin;
+
 	/**
 	 * @access public
 	 * Constructor
@@ -484,7 +485,9 @@ class backend_controller_catalog extends backend_db_catalog{
 		if(isset($_FILES['update_img_s']["name"])){
 			$this->update_img_s = magixcjquery_url_clean::rplMagixString($_FILES['update_img_s']["name"]);
 		}
-
+        if(magixcjquery_filter_request::isGet('idclc')){
+            $this->getidclc = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
+        }
 		/**
 		 * URL pour édition d'une catégorie
 		 */
@@ -497,9 +500,9 @@ class backend_controller_catalog extends backend_db_catalog{
 		if(magixcjquery_filter_request::isGet('upsubcat')){
 			$this->upsubcat = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['upsubcat']);
 		}
-		if(magixcjquery_filter_request::isGet('idclc')){
+		/*if(magixcjquery_filter_request::isGet('idclc')){
 			$this->selidclc = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
-		}
+		}*/
 		if(magixcjquery_filter_request::isGet('gethtmlprod')){
 			$this->gethtmlprod = (string) magixcjquery_form_helpersforms::inputClean($_GET['gethtmlprod']);
 		}
@@ -1250,7 +1253,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @access private
 	 * Insertion d'un produit dans la table mc_catalog_product pour la liaison produit=>categorie
 	 */
-	private function insert_new_product(){
+	/*private function insert_new_product(){
 		if(isset($this->idclc)){
 			if(empty($this->idclc)){
 				backend_controller_template::display('catalog/request/empty-product.phtml');
@@ -1263,13 +1266,13 @@ class backend_controller_catalog extends backend_db_catalog{
 				backend_controller_template::display('catalog/request/success-cat-product.phtml');
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * @return string
 	 * Retourne la liste des catégories/et sous catégories dans lequel se trouve le catalogue courant
 	 */
-	private function list_category_in_product(){
+	/*private function list_category_in_product(){
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) != null){
 			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_product($this->editproduct) as $list){
 				$product[]= '{"idproduct":'.json_encode($list['idproduct']).',"clibelle":'.json_encode($list['clibelle']).
@@ -1277,7 +1280,7 @@ class backend_controller_catalog extends backend_db_catalog{
 			}
 			print '['.implode(',',$product).']';
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Suppression d'un produit
@@ -1368,7 +1371,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @access private
 	 * Requête json pour le chargement des sous catégories associé à une catégorie dans le menu déroulant
 	 */
-	private function json_idcls($idclc){
+	/*private function json_idcls($idclc){
 		if(backend_db_catalog::adminDbCatalog()->s_json_subcategory($idclc) != null){
 			//print_r(backend_db_catalog::adminDbCatalog()->s_json_subcategory(2));
 			foreach (backend_db_catalog::adminDbCatalog()->s_json_subcategory($idclc) as $list){
@@ -1382,7 +1385,7 @@ class backend_controller_catalog extends backend_db_catalog{
 		}else{
 			print '{"0":"Aucune sous catégorie"}';
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Insertion d'un produit lié avec le catalogue courant
@@ -2024,7 +2027,15 @@ class backend_controller_catalog extends backend_db_catalog{
             print '['.implode(',',$json_data).']';
         }
     }
-
+    private function array_list_category(){
+        if(parent::s_catalog_category($this->getlang) != null){
+            foreach (parent::s_catalog_category($this->getlang) as $key){
+                $id[]=$key['idclc'];
+                $clibelle[]=$key['clibelle'];
+            }
+            return array_combine($id,$clibelle);
+        }
+    }
     /**
      * @access private
      * Insertion d'une catégorie
@@ -2533,7 +2544,25 @@ class backend_controller_catalog extends backend_db_catalog{
             parent::u_catalog_subcategory_image(null,$this->edit);
         }
     }
-
+    /**
+     * @category json request
+     * @access private
+     * Requête json pour le chargement des sous catégories associé à une catégorie dans le menu déroulant
+     */
+    private function json_idcls(){
+        if(parent::s_catalog_subcategory($this->getidclc) != null){
+            foreach (parent::s_catalog_subcategory($this->getidclc) as $key){
+                if($key['idcls'] != 0){
+                    $subcat[]= json_encode($key['idcls']).':'.json_encode($key['slibelle']);
+                }else{
+                    $subcat[] = json_encode("0").':'.json_encode("Aucune sous catégorie");
+                }
+            }
+            print '{'.implode(',',$subcat).'}';
+        }else{
+            print '{"0":"Aucune sous catégorie"}';
+        }
+    }
     // ####### SECTION PRODUITS
     private function addProduct($create){
         if(isset($this->titlecatalog)){
@@ -2953,6 +2982,29 @@ class backend_controller_catalog extends backend_db_catalog{
         print $img;
     }
 
+    /**
+     * Retourne la liste des catégories/et sous catégories dans lequel se trouve le catalogue courant
+     */
+    private function json_listing_product_category(){
+        if(parent::s_catalog_category_product($this->edit) != null){
+            foreach (parent::s_catalog_category_product($this->edit) as $key){
+                $product[]= '{"idproduct":'.json_encode($key['idproduct']).',"idcatalog":'.json_encode($key['idcatalog']).
+                ',"clibelle":'.json_encode($key['clibelle']).',"slibelle":'.json_encode($key['slibelle']).'}';
+            }
+            print '['.implode(',',$product).']';
+        }
+    }
+
+    /**
+     * Ajoute un produit dans une catégorie/ou sous catégorie
+     */
+    private function add_category_product(){
+        if(isset($this->idclc)){
+            if(!empty($this->idclc)){
+                parent::i_catalog_category_product($this->edit,$this->idclc,$this->idcls);
+            }
+        }
+    }
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -3314,6 +3366,14 @@ class backend_controller_catalog extends backend_db_catalog{
                                 $header->getStatus('200');
                                 $header->json_header("UTF-8");
                                 $this->json_listing_product(20);
+                            }elseif(magixcjquery_filter_request::isGet('idclc')){
+                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                $header->pragma();
+                                $header->cache_control("nocache");
+                                $header->getStatus('200');
+                                $header->json_header("UTF-8");
+                                $this->json_idcls($this->selidclc);
                             }
                         }elseif($this->action === 'add'){
                             if(isset($this->titlecatalog)){
@@ -3338,8 +3398,21 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $create->display('catalog/product/edit.phtml');
                                     }
                                 }elseif($this->tab === 'category'){
-                                    $this->load_product_edit_data($create,$data);
-                                    $create->display('catalog/product/edit.phtml');
+                                    if(magixcjquery_filter_request::isGet('json_product_category')){
+                                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                        $header->pragma();
+                                        $header->cache_control("nocache");
+                                        $header->getStatus('200');
+                                        $header->json_header("UTF-8");
+                                        $this->json_listing_product_category();
+                                    }elseif(isset($this->idclc)){
+                                        $this->add_category_product();
+                                    }else{
+                                        $this->load_product_edit_data($create,$data);
+                                        $create->assign('array_list_category',$this->array_list_category());
+                                        $create->display('catalog/product/edit.phtml');
+                                    }
                                 }elseif($this->tab === 'product'){
                                     $this->load_product_edit_data($create,$data);
                                     $create->display('catalog/product/edit.phtml');

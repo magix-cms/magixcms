@@ -11,6 +11,18 @@
         <div id="contener_image"></div>
     </div>
 {elseif $smarty.get.tab eq "category"}
+<form id="forms_catalog_product_category" class="form-inline" method="post" action="">
+    <select id="idclc" name="idclc">
+        {foreach $array_list_category as $key => $value nocache}
+            <option value="{$key}">{$value}</option>
+        {/foreach}
+    </select>
+    <select id="idcls" name="idcls">
+        <option value="">Sélectionner une sous catégorie</option>
+    </select>
+    <input type="submit" class="btn btn-primary" />
+</form>
+<div id="list_product_category"></div>
 {elseif $smarty.get.tab eq "product"}
 {elseif $smarty.get.tab eq "galery"}
 {else}
