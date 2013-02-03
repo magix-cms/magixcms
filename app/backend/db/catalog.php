@@ -562,7 +562,7 @@ class backend_db_catalog{
 	 * @param $idclc
 	 * @param $idcls
 	 */
-	function i_catalog_product($idcatalog,$idclc,$idcls){
+	/*function i_catalog_product($idcatalog,$idclc,$idcls){
 		$sql = 'INSERT INTO mc_catalog_product (idcatalog,idclc,idcls) VALUE(:idcatalog,:idclc,:idcls)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
@@ -570,7 +570,7 @@ class backend_db_catalog{
 			':idclc'	=>	$idclc,
 			':idcls'	=>	$idcls
 		));
-	}
+	}*/
 	/**
 	 * 
 	 * Insertion d'un produit lié
@@ -626,7 +626,7 @@ class backend_db_catalog{
 	 * @param $price
 	 * @param $editproduct
 	 */
-	function u_catalog_product($idadmin,$titlecatalog,$urlcatalog,$desccatalog,$price,$editproduct){
+	/*function u_catalog_product($idadmin,$titlecatalog,$urlcatalog,$desccatalog,$price,$editproduct){
 		$sql = 'UPDATE mc_catalog SET idadmin=:idadmin,titlecatalog=:titlecatalog
 		,urlcatalog=:urlcatalog,desccatalog=:desccatalog,price=:price,date_catalog=NOW() 
 		WHERE idcatalog=:editproduct';
@@ -639,7 +639,7 @@ class backend_db_catalog{
 			':price'			=>	$price,
 			':editproduct'		=>	$editproduct
 		));
-	}
+	}*/
 	/**
 	 * Déplace un produit dans une autre catégorie
 	 * @param $idadmin
@@ -1028,7 +1028,18 @@ class backend_db_catalog{
             )
         );
     }
-
+    //PRODUCT
+    protected function i_catalog_product($titlecatalog,$urlcatalog,$idlang,$idadmin){
+        $sql = 'INSERT INTO mc_catalog (titlecatalog,urlcatalog,idlang,idadmin)
+		VALUE(:titlecatalog,:urlcatalog,:idlang,:idadmin)';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':titlecatalog'		=>	$titlecatalog,
+                ':urlcatalog'		=>	$urlcatalog,
+                ':idlang'			=>	$idlang,
+                ':idadmin'			=>	$idadmin
+            ));
+    }
     /**
      * @param $idlang
      * @param bool $limit
@@ -1076,5 +1087,19 @@ class backend_db_catalog{
                 ':edit'		    =>	$edit
             )
         );
+    }
+    protected function u_catalog_product($titlecatalog,$urlcatalog,$desccatalog,$price,$edit,$idadmin){
+        $sql = 'UPDATE mc_catalog SET idadmin=:idadmin,titlecatalog=:titlecatalog
+		,urlcatalog=:urlcatalog,desccatalog=:desccatalog,price=:price,date_catalog=NOW()
+		WHERE idcatalog=:edit';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':titlecatalog'		=>	$titlecatalog,
+                ':urlcatalog'		=>	$urlcatalog,
+                ':desccatalog'		=>	$desccatalog,
+                ':price'			=>	$price,
+                ':edit'		        =>	$edit,
+                ':idadmin'			=>	$idadmin
+            ));
     }
 }

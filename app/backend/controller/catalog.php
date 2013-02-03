@@ -333,11 +333,11 @@ class backend_controller_catalog extends backend_db_catalog{
 	public $d_rel_product;
 	public $post_search;
 	public $get_search_page;
-    public $delete_image_category;
+    public $delete_image;
     /**
      * Les variables globales
      */
-    public $edit,$section,$getlang,$action,$tab;
+    public $edit,$section,$getlang,$action,$tab,$idadmin;
 	/**
 	 * @access public
 	 * Constructor
@@ -348,7 +348,7 @@ class backend_controller_catalog extends backend_db_catalog{
 			$this->clibelle = magixcjquery_form_helpersforms::inputClean($_POST['clibelle']);
 		}
         if(magixcjquery_filter_request::isPost('pathclibelle')){
-            $this->pathclibelle = magixcjquery_url_clean::rplMagixString($_POST['clibelle'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+            $this->pathclibelle = magixcjquery_form_helpersforms::inputClean($_POST['pathclibelle']);
         }
         if(magixcjquery_filter_request::isPost('c_content')){
             $this->c_content = magixcjquery_form_helpersforms::inputCleanQuote($_POST['c_content']);
@@ -398,7 +398,7 @@ class backend_controller_catalog extends backend_db_catalog{
 			$this->titlecatalog = (string) magixcjquery_form_helpersforms::inputClean($_POST['titlecatalog']);
 		}
         if(magixcjquery_filter_request::isPost('urlcatalog')){
-            $this->urlcatalog = magixcjquery_url_clean::rplMagixString($_POST['titlecatalog'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+            $this->urlcatalog = magixcjquery_form_helpersforms::inputClean($_POST['urlcatalog']);
         }
 		if(magixcjquery_filter_request::isPost('desccatalog')){
 			$this->desccatalog = (string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['desccatalog']);
@@ -409,8 +409,8 @@ class backend_controller_catalog extends backend_db_catalog{
 		if(magixcjquery_filter_request::isPost('ordercatalog')){
 			$this->ordercatalog = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['ordercatalog']);
 		}
-        if(magixcjquery_filter_request::isPost('delete_image_category')){
-            $this->delete_image_category = magixcjquery_form_helpersforms::inputClean($_POST['delete_image_category']);
+        if(magixcjquery_filter_request::isPost('delete_image')){
+            $this->delete_image = magixcjquery_form_helpersforms::inputClean($_POST['delete_image']);
         }
 
 		if(magixcjquery_filter_request::isGet('page')) {
@@ -544,6 +544,9 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         if(magixcjquery_filter_request::isGet('tab')){
             $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
+        if(magixcjquery_filter_request::isSession('useridadmin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
         }
 	}
 	/**
@@ -2094,9 +2097,9 @@ class backend_controller_catalog extends backend_db_catalog{
         if(isset($this->clibelle)){
             if(!empty($this->clibelle)){
                 if(!empty($this->pathclibelle)){
-                    $pathclibelle = $this->pathclibelle;
+                    $pathclibelle = magixcjquery_url_clean::rplMagixString($this->pathclibelle,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
                 }else{
-                    $pathclibelle = magixcjquery_url_clean::rplMagixString($this->clibelle);
+                    $pathclibelle = magixcjquery_url_clean::rplMagixString($this->clibelle,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
                 }
                 parent::u_catalog_category(
                     $this->clibelle,
@@ -2248,7 +2251,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if($img_c != null){
             if(file_exists(self::dirImgCategory().$img_c)){
                 $img = '<p><img src="/upload/catalogimg/category/'.$img_c.'" class="img-polaroid" alt="" /></p>';
-                $img .= '<p><a data-delete="'.$img_c.'" class="delete-image">Supprimer</a></p>';
+                $img .= '<p><a href="#" data-delete="'.$img_c.'" class="btn delete-image"><span class="icon-trash"></span> Supprimer</a></p>';
             }else{
                 $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
             }
@@ -2262,10 +2265,10 @@ class backend_controller_catalog extends backend_db_catalog{
      * Suppression de l'image de la catégorie
      */
     private function remove_category_image(){
-        if(isset($this->delete_image_category)){
+        if(isset($this->delete_image)){
             $makeFiles = new magixcjquery_files_makefiles();
-            if(file_exists(self::dirImgCategory().$this->delete_image_category)){
-                $makeFiles->removeFile(self::dirImgCategory(),$this->delete_image_category);
+            if(file_exists(self::dirImgCategory().$this->delete_image)){
+                $makeFiles->removeFile(self::dirImgCategory(),$this->delete_image);
             }
             parent::u_catalog_category_image(null,$this->edit);
         }
@@ -2373,9 +2376,9 @@ class backend_controller_catalog extends backend_db_catalog{
         if(isset($this->slibelle)){
             if(!empty($this->slibelle)){
                 if(!empty($this->pathslibelle)){
-                    $pathslibelle = $this->pathslibelle;
+                    $pathslibelle = magixcjquery_url_clean::rplMagixString($this->pathslibelle,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
                 }else{
-                    $pathslibelle = magixcjquery_url_clean::rplMagixString($this->slibelle);
+                    $pathslibelle = magixcjquery_url_clean::rplMagixString($this->slibelle,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
                 }
                 parent::u_catalog_subcategory(
                     $this->slibelle,
@@ -2494,7 +2497,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if($img_s != null){
             if(file_exists(self::dirImgSubCategory().$img_s)){
                 $img = '<p><img src="/upload/catalogimg/subcategory/'.$img_s.'" class="img-polaroid" alt="" /></p>';
-                $img .= '<p><a class="delete-image">Supprimer</a></p>';
+                $img .= '<p><a href="#" data-delete="'.$img_s.'" class="btn delete-image"><span class="icon-trash"></span> Supprimer</a></p>';
             }else{
                 $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
             }
@@ -2518,8 +2521,68 @@ class backend_controller_catalog extends backend_db_catalog{
             parent::u_catalog_subcategory_image($imgs,$this->edit);
         }
     }
+    /**
+     * Suppression de l'image de la catégorie
+     */
+    private function remove_subcategory_image(){
+        if(isset($this->delete_image)){
+            $makeFiles = new magixcjquery_files_makefiles();
+            if(file_exists(self::dirImgSubCategory().$this->delete_image)){
+                $makeFiles->removeFile(self::dirImgSubCategory(),$this->delete_image);
+            }
+            parent::u_catalog_subcategory_image(null,$this->edit);
+        }
+    }
 
     // ####### SECTION PRODUITS
+    private function addProduct($create){
+        if(isset($this->titlecatalog)){
+            if(!empty($this->titlecatalog)){
+                $urlcatalog = magixcjquery_url_clean::rplMagixString($this->titlecatalog,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+                parent::i_catalog_product(
+                    $this->titlecatalog,
+                    $urlcatalog,
+                    $this->getlang,
+                    $this->idadmin
+                );
+                $create->display('catalog/request/success_add.phtml');
+            }
+        }
+    }
+
+    /**
+     * @param $create
+     */
+    private function update_product($create){
+        if(isset($this->titlecatalog)){
+            if(!empty($this->titlecatalog)){
+                if(!empty($this->urlcatalog)){
+                    $urlcatalog = magixcjquery_url_clean::rplMagixString($this->urlcatalog,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+                }else{
+                    $urlcatalog = magixcjquery_url_clean::rplMagixString($this->titlecatalog,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+                }
+                if(!empty($this->price)){
+                    $price = number_format($this->price,0,'.',',');
+                }else{
+                    $price = null;
+                }
+                if(!empty($this->desccatalog)){
+                    $desccatalog = $this->desccatalog;
+                }else{
+                    $desccatalog = null;
+                }
+                parent::u_catalog_product(
+                    $this->titlecatalog,
+                    $urlcatalog,
+                    $desccatalog,
+                    $price,
+                    $this->edit,
+                    $this->idadmin
+                );
+                $create->display('catalog/request/success_update.phtml');
+            }
+        }
+    }
     /**
      * Retourne au format JSON la liste des produits
      * @param $limit
@@ -2817,6 +2880,20 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
     /**
+     * Suppression de l'image de la catégorie
+     */
+    private function remove_product_image(){
+        if(isset($this->delete_image)){
+            $makeFiles = new magixcjquery_files_makefiles();
+            if(file_exists(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$this->delete_image)){
+                $makeFiles->removeFile(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR,$this->delete_image);
+                $makeFiles->removeFile(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR,$this->delete_image);
+                $makeFiles->removeFile(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR,$this->delete_image);
+            }
+            parent::u_catalog_product_image(null,$this->edit);
+        }
+    }
+    /**
      * @access private
      * Retourne l'image du produit
      * @param string $imgcatalog
@@ -2829,7 +2906,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 $medium = getimagesize(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $product = getimagesize(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $img .= '<p>';
-                $img .= '<a class="btn btn-block delete-image"><span class="icon-trash"></span> Supprimer</a>';
+                $img .= '<a href="#" data-delete="'.$imgcatalog.'" class="btn btn-block delete-image"><span class="icon-trash"></span> Supprimer</a>';
                 $img .= '</p>';
                 $img .= '<ul class="thumbnails">';
                 $img .= '<li class="span2">';
@@ -3154,7 +3231,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                     }else{
                                         if(isset($this->clibelle)){
                                             $this->update_category($create);
-                                        }elseif(isset($this->delete_image_category)){
+                                        }elseif(isset($this->delete_image)){
                                             $this->remove_category_image();
                                         }else{
                                             $this->load_category_edit_data($create,$data);
@@ -3213,6 +3290,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->json_uri_subcategory($data);
                                     }elseif(isset($this->slibelle)){
                                         $this->update_subcategory($create);
+                                    }elseif(isset($this->delete_image)){
+                                        $this->remove_subcategory_image();
                                     }else{
                                         $this->load_subcategory_edit_data($create,$data);
                                         $create->display('catalog/subcategory/edit.phtml');
@@ -3236,7 +3315,9 @@ class backend_controller_catalog extends backend_db_catalog{
                                 $this->json_listing_product(20);
                             }
                         }elseif($this->action === 'add'){
-
+                            if(isset($this->titlecatalog)){
+                                $this->addProduct($create);
+                            }
                         }elseif($this->action === 'edit'){
                             $data = parent::s_catalog_data($this->edit);
                             if(isset($this->tab)){
@@ -3255,10 +3336,25 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->load_product_edit_data($create,$data);
                                         $create->display('catalog/product/edit.phtml');
                                     }
+                                }elseif($this->tab === 'category'){
+                                    $this->load_product_edit_data($create,$data);
+                                    $create->display('catalog/product/edit.phtml');
+                                }elseif($this->tab === 'product'){
+                                    $this->load_product_edit_data($create,$data);
+                                    $create->display('catalog/product/edit.phtml');
+                                }elseif($this->tab === 'galery'){
+                                    $this->load_product_edit_data($create,$data);
+                                    $create->display('catalog/product/edit.phtml');
                                 }
                             }else{
-                                $this->load_product_edit_data($create,$data);
-                                $create->display('catalog/product/edit.phtml');
+                                if(isset($this->delete_image)){
+                                    $this->remove_product_image();
+                                }if(isset($this->titlecatalog)){
+                                    $this->update_product($create);
+                                }else{
+                                    $this->load_product_edit_data($create,$data);
+                                    $create->display('catalog/product/edit.phtml');
+                                }
                             }
                         }
                     }else{

@@ -24,6 +24,9 @@
                         <li{if $smarty.get.tab eq "product"} class="active"{/if}>
                             <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=product">Produits</a>
                         </li>
+                        <li{if $smarty.get.tab eq "galery"} class="active"{/if}>
+                            <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=galery">Galerie</a>
+                        </li>
                     </ul>
                     <div class="mc-message clearfix"></div>
                     {include file="catalog/product/forms/edit.phtml"}

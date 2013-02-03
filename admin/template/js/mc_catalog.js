@@ -770,7 +770,60 @@ var MC_catalog = (function ($, undefined) {
 
         }
     }
-
+    //PRODUCT
+    /**
+     * Ajouter un produit
+     * @param section
+     * @param getlang
+     */
+    function addProduct(section,getlang){
+        var formsAdd = $("#forms_catalog_product_add").validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                titlecatalog: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:true,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        $('#forms-add').dialog('close');
+                        jsonListProduct(section,getlang);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#open-add').on('click',function(){
+            $('#forms-add').dialog({
+                modal: true,
+                resizable: true,
+                width: 350,
+                height:'auto',
+                minHeight: 210,
+                buttons: {
+                    'Save': function() {
+                        $("#forms_catalog_product_add").submit();
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                        formsAdd.resetForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
     /**
      * Retourne la liste de produits dans la langue
      * @param section
@@ -1039,24 +1092,24 @@ var MC_catalog = (function ($, undefined) {
                 buttons: {
                     'Delete': function() {
                         $(this).dialog('close');
-                        if(section === 'category'){
-                            $.nicenotify({
-                                ntype: "ajax",
-                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
-                                typesend: 'post',
-                                noticedata : {delete_image_category:elem},
-                                successParams:function(e){
-                                    $.nicenotify.initbox(e,{
-                                        display:false
-                                    });
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                            typesend: 'post',
+                            noticedata : {delete_image:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                if(section === 'category'){
                                     getImageCategory(section,getlang,edit);
+                                }else if(section === 'subcategory'){
+                                    getImageSubCategory(section,getlang,edit);
+                                }else if(section === 'product'){
+                                    getImageProduct(section,getlang,edit);
                                 }
-                            });
-                        }else if(section === 'subcategory'){
-
-                        }else if(section === 'product'){
-
-                        }
+                            }
+                        });
                     },
                     Cancel: function() {
                         $(this).dialog('close');
@@ -1095,15 +1148,16 @@ var MC_catalog = (function ($, undefined) {
             }else if($('#load_catalog_subcategory_img').length != 0){
                 getImageSubCategory(section,getlang,edit);
                 updateSubCategory(section,getlang,edit,'image');
+                removeImage(section,getlang,edit);
             }
-
         },
         runListProduct:function(section,getlang){
             jsonListProduct(section,getlang);
+            addProduct(section,getlang);
         },
         runEditProduct:function(section,getlang,edit){
             if($("#urlcatalog").length != 0){
-
+                updateProduct(section,getlang,edit,'text');
             }else if($('#load_catalog_product_img').length != 0){
                 getImageProduct(section,getlang,edit);
                 updateProduct(section,getlang,edit,'image');

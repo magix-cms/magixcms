@@ -89,3 +89,5 @@ NULL , 'content_css', NULL , 'string', NULL
 );
 
 ALTER TABLE `mc_catalog` ADD `imgcatalog` VARCHAR( 125 ) NULL AFTER `titlecatalog`;
+
+ALTER TABLE `mc_catalog` DROP `ordercatalog`;

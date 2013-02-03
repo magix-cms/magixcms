@@ -10,6 +10,9 @@
     <div id="load_catalog_product_img">
         <div id="contener_image"></div>
     </div>
+{elseif $smarty.get.tab eq "category"}
+{elseif $smarty.get.tab eq "product"}
+{elseif $smarty.get.tab eq "galery"}
 {else}
     <form id="forms_catalog_product_edit" method="post" action="">
         <p class="pull-left">
@@ -26,6 +29,10 @@
         <p>
             <label for="titlecatalog">Titre :</label>
             <input type="text" class="input-xlarge" id="titlecatalog" name="titlecatalog" value="{$titlecatalog}" size="50" />
+        </p>
+        <p>
+            <label for="price">Prix :</label>
+            <input type="text" class="input-small" id="price" name="price" value="{$price}" size="10" />
         </p>
         <p>
             <label for="desccatalog" class="inlinelabel">Contenu :</label>
