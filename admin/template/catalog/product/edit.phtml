@@ -18,6 +18,12 @@
                         <li{if $smarty.get.tab eq "image"} class="active"{/if}>
                             <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=image">Image</a>
                         </li>
+                        <li{if $smarty.get.tab eq "category"} class="active"{/if}>
+                            <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=category">Catégories</a>
+                        </li>
+                        <li{if $smarty.get.tab eq "product"} class="active"{/if}>
+                            <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=product">Produits</a>
+                        </li>
                     </ul>
                     <div class="mc-message clearfix"></div>
                     {include file="catalog/product/forms/edit.phtml"}

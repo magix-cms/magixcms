@@ -165,7 +165,7 @@ class backend_db_config{
      * @param $config_size_attr
      * @return array
      */
-    public function s_load_img_size($attr_name,$config_size_attr){
+    public function s_img_size($attr_name,$config_size_attr){
         $sql = 'SELECT ci.*,c.attr_name
     	FROM mc_config_size_img as ci
     	JOIN mc_config as c USING(idconfig)
@@ -176,6 +176,24 @@ class backend_db_config{
         ));
     }
 
+    /**
+     * Retourne les données unique pour la taille des images
+     * @param $attr_name
+     * @param $config_size_attr
+     * @param $type
+     * @return array
+     */
+    public function s_img_size_data($attr_name,$config_size_attr,$type){
+        $sql = 'SELECT ci.*,c.attr_name
+    	FROM mc_config_size_img as ci
+    	JOIN mc_config as c USING(idconfig)
+    	WHERE c.attr_name = :attr_name AND config_size_attr = :config_size_attr AND type = :type';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':attr_name'=>$attr_name,
+            ':config_size_attr'=>$config_size_attr,
+            ':type'=>$type
+        ));
+    }
     /**
      * @param $attr_name
      * @param $config_size_attr

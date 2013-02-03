@@ -212,13 +212,26 @@ class backend_model_image {
 	}
 
     /**
+     * Retourne un tableau associatif des valeurs pour les tailles images
      * @param $attr_name
      * @param $config_size_attr
      * @return array
      */
     public function arrayImgSize($attr_name,$config_size_attr){
         $dbconfig = new backend_db_config();
-        return $dbconfig->s_load_img_size($attr_name,$config_size_attr);
+        return $dbconfig->s_img_size($attr_name,$config_size_attr);
+    }
+
+    /**
+     * Retourne les valeurs suivant l'attribut sous forme d'un tableau pour les tailles images
+     * @param $attr_name
+     * @param $config_size_attr
+     * @param $type
+     * @return array
+     */
+    public function dataImgSize($attr_name,$config_size_attr,$type){
+        $dbconfig = new backend_db_config();
+        return $dbconfig->s_img_size_data($attr_name,$config_size_attr,$type);
     }
 }
 ?>

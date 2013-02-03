@@ -1,13 +1,13 @@
 {if $smarty.get.tab eq "image"}
     <form id="forms_catalog_product_image" method="post" action="" enctype="multipart/form-data">
         <p>
-            <label for="img_c">Image :</label>
+            <label for="imgcatalog">Image :</label>
             <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
-            <input type="file" id="img_c" name="img_c" value="" />
+            <input type="file" id="imgcatalog" name="imgcatalog" value="" />
             <input type="submit" class="btn btn-primary" value="Envoyer" />
         </p>
     </form>
-    <div id="load_catalog_category_img">
+    <div id="load_catalog_product_img">
         <div id="contener_image"></div>
     </div>
 {else}

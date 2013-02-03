@@ -333,6 +333,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	public $d_rel_product;
 	public $post_search;
 	public $get_search_page;
+    public $delete_image_category;
     /**
      * Les variables globales
      */
@@ -408,6 +409,10 @@ class backend_controller_catalog extends backend_db_catalog{
 		if(magixcjquery_filter_request::isPost('ordercatalog')){
 			$this->ordercatalog = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['ordercatalog']);
 		}
+        if(magixcjquery_filter_request::isPost('delete_image_category')){
+            $this->delete_image_category = magixcjquery_form_helpersforms::inputClean($_POST['delete_image_category']);
+        }
+
 		if(magixcjquery_filter_request::isGet('page')) {
 				// si numéric
 			if(magixcjquery_filter_isVar::isPostNumeric($_GET['page'])){
@@ -479,6 +484,7 @@ class backend_controller_catalog extends backend_db_catalog{
 		if(isset($_FILES['update_img_s']["name"])){
 			$this->update_img_s = magixcjquery_url_clean::rplMagixString($_FILES['update_img_s']["name"]);
 		}
+
 		/**
 		 * URL pour édition d'une catégorie
 		 */
@@ -1551,17 +1557,17 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * retourne le dossier des images catalogue
 	 * @return string
 	 */
-	private function dir_img_product(){
+	/*private function dirImgProduct(){
 		try{
 			return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR);
 		}catch (Exception $e){
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
-	}
+	}*/
 	/**
 	 * Insertion d'une image à un produit spécifique
 	 */
-	private function insert_image_product($debug=false){
+	/*private function insert_image_product($debug=false){
 		if(isset($this->imgcatalog)){
 			//Supprime le fichier original pour gagner en espace
 			$makeFiles = new magixcjquery_files_makefiles();
@@ -1569,14 +1575,14 @@ class backend_controller_catalog extends backend_db_catalog{
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
 				 */
-				backend_model_image::upload_img('imgcatalog','upload'.DIRECTORY_SEPARATOR.'catalogimg');
+				/*backend_model_image::upload_img('imgcatalog','upload'.DIRECTORY_SEPARATOR.'catalogimg');
 				/**
 				 * Analyze l'extension du fichier en traitement
 				 * @var $fileextends
 				 */
-				$fileextends = backend_model_image::image_analyze(self::dir_img_product().$this->imgcatalog);
+				/*$fileextends = backend_model_image::image_analyze(self::dir_img_product().$this->imgcatalog);
 				$random_id = magixglobal_model_cryptrsa::random_generic_ui();
-				if (backend_model_image::imgSizeMin(self::dir_img_product().$this->imgcatalog,40,40)){
+				if (backend_model_image::imgSizeMin(self::().$this->imgcatalog,40,40)){
 					// Sélectionne et retourne le nom du produit
 					$simg = backend_db_catalog::adminDbCatalog()->s_uniq_url_catalog($this->getimg);
 					// Charge la classe pour renommer le fichier
@@ -1586,7 +1592,7 @@ class backend_controller_catalog extends backend_db_catalog{
 					 * Vérifie si le produit contient déjà une image 
 					 * @var intéger
 					 */
-					$count = backend_db_catalog::adminDbCatalog()->count_image_product($this->getimg);
+					/*$count = backend_db_catalog::adminDbCatalog()->count_image_product($this->getimg);
 					if($count['cimage'] == 0){
 						backend_db_catalog::adminDbCatalog()->i_image_catalog($this->getimg,$simg['urlcatalog'].'_'.$random_id.$fileextends);
 					}else{
@@ -1598,24 +1604,24 @@ class backend_controller_catalog extends backend_db_catalog{
 						}/*else{
 							throw new Exception('file: '.$old_img['imgcatalog'].' is not found');
 						}*/
-						backend_db_catalog::adminDbCatalog()->u_image_catalog($this->getimg,$simg['urlcatalog'].'_'.$random_id.$fileextends);
+						/*backend_db_catalog::adminDbCatalog()->u_image_catalog($this->getimg,$simg['urlcatalog'].'_'.$random_id.$fileextends);
 					}
 					/**
 					 * Selectionne l'image et retourne le nom
 					 * @var string
 					 */
-					$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
+					/*$getimg = backend_db_catalog::adminDbCatalog()->s_image_product($this->getimg);
 					/**
 					 * Initialisation de la classe phpthumb 
 					 * @var void
 					 */
-					$thumb = PhpThumbFactory::create(self::dir_img_product().$getimg['imgcatalog']);
+					/*$thumb = PhpThumbFactory::create(self::dir_img_product().$getimg['imgcatalog']);
 					$firebug = new magixcjquery_debug_magixfire();
 					/**
 					 * Création des images et miniatures utile.
 					 * 3 tailles !!!
 					 */
-					$imgsetting = new backend_model_setting();
+					/*$imgsetting = new backend_model_setting();
 					$imgsizelarge = $imgsetting->uniq_data_img_size('catalog','product','large');
 					$imgsizemed = $imgsetting->uniq_data_img_size('catalog','product','medium');
 					$imgsizesmall = $imgsetting->uniq_data_img_size('catalog','product','small');
@@ -1707,7 +1713,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * retourne le dossier des micros galeries
@@ -2242,7 +2248,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if($img_c != null){
             if(file_exists(self::dirImgCategory().$img_c)){
                 $img = '<p><img src="/upload/catalogimg/category/'.$img_c.'" class="img-polaroid" alt="" /></p>';
-                $img .= '<p><a class="delete-image">Supprimer</a></p>';
+                $img .= '<p><a data-delete="'.$img_c.'" class="delete-image">Supprimer</a></p>';
             }else{
                 $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
             }
@@ -2250,6 +2256,19 @@ class backend_controller_catalog extends backend_db_catalog{
             $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
         }
         print $img;
+    }
+
+    /**
+     * Suppression de l'image de la catégorie
+     */
+    private function remove_category_image(){
+        if(isset($this->delete_image_category)){
+            $makeFiles = new magixcjquery_files_makefiles();
+            if(file_exists(self::dirImgCategory().$this->delete_image_category)){
+                $makeFiles->removeFile(self::dirImgCategory(),$this->delete_image_category);
+            }
+            parent::u_catalog_category_image(null,$this->edit);
+        }
     }
     /**
      * Retourne la liste des sous catégories
@@ -2499,6 +2518,7 @@ class backend_controller_catalog extends backend_db_catalog{
             parent::u_catalog_subcategory_image($imgs,$this->edit);
         }
     }
+
     // ####### SECTION PRODUITS
     /**
      * Retourne au format JSON la liste des produits
@@ -2596,6 +2616,11 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         return $pagination;
     }
+
+    /**
+     * @param $create
+     * @param $data
+     */
     private function load_product_edit_data($create,$data){
         $create->assign(
             array(
@@ -2606,6 +2631,249 @@ class backend_controller_catalog extends backend_db_catalog{
                 'iso'           =>  $data['iso']
             )
         );
+    }
+    /**
+     * @access private
+     * retourne le dossier des images catalogue des sous catégories
+     * @return string
+     */
+    private function dirImgProduct(){
+        try{
+            return self::imgBasePath("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR);
+        }catch (Exception $e){
+            magixglobal_model_system::magixlog('An error has occured :',$e);
+        }
+    }
+    /**
+     * Insertion d'une image à un produit spécifique
+     */
+    private function insert_image_product($img,$urlimg,$imgcatalog=null,$debug=false){
+        if(isset($this->$img)){
+            //Supprime le fichier original pour gagner en espace
+            $makeFiles = new magixcjquery_files_makefiles();
+            // Charge la classe de traitement des images
+            $initImg = new backend_model_image();
+            try{
+                if(!empty($this->$img)){
+                    /**
+                     * Envoi une image dans le dossier "racine" catalogimg
+                     */
+                    $initImg->upload_img(
+                        'imgcatalog',
+                        'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR,
+                        $debug
+                    );
+                    /**
+                     * Analyze l'extension du fichier en traitement
+                     * @var $fileextends
+                     */
+                    $fileextends = $initImg->image_analyze(self::dirImgProduct().$this->$img);
+
+                    if ($initImg->imgSizeMin(self::dirImgProduct().$this->$img,25,25)){
+                        // Charge la classe pour renommer le fichier
+                        if(file_exists(self::dirImgProduct().$urlimg.$fileextends)){
+                            $makeFiles->removeFile(self::dirImgProduct(),$imgcatalog);
+                        }
+                        $makeFiles->renameFiles(
+                            self::dirImgProduct(),
+                            self::dirImgProduct().$this->$img,
+                            self::dirImgProduct().$urlimg.$fileextends
+                        );
+                        /**
+                         * Initialisation de la classe phpthumb
+                         * @var void
+                         */
+                        $thumb = PhpThumbFactory::create(self::dirImgProduct().$urlimg.$fileextends);
+                        $firebug = new magixcjquery_debug_magixfire();
+                        /**
+                         * Création des images et miniatures utile.
+                         * 3 tailles !!!
+                         */
+
+                        $imgsizelarge = $initImg->dataImgSize('catalog','product','large');
+                        $imgsizemed = $initImg->dataImgSize('catalog','product','medium');
+                        $imgsizesmall = $initImg->dataImgSize('catalog','product','small');
+                        if($debug){
+                            $firebug->magixFireGroup('Setting image');
+                        }
+                        switch($imgsizelarge['img_resizing']){
+                            case 'basic':
+                                if($debug){
+                                    $firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+                                    $firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+                                    $firebug->magixFireLog($imgsizelarge['width'],'Width');
+                                    $firebug->magixFireLog($imgsizelarge['height'],'Height');
+                                    $firebug->magixFireGroupEnd();
+                                }
+                                $thumb->resize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR.$urlimg.$fileextends);
+                                break;
+                            case 'adaptive':
+                                if($debug){
+                                    $firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+                                    $firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+                                    $firebug->magixFireLog($imgsizelarge['width'],'Width');
+                                    $firebug->magixFireLog($imgsizelarge['height'],'Height');
+                                    $firebug->magixFireGroupEnd();
+                                }
+                                $thumb->adaptiveResize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR.$urlimg.$fileextends);
+                                break;
+                        }
+                        switch($imgsizemed['img_resizing']){
+                            case 'basic':
+                                if($debug){
+                                    $firebug->magixFireGroup($imgsizemed['config_size_attr'].' => '.$imgsizemed['type']);
+                                    $firebug->magixFireLog($imgsizemed['img_resizing'],'Type');
+                                    $firebug->magixFireLog($imgsizemed['width'],'Width');
+                                    $firebug->magixFireLog($imgsizemed['height'],'Height');
+                                    $firebug->magixFireGroupEnd();
+                                }
+                                $thumb->resize($imgsizemed['width'],$imgsizemed['height'])->save(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$urlimg.$fileextends);
+                                break;
+                            case 'adaptive':
+                                if($debug){
+                                    $firebug->magixFireGroup($imgsizemed['config_size_attr'].' => '.$imgsizemed['type']);
+                                    $firebug->magixFireLog($imgsizemed['img_resizing'],'Type');
+                                    $firebug->magixFireLog($imgsizemed['width'],'Width');
+                                    $firebug->magixFireLog($imgsizemed['height'],'Height');
+                                    $firebug->magixFireGroupEnd();
+                                }
+                                $thumb->adaptiveResize($imgsizemed['width'],$imgsizemed['height'])->save(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$urlimg.$fileextends);
+                                break;
+                        }
+                        switch($imgsizesmall['img_resizing']){
+                            case 'basic':
+                                if($debug){
+                                    $firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+                                    $firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+                                    $firebug->magixFireLog($imgsizesmall['width'],'Width');
+                                    $firebug->magixFireLog($imgsizesmall['height'],'Height');
+                                    $firebug->magixFireGroupEnd();
+                                }
+                                $thumb->resize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR.$urlimg.$fileextends);
+                                break;
+                            case 'adaptive':
+                                if($debug){
+                                    $firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+                                    $firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+                                    $firebug->magixFireLog($imgsizesmall['width'],'Width');
+                                    $firebug->magixFireLog($imgsizesmall['height'],'Height');
+                                    $firebug->magixFireGroupEnd();
+                                }
+                                $thumb->adaptiveResize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR.$urlimg.$fileextends);
+                                break;
+                        }
+                        if($debug){
+                            $firebug->magixFireGroupEnd();
+                        }
+                        //Supprime l'image temporaire
+                        if(file_exists(self::dirImgProduct().$urlimg.$fileextends)){
+                            $makeFiles->removeFile(self::dirImgProduct(),$urlimg.$fileextends);
+                        }
+                        // Supprime l'ancienne image
+                        if(!empty($imgcatalog)){
+                            if(file_exists(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog)){
+                                $makeFiles->removeFile(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR,$imgcatalog);
+                                $makeFiles->removeFile(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR,$imgcatalog);
+                                $makeFiles->removeFile(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR,$imgcatalog);
+                            }
+                        }
+                        return $urlimg.$fileextends;
+                    }else{
+                        if(file_exists(self::dirImgProduct().$this->$img)){
+                            $makeFiles->removeFile(self::dirImgProduct(),$this->$img);
+                        }else{
+                            throw new Exception('file: '.$this->$img.' is not found');
+                        }
+                    }
+                }else{
+                    if(!empty($imgcatalog)){
+                        if(file_exists(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog)){
+                            $makeFiles->removeFile(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR,$imgcatalog);
+                            $makeFiles->removeFile(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR,$imgcatalog);
+                            $makeFiles->removeFile(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR,$imgcatalog);
+                        }
+                    }
+                    return null;
+                }
+            }catch (Exception $e){
+                magixglobal_model_system::magixlog('An error has occured :',$e);
+            }
+        }
+    }
+
+    /**
+     * Mise à jour de l'image du produit
+     * @param $data
+     */
+    private function update_product_image($data){
+        if(isset($this->imgcatalog)){
+            $imgp = self::insert_image_product(
+                'imgcatalog',
+                magixglobal_model_cryptrsa::random_generic_ui(),
+                $data['imgcatalog'],
+                true
+            );
+            parent::u_catalog_product_image($imgp,$this->edit);
+        }
+    }
+    /**
+     * @access private
+     * Retourne l'image du produit
+     * @param string $imgcatalog
+     */
+    private function ajax_product_image($imgcatalog){
+        $img = '<div class="container-fluid">';
+        if($imgcatalog != null){
+            if(file_exists(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog)){
+                $small = getimagesize(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR.$imgcatalog);
+                $medium = getimagesize(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog);
+                $product = getimagesize(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR.$imgcatalog);
+                $img .= '<p>';
+                $img .= '<a class="btn btn-block delete-image"><span class="icon-trash"></span> Supprimer</a>';
+                $img .= '</p>';
+                $img .= '<ul class="thumbnails">';
+                $img .= '<li class="span2">';
+                    $img .= '<div class="thumbnail">';
+                        $img .= '<img src="/upload/catalogimg/mini/'.$imgcatalog.'" alt="" />';
+                        $img .= '<div class="caption">';
+                            $img .= '<ul class="unstyled">';
+                            $img .= '<li>width:'.$small[0].'</li>';
+                            $img .= '<li>height:'.$small[1].'</li>';
+                            $img .= '</ul>';
+                        $img .= '</div>';
+                    $img .= '</div>';
+                $img .= '</li>';
+                $img .= '<li class="span3">';
+                    $img .= '<div class="thumbnail">';
+                        $img .= '<img src="/upload/catalogimg/medium/'.$imgcatalog.'" alt="" />';
+                        $img .= '<div class="caption">';
+                            $img .= '<ul class="unstyled">';
+                            $img .= '<li>width:'.$medium[0].'</li>';
+                            $img .= '<li>height:'.$medium[1].'</li>';
+                            $img .= '</ul>';
+                        $img .= '</div>';
+                    $img .= '</div>';
+                $img .= '</li>';
+                $img .= '<li class="span5">';
+                    $img .= '<div class="thumbnail">';
+                        $img .= '<img src="/upload/catalogimg/product/'.$imgcatalog.'" alt="" />';
+                        $img .= '<div class="caption">';
+                            $img .= '<ul class="unstyled">';
+                            $img .= '<li>width:'.$product[0].'</li>';
+                            $img .= '<li>height:'.$product[1].'</li>';
+                            $img .= '</ul>';
+                        $img .= '</div>';
+                    $img .= '</div>';
+                $img .= '</li>';
+                $img .= '</ul>';
+            }else{
+                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+            }
+        }else{
+            $img .= '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+        }
+        $img .= '</div>';
+        print $img;
     }
 	/**
 	 * Execute le module dans l'administration
@@ -2886,6 +3154,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                     }else{
                                         if(isset($this->clibelle)){
                                             $this->update_category($create);
+                                        }elseif(isset($this->delete_image_category)){
+                                            $this->remove_category_image();
                                         }else{
                                             $this->load_category_edit_data($create,$data);
                                             $create->display('catalog/category/edit.phtml');
@@ -2897,6 +3167,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                     $this->update_order_category();
                                 }
                             }
+                        }elseif($this->action === 'remove'){
+
                         }
                     }else{
                         $create->display('catalog/category/list.phtml');
@@ -2969,7 +3241,20 @@ class backend_controller_catalog extends backend_db_catalog{
                             $data = parent::s_catalog_data($this->edit);
                             if(isset($this->tab)){
                                 if($this->tab === 'image'){
-
+                                    if(isset($this->imgcatalog)){
+                                        $this->update_product_image($data);
+                                    }elseif(magixcjquery_filter_request::isGet('ajax_product_image')){
+                                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                        $header->pragma();
+                                        $header->cache_control("nocache");
+                                        $header->getStatus('200');
+                                        $header->html_header("UTF-8");
+                                        $this->ajax_product_image($data['imgcatalog']);
+                                    }else{
+                                        $this->load_product_edit_data($create,$data);
+                                        $create->display('catalog/product/edit.phtml');
+                                    }
                                 }
                             }else{
                                 $this->load_product_edit_data($create,$data);

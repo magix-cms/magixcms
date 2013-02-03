@@ -1,5 +1,40 @@
 #### 2.4.0
+alpha 10
+    * Modification de l'upload des images des produits catalogue (backend)
+        * Nouvel affichage des images de produits
+        * Révision de l'ergonomie d'édition des produits
+    * Affichage la liste des produits par langue (backend)
+        * Déplacement de la pagination par tableau (backend)
+        * Fix bug dans mise à jour des sous catégories (backend)
+    * Modification de l'image sous catégorie (backend)
+        * Fix bug chargement de l'image sous catégorie (backend)
+        * Déplacement de la fonction set_pagination_data
+    * Modification de l'envoi de l'image de sous catégories du catalogue
+    * Modification du chargement des images des sous catégories (backend)
+        * Préparation pour la mise à jour des images de sous catégories
+    * Modification de l'upload des images de catégories catalogue (backend)
+        * Ajout des méthodes supplémentaires de jquery validate
+        * Modification des url de mise à jour de catégorie (prise en compte des tabs)
+    * Modification de l'édition des catégories et sous catégories (catalogue)
+        * Affichage de l'url public de la catégorie dans l'édition
+        * Affichage de l'url public de la sous catégorie dans l'édition
+
+alpha 9
+    * Création des onglets d'édition des catégories (backend)
+        * Modification du listing des sous catégories (onglet sous catégories - backend)
+        * Affichage de l'url de la sous catégorie (backend)
+    * Chargement des données d'édition d'une catégorie (catalogue)
+    * Refonte du listing des catégories du catalogue
+    * Insertion de catégories dans le catalogue
+    * Préparation pour l'édition des catégories
+        * Ajout de la structure catalogue (produits)
+    * Upgrade jQuery UI 1.10.0
+    * Upgrade jQuery UI Bootstrap 0.5
+    * Modification des appels dans minify
+
 alpha 8
+    * Ajout de la structure catalogue (catégorie)
+    * Ajout du catalog dans le widget script_name (détection pour sidebar)
     * Modification du plugin clearcache
         * Modification des fichiers phtml avec la nouvelle structure
         * Modification du fichier admin.js

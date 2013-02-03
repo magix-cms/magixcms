@@ -87,3 +87,5 @@ INSERT INTO `mc_setting` (
 VALUES (
 NULL , 'content_css', NULL , 'string', NULL
 );
+
+ALTER TABLE `mc_catalog` ADD `imgcatalog` VARCHAR( 125 ) NULL AFTER `titlecatalog`;

@@ -1040,10 +1040,9 @@ class backend_db_catalog{
     protected function s_catalog($idlang,$select_role,$limit=false,$max=null,$offset=null,$sort){
         $limit = $limit ? ' LIMIT '.$max : '';
         $offset = !empty($offset) ? ' OFFSET '.$offset: '';
-        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.price, cl.idlang, img.imgcatalog,
+        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.price, cl.idlang, cl.imgcatalog,
         lang.iso, m.pseudo
 		FROM mc_catalog AS cl
-		LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = cl.idcatalog )
 		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
 		JOIN mc_admin_member as m ON ( cl.idadmin = m.idadmin )
 		WHERE cl.idlang = :idlang AND m.id_role IN('.$select_role.')
@@ -1061,12 +1060,21 @@ class backend_db_catalog{
         ));
     }
     protected function s_catalog_data($edit){
-        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.idlang, cl.price, lang.iso
+        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.idlang, cl.price,cl.imgcatalog, lang.iso
 		FROM mc_catalog AS cl
 		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
 		WHERE cl.idcatalog = :edit';
         return magixglobal_model_db::layerDB()->selectOne($sql,array(
             ':edit'=>$edit
         ));
+    }
+    protected function u_catalog_product_image($imgcatalog,$edit){
+        $sql = 'UPDATE mc_catalog SET imgcatalog = :imgcatalog WHERE idcatalog = :edit';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':imgcatalog'	=>	$imgcatalog,
+                ':edit'		    =>	$edit
+            )
+        );
     }
 }

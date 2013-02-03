@@ -27,6 +27,7 @@
         {elseif $smarty.get.section eq 'product'}
             {if $smarty.get.getlang}
                 {if $smarty.get.edit}
+                    MC_catalog.runEditProduct(section,getlang,edit);
                 {else}
                     MC_catalog.runListProduct(section,getlang);
                 {/if}
