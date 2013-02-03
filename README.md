@@ -49,7 +49,14 @@ Requirements
      * SimpleXML et XML READER
      * PDO
  * MYSQL
-
+#### Note: Pour utiliser Magix CMS avec PHP 5.3
+<pre>
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
+</pre>
+#### Note: Pour utiliser Magix CMS avec PHP 5.4
+<pre>
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
+</pre>
 ### Required Library
 
     Smarty 3 (http://www.smarty.net/download)

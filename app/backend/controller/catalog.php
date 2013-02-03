@@ -2952,6 +2952,7 @@ class backend_controller_catalog extends backend_db_catalog{
         $img .= '</div>';
         print $img;
     }
+
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
