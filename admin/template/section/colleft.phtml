@@ -71,7 +71,7 @@
                 <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category"} open{/if}">
                     <span class="icon-plus"></span> Catégories
                 </a>
-                <div class="collapse-item{if {script_name} eq "catalog:category"} on{/if}" id="catalog-category">
+                <div class="collapse-item{if {script_name} eq "catalog:category" OR  {script_name} eq "catalog:subcategory"} on{/if}" id="catalog-category">
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>

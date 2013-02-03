@@ -32,6 +32,8 @@ function smarty_function_script_name($params, $template){
             if(isset($_GET['section'])){
                 if($_GET['section'] === 'category'){
                     return $basename.':category';
+                }elseif($_GET['section'] === 'subcategory'){
+                    return $basename.':subcategory';
                 }elseif($_GET['section'] === 'product'){
                     return $basename.':product';
                 }

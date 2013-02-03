@@ -168,7 +168,7 @@ class backend_db_catalog{
 	 * @param $i
 	 * @param $id
 	 */
-	function u_order_product_category($i,$id){
+	/*function u_order_product_category($i,$id){
 		$sql = 'UPDATE mc_catalog_product SET orderproduct = :i WHERE idproduct = :id';
 		magixglobal_model_db::layerDB()->update($sql,
 			array(
@@ -176,7 +176,7 @@ class backend_db_catalog{
 			':id'=>$id
 			)
 		);
-	}
+	}*/
 	/**
 	 * Mise à jour d'une catégorie
 	 * @param $clibelle
@@ -896,6 +896,15 @@ class backend_db_catalog{
             )
         );
     }
+    protected function u_order_category_product($i,$id){
+        $sql = 'UPDATE mc_catalog_product SET orderproduct = :i WHERE idproduct = :id';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':i'=>$i,
+                ':id'=>$id
+            )
+        );
+    }
 
     /**
      * Mise à jour de la catégorie
@@ -925,7 +934,23 @@ class backend_db_catalog{
             )
         );
     }
-
+    /**
+     * Retourne les catégories/ou sous catégories du produit
+     * @param $edit
+     * @return array
+     */
+    protected function s_catalog_category_product($edit){
+        $sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle,
+        cl.idcatalog,cl.titlecatalog, cl.urlcatalog, lang.iso
+		FROM mc_catalog_product AS p
+		JOIN mc_catalog as cl USING ( idcatalog )
+		JOIN mc_catalog_c as c USING ( idclc )
+		JOIN mc_lang AS lang ON ( lang.idlang = cl.idlang )
+		WHERE p.idclc = :edit AND p.idcls = 0 ORDER BY orderproduct ASC';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ":edit"=>$edit
+        ));
+    }
     //SOUS CATEGORIE
 
     /**
@@ -960,6 +985,25 @@ class backend_db_catalog{
             ':edit'=>$edit
         ));
     }
+    /**
+     * Retourne les catégories/ou sous catégories du produit
+     * @param $edit
+     * @return array
+     */
+    protected function s_catalog_subcategory_product($edit){
+        $sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle,
+        cl.idcatalog,cl.titlecatalog, cl.urlcatalog, lang.iso
+		FROM mc_catalog_product AS p
+		JOIN mc_catalog as cl USING ( idcatalog )
+		JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		JOIN mc_lang AS lang ON ( lang.idlang = cl.idlang )
+		WHERE p.idcls = :edit ORDER BY orderproduct ASC';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ":edit"=>$edit
+        ));
+    }
+
     /*function s_catalog_subcategory($getidclc){
         $sql='SELECT s.idcls,s.slibelle FROM mc_catalog_c as c
 		JOIN mc_catalog_s as s USING (idclc)
@@ -1094,7 +1138,7 @@ class backend_db_catalog{
      * @param $edit
      * @return array
      */
-    protected function s_catalog_category_product($edit){
+    protected function s_catalog_product_category($edit){
         $sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle,
         cl.idcatalog,cl.titlecatalog, cl.urlcatalog, lang.iso
 		FROM mc_catalog_product AS p
@@ -1102,7 +1146,7 @@ class backend_db_catalog{
 		JOIN mc_catalog_c as c USING ( idclc )
 		LEFT JOIN mc_catalog_s as s USING ( idcls )
 		JOIN mc_lang AS lang ON ( lang.idlang = cl.idlang )
-		WHERE idcatalog = :edit ORDER BY idproduct DESC';
+		WHERE idcatalog = :edit ORDER BY orderproduct ASC';
         return magixglobal_model_db::layerDB()->select($sql,array(
             ":edit"=>$edit
         ));
@@ -1172,13 +1216,21 @@ class backend_db_catalog{
      * @param $idclc
      * @param $idcls
      */
-    protected function i_catalog_category_product($edit,$idclc,$idcls){
-        $sql = 'INSERT INTO mc_catalog_product (idcatalog,idclc,idcls) VALUE(:edit,:idclc,:idcls)';
+    protected function i_catalog_product_category($edit,$idclc,$idcls){
+        $sql = 'INSERT INTO mc_catalog_product (idcatalog,idclc,idcls,orderproduct)
+        VALUE(:edit,:idclc,:idcls,(SELECT COUNT(p.orderproduct) FROM mc_catalog_product AS p WHERE p.idclc = :idclc AND p.idcls = :idcls))';
         magixglobal_model_db::layerDB()->insert($sql,
         array(
             ':edit'     =>	$edit,
             ':idclc'	=>	$idclc,
             ':idcls'	=>	$idcls
+        ));
+    }
+
+    protected function d_product_category($delete_product){
+        $sql = 'DELETE FROM mc_catalog_product WHERE idproduct = :delete_product';
+        magixglobal_model_db::layerDB()->delete($sql,array(
+            ':delete_product'=>$delete_product
         ));
     }
 }

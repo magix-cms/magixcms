@@ -333,7 +333,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	public $d_rel_product;
 	public $post_search;
 	public $get_search_page;
-    public $delete_image;
+    public $delete_image,$delete_product;
     /**
      * Les variables globales
      */
@@ -413,7 +413,9 @@ class backend_controller_catalog extends backend_db_catalog{
         if(magixcjquery_filter_request::isPost('delete_image')){
             $this->delete_image = magixcjquery_form_helpersforms::inputClean($_POST['delete_image']);
         }
-
+        if(magixcjquery_filter_request::isPost('delete_product')){
+            $this->delete_product = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_product']);
+        }
 		if(magixcjquery_filter_request::isGet('page')) {
 				// si numéric
 			if(magixcjquery_filter_isVar::isPostNumeric($_GET['page'])){
@@ -2285,6 +2287,32 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
     /**
+     * Retourne la liste des catégories/et sous catégories dans lequel se trouve le catalogue courant
+     */
+    private function json_listing_category_product(){
+        if(parent::s_catalog_category_product($this->edit) != null){
+            foreach (parent::s_catalog_category_product($this->edit) as $key){
+                $product[]= '{"idproduct":'.json_encode($key['idproduct']).',"idcatalog":'.json_encode($key['idcatalog']).
+                    ',"idclc":'.json_encode($key['idclc']).',"titlecatalog":'.json_encode($key['titlecatalog']).'}';
+            }
+            print '['.implode(',',$product).']';
+        }
+    }
+    /**
+     * Execute Update AJAX FOR order
+     * @access private
+     *
+     */
+    private function update_order_category_product(){
+        if(isset($this->order_pages)){
+            $p = $this->order_pages;
+            for ($i = 0; $i < count($p); $i++) {
+                parent::u_order_category_product($i,$p[$i]);
+            }
+        }
+    }
+    //SOUS CATEGORIE
+    /**
      * Retourne la liste des sous catégories
      */
     private function json_listing_subcategory(){
@@ -2561,6 +2589,31 @@ class backend_controller_catalog extends backend_db_catalog{
             print '{'.implode(',',$subcat).'}';
         }else{
             print '{"0":"Aucune sous catégorie"}';
+        }
+    }
+    /**
+     * Retourne la liste des produits dans la sous catégorie
+     */
+    private function json_listing_subcategory_product(){
+        if(parent::s_catalog_subcategory_product($this->edit) != null){
+            foreach (parent::s_catalog_subcategory_product($this->edit) as $key){
+                $product[]= '{"idproduct":'.json_encode($key['idproduct']).',"idcatalog":'.json_encode($key['idcatalog']).
+                    ',"titlecatalog":'.json_encode($key['titlecatalog']).'}';
+            }
+            print '['.implode(',',$product).']';
+        }
+    }
+    /**
+     * Execute Update AJAX FOR order
+     * @access private
+     *
+     */
+    private function update_order_subcategory_product(){
+        if(isset($this->order_pages)){
+            $p = $this->order_pages;
+            for ($i = 0; $i < count($p); $i++) {
+                parent::u_order_category_product($i,$p[$i]);
+            }
         }
     }
     // ####### SECTION PRODUITS
@@ -2986,8 +3039,8 @@ class backend_controller_catalog extends backend_db_catalog{
      * Retourne la liste des catégories/et sous catégories dans lequel se trouve le catalogue courant
      */
     private function json_listing_product_category(){
-        if(parent::s_catalog_category_product($this->edit) != null){
-            foreach (parent::s_catalog_category_product($this->edit) as $key){
+        if(parent::s_catalog_product_category($this->edit) != null){
+            foreach (parent::s_catalog_product_category($this->edit) as $key){
                 $product[]= '{"idproduct":'.json_encode($key['idproduct']).',"idcatalog":'.json_encode($key['idcatalog']).
                 ',"clibelle":'.json_encode($key['clibelle']).',"slibelle":'.json_encode($key['slibelle']).'}';
             }
@@ -2998,11 +3051,17 @@ class backend_controller_catalog extends backend_db_catalog{
     /**
      * Ajoute un produit dans une catégorie/ou sous catégorie
      */
-    private function add_category_product(){
+    private function add_product_category(){
         if(isset($this->idclc)){
             if(!empty($this->idclc)){
-                parent::i_catalog_category_product($this->edit,$this->idclc,$this->idcls);
+                parent::i_catalog_product_category($this->edit,$this->idclc,$this->idcls);
             }
+        }
+    }
+
+    private function remove_product_category(){
+        if(isset($this->delete_product)){
+            parent::d_product_category($this->delete_product);
         }
     }
 	/**
@@ -3278,8 +3337,20 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $create->display('catalog/category/edit.phtml');
                                             }
                                         }elseif($this->tab === 'product'){
-                                            $this->load_category_edit_data($create,$data);
-                                            $create->display('catalog/category/edit.phtml');
+                                            if(isset($this->order_pages)){
+                                                $this->update_order_category_product();
+                                            }elseif(magixcjquery_filter_request::isGet('json_category_product')){
+                                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                                $header->pragma();
+                                                $header->cache_control("nocache");
+                                                $header->getStatus('200');
+                                                $header->json_header("UTF-8");
+                                                $this->json_listing_category_product();
+                                            }else{
+                                                $this->load_category_edit_data($create,$data);
+                                                $create->display('catalog/category/edit.phtml');
+                                            }
                                         }
                                     }else{
                                         if(isset($this->clibelle)){
@@ -3329,8 +3400,20 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $create->display('catalog/subcategory/edit.phtml');
                                         }
                                     }elseif($this->tab === 'product'){
-                                        $this->load_subcategory_edit_data($create,$data);
-                                        $create->display('catalog/subcategory/edit.phtml');
+                                        if(isset($this->order_pages)){
+                                            $this->update_order_subcategory_product();
+                                        }elseif(magixcjquery_filter_request::isGet('json_subcategory_product')){
+                                            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                            $header->pragma();
+                                            $header->cache_control("nocache");
+                                            $header->getStatus('200');
+                                            $header->json_header("UTF-8");
+                                            $this->json_listing_subcategory_product();
+                                        }else{
+                                            $this->load_subcategory_edit_data($create,$data);
+                                            $create->display('catalog/subcategory/edit.phtml');
+                                        }
                                     }
                                 }else{
                                     if(magixcjquery_filter_request::isGet('json_uri_subcategory')){
@@ -3407,7 +3490,9 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $header->json_header("UTF-8");
                                         $this->json_listing_product_category();
                                     }elseif(isset($this->idclc)){
-                                        $this->add_category_product();
+                                        $this->add_product_category();
+                                    }elseif(isset($this->delete_product)){
+                                        $this->remove_product_category();
                                     }else{
                                         $this->load_product_edit_data($create,$data);
                                         $create->assign('array_list_category',$this->array_list_category());
