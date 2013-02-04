@@ -1227,6 +1227,10 @@ class backend_db_catalog{
         ));
     }
 
+    /**
+     * Suppression des catégories dans le produit
+     * @param $delete_product
+     */
     protected function d_product_category($delete_product){
         $sql = 'DELETE FROM mc_catalog_product WHERE idproduct = :delete_product';
         magixglobal_model_db::layerDB()->delete($sql,array(

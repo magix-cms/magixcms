@@ -1727,9 +1727,9 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * retourne le dossier des micros galeries
 	 * @return string
 	 */
-	private function dir_micro_galery(){
+	/*private function dir_micro_galery(){
 		return self::def_dirimg_frontend("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR."galery".DIRECTORY_SEPARATOR);
-	}
+	}*/
 	/**
 	 * Insertion d'une image dans la galerie spécifique à un produit
 	 */
@@ -3066,6 +3066,19 @@ class backend_controller_catalog extends backend_db_catalog{
     private function remove_product_category(){
         if(isset($this->delete_product)){
             parent::d_product_category($this->delete_product);
+        }
+    }
+    //Galery
+    /**
+     * @access private
+     * Retourne le dossier des images de galerie de produit
+     * @return string
+     */
+    private function dirImgProductGalery(){
+        try{
+            return self::imgBasePath("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR.'galery'.DIRECTORY_SEPARATOR);
+        }catch (Exception $e){
+            magixglobal_model_system::magixlog('An error has occured :',$e);
         }
     }
 	/**
