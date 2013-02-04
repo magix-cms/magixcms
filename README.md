@@ -13,6 +13,9 @@ ainsi qu'une indexation optimal dans les moteurs de recherches.
     N'utilisez pas la version de ce dépôt pour autre chose que vos propres tests,
     la dernière version stable sur le site est optimisé pour la mise en production.
 
+Magix CMS est actuellement en refonte, la version 2.4.0 sera la première phase, 
+la suite sera appliquée en fonction des demandent utilisateurs.
+
 Authors
 -------
 
