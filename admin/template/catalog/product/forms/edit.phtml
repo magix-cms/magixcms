@@ -1,7 +1,6 @@
 {if $smarty.get.tab eq "image"}
     <form id="forms_catalog_product_image" method="post" action="" enctype="multipart/form-data">
         <p>
-            <label for="imgcatalog">Image :</label>
             <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
             <input type="file" id="imgcatalog" name="imgcatalog" value="" />
             <input type="submit" class="btn btn-primary" value="Envoyer" />
@@ -27,15 +26,12 @@
 {elseif $smarty.get.tab eq "galery"}
     <form id="forms_catalog_product_galery" method="post" action="" enctype="multipart/form-data">
         <p>
-            <label for="imgcatalog">Image :</label>
             <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
             <input type="file" id="imgcatalog" name="imgcatalog" value="" />
             <input type="submit" class="btn btn-primary" value="Envoyer" />
         </p>
     </form>
-    <div id="load_catalog_product_galery">
-        <div id="contener_image"></div>
-    </div>
+    <div id="load_catalog_product_galery"></div>
 {else}
     <form id="forms_catalog_product_edit" method="post" action="">
         <p class="pull-left">

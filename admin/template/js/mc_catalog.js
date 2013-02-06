@@ -1394,6 +1394,35 @@ var MC_catalog = (function ($, undefined) {
                     return false;
                 }
             });
+        }else if(tab === 'galery'){
+            $("#forms_catalog_product_galery").validate({
+                onsubmit: true,
+                event: 'submit',
+                rules: {
+                    imgcatalog: {
+                        required: true,
+                        minlength: 1,
+                        accept: "(jpe?g|gif|png|JPE?G|GIF|PNG)"
+                    }
+                },
+                submitHandler: function(form) {
+                    $.nicenotify({
+                        ntype: "submit",
+                        uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=galery',
+                        typesend: 'post',
+                        idforms: $(form),
+                        resetform:true,
+                        successParams:function(data){
+                            $('#imgcatalog:file').val('');
+                            $.nicenotify.initbox(data,{
+                                display:false
+                            });
+                            loadListGalery(section,getlang,edit,"galery");
+                        }
+                    });
+                    return false;
+                }
+            });
         }
     }
     /**
@@ -1640,6 +1669,63 @@ var MC_catalog = (function ($, undefined) {
             return false;
         });
     }
+    function loadListGalery(section,getlang,edit,tab){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab+'&json_list_galery=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#load_catalog_product_galery').html(loader);
+            },
+            successParams:function(j){
+                $('#load_catalog_product_galery').empty();
+                var div = $(document.createElement('div'))
+                    .attr('id','list_product_galery')
+                    .addClass('row-fluid'),
+                ul = $(document.createElement('ul'))
+                    .addClass('thumbnails list-picture');
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                div.append(
+                    ul
+                );
+                div.appendTo('#load_catalog_product_galery');
+
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        ul.append(
+                            $(document.createElement("li")).addClass('span2').append(
+                                $(document.createElement("div")).append(
+                                    $(document.createElement("a"))
+                                    .attr('href','#')
+                                    .addClass('btn btn-mini btn-danger')
+                                    .append(
+                                        '&times;'
+                                    )
+                                ).addClass('block-remove'),
+                                $(document.createElement("div")).append(
+                                    $(document.createElement("img"))
+                                    .attr('src','/upload/catalogimg/galery/mini/'+item.imgcatalog)
+                                    //.addClass('img-polaroid')
+                                )
+                            )
+                        );
+                    });
+                }
+            }
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(){
@@ -1701,6 +1787,10 @@ var MC_catalog = (function ($, undefined) {
                 jsonListProductCategory(section,getlang,edit);
                 updateProduct(section,getlang,edit,'category');
                 removeProduct(section,getlang,edit,'category');
+            }else if($('#load_catalog_product_galery').length != 0){
+                loadListGalery(section,getlang,edit,'galery')
+                updateProduct(section,getlang,edit,'galery');
+
             }
         }
     };

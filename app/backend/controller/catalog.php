@@ -1733,18 +1733,18 @@ class backend_controller_catalog extends backend_db_catalog{
 	/**
 	 * Insertion d'une image dans la galerie spécifique à un produit
 	 */
-	private function insert_image_galery($debug=false){
+	/*private function insert_image_galery($debug=false){
 		if(isset($this->imggalery)){
 			try{
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
 				 */
-				backend_model_image::upload_img('imggalery','upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR.'galery');
+				/*backend_model_image::upload_img('imggalery','upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR.'galery');
 				/**
 				 * Analyze l'extension du fichier en traitement
 				 * @var $fileextends
 				 */
-				$fileextends = backend_model_image::image_analyze(self::dir_micro_galery().$this->imggalery);
+				/*$fileextends = backend_model_image::image_analyze(self::dir_micro_galery().$this->imggalery);
 				$random_id = magixglobal_model_cryptrsa::random_generic_ui();
 				if (backend_model_image::imgSizeMin(self::dir_micro_galery().$this->imggalery,40,40)){
 					// Sélectionne et retourne le nom du produit
@@ -1755,24 +1755,24 @@ class backend_controller_catalog extends backend_db_catalog{
 					/**
 					 * Insére l'image dans la base de donnée
 					 */
-					backend_db_catalog::adminDbCatalog()->i_galery_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.'_'.$random_id.$fileextends);
+					/*backend_db_catalog::adminDbCatalog()->i_galery_image_catalog($this->getimg,$simg['urlcatalog'].'-'.$this->getimg.'_'.$random_id.$fileextends);
 					/**
 					 * Selectionne l'image et retourne le nom
 					 * @var string
 					 */
-					$getimg = backend_db_catalog::adminDbCatalog()->s_galery_image_product();
+					/*$getimg = backend_db_catalog::adminDbCatalog()->s_galery_image_product();
 					/**
 					 * Initialisation de la classe phpthumb 
 					 * @var void
 					 */
-					$thumb = PhpThumbFactory::create(self::dir_micro_galery().$getimg['imgcatalog']);
+					/*$thumb = PhpThumbFactory::create(self::dir_micro_galery().$getimg['imgcatalog']);
 					//Charge la taille des images des galeries du catalogue
 					$firebug = new magixcjquery_debug_magixfire();
 					/**
 					 * Création des images et miniatures utile.
 					 * 2 tailles !!!
 					 */
-					$imgsetting = new backend_model_setting();
+					/*$imgsetting = new backend_model_setting();
 					$imgsizelarge = $imgsetting->uniq_data_img_size('catalog','galery','large');
 					$imgsizesmall = $imgsetting->uniq_data_img_size('catalog','galery','small');
 					if($debug){
@@ -1837,7 +1837,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
 		}
-	}
+	}*/
 	/**
 	 * Suppression d'une image dans une micro galerie
 	 * @access public
@@ -1862,7 +1862,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * Retourne les images (micro galerie) d'un produit spécifique dans une requête JSON
 	 * @access private
 	 */
-	private function json_micro_galery(){
+	/*private function json_micro_galery(){
 		if(isset($this->getimg)){
 			if(backend_db_catalog::adminDbCatalog()->s_image_in_galery_product($this->getimg) != null){
 				foreach (backend_db_catalog::adminDbCatalog()->s_image_in_galery_product($this->getimg) as $list){
@@ -1871,7 +1871,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				print '['.implode(',',$img).']';
 			}
 		}
-	}
+	}*/
 	/**
 	 * Affiche l'edition d'un produit
 	 * @access public
@@ -3068,6 +3068,7 @@ class backend_controller_catalog extends backend_db_catalog{
             parent::d_product_category($this->delete_product);
         }
     }
+
     //Galery
     /**
      * @access private
@@ -3079,6 +3080,159 @@ class backend_controller_catalog extends backend_db_catalog{
             return self::imgBasePath("upload".DIRECTORY_SEPARATOR."catalogimg".DIRECTORY_SEPARATOR.'galery'.DIRECTORY_SEPARATOR);
         }catch (Exception $e){
             magixglobal_model_system::magixlog('An error has occured :',$e);
+        }
+    }
+
+    /**
+     * Insertion d'une image dans la galerie spécifique à un produit
+     * @param $img
+     * @param $imgcatalog
+     * @param bool $debug
+     * @return string
+     * @throws Exception
+     */
+    private function insert_image_galery($img,$imgcatalog,$debug=false){
+        if(isset($this->$img)){
+            try{
+                //Supprime le fichier original pour gagner en espace
+                $makeFiles = new magixcjquery_files_makefiles();
+                // Charge la classe de traitement des images
+                $initImg = new backend_model_image();
+                /**
+                 * Envoi une image dans le dossier "racine" catalogimg
+                 */
+                $initImg->upload_img(
+                    'imgcatalog',
+                    'upload'.DIRECTORY_SEPARATOR.'catalogimg'.DIRECTORY_SEPARATOR.'galery'.DIRECTORY_SEPARATOR,
+                    $debug
+                );
+                /**
+                 * Analyze l'extension du fichier en traitement
+                 * @var $fileextends
+                 */
+                $fileextends = $initImg->image_analyze(self::dirImgProductGalery().$this->$img);
+
+                if ($initImg->imgSizeMin(self::dirImgProductGalery().$this->$img,25,25)){
+
+                    // Charge la classe pour renommer le fichier
+                    $makeFiles = new magixcjquery_files_makefiles();
+                    /*
+                     * Renomme le fichier
+                     */
+                    $makeFiles->renameFiles(
+                        self::dirImgProductGalery(),
+                        self::dirImgProductGalery().$this->$img,
+                        self::dirImgProductGalery().$imgcatalog.$fileextends
+                    );
+
+                    /**
+                     * Initialisation de la classe phpthumb
+                     * @var void
+                     */
+                    $thumb = PhpThumbFactory::create(self::dirImgProductGalery().$imgcatalog.$fileextends);
+                    //Charge la taille des images des galeries du catalogue
+                    $firebug = new magixcjquery_debug_magixfire();
+                    /**
+                     * Création des images et miniatures utile.
+                     * 2 tailles !!!
+                     */
+
+                    $imgsizelarge = $initImg->dataImgSize('catalog','galery','large');
+                    $imgsizesmall = $initImg->dataImgSize('catalog','galery','small');
+                    if($debug){
+                        $firebug->magixFireGroup('Setting image');
+                    }
+                    switch($imgsizelarge['img_resizing']){
+                        case 'basic':
+                            if($debug){
+                                $firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+                                $firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+                                $firebug->magixFireLog($imgsizelarge['width'],'Width');
+                                $firebug->magixFireLog($imgsizelarge['height'],'Height');
+                                $firebug->magixFireGroupEnd();
+                            }
+                            $thumb->resize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR.$imgcatalog.$fileextends);
+                            break;
+                        case 'adaptive':
+                            if($debug){
+                                $firebug->magixFireGroup($imgsizelarge['config_size_attr'].' => '.$imgsizelarge['type']);
+                                $firebug->magixFireLog($imgsizelarge['img_resizing'],'Type');
+                                $firebug->magixFireLog($imgsizelarge['width'],'Width');
+                                $firebug->magixFireLog($imgsizelarge['height'],'Height');
+                                $firebug->magixFireGroupEnd();
+                            }
+                            $thumb->adaptiveResize($imgsizelarge['width'],$imgsizelarge['height'])->save(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR.$imgcatalog.$fileextends);
+                            break;
+                    }
+                    switch($imgsizesmall['img_resizing']){
+                        case 'basic':
+                            if($debug){
+                                $firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+                                $firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+                                $firebug->magixFireLog($imgsizesmall['width'],'Width');
+                                $firebug->magixFireLog($imgsizesmall['height'],'Height');
+                                $firebug->magixFireGroupEnd();
+                            }
+                            $thumb->resize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dirImgProductGalery().'mini'.DIRECTORY_SEPARATOR.$imgcatalog.$fileextends);
+                            break;
+                        case 'adaptive':
+                            if($debug){
+                                $firebug->magixFireGroup($imgsizesmall['config_size_attr'].' => '.$imgsizesmall['type']);
+                                $firebug->magixFireLog($imgsizesmall['img_resizing'],'Type');
+                                $firebug->magixFireLog($imgsizesmall['width'],'Width');
+                                $firebug->magixFireLog($imgsizesmall['height'],'Height');
+                                $firebug->magixFireGroupEnd();
+                            }
+                            $thumb->adaptiveResize($imgsizesmall['width'],$imgsizesmall['height'])->save(self::dirImgProductGalery().'mini'.DIRECTORY_SEPARATOR.$imgcatalog.$fileextends);
+                            break;
+                    }
+                    if($debug){
+                        $firebug->magixFireGroupEnd();
+                    }
+                    if(file_exists(self::dirImgProductGalery().$imgcatalog.$fileextends)){
+                        $makeFiles->removeFile(self::dirImgProductGalery(),$imgcatalog.$fileextends);
+                    }
+                    return $imgcatalog.$fileextends;
+                }else{
+                    if(file_exists(self::dirImgProductGalery().$this->$img)){
+                        $makeFiles->removeFile(self::dirImgProductGalery(),$this->$img);
+                    }else{
+                        throw new Exception('file: '.$this->$img.' is not found');
+                    }
+                }
+            }catch (Exception $e){
+                magixglobal_model_system::magixlog('An error has occured :',$e);
+            }
+        }
+    }
+
+    /**
+     * @access private
+     * Ajoute une image dans la galerie
+     */
+    private function add_galery_image(){
+        if(isset($this->imgcatalog)){
+            $imgp = self::insert_image_galery(
+                'imgcatalog',
+                magixglobal_model_cryptrsa::random_generic_ui(),
+                true
+            );
+            parent::i_catalog_galery($imgp,$this->edit);
+        }
+    }
+
+    /**
+     * Retourne les images (micro galerie) d'un produit spécifique dans une requête JSON
+     * @access private
+     */
+    private function json_list_galery(){
+        if(isset($this->edit)){
+            if(parent::s_catalog_galery($this->edit) != null){
+                foreach (parent::s_catalog_galery($this->edit) as $list){
+                    $json[]= '{"idmicro":'.json_encode($list['idmicro']).',"imgcatalog":'.json_encode($list['imgcatalog']).'}';
+                }
+                print '['.implode(',',$json).']';
+            }
         }
     }
 	/**
@@ -3523,8 +3677,20 @@ class backend_controller_catalog extends backend_db_catalog{
                                     $this->load_product_edit_data($create,$data);
                                     $create->display('catalog/product/edit.phtml');
                                 }elseif($this->tab === 'galery'){
-                                    $this->load_product_edit_data($create,$data);
-                                    $create->display('catalog/product/edit.phtml');
+                                    if(magixcjquery_filter_request::isGet('json_list_galery')){
+                                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                        $header->pragma();
+                                        $header->cache_control("nocache");
+                                        $header->getStatus('200');
+                                        $header->json_header("UTF-8");
+                                        $this->json_list_galery();
+                                    }elseif(isset($this->imgcatalog)){
+                                        $this->add_galery_image();
+                                    }else{
+                                        $this->load_product_edit_data($create,$data);
+                                        $create->display('catalog/product/edit.phtml');
+                                    }
                                 }
                             }else{
                                 if(isset($this->delete_image)){

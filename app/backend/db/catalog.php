@@ -706,7 +706,7 @@ class backend_db_catalog{
 	 * Sélectionne la denière image ajouter dans la base de donnée galery (catalogue)
 	 * 
 	 */
-	function s_galery_image_product(){
+	/*function s_galery_image_product(){
 		$sql = 'SELECT img.imgcatalog FROM mc_catalog_galery as img WHERE idmicro = '.magixglobal_model_db::layerDB()->lastInsert();
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
@@ -714,7 +714,7 @@ class backend_db_catalog{
 	 * Récupère le nom de l'image avant la suppression (micro galerie)
 	 * 
 	 */
-	function s_galery_image_micro($delmicro){
+	/*function s_galery_image_micro($delmicro){
 		$sql = 'SELECT imgcatalog FROM mc_catalog_galery WHERE idmicro = :delmicro';
 		return magixglobal_model_db::layerDB()->selectOne($sql,
 			array(
@@ -725,7 +725,7 @@ class backend_db_catalog{
 	 * Compte le nombre d'image pour une galerie catalogue
 	 * @param $getimg
 	 */
-	function count_image_in_galery_product($getimg){
+	/*function count_image_in_galery_product($getimg){
 		$sql = 'SELECT count(img.imgcatalog) as cimage FROM mc_catalog_galery as img WHERE idcatalog = :getimg';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':getimg'	=>	$getimg
@@ -735,7 +735,7 @@ class backend_db_catalog{
 	 * Selectionne toutes les images dans une galerie d'un produit
 	 * @param $getimg
 	 */
-	function s_image_in_galery_product($getimg){
+	/*function s_image_in_galery_product($getimg){
 		$sql = 'SELECT img.idmicro,img.imgcatalog FROM mc_catalog_galery as img WHERE idcatalog = :getimg';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getimg'	=>	$getimg
@@ -746,7 +746,7 @@ class backend_db_catalog{
 	 * @param $idcatalog
 	 * @param $imgcatalog
 	 */
-	function i_galery_image_catalog($idcatalog,$imgcatalog){
+	/*function i_galery_image_catalog($idcatalog,$imgcatalog){
 		$sql = 'INSERT INTO mc_catalog_galery (idcatalog,imgcatalog) VALUE(:idcatalog,:imgcatalog)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
@@ -758,7 +758,7 @@ class backend_db_catalog{
 	 * Supprime Une image dans une galerie catalogue
 	 * @param $delmicro
 	 */
-	function d_galery_image_catalog($delmicro){
+	/*function d_galery_image_catalog($delmicro){
 		$sql = 'DELETE FROM mc_catalog_galery WHERE idmicro = :delmicro';
 			magixglobal_model_db::layerDB()->delete($sql,
 			array(
@@ -1236,5 +1236,36 @@ class backend_db_catalog{
         magixglobal_model_db::layerDB()->delete($sql,array(
             ':delete_product'=>$delete_product
         ));
+    }
+    /**
+     * ################ Galerie d'image pour un produit ###################
+     */
+
+    /**
+     * Retourne les images de galerie produit
+     * @param $edit
+     * @return array
+     */
+	protected function s_catalog_galery($edit){
+		$sql = 'SELECT img.idmicro,img.imgcatalog
+		FROM mc_catalog_galery as img WHERE idcatalog = :edit';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+            ':edit'	=>	$edit
+		));
+	}
+
+    /**
+     * Insertion d'une image galerie dans le produit
+     * @param $imgcatalog
+     * @param $edit
+     */
+    protected function i_catalog_galery($imgcatalog,$edit){
+        $sql = 'INSERT INTO mc_catalog_galery (idcatalog,imgcatalog)
+        VALUE(:edit,:imgcatalog)';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':edit'	=>	$edit,
+                ':imgcatalog'	=>	$imgcatalog
+            ));
     }
 }
