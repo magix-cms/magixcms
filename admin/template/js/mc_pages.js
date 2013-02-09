@@ -746,8 +746,8 @@ var MC_pages = (function ($, undefined) {
                 window.location.href = ui.item.url;
                 return false;
             }
-        }).data("autocomplete")._renderItem = function (ul, item) {
-            return $("<li></li>").data("item.autocomplete", item).append(
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>").data("ui-item.autocomplete", item).append(
                 '<a href="'+item.url+'">' + item.value + '</span></a>')
                 .appendTo(ul.addClass('list-row'));
         };

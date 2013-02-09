@@ -333,11 +333,11 @@ class backend_controller_catalog extends backend_db_catalog{
 	public $d_rel_product;
 	public $post_search;
 	public $get_search_page;
-    public $delete_image,$delete_product;
+    public $delete_image,$delete_product,$delete_galery;
     /**
      * Les variables globales
      */
-    public $edit,$section,$getlang,$action,$tab,$idadmin;
+    public $edit,$section,$getlang,$action,$tab,$idadmin,$callback,$title_search;
 
 	/**
 	 * @access public
@@ -415,6 +415,9 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         if(magixcjquery_filter_request::isPost('delete_product')){
             $this->delete_product = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_product']);
+        }
+        if(magixcjquery_filter_request::isPost('delete_galery')){
+            $this->delete_galery = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_galery']);
         }
 		if(magixcjquery_filter_request::isGet('page')) {
 				// si numéric
@@ -552,6 +555,13 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         if(magixcjquery_filter_request::isSession('useridadmin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        }
+        //JQUERY CALLBACK
+        if(magixcjquery_filter_request::isGet('callback')){
+            $this->callback = (string) magixcjquery_form_helpersforms::inputClean($_GET['callback']);
+        }
+        if(magixcjquery_filter_request::isGet('title_search')){
+            $this->title_search = magixcjquery_form_helpersforms::inputClean($_GET['title_search']);
         }
 	}
 	/**
@@ -2555,7 +2565,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 'img_s',
                 $data['pathslibelle'].'_'.magixglobal_model_cryptrsa::random_generic_ui(),
                 $data['img_s'],
-                true
+                false
             );
             parent::u_catalog_subcategory_image($imgs,$this->edit);
         }
@@ -2957,7 +2967,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 'imgcatalog',
                 magixglobal_model_cryptrsa::random_generic_ui(),
                 $data['imgcatalog'],
-                true
+                false
             );
             parent::u_catalog_product_image($imgp,$this->edit);
         }
@@ -3215,9 +3225,9 @@ class backend_controller_catalog extends backend_db_catalog{
             $imgp = self::insert_image_galery(
                 'imgcatalog',
                 magixglobal_model_cryptrsa::random_generic_ui(),
-                true
+                false
             );
-            parent::i_catalog_galery($imgp,$this->edit);
+            parent::i_product_galery($imgp,$this->edit);
         }
     }
 
@@ -3227,11 +3237,45 @@ class backend_controller_catalog extends backend_db_catalog{
      */
     private function json_list_galery(){
         if(isset($this->edit)){
-            if(parent::s_catalog_galery($this->edit) != null){
-                foreach (parent::s_catalog_galery($this->edit) as $list){
+            if(parent::s_product_galery($this->edit) != null){
+                foreach (parent::s_product_galery($this->edit) as $list){
                     $json[]= '{"idmicro":'.json_encode($list['idmicro']).',"imgcatalog":'.json_encode($list['imgcatalog']).'}';
                 }
                 print '['.implode(',',$json).']';
+            }
+        }
+    }
+
+    /**
+     * @access private
+     * Suppression des images de galerie produit
+     */
+    private function remove_product_galery(){
+        if(isset($this->delete_galery)){
+            $makeFiles = new magixcjquery_files_makefiles();
+            $data = parent::s_product_galery_data($this->delete_galery);
+            if(file_exists(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR.$data['imgcatalog'])){
+                $makeFiles->removeFile(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR,$data['imgcatalog']);
+                $makeFiles->removeFile(self::dirImgProductGalery().'mini'.DIRECTORY_SEPARATOR,$data['imgcatalog']);
+                parent::d_product_galery($this->delete_galery);
+            }
+
+        }
+    }
+
+    private function json_list_product(){
+        if(isset($this->title_search)){
+            if(parent::s_product($this->title_search) != null){
+                foreach (parent::s_product($this->title_search) as $key){
+                    $json[]= '{"idproduct":'.json_encode($key['idproduct']).
+                    ',"titlecatalog":'.json_encode($key['titlecatalog']).
+                    ',"clibelle":'.json_encode($key['clibelle']).
+                    ',"slibelle":'.json_encode($key['slibelle']).
+                    '}';
+                }
+                print $this->callback.'(['.implode(',',$json).'])';
+            }else{
+                print $this->callback.'([{"idproduct":"0","titlecatalog":"Aucune valeur","clibelle":"Aucune valeur","slibelle":"Aucune valeur"}])';
             }
         }
     }
@@ -3632,6 +3676,14 @@ class backend_controller_catalog extends backend_db_catalog{
                                 $header->getStatus('200');
                                 $header->json_header("UTF-8");
                                 $this->json_idcls($this->selidclc);
+                            }elseif(isset($this->title_search)){
+                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                $header->pragma();
+                                $header->cache_control("nocache");
+                                $header->getStatus('200');
+                                $header->json_header("UTF-8");
+                                $this->json_list_product();
                             }
                         }elseif($this->action === 'add'){
                             if(isset($this->titlecatalog)){
@@ -3687,6 +3739,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->json_list_galery();
                                     }elseif(isset($this->imgcatalog)){
                                         $this->add_galery_image();
+                                    }elseif(isset($this->delete_galery)){
+                                        $this->remove_product_galery();
                                     }else{
                                         $this->load_product_edit_data($create,$data);
                                         $create->display('catalog/product/edit.phtml');

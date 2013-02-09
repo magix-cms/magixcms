@@ -23,6 +23,16 @@
 </form>
 <div id="list_product_category"></div>
 {elseif $smarty.get.tab eq "product"}
+<form id="forms_catalog_product_related" method="post" action="">
+    <div class="input-append">
+        <input class="span3" id="titleproduct" type="text">
+        <span class="add-on">
+            <span class="icon-search"></span>
+        </span>
+    </div>
+    <input type="text" id="idproduct" value="" />
+    <input type="submit" class="btn btn-primary" />
+</form>
 {elseif $smarty.get.tab eq "galery"}
     <form id="forms_catalog_product_galery" method="post" action="" enctype="multipart/form-data">
         <p>

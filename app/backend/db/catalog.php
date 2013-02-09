@@ -435,7 +435,7 @@ class backend_db_catalog{
      * Selectionne les produits correspondant à la langue du catalogue
      * @param $editproduct
      */
-	function s_catalog_product_for_lang($getidclc){
+	/*function s_catalog_product_for_lang($getidclc){
     	$sql = 'SELECT p.idproduct, c.clibelle, s.idcls,s.slibelle, card.titlecatalog
 				FROM mc_catalog_product AS p
 				LEFT JOIN mc_catalog AS card USING ( idcatalog )
@@ -443,7 +443,7 @@ class backend_db_catalog{
 				LEFT JOIN mc_catalog_s AS s USING ( idcls )
 				WHERE c.idclc =:idclc ORDER BY s.idcls';
 		return magixglobal_model_db::layerDB()->select($sql,array("idclc"=>$getidclc));
-    }
+    }*/
 	/**
 	 * Selectionne les donnée du formulaire pour la mise à jour d'un produit
 	 * @param $editproduct
@@ -1237,6 +1237,22 @@ class backend_db_catalog{
             ':delete_product'=>$delete_product
         ));
     }
+
+    /**
+     * @param $titlecatalog
+     * @return array
+     */
+    protected function s_product($titlecatalog){
+        $sql = 'SELECT p.idproduct, c.idclc, c.clibelle, s.idcls, s.slibelle, cl.titlecatalog
+        FROM mc_catalog_product AS p
+        JOIN mc_catalog AS cl USING ( idcatalog )
+        JOIN mc_catalog_c AS c USING ( idclc )
+        LEFT JOIN mc_catalog_s AS s USING ( idcls )
+        WHERE cl.titlecatalog LIKE :titlecatalog';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ":titlecatalog"=>'%'.$titlecatalog.'%'
+        ));
+    }
     /**
      * ################ Galerie d'image pour un produit ###################
      */
@@ -1246,7 +1262,7 @@ class backend_db_catalog{
      * @param $edit
      * @return array
      */
-	protected function s_catalog_galery($edit){
+	protected function s_product_galery($edit){
 		$sql = 'SELECT img.idmicro,img.imgcatalog
 		FROM mc_catalog_galery as img WHERE idcatalog = :edit';
 		return magixglobal_model_db::layerDB()->select($sql,array(
@@ -1254,12 +1270,20 @@ class backend_db_catalog{
 		));
 	}
 
+    protected function s_product_galery_data($edit){
+        $sql = 'SELECT img.idmicro,img.imgcatalog
+		FROM mc_catalog_galery as img WHERE idmicro = :edit';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':edit'	=>	$edit
+        ));
+    }
+
     /**
      * Insertion d'une image galerie dans le produit
      * @param $imgcatalog
      * @param $edit
      */
-    protected function i_catalog_galery($imgcatalog,$edit){
+    protected function i_product_galery($imgcatalog,$edit){
         $sql = 'INSERT INTO mc_catalog_galery (idcatalog,imgcatalog)
         VALUE(:edit,:imgcatalog)';
         magixglobal_model_db::layerDB()->insert($sql,
@@ -1267,5 +1291,15 @@ class backend_db_catalog{
                 ':edit'	=>	$edit,
                 ':imgcatalog'	=>	$imgcatalog
             ));
+    }
+    /**
+     * Suppression des galeries dans le produit
+     * @param $delete_galery
+     */
+    protected function d_product_galery($delete_galery){
+        $sql = 'DELETE FROM mc_catalog_galery WHERE idmicro = :delete_galery';
+        magixglobal_model_db::layerDB()->delete($sql,array(
+            ':delete_galery'    =>  $delete_galery
+        ));
     }
 }

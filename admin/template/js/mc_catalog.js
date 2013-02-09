@@ -1657,6 +1657,8 @@ var MC_catalog = (function ($, undefined) {
                                 });
                                 if(tab === 'category'){
                                     jsonListProductCategory(section,getlang,edit);
+                                }else if(tab === 'product'){
+
                                 }
                             }
                         });
@@ -1669,6 +1671,14 @@ var MC_catalog = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Liste des images de la galerie produit
+     * @param section
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
     function loadListGalery(section,getlang,edit,tab){
         $.nicenotify({
             ntype: "ajax",
@@ -1709,7 +1719,9 @@ var MC_catalog = (function ($, undefined) {
                                 $(document.createElement("div")).append(
                                     $(document.createElement("a"))
                                     .attr('href','#')
+                                    .attr("data-delete", item.idmicro)
                                     .addClass('btn btn-mini btn-danger')
+                                    .addClass('delete-image')
                                     .append(
                                         '&times;'
                                     )
@@ -1725,6 +1737,82 @@ var MC_catalog = (function ($, undefined) {
                 }
             }
         });
+    }
+
+    /**
+     * Suppression d'une image galerie d'un produit
+     * @param section
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
+    function removeGalery(section,getlang,edit,tab){
+        $(document).on('click','.delete-image',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            typesend: 'post',
+                            noticedata : {delete_galery:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                loadListGalery(section,getlang,edit,'galery');
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
+    function autoCompleteProduct(section,getlang){
+        $( "#titleproduct" ).autocomplete({
+            minLength: 2,
+            source: function(request, add){
+                //pass request to server
+                $.ajax({
+                    url:'/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=list&callback=?',
+                    type: "get",
+                    dataType: 'json',
+                    data: 'title_search='+request.term,
+                    async: true,
+                    cache: true,
+                    success: function(data){
+                        add($.map(data, function(item) {
+                            return {
+                                id : item.idproduct,
+                                category : item.clibelle,
+                                subcategory : item.subcategory,
+                                title : item.titlecatalog
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $('#idproduct').val(ui.item.id);
+            }
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>").data("ui-item.autocomplete", item).append(
+                item.title)
+                .appendTo(ul.addClass('list-row'));
+        };
     }
     return {
         //Fonction Public
@@ -1788,9 +1876,11 @@ var MC_catalog = (function ($, undefined) {
                 updateProduct(section,getlang,edit,'category');
                 removeProduct(section,getlang,edit,'category');
             }else if($('#load_catalog_product_galery').length != 0){
-                loadListGalery(section,getlang,edit,'galery')
+                loadListGalery(section,getlang,edit,'galery');
                 updateProduct(section,getlang,edit,'galery');
-
+                removeGalery(section,getlang,edit,'galery');
+            }else if($('#forms_catalog_product_related').length != 0){
+                autoCompleteProduct(section,getlang);
             }
         }
     };
