@@ -1335,31 +1335,31 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @return string
 	 * Retourne un menu select des produits groupés par sous catégorie de la catégorie
 	 */
-	private function construct_select_product(){
+	/*private function construct_select_product(){
 		$admindb =  backend_db_catalog::adminDbCatalog()->s_catalog_product_for_lang($this->selidclc);
 		$category ='';
 		$idcls = '';
 		$idclc = '';
 	      if ($admindb != null) {
 	      	/*Boucle pour retourner la catégorie courante*/
-	      	foreach($admindb as $cat){
+	      	/*foreach($admindb as $cat){
       		 if ($cat['clibelle'] != $idclc) {
 			     $category .= '<optgroup label="Categorie:'.$cat['clibelle'].'">';
 			     /* Boucle selection des produits de la categorie START */
-			     foreach ($admindb as $row){
+			     /*foreach ($admindb as $row){
 			       if ($row['idcls'] == 0) {
 			         $category .= '<option value="'.$row['idproduct'].'">'.$row['titlecatalog'].'</option>';
 			       }
 			     }
 			     /* Boucle selection des produits de la categorie END */
-			     $category .= "</optgroup>\n";
+			     /*$category .= "</optgroup>\n";
       		}
       		$idclc = $cat['clibelle'];
       		/*Fin de la boucle des catégories courante*/
-	      	}
+	      	/*}
 	      }
 		/* Boucle selection des sous-catégories et leurs produits START */    
-		foreach ($admindb as $row){
+		/*foreach ($admindb as $row){
 	      if ($row['slibelle'] != $idcls) {
 	        if ($idcls != '') { 
 	        	$category .= "</optgroup>\n"; 
@@ -1375,9 +1375,9 @@ class backend_controller_catalog extends backend_db_catalog{
 	      $idcls = $row['slibelle'];
 	    }
 		/* Boucle selection des sous-catégories et leurs produits END */
-		if ($idcls == '') { $category .= "</optgroup>\n"; }
+		/*if ($idcls == '') { $category .= "</optgroup>\n"; }
 		print $category;
-	}
+	}*/
 	/**
 	 * @category json request
 	 * @access private
@@ -1402,7 +1402,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @access private
 	 * Insertion d'un produit lié avec le catalogue courant
 	 */
-	private function insert_rel_product(){
+	/*private function insert_rel_product(){
 		if(isset($this->idproduct)){
 			if(empty($this->idproduct)){
 				backend_controller_template::display('catalog/request/empty-product.phtml');
@@ -1414,12 +1414,12 @@ class backend_controller_catalog extends backend_db_catalog{
 				backend_controller_template::display('catalog/request/success-cat-product.phtml');
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * La liste des produits lié à une fiche
 	 */
-	private function list_rel_product(){
+	/*private function list_rel_product(){
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) != null){
 			foreach (backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->editproduct) as $list){
 				$info = backend_db_catalog::adminDbCatalog()->s_catalog_product_info($list['idproduct']);
@@ -1428,12 +1428,12 @@ class backend_controller_catalog extends backend_db_catalog{
 			}
 			print '['.implode(',',$product).']';
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Retourne la liste des urls de liaison d'un produit défini
 	 */
-	private function uri_rel_product(){
+	/*private function uri_rel_product(){
 		if(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) != null){
 			$product = '<ul style="margin:0;">';
 			foreach(backend_db_catalog::adminDbCatalog()->s_catalog_rel_product($this->getreluri) as $prod){
@@ -1454,7 +1454,7 @@ class backend_controller_catalog extends backend_db_catalog{
 		}
 		backend_controller_template::assign('rel_uri_catalog',$product);
 		backend_controller_template::display('catalog/window/rel-uricatalog.phtml');
-	}
+	}*/
 	/**
 	 * Supprime un produit de liaison à une fiche catalogue
 	 * @access private
@@ -3263,6 +3263,10 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
 
+    /**
+     * @access private
+     * Retourne la liste des produits pour l'autocompletion des produits relatifs
+     */
     private function json_list_product(){
         if(isset($this->title_search)){
             if(parent::s_product($this->title_search) != null){
@@ -3277,6 +3281,48 @@ class backend_controller_catalog extends backend_db_catalog{
             }else{
                 print $this->callback.'([{"idproduct":"0","titlecatalog":"Aucune valeur","clibelle":"Aucune valeur","slibelle":"Aucune valeur"}])';
             }
+        }
+    }
+
+    /**
+     * @access private
+     * Ajouter un produit relatif au produit courant
+     * @param $create
+     */
+    private function addProductRel($create){
+        if(isset($this->idproduct)){
+            if(!empty($this->idproduct)){
+                parent::i_product_rel(
+                    $this->edit,
+                    $this->idproduct
+                );
+                $create->display('catalog/request/success_add.phtml');
+            }
+        }
+    }
+
+    /**
+     * @access private
+     * Retourne la liste des produits relatif du produit courant
+     */
+    private function json_listing_product_rel(){
+        if(parent::s_product_rel($this->edit) != null){
+            foreach (parent::s_product_rel($this->edit) as $key){
+                $product[]= '{"idrelproduct":'.json_encode($key['idrelproduct']).',"idproduct":'.json_encode($key['idproduct']).
+                    ',"idcatalog":'.json_encode($key['idcatalog']).',"titlecatalog":'.json_encode($key['titlecatalog']).
+                    ',"idclc":'.json_encode($key['idclc']).',"clibelle":'.json_encode($key['clibelle']).
+                    ',"idcls":'.json_encode($key['idcls']).',"slibelle":'.json_encode($key['slibelle']).'}';
+            }
+            print '['.implode(',',$product).']';
+        }
+    }
+
+    /**
+     * Suppression des produits relatifs dans le produit
+     */
+    private function remove_product_rel(){
+        if(isset($this->delete_product)){
+            parent::d_product_rel($this->delete_product);
         }
     }
 	/**
@@ -3726,8 +3772,22 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $create->display('catalog/product/edit.phtml');
                                     }
                                 }elseif($this->tab === 'product'){
-                                    $this->load_product_edit_data($create,$data);
-                                    $create->display('catalog/product/edit.phtml');
+                                    if(isset($this->idproduct)){
+                                        $this->addProductRel($create);
+                                    }elseif(magixcjquery_filter_request::isGet('json_product_rel')){
+                                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                        $header->pragma();
+                                        $header->cache_control("nocache");
+                                        $header->getStatus('200');
+                                        $header->json_header("UTF-8");
+                                        $this->json_listing_product_rel();
+                                    }elseif(isset($this->delete_product)){
+                                        $this->remove_product_rel();
+                                    }else{
+                                        $this->load_product_edit_data($create,$data);
+                                        $create->display('catalog/product/edit.phtml');
+                                    }
                                 }elseif($this->tab === 'galery'){
                                     if(magixcjquery_filter_request::isGet('json_list_galery')){
                                         $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");

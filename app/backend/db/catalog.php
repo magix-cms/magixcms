@@ -501,13 +501,13 @@ class backend_db_catalog{
 			':idproduct'	=>	$idproduct
 		));
 	}*/
-	function s_catalog_rel_product($idcatalog){
+	/*function s_catalog_rel_product($idcatalog){
 		$sql = 'SELECT rel.idrelproduct,rel.idproduct FROM mc_catalog_rel_product AS rel
 				WHERE rel.idcatalog = :idcatalog';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idcatalog'	=>	$idcatalog
 		));
-	}
+	}*/
 	/**
 	 * Fonctions de recherche de produits dans les titres
 	 * @param $searchpage
@@ -578,7 +578,7 @@ class backend_db_catalog{
 	 * @param $idcatalog
 	 * @param $idproduct
 	 */
-	function i_catalog_rel_product($idcatalog,$idproduct){
+	/*function i_catalog_rel_product($idcatalog,$idproduct){
 		$sql = 'INSERT INTO mc_catalog_rel_product (idcatalog,idproduct) 
 		VALUE(:idcatalog,:idproduct)';
 		magixglobal_model_db::layerDB()->insert($sql,
@@ -586,7 +586,7 @@ class backend_db_catalog{
 			':idcatalog'	=>	$idcatalog,
 			':idproduct'	=>	$idproduct
 		));
-	}
+	}*/
 	/**
 	 * Copie un enregistrement dans une autre catégorie, sous catégorie et langue
 	 * @param $idadmin
@@ -1237,8 +1237,12 @@ class backend_db_catalog{
             ':delete_product'=>$delete_product
         ));
     }
-
+    /*
+     * PRODUIT RELATED
+     *
+     * */
     /**
+     * Retourne un tableau des produits relatifs pour pour la recherche
      * @param $titlecatalog
      * @return array
      */
@@ -1251,6 +1255,45 @@ class backend_db_catalog{
         WHERE cl.titlecatalog LIKE :titlecatalog';
         return magixglobal_model_db::layerDB()->select($sql,array(
             ":titlecatalog"=>'%'.$titlecatalog.'%'
+        ));
+    }
+
+    /**
+     * Insertion d'un produit relatif
+     * @param $edit
+     * @param $idproduct
+     */
+    protected function i_product_rel($edit,$idproduct){
+        $sql = 'INSERT INTO mc_catalog_rel_product (idcatalog,idproduct)
+		VALUE(:edit,:idproduct)';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':edit'	    =>	$edit,
+                ':idproduct'=>	$idproduct
+            ));
+    }
+
+    protected function d_product_rel($delete_product){
+        $sql = 'DELETE FROM mc_catalog_rel_product WHERE idrelproduct = :delete_product';
+        magixglobal_model_db::layerDB()->delete($sql,array(
+            ':delete_product'=>$delete_product
+        ));
+    }
+    /**
+     * Retourne un tableau des produits relatifs
+     * @param $edit
+     * @return array
+     */
+    protected function s_product_rel($edit){
+        $sql = 'SELECT rel.idrelproduct,rel.idproduct, rel.idcatalog, c.idclc, c.clibelle, s.idcls, s.slibelle, cl.titlecatalog
+        FROM mc_catalog_rel_product AS rel
+        JOIN mc_catalog_product AS p ON(rel.idproduct = p.idproduct)
+        JOIN mc_catalog AS cl ON (cl.idcatalog = p.idcatalog)
+        JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+        LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
+        WHERE rel.idcatalog = :edit';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ":edit"=>$edit
         ));
     }
     /**

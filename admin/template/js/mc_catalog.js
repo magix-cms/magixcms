@@ -1658,7 +1658,7 @@ var MC_catalog = (function ($, undefined) {
                                 if(tab === 'category'){
                                     jsonListProductCategory(section,getlang,edit);
                                 }else if(tab === 'product'){
-
+                                    jsonListProductRel(section,getlang,edit,'product');
                                 }
                             }
                         });
@@ -1781,9 +1781,18 @@ var MC_catalog = (function ($, undefined) {
             return false;
         });
     }
-    function autoCompleteProduct(section,getlang){
+
+    /**
+     * Autocomplete pour les produits
+     * @param section
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
+    function autoCompleteProduct(section,getlang,edit,tab){
         $( "#titleproduct" ).autocomplete({
             minLength: 2,
+            scrollHeight: 220,
             source: function(request, add){
                 //pass request to server
                 $.ajax({
@@ -1798,7 +1807,7 @@ var MC_catalog = (function ($, undefined) {
                             return {
                                 id : item.idproduct,
                                 category : item.clibelle,
-                                subcategory : item.subcategory,
+                                subcategory : item.slibelle,
                                 title : item.titlecatalog
                             }
                         }));
@@ -1806,13 +1815,165 @@ var MC_catalog = (function ($, undefined) {
                 });
             },
             select: function(event, ui) {
-                $('#idproduct').val(ui.item.id);
+                $.nicenotify({
+                    ntype: "ajax",
+                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                    typesend: 'post',
+                    noticedata : {idproduct:ui.item.id},
+                    successParams:function(data){
+                        $('#titleproduct:text').val('');
+                        $.nicenotify.initbox(data,{
+                            display:false
+                        });
+                        jsonListProductRel(section,getlang,edit,tab);
+                    }
+                });
+                return false;
             }
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if(item.subcategory != null){
+                subcategory = item.subcategory;
+            }else{
+                subcategory = $(document.createElement("i")).addClass('icon-minus');
+            }
             return $("<li></li>").data("ui-item.autocomplete", item).append(
-                item.title)
-                .appendTo(ul.addClass('list-row'));
+                $(document.createElement("a")).append(
+                    $(document.createElement("span")).append(item.category),
+                    $(document.createElement("span")).append(subcategory),
+                    $(document.createElement("span")).append(item.title)
+                )
+                //.attr('href','#')
+                .addClass('autcomplete-product')
+            ).appendTo(ul.addClass('autocomplete-list-row'));
         };
+    }
+
+    /**
+     * Requête JSON pour la liste des produits relatif
+     * @param section
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
+    function jsonListProductRel(section,getlang,edit,tab){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab+'&json_product_rel=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#list_product_rel').html(loader);
+            },
+            successParams:function(j){
+                $('#list_product_rel').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_product_rel")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("Title"),
+                            $(document.createElement("th")).append("Catégorie"),
+                            $(document.createElement("th")).append("Sous Catégorie"),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-trash")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_product_rel');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        if(item.slibelle != null){
+                            var slibelle = $(document.createElement("a"))
+                                .attr("href", '/admin/catalog.php?section=subcategory&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                .attr("title", "Editer "+item.slibelle)
+                                .append(item.slibelle);
+                        }else{
+                            var slibelle = $(document.createElement("span")).addClass("icon-minus");
+                        }
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-pages")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idrelproduct)
+                                .attr("title", "Supprimer "+": "+item.titlecatalog)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-trash")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .attr("id","order_pages_"+item.idrelproduct)
+                                //.addClass("ui-state-default")
+                                .append(
+                                $(document.createElement("td")).append(
+                                    item.idrelproduct
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/catalog.php?section=product&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                        .attr("title", "Editer "+item.titlecatalog)
+                                        .append(item.titlecatalog)
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/catalog.php?section=category&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                        .attr("title", "Editer "+item.clibelle)
+                                        .append(item.clibelle)
+                                ),
+                                $(document.createElement("td")).append(slibelle)
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
     }
     return {
         //Fonction Public
@@ -1880,7 +2041,9 @@ var MC_catalog = (function ($, undefined) {
                 updateProduct(section,getlang,edit,'galery');
                 removeGalery(section,getlang,edit,'galery');
             }else if($('#forms_catalog_product_related').length != 0){
-                autoCompleteProduct(section,getlang);
+                autoCompleteProduct(section,getlang,edit,'product');
+                jsonListProductRel(section,getlang,edit,'product');
+                removeProduct(section,getlang,edit,'product');
             }
         }
     };

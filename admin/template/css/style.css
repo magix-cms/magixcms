@@ -213,3 +213,22 @@ tbody.ui-sortable > .ui-sortable-helper{
 .list-picture > li > img{
     max-height:120px;
 }
+/*
+* disposition en tableau des listes avec autocomplete
+*/
+ul.autocomplete-list-row{
+    width: 350px;
+}
+ul.autocomplete-list-row li > a{
+    cursor: pointer;
+}
+ul.autocomplete-list-row li{
+    content : "";
+    display:table;
+    line-height: 0;
+}
+ul.autocomplete-list-row li span{
+    display:table-cell;
+    vertical-align:middle;
+    min-width: 100px;
+}
