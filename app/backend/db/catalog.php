@@ -526,7 +526,7 @@ class backend_db_catalog{
 	 * recherche les produits suivant un mot clé
 	 * @param string $search
 	 */
-	function r_search_complete_product($search){
+	/*function r_search_complete_product($search){
 		$sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls, s.slibelle, s.pathslibelle, card.titlecatalog, card.urlcatalog, lang.iso
 		FROM mc_catalog_product AS p
 		LEFT JOIN mc_catalog as card USING ( idcatalog )
@@ -535,7 +535,7 @@ class backend_db_catalog{
 		LEFT JOIN mc_lang AS lang ON ( lang.idlang = card.idlang )
 		WHERE card.titlecatalog LIKE "%'.$search.'%"';
 		return magixglobal_model_db::layerDB()->select($sql);
-	}
+	}*/
     /**
      * Insert un nouveau produit dans la table mc_catalog
      */
@@ -593,7 +593,7 @@ class backend_db_catalog{
 	 * @param $idlang
 	 * @param $copyproduct
 	 */
-	function copy_catalog_product($idlang,$idadmin,$copyproduct){
+	/*function copy_catalog_product($idlang,$idadmin,$copyproduct){
 		$sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog) 
 		SELECT :idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
 		WHERE idcatalog = :copyproduct';
@@ -603,7 +603,7 @@ class backend_db_catalog{
 			':idadmin'			=>	$idadmin,
 			':copyproduct'		=>	$copyproduct
 		));
-	}
+	}*/
 	/**
 	 * Insère une image dans le catalogue
 	 * @param $idcatalog
@@ -1211,6 +1211,23 @@ class backend_db_catalog{
     }
 
     /**
+     * Insertion d'une copie du produit
+     * @param $edit
+     * @param $idlang
+     * @param $idadmin
+     */
+    protected function i_catalog_copy_product($edit,$idlang,$idadmin){
+        $sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog)
+		SELECT :idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
+		WHERE idcatalog = :edit';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':edit'		=>	$edit,
+                ':idlang'	=>	$idlang,
+                ':idadmin'	=>	$idadmin
+            ));
+    }
+    /**
      * Insertion d'un produit dans une catégorie/ou sous catégorie
      * @param $edit
      * @param $idclc
@@ -1235,6 +1252,20 @@ class backend_db_catalog{
         $sql = 'DELETE FROM mc_catalog_product WHERE idproduct = :delete_product';
         magixglobal_model_db::layerDB()->delete($sql,array(
             ':delete_product'=>$delete_product
+        ));
+    }
+
+    protected function s_product_url($titlecatalog){
+        $sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls,
+        s.slibelle, s.pathslibelle, cl.titlecatalog, cl.urlcatalog, lang.iso
+		FROM mc_catalog_product AS p
+		JOIN mc_catalog as cl USING ( idcatalog )
+		JOIN mc_catalog_c as c USING ( idclc )
+		LEFT JOIN mc_catalog_s as s USING ( idcls )
+		JOIN mc_lang AS lang ON ( lang.idlang = cl.idlang )
+		WHERE cl.titlecatalog LIKE :titlecatalog';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':titlecatalog'=>'%'.$titlecatalog.'%'
         ));
     }
     /*

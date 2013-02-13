@@ -331,7 +331,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @var d_in_product
 	 */
 	public $d_rel_product;
-	public $post_search;
+	public $product_search;
 	public $get_search_page;
     public $delete_image,$delete_product,$delete_galery;
     /**
@@ -538,8 +538,8 @@ class backend_controller_catalog extends backend_db_catalog{
 		/**
 		 * Recherche de fiche catalogue
 		 */
-		if(isset($_POST['post_search'])){
-			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
+		if(isset($_POST['product_search'])){
+			$this->product_search = magixcjquery_form_helpersforms::inputClean($_POST['product_search']);
 		}
 		if(isset($_GET['get_search_page'])){
 			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
@@ -1205,7 +1205,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * 
 	 * Rechercher un catalogue dans les titres
 	 */
-	private function search_title_page(){
+	/*private function search_title_page(){
 		if($this->post_search != ''){
 			if(backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) != null){
 				foreach (backend_db_catalog::adminDbCatalog()->r_search_catalog_title($this->post_search) as $s){
@@ -1215,12 +1215,12 @@ class backend_controller_catalog extends backend_db_catalog{
 				print '['.implode(',',$search).']';
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Rechercher un catalogue dans les titres
 	 */
-	private function search_catalog_ref(){
+	/*private function search_catalog_ref(){
 		if($this->post_search != ''){
 			if(backend_db_catalog::adminDbCatalog()->r_search_complete_product($this->post_search) != null){
 				foreach (backend_db_catalog::adminDbCatalog()->r_search_complete_product($this->post_search) as $catalog){
@@ -1239,7 +1239,7 @@ class backend_controller_catalog extends backend_db_catalog{
 				print '['.implode(',',$search).']';
 			}
 		}
-	}
+	}*/
 	/**
 	 * @access private
 	 * Insertion d'un nouveau produit dans la table mc_catalog
@@ -3325,6 +3325,34 @@ class backend_controller_catalog extends backend_db_catalog{
             parent::d_product_rel($this->delete_product);
         }
     }
+    //TINYMCE
+    /**
+     * Retourne les produits du catalogue dans l'éditeur
+     * @access private
+     *
+     */
+    private function json_url_product(){
+        if($this->product_search != ''){
+            if(parent::s_product_url($this->product_search) != null){
+                foreach(parent::s_product_url($this->product_search) as $key){
+                    $url_product = magixglobal_model_rewrite::filter_catalog_product_url(
+                        $key['iso'],
+                        $key['pathclibelle'],
+                        $key['idclc'],
+                        $key['pathslibelle'],
+                        $key['idcls'],
+                        $key['urlcatalog'],
+                        $key['idproduct'],
+                        true
+                    );
+                    $search[]= '{"idproduct":'.json_encode($key['idproduct']).',"titlecatalog":'.json_encode($key['titlecatalog']).
+                        ',"category":'.json_encode($key['clibelle']).',"subcategory":'.json_encode($key['slibelle']).
+                        ',"uriproduct":'.json_encode($url_product).',"iso":'.json_encode($key['iso']).'}';
+                }
+                print '['.implode(',',$search).']';
+            }
+        }
+    }
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
@@ -3832,6 +3860,14 @@ class backend_controller_catalog extends backend_db_catalog{
                 $header->getStatus('200');
                 $header->json_header("UTF-8");
                 $this->json_graph();
+            }elseif(isset($this->product_search)){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_url_product();
             }else{
                 $create->display('catalog/index.phtml');
             }

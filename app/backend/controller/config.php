@@ -130,7 +130,7 @@ class backend_controller_config extends backend_db_config{
      * @param $create
      * @return array
      */
-    private function load_data_config($create){
+    private function load_data_config(){
         $data = parent::s_data_config();
         /*$assign_exclude = array(
             'lesson_level','lesson_days','lesson_category','lesson_teachers'
@@ -140,6 +140,13 @@ class backend_controller_config extends backend_db_config{
             $status[]=$key['status'];
         }
         return array_combine($id,$status);
+    }
+
+    private function load_assign_config($create){
+        $data = self::load_data_config();
+        foreach($data as $key => $value){
+            $create->assign($key,$value);
+        }
     }
 
     /**
@@ -228,6 +235,7 @@ class backend_controller_config extends backend_db_config{
         $create->assign('manager_setting',$config['setting_value']);
         $create->assign('array_lang',self::load_lang_config());*/
         self::load_data_setting($create);
+        self::load_assign_config($create);
         $create->assign('array_lang',self::load_lang_config());
 	}
 
@@ -370,7 +378,7 @@ class backend_controller_config extends backend_db_config{
                     $create->display('config/request/success_update.phtml');
                 }
             }else{
-                $create->assign('array_radio_config',$this->load_data_config($create));
+                $create->assign('array_radio_config',$this->load_data_config());
                 $create->display('config/index.phtml');
             }
         }

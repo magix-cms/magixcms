@@ -60,7 +60,7 @@ $(function() {
          */
         skin : "bootstrap",
         width: '98%',
-        height:'300px',
+        height:'350px',
         theme_advanced_resizing_min_width : 320,
         language : 'fr'
     });
