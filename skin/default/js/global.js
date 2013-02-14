@@ -26,7 +26,7 @@ $(function() {
     });
 
     // *** Notification closing button
-    $(".close-notify").button({
+    /*$(".close-notify").button({
         icons: {
             primary: "ui-icon-closethick"
         }
@@ -124,7 +124,7 @@ $(function() {
                 }
             }
         });
-    }
+    }*/
 
     // *** Fancybox gallery
         // *** for one picture

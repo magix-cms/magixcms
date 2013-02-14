@@ -38,13 +38,28 @@
  * Time: 00:37
  * License: Dual licensed under the MIT or GPL Version
  */
+
 tinyMCEPopup.requireLangPack();
+
+/**
+ * Insertion du lien au format HTML
+ * @param href
+ * @param name
+ */
+
 function insert_product_link(href,name){
     tinyMCE.execCommand('mceInsertContent',false,'<a title="'+name+'" href="'+href+'">'+name+'</a>');
 }
+
+/**
+ * nom du dossier de l'administration
+ * @return {*}
+ */
+
 function basedir(){
     return baseadmin;
 }
+
 var McCatalogDialog = {
     init : function() {
         var t = this;
@@ -59,7 +74,13 @@ var McCatalogDialog = {
                 dataType:"json",
                 resetForm: true,
                 beforeSubmit:function(){
-                    $('#list_product_search').empty();
+                    var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                        $(document.createElement("img"))
+                            .attr('src','/framework/img/small_loading.gif')
+                            .attr('width','20px')
+                            .attr('height','20px')
+                    );
+                    $('#list_product_search').html(loader);
                 },
                 success:function(data) {
                     t._result(data);
@@ -76,6 +97,7 @@ var McCatalogDialog = {
     },
     _result:function(data){
         var t = this;
+        $('#list_product_search').empty();
         var tbl = $(document.createElement('table')),
             tbody = $(document.createElement('tbody'));
         tbl.attr("id", "table_product_search")

@@ -12,13 +12,13 @@
  **/
 
 return array(
-	'adminjs' => array('//framework/library/jquery-1.8.3.min.js','//framework/library/jquery-ui-1.10.0.custom.min.js',
-     '//framework/plugins/jquery.form.3.20.js','//framework/plugins/jquery.validate.1.10.0.min.js','//framework/plugins/additional-methods.1.10.0.min.js',
+	'adminjs' => array('//libjs/jquery-1.8.3.min.js','//libjs/jquery-ui-1.10.0.custom.min.js',
+     '//libjs/plugins/jquery.form.3.20.js','//libjs/plugins/jquery.validate.1.10.0.min.js','//libjs/plugins/additional-methods.1.10.0.min.js',
      '//'.PATHADMIN.'/template/js/plugins/bootstrap.2.2.3.min.js','//'.PATHADMIN.'/template/js/plugins/holder.js'),
-	'jimagine' => array('//framework/library/jimagine/config.js','//framework/library/jimagine/jmConstant.js',
-	'//framework/library/jimagine/plugins/jquery.nicenotify.js','//framework/library/jimagine/plugins/jquery.jmShowIt.js',
+	'jimagine' => array('//libjs/jimagine/config.js','//libjs/jimagine/jmConstant.js',
+	'//libjs/jimagine/plugins/jquery.nicenotify.js','//libjs/jimagine/plugins/jquery.jmShowIt.js',
     '//'.PATHADMIN.'/template/js/plugins/jquery.fancybox.min.js','//'.PATHADMIN.'/template/js/setting.js'),
-	'globalize'=> array('//framework/library/globalize/globalize.js','//framework/library/globalize/cultures/globalize.cultures.js'),
+	'globalize'=> array('//libjs/globalize/globalize.js','//libjs/globalize/cultures/globalize.cultures.js'),
     'charts'=>array('//'.PATHADMIN.'/template/js/plugins/raphael-min.js','//'.PATHADMIN.'/template/js/plugins/morris.min.js'),
     'tinymce' => array('//'.PATHADMIN.'/template/js/tiny_mce.'.VERSION_EDITOR.'/jquery.tinymce.js'),
     'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.3.css','//'.PATHADMIN.'/template/css/font-awesome.css',
