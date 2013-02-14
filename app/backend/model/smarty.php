@@ -85,24 +85,30 @@ class backend_model_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = array(self::setPath()."/app/backend/local/");
+		$this->setConfigDir(array(
+            self::setPath()."/app/backend/local/"
+        ));
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = array(self::setPath().'/'.PATHADMIN.'/template/');
+        $this->setTemplateDir(array(
+            self::setPath().'/'.PATHADMIN.'/template/'
+        ));
 		/**
 		 * path plugins
 		 * @var void
 		 */
-		$this->plugins_dir = array(
+        $this->setPluginsDir(array(
 			self::setPath().'/lib/smarty3/plugins/'
 			,self::setPath().'/app/wdcore/'
 			,self::setPath().'/'.PATHADMIN.'/template/widget/'
-		);
+		));
 		/**
 		 * Path -> compile
 		 */
-		$this->compile_dir = self::setPath().'/'.PATHADMIN.'/caching/templates_c/';
+        $this->setCompileDir(
+            self::setPath().'/'.PATHADMIN.'/caching/templates_c/'
+        );
 		/**
 		 * debugging (true/false)
 		 */
@@ -120,7 +126,8 @@ class backend_model_smarty extends Smarty{
 		/**
 		 * caching (true/false)
 		 */
-		$this->caching = false;
+        $this->setCaching(false);
+        //$this->setCachingType('apc');
 		/**
 		 * Use sub dirs (true/false)
 		 */
@@ -128,12 +135,13 @@ class backend_model_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::setPath().'/'.PATHADMIN.'/caching/tpl_caches/';
+        $this->setCacheDir(self::setPath().'/'.PATHADMIN.'/caching/tpl_caches/');
 		/**
 		 * load pre filter
 		 */
 		//$this->load_filter('pre','magixmin');
 		$this->autoload_filters = array('pre' => array('magixmin'));
+        //$this->loadPlugin('smarty_compiler_switch');
 		/**
 		 * 
 		 * @var error_reporting

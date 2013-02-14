@@ -4,10 +4,10 @@
  * http://www.magix-cms.com, http://www.magix-cjquery.com, http://www.aurelien-gerits.be
  * Dual licensed under the MIT or GPL Version 3 licenses.
  *
- * Date: January 12 20:36 2013
+ * Date: February 14 01:08 2013
  */-->
 <version>
 	<number>2.4.0</number>
-	<phase>alpha 8</phase>
+	<phase>alpha 11</phase>
 	<link>http://www.magix-cms.com</link>
 </version>

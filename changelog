@@ -1,4 +1,31 @@
 #### 2.4.0
+alpha 11
+    * Modification de la configuration des fonctions de smarty (modification de la synthaxe)
+    * Ajout du plugin mc_catalog dans tinyMCE
+    * Suppression du plugin productsearch
+    * Upgrade bootstrap 2.2.2 => 2.2.3
+    * Ajout des icônes pour les appareils mobiles
+    * Modification des requêtes JSON de la recherche de produit
+    * Fix bug positionnement formulaire d'édition d'un produit
+    * Fix bug chargement des données pour tinyMCE venant de la configuration.
+    * Modification des produits relatifs (backend)
+    * Modification de l'ajout des produits relatifs (backend)
+    * Modification du listing des produits relatifs (backend)
+    * Modification de la galerie du produit - Ajout et listing (#34)
+    * Mise à jour jQuery UI Bootstrap (Révision)
+    * Préparation modification galerie images dans produit (backend)
+    * Suppression des produits dans catégories/sous catégories (#34)
+    * Listing des catégories et sous catégories dans le produit.
+    * Fix bug sidebar colleft détection sous catégorie catalogue
+    * Dernière verification issue #35
+    * Modification de l'ajout de produits dans catégories/sous catégories
+    * Modification du listing des produits dans catégories/sous catégories
+    * Fix bug changement url utilisateur catalogue (backend)
+    * Modification de l'édition des produits
+    * Modification de l'ajout de produits
+    * Modification de la suppression des images categories, sous catégories et produits
+    * Suppression du champs ordercatalog dans mc_catalog
+
 alpha 10
     * Modification de l'upload des images des produits catalogue (backend)
         * Nouvel affichage des images de produits

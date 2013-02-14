@@ -103,28 +103,38 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * Path -> configs
 		 */
-		$this->config_dir = array(self::setPath()."locali18n/");
+        $this->setConfigDir(array(
+            self::setPath()."locali18n/"
+        ));
 		/**
 		 * Path -> templates
 		 */
-		$this->template_dir = array(self::setPath()."skin/".frontend_model_template::frontendTheme()->themeSelected().'/');
+        $this->setTemplateDir(array(
+            self::setPath()."skin/".frontend_model_template::frontendTheme()->themeSelected().'/'
+        ));
 		/**
 		 * path plugins
 		 * @var void
 		 */
-		$this->plugins_dir = array(
+        $this->setPluginsDir(array(
 			self::setPath().'lib/smarty3/plugins/'
 			,self::setPath().'app/wdcore/'
 			,self::setPath().'widget/'
-		);
+		));
 		/**
 		 * Ajout du dossier additionnels des plugins smarty dans le template courant
 		 */
-		frontend_model_template::frontendTheme()->addWidgetDir($this,self::setPath(),false);
+		frontend_model_template::frontendTheme()->addWidgetDir(
+            $this,
+            self::setPath(),
+            false
+        );
 		/**
 		 * Path -> compile
 		 */
-		$this->compile_dir = self::setPath()."var/templates_c/";
+        $this->setCompileDir(
+            self::setPath().'var/templates_c/'
+        );
 		/**
 		 * debugging (true/false)
 		 */
@@ -142,7 +152,8 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * caching (true/false)
 		 */
-		$this->caching = false;
+        $this->setCaching(false);
+        //$this->setCachingType('apc');
 		/**
 		 * Use sub dirs (true/false)
 		 */
@@ -150,7 +161,9 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-		$this->cache_dir = self::setPath().'var/cache/';
+        $this->setCacheDir(
+            self::setPath().'var/cache/'
+        );
 		/**
 		 * load pre filter
 		 */
