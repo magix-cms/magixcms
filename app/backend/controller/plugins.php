@@ -115,13 +115,6 @@ class backend_controller_plugins{
 	public function allow_access_config($plugin_folder){
 		$pathxml = $this->pluginDir($plugin_folder).'config.xml';
 		if(file_exists($pathxml)){
-			/*try {
-				$xml = new SimpleXMLElement($pathxml,0, TRUE);
-				$v = $xml->acl->admin->allow_access;
-			} catch (Exception $e){
-				magixglobal_model_system::magixlog('An error has occured :',$e);
-			}
-			return $v;*/
 			try {
 				$xml = new XMLReader();
 				$xml->open($pathxml, "UTF-8");
@@ -130,8 +123,11 @@ class backend_controller_plugins{
 						$v = $xml->expand();
 						$v = new SimpleXMLElement('<authorized>'.$xml->readInnerXML().'</authorized>');
 						return $v->allow_access;
+
 					}
+                    $xml->localName;
 				}
+                $xml->close();
 			} catch (Exception $e){
 				magixglobal_model_system::magixlog('An error has occured :',$e);
 			}
@@ -139,6 +135,7 @@ class backend_controller_plugins{
 			return '*';
 		}
 	}
+
 	/**
 	 * @access public
 	 * Chargement des données de configuration dans le fichier XML
@@ -250,6 +247,7 @@ class backend_controller_plugins{
 		}
 	}
 	/**
+     * @deprecated
 	 * Retourne l'icon du plugin si elle existe
 	 * @param $plugin (string)
 	 * @return string
@@ -262,6 +260,20 @@ class backend_controller_plugins{
 		}
 		return $icon;
 	}
+
+    /**
+     * Retourne le chemin de l'icône
+     * @param $plugin_folder
+     * @param $img
+     * @return string
+     */
+    private function pathImgIcon($plugin_folder,$img){
+        if(file_exists($this->directory_plugins().$plugin_folder.DIRECTORY_SEPARATOR.$img)){
+            return '/plugins/'.$plugin_folder.'/'.$img;
+        }else{
+            return false;
+        }
+    }
 	/**
 	 * execute ou instance la class du plugin
 	 * @param void $className
@@ -310,7 +322,7 @@ class backend_controller_plugins{
 	 * @access private
 	 * Construction de la liste des plugins
 	 */
-	private function listing_plugin($debug=false){
+	public function set_html_item($debug=false){
 		/**
 		 * Si le dossier est accessible en lecture
 		 */
@@ -321,54 +333,66 @@ class backend_controller_plugins{
 		$dir = $makefiles->scanRecursiveDir($this->directory_plugins());
 		if($dir != null){
 			plugins_Autoloader::register();
-			$list = '<ul class="plugin-list">';
-				foreach($dir as $d){
-					if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
-						$pluginPath = $this->directory_plugins().$d;
-						if($makefiles->scanDir($pluginPath) != null){
-							//Nom de la classe pour le test de la méthode
-							$class = 'plugins_'.$d.'_admin';
-							//Si la méthode run existe on ajoute le plugin dans le menu
-							if(method_exists($class,'run')){
-								$access = $this->allow_access_config($d);
-								$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
-								//Si on demande un debug
-								if($debug){
-									$firebug = new magixcjquery_debug_magixfire();
-									$firebug->magixFireLog($d.': '.$access);
-								}
-								//Si le fichier d'accès est disponible, on retourne les permissions
-								if($access != null OR $access != ''){
-									if($access >= $perms['perms']){
-										$list .= '<li>'.$this->icon_plugin($d);
-										$list .='<a href="/admin/plugins.php?name='.$d.'">';
-										$list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
-									}elseif($access == '*'){
-										$list .= '<li>'.$this->icon_plugin($d);
-										$list .='<a href="/admin/plugins.php?name='.$d.'">';
-										$list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
-									}
-								}else{
-									$list .= '<li>'.$this->icon_plugin($d);
-									$list .='<a href="/admin/plugins.php?name='.$d.'">';
-									$list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
-								}
-							}
-						}
-					}
-				}
-			$list .= '</ul>';
+			$list = '';
+            foreach($dir as $d){
+                if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
+                    $pluginPath = $this->directory_plugins().$d;
+                    if($makefiles->scanDir($pluginPath) != null){
+                        //Nom de la classe pour le test de la méthode
+                        $class = 'plugins_'.$d.'_admin';
+                        //Si la méthode run existe on ajoute le plugin dans le menu
+                        if(method_exists($class,'run')){
+                            $access = $this->allow_access_config($d);
+                            $role = new backend_model_role();
+                            $data_role = $role->data();
+                            if(method_exists($class,'set_icon')){
+                                $class_name = $this->execute_plugins($class);
+                                $set_icon = $class_name->set_icon();
+                            }else{
+                                if($this->pathImgIcon($d,'icon.png')){
+                                    $set_icon['type'] = 'image';
+                                    $set_icon['name'] = 'icon.png';
+                                }else{
+                                    $set_icon['type'] = 'font';
+                                    $set_icon['name'] = 'icon-folder-close';
+                                }
+                            }
+                            if($set_icon['type'] == 'image'){
+                                $icon = '<img src="'.$this->pathImgIcon($d,$set_icon['name']).'" width="16" height="16" alt="icon '.$d.'" />';
+                            }elseif($set_icon['type'] == 'font'){
+                                $icon = '<span class="'.$set_icon['name'].'"></span>';
+                            }
+                            //Si le fichier d'accès est disponible, on retourne les permissions
+                            if($access != null OR $access != ''){
+                                if($access >= $data_role['id']){
+                                    $list .= '<li>';
+                                    $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
+                                    $list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
+                                }elseif($access == '*'){
+                                    $list .= '<li>';
+                                    $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
+                                    $list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
+                                }
+                            }else{
+                                $list .= '<li>';
+                                $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
+                                $list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
+                            }
+                            //Si on demande un debug
+                            if($debug){
+                                $firebug = new magixcjquery_debug_magixfire();
+                                $firebug->magixFireLog($d.' access: '.$access);
+                                $firebug->magixFireLog($d.' icon type: '.$set_icon_data['type']);
+                                $firebug->magixFireLog($d.' icon name: '.$set_icon_data['name']);
+                            }
+                        }
+                    }
+                }
+            }
 		}
 		return $list;
 	}
-	/**
-	 * Construction de la navigation pour les plugins utilisateurs
-	 * @access public
-	 * @return void
-	 */
-	public function constructNavigation(){
-		return $this->listing_plugin();
-	}
+
 	/**
 	 * Chargement d'un plugin dans l'administration
 	 * @access private

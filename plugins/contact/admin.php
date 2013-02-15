@@ -207,6 +207,13 @@ class plugins_contact_admin extends database_plugins_contact{
 			'plugins'=>true
 		);
 	}
+    public function set_icon(){
+        $icon = array(
+            'type'=>'font',
+            'name'=>'icon-envelope'
+        );
+        return $icon;
+    }
 	/**
 	 * Affiche les pages de l'administration du plugin
 	 * @access public
