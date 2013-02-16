@@ -70,7 +70,7 @@ class backend_controller_config extends backend_db_config{
      * Configure l'éditeur HTML
      * @var string
      */
-    public $manager_setting,$content_css;
+    public $manager_setting,$content_css,$concat,$cache;
 	/**
 	 * @access public
 	 * @var string
@@ -111,9 +111,17 @@ class backend_controller_config extends backend_db_config{
         if(magixcjquery_filter_request::isPost('manager_setting')){
             $this->manager_setting = magixcjquery_form_helpersforms::inputClean($_POST['manager_setting']);
         }
+        //content css
         if(magixcjquery_filter_request::isPost('content_css')){
             $this->content_css = magixcjquery_form_helpersforms::inputClean($_POST['content_css']);
         }
+        if(magixcjquery_filter_request::isPost('concat')){
+            $this->concat = magixcjquery_form_helpersforms::inputClean($_POST['concat']);
+        }
+        if(magixcjquery_filter_request::isPost('cache')){
+            $this->cache = magixcjquery_form_helpersforms::inputClean($_POST['cache']);
+        }
+        //image resizing
         if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
             $this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
             $this->height = magixcjquery_filter_isVar::isPostNumeric($_POST['height']);
@@ -168,7 +176,7 @@ class backend_controller_config extends backend_db_config{
     private function load_data_setting($create){
         $data = parent::s_data_setting();
         $assign_exclude = array(
-            'theme','webmaster','analytics','magix_version'
+            'webmaster','analytics','magix_version'
         );
         foreach($data as $key){
             /*$iso = $val;*/
@@ -337,7 +345,36 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
-
+    private function load_cache_data(){
+        $config = parent::s_setting_id('cache');
+        $select = backend_model_forms::select_static_row(
+            array(
+                'none'=>'Inactif',
+                'files'=>'Fichiers',
+                'apc'=>'APC'
+            ),
+            array(
+                'attr_name'=>'cache',
+                'attr_id'=>'cache',
+                'default_value'=>$config['setting_value'],
+                'empty_value'=>'Selectionner le cache',
+                'upper_case'=>false
+            )
+        );
+        return $select;
+    }
+    private function update_concat_data($create){
+        if(isset($this->concat)){
+            parent::u_setting_value('concat',$this->concat);
+            $create->display('config/request/success_update.phtml');
+        }
+    }
+    private function update_cache_data($create){
+        if(isset($this->cache)){
+            parent::u_setting_value('cache',$this->cache);
+            $create->display('config/request/success_update.phtml');
+        }
+    }
 	/**
 	 * @access public
 	 * 
@@ -369,6 +406,19 @@ class backend_controller_config extends backend_db_config{
                     $create->assign('imgsize_news',$this->load_img_forms('news'));
                     $create->assign('imgsize_catalog',$this->load_img_forms('catalog'));
                     $create->display('config/imagesize.phtml');
+                }
+            }elseif($this->tab == 'cache'){
+                if(isset($this->action)){
+                    if($this->action == 'edit'){
+                        if(isset($this->concat)){
+                            $this->update_concat_data($create);
+                        }elseif(isset($this->cache)){
+                            $this->update_cache_data($create);
+                        }
+                    }
+                }else{
+                    $create->assign('select_concat',$this->load_cache_data());
+                    $create->display('config/cache.phtml');
                 }
             }
         }else{

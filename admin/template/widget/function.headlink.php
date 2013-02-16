@@ -71,9 +71,8 @@ function smarty_function_headlink($params, $template){
 	 	trigger_error("href: missing 'href' parameter in link");
 		return;
 	}
-
-    $concat = isset($params['concat']) ? true : false;
-    if($concat){
+    $concat = $params['concat'];
+    if($concat == '1'){
         $system = new magixglobal_model_system();
         $url = $system->getUrlConcat(array(
             'href'=>$href,
@@ -82,6 +81,8 @@ function smarty_function_headlink($params, $template){
             'minDir'=>'/'.PATHADMIN.'/min/',
             'callback'=>'/admin'
         ));
+    }elseif($concat == '0'){
+        $url = $href;
     }else{
         $url = $href;
     }

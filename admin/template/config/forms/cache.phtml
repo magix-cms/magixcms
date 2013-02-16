@@ -1,0 +1,40 @@
+<h3 xmlns="http://www.w3.org/1999/html">Concaténation</h3>
+<div class="mc-info clearfix">
+    <div class="span7 alert alert-info">
+        <span class="icon-info-sign"></span> La concaténation des fichiers permet d'utiliser un
+        hashing pour les urls des CSS et JS
+    </div>
+</div>
+<form id="forms_config_concat" class="form-inline" method="post" action="">
+    <label class="radio inline">
+        <input type="radio" name="concat" id="concat" value="0"{if $concat eq 0} checked="checked"{/if} />
+        Désactivé
+    </label>
+    <label class="radio inline">
+        <input type="radio" name="concat" id="concat_1" value="1"{if $concat eq 1} checked="checked"{/if} />
+        Activé
+    </label>
+    <span class="input-inline-btn">
+        <input type="submit" class="btn btn-primary" value="Envoyer" />
+    </span>
+</form>
+<h3>Type de cache</h3>
+<div class="mc-info clearfix">
+    <div class="span7 alert alert-info">
+        <span class="icon-info-sign"></span> Le système permet de mettre en cache les fichiers du template.
+        Par défaut le cache est désactivé, mais il existe deux modes :
+        <ul>
+            <li>Fichiers</li>
+            <li>APC</li>
+        </ul>
+    </div>
+</div>
+<div class="mc-info clearfix">
+    <div class="span7 alert alert-warn">
+        <span class="icon-warning-sign"></span> Il est recommandé de désactiver le cache en développement.
+    </div>
+</div>
+<form id="forms_config_cache" class="form-inline" method="post" action="">
+{$select_concat}
+    <input type="submit" class="btn btn-primary" value="Envoyer" />
+</form>

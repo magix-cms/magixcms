@@ -1,7 +1,7 @@
 {include file="section/editor.phtml"}
-{script src="/{baseadmin}/min/?g=tinymce" type="javascript"}
-{script src="/{baseadmin}/min/?g=charts" type="javascript"}
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/plugins/jquery.tagsinput.js,{baseadmin}/template/js/mc_news.js" type="javascript"}
+{script src="/{baseadmin}/min/?g=tinymce" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?g=charts" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/plugins/jquery.tagsinput.js,{baseadmin}/template/js/mc_news.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 $(function(){
     if (typeof MC_news == "undefined")

@@ -1,4 +1,4 @@
-{script src="/{baseadmin}/min/?g=adminjs,jimagine" type="javascript"}
+{script src="/{baseadmin}/min/?g=adminjs,jimagine" concat={$concat} type="javascript"}
 <script type="text/javascript">
     $.nicenotify.notifier = {
         box:"",
@@ -8,24 +8,4 @@
     var baseadmin = "{baseadmin}";
     var edit = "{$smarty.get.edit}";
     var getlang = "{$smarty.get.getlang}";
-    /*$(function(){
-        // Dialog
-        $('#dialog').dialog({
-            autoOpen: false,
-            width: 600,
-            buttons: {
-                "Ok": function () {
-                    $(this).dialog("close");
-                },
-                "Cancel": function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
-        // Dialog Link
-        $('#dialog_link').click(function () {
-            $('#dialog').dialog('open');
-            return false;
-        });
-    });*/
 </script>

@@ -77,16 +77,10 @@ UPDATE `mc_setting` SET `setting_value` = 'openFilemanager' WHERE `setting_id` =
 
 UPDATE `mc_setting` SET `setting_value` = '2.4.0' WHERE `setting_id` = 'magix_version';
 
-INSERT INTO `mc_setting` (
-`id_setting` ,
-`setting_id` ,
-`setting_value` ,
-`setting_type` ,
-`setting_label`
-)
-VALUES (
-NULL , 'content_css', NULL , 'string', NULL
-);
+INSERT INTO `mc_setting` VALUES
+(NULL, 'content_css', NULL, 'string', NULL),
+(NULL, 'concat', '0' , 'string', NULL),
+(NULL, 'cache', 'none' , 'string', NULL);
 
 ALTER TABLE `mc_catalog` ADD `imgcatalog` VARCHAR( 125 ) NULL AFTER `titlecatalog`;
 

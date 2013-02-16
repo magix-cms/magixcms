@@ -72,8 +72,8 @@ function smarty_function_script($params, $template){
 		return;
 	}
 	$ini = new magixcjquery_view_helper_script();
-    $concat = isset($params['concat']) ? true : false;
-    if($concat){
+    $concat = $params['concat'];
+    if($concat == '1'){
         $system = new magixglobal_model_system();
         $url = $system->getUrlConcat(array(
             'src'=>$src,
@@ -82,6 +82,8 @@ function smarty_function_script($params, $template){
             'minDir'=>'/'.PATHADMIN.'/min/',
             'callback'=>'/admin'
         ));
+    }elseif($concat == '0'){
+        $url = $src;
     }else{
         $url = $src;
     }

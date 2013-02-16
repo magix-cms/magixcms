@@ -1,7 +1,7 @@
 {include file="section/editor.phtml"}
-{script src="/{baseadmin}/min/?g=tinymce" type="javascript"}
-{script src="/{baseadmin}/min/?g=charts" type="javascript"}
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_pages.js" type="javascript"}
+{script src="/{baseadmin}/min/?g=tinymce" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?g=charts" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_pages.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 {if $smarty.get.get_page_p}
 var getParent = "{$smarty.get.get_page_p}";

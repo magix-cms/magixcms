@@ -1,5 +1,10 @@
 #### 2.4.0
 alpha 11
+    * Ajout de l'API set_icon dans l'admin pour les plugins
+    * Ajout du système de configuration du cache et de la concaténation
+    * Configuration de la concaténation dans l'admin
+    * Construction du menu dynamique des plugins
+    * Ajout des champs sql de caches et de concaténation dans la configuration
     * Modification de la configuration des fonctions de smarty (modification de la synthaxe)
     * Ajout du plugin mc_catalog dans tinyMCE
     * Suppression du plugin productsearch

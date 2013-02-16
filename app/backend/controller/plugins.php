@@ -362,19 +362,28 @@ class backend_controller_plugins{
                             }elseif($set_icon['type'] == 'font'){
                                 $icon = '<span class="'.$set_icon['name'].'"></span>';
                             }
+                            if(isset($this->getplugin)){
+                                if($this->getplugin == $d){
+                                    $class_active = ' class="active"';
+                                }else{
+                                    $class_active = '';
+                                }
+                            }else{
+                                $class_active = '';
+                            }
                             //Si le fichier d'accès est disponible, on retourne les permissions
                             if($access != null OR $access != ''){
                                 if($access >= $data_role['id']){
-                                    $list .= '<li>';
+                                    $list .= '<li'.$class_active.'>';
                                     $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
                                     $list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
                                 }elseif($access == '*'){
-                                    $list .= '<li>';
+                                    $list .= '<li'.$class_active.'>';
                                     $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
                                     $list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
                                 }
                             }else{
-                                $list .= '<li>';
+                                $list .= '<li'.$class_active.'>';
                                 $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
                                 $list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
                             }
@@ -382,8 +391,8 @@ class backend_controller_plugins{
                             if($debug){
                                 $firebug = new magixcjquery_debug_magixfire();
                                 $firebug->magixFireLog($d.' access: '.$access);
-                                $firebug->magixFireLog($d.' icon type: '.$set_icon_data['type']);
-                                $firebug->magixFireLog($d.' icon name: '.$set_icon_data['name']);
+                                $firebug->magixFireLog($d.' icon type: '.$set_icon['type']);
+                                $firebug->magixFireLog($d.' icon name: '.$set_icon['name']);
                             }
                         }
                     }

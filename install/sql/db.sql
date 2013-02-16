@@ -228,11 +228,14 @@ CREATE TABLE IF NOT EXISTS `mc_setting` (
   `setting_type` varchar(8) NOT NULL DEFAULT 'string',
   `setting_label` text,
   PRIMARY KEY (`id_setting`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `mc_setting` VALUES
-(1, 'theme', 'default', 'string', 'site theme'),
-(2, 'webmaster', '', 'string', 'google webmasterTools'),
-(3, 'analytics', '', 'string', 'google analytics'),
-(4, 'filemanager', 'openFilemanager', 'string', 'tinymce'),
-(5, 'magix_version', '2.4.0', 'string', 'Version Magix CMS');
+(NULL, 'theme', 'default', 'string', 'site theme'),
+(NULL, 'webmaster', '', 'string', 'google webmasterTools'),
+(NULL, 'analytics', '', 'string', 'google analytics'),
+(NULL, 'editor', 'openFilemanager', 'string', 'tinymce'),
+(NULL, 'magix_version', '2.4.0', 'string', 'Version Magix CMS'),
+(NULL, 'content_css', NULL, 'string', NULL),
+(NULL, 'concat', '0' , 'string', NULL),
+(NULL, 'cache', 'none' , 'string', NULL);

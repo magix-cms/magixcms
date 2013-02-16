@@ -111,6 +111,40 @@ var MC_config = (function ($, undefined) {
             return false;
         });
     }
+    function updateConcat(){
+        $('#forms_config_concat').on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/admin/config.php?tab=cache&action=edit',
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        });
+    }
+    function updateCache(){
+        $('#forms_config_cache').on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/admin/config.php?tab=cache&action=edit',
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public        
         runConfig:function () {
@@ -119,6 +153,8 @@ var MC_config = (function ($, undefined) {
         runEditor:function () {
             updateManager();
             updateContentCss();
+            updateConcat();
+            updateCache();
         },
         runImages:function () {
             $('.spincount').spinner({

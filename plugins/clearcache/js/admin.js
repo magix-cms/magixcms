@@ -59,10 +59,23 @@ var MC_plugins_clearcache = (function ($, undefined) {
                             uri: '/admin/plugins.php?name=clearcache&action=remove',
                             typesend: 'post',
                             noticedata : {clear:elem},
+                            beforeParams:function(){
+                                var loader = $(document.createElement("span")).addClass("btn-loader").append(
+                                    $(document.createElement("img"))
+                                        .attr('src','/framework/img/small_loading.gif')
+                                        .attr('width','20px')
+                                        .attr('height','20px')
+                                );
+                                //$('#graph').html(loader);
+                                $('#'+elem).addClass('hide');
+                                $('#'+elem).after(loader);
+                            },
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
+                                $('#'+elem).removeClass('hide');
+                                $('.btn-loader').remove();
                             }
                         });
                     },

@@ -210,7 +210,7 @@ class plugins_contact_admin extends database_plugins_contact{
     public function set_icon(){
         $icon = array(
             'type'=>'font',
-            'name'=>'icon-envelope'
+            'name'=>'icon-envelope-alt'
         );
         return $icon;
     }

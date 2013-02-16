@@ -17,6 +17,9 @@ h3 {
 .input-btn{
     margin-top: 15px;
 }
+.input-inline-btn{
+    margin-left: 15px;
+}
 .ui-spinner {
     position:relative;
     display: inline-block;
@@ -150,6 +153,10 @@ a.menu:after, .dropdown-toggle:after {
 */
 .loader > img{
     margin-top: 20px;
+}
+
+.btn-loader > img{
+    margin-top: 0;
 }
 
 .hide {

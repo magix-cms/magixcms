@@ -1,4 +1,4 @@
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/mc_config.js" type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/mc_config.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 $(function(){
     if (typeof MC_config == "undefined")
@@ -6,7 +6,7 @@ $(function(){
         console.log("MC_config is not defined");
     }else{
         {if $smarty.get.tab}
-        {if $smarty.get.tab eq 'editor'}
+        {if $smarty.get.tab eq 'editor' OR $smarty.get.tab eq 'cache'}
             MC_config.runEditor();
         {elseif $smarty.get.tab eq 'imagesize'}
             MC_config.runImages();

@@ -1,5 +1,5 @@
+<div class="span7">
 <form id="forms_config_edit" method="post" action="">
-    <div class="span9">
         {foreach $array_radio_config as $key => $value nocache}
             {*{if $value@iteration % 2 == 0 && $value@iteration > 0}
                 </div>
@@ -11,7 +11,7 @@
                 </div>
                 <div class="row-fluid">
             {/if}
-            <div class="span4">
+            <div class="span5">
                 <h3>
                     {$key}
                 </h3>
@@ -28,9 +28,9 @@
             </div>
             {/if}
         {/foreach}
-    </div>
     <div class="clearfix"></div>
     <p class="input-btn">
         <input type="submit" class="btn btn-primary" value="Envoyer" />
     </p>
 </form>
+</div>
