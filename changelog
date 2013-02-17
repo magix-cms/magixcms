@@ -1,4 +1,23 @@
 #### 2.4.0
+alpha 12
+    * Ajout de la concaténation frontend (#4)
+    * Ajout du système de mise en cache frontend (#34)
+    * Chargement global du setting (accessible dans les templates)
+    * Fix bug erreur nom de class controller/plugins
+    * Fix bug hoverCallback morris.js
+    * Globalisation des widgets script et headlink dans wcore
+    * Clean class template (frontend)
+    * Ajout du système de cache frontend (sélection depuis admin #36)
+    * Suppression du fichier config/smarty (frontend)
+    * Ajout du fichier smarty dans model (frontend)
+    * Modification de l'appel de smarty dans widget_share_display (frontend)
+    * Modification du système d'installation des plugins
+    * Modification du template d'installation du plugin contact
+    * Modification de l'API plugins frontend
+    * Update de Morris.js 0.3 => 0.41
+    * Modification majeure plugin contact
+    * Modification de l'API plugins backend
+
 alpha 11
     * Ajout de l'API set_icon dans l'admin pour les plugins
     * Ajout du système de configuration du cache et de la concaténation
