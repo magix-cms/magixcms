@@ -62,6 +62,12 @@ $(function(){
             unlock.removeClass('icon-unlock').addClass('icon-lock');
         }
     });
+    /**
+     * Prevent link
+     */
+    $('.brand[href^=#]').on('click',function(e) {
+        e.preventDefault()
+    });
     //$(".alert").alert('close');
     /*$("a[rel=popover]").popover({
         placement: 'right',

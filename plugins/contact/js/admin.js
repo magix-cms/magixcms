@@ -67,11 +67,7 @@ var MC_plugins_contact = (function ($, undefined) {
                     xkey: 'x',
                     ykeys: ['y'],
                     labels: ['CONTACT'],
-                    barSizeRatio: 0.35,
-                    hoverCallback: function (index, options) {
-                        var row = options.data[index];
-                        return "sin(" + row.x + ") = " + row.y;
-                    }
+                    barSizeRatio: 0.35
                 });
             }
         });

@@ -66,7 +66,7 @@ class frontend_db_config{
      */
 	function s_plugin_rewrite_meta($idconfig,$idmetas,$level,$codelang){
 		$sql = 'SELECT r.strrewrite FROM mc_metas_rewrite as r
-		LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
+		JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 		WHERE r.idconfig = :idconfig
 		AND r.idmetas = :idmetas
 		AND r.level = :level
@@ -85,7 +85,7 @@ class frontend_db_config{
 	 */
 	function s_plugin_rewrite_meta_emptylanguage($idconfig,$idmetas,$level){
 		$sql = 'SELECT r.strrewrite FROM mc_metas_rewrite as r
-		LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
+		JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 		WHERE r.idconfig = :idconfig
 		AND r.idmetas = :idmetas
 		AND r.level = :level

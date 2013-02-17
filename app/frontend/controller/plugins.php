@@ -158,7 +158,7 @@ class frontend_controller_plugins{
 				$translate = !empty($lang) ? $lang : 'fr';
 				return $this->path_dir_i18n().$configfile.$translate.$filextends;
 			}else{
-				return frontend_config_smarty::getInstance()->config_dir.'local_'.$lang.$filextends;
+				return frontend_model_smarty::getInstance()->config_dir.'local_'.$lang.$filextends;
 			}
 		} catch (Exception $e) {
 			magixglobal_model_system::magixlog("Error path config", $e);
@@ -177,14 +177,14 @@ class frontend_controller_plugins{
 	 */
 	public function append_display($template = null,$plugin='',$cache_id = null,$compile_id = null,$parent = null){
 		if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
-			return frontend_config_smarty::getInstance()->display(
+			return frontend_model_smarty::getInstance()->display(
 				'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
 				$cache_id,
 				$compile_id,
 				$parent
 			);
 		}else{
-			return frontend_config_smarty::getInstance()->display(
+			return frontend_model_smarty::getInstance()->display(
 				$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
 				$cache_id,
 				$compile_id,
@@ -208,7 +208,7 @@ class frontend_controller_plugins{
 	 */
 	public function append_fetch($template = null,$plugin='',$cache_id = null,$compile_id = null,$parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
 		if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
-			return frontend_config_smarty::getInstance()->fetch(
+			return frontend_model_smarty::getInstance()->fetch(
 				'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
 				$cache_id,
 				$compile_id,
@@ -218,7 +218,7 @@ class frontend_controller_plugins{
 				$no_output_filter
 			);
 		}else{
-			return frontend_config_smarty::getInstance()->fetch(
+			return frontend_model_smarty::getInstance()->fetch(
 				$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
 				$cache_id,
 				$compile_id,
@@ -242,10 +242,10 @@ class frontend_controller_plugins{
      */
     public function append_assign($tpl_var, $value = null, $nocache = false){
         if (is_array($tpl_var)){
-            return frontend_config_smarty::getInstance()->assign($tpl_var);
+            return frontend_model_smarty::getInstance()->assign($tpl_var);
         }else{
             if($tpl_var){
-                return frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+                return frontend_model_smarty::getInstance()->assign($tpl_var,$value,$nocache);
             }else{
                 throw new Exception('Unable to assign a variable in template');
             }
@@ -264,14 +264,14 @@ class frontend_controller_plugins{
     public function display($template = null,$plugin='',$cache_id = null,$compile_id = null,$parent = null){
         if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
             if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-                frontend_config_smarty::getInstance()->display(
+                frontend_model_smarty::getInstance()->display(
                     'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
                     $cache_id,
                     $compile_id,
                     $parent
                 );
             }else{
-                frontend_config_smarty::getInstance()->display(
+                frontend_model_smarty::getInstance()->display(
                     'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
                     $cache_id,
                     $compile_id,
@@ -280,14 +280,14 @@ class frontend_controller_plugins{
             }
         }else{
             if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-                frontend_config_smarty::getInstance()->display(
+                frontend_model_smarty::getInstance()->display(
                     $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
                     $cache_id,
                     $compile_id,
                     $parent
                 );
             }else{
-                frontend_config_smarty::getInstance()->display(
+                frontend_model_smarty::getInstance()->display(
                     $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
                     $cache_id,
                     $compile_id,
@@ -313,7 +313,7 @@ class frontend_controller_plugins{
     public function fetch($template = null,$plugin='',$cache_id = null,$compile_id = null,$parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
         if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
             if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-                frontend_config_smarty::getInstance()->fetch(
+                frontend_model_smarty::getInstance()->fetch(
                     'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
                     $cache_id,
                     $compile_id,
@@ -323,7 +323,7 @@ class frontend_controller_plugins{
                     $no_output_filter
                 );
             }else{
-                frontend_config_smarty::getInstance()->fetch(
+                frontend_model_smarty::getInstance()->fetch(
                     'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
                     $cache_id,
                     $compile_id,
@@ -335,7 +335,7 @@ class frontend_controller_plugins{
             }
         }else{
             if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-                frontend_config_smarty::getInstance()->fetch(
+                frontend_model_smarty::getInstance()->fetch(
                     $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
                     $cache_id,
                     $compile_id,
@@ -345,7 +345,7 @@ class frontend_controller_plugins{
                     $no_output_filter
                 );
             }else{
-                frontend_config_smarty::getInstance()->fetch(
+                frontend_model_smarty::getInstance()->fetch(
                     $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
                     $cache_id,
                     $compile_id,
@@ -368,14 +368,14 @@ class frontend_controller_plugins{
 	 */
 	public function isCached($template = null,$plugin='', $cache_id = null, $compile_id = null, $parent = null){
 		if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
-			frontend_config_smarty::getInstance()->isCached(
+			frontend_model_smarty::getInstance()->isCached(
 				'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
 				$cache_id,
 				$compile_id,
 				$parent
 			);
 		}else{
-			frontend_config_smarty::getInstance()->isCached(
+			frontend_model_smarty::getInstance()->isCached(
 				$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
 				$cache_id,
 				$compile_id,
@@ -394,10 +394,10 @@ class frontend_controller_plugins{
      */
     public function assign($tpl_var, $value = null, $nocache = false){
         if (is_array($tpl_var)){
-            frontend_config_smarty::getInstance()->assign($tpl_var);
+            frontend_model_smarty::getInstance()->assign($tpl_var);
         }else{
             if($tpl_var){
-                frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+                frontend_model_smarty::getInstance()->assign($tpl_var,$value,$nocache);
             }else{
                 throw new Exception('Unable to assign a variable in template');
             }
@@ -410,7 +410,7 @@ class frontend_controller_plugins{
 	 * @param boolean $search_parents
 	 */
 	public function getConfigVars($varname = null, $search_parents = true){
-		frontend_config_smarty::getInstance()->getConfigVars($varname, $search_parents);
+		frontend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
 
     /**
@@ -418,7 +418,7 @@ class frontend_controller_plugins{
      * @param bool|string $sections (optionnel) :la section à charger
      */
 	public function configLoad($sections = false){
-		frontend_config_smarty::getInstance()->configLoad(
+		frontend_model_smarty::getInstance()->configLoad(
 			$this->pathConfigLoad(self::$ConfigFile), 
 			$sections
 		);
@@ -429,7 +429,7 @@ class frontend_controller_plugins{
      * @param bool|string $sections (optionnel) :la section à charger
      */
 	public function configLoadMail($sections = false){
-		frontend_config_smarty::getInstance()->configLoad(
+		frontend_model_smarty::getInstance()->configLoad(
 			$this->pathConfigLoad(self::$MailConfigFile), 
 			$sections
 		);
@@ -443,21 +443,21 @@ class frontend_controller_plugins{
 	 * @return string retourne une valeur ou un tableau de variable
 	 */
 	public function getTplVars($varname = null, $_ptr = null, $search_parents = true){
-		frontend_config_smarty::getInstance()->getTemplateVars($varname, $_ptr, $search_parents);
+		frontend_model_smarty::getInstance()->getTemplateVars($varname, $_ptr, $search_parents);
 	}
 	/**
 	 * @access public
 	 * Active le système de debug de smarty 3
 	 */
 	public function getDebugging(){
-		frontend_config_smarty::getInstance()->getDebugging();
+		frontend_model_smarty::getInstance()->getDebugging();
 	}
 	/**
 	 * @access public
 	 * Active le test de l'installation de smarty 3
 	 */
 	public function testInstall(){
-		frontend_config_smarty::getInstance()->testInstall();
+		frontend_model_smarty::getInstance()->testInstall();
 	}
 	/**
 	 * @access private
