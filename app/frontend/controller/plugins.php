@@ -164,7 +164,9 @@ class frontend_controller_plugins{
 			magixglobal_model_system::magixlog("Error path config", $e);
 		}
 	}
+
 	/**
+     * @deprecated
 	 * @access public
 	 * Affiche le template du plugin
 	 * @param string|object $template
@@ -190,6 +192,7 @@ class frontend_controller_plugins{
 			);
 		}
 	}
+
 	/**
 	 * @access public
 	 * Retourne le template du plugin
@@ -226,6 +229,135 @@ class frontend_controller_plugins{
 			);
 		}
 	}
+
+    /**
+     * @deprecated
+     * @access public
+     * Assigne les variables du plugin
+     * @param void $tpl_var
+     * @param string $value
+     * @param bool $nocache
+     * @throws Exception
+     * @return \Smarty_Internal_Data
+     */
+    public function append_assign($tpl_var, $value = null, $nocache = false){
+        if (is_array($tpl_var)){
+            return frontend_config_smarty::getInstance()->assign($tpl_var);
+        }else{
+            if($tpl_var){
+                return frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+            }else{
+                throw new Exception('Unable to assign a variable in template');
+            }
+        }
+    }
+
+    /**
+     * @access public
+     * Affiche le template du plugin
+     * @param string|object $template
+     * @param string $plugin
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     */
+    public function display($template = null,$plugin='',$cache_id = null,$compile_id = null,$parent = null){
+        if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
+            if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+                frontend_config_smarty::getInstance()->display(
+                    'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent
+                );
+            }else{
+                frontend_config_smarty::getInstance()->display(
+                    'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent
+                );
+            }
+        }else{
+            if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+                frontend_config_smarty::getInstance()->display(
+                    $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent
+                );
+            }else{
+                frontend_config_smarty::getInstance()->display(
+                    $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent
+                );
+            }
+        }
+    }
+
+    /**
+     * @access public
+     * Retourne le template du plugin
+     * @param string|object $template
+     * @param string $plugin
+     * @param mixed $cache_id
+     * @param mixed $compile_id
+     * @param object $parent
+     * @param bool   $display           true: display, false: fetch
+     * @param bool   $merge_tpl_vars    if true parent template variables merged in to local scope
+     * @param bool   $no_output_filter  if true do not run output filter
+     * @return string rendered template output
+     */
+    public function fetch($template = null,$plugin='',$cache_id = null,$compile_id = null,$parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
+        if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
+            if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+                frontend_config_smarty::getInstance()->fetch(
+                    'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent,
+                    $display,
+                    $merge_tpl_vars,
+                    $no_output_filter
+                );
+            }else{
+                frontend_config_smarty::getInstance()->fetch(
+                    'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent,
+                    $display,
+                    $merge_tpl_vars,
+                    $no_output_filter
+                );
+            }
+        }else{
+            if(!self::isCached($template, $cache_id, $compile_id, $parent)){
+                frontend_config_smarty::getInstance()->fetch(
+                    $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent,
+                    $display,
+                    $merge_tpl_vars,
+                    $no_output_filter
+                );
+            }else{
+                frontend_config_smarty::getInstance()->fetch(
+                    $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
+                    $cache_id,
+                    $compile_id,
+                    $parent,
+                    $display,
+                    $merge_tpl_vars,
+                    $no_output_filter
+                );
+            }
+        }
+    }
+
 	/**
 	 * Test si le cache est valide
 	 * @param string|object $template
@@ -236,14 +368,14 @@ class frontend_controller_plugins{
 	 */
 	public function isCached($template = null,$plugin='', $cache_id = null, $compile_id = null, $parent = null){
 		if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
-			return frontend_config_smarty::getInstance()->isCached(
+			frontend_config_smarty::getInstance()->isCached(
 				'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
 				$cache_id,
 				$compile_id,
 				$parent
 			);
 		}else{
-			return frontend_config_smarty::getInstance()->isCached(
+			frontend_config_smarty::getInstance()->isCached(
 				$this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
 				$cache_id,
 				$compile_id,
@@ -251,46 +383,51 @@ class frontend_controller_plugins{
 			);
 		}
 	}
-	/**
-	 * @access public
-	 * Assigne les variables du plugin
-	 * @param void $tpl_var
-	 * @param string $value
-	 * @param bool $nocache
-	 */
-	public function append_assign($tpl_var, $value = null, $nocache = false){
-		if (is_array($tpl_var)){
-			return frontend_config_smarty::getInstance()->assign($tpl_var);
-		}else{
-			if($tpl_var){
-				return frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
-			}else{
-				throw new Exception('Unable to assign a variable in template');
-			}
-		}
-	}
+
+    /**
+     * @access public
+     * Assigne les variables du plugin
+     * @param void $tpl_var
+     * @param string $value
+     * @param bool $nocache
+     * @throws Exception
+     */
+    public function assign($tpl_var, $value = null, $nocache = false){
+        if (is_array($tpl_var)){
+            frontend_config_smarty::getInstance()->assign($tpl_var);
+        }else{
+            if($tpl_var){
+                frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+            }else{
+                throw new Exception('Unable to assign a variable in template');
+            }
+        }
+    }
+
 	/**
 	 * Charge les variables du fichier de configuration
 	 * @param string $varname
 	 * @param boolean $search_parents
 	 */
 	public function getConfigVars($varname = null, $search_parents = true){
-		return frontend_config_smarty::getInstance()->getConfigVars($varname, $search_parents);
+		frontend_config_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
-	/**
-	 * Charge le fichier de configuration associer à la langue
-	 * @param string $sections (optionnel) :la section à charger
-	 */
+
+    /**
+     * Charge le fichier de configuration associer à la langue
+     * @param bool|string $sections (optionnel) :la section à charger
+     */
 	public function configLoad($sections = false){
 		frontend_config_smarty::getInstance()->configLoad(
 			$this->pathConfigLoad(self::$ConfigFile), 
 			$sections
 		);
 	}
-	/**
-	 * Charge le fichier de configuration pour les mails associer à la langue
-	 * @param string $sections (optionnel) :la section à charger
-	 */
+
+    /**
+     * Charge le fichier de configuration pour les mails associer à la langue
+     * @param bool|string $sections (optionnel) :la section à charger
+     */
 	public function configLoadMail($sections = false){
 		frontend_config_smarty::getInstance()->configLoad(
 			$this->pathConfigLoad(self::$MailConfigFile), 
@@ -306,7 +443,7 @@ class frontend_controller_plugins{
 	 * @return string retourne une valeur ou un tableau de variable
 	 */
 	public function getTplVars($varname = null, $_ptr = null, $search_parents = true){
-		return frontend_config_smarty::getInstance()->getTemplateVars($varname, $_ptr, $search_parents);
+		frontend_config_smarty::getInstance()->getTemplateVars($varname, $_ptr, $search_parents);
 	}
 	/**
 	 * @access public

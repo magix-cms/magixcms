@@ -63,7 +63,7 @@ var MC_news = (function ($, undefined) {
                 var $graph = data;
                 //var obj = $.parseJSON($graph);
                 //console.log($graph);
-                Morris.Bar({
+                new Morris.Bar({
                     element: 'graph',
                     data: $graph,
                     xkey: 'x',

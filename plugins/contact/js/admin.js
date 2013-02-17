@@ -1,76 +1,278 @@
-/**
- * MAGIX CMS
- * @copyright  MAGIX CMS Copyright (c) 2012 Gerits Aurelien, 
- * http://www.magix-cms.com, http://www.magix-cjquery.com
- * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.1
- * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name adminjs
- * @package plugins
- * @addon contact
- *
+/*
+ # -- BEGIN LICENSE BLOCK ----------------------------------
+ #
+ # This file is part of MAGIX CMS.
+ # MAGIX CMS, The content management system optimized for users
+ # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
+ #
+ # OFFICIAL TEAM :
+ #
+ #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
+ #
+ # Redistributions of files must retain the above copyright notice.
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # -- END LICENSE BLOCK -----------------------------------
+
+ # DISCLAIMER
+
+ # Do not edit or add to this file if you wish to upgrade MAGIX CMS to newer
+ # versions in the future. If you wish to customize MAGIX CMS for your
+ # needs please refer to http://www.magix-cms.com for more information.
  */
-$(function() {
-	 /**
-     * Requête ajax pour l'ajout des contacts
+/**
+ * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
+ * Copyright: MAGIX CMS
+ * Date: 16/02/13
+ * Time: 19:43
+ * License: Dual licensed under the MIT or GPL Version
+ */
+var MC_plugins_contact = (function ($, undefined) {
+    //Fonction Private
+    function graph(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/plugins.php?name=contact&json_graph=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#graph').html(loader);
+            },
+            successParams:function(data){
+                $('#graph').empty();
+                $.nicenotify.initbox(data,{
+                    display:false
+                });
+                var $graph = data;
+                new Morris.Bar({
+                    element: 'graph',
+                    data: $graph,
+                    xkey: 'x',
+                    ykeys: ['y'],
+                    labels: ['CONTACT'],
+                    barSizeRatio: 0.35,
+                    hoverCallback: function (index, options) {
+                        var row = options.data[index];
+                        return "sin(" + row.x + ") = " + row.y;
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Ajout de contact
+     * @param getlang
      */
-	var formsAddContact = $("#forms-plugins-contact").validate({
-		onsubmit: true,
-		event: 'submit',
-		rules: {
-			idadmin: {
-				required: true
-			}
-		},
-		submitHandler: function(form) {
-			$.nicenotify({
-				ntype: "submit",
-				uri: '/admin/plugins.php?name=contact&add',
-				typesend: 'post',
-				idforms: $(form),
-				beforeParams:function(){},
-				successParams:function(e){
-					$.nicenotify.initbox(e,{
-						//display:false,
-						reloadhtml:true
-					});
-				}
-			});
-			return false; 
-		}
-	});
-	$("#forms-plugins-contact").formsAddContact;
-	 /**
-     * Requête ajax pour la suppression des contacts
+    function add(getlang){
+        var formsAdd = $("#forms_plugins_contact_add").validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                mail_contact: {
+                    required: true,
+                    minlength: 2,
+                    email:true
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/plugins.php?name=contact&getlang='+getlang+'&action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:true,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        $('#forms-add').dialog('close');
+                        jsonContact(getlang);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#open-add').on('click',function(){
+            $('#forms-add').dialog({
+                modal: true,
+                resizable: true,
+                width: 350,
+                height:'auto',
+                minHeight: 210,
+                buttons: {
+                    'Save': function() {
+                        $("#forms_plugins_contact_add").submit();
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                        formsAdd.resetForm();
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+    /**
+     * Liste des contacts
+     * @param getlang
      */
-	 $(document).on('click','.d-plugins-contact',function (event){
-		event.preventDefault();
-		var lg = $(this).attr("title");
-		$("#dialog").dialog({
-			bgiframe: true,
-			resizable: false,
-			height:140,
-			modal: true,
-			title: 'Supprimé ce contact',
-			buttons: {
-				'Delete item': function() {
-					$(this).dialog('close');
-					$.nicenotify({
-						ntype: "ajax",
-						uri: "/admin/plugins.php?name=contact&dcontact="+lg,
-						typesend: 'get',
-						successParams:function(e){
-							$.nicenotify.initbox(e,{
-								display:false,
-								reloadhtml:true
-							});
-						}
-					});
-				},
-				Cancel: function() {
-					$(this).dialog('close');
-				}
-			}
-		});
-	 });
-});
+    function jsonContact(getlang){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/plugins.php?name=contact&getlang='+getlang+'&action=list&json_list_contact=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#list_contact').html(loader);
+            },
+            successParams:function(j){
+                $('#list_contact').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_plugins_contact")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                    $(document.createElement("thead"))
+                        .append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("th")).append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-key")
+                            ),
+                            $(document.createElement("th")).append("email")
+                            ,
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-trash")
+                            )
+                        )
+                    ),
+                    tbody
+                );
+                tbl.appendTo('#list_contact');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        var remove = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("delete-contact")
+                                .attr("href", "#")
+                                .attr("data-delete", item.idcontact)
+                                .attr("title", "Supprimer "+": "+item.mail_contact)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-trash")
+                            )
+                        );
+                        tbody.append(
+                            $(document.createElement("tr"))
+                                .append(
+                                $(document.createElement("td")).append(item.idcontact),
+                                $(document.createElement("td")).append(item.mail_contact)
+                                ,
+                                remove
+                            )
+                        )
+                    });
+                }else{
+                    tbody.append(
+                        $(document.createElement("tr"))
+                            .append(
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            ),
+                            $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("icon-minus")
+                            )
+                        )
+                    )
+                }
+            }
+        });
+    }
+
+    /**
+     * Suppression du contact
+     * @param getlang
+     */
+    function remove(getlang){
+        $(document).on('click','.delete-contact',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/plugins.php?name=contact&getlang='+getlang+'&action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_contact:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                jsonContact(getlang);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
+    return {
+        //Fonction Public        
+        runCharts:function () {
+            graph();
+        },
+        runList:function (getlang) {
+            jsonContact(getlang);
+            add(getlang);
+            remove(getlang);
+        }
+    };
+})(jQuery);

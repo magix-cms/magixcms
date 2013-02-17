@@ -10,12 +10,21 @@
             <div class="row-fluid">
                 <div class="span12">
                     {include file="nav.phtml"}
-                    <h1>Statistiques des contacts</h1>
-                    <div id="graph"></div>
+                    <h1>Liste des contacts</h1>
+                    <p>
+                        <a class="btn btn-primary" href="#" id="open-add">
+                            <span class="icon-plus"></span> Ajouter un contact
+                        </a>
+                    </p>
+                    <div class="mc-message clearfix"></div>
+                    <div id="list_contact"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div id="forms-add" class="hide" title="Ajouter un contact">
+{include file="forms/add.phtml"}
 </div>
 {include file="section/footer.phtml"}
 {include file="section/js.phtml"}

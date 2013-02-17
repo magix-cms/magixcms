@@ -23,7 +23,7 @@ return array(
     'tinymce' => array('//'.PATHADMIN.'/template/js/tiny_mce.'.VERSION_EDITOR.'/jquery.tinymce.js'),
     'css' => array('//'.PATHADMIN.'/template/css/bootstrap.2.2.3.css','//'.PATHADMIN.'/template/css/font-awesome.css',
     '//'.PATHADMIN.'/template/css/ui-bootstrap/jquery-ui-1.10.0.custom.css','//'.PATHADMIN.'/template/css/fancybox/jquery.fancybox.css',
-    '//'.PATHADMIN.'/template/css/jquery.tagsinput.css','//'.PATHADMIN.'/template/css/style.css'),
+    '//'.PATHADMIN.'/template/css/morris.css','//'.PATHADMIN.'/template/css/jquery.tagsinput.css','//'.PATHADMIN.'/template/css/style.css'),
     'maxAge' => 31536000,
     'setExpires' => time() + 86400 * 365
 );

@@ -85,3 +85,7 @@ INSERT INTO `mc_setting` VALUES
 ALTER TABLE `mc_catalog` ADD `imgcatalog` VARCHAR( 125 ) NULL AFTER `titlecatalog`;
 
 ALTER TABLE `mc_catalog` DROP `ordercatalog`;
+
+ALTER TABLE `mc_plugins_contact` CHANGE `idcontact` `idcontact` SMALLINT( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
+CHANGE `idadmin` `idlang` SMALLINT( 3 ) UNSIGNED NOT NULL ,
+CHANGE `idlang` `mail_contact` VARCHAR( 45 ) NOT NULL;

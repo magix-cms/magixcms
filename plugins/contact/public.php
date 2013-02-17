@@ -183,34 +183,34 @@ class plugins_contact_public extends database_plugins_contact{
 			$this->_loadConfigVars();
 			$create = frontend_controller_plugins::create();
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
-				$create->append_display('empty.phtml');
+				$create->display('empty.phtml');
 			}elseif(!magixcjquery_filter_isVar::isMail($this->email)){
-				$create->append_display('mail.phtml');
+				$create->display('mail.phtml');
 			}else{
 				if($create->getLanguage()){
 					if(parent::c_show_table() != 0){
-						if(parent::s_register_contact($create->getLanguage()) != null){
+						if(parent::s_contact($create->getLanguage()) != null){
 							//Instance la classe mail avec le paramètre de transport
 							$core_mail = new magixglobal_model_mail('mail');
 							//Charge dans un tableau les utilisateurs qui reçoivent les mails
-							$lotsOfRecipients = parent::s_register_contact($create->getLanguage());
+							$lotsOfRecipients = parent::s_contact($create->getLanguage());
 							//Initialisation du contenu du message
 							foreach ($lotsOfRecipients as $recipient){
 								$message = $core_mail->body_mail(
 									self::subject(),
 									array($this->email),
-									array($recipient['email'] => $recipient['pseudo']),
+									array($recipient['mail_contact']),
 									self::body_message(),
 									false
 								);
 								$core_mail->batch_send_mail($message);
 							}
-							$create->append_display('success.phtml');
+							$create->display('success.phtml');
 						}else{
-							$create->append_display('error_email_config.phtml');
+							$create->display('error_email_config.phtml');
 						}
 					}else{
-						$create->append_display('error_install.phtml');
+						$create->display('error_install.phtml');
 					}
 				}
 			}
@@ -225,7 +225,7 @@ class plugins_contact_public extends database_plugins_contact{
 			$this->send_email();
 		}else{
 			$create = frontend_controller_plugins::create();
-			$create->append_display('index.phtml');
+			$create->display('index.phtml');
 		}
     }
 }
@@ -239,16 +239,27 @@ class database_plugins_contact{
 		$table = 'mc_plugins_contact';
 		return frontend_db_plugins::layerPlugins()->showTable($table);
 	}
+
+    protected function s_contact($iso){
+        $sql = 'SELECT c.*
+        FROM mc_plugins_contact AS c
+        JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+        WHERE lang.iso = :iso';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':iso'=>$iso
+        ));
+    }
+
 	/**
 	 * @access protected
 	 * Selectionne les contacts pour le formulaire
 	 */
-	protected function s_register_contact($iso){
+	/*protected function s_register_contact($iso){
 		$sql = 'SELECT c.idlang,lang.iso,m.email,m.pseudo FROM mc_plugins_contact c
 		LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		LEFT JOIN mc_admin_member as m ON ( c.idadmin = m.idadmin )
 		WHERE lang.iso = :iso';
 		return frontend_db_plugins::layerPlugins()->select($sql,array(':iso'=>$iso));
-	}
+	}*/
 }
 ?>

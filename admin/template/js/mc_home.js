@@ -61,12 +61,13 @@ var MC_home = (function ($, undefined) {
                     display:false
                 });
                 var $graph = data;
-                Morris.Bar({
+                new Morris.Bar({
                     element: 'graph',
                     data: $graph,
                     xkey: 'x',
                     ykeys: ['y'],
-                    labels: ['HOME']
+                    labels: ['HOME'],
+                    barSizeRatio: 0.25
                 });
             }
         });

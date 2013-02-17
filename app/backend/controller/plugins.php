@@ -703,7 +703,7 @@ class backend_controller_plugins{
 	 * load sql file
 	 */
 	private function load_sql_file($filename,$plugin_folder=null){
-		return backend_controller_plugins::pluginDir($plugin_folder).'sql'.DIRECTORY_SEPARATOR.$filename;
+		return self::pluginDir($plugin_folder).'sql'.DIRECTORY_SEPARATOR.$filename;
 	}
 	/**
 	 * @access public
@@ -714,9 +714,9 @@ class backend_controller_plugins{
 		try{
 			if(file_exists($this->load_sql_file($filename))){
 				if(magixglobal_model_db::create_new_sqltable($this->load_sql_file($filename,$plugin_folder))){
-                    backend_controller_plugins::assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.$this->pluginUrl().'">');
-					$fetch = backend_controller_plugins::fetch($fetchFile);
-                    backend_controller_plugins::assign('install_db',$fetch);
+                    self::assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.$this->pluginUrl().'">');
+					$fetch = self::fetch($fetchFile);
+                    self::assign('install_db',$fetch);
 				}
 			}
 		}catch (Exception $e){

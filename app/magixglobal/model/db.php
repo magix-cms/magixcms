@@ -61,9 +61,12 @@ class magixglobal_model_db{
         }
     	return self::$layerDB;
     }
+
     /**
      * Chargement du fichier SQL pour la lecture du fichier
      * @param $sqlfile
+     * @throws Exception
+     * @return array|bool
      */
 	private function load_sql_file($sqlfile){
 		$db_structure = "";

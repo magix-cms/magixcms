@@ -61,7 +61,7 @@ var MC_lang = (function ($, undefined) {
                     display:false
                 });
                 var $graph = data;
-                Morris.Bar({
+                new Morris.Bar({
                     element: 'graph',
                     data: $graph,
                     xkey: 'x',

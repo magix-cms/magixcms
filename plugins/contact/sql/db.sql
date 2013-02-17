@@ -1,11 +1,8 @@
-CREATE TABLE `mc_plugins_contact` (
-  `idcontact` tinyint(2) NOT NULL auto_increment,
-  `idadmin` tinyint(2) NOT NULL,
-  `idlang` tinyint(4) NOT NULL,
-  PRIMARY KEY  (`idcontact`),
-  KEY `idadmin` (`idadmin`),
-  KEY `idlang` (`idlang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `mc_plugins_contact`
-  ADD CONSTRAINT `mc_plugins_contact_ibfk_3` FOREIGN KEY (`idadmin`) REFERENCES `mc_admin_member` (`idadmin`);
+CREATE TABLE IF NOT EXISTS `mc_plugins_contact` (
+  `idcontact` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `idlang` smallint(3) unsigned NOT NULL,
+  `mail_contact` varchar(45) NOT NULL,
+  PRIMARY KEY (`idcontact`),
+  KEY `idadmin` (`idlang`),
+  KEY `idlang` (`mail_contact`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
