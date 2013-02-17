@@ -85,7 +85,7 @@ function smarty_function_headlink($params, $template){
         }else{
             $url = $system->getUrlConcat(array(
                 'href'=>$href,
-                'caches'=>'caching/caches',
+                'caches'=>'var/caches',
                 'filesgroups'=> 'min/groupsConfig.php',
                 'minDir'=>'/min/',
                 'callback'=>''

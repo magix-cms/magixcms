@@ -106,4 +106,11 @@ class frontend_db_config{
 			':attr_name' =>	$attr_name
 		));
     }
+    /**
+     * @return array
+     */
+    protected function s_data_setting(){
+        $sql = 'SELECT * FROM mc_setting';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
 }

@@ -48,6 +48,9 @@
  * Charge toutes les Classes de l'application
  */
 require('lib/mcfrontend.php');
+$config = new frontend_model_config();
+$create = new frontend_model_template;
+$config->load_data_setting($create);
 $ini = new frontend_controller_news();
 $ini->run();
 ?>

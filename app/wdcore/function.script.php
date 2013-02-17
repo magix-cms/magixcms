@@ -86,7 +86,7 @@ function smarty_function_script($params, $template){
         }else{
             $url = $system->getUrlConcat(array(
                 'src'=>$src,
-                'caches'=>'caching/caches',
+                'caches'=>'var/caches',
                 'filesgroups'=> 'min/groupsConfig.php',
                 'minDir'=>'/min/',
                 'callback'=>''
