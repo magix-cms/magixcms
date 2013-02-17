@@ -345,6 +345,11 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
+
+    /**
+     * Chargement des données du cache
+     * @return string
+     */
     private function load_cache_data(){
         $config = parent::s_setting_id('cache');
         $select = backend_model_forms::select_static_row(

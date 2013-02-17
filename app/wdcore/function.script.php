@@ -75,13 +75,23 @@ function smarty_function_script($params, $template){
     $concat = $params['concat'];
     if($concat == '1'){
         $system = new magixglobal_model_system();
-        $url = $system->getUrlConcat(array(
-            'src'=>$src,
-            'caches'=>'caching/caches',
-            'filesgroups'=> 'min/groupsConfig.php',
-            'minDir'=>'/'.PATHADMIN.'/min/',
-            'callback'=>'/admin'
-        ));
+        if(defined('PATHADMIN')){
+            $url = $system->getUrlConcat(array(
+                'src'=>$src,
+                'caches'=>'caching/caches',
+                'filesgroups'=> 'min/groupsConfig.php',
+                'minDir'=>'/'.PATHADMIN.'/min/',
+                'callback'=>'/admin'
+            ));
+        }else{
+            $url = $system->getUrlConcat(array(
+                'src'=>$src,
+                'caches'=>'caching/caches',
+                'filesgroups'=> 'min/groupsConfig.php',
+                'minDir'=>'/min/',
+                'callback'=>''
+            ));
+        }
     }elseif($concat == '0'){
         $url = $src;
     }else{

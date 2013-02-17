@@ -44,7 +44,7 @@
  * @name template
  *
  */
-class frontend_model_template extends db_theme{
+class frontend_model_template extends database_template{
 	/**
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
 	 * @var string
@@ -79,6 +79,7 @@ class frontend_model_template extends db_theme{
 			return magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
 		}
 	}
+
 	/**
 	 * Retourne la langue en cours de session sinon retourne fr par défaut
 	 * @return string
@@ -120,6 +121,7 @@ class frontend_model_template extends db_theme{
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
+
 	/**
 	 * 
 	 * Initialise la fonction configLoad de smarty
@@ -128,6 +130,7 @@ class frontend_model_template extends db_theme{
 	public static function configLoad($section = ''){
 		frontend_model_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $section);
 	}
+
 	/**
 	 * Charge le theme selectionné ou le theme par défaut
 	 */
@@ -151,6 +154,7 @@ class frontend_model_template extends db_theme{
 		}
 		return $theme;
 	}
+
 	/**
 	 * Function load public theme
 	 * @see frontend_config_theme
@@ -165,6 +169,8 @@ class frontend_model_template extends db_theme{
     /**
      * Chargement du type de cache
      * @param $smarty
+     * @throws Exception
+     * @return void
      */
     public static function loadCache($smarty){
         if (!self::frontendTheme() instanceof frontend_model_template){
@@ -186,6 +192,7 @@ class frontend_model_template extends db_theme{
             }
         }
     }
+
     /**
      * Chargement des widgets additionnel du template courant
      * @param void $smarty
@@ -210,6 +217,7 @@ class frontend_model_template extends db_theme{
 			}
 		}
 	}
+
     /**
      * @access public
      * Affiche le template
@@ -330,7 +338,7 @@ class frontend_model_template extends db_theme{
  * @author Aurelien
  *
  */
-class db_theme{
+class database_template{
     /**
      * @param $setting_id
      * @return array
