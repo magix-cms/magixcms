@@ -1,4 +1,27 @@
-<p class="span6 alert alert-success fade in">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <span class="icon-ok"></span> Le plugin à été installé avec succès
-</p>
+{include file="section/head.phtml"}
+{$refresh_plugins}
+<title>Magix CMS | Admin</title>
+</head>
+<body class="plugins-contact">
+{include file="section/top.phtml"}
+<div class="container-fluid">
+    <div class="row-fluid">
+    {include file="section/colleft.phtml"}
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1>Plugin contact</h1>
+                    <p class="span6 alert alert-success fade in">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <span class="icon-ok"></span> Le plugin à été installé avec succès
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="section/footer.phtml"}
+{include file="section/js.phtml"}
+{include file="js.phtml"}
+</body>
+</html>

@@ -9,7 +9,9 @@
             {if $smarty.get.getlang}
                 MC_plugins_contact.runList(getlang);
             {else}
+            if($('#graph').length != 0){
                 MC_plugins_contact.runCharts();
+            }
             {/if}
         }
     });

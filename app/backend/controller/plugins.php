@@ -710,13 +710,12 @@ class backend_controller_plugins{
 	 * @static
 	 * Installation des tables mysql du plugin
 	 */
-	public function db_install_table($filename,$fetchFile,$plugin_folder=null){
+	public function db_install_table($filename,$displayFile,$plugin_folder=null){
 		try{
 			if(file_exists($this->load_sql_file($filename))){
 				if(magixglobal_model_db::create_new_sqltable($this->load_sql_file($filename,$plugin_folder))){
                     self::assign('refresh_plugins','<meta http-equiv="refresh" content="3";URL="'.$this->pluginUrl().'">');
-					$fetch = self::fetch($fetchFile);
-                    self::assign('install_db',$fetch);
+                    self::display($displayFile);
 				}
 			}
 		}catch (Exception $e){
