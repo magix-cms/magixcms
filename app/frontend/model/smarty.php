@@ -46,29 +46,11 @@
  * @name smarty
  *
  */
-/*$pathdir = dirname(realpath( __FILE__ ));
-$arraydir = array('app\frontend\config', 'app/frontend/config');
-$smartydir = magixglobal_model_system::root_path($arraydir,array('lib\smarty3', 'lib/smarty3') , $pathdir);*/
-$inc = magixglobal_model_system::base_path().'lib'.DIRECTORY_SEPARATOR.'smarty3'.DIRECTORY_SEPARATOR.'Smarty.class.php';
-if (file_exists($inc)) {
-	require_once($inc);
-}else{
-	throw new Exception('template core is not found');
-}
-class Security_Policy extends Smarty_Security {
-	// disable all PHP functions
-	//public $php_functions = null;
-	// remove PHP tags
-	public $php_handling = Smarty::PHP_PASSTHRU;
-	// allow everthing as modifier
-	//public $modifiers = array();
-}
-//if(!defined('REQUIRED_SMARTY_DIR')) define('REQUIRED_SMARTY_DIR','./');
 /**
  * Extend class smarty
  *
  */
-class frontend_config_smarty extends Smarty{
+class frontend_model_smarty extends Smarty{
 	/**
     * Variable statique permettant de porter l'instance unique
     */
@@ -152,8 +134,10 @@ class frontend_config_smarty extends Smarty{
 		/**
 		 * caching (true/false)
 		 */
-        $this->setCaching(false);
+        frontend_model_template::frontendTheme()->loadCache($this);
+        //$this->setCaching(false);
         //$this->setCachingType('apc');
+
 		/**
 		 * Use sub dirs (true/false)
 		 */
@@ -162,7 +146,7 @@ class frontend_config_smarty extends Smarty{
 		 * cache_dir -> cache
 		 */
         $this->setCacheDir(
-            self::setPath().'var/cache/'
+            self::setPath().'var/tpl_caches/'
         );
 		/**
 		 * load pre filter
@@ -186,7 +170,7 @@ class frontend_config_smarty extends Smarty{
 	public static function getInstance(){
         if (!isset(self::$instance))
       {
-         self::$instance = new frontend_config_smarty();
+         self::$instance = new frontend_model_smarty();
       }
     	return self::$instance;
     }

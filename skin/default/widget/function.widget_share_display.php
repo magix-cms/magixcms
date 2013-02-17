@@ -60,7 +60,7 @@ function smarty_function_widget_share_display($params, $template){
             $url['share'] = $url['root'].$url['relativ'];
 
         // ** Catch module's page name
-        $smarty = frontend_config_smarty::getInstance();
+        $smarty = frontend_model_smarty::getInstance();
 
         // ** identify active module
         $script['fileName'] = substr($_SERVER['SCRIPT_NAME'],1);

@@ -126,13 +126,13 @@ class frontend_model_template extends db_theme{
 	 * @param string $section
 	 */
 	public static function configLoad($section = ''){
-		frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $section);
+		frontend_model_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $section);
 	}
 	/**
 	 * Charge le theme selectionné ou le theme par défaut
 	 */
 	public function load_theme(){
-		$db = parent::s_current_theme();
+		$db = parent::s_setting_id('theme');
 		if($db['setting_value'] != null){
 			if($db['setting_value'] == 'default'){
 				$theme =  $db['setting_value'];
@@ -162,6 +162,30 @@ class frontend_model_template extends db_theme{
 		return self::frontendTheme()->load_theme();
 	}
 
+    /**
+     * Chargement du type de cache
+     * @param $smarty
+     */
+    public static function loadCache($smarty){
+        if (!self::frontendTheme() instanceof frontend_model_template){
+            throw new Exception('template instance is not found');
+        }else{
+            $config = parent::s_setting_id('cache');
+            switch($config['setting_value']){
+                case 'none':
+                    $smarty->setCaching(false);
+                    break;
+                case 'files':
+                    $smarty->setCaching(true);
+                    $smarty->setCachingType('file');
+                    break;
+                case 'apc':
+                    $smarty->setCaching(true);
+                    $smarty->setCachingType('apc');
+                    break;
+            }
+        }
+    }
     /**
      * Chargement des widgets additionnel du template courant
      * @param void $smarty
@@ -196,9 +220,9 @@ class frontend_model_template extends db_theme{
      */
     public static function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-            frontend_config_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
+            frontend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
         }else{
-            frontend_config_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
+            frontend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
         }
     }
 
@@ -216,9 +240,9 @@ class frontend_model_template extends db_theme{
      */
     public static function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-            return frontend_config_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+            return frontend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }else{
-            return frontend_config_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+            return frontend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }
     }
 
@@ -233,10 +257,10 @@ class frontend_model_template extends db_theme{
      */
 	public static function assign($tpl_var, $value = null, $nocache = false){
 		if (is_array($tpl_var)){
-			frontend_config_smarty::getInstance()->assign($tpl_var);
+			frontend_model_smarty::getInstance()->assign($tpl_var);
 		}else{
 			if($tpl_var){
-				frontend_config_smarty::getInstance()->assign($tpl_var,$value,$nocache);
+				frontend_model_smarty::getInstance()->assign($tpl_var,$value,$nocache);
 			}else{
 				throw new Exception('Unable to assign a variable in template');
 			}
@@ -251,7 +275,7 @@ class frontend_model_template extends db_theme{
 	 * @param object $parent
 	 */
 	public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
-		frontend_config_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
+		frontend_model_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
 	}
 
     /**
@@ -261,7 +285,7 @@ class frontend_model_template extends db_theme{
      * @return string
      */
 	public static function getConfigVars($varname = null, $search_parents = true){
-		return frontend_config_smarty::getInstance()->getConfigVars($varname, $search_parents);
+		return frontend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
 
 	/**
@@ -274,7 +298,7 @@ class frontend_model_template extends db_theme{
 	 */
 	public static function addConfigFile(array $addConfigDir,array $load_files,$debug=false){
 		if(is_array($addConfigDir)){
-			frontend_config_smarty::getInstance()->addConfigDir($addConfigDir);
+			frontend_model_smarty::getInstance()->addConfigDir($addConfigDir);
 		}else{
 			throw new Exception('Error: addConfigDir is not array');
 		}
@@ -282,23 +306,23 @@ class frontend_model_template extends db_theme{
 			foreach ($load_files as $row=>$val){
 				if(is_string($row)){
 					if(array_key_exists($row, $load_files)){
-						frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad($row), $val);
+						frontend_model_smarty::getInstance()->configLoad(self::pathConfigLoad($row), $val);
 					}
 				}else{
-					frontend_config_smarty::getInstance()->configLoad(self::pathConfigLoad($load_files[$row]));
+					frontend_model_smarty::getInstance()->configLoad(self::pathConfigLoad($load_files[$row]));
 				}
 			}
 		}else{
 			throw new Exception('Error: load_files is not array');
 		}
 		if($debug!=false){
-			$config_dir = frontend_config_smarty::getInstance()->getConfigDir();
+			$config_dir = frontend_model_smarty::getInstance()->getConfigDir();
 			$firebug = new magixcjquery_debug_magixfire();
 			$firebug->magixFireDump('Config Dir', $config_dir);
 			$firebug->magixFireDump('Load Files in configdir', $load_files);
-			$firebug->magixFireDump('Config vars', frontend_config_smarty::getInstance()->getConfigVars());
+			$firebug->magixFireDump('Config vars', frontend_model_smarty::getInstance()->getConfigVars());
 		}
-	} 
+	}
 }
 /**
  * Class db theme
@@ -308,12 +332,15 @@ class frontend_model_template extends db_theme{
  */
 class db_theme{
     /**
-     * Retourne le theme utilisé
+     * @param $setting_id
+     * @return array
      */
-    protected function s_current_theme(){
-    	$sql = 'SELECT setting_value FROM mc_setting 
-    	WHERE setting_id = "theme"';
-		return magixglobal_model_db::layerDB()->selectOne($sql);
+    protected function s_setting_id($setting_id){
+        $sql = 'SELECT setting_label,setting_value
+    	FROM mc_setting WHERE setting_id = :setting_id';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':setting_id'	=>	$setting_id
+        ));
     }
 }
 ?>
