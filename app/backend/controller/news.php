@@ -713,7 +713,7 @@ class backend_controller_news extends backend_db_news{
                 $header->json_header("UTF-8");
                 $this->json_graph();
             }else{
-                backend_controller_template::display('news/index.phtml');
+                $create->display('news/index.phtml');
             }
         }
 	}

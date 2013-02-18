@@ -61,7 +61,7 @@ class backend_model_modules{
 	public function __construct($arraymods = ''){
 		self::$_array_module = $arraymods;
 	}
-	private function _tab_module(){
+	private function array_module(){
 		if(self::$_array_module != null){
 			$tabs = self::$_array_module;
 		}else{
@@ -75,13 +75,25 @@ class backend_model_modules{
 	 * Menu select pour le choix du module
 	 */
 	public static function select_menu_module(){
-		$arrayMod = self::_tab_module();
+		/*$arrayMod = self::_tab_module();
 		$module = '<select name="attribute" id="attribute" class="ui-widget-content">';
 		$module .= '<option value="">Choisir un module</option>';
 		foreach($arrayMod as $md => $key){
 			$module .='<option value="'.$key.'">'.$md.'</option>';
 		}
 		$module .= '</select>';
-		return $module;
+		return $module;*/
+        $default_array = self::array_module();
+        $select = backend_model_forms::select_static_row(
+            $default_array,
+            array(
+                'attr_name'=>'attribute',
+                'attr_id'=>'attribute',
+                'default_value'=>'',
+                'empty_value'=>'Selectionner le module',
+                'upper_case'=>false
+            )
+        );
+        return $select;
 	}
 }

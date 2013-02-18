@@ -44,14 +44,14 @@
  * @name rewritemetas
  *
  */
-class backend_db_rewritemetas{
+class backend_db_seo{
 /**
      * selectionne la métas suivant la catégorie, la langue et le type (title ou description)
      * @param $codelang (langue)
      * @param $attribute (module ex: rewritenews = 5)
      * @param $idmetas (1 ou 2) (title ou description)
      */
-	protected function s_rewrite_meta($attribute=null){
+	/*protected function s_rewrite_meta($attribute=null){
 		if($attribute != null){
 			$id = 'WHERE r.attribute = '.$attribute;
 		}else{
@@ -59,19 +59,28 @@ class backend_db_rewritemetas{
 		}
 		$sql = 'SELECT r.idrewrite,r.idmetas,lang.iso,r.strrewrite,r.level,r.attribute 
 		FROM mc_metas_rewrite as r
-		LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
+		JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
 		'.$id.'
 		ORDER BY lang.iso';
 		return magixglobal_model_db::layerDB()->select($sql);
-	}
+	}*/
+    protected function s_rewrite_meta($getlang){
+        $sql = 'SELECT r.idrewrite,r.idmetas,lang.iso,r.strrewrite,r.level,r.attribute
+		FROM mc_metas_rewrite as r
+		JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
+		WHERE r.idlang = :getlang';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':getlang'  => $getlang
+        ));
+    }
 	/**
 	 * selectionne les données suivant la langue
 	 * @param $idlang
 	 */
 	protected function s_rewrite_v_lang($attribute,$idlang,$idmetas,$level){
 		$sql ='SELECT idrewrite
-				FROM mc_metas_rewrite AS r
-				WHERE r.attribute =:attribute AND r.idmetas =:idmetas AND r.level =:level AND r.idlang =:idlang';
+        FROM mc_metas_rewrite AS r
+        WHERE r.attribute =:attribute AND r.idmetas =:idmetas AND r.level =:level AND r.idlang =:idlang';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 		':attribute'=>	$attribute,	
 		':idlang' 	=>	$idlang,
@@ -102,7 +111,7 @@ class backend_db_rewritemetas{
 	 */
 	protected function i_rewrite_metas($attribute,$idlang,$strrewrite,$idmetas,$level){
     	$sql = 'INSERT INTO mc_metas_rewrite (attribute,idlang,strrewrite,idmetas,level) 
-				VALUE(:attribute,:idlang,:strrewrite,:idmetas,:level)';
+        VALUE(:attribute,:idlang,:strrewrite,:idmetas,:level)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':attribute'		=>	$attribute,
@@ -123,11 +132,7 @@ class backend_db_rewritemetas{
      */
 	protected function u_rewrite_metas($attribute,$idlang,$strrewrite,$idmetas,$level,$idrewrite){
     	$sql = 'UPDATE mc_metas_rewrite 
-    	SET attribute = :attribute,
-    	idlang  = :idlang,
-    	strrewrite = :strrewrite,
-    	idmetas = :idmetas,
-    	level = :level
+    	SET attribute = :attribute,idlang  = :idlang,strrewrite = :strrewrite,idmetas = :idmetas, level = :level
     	WHERE idrewrite = :idrewrite';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(

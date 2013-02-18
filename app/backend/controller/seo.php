@@ -44,17 +44,12 @@
  * @name rewritemetas
  *
  */
-class backend_controller_rewritemetas extends backend_db_rewritemetas{
+class backend_controller_seo extends backend_db_seo{
 	/**
 	 * 
 	 * @var intéger
 	 */
 	public $idmetas;
-	/**
-	 * 
-	 * @var intéger
-	 */
-	public $idlang;
 	/**
 	 * Identifiant de la configuration
 	 * @var integer
@@ -80,10 +75,9 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 	 * @var drmetas
 	 */
 	public $drmetas;
+    public $action,$tab,$getlang;
 	public function __construct(){
-		if(magixcjquery_filter_request::isPost('idlang')){
-			$this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
-		}
+
 		if(magixcjquery_filter_request::isPost('attribute')){
 			$this->attribute = magixcjquery_form_helpersforms::inputClean($_POST['attribute']);
 		}
@@ -102,21 +96,71 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 		if(magixcjquery_filter_request::isPost('drmetas')){
 			$this->drmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['drmetas']);
 		}
+        //Global
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('tab')){
+            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
+        if(magixcjquery_filter_request::isGet('getlang')){
+            $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
+        }
 	}
-	/**
-	 * Affiche la réécriture des métas trié par langue
-	 * @access private
-	 */
-	private function json_list_metas(){
-		if(parent::s_rewrite_meta() != null){
-			foreach (parent::s_rewrite_meta() as $s){
-				$title[]= '{"idrewrite":'.json_encode($s['idrewrite']).',"attribute":'.json_encode($s['attribute']).
-				',"idmetas":'.json_encode($s['idmetas']).',"strrewrite":'.json_encode($s['strrewrite']).
-				',"level":'.json_encode($s['level']).',"iso":'.json_encode($s['iso']).'}';
+
+    /**
+     * Affiche la réécriture des métas suivant la langue
+     * @access private
+     */
+    private function json_list_metas(){
+		if(parent::s_rewrite_meta($this->getlang) != null){
+			foreach (parent::s_rewrite_meta($this->getlang) as $key){
+				$json[]= '{"idrewrite":'.json_encode($key['idrewrite']).',"attribute":'.json_encode($key['attribute']).
+				',"idmetas":'.json_encode($key['idmetas']).',"strrewrite":'.json_encode($key['strrewrite']).
+				',"level":'.json_encode($key['level']).'}';
 			}
-			print '['.implode(',',$title).']';
+			print '['.implode(',',$json).']';
 		}
 	}
+    private function select_attribute($create){
+        $tabsModule = array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->load_listing_plugin());
+        $iniModules = new backend_model_modules($tabsModule);
+        $create->assign('select_attribute', $iniModules->select_menu_module());
+    }
+    private function select_level($create){
+        $select = backend_model_forms::select_static_row(
+            array(
+                '0'=>'Level 0',
+                '1'=>'Level 1',
+                '2'=>'Level 2',
+                '3'=>'Level 3'
+            ),
+            array(
+                'attr_name'=>'level',
+                'attr_id'=>'level',
+                'default_value'=>'',
+                'empty_value'=>'Selectionner le niveau',
+                'upper_case'=>false
+            )
+        );
+        $create->assign('select_level', $select);
+    }
+    private function select_metas($create){
+        $select = backend_model_forms::select_static_row(
+            array(
+                '1'=>'Title',
+                '2'=>'Description'
+            ),
+            array(
+                'attr_name'=>'idmetas',
+                'attr_id'=>'idmetas',
+                'default_value'=>'',
+                'empty_value'=>'Selectionner le type',
+                'upper_case'=>false
+            )
+        );
+        $create->assign('select_metas', $select);
+    }
 	/**
 	 * insertion de la réécriture des métas
 	 * @access private
@@ -251,10 +295,6 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 							if($options_mod['plugins'] == true){
 								$list['plugins:'.$d]='plugins:'.$d;
 							}
-							//$list[$options_mod[0]]='plugins_'.$d;
-							/*if($options_mod['plugins'] == true){
-								$ini[]='plugins_'.$d;
-							}*/
 						}
 					}
 				}
@@ -269,9 +309,7 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 	private function display(){
 		$this->insertion_rewrite();
 		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-		$tabsModule = array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->load_listing_plugin());
-		$iniModules = new backend_model_modules($tabsModule);
-		backend_controller_template::assign('select_module', $iniModules->select_menu_module());
+
 		backend_controller_template::display('config/seo.phtml');
 	}
 	/**
@@ -279,8 +317,9 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 	 * Execute la fonction run
 	 */
 	public function run(){
-		$header= new magixglobal_model_header();
-		if(magixcjquery_filter_request::isGet('add')){
+        $header= new magixglobal_model_header();
+        $create = new backend_controller_template();
+		/*if(magixcjquery_filter_request::isGet('add')){
 			self::insertion_rewrite();
 		}elseif(magixcjquery_filter_request::isGet('edit')){
 			if(magixcjquery_filter_request::isPost('strrewrite')){
@@ -300,6 +339,28 @@ class backend_controller_rewritemetas extends backend_db_rewritemetas{
 			self::d_rewrite();
 		}else{
 			self::display();
-		}
+		}*/
+        if(magixcjquery_filter_request::isGet('getlang')){
+            if(isset($this->action)){
+                if($this->action == 'list'){
+                    if(magixcjquery_filter_request::isGet('json_list_seo')){
+                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->pragma();
+                        $header->cache_control("nocache");
+                        $header->getStatus('200');
+                        $header->json_header("UTF-8");
+                        $this->json_list_metas();
+                    }else{
+                        $this->select_attribute($create);
+                        $this->select_level($create);
+                        $this->select_metas($create);
+                        $create->display('seo/list.phtml');
+                    }
+                }
+            }
+        }else{
+            $create->display('seo/index.phtml');
+        }
 	}
 }

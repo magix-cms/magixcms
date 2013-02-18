@@ -36,14 +36,21 @@
  * MAGIX CMS
  * @category   admin
  * @package    Exec Files
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, magix-cms.com http://www.magix-cjquery.com
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
+ * http://www.magix-cms.com,  http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.2
+ * @version    2.0
  * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name config
+ * @name seo
  *
  */
+$baseadmin = 'baseadmin.php';
+if(file_exists($baseadmin)){
+    require $baseadmin;
+    if(!defined('PATHADMIN')){
+        throw new Exception('PATHADMIN is not defined');
+    }
+}
 /**
  * Charge toutes les Classes de l'application
  */
@@ -56,7 +63,7 @@ $members->securePage();
 $members->closeSession();
 if(magixcjquery_filter_request::isSession('useradmin')){
 	backend_controller_config::load_attribute_config();
-	$config = new backend_controller_rewritemetas();
+	$config = new backend_controller_seo();
 	$config->run();
 }
 ?>
