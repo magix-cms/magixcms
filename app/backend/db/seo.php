@@ -77,45 +77,49 @@ class backend_db_seo{
 	 * selectionne les données suivant la langue
 	 * @param $idlang
 	 */
-	protected function s_rewrite_v_lang($attribute,$idlang,$idmetas,$level){
+	protected function v_rewrite_meta($getlang,$attribute,$idmetas,$level){
 		$sql ='SELECT idrewrite
         FROM mc_metas_rewrite AS r
-        WHERE r.attribute =:attribute AND r.idmetas =:idmetas AND r.level =:level AND r.idlang =:idlang';
+        WHERE r.attribute =:attribute
+        AND r.idmetas =:idmetas
+        AND r.level =:level
+        AND r.idlang =:getlang';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-		':attribute'=>	$attribute,	
-		':idlang' 	=>	$idlang,
-		':idmetas'	=>	$idmetas,
-		':level'	=>	$level
+            ':getlang' 	=>	$getlang,
+            ':attribute'=>	$attribute,
+            ':idmetas'	=>	$idmetas,
+            ':level'	=>	$level
 		));
 	}
 	/**
 	 * selectionne les données suivant la langue
 	 * @param $idlang
 	 */
-	protected function s_rewrite_for_edit($idrewrite){
+	protected function s_rewrite_data($edit){
 		$sql ='SELECT lang.idlang,lang.iso,r.attribute,r.idrewrite,r.strrewrite,r.idmetas,r.level
-				FROM mc_metas_rewrite AS r
-				LEFT JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
-				WHERE r.idrewrite =:idrewrite';
+        FROM mc_metas_rewrite AS r
+        JOIN mc_lang AS lang ON(r.idlang = lang.idlang)
+        WHERE r.idrewrite =:edit';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':idrewrite'	=>	$idrewrite
+			':edit'	=>	$edit
 		));
 	}
-	/**
-	 * insertion d'une réecriture des métas
-	 * @param $attribute
-	 * @param $idlang
-	 * @param $strrewrite
-	 * @param $idmetas
-	 * @param $level
-	 */
-	protected function i_rewrite_metas($attribute,$idlang,$strrewrite,$idmetas,$level){
-    	$sql = 'INSERT INTO mc_metas_rewrite (attribute,idlang,strrewrite,idmetas,level) 
-        VALUE(:attribute,:idlang,:strrewrite,:idmetas,:level)';
+
+    /**
+     * insertion d'une réecriture des métas
+     * @param $getlang
+     * @param $attribute
+     * @param $strrewrite
+     * @param $idmetas
+     * @param $level
+     */
+	protected function i_rewrite_metas($getlang,$attribute,$strrewrite,$idmetas,$level){
+    	$sql = 'INSERT INTO mc_metas_rewrite (idlang,attribute,strrewrite,idmetas,level)
+        VALUE(:getlang,:attribute,:strrewrite,:idmetas,:level)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':attribute'		=>	$attribute,
-			':idlang'			=>	$idlang,
+			':getlang'			=>	$getlang,
 			':strrewrite'		=>	$strrewrite,
 			':idmetas'			=>	$idmetas,
 			':level'			=>	$level
@@ -130,18 +134,18 @@ class backend_db_seo{
      * @param $level
      * @param $idrewrite
      */
-	protected function u_rewrite_metas($attribute,$idlang,$strrewrite,$idmetas,$level,$idrewrite){
+	protected function u_rewrite_metas($getlang,$attribute,$strrewrite,$idmetas,$level,$edit){
     	$sql = 'UPDATE mc_metas_rewrite 
-    	SET attribute = :attribute,idlang  = :idlang,strrewrite = :strrewrite,idmetas = :idmetas, level = :level
-    	WHERE idrewrite = :idrewrite';
+    	SET attribute = :attribute,idlang = :getlang, strrewrite = :strrewrite, idmetas = :idmetas, level = :level
+    	WHERE idrewrite = :edit';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
-			':attribute'		=>	$attribute,
-			':idlang'			=>	$idlang,
-			':strrewrite'		=>	$strrewrite,
-			':idmetas'			=>	$idmetas,
-			':level'			=>	$level,
-			':idrewrite'		=>	$idrewrite
+            ':getlang'			=>	$getlang,
+            ':attribute'		=>	$attribute,
+            ':strrewrite'		=>	$strrewrite,
+            ':idmetas'			=>	$idmetas,
+            ':level'			=>	$level,
+            ':edit'		        =>	$edit
 		));
     }
     /**

@@ -72,9 +72,9 @@ class backend_controller_seo extends backend_db_seo{
 	public $edit;
 	/**
 	 * Supprime une réécriture via l'identifiant
-	 * @var drmetas
+	 * @var delete_metas
 	 */
-	public $drmetas;
+	public $delete_metas;
     public $action,$tab,$getlang;
 	public function __construct(){
 
@@ -93,8 +93,8 @@ class backend_controller_seo extends backend_db_seo{
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
-		if(magixcjquery_filter_request::isPost('drmetas')){
-			$this->drmetas = magixcjquery_filter_isVar::isPostNumeric($_POST['drmetas']);
+		if(magixcjquery_filter_request::isPost('delete_metas')){
+			$this->delete_metas = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_metas']);
 		}
         //Global
         if(magixcjquery_filter_request::isGet('action')){
@@ -122,12 +122,30 @@ class backend_controller_seo extends backend_db_seo{
 			print '['.implode(',',$json).']';
 		}
 	}
-    private function select_attribute($create){
-        $tabsModule = array_merge(array('News'=>'news','Catalogue'=>'catalog'),$this->load_listing_plugin());
+
+    /**
+     * Selection de l'attribut
+     * @param $create
+     * @param null $update
+     */
+    private function select_attribute($create,$update=null){
+        $tabsModule = array_merge(
+            array('news'=>'News','catalog'=>'catalogue'),
+            $this->load_listing_plugin()
+        );
         $iniModules = new backend_model_modules($tabsModule);
-        $create->assign('select_attribute', $iniModules->select_menu_module());
+        $create->assign('select_attribute', $iniModules->select_menu_module($update));
     }
-    private function select_level($create){
+
+    /**
+     * Selection du niveau
+     * @param $create
+     * @param null $update
+     */
+    private function select_level($create,$update=null){
+        if($update != null){
+            $default = array($update=> 'level '.$update);
+        }
         $select = backend_model_forms::select_static_row(
             array(
                 '0'=>'Level 0',
@@ -138,14 +156,28 @@ class backend_controller_seo extends backend_db_seo{
             array(
                 'attr_name'=>'level',
                 'attr_id'=>'level',
-                'default_value'=>'',
+                'default_value'=>$default,
                 'empty_value'=>'Selectionner le niveau',
                 'upper_case'=>false
             )
         );
         $create->assign('select_level', $select);
     }
-    private function select_metas($create){
+
+    /**
+     * selection du type
+     * @param $create
+     * @param null $update
+     */
+    private function select_metas($create,$update=null){
+        if($update != null){
+            if($update == 1){
+                $default = array($update=>'title');
+            }elseif($update == 2){
+                $default = array($update=>'description');
+            }
+
+        }
         $select = backend_model_forms::select_static_row(
             array(
                 '1'=>'Title',
@@ -154,47 +186,56 @@ class backend_controller_seo extends backend_db_seo{
             array(
                 'attr_name'=>'idmetas',
                 'attr_id'=>'idmetas',
-                'default_value'=>'',
+                'default_value'=>$default,
                 'empty_value'=>'Selectionner le type',
                 'upper_case'=>false
             )
         );
         $create->assign('select_metas', $select);
     }
+
 	/**
 	 * insertion de la réécriture des métas
 	 * @access private
 	 */
-	private function insertion_rewrite(){
+	private function add($create){
 		if(isset($this->strrewrite)){
 			if(empty($this->attribute) OR empty($this->idmetas)){
-				backend_controller_template::display('request/empty.phtml');
-			}elseif(parent::s_rewrite_v_lang($this->attribute,$this->idlang,$this->idmetas,$this->level) == null){
+                $create->display('seo/request/empty.phtml');
+			}elseif(parent::v_rewrite_meta($this->getlang,$this->attribute,$this->idmetas,$this->level) == null){
 				parent::i_rewrite_metas(
+                    $this->getlang,
 					$this->attribute,
-					$this->idlang,
 					$this->strrewrite,
 					$this->idmetas,
 					$this->level
 				);
-				backend_controller_template::display('config/request/add_seo.phtml');
+                $create->display('seo/request/success_add.phtml');
 			}else{
-				backend_controller_template::display('request/element-exist.phtml');
+                $create->display('seo/request/element_exist.phtml');
 			}
 		}
 	}
+
 	/**
 	 * Mise à jour de la réécriture suivant l'identifiant
 	 * @access private
 	 */
-	private function update_rewrite(){
+	private function update($create){
 		if(isset($this->edit)){
 			if(isset($this->strrewrite)){
 				if(empty($this->attribute) OR empty($this->idmetas)){
-					backend_controller_template::display('request/empty.phtml');
+                    $create->display('seo/request/empty.phtml');
 				}else{
-					parent::u_rewrite_metas($this->attribute,$this->idlang,$this->strrewrite,$this->idmetas,$this->level,$this->edit);
-					backend_controller_template::display('config/request/update_seo.phtml');
+					parent::u_rewrite_metas(
+                        $this->getlang,
+                        $this->attribute,
+                        $this->strrewrite,
+                        $this->idmetas,
+                        $this->level,
+                        $this->edit
+                    );
+                    $create->display('seo/request/success_update.phtml');
 				}
 			}
 		}
@@ -203,34 +244,28 @@ class backend_controller_seo extends backend_db_seo{
 	 * Supprime la réécriture suivant l'identifiant
 	 * @access public
 	 */
-	private function d_rewrite(){
-		if(isset($this->drmetas)){
-			parent::d_rewrite_metas($this->drmetas);
+	private function remove_rewrite(){
+		if(isset($this->delete_metas)){
+			parent::d_rewrite_metas($this->delete_metas);
 		}
 	}
 	/**
 	 * Charge les données dans le formulaire d'édition
 	 * @access private
 	 */
-	private function load_rewrite_for_edit(){
+	private function load_rewrite($create,$data){
 		if(isset($this->edit)){
-			$load = parent::s_rewrite_for_edit($this->edit);
-			backend_controller_template::assign('strrewrite',$load['strrewrite']);
-			backend_controller_template::assign('idlang',$load['idlang']);
-			backend_controller_template::assign('iso',$load['iso']);
-			backend_controller_template::assign('attribute',$load['attribute']);
-			backend_controller_template::assign('level',$load['level']);
-			backend_controller_template::assign('idmetas',$load['idmetas']);
+            $assign_exclude = array(
+                'iso','idlang','attribute','idmetas','level'
+            );
+            foreach($data as $key => $value){
+                if(!(array_search($key,$assign_exclude))){
+                    $create->assign($key,$value);
+                }
+            }
 		}
 	}
-	/**
-	 * Affiche le fomulaire de modification ainsi que la liste des réécritures disponible
-	 * @access public
-	 */
-	private function display_seo_edit(){
-		self::load_rewrite_for_edit();
-		backend_controller_template::display('config/editseo.phtml');
-	}
+
 	/**
 	 * execute ou instance la class du plugin
 	 * @param void $className
@@ -302,16 +337,7 @@ class backend_controller_seo extends backend_db_seo{
 		}
 		return $list;
 	}
-	/**
-	 * Affiche le formulaire et une liste des réécritures disponible
-	 * @access public
-	 */
-	private function display(){
-		$this->insertion_rewrite();
-		backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
 
-		backend_controller_template::display('config/seo.phtml');
-	}
 	/**
 	 * 
 	 * Execute la fonction run
@@ -356,6 +382,27 @@ class backend_controller_seo extends backend_db_seo{
                         $this->select_level($create);
                         $this->select_metas($create);
                         $create->display('seo/list.phtml');
+                    }
+                }elseif($this->action == 'add'){
+                    if(isset($this->strrewrite)){
+                        $this->add($create);
+                    }
+                }elseif($this->action == 'edit'){
+                    if(isset($this->edit)){
+                        $data = parent::s_rewrite_data($this->edit);
+                        if(isset($this->strrewrite)){
+                            $this->update($create);
+                        }else{
+                            $this->load_rewrite($create,$data);
+                            $this->select_attribute($create,$data['attribute']);
+                            $this->select_level($create,$data['level']);
+                            $this->select_metas($create,$data['idmetas']);
+                            $create->display('seo/edit.phtml');
+                        }
+                    }
+                }elseif($this->action == 'remove'){
+                    if(isset($this->delete_metas)){
+                        $this->remove_rewrite();
                     }
                 }
             }

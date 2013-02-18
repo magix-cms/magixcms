@@ -1,0 +1,34 @@
+<form id="forms_seo_edit" method="post" action="">
+    <div class="row-fluid">
+        <div class="span4">
+            <p class="control-group">
+            {$select_attribute}
+            </p>
+            <p class="control-group">
+            {$select_level}
+            </p>
+            <p class="control-group">
+            {$select_metas}
+            </p>
+        </div>
+        <div class="span8">
+            <p class="control-group">
+                <textarea id="strrewrite" name="strrewrite" class="span7" rows="2">{$strrewrite}</textarea>
+            </p>
+            <ul class="inline">
+                <li>
+                    <a href="#" id="add-category" class="btn btn-link"><span class="icon-plus"></span> Catégorie</a>
+                </li>
+                <li>
+                    <a href="#" id="add-subcategory" class="btn btn-link"><span class="icon-plus"></span> Sous Catégorie</a>
+                </li>
+                <li>
+                    <a href="#" id="add-product" class="btn btn-link"><span class="icon-plus"></span> Produits</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <p>
+        <input type="submit" class="btn btn-primary" value="Envoyer" />
+    </p>
+</form>

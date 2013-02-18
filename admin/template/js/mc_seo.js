@@ -93,7 +93,12 @@ var MC_seo = (function ($, undefined) {
                             $(document.createElement("th")).append("attribut"),
                             $(document.createElement("th")).append("idmetas"),
                             $(document.createElement("th")).append("metas"),
-                            $(document.createElement("th")).append("niveau")
+                            $(document.createElement("th")).append("niveau"),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
+                                    .addClass("icon-edit")
+                            )
                             ,
                             $(document.createElement("th"))
                                 .append(
@@ -120,6 +125,14 @@ var MC_seo = (function ($, undefined) {
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
                         );
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/admin/seo.php?getlang='+getlang+'&action=edit&edit='+item.idrewrite)
+                                .attr("title", "Editer "+item.idrewrite)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-edit")
+                            )
+                        );
                         tbody.append(
                             $(document.createElement("tr"))
                                 .append(
@@ -127,7 +140,8 @@ var MC_seo = (function ($, undefined) {
                                 $(document.createElement("td")).append(item.attribute),
                                 $(document.createElement("td")).append(item.idmetas),
                                 $(document.createElement("td")).append(item.strrewrite),
-                                $(document.createElement("td")).append(item.level)
+                                $(document.createElement("td")).append(item.level),
+                                edit
                                 ,
                                 remove
                             )
@@ -158,13 +172,94 @@ var MC_seo = (function ($, undefined) {
             }
         });
     }
+    function add(getlang){
+        var url = '/admin/seo.php?getlang='+getlang+'&action=add';
+        var formsAdd = $('#forms_seo_add').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                attribute: {
+                    required: true
+                },
+                level: {
+                    required: true
+                },
+                idmetas: {
+                    required: true
+                },
+                strrewrite: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        jsonList(getlang);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_seo_add').formsAdd;
+    }
+    function update(getlang,edit){
+        var url = '/admin/seo.php?getlang='+getlang+'&action=edit&edit='+edit;
+        var formsUpdate = $('#forms_seo_edit').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                attribute: {
+                    required: true
+                },
+                level: {
+                    required: true
+                },
+                idmetas: {
+                    required: true
+                },
+                strrewrite: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_seo_edit').formsUpdate;
+    }
     return {
         //Fonction Public        
         run:function () {
         },
         runList:function(getlang){
             addTags();
+            add(getlang);
             jsonList(getlang);
+        },
+        runEdit:function(getlang,edit){
+            update(getlang,edit);
         }
     };
 })(jQuery);

@@ -52,7 +52,7 @@ class backend_model_modules{
 	 */
 	private static $_array_module;
 	private static $options_default = array(
-		'News'=>'news','Catalogue'=>'catalog'
+		'news'=>'News','catalog'=>'Catalogue'
 	);
 	/**
 	 * 
@@ -74,22 +74,14 @@ class backend_model_modules{
 	 * @static
 	 * Menu select pour le choix du module
 	 */
-	public static function select_menu_module(){
-		/*$arrayMod = self::_tab_module();
-		$module = '<select name="attribute" id="attribute" class="ui-widget-content">';
-		$module .= '<option value="">Choisir un module</option>';
-		foreach($arrayMod as $md => $key){
-			$module .='<option value="'.$key.'">'.$md.'</option>';
-		}
-		$module .= '</select>';
-		return $module;*/
+	public static function select_menu_module($update=null){
         $default_array = self::array_module();
         $select = backend_model_forms::select_static_row(
             $default_array,
             array(
                 'attr_name'=>'attribute',
                 'attr_id'=>'attribute',
-                'default_value'=>'',
+                'default_value'=>$update,
                 'empty_value'=>'Selectionner le module',
                 'upper_case'=>false
             )
