@@ -40,6 +40,40 @@
  */
 var MC_seo = (function ($, undefined) {
     //Fonction Private
+    function graph(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/seo.php?json_graph=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#graph').html(loader);
+            },
+            successParams:function(data){
+                $('#graph').empty();
+                $.nicenotify.initbox(data,{
+                    display:false
+                });
+                var $graph = data;
+                //var obj = $.parseJSON($graph);
+                //console.log($graph);
+                new Morris.Bar({
+                    element: 'graph',
+                    data: $graph,
+                    xkey: 'x',
+                    ykeys: ['y'],
+                    labels: ['REWRITE'],
+                    barSizeRatio: 0.35
+                });
+            }
+        });
+    }
     function addTags(){
         $("#add-category").bind("click",function (){
             var myContent = $("#strrewrite").val();
@@ -251,7 +285,8 @@ var MC_seo = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        run:function () {
+        runCharts:function(){
+            graph();
         },
         runList:function(getlang){
             addTags();

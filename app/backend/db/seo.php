@@ -64,6 +64,23 @@ class backend_db_seo{
 		ORDER BY lang.iso';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}*/
+    /*######################## Statistiques ##############################*/
+    /**
+     * @return array
+     */
+    protected function s_stats_rewrite(){
+        $sql = 'SELECT lang.iso, IF( r.rewrite_count >0, r.rewrite_count, 0 ) AS REWRITE
+        FROM mc_lang AS lang
+        LEFT OUTER JOIN (
+            SELECT lang.idlang, lang.iso, count( r.idrewrite ) AS rewrite_count
+            FROM mc_metas_rewrite AS r
+            JOIN mc_lang AS lang ON ( r.idlang = lang.idlang )
+            GROUP BY r.idlang
+            )r ON ( r.idlang = lang.idlang )
+        GROUP BY lang.idlang';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+
     protected function s_rewrite_meta($getlang){
         $sql = 'SELECT r.idrewrite,r.idmetas,lang.iso,r.strrewrite,r.level,r.attribute
 		FROM mc_metas_rewrite as r

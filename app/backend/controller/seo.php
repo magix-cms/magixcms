@@ -338,6 +338,22 @@ class backend_controller_seo extends backend_db_seo{
 		return $list;
 	}
 
+    /**
+     * @access private
+     * Requête JSON pour les statistiques du CMS
+     */
+    private function json_graph(){
+        if(parent::s_stats_rewrite() != null){
+            foreach (parent::s_stats_rewrite() as $key){
+                $stat[]= array(
+                    'x'=>magixcjquery_string_convert::upTextCase($key['iso']),
+                    'y'=>$key['REWRITE']
+                );
+            }
+            print json_encode($stat);
+        }
+    }
+
 	/**
 	 * 
 	 * Execute la fonction run
@@ -407,7 +423,17 @@ class backend_controller_seo extends backend_db_seo{
                 }
             }
         }else{
-            $create->display('seo/index.phtml');
+            if(magixcjquery_filter_request::isGet('json_graph')){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_graph();
+            }else{
+                $create->display('seo/index.phtml');
+            }
         }
 	}
 }
