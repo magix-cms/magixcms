@@ -321,7 +321,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->title_page, 
 					$uri_page
 				);
-				backend_controller_template::display('cms/request/success_add.phtml');
+				$create->display('cms/request/success_add.phtml');
 			}
 		}
 	}
@@ -659,7 +659,8 @@ class backend_controller_cms extends backend_db_cms{
 	 * @access public 
 	 */
 	public function run(){
-		$header= new magixglobal_model_header();
+        $header= new magixglobal_model_header();
+        $create = new backend_controller_template();
 		if(magixcjquery_filter_request::isGet('getlang')){
 			if(magixcjquery_filter_request::isGet('json_page_p')){
 				$this->json_parent_p();
@@ -687,9 +688,9 @@ class backend_controller_cms extends backend_db_cms{
 				}*/elseif(isset($this->title_page)){
                     $this->insert_new_child_page($this->title_page,$this->get_page_p);
                 }else{
-					backend_controller_template::assign('parent_title',$this->parent_page($this->get_page_p));
-					backend_controller_template::assign('language', $this->parent_language($this->getlang));
-					backend_controller_template::display('cms/child_page.phtml');	
+					$create->assign('parent_title',$this->parent_page($this->get_page_p));
+					$create->assign('language', $this->parent_language($this->getlang));
+					$create->display('cms/child_page.phtml');
 				}
 			}elseif(magixcjquery_filter_request::isGet('edit')){
                 if(magixcjquery_filter_request::isPost('idlang_p')){
@@ -704,7 +705,7 @@ class backend_controller_cms extends backend_db_cms{
                     $this->json_other_language_page($this->edit);
                 }else{
                     $this->load_edit_page($this->edit);
-                    backend_controller_template::display('cms/edit.phtml');
+                    $create->display('cms/edit.phtml');
                 }
             }elseif(magixcjquery_filter_request::isGet('add_parent_p')){
                 $this->insert_new_page_p($this->title_page,$this->idlang);
@@ -713,7 +714,7 @@ class backend_controller_cms extends backend_db_cms{
                     $this->update_move_page();
                 }else{
                     $this->load_data_move_page($this->movepage);
-                    backend_controller_template::display('cms/movepage.phtml');
+                    $create->display('cms/movepage.phtml');
                 }
             }elseif(magixcjquery_filter_request::isGet('get_search_page')){
                 $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
@@ -733,9 +734,9 @@ class backend_controller_cms extends backend_db_cms{
                 if(isset($this->title_page)){
                     $this->insert_new_page_p($this->title_page);
                 }else{
-                    backend_controller_template::assign('selectlang',null);
-                    backend_controller_template::assign('language', $this->parent_language($this->getlang));
-                    backend_controller_template::display('cms/parent_page.phtml');
+                    $create->assign('selectlang',null);
+                    $create->assign('language', $this->parent_language($this->getlang));
+                    $create->display('cms/parent_page.phtml');
                 }
 			}
 		}else{
@@ -748,8 +749,8 @@ class backend_controller_cms extends backend_db_cms{
 				$header->json_header("UTF-8");
 				$this->json_graph();
 			}else{
-				backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-				backend_controller_template::display('cms/index.phtml');
+				$create->assign('selectlang',backend_model_blockDom::select_language());
+				$create->display('cms/index.phtml');
 			}
 		}
 	}

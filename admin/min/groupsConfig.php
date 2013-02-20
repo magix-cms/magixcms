@@ -17,7 +17,7 @@ return array(
      '//'.PATHADMIN.'/template/js/plugins/bootstrap.2.2.3.min.js','//'.PATHADMIN.'/template/js/plugins/holder.js'),
 	'jimagine' => array('//libjs/jimagine/config.js','//libjs/jimagine/jmConstant.js',
 	'//libjs/jimagine/plugins/jquery.nicenotify.js','//libjs/jimagine/plugins/jquery.jmShowIt.js',
-    '//'.PATHADMIN.'/template/js/plugins/jquery.fancybox.min.js','//'.PATHADMIN.'/template/js/setting.js'),
+    '//'.PATHADMIN.'/template/js/plugins/jquery.fancybox.js','//'.PATHADMIN.'/template/js/setting.js'),
 	'globalize'=> array('//libjs/globalize/globalize.js','//libjs/globalize/cultures/globalize.cultures.js'),
     'charts'=>array('//'.PATHADMIN.'/template/js/plugins/raphael-min.js','//'.PATHADMIN.'/template/js/plugins/morris.min.js'),
     'tinymce' => array('//'.PATHADMIN.'/template/js/tiny_mce.'.VERSION_EDITOR.'/jquery.tinymce.js'),

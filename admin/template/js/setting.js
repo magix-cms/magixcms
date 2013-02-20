@@ -39,17 +39,22 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 $(function(){
+    // jmShowIt config
     $('a.showit').jmShowIt({
         open: 'open',
         contenerClass : 'div.collapse-item',
         activeClass : 'on',
         debug : false
     });
+    // dropdown config
     $('.dropdown-toggle').dropdown();
-    $('.nav-collapse > .brand').on('click',function(event){
+
+    //Prevent link brand
+    $('.nav-collapse .nav .brand').on('click',function(event){
         event.preventDefault();
         return false;
     });
+    //Unlock input text
     $('.unlocked').on('click',function(event){
         event.preventDefault();
         var lock = $('span.icon-lock',this);
@@ -62,12 +67,7 @@ $(function(){
             unlock.removeClass('icon-unlock').addClass('icon-lock');
         }
     });
-    /**
-     * Prevent link
-     */
-    $('.brand[href^=#]').on('click',function(e) {
-        e.preventDefault()
-    });
+
     //$(".alert").alert('close');
     /*$("a[rel=popover]").popover({
         placement: 'right',
@@ -107,6 +107,8 @@ $(function(){
             timer = setTimeout(function(){hidePopover(popover_parent)},300);
         }
     }, '.popover');*/
+
+    // Tooltip configuration
     $(document).on({
         mouseenter: function() {
             //stuff to do on mouseover
@@ -120,16 +122,16 @@ $(function(){
         }
 
     },'thead th span[rel=tooltip]');
-    /*$("a.post-preview").on('click',function(event){
-        event.preventDefault();
-        return false;
-    });*/
+
+    // Fancybox config
     $("a.post-preview").fancybox({
         type: 'iframe',
         autoSize : false,
         width : '90%',
         padding : 5
     });
+
+    // Holder config
     Holder.add_theme(
         "bright",
         { background: "white", foreground: "gray", size: 12 }
