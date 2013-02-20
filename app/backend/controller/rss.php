@@ -45,12 +45,15 @@
  *
  */
 class backend_controller_rss extends backend_db_rss{
+
 	/**
 	 * @access private
 	 * variable d'instance la class magixcjquery_xml_rss
 	 * @var $rss
 	 */
+
 	private $rss;
+    
 	/**
 	 * 
 	 * Constructor
@@ -58,6 +61,7 @@ class backend_controller_rss extends backend_db_rss{
 	public function __construct(){
 		$this->rss = new magixcjquery_xml_rss();
 	}
+
 	/**
 	 * Retourne le dossier racine de l'installation de magix cms pour l'écriture du fichier XML
 	 * @access private
@@ -69,23 +73,24 @@ class backend_controller_rss extends backend_db_rss{
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
+
 	/**
 	 * Ouverture du fichier XML pour ecriture de l'entête
 	 **/
 	private function create_xml_file_news($iso){
-		/*On demande de vérifier si le fichier existe et si pas on le crée*/
+        // On demande de vérifier si le fichier existe et si pas on le crée
 		$this->rss->createRSS(
             $this->dir_XML_FILE(),
             'news_'.$iso.'_rss.xml'
         );
-		/*On ouvre le fichier*/
+        // On ouvre le fichier
 		$this->rss->openFileRSS(
             $this->dir_XML_FILE(),
             'news_'.$iso.'_rss.xml'
         );
-		/*On demande une indentation automatique (optionnelle)*/
+        // On demande une indentation automatique (optionnelle)
 		$this->rss->indentRSS(true);
-		/*On écrit l'entête avec l'encodage souhaité*/
+        // On écrit l'entête avec l'encodage souhaité
 		$this->rss->startWriteAtom(
             'utf-8',
             $iso,
@@ -96,10 +101,12 @@ class backend_controller_rss extends backend_db_rss{
         );
 	}
 
-	/**
-	 * Création d'un noeud dans le fichier XML
-	 */
-	private function create_node_xml_news($idlang,$iso){
+    /**
+     * Création d'un noeud dans le fichier XML
+     * @param $idlang
+     * @param $iso
+     */
+    private function create_node_xml_news($idlang,$iso){
 		$attr_name = parent::s_config_named_data('news');
 		if($attr_name['status'] == 1){
 		   foreach(parent::s_news($idlang) as $data){
@@ -123,6 +130,7 @@ class backend_controller_rss extends backend_db_rss{
 	}
 
     /**
+     * Création du fichier XML pour les news
      * @param $idlang
      * @param $iso
      */
@@ -131,26 +139,34 @@ class backend_controller_rss extends backend_db_rss{
 		$this->create_node_xml_news($idlang,$iso);
 		$this->endNodeXML();
 	}
+
     /**
      * Ouverture du fichier XML pour ecriture de l'entête
-     **/
-    private function plugins_CreateXMLFile($name){
-        /*On demande de vérifier si le fichier existe et si pas on le crée*/
-        $this->rss->createRSS($this->dir_XML_FILE(),$name.'_rss.xml');
-        /*On ouvre le fichier*/
+     * @param $iso
+     * @param $name
+     */
+    private function create_xml_file_plugin($iso,$name){
+        // On demande de vérifier si le fichier existe et si pas on le crée
+        $this->rss->createRSS($this->dir_XML_FILE(),$name.'_'.$iso.'_rss.xml');
+        // On ouvre le fichier*/
         $this->rss->openFileRSS($this->dir_XML_FILE(),'_rss.xml');
-        /*On demande une indentation automatique (optionnelle)*/
+        // On demande une indentation automatique (optionnelle)
         $this->rss->indentRSS(true);
-        /*On écrit l'entête avec l'encodage souhaité*/
-        $this->rss->startWriteAtom('utf-8','fr',null,null,null,"/'.$name.'_rss.xml");
+        // On écrit l'entête avec l'encodage souhaité
+        $this->rss->startWriteAtom('utf-8',$iso,null,null,null,'/'.$name.'_'.$iso.'_rss.xml');
     }
 
-	public function plugins_rss($CreateNodeXML){
+    /**
+     * @param $iso
+     * @param $createNodeXML
+     */
+    public function xml_plugin($iso,$createNodeXML){
 		$plugins = new backend_controller_plugins();
-		$this->plugins_CreateXMLFile($plugins->pluginName());
-		$CreateNodeXML;
+		$this->create_xml_file_plugin($iso,$plugins->pluginName());
+        $createNodeXML;
 		$this->endNodeXML();
 	}
+
     /**
      * Fin de l'écriture du XML + fermeture balise
      */
@@ -158,16 +174,20 @@ class backend_controller_rss extends backend_db_rss{
         /*On ferme les noeuds*/
         $this->rss->endWriteRSS();
     }
+
 	/**
 	 * Exécution de la création du fichier RSS
 	 */
-	public function run($module,$array_params){
+	public function run($module,$array_params,$createNodeXML=false){
 		switch ($module){
 			case 'news':
                 $idlang = $array_params['idlang'];
                 $iso = $array_params['iso'];
 				$this->xml_news($idlang,$iso);
 			break;
+            case 'plugins':
+                $iso = $array_params['iso'];
+                $this->xml_plugin($iso,$createNodeXML);
 		}
 	}
 }
