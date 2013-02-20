@@ -157,31 +157,15 @@ class plugins_contact_public extends database_plugins_contact{
 		'</table>'
 		.'</body></html>';
 	}
-	/**
-	 * Charge le fichier de configuration de base de smarty
-	 * @access private
-	 */
-	private function _loadConfigVars(){
-		frontend_controller_plugins::create()->configLoad();
-	}
-	/**
-	 * Retourne les variables de configuration
-	 * @access private
-	 */
-	private function _getVars(){
-		$loadConfig = frontend_controller_plugins::create();
-		$loadConfig->configLoad();
-		return $loadConfig->getConfigVars();
-	}
+
 	/**
 	 * Envoi du mail 
 	 * Si return true retourne success.phtml
 	 * sinon retourne empty.phtml
 	 */
-	protected function send_email(){
+	protected function send_email($create){
 		if(isset($this->email)){
-			$this->_loadConfigVars();
-			$create = frontend_controller_plugins::create();
+            $create->configLoad();
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
 				$create->display('empty.phtml');
 			}elseif(!magixcjquery_filter_isVar::isMail($this->email)){
@@ -220,11 +204,11 @@ class plugins_contact_public extends database_plugins_contact{
 	 * Execute le plugin dans la partie public
 	 */
 	public function run(){
-		$this->_loadConfigVars();
+        $create = frontend_controller_plugins::create();
+        $create->configLoad();
 		if(isset($this->email)){
-			$this->send_email();
+			$this->send_email($create);
 		}else{
-			$create = frontend_controller_plugins::create();
 			$create->display('index.phtml');
 		}
     }
