@@ -434,8 +434,15 @@ class backend_controller_news extends backend_db_news{
 					$this->published,
 					$this->edit
 				);
-				/*$rss = new backend_controller_rss();
-				$rss->run('news');*/
+                $lang = new backend_db_block_lang();
+                $data = $lang->s_data_iso($this->getlang);
+                $rss = new backend_controller_rss();
+                $rss->run('news',
+                    array(
+                        'idlang'=>$data['idlang'],
+                        'iso'=>$data['iso']
+                    )
+                );
                 $create->display('news/request/success_update.phtml');
 			}
 		}
@@ -469,8 +476,15 @@ class backend_controller_news extends backend_db_news{
 	private function update_published(){
 		if(isset($this->idnews) AND isset($this->published)){
 			parent::u_status_published($this->idnews,$this->published);
-			/*$rss = new backend_controller_rss();
-		    $rss->run('news');*/
+            $lang = new backend_db_block_lang();
+            $data = $lang->s_data_iso($this->getlang);
+			$rss = new backend_controller_rss();
+		    $rss->run('news',
+                array(
+                    'idlang'=>$data['idlang'],
+                    'iso'=>$data['iso']
+                )
+            );
 		}
 	}
 

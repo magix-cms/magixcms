@@ -45,19 +45,33 @@
  *
  */
 class backend_db_rss{
-	/**
-     * selectionne les news avec un paramètre optionnelle du nombre
-     * @param $limit
-     * @param $max
+
+    /**
+     * @param $idlang
+     * @return array
      */
-    protected function s_news_rss(){
-    	$sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_content,lang.iso,n.idlang,n.date_register,
-    	n.n_uri,m.pseudo,n.date_publish,n.published
-		FROM mc_news AS n
-		LEFT JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-		LEFT JOIN mc_admin_member AS m ON(n.idadmin = m.idadmin) 
-		WHERE n.published = 1
+    protected function s_news($idlang){
+    	$sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_image,n.n_content,lang.iso,n.idlang,
+        n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
+        FROM mc_news AS n
+        JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+        JOIN mc_admin_member AS m ON(m.idadmin=n.idadmin)
+		WHERE n.published = 1 AND n.idlang = :idlang
 		ORDER BY n.idnews DESC';
-		return magixglobal_model_db::layerDB()->select($sql);
+		return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idlang'=>$idlang
+        ));
+    }
+
+    /**
+     * @param $attr_name
+     * @return array
+     */
+    protected function s_config_named_data($attr_name){
+        $sql = 'SELECT attr_name,status FROM mc_config
+    	WHERE attr_name = :attr_name';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':attr_name' =>	$attr_name
+        ));
     }
 }

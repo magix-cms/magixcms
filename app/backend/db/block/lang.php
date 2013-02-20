@@ -72,7 +72,7 @@ class backend_db_block_lang{
     	$sql = 'SELECT lang.idlang,lang.iso,lang.language 
     	FROM mc_lang AS lang WHERE idlang = :getlang';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':getlang'			=>	$getlang
+			':getlang'	=>	$getlang
 		));
     }
     /**

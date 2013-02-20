@@ -253,7 +253,7 @@ var MC_pages = (function ($, undefined) {
                         );
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&movepage='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&move='+item.idpage)
                                 .attr("title", "Déplacement de la page: "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -493,7 +493,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&movepage='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&move='+item.idpage)
                                 .attr("title", "Déplacement de la page: "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -715,6 +715,36 @@ var MC_pages = (function ($, undefined) {
                 ]
             });
         });
+    }
+    function move(getlang,edit){
+        var url = '/admin/cms.php?getlang='+getlang+'&edit='+edit;
+        var formsPages = $('#forms_cms_move').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                title_page: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        JsonUrlPage(getlang,edit);
+                    }
+                });
+                return false;
+            }
+        });
+        $('#forms_cms_edit').formsUpdatePages;
     }
     function autoCompleteSearch(getlang){
         $( "#title_search" ).autocomplete({

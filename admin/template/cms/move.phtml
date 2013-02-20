@@ -1,0 +1,25 @@
+{include file="section/head.phtml"}
+<title>Magix CMS | Admin</title>
+</head>
+<body class="module-dashboard">
+{include file="section/top.phtml"}
+<div class="container-fluid">
+    <div class="row-fluid">
+    {include file="section/colleft.phtml"}
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span12">
+                {include file="cms/section/nav.phtml"}
+                    <h1>Déplacer la page : {$idpage}</h1>
+                    <div class="mc-message clearfix"></div>
+                    {include file="cms/forms/move.phtml"}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="section/footer.phtml"}
+{include file="section/js.phtml"}
+{include file="cms/section/js.phtml"}
+</body>
+</html>

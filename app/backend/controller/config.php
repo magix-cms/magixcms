@@ -135,7 +135,6 @@ class backend_controller_config extends backend_db_config{
 	}
 
     /**
-     * @param $create
      * @return array
      */
     private function load_data_config(){
@@ -150,6 +149,10 @@ class backend_controller_config extends backend_db_config{
         return array_combine($id,$status);
     }
 
+    /**
+     * Assigne les variables de configuration
+     * @param $create
+     */
     private function load_assign_config($create){
         $data = self::load_data_config();
         foreach($data as $key => $value){
@@ -173,7 +176,7 @@ class backend_controller_config extends backend_db_config{
     /**
      * @param $create
      */
-    private function load_data_setting($create){
+    private function load_assign_setting($create){
         $data = parent::s_data_setting();
         $assign_exclude = array(
             'webmaster','analytics','magix_version'
@@ -239,11 +242,11 @@ class backend_controller_config extends backend_db_config{
 	 */
 	public static function load_attribute_config(){
         $create = new backend_controller_template();
-        /*$config = parent::s_setting_id('editor');
-        $create->assign('manager_setting',$config['setting_value']);
-        $create->assign('array_lang',self::load_lang_config());*/
-        self::load_data_setting($create);
+        // Assign du setting
+        self::load_assign_setting($create);
+        // Assigne la configuration
         self::load_assign_config($create);
+        // Assigne un tableau des langues
         $create->assign('array_lang',self::load_lang_config());
 	}
 
@@ -286,6 +289,11 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
+
+    /**
+     * Mise à jour du système de chargement dynamique de CSS dans l'éditeur
+     * @param $create
+     */
     private function update_content_css($create){
         if(isset($this->content_css)){
             if(empty($this->content_css)){
@@ -368,18 +376,29 @@ class backend_controller_config extends backend_db_config{
         );
         return $select;
     }
+
+    /**
+     * Mise à jour de la concaténation
+     * @param $create
+     */
     private function update_concat_data($create){
         if(isset($this->concat)){
             parent::u_setting_value('concat',$this->concat);
             $create->display('config/request/success_update.phtml');
         }
     }
+
+    /**
+     * Mise à jour du gestionnaire de cache
+     * @param $create
+     */
     private function update_cache_data($create){
         if(isset($this->cache)){
             parent::u_setting_value('cache',$this->cache);
             $create->display('config/request/success_update.phtml');
         }
     }
+
 	/**
 	 * @access public
 	 * 

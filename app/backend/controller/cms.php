@@ -62,7 +62,7 @@ class backend_controller_cms extends backend_db_cms{
 	public $getlang,$get_page_p,$edit,$title_search,$action;
 	public $post_search,$get_search_page,$title_p_lang,$title_p_move,$callback;
 	public $cat_p_lang;
-	public $del_relang_p,$delpage,$movepage;
+	public $del_relang_p,$delpage,$move;
 	/**
 	 * function construct class
 	 */
@@ -132,8 +132,8 @@ class backend_controller_cms extends backend_db_cms{
 			$this->del_relang_p = magixcjquery_filter_isVar::isPostNumeric($_POST['del_relang_p']);
 		}
 		//MOVE
-		if(magixcjquery_filter_request::isGet('movepage')){
-			$this->movepage = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['movepage']);
+		if(magixcjquery_filter_request::isGet('move')){
+			$this->move = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['move']);
 		}
 		if(magixcjquery_filter_request::isGet('title_p_move')){
 			$this->title_p_move = magixcjquery_form_helpersforms::inputClean($_GET['title_p_move']);
@@ -404,6 +404,7 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+
 	/**
 	 * @access private
 	 * Retourne les pages dans les autres langues de la page courante
@@ -471,6 +472,7 @@ class backend_controller_cms extends backend_db_cms{
 			print $this->callback.'([{"id":"0","value":"Aucune valeur"}])';
 		}
 	}
+
 	/**
 	 * @access private
 	 * Insertion d'une relation linguistique
@@ -493,6 +495,7 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+
 	/**
 	 * Suppression d'une relation de langue
 	 * @access private
@@ -502,6 +505,7 @@ class backend_controller_cms extends backend_db_cms{
 			parent::d_rel_lang_p($this->del_relang_p);
 		}
 	}
+
 	/**
 	 * Suppression d'une relation de langue
 	 * @access private
@@ -516,6 +520,7 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+
 	/**
 	 * Execute Update AJAX FOR order
 	 * @access private
@@ -529,6 +534,7 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+
 	/**
 	 * @access private
 	 * Modification du status d'une page CMS dans la sidebar
@@ -538,6 +544,7 @@ class backend_controller_cms extends backend_db_cms{
 			parent::u_status_sidebar_page($this->sidebar_page, $this->idpage);
 		}
 	}
+
 	/**
 	 * @access private
 	 * Retourne les pages CMS suivant la langue pour l'autocomplete
@@ -552,6 +559,7 @@ class backend_controller_cms extends backend_db_cms{
 			print $this->callback.'([{"idpage":"0","title_page":"Aucune valeur"}])';
 		}
 	}
+
 	/**
 	 * @access private
 	 * Rechercher une page CMS via les titres et retourne sous forme JSON
@@ -605,6 +613,7 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+
 	/**
 	 * @access private
 	 * Requête JSON pour les statistiques du CMS
@@ -621,36 +630,70 @@ class backend_controller_cms extends backend_db_cms{
             print json_encode($stat);
         }
 	}
-	/**
-	 * @access private
-	 * Charge les données pour le déplacement d'une page CMS
-	 * @param integer $movepage
-	 */
-	protected function load_data_move_page($movepage){
-		$db = parent::s_edit_page($movepage);
-			backend_controller_template::assign('idpage', $db['idpage']);
-			backend_controller_template::assign('title_page', $db['title_page']);
-			backend_controller_template::assign('iso', $db['iso']);
-			backend_controller_template::assign('uri_page', $db['uri_page']);
-			backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-	}
+
+    /**
+     * Retourne un menu select des langues
+     * @return string
+     */
+    private function lang_select(){
+        $idlang = '';
+        $iso = '';
+        foreach(backend_db_block_lang::s_data_lang() as $key){
+            $idlang[]=$key['idlang'];
+            $iso[]=$key['iso'];
+        }
+        $lang_conb = array_combine($idlang,$iso);
+        $select = backend_model_forms::select_static_row(
+            $lang_conb
+            ,
+            array(
+                'attr_name'=>'idlang',
+                'attr_id'=>'idlang',
+                'default_value'=>'',
+                'empty_value'=>'Selectionner les langues',
+                'upper_case'=>true
+            )
+        );
+        return $select;
+    }
+
+    /**
+     * @access private
+     * Charge les données pour le déplacement d'une page CMS
+     * @param $create
+     * @param integer $move
+     * @return void
+     */
+	protected function load_data_move_page($create,$move){
+		$data = parent::s_edit_page($move);
+        $create->assign(
+            array(
+                'idpage'        =>  $data['idpage'],
+                'title_page'    =>  $data['title_page'],
+                'iso'           =>  $data['iso'],
+                'uri_page'      =>  $data['uri_page'],
+                'selectlang'    =>  $this->lang_select()
+            )
+        );
+    }
+
 	/**
 	 * @access private
 	 * Modifie l'emplacement d'une page CMS
 	 */
-	protected function update_move_page(){
-		if(isset($this->idlang) AND isset($this->movepage)){
-			$verify = parent::verify_idcat_p($this->movepage);
+	protected function update_move_page($create){
+		if(isset($this->idlang) AND isset($this->move)){
+			$verify = parent::verify_idcat_p($this->move);
 			if($verify['childpages'] == '0'){
 				if($this->idcat_p != null){
 				$idcat_p = $this->idcat_p;
 				}else{
 					$idcat_p = 0;
 				}
-				parent::u_move_page($this->idlang, $idcat_p, $this->movepage);
-				backend_controller_template::display('request/success_conf.phtml');
+				parent::u_move_page($this->idlang, $idcat_p, $this->move);
+                $create->display('cms/request/success_update.phtml');
 			}else{
-				backend_controller_template::display('cms/request/element-child-exist.phtml');
+                $create->display('cms/request/child-exist.phtml');
 			}
 		}
 	}
@@ -709,12 +752,12 @@ class backend_controller_cms extends backend_db_cms{
                 }
             }elseif(magixcjquery_filter_request::isGet('add_parent_p')){
                 $this->insert_new_page_p($this->title_page,$this->idlang);
-            }elseif(magixcjquery_filter_request::isGet('movepage')){
+            }elseif(magixcjquery_filter_request::isGet('move')){
                 if(magixcjquery_filter_request::isPost('idlang')){
-                    $this->update_move_page();
+                    $this->update_move_page($create);
                 }else{
-                    $this->load_data_move_page($this->movepage);
-                    $create->display('cms/movepage.phtml');
+                    $this->load_data_move_page($create,$this->move);
+                    $create->display('cms/move.phtml');
                 }
             }elseif(magixcjquery_filter_request::isGet('get_search_page')){
                 $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");

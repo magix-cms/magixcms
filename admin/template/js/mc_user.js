@@ -49,7 +49,7 @@ var MC_user = (function ($, undefined) {
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                    .attr('src','/framework/img/small_loading.gif')
+                    .attr('src','/admin/template/img/loader/small_loading.gif')
                     .attr('width','20px')
                     .attr('height','20px')
                 )
@@ -141,7 +141,7 @@ var MC_user = (function ($, undefined) {
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('src','/admin/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
