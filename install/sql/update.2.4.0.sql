@@ -51,6 +51,12 @@ CREATE TABLE IF NOT EXISTS `mc_admin_role_user` (
   PRIMARY KEY (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+INSERT INTO `mc_admin_role_user` VALUES
+(NULL, 'administrator'),
+(NULL, 'editor'),
+(NULL, 'author'),
+(NULL, 'contributor');
+
 ALTER TABLE `mc_admin_member` ADD `id_role` SMALLINT( 3 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `idadmin`;
 
 DROP TABLE IF EXISTS `mc_admin_perms`;
@@ -80,7 +86,8 @@ UPDATE `mc_setting` SET `setting_value` = '2.4.0' WHERE `setting_id` = 'magix_ve
 INSERT INTO `mc_setting` VALUES
 (NULL, 'content_css', NULL, 'string', NULL),
 (NULL, 'concat', '0' , 'string', NULL),
-(NULL, 'cache', 'none' , 'string', NULL);
+(NULL, 'cache', 'none' , 'string', NULL),
+(NULL, 'googleplus', NULL , 'string', 'Google plus');
 
 ALTER TABLE `mc_catalog` ADD `imgcatalog` VARCHAR( 125 ) NULL AFTER `titlecatalog`;
 
