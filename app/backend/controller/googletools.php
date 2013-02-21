@@ -50,13 +50,19 @@ class backend_controller_googletools extends backend_db_config{
 	 * string
 	 * @var webmaster
 	 */
-	public $webmaster;
+	public $webmaster,
 	/**
 	 * @access public
 	 * string
 	 * @var analytics
 	 */
-	public $analytics;
+	$analytics,
+    /**
+     * @access public
+     * string
+     * @var googleplus
+     */
+    $googleplus;
     public $action;
 	/**
 	 * Function construct
@@ -68,6 +74,9 @@ class backend_controller_googletools extends backend_db_config{
 		if(magixcjquery_filter_request::isPost('analytics')){
 			$this->analytics = magixcjquery_form_helpersforms::inputClean($_POST['analytics']);
 		}
+        if(magixcjquery_filter_request::isPost('googleplus')){
+            $this->googleplus = magixcjquery_form_helpersforms::inputClean($_POST['googleplus']);
+        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -98,6 +107,8 @@ class backend_controller_googletools extends backend_db_config{
             $tools = 'webmaster';
         }elseif(isset($this->analytics)){
             $tools = 'analytics';
+        }elseif(isset($this->googleplus)){
+            $tools = 'googleplus';
         }
         switch($tools){
             case 'webmaster':
@@ -105,6 +116,9 @@ class backend_controller_googletools extends backend_db_config{
                 break;
             case 'analytics':
                 parent::u_setting_value('analytics',$this->analytics);
+                break;
+            case 'googleplus':
+                parent::u_setting_value('googleplus',$this->googleplus);
                 break;
         }
         $create->display('googletools/request/success_update.phtml');
@@ -119,7 +133,7 @@ class backend_controller_googletools extends backend_db_config{
         $create = new backend_controller_template();
         if(isset($this->action)){
             if($this->action === 'edit'){
-                if(isset($this->webmaster) OR isset($this->analytics)){
+                if(isset($this->webmaster) OR isset($this->analytics) OR isset($this->googleplus)){
                     $this->save($create);
                 }
             }
