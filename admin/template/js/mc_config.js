@@ -106,7 +106,12 @@ var MC_config = (function ($, undefined) {
                 ntype: "submit",
                 uri: '/admin/config.php?tab=imagesize&action=edit',
                 typesend: 'post',
-                idforms: $(this)
+                idforms: $(this),
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
             });
             return false;
         });

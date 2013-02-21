@@ -53,7 +53,7 @@ class backend_controller_rss extends backend_db_rss{
 	 */
 
 	private $rss;
-    
+
 	/**
 	 * 
 	 * Constructor

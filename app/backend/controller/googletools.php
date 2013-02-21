@@ -44,7 +44,7 @@
  * @name googletools
  *
  */
-class backend_controller_googletools{
+class backend_controller_googletools extends backend_db_config{
 	/**
 	 * @access public
 	 * string
@@ -57,6 +57,7 @@ class backend_controller_googletools{
 	 * @var analytics
 	 */
 	public $analytics;
+    public $action;
 	/**
 	 * Function construct
 	 */
@@ -67,69 +68,64 @@ class backend_controller_googletools{
 		if(magixcjquery_filter_request::isPost('analytics')){
 			$this->analytics = magixcjquery_form_helpersforms::inputClean($_POST['analytics']);
 		}
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
 	}
-	/**
-	 * Charge les données de google webmaster tools
-	 * @access private
-	 */
-	private function load_webmaster_gdata(){
-		$gdata = backend_model_setting::tabs_uniq_setting('webmaster');
-		backend_config_smarty::getInstance()->assign('webmaster',$gdata['setting_value']);
-	}
-	/**
-	 * Charge les données de google analytics
-	 * @access private
-	 */
-	private function load_analytics_gdata(){
-		$gdata = backend_model_setting::tabs_uniq_setting('analytics');
-		backend_config_smarty::getInstance()->assign('analytics',$gdata['setting_value']);
-	}
-	/**
-	 * Insert le code webmaster tools dans la base de donnée.
-	 * @access protected
-	 */
-	private function update_webmastertools(){
-		if(isset($this->webmaster)){
-			backend_model_setting::update_setting_value('webmaster',$this->webmaster);
-			backend_config_smarty::getInstance()->assign('googletools','Webmaster Tools');
-			backend_config_smarty::getInstance()->display('googletools/request/success.phtml');
-		}
-	}
-	/**
-	 * Insert le code analytics dans la base de donnée.
-	 * @access protected
-	 */
-	private function update_analytics(){
-		if(isset($this->analytics)){
-			backend_model_setting::update_setting_value('analytics',$this->analytics);
-			backend_config_smarty::getInstance()->assign('googletools','Analytics');
-			backend_config_smarty::getInstance()->display('googletools/request/success.phtml');
-		}
-	}
-	/**
-	 * affiche la page du formulaire pour l'insertion.
-	 */
-	private function display_gdata(){
-		$this->load_webmaster_gdata();
-		$this->load_analytics_gdata();
-		backend_config_smarty::getInstance()->display('googletools/index.phtml');
-	}
-	/**
-	 * Envoi les données des outils Google
-	 */
-	private function post_gdata(){
-		$this->update_webmastertools();
-		$this->update_analytics();
-	}
+
+    /**
+     * Chargement de la configuration des googletools
+     * @param $create
+     */
+    private function load_assign_setting($create){
+        $data = parent::s_data_setting();
+        $assign_exclude = array(
+            'theme','editor','magix_version','content_css','concat','cache'
+        );
+        foreach($data as $key){
+            if( !(array_search($key['setting_id'],$assign_exclude) ) ){
+                $create->assign($key['setting_id'],$key['setting_value']);
+            }
+        }
+    }
+
+    /**
+     * Enregistre la configuration des googletools
+     * @param $create
+     */
+    private function save($create){
+        if(isset($this->webmaster)){
+            $tools = 'webmaster';
+        }elseif(isset($this->analytics)){
+            $tools = 'analytics';
+        }
+        switch($tools){
+            case 'webmaster':
+                parent::u_setting_value('webmaster',$this->webmaster);
+                break;
+            case 'analytics':
+                parent::u_setting_value('analytics',$this->analytics);
+                break;
+        }
+        $create->display('googletools/request/success_update.phtml');
+    }
+
 	/**
 	 * Execute le module dans l'administration
 	 * @access public
 	 */
 	public function run(){
-		if(magixcjquery_filter_request::isGet('pgdata')){
-			self::post_gdata();
-		}else{
-			self::display_gdata();
-		}
+        $header= new magixglobal_model_header();
+        $create = new backend_controller_template();
+        if(isset($this->action)){
+            if($this->action === 'edit'){
+                if(isset($this->webmaster) OR isset($this->analytics)){
+                    $this->save($create);
+                }
+            }
+        }else{
+            $this->load_assign_setting($create);
+            $create->display('googletools/index.phtml');
+        }
 	}
 }

@@ -1,4 +1,3 @@
-<?php
 /*
  # -- BEGIN LICENSE BLOCK ----------------------------------
  #
@@ -33,37 +32,42 @@
  # needs please refer to http://www.magix-cms.com for more information.
  */
 /**
- * MAGIX CMS
- * @category   admin
- * @package    Exec Files
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
- * http://www.magix-cms.com, magix-cms.com http://www.magix-cjquery.com
- * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.2
- * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name home
- *
+ * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
+ * Copyright: MAGIX CMS
+ * Date: 21/02/13
+ * Time: 00:52
+ * License: Dual licensed under the MIT or GPL Version
  */
-/**
- * Charge toutes les Classes de l'application
- */
-require('../lib/mcbackend.php');
-$baseadmin = 'baseadmin.php';
-if(file_exists($baseadmin)){
-    require $baseadmin;
-    if(!defined('PATHADMIN')){
-        throw new Exception('PATHADMIN is not defined');
+var MC_googletools = (function ($, undefined) {
+
+    //Fonction Private
+    /**
+     * Mise à jour des googletools
+     * @param formsId
+     */
+    function update(formsId){
+        $('#'+formsId).on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/admin/googletools.php?action=edit',
+                typesend: 'post',
+                idforms: $(this),
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        });
     }
-}
-/**
- * Autoload backend
- */
-$members = new backend_controller_admin();
-$members->securePage();
-$members->closeSession();
-if(magixcjquery_filter_request::isSession('useradmin')){
-	backend_controller_config::load_attribute_config();
-	$tools = new backend_controller_googletools();
-	$tools->run();
-}
-?>
+    return {
+        //Fonction Public        
+        run:function () {
+            $(".forms-googletools").each(function(){
+                var formsId = $(this).attr('id');
+                update(formsId);
+            });
+        }
+    };
+})(jQuery);
