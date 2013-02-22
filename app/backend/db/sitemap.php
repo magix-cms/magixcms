@@ -45,6 +45,17 @@
  *
  */
 class backend_db_sitemap{
+    /**
+     * @param $attr_name
+     * @return array
+     */
+    protected function s_config_named_data($attr_name){
+        $sql = 'SELECT attr_name,status FROM mc_config
+    	WHERE attr_name = :attr_name';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':attr_name' =>	$attr_name
+        ));
+    }
 	/**
      * Sélections dans les news pour la construction du sitemap
      */
@@ -59,13 +70,15 @@ class backend_db_sitemap{
     /**
      * Sélections dans les news pour la construction du sitemap
      */
-    protected function s_news_sitemap(){
+    protected function s_news_sitemap($idlang){
     	$sql = 'SELECT n.idnews,n.n_title,n.n_content,n.n_image,n.n_uri,n.idlang,
     	n.date_register,n.date_publish,n.keynews,lang.iso
 		FROM mc_news as n
 		JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-		WHERE n.published = 1 AND lang.active_lang = 1 ORDER BY lang.idlang';
-		return magixglobal_model_db::layerDB()->select($sql);
+		WHERE n.published = 1 AND lang.active_lang = 1 AND lang.idlang = :idlang';
+		return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idlang'=>$idlang
+        ));
     }
 	/**
 	 * Retourne le nombre maximum de news
@@ -97,6 +110,21 @@ class backend_db_sitemap{
 		FROM mc_cms_pages AS p';
 		return magixglobal_model_db::layerDB()->selectOne($sql);
 	}
+
+    /**
+     * Compte le nombre de produit dans la langue
+     * @param $idlang
+     * @return array
+     */
+    protected function s_catalog_count($idlang){
+        $sql = 'SELECT count(cl.idcatalog) AS total
+        FROM mc_catalog AS cl
+        WHERE cl.idlang = :idlang';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':idlang'	=>	$idlang
+        ));
+    }
+
     /*
      * Selectionne les catégories du catalogue
      */
