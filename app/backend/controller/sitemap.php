@@ -51,26 +51,10 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	 * @var string
 	 */
 	const PATHPLUGINS = 'plugins';
-	/**
-	 * Creation du fichier xml index (get)
-	 * @var void
-	 **/
-	public $create_xml_index;
-	/**
-	 * Creation du fichier xml url (get)
-	 * @var void
-	 **/
-	public $create_xml_url;
-	/**
-	 * Creation du fichier xml images (get)
-	 * @var void
-	 **/
-	public $create_xml_images;
-	/**
-	 * Ping Google (get)
-	 * @var void
-	 **/
-	public $googleping,$compressionping,$idlang,$xml_type;
+
+	public $tools_type,
+        $idlang,
+        $xml_type;
 	/**
 	 * @access public
 	 * Constructor
@@ -79,21 +63,11 @@ class backend_controller_sitemap extends backend_db_sitemap{
         if(magixcjquery_filter_request::isPost('xml_type')) {
             $this->xml_type = magixcjquery_form_helpersforms::inputClean($_POST['xml_type']);
         }
-		/*if(magixcjquery_filter_request::isPost('create_xml_index')) {
-			$this->create_xml_index = magixcjquery_form_helpersforms::inputClean($_POST['create_xml_index']);
+
+		if(magixcjquery_filter_request::isPost('tools_type')) {
+			$this->tools_type = magixcjquery_form_helpersforms::inputClean($_POST['tools_type']);
 		}
-		if(magixcjquery_filter_request::isPost('create_xml_url')) {
-			$this->create_xml_url = magixcjquery_form_helpersforms::inputClean($_POST['create_xml_url']);
-		}
-		if(magixcjquery_filter_request::isPost('create_xml_images')) {
-			$this->create_xml_images = magixcjquery_form_helpersforms::inputClean($_POST['create_xml_images']);
-		}*/
-		if(magixcjquery_filter_request::isPost('googleping')) {
-			$this->googleping = magixcjquery_form_helpersforms::inputClean($_POST['googleping']);
-		}
-		if(magixcjquery_filter_request::isPost('compressionping')) {
-			$this->compressionping = magixcjquery_form_helpersforms::inputClean($_POST['compressionping']);
-		}
+
         if(magixcjquery_filter_request::isPost('idlang')){
             $this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
         }
@@ -787,14 +761,15 @@ class backend_controller_sitemap extends backend_db_sitemap{
             }elseif($this->xml_type == 'images'){
                 $this->images($create,$this->idlang);
             }
+        }elseif(isset($this->tools_type)){
+            if($this->tools_type == 'googleping'){
+                $this->googlePing($create);
+            }elseif($this->tools_type == 'compressed'){
+                $this->compressedGooglePing($create);
+            }
         }else{
             $create->assign('select_lang',$this->lang_select());
             $create->display('sitemap/index.phtml');
         }
-		/*if($this->googleping){
-			$this->googlePing();
-		}elseif($this->compressionping){
-			$this->compressedGooglePing();
-		}*/
 	}
 }

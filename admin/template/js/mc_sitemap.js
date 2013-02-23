@@ -40,6 +40,10 @@
  */
 var MC_sitemap = (function ($, undefined) {
     //Fonction Private
+
+    /**
+     * Création du sitemap principal
+     */
     function addIndex(){
         $('#sitemap_index').on('click',function(event){
             event.preventDefault();
@@ -58,6 +62,11 @@ var MC_sitemap = (function ($, undefined) {
             return false;
         })
     }
+
+    /**
+     * Création des sitemaps par langue
+     * @param type
+     */
     function add(type){
         $('#forms_sitemap_'+type+'_add').validate({
             onsubmit: true,
@@ -84,7 +93,24 @@ var MC_sitemap = (function ($, undefined) {
                 return false;
             }
         });
-
+    }
+    function googleping(type){
+        $('.googleping').on('click',function(event){
+            event.preventDefault();
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/admin/sitemap.php?action=add',
+                typesend: 'post',
+                idforms: $(this),
+                noticedata:{tools_type:type},
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        })
     }
     return {
         //Fonction Public        
