@@ -38,11 +38,60 @@
  * Time: 01:42
  * License: Dual licensed under the MIT or GPL Version
  */
-var MC_ = (function ($, undefined) {
+var MC_sitemap = (function ($, undefined) {
     //Fonction Private
+    function addIndex(){
+        $('#sitemap_index').on('click',function(event){
+            event.preventDefault();
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/admin/sitemap.php?action=add',
+                typesend: 'post',
+                idforms: $(this),
+                noticedata:{xml_type:'index'},
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        })
+    }
+    function add(type){
+        $('#forms_sitemap_'+type+'_add').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                idlang: {
+                    required: true
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/admin/sitemap.php?action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    noticedata:{xml_type:type},
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
+
+    }
     return {
         //Fonction Public        
         run:function () {
+            addIndex();
+            add('url');
+            add('images');
         }
     };
 })(jQuery);

@@ -156,14 +156,24 @@ $(function(){
             }else if ( element.is(":checkbox") ){
                 error.insertAfter(element);
             }else if ( element.is("select")){
-                /*if(element.next().is(":submit")){
-                    error.insertAfter(element.next());
-                    $("<br />").insertBefore(error);
+                if(element.next().is(":submit")){
+                    if($('.mc-error').length == 0){
+                        $(document.createElement("div"))
+                            .addClass('mc-error clearfix')
+                            .insertAfter(element.next())
+                            .append(
+                            error
+                        );
+                    }
+
+                    //error.insertAfter(element.next()).appendTo('')
                 }else{
+                    error.insertAfter(element);
+                }/*else{
                     error.insertAfter(element);
                     $("<br /><br />").insertBefore(error);
                 }*/
-                error.insertAfter(element);
+
             }else if ( element.is(".checkMail") ){
                 error.insertAfter(element.next());
             }else if ( element.is("#cryptpass") ){
@@ -188,6 +198,7 @@ $(function(){
         success: function(label) {
             // set &nbsp; as text for IE
             label.remove();
+            $('.mc-error').remove();
         }
     });
 });

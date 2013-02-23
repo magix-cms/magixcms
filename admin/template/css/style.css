@@ -239,3 +239,9 @@ ul.autocomplete-list-row li span{
     vertical-align:middle;
     min-width: 100px;
 }
+/**
+* setting error
+*/
+.mc-error{
+    margin:5px 0 0 0;
+}

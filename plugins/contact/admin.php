@@ -302,22 +302,28 @@ class plugins_contact_admin extends database_plugins_contact{
 			'records'=>false
 		);
 	}
-	/**
-	 * URL index du module suivant la langue
-	 * @param string $lang
-	 */
-	public function sitemap_uri_index(){
+
+    /**
+     * URL index du module suivant la langue
+     * @param $idlang
+     */
+	public function sitemap_uri_index($idlang){
 		$sitemap = new magixcjquery_xml_sitemap();
-       	$db = backend_db_block_lang::s_data_lang(true);
+        // Table des langues
+        $lang = new backend_db_block_lang();
+        // Retourne le code ISO
+        $db = $lang->s_data_iso($idlang);
        	if($db != null){
-       		foreach($db as $data){
-	        	 $sitemap->writeMakeNode(
-	        	 	magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_plugins_root_url($data['iso'], 'contact',true),
-		        	$this->lastmod_dateFormat(),
-		        	'always',
-		        	0.7
-	        	 );
-	        }
+           $sitemap->writeMakeNode(
+               magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_plugins_root_url(
+                   $db['iso'],
+                   'contact',
+                   true)
+               ,
+               $this->lastmod_dateFormat(),
+               'always',
+               0.7
+           );
        	}
 	}
 }
