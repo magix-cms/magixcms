@@ -41,19 +41,17 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    1.2
  * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name install
+ * @name index
  *
- */
-/**
- * Charge toutes les Classes de l'application
  */
 /**
  * Charge toutes les Classes de l'application
  */
 require('../lib/mcinstall.php');
 /**
- * Autoload Exec install
+ * Autoload Frontend
  */
 app_Autoloader::register();
-$init = new app_controller_config();
+$init = new app_controller_analysis();
 $init->run();
+?>

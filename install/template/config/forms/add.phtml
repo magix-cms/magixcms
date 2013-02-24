@@ -1,0 +1,59 @@
+<form id="forms_config_add" class="form-horizontal" method="post" action="">
+    <div class="control-group">
+        <label class="control-label" for="M_DBHOST">Host *</label>
+        <p class="controls">
+            <input type="text" placeholder="Host" class="input-xlarge" id="M_DBHOST" name="M_DBHOST" value="localhost" />
+        </p>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="M_DBDRIVER">Driver *</label>
+        <p class="controls">
+            <select id="M_DBDRIVER" name="M_DBDRIVER">
+                <option value="mysql">Mysql</option>
+            </select>
+        </p>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="M_DBUSER">Utilisateur </label>
+        <p class="controls">
+            <input type="text" placeholder="Utilisateur db" class="input-xlarge" id="M_DBUSER" name="M_DBUSER" value="" />
+        </p>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="M_DBPASSWORD">Mot de passe </label>
+        <p class="controls">
+            <input type="password" placeholder="Mot de passe db" class="input-xlarge" id="M_DBPASSWORD" name="M_DBPASSWORD" value="" />
+        </p>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="M_DBNAME">Nom de la base de données *</label>
+        <p class="controls">
+            <input type="text" placeholder="Nom de la base de données" class="input-xlarge" id="M_DBNAME" name="M_DBNAME" value="" />
+        </p>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="M_LOG">Log *</label>
+        <p class="controls">
+            <select name="M_LOG" id="M_LOG">
+                <option value="log">LOG</option>
+                <option value="debug">DEBUG</option>
+                <option value="false" selected="selected">OFF</option>
+            </select>
+        </p>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="M_FIREPHP">FirePHP *</label>
+        <p class="controls">
+            <select name="M_FIREPHP" id="M_FIREPHP">
+                <option value="log">LOG</option>
+                <option value="debug">DEBUG</option>
+                <option value="false" selected="selected">OFF</option>
+            </select>
+        </p>
+    </div>
+    <div class="control-group">
+        <p class="controls">
+            <input type="submit" class="btn btn-primary" value="Envoyer" />
+        </p>
+    </div>
+</form>

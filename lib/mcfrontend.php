@@ -65,14 +65,12 @@ if (!file_exists($loaderFilename)) {
 }
 $config = 'app/config/config.php';
 if (!file_exists($config)) {
-	//Header("Location: /install/index.php");
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 	header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
 	header("Pragma: no-cache" );
 	header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-	header('Content-Type: text/html; charset=utf-8');
-	print '<p>La base de donnée n\'existe pas, veuillez suivre la procédure pour faire l\'<a href="/install/">installation</a> de Magix CMS</p>';
-	exit;
+    header("Location: /install/");
+    exit;
 }
 magixglobal_Autoloader::register();
 /**
