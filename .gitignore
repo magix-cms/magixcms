@@ -3,6 +3,7 @@
 .idea
 .DS_STORE
 /app/config/config.php
+/app/config/old_config.php
 /upload/*
 /media/*
 /var/caches/*
