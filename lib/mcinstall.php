@@ -48,7 +48,7 @@
  * Charge toutes les Classes de l'application
  */
 $magixglobal = '../app/magixglobal/autoload.php';
-$mcinstall = 'exec/autoload.php';
+$mcinstall = 'app/autoload.php';
 if (!file_exists($magixglobal) || !file_exists($mcinstall)) {
 	throw new Exception("Autoload is not found Contact Webmestre: support@magix-cms.com");
 	exit;

@@ -34,24 +34,66 @@
  */
 /**
  * MAGIX CMS
- * @category   exec 
+ * @category   Controller 
  * @package    INSTALL
  * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
  * http://www.magix-cms.com, magix-cms.com http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.2
+ * @version    1.1
  * @author Gérits Aurélien <aurelien@magix-cms.com>
- * @name index
+ * @name exec_Autoloader
  *
  */
-/**
- * Charge toutes les Classes de l'application
- */
-require('../lib/mcinstall.php');
-/**
- * Autoload Frontend
- */
-app_Autoloader::register();
-$home = new app_controller_home();
-$home->run();
+class app_Autoloader{
+	/**
+	 * @static
+	 * @var path
+	 * string
+	 */
+	private static $path;
+	/**
+	 * @static
+	 * @var prefix
+	 * string
+	 */
+	private static $prefix;
+	 /**
+	  * Registration
+	  * @access public
+	  * @static
+	  * @name register
+	  */
+	  public static function register(){
+	    self::$prefix = substr(__CLASS__, 0, strpos(__CLASS__, '_')+1);
+	    self::$path   = dirname(dirname(realpath(__FILE__))).DIRECTORY_SEPARATOR;
+	    // ici est opéré la registration
+	    spl_autoload_register(array(__CLASS__, 'autoload'));
+	  }
+ 	/**
+ 	 * Autoload
+ 	 * @param void $class
+ 	 * @access public
+ 	 * @static
+ 	 */
+	  public static function autoload($class)
+	  {
+	    // vérifie que 'backend_' est bien le prefix demandé
+	    if (strpos($class, self::$prefix) === 0) {
+	    	if(file_exists(self::$path.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php')){
+	      		include self::$path
+	             .str_replace('_', DIRECTORY_SEPARATOR, $class)
+	             .'.php';
+	    	}
+	    }
+	  }
+	  /**
+	   * Supprime un fichier de l'autoload (contraire de register)
+	   * @param void $class
+	   * @access public
+ 	 	* @static
+	   */
+	  public static function unregister($class){
+	  	spl_autoload_unregister(array($class, 'autoload'));
+	  }
+}
 ?>

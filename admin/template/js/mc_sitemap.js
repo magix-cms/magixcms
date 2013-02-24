@@ -49,7 +49,7 @@ var MC_sitemap = (function ($, undefined) {
             event.preventDefault();
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/sitemap.php?action=add',
+                uri: '/admin/sitemap.php',
                 typesend: 'post',
                 idforms: $(this),
                 noticedata:{xml_type:'index'},
@@ -79,7 +79,7 @@ var MC_sitemap = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/sitemap.php?action=add',
+                    uri: '/admin/sitemap.php',
                     typesend: 'post',
                     idforms: $(form),
                     noticedata:{xml_type:type},
@@ -94,18 +94,19 @@ var MC_sitemap = (function ($, undefined) {
             }
         });
     }
-    function googleping(type){
-        $('.googleping').on('click',function(event){
+    function googleping(){
+        $(document).on('click','.googleping',function(event){
             event.preventDefault();
+            var type = $(this).attr('id');
+            //console.log(type);
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/sitemap.php?action=add',
+                uri: '/admin/sitemap.php',
                 typesend: 'post',
-                idforms: $(this),
                 noticedata:{tools_type:type},
                 successParams:function(data){
                     $.nicenotify.initbox(data,{
-                        display:true
+                        display:false
                     });
                 }
             });
@@ -118,6 +119,7 @@ var MC_sitemap = (function ($, undefined) {
             addIndex();
             add('url');
             add('images');
+            googleping();
         }
     };
 })(jQuery);

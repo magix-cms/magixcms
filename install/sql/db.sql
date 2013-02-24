@@ -47,15 +47,15 @@ CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `idadmin` smallint(5) unsigned NOT NULL,
   `urlcatalog` varchar(125) NOT NULL,
   `titlecatalog` varchar(125) NOT NULL,
+  `imgcatalog` varchar(125) DEFAULT NULL,
   `desccatalog` text,
   `price` decimal(12,2) DEFAULT NULL,
-  `ordercatalog` int(6) NOT NULL,
   `publish` smallint(1) unsigned NOT NULL DEFAULT '1',
   `date_catalog` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcatalog`),
   KEY `idclc` (`idlang`),
   KEY `idadmin` (`idadmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
   `idclc` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -69,6 +69,18 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_c` (
   KEY `idlang` (`idlang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
+  `idcls` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `slibelle` varchar(125) NOT NULL,
+  `pathslibelle` varchar(125) NOT NULL,
+  `img_s` varchar(125) DEFAULT NULL,
+  `s_content` text,
+  `idclc` smallint(5) unsigned NOT NULL,
+  `sorder` smallint(5) NOT NULL,
+  PRIMARY KEY (`idcls`),
+  KEY `idclc` (`idclc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `mc_catalog_galery` (
   `idmicro` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `idcatalog` int(6) unsigned NOT NULL,
@@ -76,12 +88,6 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_galery` (
   PRIMARY KEY (`idmicro`),
   KEY `idcatalog` (`idcatalog`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `mc_catalog_img` (
-  `idcatalog` int(6) unsigned NOT NULL,
-  `imgcatalog` varchar(125) NOT NULL,
-  PRIMARY KEY (`idcatalog`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_product` (
   `idproduct` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -101,18 +107,6 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_rel_product` (
   PRIMARY KEY (`idrelproduct`),
   KEY `idcatalog` (`idcatalog`),
   KEY `idproduct` (`idproduct`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `mc_catalog_s` (
-  `idcls` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `slibelle` varchar(125) NOT NULL,
-  `pathslibelle` varchar(125) NOT NULL,
-  `img_s` varchar(125) DEFAULT NULL,
-  `s_content` text,
-  `idclc` smallint(5) unsigned NOT NULL,
-  `sorder` smallint(5) NOT NULL,
-  PRIMARY KEY (`idcls`),
-  KEY `idclc` (`idclc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_cms_pages` (

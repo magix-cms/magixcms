@@ -762,7 +762,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
                 $this->images($create,$this->idlang);
             }
         }elseif(isset($this->tools_type)){
-            if($this->tools_type == 'googleping'){
+            if($this->tools_type == 'pinguer'){
                 $this->googlePing($create);
             }elseif($this->tools_type == 'compressed'){
                 $this->compressedGooglePing($create);
