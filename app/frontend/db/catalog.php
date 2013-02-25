@@ -102,13 +102,12 @@ class frontend_db_catalog
                 catalog.price,catalog.desccatalog,
                 c.clibelle,c.pathclibelle,s.slibelle,
                 s.pathslibelle,
-                img.imgcatalog,
+                catalog.imgcatalog,
                 lang.iso
             FROM mc_catalog_product AS p
             LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
             LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
             LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-            LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
             LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
             WHERE p.idproduct = :idproduct
         ';
@@ -257,13 +256,12 @@ class frontend_db_catalog
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
                 c.pathclibelle,
                 s.pathslibelle,
-                img.imgcatalog,
+                catalog.imgcatalog,
                 lang.iso
             FROM mc_catalog_product AS p
             LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
             LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
             LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-            LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
             JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
             {$where_clause}
             {$order_clause}
@@ -300,7 +298,7 @@ class frontend_db_catalog
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
                 c.pathclibelle,
                 s.pathslibelle,
-                img.imgcatalog,
+                catalog.imgcatalog,
                 lang.iso
             FROM (
               SELECT idcatalog
@@ -312,7 +310,6 @@ class frontend_db_catalog
             LEFT JOIN mc_catalog as catalog ON (p.idcatalog = catalog.idcatalog)
             LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
             LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-            LEFT JOIN mc_catalog_img AS img ON ( img.idcatalog = p.idcatalog )
             JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
             {$filter}
             ORDER BY p.orderproduct

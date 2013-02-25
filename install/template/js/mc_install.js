@@ -40,6 +40,10 @@
  */
 var MC_install = (function ($, undefined) {
     //Fonction Private
+    /**
+     * Retourne le tableau du résultat des analyses
+     * @param getlang
+     */
     function jsonAnalysis(getlang){
         $.nicenotify({
             ntype: "ajax",
@@ -186,6 +190,10 @@ var MC_install = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Création du fichier de configuration
+     */
     function addConfig(){
         $("#forms_config_add").validate({
             onsubmit: true,
@@ -217,6 +225,10 @@ var MC_install = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Test la connexion MYSQL
+     */
     function testConnexion(){
         $('#test_connexion').on('click',function(event){
             event.preventDefault();
@@ -239,6 +251,10 @@ var MC_install = (function ($, undefined) {
             });
         })
     }
+
+    /**
+     * Création de la base de données
+     */
     function database(){
         $('#process_db').on('click',function(event){
             event.preventDefault();
@@ -264,6 +280,53 @@ var MC_install = (function ($, undefined) {
             });
         })
     }
+
+    /**
+     * Ajoute un administrateur
+     */
+    function addUser(){
+        $("#forms_user_add").validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                pseudo: {
+                    required: true,
+                    minlength: 2
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                cryptpass: {
+                    //password: "#pseudo",
+                    required: true,
+                    minlength: 4
+                },
+                cryptpass_confirm: {
+                    required: true,
+                    equalTo: "#cryptpass"
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/install/user.php?action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:true,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                        setTimeout(function(){
+                            window.location.href = "/";
+                        },2800);
+                    }
+                });
+                return false;
+            }
+        });
+    }
     return {
         //Fonction Public        
         runAnalysis:function () {
@@ -275,6 +338,9 @@ var MC_install = (function ($, undefined) {
         },
         runDatabase:function(){
             database();
+        },
+        runUser:function(){
+            addUser();
         }
     };
 })(jQuery);

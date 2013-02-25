@@ -85,6 +85,12 @@ class app_controller_config{
         if(magixcjquery_filter_request::isPost('M_DBNAME')){
             $this->M_DBNAME = $_POST['M_DBNAME'];
         }
+        if(magixcjquery_filter_request::isPost('M_LOG')){
+            $this->M_LOG = $_POST['M_LOG'];
+        }
+        if(magixcjquery_filter_request::isPost('M_FIREPHP')){
+            $this->M_FIREPHP = $_POST['M_FIREPHP'];
+        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -135,7 +141,7 @@ class app_controller_config{
                 $writeconst->writeConstValue('M_DBUSER',$this->M_DBUSER,$full_conf);
                 $writeconst->writeConstValue('M_DBPASSWORD',$this->M_DBPASSWORD,$full_conf);
                 $writeconst->writeConstValue('M_DBNAME',$this->M_DBNAME,$full_conf);
-                switch(self::$M_LOG){
+                switch($this->M_LOG){
                     case 'debug':
                         $writeconst->writeConstValue('M_LOG',$this->M_LOG,$full_conf);
                         break;

@@ -236,5 +236,5 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'magix_version', '2.4.0', 'string', 'Version Magix CMS'),
 (NULL, 'content_css', NULL, 'string', NULL),
 (NULL, 'concat', '0' , 'string', NULL),
-(NULL, 'cache', 'none' , 'string', NULL)
+(NULL, 'cache', 'none' , 'string', NULL),
 (NULL, 'googleplus', NULL , 'string', 'Google plus');

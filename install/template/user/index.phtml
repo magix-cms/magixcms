@@ -16,31 +16,26 @@
                 <a href="/install/config.php">Configuration</a> <span class="divider">/</span>
             </li>
             <li>
-                <span class="active">Base de données</span>
+                <a href="/install/database.php">Base de données</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <span class="active">Administrateur</span>
             </li>
         </ul>
         <div class="mc-message clearfix"></div>
-        <div class="mc-info clearfix">
-            <div class="span7 alert alert-info">
-                <span class="icon-info-sign"></span> Le système se prépare à installer les tables SQL de votre base de données
-            </div>
-        </div>
-        <a href="#" class="btn btn-primary" id="process_db">
-            <span class="icon-cog"></span> Installer les tables
-        </a>
-        <div id="install_table"></div>
+        {include file="user/forms/add.phtml"}
         <ul class="pager">
             <li class="previous">
                 <a href="/install/analysis.php">&larr; Précédent</a>
             </li>
             <li class="next">
-                <a href="/install/user.php">Suivant &rarr;</a>
+                <a href="/install/database.php">Suivant &rarr;</a>
             </li>
         </ul>
     </div>
     {include file="section/footer.phtml"}
 </div>
 {include file="section/js.phtml"}
-{include file="database/section/js.phtml"}
+{include file="user/section/js.phtml"}
 </body>
 </html>
