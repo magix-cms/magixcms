@@ -1,0 +1,46 @@
+{include file="section/head.phtml"}
+<title>Magix CMS | Install</title>
+</head>
+<body class="install">
+<div class="container-narrow">
+    {include file="section/top.phtml"}
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li>
+                <a href="/install/">Démarrer</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="/install/analysis.php">Analyse</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="/install/config.php">Configuration</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <span class="active">Base de données</span>
+            </li>
+        </ul>
+        <div class="mc-message clearfix"></div>
+        <div class="mc-info clearfix">
+            <div class="span7 alert alert-info">
+                <span class="icon-info-sign"></span> Le système se prépare à installer les tables SQL de votre base de données
+            </div>
+        </div>
+        <a href="#" class="btn btn-primary" id="process_db">
+            <span class="icon-cog"></span> Installer les tables
+        </a>
+        <div id="install_table"></div>
+        <ul class="pager">
+            <li class="previous">
+                <a href="/install/analysis.php">&larr; Précédent</a>
+            </li>
+            <li class="next">
+                <a href="/install/database.php">Suivant &rarr;</a>
+            </li>
+        </ul>
+    </div>
+    {include file="section/footer.phtml"}
+</div>
+{include file="section/js.phtml"}
+{include file="database/section/js.phtml"}
+</body>
+</html>

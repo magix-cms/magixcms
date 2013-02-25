@@ -203,7 +203,7 @@ var MC_install = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/install/config.php',
+                    uri: '/install/config.php?action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform: true,
@@ -217,6 +217,53 @@ var MC_install = (function ($, undefined) {
             }
         });
     }
+    function testConnexion(){
+        $('#test_connexion').on('click',function(event){
+            event.preventDefault();
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/install/config.php?action=testconnexion',
+                typesend: 'post',
+                noticedata: {
+                    M_DBDRIVER:$('#M_DBDRIVER').val(),
+                    M_DBHOST:$('#M_DBHOST').val(),
+                    M_DBUSER:$('#M_DBUSER').val(),
+                    M_DBPASSWORD:$('#M_DBPASSWORD').val(),
+                    M_DBNAME:$('#M_DBNAME').val()
+                },
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+        })
+    }
+    function database(){
+        $('#process_db').on('click',function(event){
+            event.preventDefault();
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/install/database.php?action=add',
+                typesend: 'get',
+                beforeParams:function(){
+                    var loader = $(document.createElement("span")).addClass("loader").append(
+                        $(document.createElement("img"))
+                            .attr('src','/install/template/img/small_loading.gif')
+                            .attr('width','20px')
+                            .attr('height','20px')
+                    );
+                    $('#install_table').html(loader);
+                },
+                successParams:function(data){
+                    $('#install_table').empty();
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+        })
+    }
     return {
         //Fonction Public        
         runAnalysis:function () {
@@ -224,6 +271,10 @@ var MC_install = (function ($, undefined) {
         },
         runConfig:function () {
             addConfig();
+            testConnexion();
+        },
+        runDatabase:function(){
+            database();
         }
     };
 })(jQuery);

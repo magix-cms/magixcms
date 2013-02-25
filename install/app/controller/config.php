@@ -54,42 +54,8 @@ class app_controller_config{
      * variable pour la constante du fichier de configuration
      * @var string
      */
-    public static $M_DBDRIVER;
-    /**
-     * variable pour la constante du fichier de configuration
-     * @var string
-     */
-    public static $M_DBHOST;
-    /**
-     * variable pour la constante du fichier de configuration
-     * @var string
-     */
-    public static $M_DBUSER;
-    /**
-     * variable pour la constante du fichier de configuration
-     * @var string
-     */
-    public static $M_DBPASSWORD;
-    /**
-     * variable pour la constante du fichier de configuration
-     * @var string
-     */
-    public static $M_DBNAME;
-    /**
-     * variable pour la constante du fichier de configuration
-     * @var string
-     */
-    public static $M_LOG;
-    /**
-     * variable pour la constante du fichier de configuration
-     * @var string
-     */
-    //public static $M_TMP_DIR;
-    /**
-     * variable pour la constante du fichier de configuration
-     * @var string
-     */
-    public static $M_FIREPHP;
+    public $M_DBDRIVER,$M_DBHOST,$M_DBUSER,$M_DBPASSWORD,$M_DBNAME,$M_LOG,$M_FIREPHP;
+    public $action;
     /**
      * Constructor
      */
@@ -103,13 +69,25 @@ class app_controller_config{
          * path for create file config.php
          */
         self::$configfile = self::dirConfig().'config.php';
-        self::$M_DBDRIVER = !empty($_POST['M_DBDRIVER']) ? $_POST['M_DBDRIVER'] : 'mysql';
-        self::$M_DBHOST = !empty($_POST['M_DBHOST']) ? $_POST['M_DBHOST'] : '';
-        self::$M_DBUSER = !empty($_POST['M_DBUSER']) ? $_POST['M_DBUSER'] : '';
-        self::$M_DBPASSWORD = !empty($_POST['M_DBPASSWORD']) ? $_POST['M_DBPASSWORD'] : '';
-        self::$M_DBNAME = !empty($_POST['M_DBNAME']) ? $_POST['M_DBNAME'] : '';
-        self::$M_LOG = !empty($_POST['M_LOG']) ? $_POST['M_LOG'] : '';
-        self::$M_FIREPHP = !empty($_POST['M_FIREPHP']) ? $_POST['M_FIREPHP'] : '';
+        //
+        if(magixcjquery_filter_request::isPost('M_DBDRIVER')){
+            $this->M_DBDRIVER = $_POST['M_DBDRIVER'];
+        }
+        if(magixcjquery_filter_request::isPost('M_DBHOST')){
+            $this->M_DBHOST = $_POST['M_DBHOST'];
+        }
+        if(magixcjquery_filter_request::isPost('M_DBUSER')){
+            $this->M_DBUSER = $_POST['M_DBUSER'];
+        }
+        if(magixcjquery_filter_request::isPost('M_DBPASSWORD')){
+            $this->M_DBPASSWORD = $_POST['M_DBPASSWORD'];
+        }
+        if(magixcjquery_filter_request::isPost('M_DBNAME')){
+            $this->M_DBNAME = $_POST['M_DBNAME'];
+        }
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
     }
 
     /**
@@ -118,7 +96,9 @@ class app_controller_config{
     private function dirConfig(){
         return magixglobal_model_system::base_path().DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR;
     }
+
     /**
+     * @access private
      * Vérifie si le fichier config.php.in est présent
      */
     private function config_file_exist(){
@@ -127,12 +107,18 @@ class app_controller_config{
         }
         return true;
     }
+
+    /**
+     * Création du fichier de configuration
+     * @throws Exception
+     */
     private function create_config_file(){
-        if(isset($_POST['M_DBHOST'])
-        && isset($_POST['M_DBUSER'])
-        && isset($_POST['M_DBPASSWORD'])
-        && isset($_POST['M_DBNAME'])
-        ){
+        if(isset($this->M_DBHOST)
+        && isset($this->M_DBUSER)
+        && isset($this->M_DBPASSWORD)
+        && isset($this->M_DBNAME))
+        {
+
             if (!is_writable(dirname(self::$configfile))) {
                 throw new Exception(sprintf('Cannot write %s file.',self::$configfile));
             }
@@ -144,23 +130,23 @@ class app_controller_config{
                 /**
                  * create constante define in config file
                  */
-                $writeconst->writeConstValue('M_DBDRIVER',self::$M_DBDRIVER,$full_conf);
-                $writeconst->writeConstValue('M_DBHOST',self::$M_DBHOST,$full_conf);
-                $writeconst->writeConstValue('M_DBUSER',self::$M_DBUSER,$full_conf);
-                $writeconst->writeConstValue('M_DBPASSWORD',self::$M_DBPASSWORD,$full_conf);
-                $writeconst->writeConstValue('M_DBNAME',self::$M_DBNAME,$full_conf);
+                $writeconst->writeConstValue('M_DBDRIVER',$this->M_DBDRIVER,$full_conf);
+                $writeconst->writeConstValue('M_DBHOST',$this->M_DBHOST,$full_conf);
+                $writeconst->writeConstValue('M_DBUSER',$this->M_DBUSER,$full_conf);
+                $writeconst->writeConstValue('M_DBPASSWORD',$this->M_DBPASSWORD,$full_conf);
+                $writeconst->writeConstValue('M_DBNAME',$this->M_DBNAME,$full_conf);
                 switch(self::$M_LOG){
                     case 'debug':
-                        $writeconst->writeConstValue('M_LOG',self::$M_LOG,$full_conf);
+                        $writeconst->writeConstValue('M_LOG',$this->M_LOG,$full_conf);
                         break;
                     case 'log':
-                        $writeconst->writeConstValue('M_LOG',self::$M_LOG,$full_conf);
+                        $writeconst->writeConstValue('M_LOG',$this->M_LOG,$full_conf);
                         break;
                     case 'false':
-                        $writeconst->writeConstValue('M_LOG',self::$M_LOG,$full_conf,false);
+                        $writeconst->writeConstValue('M_LOG',$this->M_LOG,$full_conf,false);
                 }
                 $writeconst->writeConstValue('M_TMP_DIR',magixglobal_model_system::base_path().'var'.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'errors.log',$full_conf);
-                $writeconst->writeConstValue('M_FIREPHP',self::$M_FIREPHP,$full_conf,false);
+                $writeconst->writeConstValue('M_FIREPHP',$this->M_FIREPHP,$full_conf,false);
 
                 $fp = fopen(self::$configfile,'wb');
                 if ($fp === false) {
@@ -177,11 +163,54 @@ class app_controller_config{
     }
 
     /**
-     *
+     * Test de connexion avec les données du formulaire
+     */
+    private function test_connexion(){
+        if(isset($this->M_DBHOST)
+            && isset($this->M_DBUSER)
+            && isset($this->M_DBPASSWORD)
+            && isset($this->M_DBNAME))
+        {
+            if(file_exists(self::$configfile)){
+                app_model_smarty::getInstance()->display('config/request/file_exist.phtml');
+            }else{
+                if(!defined('M_DBDRIVER')
+                    OR !defined('M_DBHOST')
+                    OR !defined('M_DBUSER')
+                    OR !defined('M_DBPASSWORD')
+                    OR !defined('M_DBNAME'))
+                {
+                    define('M_DBDRIVER',$this->M_DBDRIVER);
+                    // Database hostname (usually "localhost")
+                    define('M_DBHOST',$this->M_DBHOST);
+                    // Database user
+                    define('M_DBUSER',$this->M_DBUSER);
+                    // Database password
+                    define('M_DBPASSWORD',$this->M_DBPASSWORD);
+                    // Database name
+                    define('M_DBNAME',$this->M_DBNAME);
+                }
+                if(magixglobal_model_db::layerDB()->PDOConnexion()){
+                    app_model_smarty::getInstance()->display('config/request/success_connexion.phtml');
+                }
+            }
+        }
+    }
+
+    /**
+     *  @access public
      */
     public function run(){
-        if(isset($_POST['M_DBHOST'])){
-            $this->create_config_file();
+        if(isset($this->action)){
+            if($this->action === 'add'){
+                if(isset($this->M_DBHOST)){
+                    $this->create_config_file();
+                }
+            }elseif($this->action === 'testconnexion'){
+                if(isset($this->M_DBHOST)){
+                    $this->test_connexion();
+                }
+            }
         }else{
             app_model_smarty::getInstance()->display('config/index.phtml');
         }

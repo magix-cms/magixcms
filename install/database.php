@@ -51,6 +51,6 @@ require('../lib/mcinstall.php');
 /**
  * Autoload Exec install
  */
-exec_Autoloader::register();
-$database = new exec_controller_database();
-$database->run();
+app_Autoloader::register();
+$init = new app_controller_database();
+$init->run();
