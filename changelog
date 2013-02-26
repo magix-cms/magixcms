@@ -1,5 +1,37 @@
 #### 2.4.0
 alpha 12
+    * Fix bug création du fichier de configuration
+    * Fix bug création des tables SQL
+    * Ajout de la création de l'administrateur
+    * Modification index installation (install #38)
+    * Modification de l'analyse du système (install)
+    * Modification de la création du fichier de configuration
+    * Modification du système pour pinguer Google (sitemap)
+    * Préparation des modifications du dossier d'installation
+    * Modification du fichier sql d'installation
+    * Révision googleping (sitemap)
+    * Révision de l'API de création de sitemap (#44)
+    * Fix bug message d'erreur pour menu select
+    * Modification de la fonction de création du sitemap (contact)
+    * Modification de la mise en page du module sitemap
+    * Préparation du fichier JS pour la création des sitemaps
+    * Révision du système de sitemap (Mise en page du module #44)
+    * Mise à jour du fichier update_2.4.0.sql
+    * Ajout des roles d'administration dans le fichier db.sql
+    * Mise à jour du module googletools (#43)
+    * Modification du widget googletools
+    * Modification création de fichiers RSS news, plugins (#42)
+    * Fix bug bootstrap.js (v2.2.3) avec fancybox (downgrade bootstrap.js 2.2.2)
+    * Localisation de l'image de loading des requêtes ajax
+    * Modification du système de création de fichiers RSS (fichier par langue)
+    * Suppression du dossier framework (#37)
+    * Suppression de _loadConfigVars et _getVars dans contact (public.php)
+    * Modification dans les fichiers nav des modules
+    * Re upload filemanager
+    * Ajout de commentaires dans setting.js
+    * Upgrade fancybox 2.1.3 => 2.1.4
+    * Modification du module reewritemetas => seo
+    * Modification des liens vers le module SEO
     * Ajout de la concaténation frontend (#4)
     * Ajout du système de mise en cache frontend (#34)
     * Chargement global du setting (accessible dans les templates)
