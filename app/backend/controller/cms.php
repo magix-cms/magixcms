@@ -54,7 +54,7 @@ class backend_controller_cms extends backend_db_cms{
 	$title_page,
 	$uri_page,
 	$content_page,
-	$keyeo_title_page,
+	$seo_title_page,
 	$seo_desc_page,
 	$order_pages,
 	$sidebar_page,
@@ -145,6 +145,7 @@ class backend_controller_cms extends backend_db_cms{
         if(magixcjquery_filter_request::isGet('title_search')){
             $this->title_search = magixcjquery_form_helpersforms::inputClean($_GET['title_search']);
         }
+        // ACTION
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -268,8 +269,7 @@ class backend_controller_cms extends backend_db_cms{
 		if(isset($title_page)){
 			// Verifier que le module exist
 			$numbermod = $config = backend_model_setting::tabs_load_config('cms');
-			/*$firebug = new magixcjquery_debug_magixfire();
-			$firebug->magixFireLog($numbermod['setting_value']);*/
+
 			if(empty($title_page) OR empty($this->getlang)){
 				backend_controller_template::display('cms/request/empty.phtml');
 			}elseif($numbermod['max_record'] != 0){
@@ -308,7 +308,7 @@ class backend_controller_cms extends backend_db_cms{
      * @return void
      * @internal param int $idlang
      */
-	private function insert_new_child_page($title_page,$get_page_p){
+	private function insert_new_child_page($create,$title_page,$get_page_p){
 		if(isset($title_page)){
 			if(empty($title_page)){
 				backend_controller_template::display('cms/request/empty.phtml');
@@ -561,61 +561,6 @@ class backend_controller_cms extends backend_db_cms{
 	}
 
 	/**
-     * @deprecated
-	 * @access private
-	 * Rechercher une page CMS via les titres et retourne sous forme JSON
-	 */
-	/*private function search_title_page(){
-		if($this->post_search != ''){
-			if(parent::r_search_cms_title($this->post_search) != null){
-				foreach (parent::r_search_cms_title($this->post_search) as $s){
-					switch($s['seo_title_page']){
-						case null:
-							$metatitle = 0;
-						break;
-						case !null:
-							$metatitle = 1;
-						break;
-					}
-					switch($s['seo_desc_page']){
-						case null:
-							$metadescription = 0;
-						break;
-						case !null:
-							$metadescription = 1;
-						break;
-					}
-					if($s['idcat_p'] != 0){
-						$uricms = magixglobal_model_rewrite::filter_cms_url(
-							$s['iso'], 
-							$s['idcat_p'], 
-							$s['uri_category'], 
-							$s['idpage'], 
-							$s['uri_page'],
-							true
-						);
-					}else{
-						$uricms = magixglobal_model_rewrite::filter_cms_url(
-							$s['iso'], 
-							null, 
-							null, 
-							$s['idpage'], 
-							$s['uri_page'],
-							true
-						);
-					}
-					$search[]= '{"idpage":'.json_encode($s['idpage']).',"title_page":'.json_encode($s['title_page']).
-					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($s['iso'])).
-					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).
-					',"seo_title_page":'.$metatitle.',"seo_desc_page":'.$metadescription.
-					',"pseudo":'.json_encode($s['pseudo']).'}';
-				}
-				print '['.implode(',',$search).']';
-			}
-		}
-	}*/
-
-	/**
 	 * @access private
 	 * Requête JSON pour les statistiques du CMS
 	 */
@@ -741,83 +686,95 @@ class backend_controller_cms extends backend_db_cms{
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
 		if(magixcjquery_filter_request::isGet('getlang')){
-			if(magixcjquery_filter_request::isGet('json_page_p')){
-				$this->json_parent_p();
-			}elseif(magixcjquery_filter_request::isGet('title_p_lang')){
-				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-				$header->pragma();
-				$header->cache_control("nocache");
-				$header->getStatus('200');
-				$header->json_header("UTF-8");
-				$this->json_cat_p_lang();
-			}elseif(magixcjquery_filter_request::isGet('title_search')){
-				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-				$header->pragma();
-				$header->cache_control("nocache");
-				$header->getStatus('200');
-				$header->json_header("UTF-8");
-				$this->json_autocomplete();
-			}elseif(isset($this->get_page_p)){
-				if(magixcjquery_filter_request::isGet('json_child_p')){
-					$this->json_child_page();
-				}/*elseif(magixcjquery_filter_request::isPost('idcat_p')){
-					$this->insert_new_child_page($this->title_page,$this->idlang);
-				}*/elseif(isset($this->title_page)){
-                    $this->insert_new_child_page($this->title_page,$this->get_page_p);
-                }else{
-					$create->assign('parent_title',$this->parent_page($this->get_page_p));
-					$create->assign('language', $this->parent_language($this->getlang));
-					$create->display('cms/child_page.phtml');
-				}
-			}elseif(magixcjquery_filter_request::isGet('edit')){
-                if(magixcjquery_filter_request::isPost('idlang_p')){
-                    $this->insert_new_rel_lang_p($this->idlang_p);
-                }elseif(magixcjquery_filter_request::isPost('title_page')){
-                    $this->update_page($this->title_page);
-                }elseif(magixcjquery_filter_request::isPost('del_relang_p')){
-                    $this->delete_related_lang();
-                }elseif(magixcjquery_filter_request::isGet('json_uricms')){
-                    $this->json_uricms($this->edit);
-                }elseif(magixcjquery_filter_request::isGet('json_child_lang_page')){
-                    $this->json_other_language_page($this->edit);
-                }else{
-                    $this->load_edit_page($this->edit);
-                    $create->display('cms/edit.phtml');
+            if(isset($this->action)){
+                if($this->action == 'list'){
+                    if(magixcjquery_filter_request::isGet('json_page_p')){
+                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->pragma();
+                        $header->cache_control("nocache");
+                        $header->getStatus('200');
+                        $header->json_header("UTF-8");
+                        $this->json_parent_p();
+                    }elseif(magixcjquery_filter_request::isGet('title_p_lang')){
+                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->pragma();
+                        $header->cache_control("nocache");
+                        $header->getStatus('200');
+                        $header->json_header("UTF-8");
+                        $this->json_cat_p_lang();
+                    }elseif(magixcjquery_filter_request::isGet('title_search')){
+                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->pragma();
+                        $header->cache_control("nocache");
+                        $header->getStatus('200');
+                        $header->json_header("UTF-8");
+                        $this->json_autocomplete();
+                    }elseif(isset($this->get_page_p)){
+                        if(magixcjquery_filter_request::isGet('json_child_p')){
+                            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                            $header->pragma();
+                            $header->cache_control("nocache");
+                            $header->getStatus('200');
+                            $header->json_header("UTF-8");
+                            $this->json_child_page();
+                        }else{
+                            $create->assign('parent_title',$this->parent_page($this->get_page_p));
+                            $create->assign('language', $this->parent_language($this->getlang));
+                            $create->display('cms/child_page.phtml');
+                        }
+                    }elseif(isset($this->order_pages)){
+                        $this->update_order_page();
+                    }elseif(magixcjquery_filter_request::isPost('idpage')){
+                        $this->update_sidebar_status();
+                    }else{
+                        $create->assign('selectlang',null);
+                        $create->assign('language', $this->parent_language($this->getlang));
+                        $create->display('cms/parent_page.phtml');
+                    }
+                }elseif($this->action == 'add'){
+                    if(isset($this->title_page)){
+                        $this->insert_new_page_p($this->title_page);
+                    }elseif(isset($this->get_page_p)){
+                        if(isset($this->title_page)){
+                            $this->insert_new_child_page($create,$this->title_page,$this->get_page_p);
+                        }
+                    }elseif(magixcjquery_filter_request::isGet('add_parent_p')){
+                        $this->insert_new_page_p($this->title_page,$this->idlang);
+                    }
+                }elseif($this->action == 'edit'){
+                    if(isset($this->edit)){
+                        if(magixcjquery_filter_request::isPost('idlang_p')){
+                            $this->insert_new_rel_lang_p($this->idlang_p);
+                        }elseif(magixcjquery_filter_request::isPost('title_page')){
+                            $this->update_page($this->title_page);
+                        }elseif(magixcjquery_filter_request::isPost('del_relang_p')){
+                            $this->delete_related_lang();
+                        }elseif(magixcjquery_filter_request::isGet('json_uricms')){
+                            $this->json_uricms($this->edit);
+                        }elseif(magixcjquery_filter_request::isGet('json_child_lang_page')){
+                            $this->json_other_language_page($this->edit);
+                        }else{
+                            $this->load_edit_page($this->edit);
+                            $create->display('cms/edit.phtml');
+                        }
+                    }
+                }elseif($this->action == 'move'){
+                    if(magixcjquery_filter_request::isPost('idlang')){
+                        $this->update_move_page($create);
+                    }else{
+                        $this->load_data_move_page($create,$this->move);
+                        $create->display('cms/move.phtml');
+                    }
+                }elseif($this->action == 'remove'){
+                    if(magixcjquery_filter_request::isPost('delpage')){
+                        $this->delete_page();
+                    }
                 }
-            }elseif(magixcjquery_filter_request::isGet('add_parent_p')){
-                $this->insert_new_page_p($this->title_page,$this->idlang);
-            }elseif(magixcjquery_filter_request::isGet('move')){
-                if(magixcjquery_filter_request::isPost('idlang')){
-                    $this->update_move_page($create);
-                }else{
-                    $this->load_data_move_page($create,$this->move);
-                    $create->display('cms/move.phtml');
-                }
-            }/*elseif(magixcjquery_filter_request::isGet('get_search_page')){
-                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-                $header->pragma();
-                $header->cache_control("nocache");
-                $header->getStatus('200');
-                $header->json_header("UTF-8");
-                self::search_title_page();
-            }*/elseif(magixcjquery_filter_request::isPost('delpage')){
-                $this->delete_page();
-            }elseif(magixcjquery_filter_request::isPost('idpage')){
-                $this->update_sidebar_status();
-            }elseif(isset($this->order_pages)){
-                $this->update_order_page();
-            }else{
-                if(isset($this->title_page)){
-                    $this->insert_new_page_p($this->title_page);
-                }else{
-                    $create->assign('selectlang',null);
-                    $create->assign('language', $this->parent_language($this->getlang));
-                    $create->display('cms/parent_page.phtml');
-                }
-			}
+            }
 		}else{
 			if(magixcjquery_filter_request::isGet('json_graph')){
 				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
@@ -836,7 +793,6 @@ class backend_controller_cms extends backend_db_cms{
                 $header->json_header("UTF-8");
                 $this->json_url_page();
             }else{
-				$create->assign('selectlang',backend_model_blockDom::select_language());
 				$create->display('cms/index.phtml');
 			}
 		}

@@ -202,7 +202,12 @@ class backend_controller_seo extends backend_db_seo{
 		if(isset($this->strrewrite)){
 			if(empty($this->attribute) OR empty($this->idmetas)){
                 $create->display('seo/request/empty.phtml');
-			}elseif(parent::v_rewrite_meta($this->getlang,$this->attribute,$this->idmetas,$this->level) == null){
+			}elseif(parent::v_rewrite_meta(
+                $this->getlang,
+                $this->attribute,
+                $this->idmetas,
+                $this->level
+            ) == null){
 				parent::i_rewrite_metas(
                     $this->getlang,
 					$this->attribute,

@@ -49,7 +49,7 @@ var MC_pages = (function ($, undefined) {
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('src','/admin/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -76,10 +76,10 @@ var MC_pages = (function ($, undefined) {
     function add(getlang,getParent){
         if(getParent != 0){
             var idforms = $("#forms_cms_add_child");
-            var url = '/admin/cms.php?getlang='+getlang+'&get_page_p='+getParent;
+            var url = '/admin/cms.php?getlang='+getlang+'&action=list&get_page_p='+getParent;
         }else{
             var idforms = $("#forms_cms_add_parent");
-            var url = '/admin/cms.php?getlang='+getlang;
+            var url = '/admin/cms.php?getlang='+getlang+'&action=list';
         }
         var formsAddPages = idforms.validate({
             onsubmit: true,
@@ -129,7 +129,7 @@ var MC_pages = (function ($, undefined) {
         });
     }
     function update(getlang,edit){
-        var url = '/admin/cms.php?getlang='+getlang+'&edit='+edit;
+        var url = '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+edit;
         var formsUpdatePages = $('#forms_cms_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -161,13 +161,13 @@ var MC_pages = (function ($, undefined) {
     function jsonListParent(getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?getlang='+getlang+'&json_page_p=true',
+            uri: '/admin/cms.php?getlang='+getlang+'&action=list&json_page_p=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('src','/admin/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -245,7 +245,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var child = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&get_page_p='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=list&get_page_p='+item.idpage)
                                 .attr("title", "Gestion des pages enfants de : "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-group")
@@ -253,7 +253,7 @@ var MC_pages = (function ($, undefined) {
                         );
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&move='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
                                 .attr("title", "Déplacement de la page: "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -282,7 +282,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&edit='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                 .attr("title", "Editer "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -331,7 +331,7 @@ var MC_pages = (function ($, undefined) {
                             var serial = $('#table_pages > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang,
+                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -383,14 +383,14 @@ var MC_pages = (function ($, undefined) {
     function JsonUrlPage(getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?getlang='+getlang+'&edit='+edit+'&json_uricms=true',
+            uri: '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+edit+'&json_uricms=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 $("#cmslink").hide().val('');
                 var loader = $(document.createElement("span")).addClass("loader").append(
                     $(document.createElement("img"))
-                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('src','/admin/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -413,13 +413,13 @@ var MC_pages = (function ($, undefined) {
     function jsonListChild(getlang,getParent){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?getlang='+getlang+'&get_page_p='+getParent+'&json_child_p=true',
+            uri: '/admin/cms.php?getlang='+getlang+'&action=list&get_page_p='+getParent+'&json_child_p=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('src','/admin/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -493,7 +493,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&move='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
                                 .attr("title", "Déplacement de la page: "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -522,7 +522,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&edit='+item.idpage)
+                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                 .attr("title", "Editer "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -569,7 +569,7 @@ var MC_pages = (function ($, undefined) {
                             var serial = $('#table_pages > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang,
+                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -631,7 +631,7 @@ var MC_pages = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/cms.php?getlang='+getlang,
+                            uri: '/admin/cms.php?getlang='+getlang+'&action=remove',
                             typesend: 'post',
                             noticedata : {delpage:elem},
                             successParams:function(e){
@@ -672,7 +672,7 @@ var MC_pages = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang,
+                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata:{sidebar_page:1,idpage:id},
                                 successParams:function(j){
@@ -695,7 +695,7 @@ var MC_pages = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang,
+                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata:{sidebar_page:0,idpage:id},
                                 successParams:function(j){
@@ -717,7 +717,7 @@ var MC_pages = (function ($, undefined) {
         });
     }
     function move(getlang,edit){
-        var url = '/admin/cms.php?getlang='+getlang+'&edit='+edit;
+        var url = '/admin/cms.php?getlang='+getlang+'&action=move&edit='+edit;
         var formsPages = $('#forms_cms_move').validate({
             onsubmit: true,
             event: 'submit',
@@ -752,7 +752,7 @@ var MC_pages = (function ($, undefined) {
             source: function(req, add){
                 //pass request to server
                 $.ajax({
-                    url:'/admin/cms.php?getlang='+getlang+'&callback=?',
+                    url:'/admin/cms.php?getlang='+getlang+'&callback=?&action=list',
                     type:"get",
                     dataType: 'json',
                     data: 'title_search='+req.term,
@@ -762,7 +762,7 @@ var MC_pages = (function ($, undefined) {
                         add($.map(data, function(item) {
                             return {
                                 value : item.title_page,
-                                url : '/admin/cms.php?getlang='+getlang+'&edit='+item.idpage
+                                url : '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage
                             }
                         }));
                     }

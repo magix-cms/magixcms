@@ -246,6 +246,10 @@ class backend_db_cms{
         ));
 	}*/
 	/*######################## Statistiques ##############################*/
+    /**
+     * Retourne les statistiques des pages
+     * @return array
+     */
     protected function s_stats_pages(){
         $sql = 'SELECT lang.iso, IF(parent.p_count>0,parent.p_count,0) AS PARENT,
         IF(child.p_count>0,child.p_count,0) AS CHILD

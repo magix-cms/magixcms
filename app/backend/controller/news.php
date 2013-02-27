@@ -280,6 +280,7 @@ class backend_controller_news extends backend_db_news{
 		if(isset($nimage)){
 			try{
 				$makeFiles = new magixcjquery_files_makefiles();
+                $initImg = new backend_model_image();
 				if($update == true){
 					$vimage = parent::s_n_image_news($this->edit);
 					if(file_exists(self::dir_img_news().$vimage['n_image'])){
@@ -292,7 +293,7 @@ class backend_controller_news extends backend_db_news{
 				/**
 				 * Envoi une image dans le dossier "racine" catalogimg
 				 */
-				backend_model_image::upload_img(
+                $initImg->upload_img(
                     $confimg,
                     'upload'.DIRECTORY_SEPARATOR.'news'.DIRECTORY_SEPARATOR,
                     false
@@ -301,7 +302,7 @@ class backend_controller_news extends backend_db_news{
 				 * Analyze l'extension du fichier en traitement
 				 * @var $fileextends
 				 */
-				$fileextends = backend_model_image::image_analyze(self::dir_img_news().$nimage);
+				$fileextends = $initImg->image_analyze(self::dir_img_news().$nimage);
 				/**
 				 * 
 				 * Enter description here ...
@@ -315,8 +316,8 @@ class backend_controller_news extends backend_db_news{
 				$thumb = PhpThumbFactory::create(self::dir_img_news().$nimage);
 				$imageuri = $rimage.$fileextends;
 				$imgsetting = new backend_model_setting();
-				$imgsizesmall = $imgsetting->uniq_data_img_size('news','news','small');
-				$imgsizemed = $imgsetting->uniq_data_img_size('news','news','medium');
+				$imgsizesmall = $initImg->dataImgSize('news','news','small');
+				$imgsizemed = $initImg->dataImgSize('news','news','medium');
 				//Redimensionnement et changement de nom suivant la catégorie
 				switch($imgsizemed['img_resizing']){
 					case 'basic':

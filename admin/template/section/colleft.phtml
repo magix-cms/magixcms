@@ -26,7 +26,7 @@
                     <ul>
                         {foreach $array_lang as $key => $value nocache}
                         <li>
-                            <a href="/{baseadmin}/cms.php?getlang={$key}">
+                            <a href="/{baseadmin}/cms.php?getlang={$key}&amp;action=list">
                                 <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
                             </a>
                         </li>
