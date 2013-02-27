@@ -90,7 +90,7 @@ class backend_controller_news extends backend_db_news{
 	/**
 	 * Recherche dans les news
 	 */
-	public $get_search_news,$post_search;
+	public $get_search_news,$news_search;
 	/**
 	 * 
 	 * 
@@ -162,8 +162,8 @@ class backend_controller_news extends backend_db_news{
 		if(magixcjquery_filter_request::isGet('get_search_news')){
 			$this->get_search_news = magixcjquery_form_helpersforms::inputClean($_GET['get_search_news']);
 		}
-		if(magixcjquery_filter_request::isPost('post_search')){
-			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
+		if(magixcjquery_filter_request::isPost('news_search')){
+			$this->news_search = magixcjquery_form_helpersforms::inputClean($_POST['news_search']);
 		}
 	}
     /**
@@ -565,27 +565,27 @@ class backend_controller_news extends backend_db_news{
 	}
 
 	//SEARCH
-/**
+    /**
 	 * @access private
-	 * Rechercher une page CMS via les titres et retourne sous forme JSON
+	 * Rechercher une news et retourne sous forme JSON
 	 */
-	private function search_n_title(){
-		if($this->post_search != ''){
-			if(parent::s_search_news($this->post_search) != null){
-				foreach (parent::s_search_news($this->post_search) as $s){
+	private function json_url_news(){
+		if($this->news_search != ''){
+			if(parent::s_search_news($this->news_search) != null){
+				foreach (parent::s_search_news($this->news_search) as $key){
 					$dateformat = new magixglobal_model_dateformat();
-					$uri_news = magixglobal_model_rewrite::filter_news_url(
-						$s['iso'], 
-						$dateformat->date_europeen_format($s['date_register']), 
-						$s['n_uri'], 
-						$s['keynews'],
+					$url_news = magixglobal_model_rewrite::filter_news_url(
+						$key['iso'],
+						$dateformat->date_europeen_format($key['date_register']),
+						$key['n_uri'],
+						$key['keynews'],
 						true
 					);
-					$search[]= '{"idnews":'.json_encode($s['idnews']).',"n_title":'.json_encode($s['n_title']).
-					',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($s['iso'])).
-					',"urinews":'.json_encode($uri_news).',"date_register":'.json_encode($s['date_register']).'}';
+					$json[]= '{"idnews":'.json_encode($key['idnews']).',"n_title":'.json_encode($key['n_title']).
+					',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($key['iso'])).
+					',"url_news":'.json_encode($url_news).',"date_register":'.json_encode($key['date_register']).'}';
 				}
-				print '['.implode(',',$search).']';
+				print '['.implode(',',$json).']';
 			}
 		}
 	}
@@ -726,6 +726,14 @@ class backend_controller_news extends backend_db_news{
                 $header->getStatus('200');
                 $header->json_header("UTF-8");
                 $this->json_graph();
+            }elseif(isset($this->news_search)){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_url_news();
             }else{
                 $create->display('news/index.phtml');
             }

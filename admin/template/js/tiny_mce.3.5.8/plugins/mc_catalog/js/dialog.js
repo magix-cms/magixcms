@@ -76,7 +76,7 @@ var McCatalogDialog = {
                 beforeSubmit:function(){
                     var loader = $(document.createElement("span")).addClass("loader offset5").append(
                         $(document.createElement("img"))
-                            .attr('src','/framework/img/small_loading.gif')
+                            .attr('src','/'+basedir()+'/template/img/loader/small_loading.gif')
                             .attr('width','20px')
                             .attr('height','20px')
                     );
@@ -122,11 +122,6 @@ var McCatalogDialog = {
         }
         if(data !== null){
             $.each(data, function(i,item) {
-                if(item.iso != null){
-                    flaglang = item.iso;
-                }else{
-                    flaglang = $(document.createElement("span")).addClass("icon-minus");
-                }
                 if(item.iso != null){
                     flaglang = item.iso;
                 }else{

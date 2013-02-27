@@ -1,4 +1,4 @@
-tinyMCE.addI18n('fr.news_search_dlg',{
+tinyMCE.addI18n('fr.mc_news_dlg',{
 	title : 'Rechercher une News',
 	description: 'Rechercher une actualité pour insérer un lien',
 	search: 'Rechercher',

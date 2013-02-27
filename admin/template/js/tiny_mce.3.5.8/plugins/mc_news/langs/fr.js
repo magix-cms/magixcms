@@ -1,3 +1,3 @@
-tinyMCE.addI18n('fr.news_search',{
+tinyMCE.addI18n('fr.mc_news',{
 	desc : 'Insérer un lien NEWS'
 });

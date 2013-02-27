@@ -34,8 +34,8 @@
 /**
  * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
  * Copyright: MAGIX CMS
- * Date: 26/02/13
- * Time: 00:37
+ * Date: 27/02/13
+ * Time: 20:37
  * License: Dual licensed under the MIT or GPL Version
  */
 
@@ -47,7 +47,7 @@ tinyMCEPopup.requireLangPack();
  * @param name
  */
 
-function insert_cms_link(href,name){
+function insert_news_link(href,name){
     tinyMCE.execCommand('mceInsertContent',false,'<a title="'+name+'" href="'+href+'">'+name+'</a>');
 }
 
@@ -60,16 +60,16 @@ function basedir(){
     return baseadmin;
 }
 
-var McPageDialog = {
+var McNewsDialog = {
     init : function() {
         var t = this;
         t._search();
     },
     _search : function(){
         var t = this;
-        $("#forms-pages-search").on('submit',function(){
+        $("#forms-news-search").on('submit',function(){
             $(this).ajaxSubmit({
-                url: '/'+basedir()+'/cms.php',
+                url: '/'+basedir()+'/news.php',
                 type:"post",
                 dataType:"json",
                 resetForm: true,
@@ -80,7 +80,7 @@ var McPageDialog = {
                             .attr('width','20px')
                             .attr('height','20px')
                     );
-                    $('#list_pages_search').html(loader);
+                    $('#list_news_search').html(loader);
                 },
                 success:function(data) {
                     t._result(data);
@@ -97,10 +97,10 @@ var McPageDialog = {
     },
     _result:function(data){
         var t = this;
-        $('#list_pages_search').empty();
+        $('#list_news_search').empty();
         var tbl = $(document.createElement('table')),
             tbody = $(document.createElement('tbody'));
-        tbl.attr("id", "table_pages_search")
+        tbl.attr("id", "table_news_search")
             .addClass('table table-bordered table-condensed table-hover')
             .append(
             $(document.createElement("thead"))
@@ -108,14 +108,13 @@ var McPageDialog = {
                 $(document.createElement("tr"))
                     .append(
                     $(document.createElement("th")).append("ISO"),
-                    $(document.createElement("th")).append("Catégorie"),
                     $(document.createElement("th")).append("Titre"),
                     $(document.createElement("th")).append("Liens")
                 )
             ),
             tbody
         );
-        tbl.appendTo('#list_pages_search');
+        tbl.appendTo('#list_news_search');
         if(data === undefined){
             console.log(data);
         }
@@ -126,22 +125,16 @@ var McPageDialog = {
                 }else{
                     flaglang = $(document.createElement("span")).addClass("icon-minus");
                 }
-                if(item.page_category != null){
-                    category = item.page_category;
-                }else{
-                    category = '-';
-                }
-                var titlepage = t._addslashes(item.title_page);
+                var titlepage = t._addslashes(item.n_title);
                 tbody.append(
                     $(document.createElement("tr"))
                         .append(
                         $(document.createElement("td")).append(flaglang),
-                        $(document.createElement("td")).append(category),
-                        $(document.createElement("td")).append(item.title_page),
+                        $(document.createElement("td")).append(item.n_title),
                         $(document.createElement("td")).append(
                             $(document.createElement("a"))
                             .attr('onclick', 'tinyMCEPopup.close();')
-                            .attr('onmousedown', 'insert_cms_link(\''+item.url_cms+'\',\''+titlepage+'\');')
+                            .attr('onmousedown', 'insert_news_link(\''+item.url_news+'\',\''+titlepage+'\');')
                             .addClass('btn btn-mini btn-link')
                             .append('Insert')
                         )
@@ -160,9 +153,6 @@ var McPageDialog = {
                     ),
                     $(document.createElement("td")).append(
                         $(document.createElement("span")).addClass("icon-minus")
-                    ),
-                    $(document.createElement("td")).append(
-                        $(document.createElement("span")).addClass("icon-minus")
                     )
                 )
             )
@@ -172,4 +162,4 @@ var McPageDialog = {
         return null;
     }
 };
-tinyMCEPopup.onInit.add(McPageDialog.init, McPageDialog);
+tinyMCEPopup.onInit.add(McNewsDialog.init, McNewsDialog);
