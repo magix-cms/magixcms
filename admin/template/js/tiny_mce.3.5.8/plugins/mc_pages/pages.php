@@ -52,7 +52,7 @@ if(file_exists($baseadmin)){
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>{#mc_catalog_dlg.title}</title>
+    <title>{#mc_pages_dlg.title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript" src="/libjs/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/libjs/plugins/jquery.form.3.20.js"></script>
@@ -61,23 +61,22 @@ if(file_exists($baseadmin)){
         var baseadmin = <?php print '"'.PATHADMIN.'"'; ?>
     </script>
     <script type="text/javascript" src="js/dialog.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="css/product_search.css" />-->
 </head>
 <body class="forceColors">
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
             <p>
-                <img src="img/cart_search.gif" width="24" height="24" />
-                {#mc_catalog_dlg.description}
+                <img src="img/search_page.png" width="24" height="24" />
+                {#mc_pages_dlg.description}
             </p>
-            <form id="forms-product-search" class="form-search" method="post" action="">
+            <form id="forms-pages-search" class="form-search" method="post" action="">
                 <p>
-                    <input type="text" class="input-large" name="product_search" id="product_search" value="" size="30" />
-                    <input type="submit" class="btn btn-small btn-primary" value="{#mc_catalog_dlg.search}" />
+                    <input type="text" class="input-large" name="page_search" id="page_search" value="" size="30" />
+                    <input type="submit" class="btn btn-small btn-primary" value="{#mc_pages_dlg.search}" />
                 </p>
             </form>
-            <div id="list_product_search"></div>
+            <div id="list_pages_search"></div>
         </div>
     </div>
 </div>

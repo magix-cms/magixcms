@@ -54,13 +54,13 @@ class backend_controller_cms extends backend_db_cms{
 	$title_page,
 	$uri_page,
 	$content_page,
-	$seo_title_page,
+	$keyeo_title_page,
 	$seo_desc_page,
 	$order_pages,
 	$sidebar_page,
 	$rel_title_page;
 	public $getlang,$get_page_p,$edit,$title_search,$action;
-	public $post_search,$get_search_page,$title_p_lang,$title_p_move,$callback;
+	public $page_search,$title_p_lang,$title_p_move,$callback;
 	public $cat_p_lang;
 	public $del_relang_p,$delpage,$move;
 	/**
@@ -109,8 +109,8 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isPost('idpage')){
 			$this->idpage = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idpage']);
 		}
-		if(magixcjquery_filter_request::isPost('post_search')){
-			$this->post_search = magixcjquery_form_helpersforms::inputClean($_POST['post_search']);
+		if(magixcjquery_filter_request::isPost('page_search')){
+			$this->page_search = magixcjquery_form_helpersforms::inputClean($_POST['page_search']);
 		}
 		if(magixcjquery_filter_request::isGet('get_search_page')){
 			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
@@ -561,10 +561,11 @@ class backend_controller_cms extends backend_db_cms{
 	}
 
 	/**
+     * @deprecated
 	 * @access private
 	 * Rechercher une page CMS via les titres et retourne sous forme JSON
 	 */
-	private function search_title_page(){
+	/*private function search_title_page(){
 		if($this->post_search != ''){
 			if(parent::r_search_cms_title($this->post_search) != null){
 				foreach (parent::r_search_cms_title($this->post_search) as $s){
@@ -612,7 +613,7 @@ class backend_controller_cms extends backend_db_cms{
 				print '['.implode(',',$search).']';
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * @access private
@@ -697,6 +698,41 @@ class backend_controller_cms extends backend_db_cms{
 			}
 		}
 	}
+    //TINYMCE
+    /**
+     * Retourne au format JSON les liens des pages
+     */
+    public function json_url_page(){
+        if($this->page_search != ''){
+            if(parent::s_page_url($this->page_search) != null){
+                foreach (parent::s_page_url($this->page_search) as $key){
+                    if($key['idcat_p'] != 0){
+                        $url_cms = magixglobal_model_rewrite::filter_cms_url(
+                            $key['iso'],
+                            $key['idcat_p'],
+                            $key['url_category'],
+                            $key['idpage'],
+                            $key['url_page'],
+                            true
+                        );
+                    }else{
+                        $url_cms = magixglobal_model_rewrite::filter_cms_url(
+                            $key['iso'],
+                            null,
+                            null,
+                            $key['idpage'],
+                            $key['url_page'],
+                            true
+                        );
+                    }
+                    $json[]= '{"idpage":'.json_encode($key['idpage']).',"title_page":'.json_encode($key['title_page']).
+                    ',"idcat_p":'.json_encode($key['idcat_p']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($key['iso'])).
+                    ',"url_cms":'.json_encode($url_cms).',"page_category":'.json_encode($key['page_category']).'}';
+                }
+                print '['.implode(',',$json).']';
+            }
+        }
+    }
 	/**
 	 * execute la fonction run pour l'administration CMS
 	 * @access public 
@@ -759,7 +795,7 @@ class backend_controller_cms extends backend_db_cms{
                     $this->load_data_move_page($create,$this->move);
                     $create->display('cms/move.phtml');
                 }
-            }elseif(magixcjquery_filter_request::isGet('get_search_page')){
+            }/*elseif(magixcjquery_filter_request::isGet('get_search_page')){
                 $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
                 $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
                 $header->pragma();
@@ -767,7 +803,7 @@ class backend_controller_cms extends backend_db_cms{
                 $header->getStatus('200');
                 $header->json_header("UTF-8");
                 self::search_title_page();
-            }elseif(magixcjquery_filter_request::isPost('delpage')){
+            }*/elseif(magixcjquery_filter_request::isPost('delpage')){
                 $this->delete_page();
             }elseif(magixcjquery_filter_request::isPost('idpage')){
                 $this->update_sidebar_status();
@@ -791,7 +827,15 @@ class backend_controller_cms extends backend_db_cms{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				$this->json_graph();
-			}else{
+			}elseif(isset($this->page_search)){
+                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                $header->pragma();
+                $header->cache_control("nocache");
+                $header->getStatus('200');
+                $header->json_header("UTF-8");
+                $this->json_url_page();
+            }else{
 				$create->assign('selectlang',backend_model_blockDom::select_language());
 				$create->display('cms/index.phtml');
 			}

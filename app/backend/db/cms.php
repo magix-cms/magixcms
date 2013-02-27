@@ -228,11 +228,12 @@ class backend_db_cms{
 		));
     }
 	/**
+     * @deprecated
 	 * Fonctions de recherche de page cms dans les titres
 	 * @param $searchpage
      * @return array
      */
-	public function r_search_cms_title($searchpage){
+	/*public function r_search_cms_title($searchpage){
 		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p,
 		p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
 		FROM mc_cms_pages AS p
@@ -243,7 +244,7 @@ class backend_db_cms{
 		return magixglobal_model_db::layerDB()->select($sql,array(
             ':searchpage'=>'%'.$searchpage.'%'
         ));
-	}
+	}*/
 	/*######################## Statistiques ##############################*/
     protected function s_stats_pages(){
         $sql = 'SELECT lang.iso, IF(parent.p_count>0,parent.p_count,0) AS PARENT,
@@ -328,6 +329,18 @@ class backend_db_cms{
             ':title_search'=>'%'.$title_search.'%'
 		));
 	}
+    /* ############## SEARCH #############*/
+    protected function s_page_url($page_search){
+        $sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p,
+		p.uri_page AS url_page, subp.uri_page as url_category, subp.title_page as page_category,lang.iso
+		FROM mc_cms_pages AS p
+		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
+		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
+		WHERE p.title_page LIKE :page_search';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':page_search'=>'%'.$page_search.'%'
+        ));
+    }
     /**
      * 
      * Recherche une page dans la langue sélectionner
