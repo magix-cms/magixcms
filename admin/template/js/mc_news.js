@@ -204,7 +204,14 @@ var MC_news = (function ($, undefined) {
                             $(document.createElement("tr"))
                                 .append(
                                 $(document.createElement("td")).append(item.idnews),
-                                $(document.createElement("td")).append(item.n_title),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
+                                        .attr("title", "Editer "+item.n_title)
+                                        .append(
+                                        item.n_title
+                                    )
+                                ),
                                 $(document.createElement("td")).append(content),
                                 $(document.createElement("td")).append(image),
                                 $(document.createElement("td")).append(item.pseudo),
