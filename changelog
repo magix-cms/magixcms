@@ -1,5 +1,6 @@
 #### 2.4.0
 alpha 12
+    * Update Skin tinyMCE Bootstrap
     * Fix bug création du fichier de configuration
     * Fix bug création des tables SQL
     * Ajout de la création de l'administrateur
