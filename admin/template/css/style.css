@@ -1,6 +1,6 @@
 body {
     padding-top: 60px;
-    /*padding-bottom: 40px;*/
+    position:relative;
 }
 h1{
     font-size: 28.5px;
