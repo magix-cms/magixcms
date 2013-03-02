@@ -39,6 +39,11 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 $(function(){
+    // *** targetblank in JS for W3C validation
+    $('a.targetblank').on('click', function() {
+        window.open($(this).attr('href'));
+        return false;
+    });
     // jmShowIt config
     $('a.showit').jmShowIt({
         open: 'open',

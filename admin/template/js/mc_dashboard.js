@@ -48,7 +48,7 @@ var MC_dashboard = (function ($, undefined) {
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("min-loader").append(
                     $(document.createElement("img"))
-                        .attr('src','/framework/img/small_loading.gif')
+                        .attr('src','/admin/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -63,10 +63,44 @@ var MC_dashboard = (function ($, undefined) {
             }
         });
     }
+    function graphPages(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/admin/cms.php?json_graph=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#graphPages').html(loader);
+            },
+            successParams:function(data){
+                $('#graphPages').empty();
+                $.nicenotify.initbox(data,{
+                    display:false
+                });
+                var $graph = data;
+                //var obj = $.parseJSON($graph);
+                //console.log($graph);
+                new Morris.Bar({
+                    element: 'graphPages',
+                    data: $graph,
+                    xkey: 'x',
+                    ykeys: ['y', 'z'],
+                    labels: ['PARENT', 'CHILD']
+                });
+            }
+        });
+    }
     return {
         //Fonction Public        
         run:function (baseadmin) {
             loadVersion(baseadmin);
+            graphPages();
         }
     };
 })(jQuery);

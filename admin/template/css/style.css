@@ -163,6 +163,10 @@ a.menu:after, .dropdown-toggle:after {
     display: none;
 }
 
+#graphPages{
+    max-height: 300px;
+}
+
 tbody.ui-sortable{}
 tbody.ui-sortable > .ui-sortable-helper{
     width: 100%;
