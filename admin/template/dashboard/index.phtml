@@ -39,12 +39,27 @@
                             </a>
                         </li>
                     </ul>
-                    <h3>Utilisateurs</h3>
-                    {foreach $array_stats_user as $key => $value nocache}
-                    <p>
-                        <span class="badge badge-info">{$value}</span> {$key|ucfirst}
-                    </p>
-                    {/foreach}
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <h3><span class="icon-user"></span> Utilisateurs</h3>
+                            {foreach $array_stats_user as $key => $value nocache}
+                            <p>
+                                <span class="badge badge-info">{$value}</span> {$key|ucfirst}
+                            </p>
+                            {/foreach}
+                        </div>
+                        <div class="span6">
+                            <h3><span class="icon-flag"></span> Langues</h3>
+                            <ul class="inline">
+                            {foreach $array_lang as $key => $value nocache}
+                            <li>
+                                <span class="badge badge-info">{$value|upper}</span>
+                            </li>
+                            {/foreach}
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="span6">
                     <h2><span class="icon-bolt"></span> Liens rapide</h2>
