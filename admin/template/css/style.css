@@ -249,3 +249,7 @@ ul.autocomplete-list-row li span{
 .mc-error{
     margin:5px 0 0 0;
 }
+
+#sidebar {
+    max-width: 220px;
+}
