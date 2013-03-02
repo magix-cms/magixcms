@@ -44,7 +44,7 @@
  * @name dashboard
  *
  */
-class backend_controller_dashboard{
+class backend_controller_dashboard extends backend_db_dashboard{
 	/**
 	 * @static 
 	 * @var readInstance
@@ -102,6 +102,15 @@ class backend_controller_dashboard{
         $create->assign('version', $version, true);
         $create->display('dashboard/version.phtml');
 	}
+    private function load_stats_user(){
+        $data = parent::c_users();
+        foreach($data as $key){
+            $role_user[]=$key['ROLE_USER'];
+            $count_user[]=$key['COUNT_USER'];
+        }
+        return array_combine($role_user,$count_user);
+    }
+
 	/**
 	 * Execute les scripts du dashboard
 	 */
@@ -112,6 +121,8 @@ class backend_controller_dashboard{
                 $this->format_version($create);
             }
         }else{
+            // Assigne un tableau des langues
+            $create->assign('array_stats_user',self::load_stats_user());
             $create->display('dashboard/index.phtml');
         }
 	}

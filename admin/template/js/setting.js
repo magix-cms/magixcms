@@ -203,7 +203,9 @@ $(function(){
         success: function(label) {
             // set &nbsp; as text for IE
             label.remove();
-            $('.mc-error').remove();
+            if($('.mc-error').length != 0){
+                $('.mc-error').remove();
+            }
         }
     });
 });
