@@ -88,14 +88,17 @@ class magixglobal_model_imagepath{
 		}
 		return $setPath;
 	}
-	/**
-	 * 
-	 * Retourne le chemin vers le dossier img ou vers l'image
-	 * @param array $filt_option
-	 * @example 
-	 	$filter = new magixglobal_model_imagepath();
-		print $filter->filterPathImg(array('filtermod'=>'catalog','img'=>'test.png'));
-	 */
+
+    /**
+     *
+     * Retourne le chemin vers le dossier img ou vers l'image
+     * @param array $filt_option
+     * @throws Exception
+     * @return string
+     * @example
+        $filter = new magixglobal_model_imagepath();
+        print $filter->filterPathImg(array('filtermod'=>'catalog','img'=>'test.png'));
+     */
 	public function filterPathImg($filt_option = array('filtermod'=>'','img'=>'','levelmod'=>'','rootPath'=>false)){
 		if(is_array($filt_option)){
 			if(isset($filt_option['filtermod'])){
@@ -131,7 +134,8 @@ class magixglobal_model_imagepath{
 	 * @param string $directory
 	 * @param string $exclude
 	 * @param array $option
-	 * @throws Exception
+     * @return array|null
+     * @throws Exception
 	 */
 	public function scanImage($directory,$exclude,array $option=array('imgsize'=>'mini','reverse'=>false)){
 		$makeFiles = new magixcjquery_files_makefiles();
@@ -169,3 +173,4 @@ class magixglobal_model_imagepath{
 		}
 	}
 }
+?>
