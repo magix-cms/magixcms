@@ -35,54 +35,77 @@
 /**
  * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
  * Copyright: MAGIX CMS
- * Date: 25/02/13
- * Time: 22:18
+ * Date: 3/03/13
+ * Time: 18:48
  * License: Dual licensed under the MIT or GPL Version
  */
-class app_controller_user extends app_db_user{
+class app_controller_clear{
+    public $action,$cache;
     /**
+     * @access public
      * Constructor
      */
     function __construct(){
-        if(magixcjquery_filter_request::isPost('pseudo')){
-            $this->pseudo = magixcjquery_form_helpersforms::inputClean($_POST['pseudo']);
-        }
-        if(magixcjquery_filter_request::isPost('email')){
-            $this->email = magixcjquery_form_helpersforms::inputClean($_POST['email']);
-        }
-        if(magixcjquery_filter_request::isPost('cryptpass')){
-            $this->cryptpass = magixcjquery_form_helpersforms::inputClean(sha1($_POST['cryptpass']));
-        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isPost('cache')){
+            $this->cache = magixcjquery_form_helpersforms::inputClean($_POST['cache']);
         }
     }
 
     /**
-     * Insert un nouvel utilisateur
+     * @param $dir
+     * @return string
      */
-    private function insert_user(){
-        if(isset($this->pseudo) AND isset($this->cryptpass)){
-            parent::i_new_user(
-                1,
-                $this->pseudo,
-                $this->email,
-                $this->cryptpass,
-                magixglobal_model_cryptrsa::uuid_generator()
-            );
-            app_model_smarty::getInstance()->display('user/request/success_add.phtml');
+    private function pathCacheDir($dir){
+        return magixglobal_model_system::base_path().'var'.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @access private
+     * @param $dir
+     */
+    private function cacheDir($dir){
+        $makefile = new magixcjquery_files_makefiles();
+        $pathDir = $this->pathCacheDir($dir);
+        if(file_exists($pathDir)){
+            $scandir = $makefile->scanDir($pathDir,array('.htaccess','.gitignore'));
+            $clean = '';
+            if($scandir != null){
+                foreach($scandir as $file){
+                    $clean .= $makefile->removeFile($pathDir,$file);
+                }
+            }
+        } else{
+            $magixfire = new magixcjquery_debug_magixfire();
+            $magixfire->magixFireError(new Exception('Error: var is not exist'));
         }
+    }
+
+    /**
+     * Execute le suppression du/des caches
+     * @access private
+     */
+    private function removeCache(){
+        $this->cacheDir('templates_c');
+        $this->cacheDir('tpl_caches');
+        $this->cacheDir('caches');
+        $this->cacheDir('minify');
     }
     /**
      *  @access public
      */
     public function run(){
         if(isset($this->action)){
-            if($this->action === 'add'){
-                $this->insert_user();
+            if($this->action == 'remove'){
+                if(isset($this->cache)){
+                    //Si on veut supprimer les caches
+                    $this->removeCache();
+                }
             }
         }else{
-            app_model_smarty::getInstance()->display('user/index.phtml');
+            app_model_smarty::getInstance()->display('clear/index.phtml');
         }
     }
 }

@@ -16,31 +16,34 @@
                 <a href="/install/config.php">Configuration</a> <span class="divider">/</span>
             </li>
             <li>
-                <span class="active">Base de données</span>
+                <a href="/install/database.php">Base de données</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="/install/user.php">Administrateur</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <span class="active">Finalisation</span>
             </li>
         </ul>
         <div class="mc-message clearfix"></div>
         <div class="mc-info clearfix">
             <div class="span6 alert alert-info">
-                <span class="icon-info-sign"></span> Le système se prépare à installer les tables SQL de votre base de données
+                <span class="icon-info-sign"></span> Dernière étape pour finaliser l'installation,
+                vous serez redirigé à la fin de l'installation
             </div>
         </div>
-        <a href="#" class="btn btn-primary" id="process_db">
-            <span class="icon-cog"></span> Installer les tables
+        <a href="#" class="btn btn-large btn-block btn-primary" id="process_cache">
+            <span class="icon-cog"></span> Finaliser l'installation
         </a>
-        <div id="install_table"></div>
         <ul class="pager">
             <li class="previous">
-                <a href="/install/config.php">&larr; Précédent</a>
-            </li>
-            <li class="next">
-                <a href="/install/user.php">Suivant &rarr;</a>
+                <a href="/install/user.php">&larr; Précédent</a>
             </li>
         </ul>
     </div>
     {include file="section/footer.phtml"}
 </div>
 {include file="section/js.phtml"}
-{include file="database/section/js.phtml"}
+{include file="clear/section/js.phtml"}
 </body>
 </html>

@@ -1,10 +1,14 @@
 #### 2.4.0
 Beta 1
+    * Ajout de la finalisation de l'installation
+    * Supprime les caches après installation
     * Aménagement du dashboard
         * Ajout des statistiques utilisateurs dashboard
         * Ajout des statistiques des langues dans le dashboard
     * Upgrade Bootstrap 2.2.3 => 2.3.1
     * Admin - Sidebar/col Left - CSS & Template - fixed width
+    * Nettoyage des fichiers du catalogue (admin)
+
 alpha 12
 
     * Update Skin tinyMCE Bootstrap

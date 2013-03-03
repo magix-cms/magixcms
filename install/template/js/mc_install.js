@@ -318,14 +318,32 @@ var MC_install = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:true
                         });
-                        setTimeout(function(){
-                            window.location.href = "/";
-                        },2800);
+
                     }
                 });
                 return false;
             }
         });
+    }
+    function cache(){
+        $('#process_cache').on('click',function(event){
+            event.preventDefault();
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/install/clear.php?action=remove',
+                typesend: 'post',
+                noticedata: {cache:1},
+                beforeParams:function(){},
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:false
+                    });
+                    setTimeout(function(){
+                        window.location.href = "/";
+                    },1800);
+                }
+            });
+        })
     }
     return {
         //Fonction Public        
@@ -341,6 +359,9 @@ var MC_install = (function ($, undefined) {
         },
         runUser:function(){
             addUser();
+        },
+        runClear:function(){
+            cache();
         }
     };
 })(jQuery);

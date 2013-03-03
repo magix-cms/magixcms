@@ -133,6 +133,11 @@ class plugins_clearcache_admin{
 		}
         $create->display('success_update.phtml');
 	}
+
+    /**
+     * set_icon
+     * @return array
+     */
     public function set_icon(){
         $icon = array(
             'type'=>'image',
@@ -140,6 +145,7 @@ class plugins_clearcache_admin{
         );
         return $icon;
     }
+
 	/**
 	 * @access public
 	 * Execute le plugin
