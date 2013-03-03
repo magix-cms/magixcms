@@ -13,7 +13,7 @@
 
 return array(
     //'publiccss' => array('//libjs/css/notification.css'),
-	'publicjs' => array('//libjs/jquery-1.8.3.min.js','//libjs/jquery-ui-1.10.0.custom.min.js',
+	'publicjs' => array('//libjs/jquery-1.8.3.min.js','//libjs/jquery-ui-1.10.1.custom.min.js',
      '//libjs/plugins/jquery.form.3.20.js','//libjs/plugins/jquery.validate.1.10.0.min.js'),
 	'jimagine' => array('//libjs/jimagine/config.js','//libjs/jimagine/jmConstant.js',
 	'//libjs/jimagine/plugins/jquery.nicenotify.js','//libjs/jimagine/plugins/jquery.jmShowIt.js'),
