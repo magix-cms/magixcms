@@ -51,17 +51,24 @@ class backend_model_modules{
 	 * @staticvar $_array_module
 	 */
 	private static $_array_module;
-	private static $options_default = array(
+    /**
+     * @var array
+     */
+    private static $options_default = array(
 		'news'=>'News','catalog'=>'Catalogue'
 	);
-	/**
-	 * 
-	 * Constructeur
-	 */
-	public function __construct($arraymods = ''){
+
+    /**
+     * @param string $arraymods
+     */
+    public function __construct($arraymods = ''){
 		self::$_array_module = $arraymods;
 	}
-	private function array_module(){
+
+    /**
+     * @return array|string
+     */
+    private function array_module(){
 		if(self::$_array_module != null){
 			$tabs = self::$_array_module;
 		}else{

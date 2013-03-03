@@ -542,18 +542,6 @@ class backend_controller_news extends backend_db_news{
 			}
 		}
 	}
-	/**
-	 * @access private
-	 * Charge les tags d'une news en JSON
-	 */
-	/*private function load_json_tagnews(){
-		if(parent::s_list_tag($this->edit) != null){
-			foreach (parent::s_list_tag($this->edit) as $list){
-				$listing[]= '{"idnews_tag":'.json_encode($list['idnews_tag']).',"name_tag":'.json_encode($list['name_tag']).'}';
-			}
-			print '['.implode(',',$listing).']';
-		}
-	}*/
 
 	/**
 	 * @access private
@@ -596,65 +584,6 @@ class backend_controller_news extends backend_db_news{
 	 */
 	public function run(){
 		$header= new magixglobal_model_header();
-		/*if(magixcjquery_filter_request::isGet('edit')){
-			$data = parent::s_news_record($this->getnews);
-			if(magixcjquery_filter_request::isPost('n_title')){
-				$this->update_data_forms();
-			}elseif(magixcjquery_filter_request::isGet('post')){
-				$this->update_news_image();
-			}elseif(magixcjquery_filter_request::isGet('load_json_uri_news')){
-				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-				$header->pragma();
-				$header->cache_control("nocache");
-				$header->getStatus('200');
-				$header->json_header("UTF-8");
-				self::load_json_uri_news();
-			}elseif(magixcjquery_filter_request::isPost('name_tag')){
-				$this->add_rel_tag();
-			}elseif(magixcjquery_filter_request::isGet('json_list_tag')){
-				$this->load_json_tagnews();
-			}elseif(magixcjquery_filter_request::isGet('imgnews')){
-				$this->news_image($data['n_image']);
-			}else{
-				$this->load_data_forms($data);
-				backend_controller_template::display('news/edit.phtml');
-			}
-		}elseif(magixcjquery_filter_request::isGet('get_search_news')){
-			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-			$header->pragma();
-			$header->cache_control("nocache");
-			$header->getStatus('200');
-			$header->json_header("UTF-8");
-			$this->search_n_title();
-		}elseif(magixcjquery_filter_request::isGet('get_news_publication')){
-			self::update_status_publication();
-		}elseif(magixcjquery_filter_request::isGet('add')){
-			if(magixcjquery_filter_request::isPost('n_title')){
-				self::insert_data_forms();
-			}else{
-				backend_controller_template::assign('selectlang',backend_model_blockDom::select_language());
-				backend_controller_template::display('news/addnews.phtml');
-			}
-		}elseif(magixcjquery_filter_request::isPost('delnews')){
-			$this->del_news();
-		}elseif(magixcjquery_filter_request::isPost('del_tag')){
-			$this->delete_tag();
-		}else{
-			if(magixcjquery_filter_request::isGet('json_google_chart_news')){
-				$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-				$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-				$header->pragma();
-				$header->cache_control("nocache");
-				$header->getStatus('200');
-				$header->json_header("UTF-8");
-				$this->json_news_chart();
-			}else{
-				backend_controller_template::display('news/index.phtml');
-			}
-		}*/
-        $header= new magixglobal_model_header();
         $create = new backend_controller_template();
         if(magixcjquery_filter_request::isGet('getlang')){
             if(isset($this->action)){

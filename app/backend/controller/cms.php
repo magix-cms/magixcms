@@ -219,30 +219,15 @@ class backend_controller_cms extends backend_db_cms{
 			print '['.implode(',',$json).']';
 		}
 	}
-	/**
-	 * @access private
-	 * retourne les langues pour administrer les pages parents ainsi que leurs enfants
-	 */
-	/*private function listing_index_language(){
-		if(backend_db_block_lang::s_data_lang() != null){
-			$list = '<ul>';
-			foreach(backend_db_block_lang::s_data_lang() as $slang){
-				$list .= '<li>';
-				$list .= '<a href="/admin/cms.php?getlang='.$slang['idlang'].'">';
-				$list .= '<img src="/upload/iso_lang/'.$slang['iso'].'.png" alt="'.$slang['iso'].'" /> ';
-				$list .= '<span>'.magixcjquery_string_convert::ucFirst($slang['language']).'</span>';
-				$list .= '</a></li>';
-			}
-			$list .= '</ul>';
-			return $list;
-		}
-	}*/
-	/**
-	 * @access private
-	 * Retourne l'image et la langue suivant l'identifiant
-	 * @param integer $idlang
-	 */
-	private function parent_language($idlang){
+
+    /**
+     * @access private
+     * Retourne l'image et la langue suivant l'identifiant
+     * @param integer $idlang
+     * @param $idlang
+     * @return string
+     */
+    private function parent_language($idlang){
 		$db = backend_db_block_lang::s_data_iso($idlang);
 		return '<img src="/upload/iso_lang/'.$db['iso'].'.png" alt="'.$db['iso'].'" /> '.magixcjquery_string_convert::ucFirst($db['language']);
 	}
@@ -303,12 +288,11 @@ class backend_controller_cms extends backend_db_cms{
     /**
      * @access private
      * Insertion d'une page enfant
-     * @param string $title_page
+     * @param $create
+     * @param $title_page
      * @param $get_page_p
-     * @return void
-     * @internal param int $idlang
      */
-	private function insert_new_child_page($create,$title_page,$get_page_p){
+    private function insert_new_child_page($create,$title_page,$get_page_p){
 		if(isset($title_page)){
 			if(empty($title_page)){
 				backend_controller_template::display('cms/request/empty.phtml');
@@ -342,7 +326,7 @@ class backend_controller_cms extends backend_db_cms{
 			backend_controller_template::assign('content_page', magixcjquery_form_helpersforms::inputClean($db['content_page']));
 			backend_controller_template::assign('seo_title_page', $db['seo_title_page']);
 			backend_controller_template::assign('seo_desc_page', $db['seo_desc_page']);
-			backend_controller_template::assign('selectexcludelang',backend_model_blockDom::select_other_lang($db['idlang']));
+			//backend_controller_template::assign('selectexcludelang',backend_model_blockDom::select_other_lang($db['idlang']));
 		}
 	}
 	/**

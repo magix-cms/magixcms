@@ -188,30 +188,7 @@ class backend_controller_config extends backend_db_config{
             }
         }
     }
-	/**
-	 * @access private
-	 * function load limited_cms_number
-	 * @intégrer
-	 */
-	/*private function load_limited_cms_number(){
-		$config = backend_model_setting::tabs_load_config('cms');
-		backend_controller_template::assign('idconfigcms',$config['idconfig']);
-		backend_controller_template::assign('max_record',$config['max_record']);
-	}*/
-	/**
-	 * Charge les données concernant l'éditeur wysiwyg
-	 */
-	/*private function load_wysiwyg_config_editor(){
-		if(file_exists(magixglobal_model_system::base_path().'framework/js/tiny_mce/plugins/filemanager/')){
-			$Init_Filemanager = 1;
-		}else{
-			$Init_Filemanager = 0;
-		}
-		$config = backend_model_setting::tabs_uniq_setting('editor');
-		backend_controller_template::assign('editor',$config['setting_label']);
-		backend_controller_template::assign('tinymce_filemanager',$Init_Filemanager);
-		backend_controller_template::assign('manager_setting',$config['setting_value']);
-	}*/
+
     /**
      * @access private
      */
