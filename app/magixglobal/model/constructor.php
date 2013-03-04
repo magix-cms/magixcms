@@ -195,7 +195,4 @@ class magixglobal_model_constructor {
         }
         return $output;
     }
-
-
-
 }

@@ -198,20 +198,25 @@ function newsPatternSelect($name=null) {
                 ),
                 'img'           =>  array(
                     'htmlBefore'
-                    => '<span class="img">',
+                    => ' ',
                     'htmlAfter'
-                    =>  '</span>'
+                    =>  ' '
+                ),
+                'date'          =>  array(
+                    'htmlBefore'    => '<span class="date badge">',
+                    'format'        =>  array(
+                        'day'   => 'd/',
+                        'month'   => 'm/',
+                        'year'   => 'Y'
+                    ),
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => '</span><br />'
                 ),
                 'name'          =>  array(
                     'htmlBefore'
                     =>  ' ',
                     'htmlAfter'
                     =>  ' '
-                ),
-                'date'          =>  array(
-                    'htmlBefore'    => ' ',
-                    // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => ' '
                 ),
                 'tag'           =>  array(
                     'htmlBefore'    => '<span class="tag">',
@@ -220,9 +225,9 @@ function newsPatternSelect($name=null) {
                 ),
                 'display'       =>  array(
                     1           => array(
-                        'name',
                         'date',
-                        'img'
+                        'img',
+                        'name'
                     )
                 )
             );
@@ -241,9 +246,9 @@ function newsPatternSelect($name=null) {
                 ),
                 'img'           =>  array(
                     'htmlBefore'
-                    => '<span class="img">',
+                    => ' ',
                     'htmlAfter'
-                    =>  '</span>'
+                    =>  ' '
                 ),
                 'name'          =>  array(
                     'htmlBefore'
@@ -266,14 +271,14 @@ function newsPatternSelect($name=null) {
                     'htmlAfter'     => '</div>'
                 ),
                 'date'          =>  array(
-                    'htmlBefore'    => '',
+                    'htmlBefore'    => '<span class="date badge badge-info pull-right">',
                     'format'        =>  array(
                         'day'   => 'd/',
                         'month'   => 'm/',
                         'year'   => 'Y'
                     ),
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => ''
+                    'htmlAfter'     => '</span>'
                 ),
                 'tag'           =>  array(
                     'htmlBefore'    => '<span class="tag">',
@@ -289,9 +294,9 @@ function newsPatternSelect($name=null) {
                 ),
                 'display'       =>  array(
                     1           => array(
+                        'img',
                         'name',
                         'date',
-                        'img',
                         'descr',
                         'tag'
                     )
