@@ -187,9 +187,9 @@ class magixglobal_model_constructor {
 
         $date   =   strtotime($date);
         $output =   null;
-        foreach ($pattern['date']['format'] as $v)
+        foreach ($pattern['date']['format'] as $k => $v)
         {
-            $output .=  '<span class="'.$v.'">';
+            $output .=  '<span class="'.$k.'">';
             $output .=  date($v,$date);
             $output .=  '</span>';
         }
