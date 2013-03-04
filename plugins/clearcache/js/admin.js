@@ -62,7 +62,7 @@ var MC_plugins_clearcache = (function ($, undefined) {
                             beforeParams:function(){
                                 var loader = $(document.createElement("span")).addClass("btn-loader").append(
                                     $(document.createElement("img"))
-                                        .attr('src','/framework/img/small_loading.gif')
+                                        .attr('src','/admin/template/img/loader/small_loading.gif')
                                         .attr('width','20px')
                                         .attr('height','20px')
                                 );
