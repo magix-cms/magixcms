@@ -203,6 +203,58 @@ class magixglobal_model_system{
             throw new Exception("Error ".$min_cachePath." is not writable");
         }
     }
+    /**
+     * Retourne un tableaux contenant les identifiant actif (int OR string)
+     * @access public
+     * @static
+     * @return array
+     */
+    public static function setActiveId ()
+    {
+        $ModelTemplate  =   new frontend_model_template();
+        $FilterRequest  =   new magixcjquery_filter_request();
+        $HelperClean    =   new magixcjquery_form_helpersforms();
+        $active = array();
+
+        $active['news']['record']['id'] = null;
+        if ($FilterRequest->isGet('getnews'))
+            $active['news']['record']['id']    =   $HelperClean->inputNumeric($_GET['getnews']);
+
+        $active['news']['pagination']['id'] = 1;
+        if ($FilterRequest->isGet('page'))
+            $active['news']['pagination']['id']    =   $HelperClean->inputNumeric($_GET['page']);
+
+        $active['news']['tag']['id'] = null;
+        if ($FilterRequest->isGet('tag'))
+            $active['news']['tag']['id']    =   $HelperClean->inputClean($_GET['tag']);
+
+        $active['cms']['record']['id'] = null;
+        if ($FilterRequest->isGet('getidpage'))
+            $active['cms']['record']['id']    =   $HelperClean->inputNumeric($_GET['getidpage']);
+
+        $active['cms']['parent']['id'] = null;
+        if ($FilterRequest->isGet('getidpage_p'))
+            $active['cms']['parent']['id']    =   $HelperClean->inputNumeric($_GET['getidpage_p']);
+
+        $active['catalogue']['category']['id'] = null;
+        if ($FilterRequest->isGet('idclc'))
+            $active['catalogue']['category']['id']    =   $HelperClean->inputNumeric($_GET['idclc']);
+
+        $active['catalogue']['subcategory']['id'] = null;
+        if ($FilterRequest->isGet('idcls'))
+            $active['catalogue']['subcategory']['id']    =   $HelperClean->inputNumeric($_GET['idcls']);
+
+        $active['catalogue']['product']['id'] = null;
+        if ($FilterRequest->isGet('idproduct'))
+            $active['catalogue']['product']['id']    =   $HelperClean->inputNumeric($_GET['idproduct']);
+
+        $active['lang']['iso']  = $ModelTemplate->current_Language();
+
+
+        return $active;
+
+    }
+
 
 }
 ?>

@@ -50,199 +50,261 @@
  * @return string
  * @TODO formatage de la date suivant valeur passée en paramètre (valeurs à définir)
  */
-function smarty_function_widget_news_display($params, $template){
+function smarty_function_widget_news_display($params, $template)
+{
+    $ModelSystem        =   new magixglobal_model_system();
+    $ModelRewrite       =   new magixglobal_model_rewrite();
+    $ModelConstructor   =   new magixglobal_model_constructor();
+    $ModelNews          =   new frontend_model_news();
+    $ModelPager         =   new magixglobal_model_pager();
+    $Debug              =   new magixcjquery_debug_magixfire();
 
-    // *** Catch location var
-    $id_current['tag']          = (isset($_GET['tag']))     ? $_GET['tag']          : null;
-    $id_current['news']         = (isset($_GET['getnews'])) ? $_GET['getnews']      : null;
-    $id_current['pagination']   = (isset($_GET['page']))   ? intval($_GET['page'])  : 1;
-    $id_current['lang']         = frontend_model_template::current_Language();
+    $active             =   $ModelSystem->setActiveId();
+    $data['conf']       =   (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
+    $data['src']        =   $ModelNews->setDataSql($data['conf'],$active);
 
-    // *** Load SQL data
-    $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
-    $data = frontend_model_news::set_sql_data($sort_config,$id_current);
-
-    // *** Set pagination
-    $dataPager = null;
-    if (isset($data['total']) AND isset($data['limit'])) {
-        $lib_rewrite        = new magixglobal_model_rewrite();
-        $basePath = '/'.$id_current['lang'].$lib_rewrite->mod_news_lang($id_current['lang']);
-        $dataPager = magixglobal_model_pager::set_pagination_data($data['total'],$data['limit'],$basePath,$id_current['pagination'],'/');
-        $pagination = null;
-        if ($dataPager != null) {
-            $pagination = '<div class="pagination">';
-                $pagination .= '<ul>';
-                foreach ($dataPager as $row) {
-                    switch ($row['name']){
-                        case 'first':
-                            $name = '<<';
-                            break;
-                        case 'previous':
-                            $name = '<';
-                            break;
-                        case 'next':
-                            $name = '>';
-                            break;
-                        case 'last':
-                            $name = '>>';
-                            break;
-                        default:
-                            $name = $row['name'];
-                    }
-                    $classItem = ($name == $id_current['pagination']) ? ' class="active"' : null;
-                    $pagination .= '<li'.$classItem.'>';
-                        $pagination .= '<a href="'.$row['url'].'" title="'.$name.'" >';
-                            $pagination .= $name;
-                        $pagination .= '</a>';
-                    $pagination .= '</li>';
-                }
-                $pagination .= '</ul>';
-            $pagination .= '</div>';
-        }
-        unset($data['total']);
-        unset($data['limit']);
+    // Set Pagination
+    $pagination['html'] =   null;
+    if ($data['src']['total'] AND $data['src']['limit']) {
+        $pagination['src']  =
+            $ModelPager->set_pagination_data(
+                $data['src']['total'],
+                $data['src']['limit'],
+                '/'.$active['lang']['iso'].$ModelRewrite->mod_news_lang($active['lang']['iso']),
+                $active['news']['pagination']['id'],
+                '/'
+            );
+        $pagination['html']     =
+            $ModelConstructor->formatPaginationHtml(
+                $pagination['src'],
+                $active['news']['pagination']['id']
+            );
+        unset($data['src']['total']);
+        unset($data['src']['limit']);
     }
 
-    $output = null;
-    if ($data != null){
-        // *** set default html structure
-        $strucHtml_default = array(
-            'container'     =>  array(
-                'htmlBefore'    =>  '<ul class="thumbnails">',
-                    // items injected here
-                'htmlAfter'     =>  '</ul>'
-            ),
-            'item'          =>  array(
-                'htmlBefore'    => '<li class="span4"><div class="thumbnail">',
-                   // item's elements injected here (name, img, descr, ...)
-                'htmlAfter'     => '</div></div></li>'
-            ),
-            'img'           =>  array(
-                'classLink'     =>  'img'
-            ),
-            'name'          =>  array(
-                'htmlBefore'    =>  '<div class="caption"> <h3>',
-                'classLink'     =>  'name',
-                'htmlAfter'     =>  '</h3>'
-            ),
-            'descr'         =>  array(
-                'htmlBefore'    =>  '<p>',
-                'lenght'        =>  250,
-                'delemiter'     =>  '...',
-                'htmlAfter'     =>  '</p>'
-            ),
-            'pagination'    =>  array(
-                'htmlBefore'    => '<div>',
-                'class'         => 'pagination',
-                'htmlAfter'     => '</div>'
-            ),
-            'date'          =>  array(
-                'htmlBefore'    => '',
-                    // item's elements injected here (name, img, descr)
-                'htmlAfter'     => ''
-            ),
-            'tag'           =>  array(
-                'htmlBefore'    => '',
-                    // item's elements injected here (name, img, descr)
-                'htmlAfter'     => ''
-            ),
-            'current'       =>  array(
-                'class'         =>  ' current'
-            ),
-            'last'          =>  array(
-                'class'         => ' last',
-                'col'           => 1
-            )
-        );
+    $output['html'] = null;
+    if ($data['src'] != null) {
+        $htmlPattern['default']     =   newsPatternSelect();
+        $htmlPattern['custom']      =   null;
 
-        // *** Set default elem to display
-        $strucHtml_default['allow']     = array('','img', 'name', 'descr', 'date', 'tag');
-        $strucHtml_default['display']   = array( 1 => array('','name', 'img', 'descr', 'date', 'tag'));
+        if ($params['htmlStructure']) {
+            $htmlPattern['custom']  =
+                (is_array($params['htmlStructure']))
+                    ? $params['htmlStructure']
+                    : newsPatternSelect($params['htmlStructure'])
+            ;
+        }
+        $htmlPattern['global']  =   $ModelConstructor->mergeHtmlPattern($htmlPattern['default'],$htmlPattern['custom']);
 
-        // *** Update html struct & item setting with custom var (params['structureHTML'])
-        $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-        $strucHtml = frontend_model_news::set_html_struct($strucHtml_default,$structHtml_custom);
-
-        // *** format items loop (foreach item)
-        // ** Loop management var
-        $items = null;
         $i = 0;
-            foreach($data as $row){
-                $i++;
-
-                // ** Set items data (with specific key)
-                $item_dataVal  = frontend_model_news::set_data_item($row,$id_current);
+        $items['html'] = null;
+        foreach ($data['src'] as $row)
+        {
+            $i++;
+            $item['data']   =   $ModelNews->setItemData($row,$active);
 
                 // *** set item html structure & var
-                $strucHtml['is_current'] = ($item_dataVal['current'] == 'true') ? 1 : 0;
-                $strucHtml['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
-                $strucHtml['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
-                $strucHtml_item = frontend_model_news::set_html_struct_item($strucHtml,$i);
+                $htmlPattern['global']['is_current']    =   ($item['data']['current'] == 'true') ? 1 : 0;
+                $htmlPattern['global']['id']            =   (isset($item['data']['id'])) ? $item['data']['id'] : 0;
+                $htmlPattern['global']['url']           =   (isset($item['data']['uri'])) ? $item['data']['uri'] : '#';
+                $htmlPattern['item']                    =   $ModelConstructor->setItemPattern($htmlPattern['global'],$i);
 
-                // *** Reset iteration if item is last on the line
-                if ($strucHtml_item['is_last'] == 1){
+                // *** Reset iteration if item is last of the line
+                if ($htmlPattern['item']['is_last'] == 1){
                     $i = 0;
                 }
 
                 // *** in case diplay is null, we take default value
-                if ($strucHtml_item['display'][1] == null)
-                    $strucHtml_item['display'][1] = $strucHtml_default['display'][1];
+                if ($htmlPattern['item']['display'][1] == null)
+                    $htmlPattern['item']['display'][1] = $htmlPattern['default']['display'][1];
+
 
                 // *** format item loop (foreach element)
-                $item = null;
-                foreach ($strucHtml_item['display'][1] as $elem_type ){
-                    $strucHtml_elem = $strucHtml_item[$elem_type ];
-                    if(array_search($elem_type,$strucHtml_item['display'][1])){
-                        // *** set link class
-                        $item_classLink = null;
-                        if(isset($strucHtml_elem['classLink'])){
-                            $item_classLink = ' class="'.$strucHtml_elem['classLink'].'"';
-                            $item_classLink = ($strucHtml_elem['classLink'] == 'none') ? 'none' : $item_classLink;
-                        }
+                $item['html'] = null;
+                foreach ($htmlPattern['item']['display'][1] as $elem_type )
+                {
+                    $htmlPattern['elem'] = $htmlPattern['item'][$elem_type ];
+                    if(array_search($elem_type,$htmlPattern['item']['display'][1])){
                         switch($elem_type){
                             case 'name':
-                                $elem = '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'. $item_dataVal['name'].'">';
-                                $elem .= $item_dataVal['name'];
-                                $elem .= '</a>';
+                                $elem = $item['data']['name'];
                                 break;
                             case 'img':
-                                $elem = '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'. $item_dataVal['name'].'">';
-                                $elem .= '<img src="'.$item_dataVal['img_src'].'" alt="'.$item_dataVal['name'].'"/>';
-                                $elem .= '</a>';
+                                $elem = '<img src="'.$item['data']['img_src'].'" alt="'.$item['data']['name'].'"/>';
                                 break;
                             case 'descr':
-                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['descr']), $strucHtml_item['descr']['lenght'] , $strucHtml_item['descr']['delemiter']);
+                                $elem =
+                                    magixcjquery_form_helpersforms::inputCleanTruncate(
+                                        magixcjquery_form_helpersforms::inputTagClean(
+                                            $item['data']['descr']
+                                        ),
+                                        $htmlPattern['item']['descr']['lenght'],
+                                        $htmlPattern['item']['descr']['delemiter']
+                                    );
                                 break;
                             case 'date':
-                                $elem = $item_dataVal['date'];
+                                $elem = $ModelConstructor->formatDateHtml($item['data']['date'],$htmlPattern['item']);
                                 break;
                             case 'tag':
-                                $elem = $item_dataVal['tag'];
+                                $elem = $item['data']['tag'];
                                 break;
                             default:
                                 $elem = null;
                         }
-                        // *** elem construct
-                        if ($elem != null){
-                            $item .= $strucHtml_elem['htmlBefore'];
-                            $item .= $elem;
-                            $item .= $strucHtml_elem['htmlAfter'];
-                        }
+
+//                        if ($elem != null){
+                            $item['html']   .= $htmlPattern['elem']['htmlBefore'];
+                            $item['html']   .= $elem;
+                            $item['html']   .= $htmlPattern['elem']['htmlAfter'];
+//                        }
                     }
 
                 }
                 // *** item construct
-                $items .= $strucHtml_item['item']['htmlBefore'];
-                $items .= $item;
-                $items .= $strucHtml_item['item']['htmlAfter'];
+                $items['html'] .= $htmlPattern['item']['item']['htmlBefore'];
+                    $items['html'] .= $item['html'];
+                $items['html'] .= $htmlPattern['item']['item']['htmlAfter'];
             }
         // *** container construct
-        $output .= $strucHtml['container']['htmlBefore'];
-                $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-                    $output .=  $items;
-                $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-            $output .= $strucHtml['container']['htmlAfter'];
-        $output .=  $pagination;
+        $output['html'] .= $htmlPattern['global']['container']['htmlBefore'];
+        $output['html'] .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+        $output['html'] .=  $items['html'];
+        $output['html'] .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+        $output['html'] .= $htmlPattern['global']['container']['htmlAfter'];
+        $output['html'] .=  $pagination['html'];
     }
-	return $output;
+	return $output['html'];
+}
+
+function newsPatternSelect($name=null) {
+    $ModelTemplate  =   new frontend_model_template();
+    $tr =   array(
+        'show_news' => $ModelTemplate->getConfigVars('show_news_page')
+    );
+
+    switch ($name) {
+        case 'sidebar':
+            $pattern    =   array(
+                'container'     =>  array(
+                    'htmlBefore'    =>  '<ul class="thumbnails">',
+                    // items injected here
+                    'htmlAfter'     =>  '</ul>'
+                ),
+                'item'          =>  array(
+                    'htmlBefore'    => '<li class="span3"><a href="#url#" title="'.$tr['show_news'].'" class="thumbnail">',
+                    // item's elements injected here (name, img, descr, ...)
+                    'htmlAfter'     => '</a></li>'
+                ),
+                'img'           =>  array(
+                    'htmlBefore'
+                    => '<span class="img">',
+                    'htmlAfter'
+                    =>  '</span>'
+                ),
+                'name'          =>  array(
+                    'htmlBefore'
+                    =>  ' ',
+                    'htmlAfter'
+                    =>  ' '
+                ),
+                'date'          =>  array(
+                    'htmlBefore'    => ' ',
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => ' '
+                ),
+                'tag'           =>  array(
+                    'htmlBefore'    => '<span class="tag">',
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => '<span>'
+                ),
+                'display'       =>  array(
+                    1           => array(
+                        'name',
+                        'date',
+                        'img'
+                    )
+                )
+            );
+            break;
+        default:
+            $pattern    =   array(
+                'container'     =>  array(
+                    'htmlBefore'    =>  '<ul class="thumbnails">',
+                    // items injected here
+                    'htmlAfter'     =>  '</ul>'
+                ),
+                'item'          =>  array(
+                    'htmlBefore'    => '<li class="span4"><div class="thumbnail">',
+                    // item's elements injected here (name, img, descr, ...)
+                    'htmlAfter'     => '</div></div></li>'
+                ),
+                'img'           =>  array(
+                    'htmlBefore'
+                    => '<span class="img">',
+                    'htmlAfter'
+                    =>  '</span>'
+                ),
+                'name'          =>  array(
+                    'htmlBefore'
+                    =>  '<div class="caption">
+                            <h3>
+                                <a href="#url#" title="'.$tr['show_news'].'">',
+                    'htmlAfter'
+                            =>  '</a>
+                            </h3>'
+                ),
+                'descr'         =>  array(
+                    'htmlBefore'    =>  '<p>',
+                    'lenght'        =>  250,
+                    'delemiter'     =>  '...',
+                    'htmlAfter'     =>  '</p>'
+                ),
+                'pagination'    =>  array(
+                    'htmlBefore'    => '<div>',
+                    'class'         => 'pagination',
+                    'htmlAfter'     => '</div>'
+                ),
+                'date'          =>  array(
+                    'htmlBefore'    => '',
+                    'format'        =>  array(
+                        'day'   => 'd/',
+                        'month'   => 'm/',
+                        'year'   => 'Y'
+                    ),
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => ''
+                ),
+                'tag'           =>  array(
+                    'htmlBefore'    => '<span class="tag">',
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => '<span>'
+                ),
+                'current'       =>  array(
+                    'class'         =>  ' current'
+                ),
+                'last'          =>  array(
+                    'class'         => ' last',
+                    'col'           => 1
+                ),
+                'display'       =>  array(
+                    1           => array(
+                        'name',
+                        'date',
+                        'img',
+                        'descr',
+                        'tag'
+                    )
+                ),
+                'allow' => array(
+                    '' ,
+                    'img' ,
+                    'name' ,
+                    'descr' ,
+                    'date' ,
+                    'tag'
+                )
+            );
+    }
+    return $pattern;
 }

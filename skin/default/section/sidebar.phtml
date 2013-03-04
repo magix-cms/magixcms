@@ -70,28 +70,7 @@
                 'limit' => 3
             ]
         htmlPrepend = "<li class='nav-header'>{#last_news#}</li>"
-        htmlStructure = [
-                'container' => [
-                    'htmlBefore' => '<ul class="thumbnails">',
-                    'htmlAfter' => '</ul>'
-                    ],
-                'item' => [
-                    'htmlBefore' => '<li class="span3"><div class="thumbnail">'
-                    ],
-                'img' => [
-                    'classLink' => 'img'
-                    ],
-                'name' => [
-                    'htmlBefore' => '<div class="caption"> <p>',
-                    'classLink' => 'name lead',
-                    'htmlAfter' => ' '
-                    ],
-                'tag' => [
-                    'htmlBefore' => '<p>',
-                    'htmlAfter' => '</p>'
-                    ]
-            ]
-
+        htmlStructure = 'sidebar'
         }
     {/if}
 </div>
