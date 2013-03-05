@@ -119,7 +119,6 @@ class frontend_db_news{
             ':iso'=>$iso
         ));
     }
-
     /**
      * Retourne la liste des news suivant list de Tag
      * @param string $iso
@@ -156,7 +155,7 @@ class frontend_db_news{
      * @param string $lang_iso
      * @return array
      */
-    function s_tag_all($lang_iso){
+    protected function s_tag_all($lang_iso){
         $sql = 'SELECT tag.name_tag, lang.iso
             FROM mc_news_tag AS tag
             LEFT JOIN mc_news AS news ON (news.idnews = tag.idnews)
@@ -167,13 +166,27 @@ class frontend_db_news{
             ':lang_iso'=> $lang_iso
         ));
     }
-
+    /**
+     * Retourne la liste des tag liées à une news
+     * @access protected
+     * @param int $idnews
+     */
+    protected function s_tagByNews($idnews){
+        $sql ='SELECT
+              tag.*
+			FROM mc_news_tag AS tag
+			WHERE idnews = :idnews';
+        return magixglobal_model_db::layerDB()->select(
+            $sql,
+            array('idnews'=>$idnews)
+        );
+    }
     /**
      *
      * Retourne le nombre total de news pour la langue
      * @param string $iso
      */
-    public function s_news_lang_total($iso){
+    protected function s_news_lang_total($iso){
         $sql = 'SELECT count(n.idnews) as total FROM mc_news AS n
 		JOIN mc_lang AS lang USING(idlang)
 		WHERE lang.iso = :iso AND n.published = 1';

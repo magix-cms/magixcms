@@ -62,12 +62,21 @@
  */
 function smarty_function_widget_news_nav($params, $template){
 
+    $ModelNews          =   new frontend_model_news();
+    $ModelSystem        =   new magixglobal_model_system();
+
     // *** Catch location var
     $lang_iso           = frontend_model_template::current_Language();
     $current_tag_name   =   ($_GET['tag']) ? magixcjquery_form_helpersforms::inputClean($_GET['tag']) : null;
 
     // *** Load SQL DATA
-    $data = frontend_db_news::s_tag_all($lang_iso);
+    $active             =   $ModelSystem->setActiveId();
+    $dataConf   =   array(
+            'level' =>  'tag',
+            'limit' =>  null
+    );
+
+    $data = $ModelNews->setDataSql($dataConf,$active);
 
     $output = null;
     if ($data != null){

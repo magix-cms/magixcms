@@ -57,7 +57,7 @@ class frontend_model_news extends frontend_db_news {
         $data   =   null;
         if (isset($row['idnews'])) {
             $data['tag']    =   null;
-            $tag['data']    =   frontend_db_block_news::s_news_tag($row['idnews']);
+            $tag['data']    =   parent::s_tagByNews($row['idnews']);
 
             if (is_array($tag['data'])) {
                 foreach ($tag['data'] as $t){
@@ -251,7 +251,7 @@ class frontend_model_news extends frontend_db_news {
             }
         }
 
-        if ($conf['limit']) {
+        if (isset($conf['limit'])) {
             $data['conf']['limit']          =   $conf['limit'];
             $data['conf']['offset']          =   $ModelNews->set_pagination_offset(
                 $data['conf']['limit'],
@@ -260,12 +260,17 @@ class frontend_model_news extends frontend_db_news {
         }
 
         if (isset($conf['level'])) {
-            if ( $conf['level'] == 'last-news')  {
-                $data['conf']['level']  = 'last-news';
+            switch ($conf['level']) {
+                case 'last-news':
+                    $data['conf']['level']  = 'last-news';
+                    break;
+                case 'tag':
+                    $data['conf']['level']  = 'tag';
+                    break;
             }
         }
 
-        // *** set sql data
+        // *** load data
         if ($data['conf']['level'] == 'last-news') {
             $data['src'] = parent::s_news(
                 $data['conf']['lang'],
@@ -273,6 +278,10 @@ class frontend_model_news extends frontend_db_news {
                 $data['conf']['limit'],
                 0
             );
+        } elseif ($data['conf']['level'] == 'tag') {
+                $data['src'] = parent::s_tag_all(
+                    $data['conf']['lang']
+                );
         } elseif ($data['conf']['id'] != null) {
             $data['src'] = parent::s_news_in_tag(
                 $data['conf']['lang'],

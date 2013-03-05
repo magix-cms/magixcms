@@ -42,30 +42,22 @@
  * @author Gérits Aurélien <aurelien@magix-cms.com> | <gerits.aurelien@gmail.com>
  *
  */
-class frontend_db_block_cms{
-	/**
-	 * Affiche les données métas d'une page CMS
-	 * @param $getpurl
-	 */
-	public function s_cms_seo($getidpage){
-		$sql = 'SELECT p.metatitle,p.metadescription
-				FROM mc_cms_page as p
-				WHERE p.idpage = :getidpage';
-		return magixglobal_model_db::layerDB()->selectOne($sql,array(
-			':getidpage'=>$getidpage
-		));
-	}
+class frontend_db_block_cms
+{
 	/**
 	 * @access protected
 	 * Sélectionne les pages parentes dans la langue
 	 * @param integer $getlang
+     * @todo replace usages and remove
 	 */
-	public static function s_parent_p($getlang){
+	public static function s_parent_p($getlang)
+    {
     	$sql = 'SELECT p.idpage,p.idcat_p,p.title_page,p.uri_page,lang.iso
     	FROM mc_cms_pages AS p 
     	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
     	WHERE lang.iso = :getlang AND p.idcat_p = 0 AND sidebar_page = 1
     	ORDER BY p.order_page';
+
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getlang' => $getlang
 		));
@@ -74,13 +66,16 @@ class frontend_db_block_cms{
 	 * @access protected
 	 * Sélectionne les pages enfants du parent
 	 * @param integer $get_page_p
+     * @todo replace usages and remove
 	 */
-	public static function s_child_page($get_page_p){
+	public static function s_child_page($get_page_p)
+    {
 		$sql = 'SELECT p.idpage,p.idcat_p,p.title_page,p.uri_page,lang.iso
     	FROM mc_cms_pages AS p 
     	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
     	WHERE p.idcat_p = :get_page_p AND sidebar_page = 1
     	ORDER BY p.order_page';
+
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':get_page_p' => $get_page_p
 		));
