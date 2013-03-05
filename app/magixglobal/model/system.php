@@ -236,17 +236,17 @@ class magixglobal_model_system{
         if ($FilterRequest->isGet('getidpage_p'))
             $active['cms']['parent']['id']    =   $HelperClean->inputNumeric($_GET['getidpage_p']);
 
-        $active['catalogue']['category']['id'] = null;
+        $active['catalog']['category']['id'] = null;
         if ($FilterRequest->isGet('idclc'))
-            $active['catalogue']['category']['id']    =   $HelperClean->inputNumeric($_GET['idclc']);
+            $active['catalog']['category']['id']    =   $HelperClean->inputNumeric($_GET['idclc']);
 
-        $active['catalogue']['subcategory']['id'] = null;
+        $active['catalog']['subcategory']['id'] = null;
         if ($FilterRequest->isGet('idcls'))
-            $active['catalogue']['subcategory']['id']    =   $HelperClean->inputNumeric($_GET['idcls']);
+            $active['catalog']['subcategory']['id']    =   $HelperClean->inputNumeric($_GET['idcls']);
 
-        $active['catalogue']['product']['id'] = null;
+        $active['catalog']['product']['id'] = null;
         if ($FilterRequest->isGet('idproduct'))
-            $active['catalogue']['product']['id']    =   $HelperClean->inputNumeric($_GET['idproduct']);
+            $active['catalog']['product']['id']    =   $HelperClean->inputNumeric($_GET['idproduct']);
 
         $active['lang']['iso']  = $ModelTemplate->current_Language();
 

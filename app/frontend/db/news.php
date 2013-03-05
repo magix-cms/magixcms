@@ -80,7 +80,7 @@ class frontend_db_news{
 	 * @param string $keynews
 	 * @param string $date_register
 	 */
-	protected function s_specific_news($keynews,$date_register){
+	protected function s_newsData($keynews,$date_register){
 		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
 		LEFT JOIN mc_lang AS lang USING(idlang)
 		WHERE n.keynews = :keynews AND CAST(n.date_register AS DATE) = CAST(:date_register AS DATE)';
@@ -96,23 +96,23 @@ class frontend_db_news{
      * @param integer $max
      * @param integer $offset
      */
-    protected function s_news($iso,$limit=false,$max=null,$offset=null,$sort_id=null,$sort_type=null){
-        $where_clause = 'WHERE n.published = 1 AND lang.iso = :iso';
+    protected function s_news($iso,$limit=null,$offset=null,$sort_id=null,$sort_type=null){
+        $where = null;
         if ($sort_id != null){
-            $where_clause .= ' AND n.idnews';
-            $where_clause .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
-            $where_clause .= $sort_id;
-            $where_clause .= ') ';
+            $where .= ' AND n.idnews';
+            $where .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
+            $where .= $sort_id;
+            $where .= ') ';
         }
-        $order_clause = 'ORDER BY n.date_register DESC';
-        $limit_clause = $limit ? ' LIMIT '.$max : '';
-        $offset_clause = !empty($offset) ? ' OFFSET '.$offset: '';
+        $limit_clause = isset($limit) ? ' LIMIT '.$limit : '';
+        $offset_clause = isset($offset) ? ' OFFSET '.$offset: '';
 
         $sql = "SELECT n.idnews,n.n_title,n.n_content,n.n_image,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
 				FROM mc_news as n
 				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-				{$where_clause}
-				{$order_clause}
+				WHERE n.published = 1 AND lang.iso = :iso
+				{$where}
+				ORDER BY n.date_register DESC
 				{$limit_clause}
 				{$offset_clause}";
         return magixglobal_model_db::layerDB()->select($sql,array(

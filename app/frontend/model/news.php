@@ -208,7 +208,7 @@ class frontend_model_news extends frontend_db_news {
      * @param array $active
      * @return array|null
      */
-    public function setDataSql($conf,$active)
+    public function getData($conf,$active)
     {
         if (!(is_array($conf)))
             return null;
@@ -218,6 +218,7 @@ class frontend_model_news extends frontend_db_news {
 
         $ModelNews      =   new frontend_model_news();
 
+        // set default values for query
         $data['conf']   =   array(
             'id'       =>  $active['news']['tag']['id'],
             'type'      =>  null,
@@ -226,17 +227,19 @@ class frontend_model_news extends frontend_db_news {
             'lang'      =>  $active['lang']['iso'],
             'level'     =>  'all'
         );
+        $active = $active['news'];
 
+        // set data selection conf
         if (isset($conf['select'])) {
             if( $conf['select'] == 'current') {
                 if ($active['tag']['id'] != null) {
-                    $data['conf']['id']     =   $active['news']['tag']['id'];
+                    $data['conf']['id']     =   $active['tag']['id'];
                     $data['conf']['type']   =   'collection';
 
                 }
             } elseif (is_array($conf['select'])) {
-                if (array_key_exists($active['lang']['iso'],$conf['select'])) {
-                    $data['conf']['id']     =   $conf['select'][$active['lang']['iso']];
+                if (array_key_exists($data['conf']['lang'],$conf['select'])) {
+                    $data['conf']['id']     =   $conf['select'][$data['conf']['lang']];
                     $data['conf']['type']   =   'collection';
 
                 }
@@ -244,21 +247,21 @@ class frontend_model_news extends frontend_db_news {
         } elseif(isset($conf['exclude'])) {
             if (is_array($conf['exclude'])) {
                 if (array_key_exists($active['lang']['iso'],$conf['exclude'])) {
-                    $data['conf']['id']     =   $conf['exclude'][$active['lang']['iso']];
+                    $data['conf']['id']     =   $conf['exclude'][$data['conf']['lang']];
                     $data['conf']['type']   =   'exclude';
 
                 }
             }
         }
-
+        // set number of line to return (with pagination)
         if (isset($conf['limit'])) {
             $data['conf']['limit']          =   $conf['limit'];
             $data['conf']['offset']          =   $ModelNews->set_pagination_offset(
                 $data['conf']['limit'],
-                $active['news']['pagination']['id']
+                $active['pagination']['id']
             );
         }
-
+        // set kind of data
         if (isset($conf['level'])) {
             switch ($conf['level']) {
                 case 'last-news':
@@ -270,19 +273,29 @@ class frontend_model_news extends frontend_db_news {
             }
         }
 
-        // *** load data
+        // *** Run - load data
         if ($data['conf']['level'] == 'last-news') {
-            $data['src'] = parent::s_news(
-                $data['conf']['lang'],
-                true,
-                $data['conf']['limit'],
-                0
-            );
+            if (isset($data['conf']['type'])) {
+                $data['src'] = parent::s_news_in_tag(
+                    $data['conf']['lang'],
+                    $data['conf']['id'],
+                    $data['conf']['type'],
+                    $data['conf']['limit']
+                );
+
+            } else {
+                $data['src'] = parent::s_news(
+                    $data['conf']['lang'],
+                    $data['conf']['limit'],
+                    0,
+                    null
+                );
+            }
         } elseif ($data['conf']['level'] == 'tag') {
                 $data['src'] = parent::s_tag_all(
                     $data['conf']['lang']
                 );
-        } elseif ($data['conf']['id'] != null) {
+        } elseif (isset($data['conf']['id'])) {
             $data['src'] = parent::s_news_in_tag(
                 $data['conf']['lang'],
                 $data['conf']['id'],
@@ -293,7 +306,6 @@ class frontend_model_news extends frontend_db_news {
         }else {
             $data['src'] = parent::s_news(
                 $data['conf']['lang'],
-                true,
                 $data['conf']['limit'],
                 $data['conf']['offset']
             );

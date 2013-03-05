@@ -37,18 +37,17 @@
  * Type:     function
  * Name:     widget_news_display
  * Update:   December  25, 2012
- * Update:   January   17, 2013
+ * Update:   March   5, 2013
  * Purpose:  
  * Examples: {widget_news_display}
  * Output:   
  * @link
- * @author   Gerits Aurelien
  * @author   Sire Sam (sire-sam.be)
- * @version  1.0.1
+ * @author   Gerits Aurelien
+ * @version  1.1
  * @param array
  * @param Smarty
  * @return string
- * @TODO formatage de la date suivant valeur passée en paramètre (valeurs à définir)
  */
 function smarty_function_widget_news_display($params, $template)
 {
@@ -59,9 +58,10 @@ function smarty_function_widget_news_display($params, $template)
     $ModelPager         =   new magixglobal_model_pager();
     $Debug              =   new magixcjquery_debug_magixfire();
 
+    // Set and load data
     $active             =   $ModelSystem->setActiveId();
     $data['conf']       =   (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
-    $data['src']        =   $ModelNews->setDataSql($data['conf'],$active);
+    $data['src']        =   $ModelNews->getData($data['conf'],$active);
 
     // Set Pagination
     $pagination['html'] =   null;
@@ -83,6 +83,7 @@ function smarty_function_widget_news_display($params, $template)
         unset($data['src']['limit']);
     }
 
+    // Format data
     $output['html'] = null;
     if ($data['src'] != null) {
         $htmlPattern['default']     =   newsPatternSelect();

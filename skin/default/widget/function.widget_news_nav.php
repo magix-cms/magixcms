@@ -76,7 +76,7 @@ function smarty_function_widget_news_nav($params, $template){
             'limit' =>  null
     );
 
-    $data = $ModelNews->setDataSql($dataConf,$active);
+    $data = $ModelNews->getData($dataConf,$active);
 
     $output = null;
     if ($data != null){

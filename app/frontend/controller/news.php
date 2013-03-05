@@ -115,7 +115,7 @@ class frontend_controller_news extends frontend_db_news
      */
 	private function load_news_data()
     {
-        $data = parent::s_specific_news($this->getnews,$this->getdate);
+        $data = parent::s_newsData($this->getnews,$this->getdate);
         $data['imgPath'] = null;
         if ($data['n_image'] != null) {
             $data['imgPath'] = '/upload/news/'.$data['n_image'];
