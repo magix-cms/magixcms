@@ -67,6 +67,8 @@
 
 function smarty_function_widget_lang_display($params, $template){
 
+    $ModelConstructor   =   new magixglobal_model_constructor();
+
     // *** Catch location var
     $iso_current     =       magixcjquery_filter_request::isGet('strLangue');
 
@@ -116,7 +118,7 @@ function smarty_function_widget_lang_display($params, $template){
 
     // *** Update html struct & item setting with custom var (params['structureHTML']) @TODO vérifier si le paramaètre htmlDispaly tj opérationnel
     $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-    $strucHtml = frontend_model_catalog::set_html_struct($strucHtml_default,$structHtml_custom);
+    $strucHtml = $ModelConstructor->mergeHtmlPattern($strucHtml_default,$structHtml_custom);
 
     // *** Set translation var
     $t_go_to_version = frontend_model_template::getConfigVars('go_to_version');

@@ -209,49 +209,49 @@ class magixglobal_model_system{
      * @static
      * @return array
      */
-    public static function setActiveId ()
+    public static function setCurrentId ()
     {
         $ModelTemplate  =   new frontend_model_template();
         $FilterRequest  =   new magixcjquery_filter_request();
         $HelperClean    =   new magixcjquery_form_helpersforms();
-        $active = array();
+        $current = array();
 
-        $active['news']['record']['id'] = null;
+        $current['news']['record']['id'] = null;
         if ($FilterRequest->isGet('getnews'))
-            $active['news']['record']['id']    =   $HelperClean->inputNumeric($_GET['getnews']);
+            $current['news']['record']['id']    =   $HelperClean->inputNumeric($_GET['getnews']);
 
-        $active['news']['pagination']['id'] = 1;
+        $current['news']['pagination']['id'] = 1;
         if ($FilterRequest->isGet('page'))
-            $active['news']['pagination']['id']    =   $HelperClean->inputNumeric($_GET['page']);
+            $current['news']['pagination']['id']    =   $HelperClean->inputNumeric($_GET['page']);
 
-        $active['news']['tag']['id'] = null;
+        $current['news']['tag']['id'] = null;
         if ($FilterRequest->isGet('tag'))
-            $active['news']['tag']['id']    =   $HelperClean->inputClean($_GET['tag']);
+            $current['news']['tag']['id']    =   $HelperClean->inputClean($_GET['tag']);
 
-        $active['cms']['record']['id'] = null;
+        $current['cms']['record']['id'] = null;
         if ($FilterRequest->isGet('getidpage'))
-            $active['cms']['record']['id']    =   $HelperClean->inputNumeric($_GET['getidpage']);
+            $current['cms']['record']['id']    =   $HelperClean->inputNumeric($_GET['getidpage']);
 
-        $active['cms']['parent']['id'] = null;
+        $current['cms']['parent']['id'] = null;
         if ($FilterRequest->isGet('getidpage_p'))
-            $active['cms']['parent']['id']    =   $HelperClean->inputNumeric($_GET['getidpage_p']);
+            $current['cms']['parent']['id']    =   $HelperClean->inputNumeric($_GET['getidpage_p']);
 
-        $active['catalog']['category']['id'] = null;
+        $current['catalog']['category']['id'] = null;
         if ($FilterRequest->isGet('idclc'))
-            $active['catalog']['category']['id']    =   $HelperClean->inputNumeric($_GET['idclc']);
+            $current['catalog']['category']['id']    =   $HelperClean->inputNumeric($_GET['idclc']);
 
-        $active['catalog']['subcategory']['id'] = null;
+        $current['catalog']['subcategory']['id'] = null;
         if ($FilterRequest->isGet('idcls'))
-            $active['catalog']['subcategory']['id']    =   $HelperClean->inputNumeric($_GET['idcls']);
+            $current['catalog']['subcategory']['id']    =   $HelperClean->inputNumeric($_GET['idcls']);
 
-        $active['catalog']['product']['id'] = null;
+        $current['catalog']['product']['id'] = null;
         if ($FilterRequest->isGet('idproduct'))
-            $active['catalog']['product']['id']    =   $HelperClean->inputNumeric($_GET['idproduct']);
+            $current['catalog']['product']['id']    =   $HelperClean->inputNumeric($_GET['idproduct']);
 
-        $active['lang']['iso']  = $ModelTemplate->current_Language();
+        $current['lang']['iso']  = $ModelTemplate->current_Language();
 
 
-        return $active;
+        return $current;
 
     }
 

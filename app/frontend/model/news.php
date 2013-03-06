@@ -204,66 +204,66 @@ class frontend_model_news extends frontend_db_news {
 
     /**
      * Retourne les données sql sur base des paramètres passés en paramète
-     * @param array $conf
-     * @param array $active
+     * @param array $custom
+     * @param array $current
      * @return array|null
      */
-    public function getData($conf,$active)
+    public function getData($custom,$current)
     {
-        if (!(is_array($conf)))
+        if (!(is_array($custom)))
             return null;
 
-        if (!(array_key_exists('news',$active)))
+        if (!(array_key_exists('news',$current)))
             return null;
 
         $ModelNews      =   new frontend_model_news();
 
         // set default values for query
         $data['conf']   =   array(
-            'id'       =>  $active['news']['tag']['id'],
+            'id'       =>  $current['news']['tag']['id'],
             'type'      =>  null,
             'limit'     =>  10,
-            'offset'    =>  $ModelNews->set_pagination_offset(10,$active['news']['pagination']['id']),
-            'lang'      =>  $active['lang']['iso'],
+            'offset'    =>  $ModelNews->set_pagination_offset(10,$current['news']['pagination']['id']),
+            'lang'      =>  $current['lang']['iso'],
             'level'     =>  'all'
         );
-        $active = $active['news'];
+        $current = $current['news'];
 
         // set data selection conf
-        if (isset($conf['select'])) {
-            if( $conf['select'] == 'current') {
-                if ($active['tag']['id'] != null) {
-                    $data['conf']['id']     =   $active['tag']['id'];
+        if (isset($custom['select'])) {
+            if( $custom['select'] == 'current') {
+                if ($current['tag']['id'] != null) {
+                    $data['conf']['id']     =   $current['tag']['id'];
                     $data['conf']['type']   =   'collection';
 
                 }
-            } elseif (is_array($conf['select'])) {
-                if (array_key_exists($data['conf']['lang'],$conf['select'])) {
-                    $data['conf']['id']     =   $conf['select'][$data['conf']['lang']];
+            } elseif (is_array($custom['select'])) {
+                if (array_key_exists($data['conf']['lang'],$custom['select'])) {
+                    $data['conf']['id']     =   $custom['select'][$data['conf']['lang']];
                     $data['conf']['type']   =   'collection';
 
                 }
             }
-        } elseif(isset($conf['exclude'])) {
-            if (is_array($conf['exclude'])) {
-                if (array_key_exists($active['lang']['iso'],$conf['exclude'])) {
-                    $data['conf']['id']     =   $conf['exclude'][$data['conf']['lang']];
+        } elseif(isset($custom['exclude'])) {
+            if (is_array($custom['exclude'])) {
+                if (array_key_exists($current['lang']['iso'],$custom['exclude'])) {
+                    $data['conf']['id']     =   $custom['exclude'][$data['conf']['lang']];
                     $data['conf']['type']   =   'exclude';
 
                 }
             }
         }
         // set number of line to return (with pagination)
-        if (isset($conf['limit'])) {
-            $data['conf']['limit']          =   $conf['limit'];
+        if (isset($custom['limit'])) {
+            $data['conf']['limit']          =   $custom['limit'];
             $data['conf']['offset']          =   $ModelNews->set_pagination_offset(
                 $data['conf']['limit'],
-                $active['pagination']['id']
+                $current['pagination']['id']
             );
         }
         // set kind of data
-        if (isset($conf['level'])) {
-            switch ($conf['level']) {
+        if (isset($custom['level'])) {
+            switch ($custom['level']) {
                 case 'last-news':
                     $data['conf']['level']  = 'last-news';
                     break;

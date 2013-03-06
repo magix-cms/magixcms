@@ -59,17 +59,17 @@ function smarty_function_widget_news_display($params, $template)
     $Debug              =   new magixcjquery_debug_magixfire();
 
     // Set and load data
-    $active             =   $ModelSystem->setActiveId();
-    $data['conf']       =   (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
-    $data['src']        =   $ModelNews->getData($data['conf'],$active);
+    $current    =   $ModelSystem->setCurrentId();
+    $conf       =   (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
+    $data       =   $ModelNews->getData($conf,$current);
 
     // Set Pagination
     $pagination['html'] =   null;
-    if ($data['src']['total'] AND $data['src']['limit']) {
+    if ($data['total'] AND $data['limit']) {
         $pagination['src']  =
             $ModelPager->set_pagination_data(
-                $data['src']['total'],
-                $data['src']['limit'],
+                $data['total'],
+                $data['limit'],
                 '/'.$active['lang']['iso'].$ModelRewrite->mod_news_lang($active['lang']['iso']),
                 $active['news']['pagination']['id'],
                 '/'
@@ -79,54 +79,54 @@ function smarty_function_widget_news_display($params, $template)
                 $pagination['src'],
                 $active['news']['pagination']['id']
             );
-        unset($data['src']['total']);
-        unset($data['src']['limit']);
+        unset($data['total']);
+        unset($data['limit']);
     }
 
     // Format data
-    $output['html'] = null;
-    if ($data['src'] != null) {
-        $htmlPattern['default']     =   newsPatternSelect();
-        $htmlPattern['custom']      =   null;
+    $html = null;
+    if ($data != null) {
+        $pattern['default']     =   patternNews();
+        $pattern['custom']      =   null;
 
         if ($params['htmlStructure']) {
-            $htmlPattern['custom']  =
+            $pattern['custom']  =
                 (is_array($params['htmlStructure']))
                     ? $params['htmlStructure']
-                    : newsPatternSelect($params['htmlStructure'])
+                    : patternNews($params['htmlStructure'])
             ;
         }
-        $htmlPattern['global']  =   $ModelConstructor->mergeHtmlPattern($htmlPattern['default'],$htmlPattern['custom']);
+        $pattern['global']  =   $ModelConstructor->mergeHtmlPattern($pattern['default'],$pattern['custom']);
 
         $i = 0;
         $items['html'] = null;
-        foreach ($data['src'] as $row)
+        foreach ($data as $row)
         {
             $i++;
             $item['data']   =   $ModelNews->setItemData($row,$active);
 
                 // *** set item html structure & var
-                $htmlPattern['global']['is_current']    =   ($item['data']['current'] == 'true') ? 1 : 0;
-                $htmlPattern['global']['id']            =   (isset($item['data']['id'])) ? $item['data']['id'] : 0;
-                $htmlPattern['global']['url']           =   (isset($item['data']['uri'])) ? $item['data']['uri'] : '#';
-                $htmlPattern['item']                    =   $ModelConstructor->setItemPattern($htmlPattern['global'],$i);
+                $pattern['global']['is_current']    =   ($item['data']['current'] == 'true') ? 1 : 0;
+                $pattern['global']['id']            =   (isset($item['data']['id'])) ? $item['data']['id'] : 0;
+                $pattern['global']['url']           =   (isset($item['data']['uri'])) ? $item['data']['uri'] : '#';
+                $pattern['item']                    =   $ModelConstructor->setItemPattern($pattern['global'],$i);
 
                 // *** Reset iteration if item is last of the line
-                if ($htmlPattern['item']['is_last'] == 1){
+                if ($pattern['item']['is_last'] == 1){
                     $i = 0;
                 }
 
                 // *** in case diplay is null, we take default value
-                if ($htmlPattern['item']['display'][1] == null)
-                    $htmlPattern['item']['display'][1] = $htmlPattern['default']['display'][1];
+                if ($pattern['item']['display'][1] == null)
+                    $pattern['item']['display'][1] = $pattern['default']['display'][1];
 
 
                 // *** format item loop (foreach element)
                 $item['html'] = null;
-                foreach ($htmlPattern['item']['display'][1] as $elem_type )
+                foreach ($pattern['item']['display'][1] as $elem_type )
                 {
-                    $htmlPattern['elem'] = $htmlPattern['item'][$elem_type ];
-                    if(array_search($elem_type,$htmlPattern['item']['display'][1])){
+                    $pattern['elem'] = $pattern['item'][$elem_type ];
+                    if(array_search($elem_type,$pattern['item']['display'][1])){
                         switch($elem_type){
                             case 'name':
                                 $elem = $item['data']['name'];
@@ -140,12 +140,12 @@ function smarty_function_widget_news_display($params, $template)
                                         magixcjquery_form_helpersforms::inputTagClean(
                                             $item['data']['descr']
                                         ),
-                                        $htmlPattern['item']['descr']['lenght'],
-                                        $htmlPattern['item']['descr']['delemiter']
+                                        $pattern['item']['descr']['lenght'],
+                                        $pattern['item']['descr']['delemiter']
                                     );
                                 break;
                             case 'date':
-                                $elem = $ModelConstructor->formatDateHtml($item['data']['date'],$htmlPattern['item']);
+                                $elem = $ModelConstructor->formatDateHtml($item['data']['date'],$pattern['item']);
                                 break;
                             case 'tag':
                                 $elem = $item['data']['tag'];
@@ -155,30 +155,31 @@ function smarty_function_widget_news_display($params, $template)
                         }
 
 //                        if ($elem != null){
-                            $item['html']   .= $htmlPattern['elem']['htmlBefore'];
+                            $item['html']   .= $pattern['elem']['htmlBefore'];
                             $item['html']   .= $elem;
-                            $item['html']   .= $htmlPattern['elem']['htmlAfter'];
+                            $item['html']   .= $pattern['elem']['htmlAfter'];
 //                        }
                     }
 
                 }
                 // *** item construct
-                $items['html'] .= $htmlPattern['item']['item']['htmlBefore'];
+                $items['html'] .= $pattern['item']['item']['htmlBefore'];
                     $items['html'] .= $item['html'];
-                $items['html'] .= $htmlPattern['item']['item']['htmlAfter'];
+                $items['html'] .= $pattern['item']['item']['htmlAfter'];
             }
         // *** container construct
-        $output['html'] .= $htmlPattern['global']['container']['htmlBefore'];
-        $output['html'] .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-        $output['html'] .=  $items['html'];
-        $output['html'] .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-        $output['html'] .= $htmlPattern['global']['container']['htmlAfter'];
-        $output['html'] .=  $pagination['html'];
+        $html .= $pattern['global']['container']['htmlBefore'];
+        $html .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+        $html .=  $items['html'];
+        $html .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+        $html .= $pattern['global']['container']['htmlAfter'];
+        $html .=  $pagination['html'];
     }
-	return $output['html'];
+	return $html;
 }
 
-function newsPatternSelect($name=null) {
+function patternNews ($name=null)
+{
     $ModelTemplate  =   new frontend_model_template();
     $tr =   array(
         'show_news' => $ModelTemplate->getConfigVars('show_news_page')

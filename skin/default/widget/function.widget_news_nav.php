@@ -65,18 +65,14 @@ function smarty_function_widget_news_nav($params, $template){
     $ModelNews          =   new frontend_model_news();
     $ModelSystem        =   new magixglobal_model_system();
 
-    // *** Catch location var
-    $lang_iso           = frontend_model_template::current_Language();
-    $current_tag_name   =   ($_GET['tag']) ? magixcjquery_form_helpersforms::inputClean($_GET['tag']) : null;
-
     // *** Load SQL DATA
-    $active             =   $ModelSystem->setActiveId();
-    $dataConf   =   array(
+    $current    =   $ModelSystem->setCurrentId();
+    $conf   =   array(
             'level' =>  'tag',
             'limit' =>  null
     );
-
-    $data = $ModelNews->getData($dataConf,$active);
+    $data = $ModelNews->getData($conf,$current);
+    $current    =   $current['news'];
 
     $output = null;
     if ($data != null){
@@ -97,7 +93,7 @@ function smarty_function_widget_news_nav($params, $template){
         // *** format items loop (foreach item)
         $items = null;
         foreach($data as $row){
-            $current_item = ($row['name_tag'] == $current_tag_name) ? $class_current : null;
+            $current_item = ($row['name_tag'] == $current['tag']['id']) ? $class_current : null;
             $uri_item = magixglobal_model_rewrite::filter_news_tag_url($row['iso'],urlencode($row['name_tag']),true);
             $name_item = $row['name_tag'];
             $class_item = ($current_item != null) ? ' class="'.$current_item.'"' : null;
