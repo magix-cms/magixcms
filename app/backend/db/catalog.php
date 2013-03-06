@@ -498,6 +498,11 @@ class backend_db_catalog{
         ));
     }
 
+    /**
+     * Retourne L'url du produit
+     * @param $titlecatalog
+     * @return array
+     */
     protected function s_product_url($titlecatalog){
         $sql = 'SELECT p.idproduct, c.idclc, c.clibelle, c.pathclibelle, s.idcls,
         s.slibelle, s.pathslibelle, cl.titlecatalog, cl.urlcatalog, lang.iso
@@ -547,6 +552,10 @@ class backend_db_catalog{
             ));
     }
 
+    /**
+     * Suppression du produit (relatif)
+     * @param $delete_product
+     */
     protected function d_product_rel($delete_product){
         $sql = 'DELETE FROM mc_catalog_rel_product WHERE idrelproduct = :delete_product';
         magixglobal_model_db::layerDB()->delete($sql,array(

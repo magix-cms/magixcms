@@ -41,6 +41,37 @@
 var MC_install = (function ($, undefined) {
     //Fonction Private
     /**
+     * Création de la base de données
+     */
+    function upgrade(){
+        $('#upgrade_db').on('click',function(event){
+            event.preventDefault();
+            var btn = $(this);
+            $.nicenotify({
+                ntype: "ajax",
+                uri: '/install/upgrade.php?action=add',
+                typesend: 'post',
+                noticedata: {process:"start"},
+                beforeParams:function(){
+                    var loader = $(document.createElement("span")).addClass("loader").append(
+                        $(document.createElement("img"))
+                            .attr('src','/install/template/img/small_loading.gif')
+                            .attr('width','20px')
+                            .attr('height','20px')
+                    );
+                    $('#upgrade_table').html(loader);
+                    btn.remove();
+                },
+                successParams:function(data){
+                    $('#upgrade_table').empty();
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+        })
+    }
+    /**
      * Retourne le tableau du résultat des analyses
      * @param getlang
      */
@@ -346,7 +377,10 @@ var MC_install = (function ($, undefined) {
         })
     }
     return {
-        //Fonction Public        
+        //Fonction Public
+        runUpgrade:function(){
+            upgrade();
+        },
         runAnalysis:function () {
             jsonAnalysis();
         },

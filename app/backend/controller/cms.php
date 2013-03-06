@@ -253,11 +253,11 @@ class backend_controller_cms extends backend_db_cms{
 	private function insert_new_page_p($title_page){
 		if(isset($title_page)){
 			// Verifier que le module exist
-			$numbermod = $config = backend_model_setting::tabs_load_config('cms');
+			//$numbermod = $config = backend_model_setting::tabs_load_config('cms');
 
 			if(empty($title_page) OR empty($this->getlang)){
 				backend_controller_template::display('cms/request/empty.phtml');
-			}elseif($numbermod['max_record'] != 0){
+			}/*elseif($numbermod['max_record'] != 0){
 					$cpage = parent::s_count_page_max_by_language($this->getlang);
 					if($cpage['total'] >= $numbermod['max_record']){
 						//Si le nombre maximal de page est atteint
@@ -265,15 +265,15 @@ class backend_controller_cms extends backend_db_cms{
 					}else{
 						$uri_page = magixcjquery_url_clean::rplMagixString($title_page,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 						parent::i_new_parent_page(
-							$this->idadmin, 
+							$this->idadmin,
 							$this->getlang,
-							$this->title_page, 
+							$this->title_page,
 							$uri_page
 						);
                         backend_controller_template::display('cms/request/success_add.phtml');
 					}
-			}else{
-				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,false);
+			}*/else{
+				$uri_page = magixcjquery_url_clean::rplMagixString($title_page,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 				parent::i_new_parent_page(
 					$this->idadmin, 
 					$this->getlang,

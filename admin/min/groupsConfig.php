@@ -12,7 +12,7 @@
  **/
 
 return array(
-	'adminjs' => array('//libjs/jquery-1.8.3.min.js','//libjs/jquery-ui-1.10.0.custom.min.js',
+	'adminjs' => array('//libjs/jquery-1.8.3.min.js','//libjs/jquery-ui-1.10.1.custom.min.js',
      '//libjs/plugins/jquery.form.3.20.js','//libjs/plugins/jquery.validate.1.10.0.min.js','//libjs/plugins/additional-methods.1.10.0.min.js',
      '//'.PATHADMIN.'/template/js/plugins/bootstrap.2.3.1.min.js','//'.PATHADMIN.'/template/js/plugins/holder.js'),
 	'jimagine' => array('//libjs/jimagine/config.js','//libjs/jimagine/jmConstant.js',

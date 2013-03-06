@@ -58,6 +58,6 @@ footer .navbar-inner{
 /**
 * setting error
 */
-.mc-error{
+.mc-error,.mc-success{
     margin:5px 0 0 0;
 }

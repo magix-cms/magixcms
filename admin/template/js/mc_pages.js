@@ -76,10 +76,10 @@ var MC_pages = (function ($, undefined) {
     function add(getlang,getParent){
         if(getParent != 0){
             var idforms = $("#forms_cms_add_child");
-            var url = '/admin/cms.php?getlang='+getlang+'&action=list&get_page_p='+getParent;
+            var url = '/admin/cms.php?getlang='+getlang+'&action=add&get_page_p='+getParent;
         }else{
             var idforms = $("#forms_cms_add_parent");
-            var url = '/admin/cms.php?getlang='+getlang+'&action=list';
+            var url = '/admin/cms.php?getlang='+getlang+'&action=add';
         }
         var formsAddPages = idforms.validate({
             onsubmit: true,

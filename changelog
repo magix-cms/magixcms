@@ -1,5 +1,14 @@
 #### 2.4.0
 Beta 1
+    * Fix bug ajout de pages parente (undefined function)
+    * Ajout du système d'upgrade des tables 2.3.6 => 2.4.0
+    * Fix bug date_register des pages
+    * Modification du numéro de version de jQuery UI dans configuration minify (backend)
+    * Fix bug plugin contact (traduction validation)
+    * Changement du visuel de la validation (frontend)
+    * Changement de la notification du plugin contact
+    * Refonte du script js plugin contact (frontend)
+    * Ajout des fichiers de traduction pour jQuery validate
     * Fix bug foreign key (plugin contact)
     * Widget_news - minor bug and update
         * Afficher les dernière news en sélectionnant/excluant des tags

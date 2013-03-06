@@ -390,8 +390,8 @@ class backend_db_cms{
 	 */
 	protected function i_new_parent_page($idadmin,$idlang,$title_page,$uri_page){
 		$order_page = $this->s_max_parent_order_page($idlang);
-		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,title_page,uri_page,order_page)
-		VALUE(:idadmin,:idlang,:title_page,:uri_page,:order_page)';
+		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,title_page,uri_page,date_register,order_page)
+		VALUE(:idadmin,:idlang,:title_page,:uri_page,NOW(),:order_page)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idadmin'			=>	$idadmin,
@@ -415,8 +415,8 @@ class backend_db_cms{
 	 */
 	protected function i_new_child_page($idadmin,$idlang,$get_page_p,$title_page,$uri_page){
 		$order_page = $this->s_max_child_order_page($idlang);
-		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,idcat_p,title_page,uri_page,order_page)
-		VALUE(:idadmin,:idlang,:get_page_p,:title_page,:uri_page,:order_page)';
+		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,idcat_p,title_page,uri_page,date_register,order_page)
+		VALUE(:idadmin,:idlang,:get_page_p,:title_page,:uri_page,NOW(),:order_page)';
 		magixglobal_model_db::layerDB()->insert($sql,
 		array(
 			':idadmin'			=>	$idadmin,

@@ -1,0 +1,24 @@
+{include file="section/head.phtml"}
+<title>Magix CMS | Upgrade</title>
+</head>
+<body class="install">
+<div class="container-started">
+    <div class="jumbotron">
+        <h1>Upgrade de Magix CMS</h1>
+        <p class="lead">
+            Vous êtes prêt à mettre à jour la base de données de Magix CMS
+        </p>
+        <p>
+            Magix CMS 2.3.6 => 2.4.0
+        </p>
+        <a class="btn btn-large btn-success" id="upgrade_db" href="#">
+            Lancer la mise à jour
+        </a>
+        <div class="mc-message mc-success clearfix"></div>
+        <div id="upgrade_table"></div>
+    </div>
+</div>
+{include file="section/js.phtml"}
+{include file="upgrade/section/js.phtml"}
+</body>
+</html>
