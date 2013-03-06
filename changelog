@@ -1,5 +1,6 @@
 #### 2.4.0
 Beta 1
+    * Fix bug foreign key (plugin contact)
     * Widget_news - minor bug and update
         * Afficher les dernière news en sélectionnant/excluant des tags
         * Mise à jour du widget_news_widget

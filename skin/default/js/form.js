@@ -16,11 +16,15 @@ $(document).ready(function(){
         highlight: function(element, errorClass, validClass) {
             if($(element).parent().is("p")){
                 $(element).parent().addClass("error");
+            }else if($(element).parent().is("div")){
+                $(element).parent().parent().addClass("error");
             }
         },
         unhighlight: function(element, errorClass, validClass) {
             if($(element).parent().is("p")){
                 $(element).parent().removeClass("error");
+            }else if($(element).parent().is("div")){
+                $(element).parent().parent().removeClass("error");
             }
         },
         // the errorPlacement has to take the table layout into account
