@@ -12,6 +12,8 @@ ALTER TABLE `mc_catalog_s` DROP FOREIGN KEY `mc_catalog_s_ibfk_1` ;
 
 ALTER TABLE `mc_admin_session` DROP FOREIGN KEY `mc_admin_session_ibfk_1` ;
 
+ALTER TABLE `mc_plugins_contact` DROP FOREIGN KEY `mc_plugins_contact_ibfk_3` ;
+
 ALTER TABLE `mc_page_home` CHANGE `idhome` `idhome` SMALLINT( 3 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
 CHANGE `subject` `subject` VARCHAR( 150 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 CHANGE `content` `content` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
