@@ -70,8 +70,9 @@ CHANGE `idadmin` `idadmin` SMALLINT( 5 ) UNSIGNED NOT NULL ,
 CHANGE `publish` `publish` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '1';
 
 ALTER TABLE `mc_config` CHANGE `idconfig` `idconfig` SMALLINT( 3 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
-CHANGE `status` `status` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
-CHANGE `max_record` `max_record` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+CHANGE `status` `status` SMALLINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `mc_config` DROP `max_record` ;
 
 ALTER TABLE `mc_config_size_img` CHANGE `idconfig` `idconfig` SMALLINT( 3 ) UNSIGNED NOT NULL;
 
