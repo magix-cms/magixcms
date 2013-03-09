@@ -82,6 +82,7 @@ class plugins_contact_admin extends database_plugins_contact{
             $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
         }
 	}
+
 	/**
 	 * @access private
 	 * Installation des tables mysql du plugin
@@ -95,88 +96,6 @@ class plugins_contact_admin extends database_plugins_contact{
 			return true;
 		}
 	}
-	/**
-	 * @access private
-	 * Liste les membres de l'administration
-	 */
-	/*private function list_member(){
-		$m = '<table class="clear" style="width:60%">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
-							<th><span class="magix-icon magix-icon-perms" style="float: left;"></span></th>
-							<th><span style="float:left;" class="ui-icon ui-icon-mail-closed"></span></th>
-						</tr>
-					</thead>
-					<tbody>';
-		foreach(backend_db_admin::adminDbMember()->view_list_members() as $list){
-			switch($list['perms']){
-				case 1:
-					$perms = 'Seo Agency';
-					break;
-				case 2:
-					$perms = 'Web Agency';
-					break;
-				case 3:
-					$perms = 'User admin';
-					break;
-				case 4:
-					$perms = 'User';
-					break;
-			}
-			$m .='<tr class="line">';
-			$m .='<td class="minimal">'.$list['idadmin'].'</td>';
-			$m .='<td class="nowrap">'.$list['pseudo'].'</td>';
-			$m .='<td class="nowrap">'.$perms.'</td>';
-			$m .='<td class="maximal">'.$list['email'].'</td>';
-			$m .='</tr>';
-		}
-		$m .= '</tbody></table>';
-		return $m;
-	}*/
-	/**
-	 * @access private
-	 * Liste les membres pour le formulaire de contact
-	 */
-	/*private function list_member_contact(){
-		$m = '<table class="clear" style="width:60%">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th><span style="float:left;" class="ui-icon ui-icon-flag"></span></th>
-						<th><span style="float:left;" class="ui-icon ui-icon-person"></span></th>
-						<th><span style="float:left;" class="ui-icon ui-icon-mail-closed"></span></th>
-						<th><span style="float:left;" class="ui-icon ui-icon-close"></span></th>
-					</tr>
-				</thead>
-				<tbody>';
-		$lang = '';
-		foreach(parent::s_register_contact() as $list){
-			switch($list['idlang']){
-				case 0:
-					$iso = '<div class="ui-state-error" style="border:none;"><span style="float:left" class="ui-icon ui-icon-cancel"></span></div>';
-				break;
-				default: 
-					$iso = $list['iso'];
-				break;
-			}
-			if ($list['iso'] != $lang) {
-				//if ($lang != '') { $m .= "</tr>\n"; }
-			       $m .= '<tr class="ui-widget-content"><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:center;text-transform:uppercase;"><span style="font-weight:bold;">'.$list['iso'].'</span></td><td>&nbsp;</td></tr>';
-			}
-			$lang = $list['iso'];
-			$m .='<tr class="line">';
-			$m .='<td class="minimal">'.$list['idadmin'].'</td>';
-			$m .='<td class="minimal">'.$iso.'</td>';
-			$m .='<td class="nowrap">'.$list['pseudo'].'</td>';
-			$m .='<td class="maximal">'.$list['email'].'</td>';
-			$m .='<td class="minimal"><a href="#" title="'.$list['idcontact'].'" class="d-plugins-contact"><span style="float:left" class="ui-icon ui-icon-close"></span></a></td>';
-			$m .='</tr>';
-		}
-		$m .= '</tbody></table>';
-		return $m;
-	}*/
 
     /**
      * @access private
@@ -193,9 +112,9 @@ class plugins_contact_admin extends database_plugins_contact{
 			}
 		}
 	}
+
     /**
      * Suppression d'un contact
-     * @param $create
      */
     private function remove(){
         if(isset($this->delete_contact)){
@@ -203,6 +122,9 @@ class plugins_contact_admin extends database_plugins_contact{
         }
     }
 
+    /**
+     * Retourne les statistiques des contacts au format JSON
+     */
     private function json_graph(){
         if(parent::s_stats_contact() != null){
             foreach (parent::s_stats_contact() as $key){
@@ -214,6 +136,10 @@ class plugins_contact_admin extends database_plugins_contact{
             print json_encode($stat);
         }
     }
+
+    /**
+     * Retourne la liste des contacts au format JSON
+     */
     private function json_list_contact(){
         if(parent::s_contact($this->getlang) != null){
             foreach (parent::s_contact($this->getlang) as $key){
