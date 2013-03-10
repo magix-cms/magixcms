@@ -454,22 +454,22 @@ class backend_db_catalog{
     }
 
     /**
-     * Insertion d'une copie du produit
+     * Copie du produit
      * @param $edit
-     * @param $idlang
      * @param $idadmin
      */
-    protected function i_catalog_copy_product($edit,$idlang,$idadmin){
-        $sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog)
-		SELECT :idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,price,ordercatalog FROM mc_catalog
+    protected function i_catalog_product_copy($edit,$idadmin){
+        $sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,imgcatalog,price)
+		SELECT idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,imgcatalog,price
+		FROM mc_catalog
 		WHERE idcatalog = :edit';
         magixglobal_model_db::layerDB()->insert($sql,
             array(
                 ':edit'		=>	$edit,
-                ':idlang'	=>	$idlang,
                 ':idadmin'	=>	$idadmin
             ));
     }
+
     /**
      * Insertion d'un produit dans une catégorie/ou sous catégorie
      * @param $edit
@@ -514,6 +514,16 @@ class backend_db_catalog{
 		WHERE cl.titlecatalog LIKE :titlecatalog';
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':titlecatalog'=>'%'.$titlecatalog.'%'
+        ));
+    }
+
+    /**
+     * @param $delete_catalog
+     */
+    protected function d_catalog($delete_catalog){
+        $sql = 'DELETE FROM mc_catalog WHERE idcatalog = :delete_catalog';
+        magixglobal_model_db::layerDB()->delete($sql,array(
+            ':delete_catalog'=>$delete_catalog
         ));
     }
     /*

@@ -1219,6 +1219,11 @@ var MC_catalog = (function ($, undefined) {
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
+                                    .addClass("icon-copy")
+                            ),
+                            $(document.createElement("th"))
+                                .append(
+                                $(document.createElement("span"))
                                     .addClass("icon-edit")
                             ),
                             $(document.createElement("th"))
@@ -1264,6 +1269,16 @@ var MC_catalog = (function ($, undefined) {
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
                         );
+                        var copy = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .addClass("copy-pages")
+                                .attr("href", "#")
+                                .attr("data-copy", item.idcatalog)
+                                .attr("title", "Copier "+": "+item.titlecatalog)
+                                .append(
+                                $(document.createElement("span")).addClass("icon-copy")
+                            )
+                        );
                         tbody.append(
                             $(document.createElement("tr"))
                                 .append(
@@ -1280,6 +1295,8 @@ var MC_catalog = (function ($, undefined) {
                                 $(document.createElement("td")).append(item.price),
                                 $(document.createElement("td")).append(content),
                                 $(document.createElement("td")).append(item.pseudo),
+                                copy
+                                ,
                                 edit
                                 ,
                                 remove
@@ -1424,6 +1441,82 @@ var MC_catalog = (function ($, undefined) {
                 }
             });
         }
+    }
+
+    /**
+     * Copie un produit
+     * @param section
+     * @param getlang
+     */
+    function copyProduct(section,getlang){
+        $(document).on('click','.copy-pages',function(event){
+            event.preventDefault();
+            var elem = $(this).data("copy");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:100,
+                width:350,
+                title:"Copier cet élément",
+                buttons: {
+                    'Copy': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=copy',
+                            typesend: 'post',
+                            noticedata : {copy:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                jsonListProduct(section,getlang);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
+    function removeProduct(section,getlang){
+        $(document).on('click','.delete-pages',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_catalog:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                jsonListProduct(section,getlang);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
     }
     /**
      * Chargement de l'image associée à la catégorie
@@ -1632,7 +1725,7 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function removeProduct(section,getlang,edit,tab){
+    function removeProductRel(section,getlang,edit,tab){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -2016,6 +2109,8 @@ var MC_catalog = (function ($, undefined) {
         runListProduct:function(section,getlang){
             jsonListProduct(section,getlang);
             addProduct(section,getlang);
+            copyProduct(section,getlang);
+            removeProduct(section,getlang);
         },
         runEditProduct:function(section,getlang,edit){
             if($("#urlcatalog").length != 0){
@@ -2035,7 +2130,7 @@ var MC_catalog = (function ($, undefined) {
                 });
                 jsonListProductCategory(section,getlang,edit);
                 updateProduct(section,getlang,edit,'category');
-                removeProduct(section,getlang,edit,'category');
+                removeProductRel(section,getlang,edit,'category');
             }else if($('#load_catalog_product_galery').length != 0){
                 loadListGalery(section,getlang,edit,'galery');
                 updateProduct(section,getlang,edit,'galery');
@@ -2043,7 +2138,7 @@ var MC_catalog = (function ($, undefined) {
             }else if($('#forms_catalog_product_related').length != 0){
                 autoCompleteProduct(section,getlang,edit,'product');
                 jsonListProductRel(section,getlang,edit,'product');
-                removeProduct(section,getlang,edit,'product');
+                removeProductRel(section,getlang,edit,'product');
             }
         }
     };

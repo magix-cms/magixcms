@@ -170,11 +170,11 @@ class backend_controller_catalog extends backend_db_catalog{
 	public $d_rel_product;
 	public $product_search;
 	public $get_search_page;
-    public $delete_image,$delete_product,$delete_galery;
+    public $delete_catalog,$delete_image,$delete_product,$delete_galery;
     /**
      * Les variables globales
      */
-    public $edit,$section,$getlang,$action,$tab,$idadmin,$callback,$title_search;
+    public $edit,$section,$getlang,$action,$tab,$idadmin,$callback,$title_search,$copy;
 
 	/**
 	 * @access public
@@ -232,7 +232,10 @@ class backend_controller_catalog extends backend_db_catalog{
 		if(magixcjquery_filter_request::isPost('price')){
 			$this->price = magixcjquery_filter_isVar::isPostFloat($_POST['price']);
 		}
-
+        // Remove
+        if(magixcjquery_filter_request::isPost('delete_catalog')){
+            $this->delete_catalog = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_catalog']);
+        }
         if(magixcjquery_filter_request::isPost('delete_image')){
             $this->delete_image = magixcjquery_form_helpersforms::inputClean($_POST['delete_image']);
         }
@@ -298,6 +301,10 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         if(magixcjquery_filter_request::isGet('title_search')){
             $this->title_search = magixcjquery_form_helpersforms::inputClean($_GET['title_search']);
+        }
+        //Copy
+        if(magixcjquery_filter_request::isPost('copy')){
+            $this->copy = magixcjquery_filter_isVar::isPostNumeric($_POST['copy']);
         }
 	}
 
@@ -989,6 +996,24 @@ class backend_controller_catalog extends backend_db_catalog{
                 );
                 $create->display('catalog/request/success_update.phtml');
             }
+        }
+    }
+
+    /**
+     * Copie un produit
+     */
+    private function copy_product(){
+        if(isset($this->copy)){
+            $this->i_catalog_product_copy(
+                $this->copy,
+                $this->idadmin
+            );
+        }
+    }
+
+    private function remove_product(){
+        if(isset($this->delete_catalog)){
+            parent::d_catalog($this->delete_catalog);
         }
     }
     /**
@@ -1965,6 +1990,12 @@ class backend_controller_catalog extends backend_db_catalog{
                                     $create->display('catalog/product/edit.phtml');
                                 }
                             }
+                        }elseif($this->action === 'remove'){
+                            $this->remove_product();
+                        }elseif($this->action === 'copy'){
+                            if(isset($this->copy)){
+                                $this->copy_product();
+                            }
                         }
                     }else{
                         $create->assign('pagination',$this->product_pagination(20));
@@ -1993,37 +2024,6 @@ class backend_controller_catalog extends backend_db_catalog{
                 $create->display('catalog/index.phtml');
             }
         }
-	}
-}
-/**
- * Class pour les statistiques du catalogue
- * @author Gérits Aurélien <aurelien@magix-cms.com> | <gerits.aurelien@gmail.com>
- *
- */
-class analyzer_catalog{
-	protected function statistic_global_product($info){
-		$count = backend_db_catalog::adminDbCatalog()->count_global_product();
-		$subfolder = backend_db_catalog::adminDbCatalog()->count_global_subfolder_product();
-		switch($info){
-			case 'subfolder':
-				return $subfolder['subfolder'];
-				break;
-			case 'product':
-				return $count['globalproduct'];
-				break;
-		}
-	}
-	protected function statistic_global_rel_product(){
-		$count = backend_db_catalog::adminDbCatalog()->count_global_rel_product();
-		return $count['relproduct'];
-	}
-	protected function statistic_global_folder_product(){
-		$count = backend_db_catalog::adminDbCatalog()->count_global_folder();
-		return $count['folder'];
-	}
-	protected function statistic_global_subfolder_product(){
-		$count = backend_db_catalog::adminDbCatalog()->count_global_subfolder();
-		return $count['subfolder'];
 	}
 }
 ?>
