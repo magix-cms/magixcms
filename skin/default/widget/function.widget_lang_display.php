@@ -157,7 +157,7 @@ function smarty_function_widget_lang_display($params, $template){
             if(array_search($elem_type,$strucHtml['display'][1])) {
                 switch($elem_type){
                     case 'name':
-                        $elem = $row['language'];
+                        $elem = ucfirst($row['language']);
                         break;
                     case 'icon':
                         $elem = '<img src="/skin/'.frontend_model_template::frontendTheme()->themeSelected().'/img/lang/'.$row['iso'].'.png" alt="'.$row['name'].'"/>';

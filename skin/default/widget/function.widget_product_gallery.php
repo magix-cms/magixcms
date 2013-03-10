@@ -62,87 +62,102 @@
  * @return string
  *
  */
-function smarty_function_widget_product_gallery($params, $template){
+function smarty_function_widget_product_gallery($params, $template)
+{
+    $ModelSystem        =   new magixglobal_model_system();
+    $ModelConstructor   =   new magixglobal_model_constructor();
+    $ModelCatalog       =   new frontend_model_catalog();
 
-    // ***Catch $_GET var
-    if(isset($_GET['idproduct']))
-        $id_current['product'] = $_GET['idproduct'];
-    else
-        return null;
+    // Set and load data
+    $current    =   $ModelSystem->setCurrentId();
+    $conf       =   array('level' => 'product-gallery');
+    $data       =   $ModelCatalog->getData($conf,$current);
 
-    // *** load SQL DATA
-//    $data = frontend_db_block_catalog::s_identifier_catalog($id_current['product']);;
-//      $data = frontend_db_block_catalog::s_microgalery_product($identifier['idcatalog']);
-    $sort_config = array('level' => 'product-gallery');
-    $data = frontend_model_catalog::set_sql_data($sort_config,$id_current);
-
-    $output = null;
+    $html = null;
     if ($data != null) {
-        // *** Default html Structure
-        $strucHtml_default = array(
-            'container'     =>  array(
-                'htmlBefore'    =>  '<ul class="thumbnails">',
-                // items injected here
-                'htmlAfter'     =>  '</ul>'
-            ),
-            'item'          =>  array(
-                'htmlBefore'    => '<li class="span2">',
-                // item's elements injected here (name, img, descr, ...)
-                'htmlAfter'     => '</li>'
-            ),
-            'img'           =>  array(
-                'classLink'     =>  'thumbnail gallery-link'
-            ),
-            'last'          =>  array(
-                'class'         => ' last',
-                'col'           => 1
-            )
-        );
+        $pattern['default']     =   patternMicroGallery();
+        $pattern['custom']      =   null;
+        if ($params['pattern']) {
+            $pattern['custom']  =
+                (is_array($params['pattern']))
+                    ? $params['pattern']
+                    : patternMicroGallery($params['pattern'])
+            ;
+        }
+        $pattern['global'] = $ModelConstructor->mergeHtmlPattern($pattern['default'],$pattern['custom']);
+        magixcjquery_debug_magixfire::magixFireTable('pattern',$pattern);
+        magixcjquery_debug_magixfire::magixFireTable('pattern global',$pattern['global']);
 
-        // *** Default item setting
-        $strucHtml_default['allow']     = array('','img');
-        $strucHtml_default['display']   = array( 1 => array('','img'));
-
-        // *** Update html struct & item setting with custom var (params['structureHTML'])
-        $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-        $strucHtml = frontend_model_catalog::set_html_struct($strucHtml_default,$structHtml_custom);
-
-        // *** Format setting
-        $items = null;
         $i = 0;
-
-        // *** loop for list format
-        foreach ($data as $row) {
+        $items['html'] = null;
+        foreach ($data as $row)
+        {
             $i++;
-
             // *** Construit donées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
-            $item_dataVal  = frontend_model_catalog::set_data_item($row,$id_current);
+            $item['data']  = $ModelCatalog->setItemData($row,$current);
 
             // Configuration de la structure HTML de l'item
-            $strucHtml_item = frontend_model_news::set_html_struct_item($strucHtml,$i);
+            $pattern['item'] = $ModelConstructor->setItemPattern($pattern['global'],$i);
 
-            if ($strucHtml_item['img']['classLink'] != '')
-                $strucHtml_item['img']['classLink'] = ' class="'.$strucHtml['img']['classLink'].'"';
+            if ($pattern['item']['img']['classLink'] != '')
+                $pattern['item']['img']['classLink'] = ' class="'.$pattern['item']['img']['classLink'].'"';
 
             // remise à zero du compteur si élément est le dernier de la ligne
-            if ($strucHtml_item['is_last'] == 1){
+            if ($pattern['item']['is_last'] == 1){
                 $i = 0;
             }
 
-            $items .= $strucHtml_item['item']['htmlBefore'];
-            $items .= '<a href="'.$item_dataVal['img_src']['maxi'].'" rel="product-gallery" title="Agrandir"'.$strucHtml_item['img']['classLink'].'>';
-                $items .= '<img src="'.$item_dataVal['img_src']['mini'].'" alt="Gallerie" />';
-            $items .= '</a>';
-            $items .= $strucHtml_item['item']['htmlAfter'];
+            $items['html'] .= $pattern['item']['item']['htmlBefore'];
+            $items['html'] .= '<a href="'.$item['data']['img_src']['maxi'].'" rel="productGallery" title="Agrandir"'.$pattern['item']['img']['classLink'].'>';
+                $items['html'] .= '<img src="'.$item['data']['img_src']['mini'].'" alt="Galery" />';
+            $items['html'] .= '</a>';
+            $items['html'] .= $pattern['item']['item']['htmlAfter'];
         }
     }
 
     // *** ouput
-    $output .= $strucHtml['container']['htmlBefore'];
-    $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-    $output .=  $items;
-    $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-    $output .= $strucHtml['container']['htmlAfter'];
+    if ($items['html'] != null) {
+        $html  = isset($params['title']) ? $params['title'] : '';
+        $html .= $pattern['global']['container']['htmlBefore'];
+        $html .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+        $html .=  $items['html'];
+        $html .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+        $html .= $pattern['global']['container']['htmlAfter'];
+    }
 
-   return $output;
+   return $html;
+}
+function patternMicroGallery ($name=null)
+{
+    switch ($name) {
+        default:
+            $pattern = array(
+                'container'     =>  array(
+                    'htmlBefore'    =>  '<ul class="thumbnails">',
+                    // items injected here
+                    'htmlAfter'     =>  '</ul>'
+                ),
+                'item'          =>  array(
+                    'htmlBefore'    => '<li class="span2">',
+                    // item's elements injected here (name, img, descr, ...)
+                    'htmlAfter'     => '</li>'
+                ),
+                'img'           =>  array(
+                    'classLink'     =>  'thumbnail gallery-link'
+                ),
+                'last'          =>  array(
+                    'class'         => ' last',
+                    'col'           => 1
+                ),
+                'allow'      =>  array(
+                    '',
+                    'img'
+
+                ),
+                'display'   =>  array(
+                    1 =>    array('img')
+                )
+            );
+    }
+    return $pattern;
 }

@@ -18,38 +18,24 @@
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
         {* ## Navigation *}
         {widget_catalog_nav
-            dataSelect=[
-                'select' => 'all',
-                'level'   => ['category' => 'subcategory']
+            conf = [
+                'level' => ['category' => 'subcategory']
             ]
-            htmlPrepend="<li class='nav-header'>{#catalog_navigation#}</li>"
             htmlAttribut=[
                 'id_container' => 'secondary-nav',
                 'class_container' => 'nav nav-list well',
                 'class_current'     => 'active'
             ]
+        prepend="<li class='nav-header'>{#catalog_navigation#}</li>"
         }
         {* ## Dernier produit *}
         {widget_catalog_display
-            dataSelect = [
+            conf = [
                 'level' => 'last-product',
-                'limit' => 1
+                'limit' => 2
             ]
-            htmlPrepend = "<li class='nav-header'>{#last_products#}</li>"
-            htmlStructure = [
-                'item' => [
-                    'htmlBefore' => '<li class="span3"><div class="thumbnail">'
-                ],
-                'name' => [
-                    'htmlBefore' => '<div class="caption"> <p class="lead">',
-                    'htmlAfter' => '</p>'
-                ],
-                'price' => [
-                    'htmlBefore' => '<a class="btn" href="|#url#|">',
-                    'htmlAfter' => '</a>'
-                ],
-                'display' => [1 => ['name', 'img', 'price']]
-            ]
+            pattern = 'sidebar'
+            prepend = "<li class='nav-header'>{#last_products#}</li>"
         }
     {/if}
     {* # Actualités *}
@@ -61,7 +47,7 @@
                 'class_container' => 'nav nav-list well',
                 'class_current'     => 'active'
             ]
-            htmlPrepend="<li class='nav-header'>{#news_by_theme#}</li>"
+            prepend="<li class='nav-header'>{#news_by_theme#}</li>"
         }
         {* ## Dernières actualités *}
         {widget_news_display
@@ -69,8 +55,8 @@
                 'level' => 'last-news',
                 'limit' => 3
             ]
-        htmlPrepend = "<li class='nav-header'>{#last_news#}</li>"
-        htmlStructure = 'sidebar'
+            pattern = 'sidebar'
+            prepend = "<li class='nav-header'>{#last_news#}</li>"
         }
     {/if}
 </div>

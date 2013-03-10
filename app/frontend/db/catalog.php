@@ -239,6 +239,7 @@ class frontend_db_catalog
     {
         $order_clause = 'ORDER BY p.orderproduct';
         if ($idclc == null and $idcls == null) {
+            // @TODO devrait recevoir la langue en paramète
             $where_clause = 'WHERE lang.iso = \''.frontend_model_template::current_Language().'\'';
             $order_clause = 'ORDER BY p.idproduct';
         } else {

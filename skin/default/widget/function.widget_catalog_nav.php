@@ -41,29 +41,26 @@
  * Type:     function
  * Name:     widget_catalog_nav
  * Date:     27/09/2012
- * Update:   12/01/2013
+ * Update:   10/03/2013
  * Output:
  * @author   Sire Sam (http://www.sire-sam.be)
  * @author   Gerits Aurélien (http://www.magix-dev.be)
- * @version  1.0
+ * @version  1.1
  * @param array
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_catalog_nav($params, $template) {
+function smarty_function_widget_catalog_nav($params, $template)
+{
+    $ModelSystem        =   new magixglobal_model_system();
+    $ModelConstructor   =   new magixglobal_model_constructor();
+    $ModelCatalog       =   new frontend_model_catalog();
 
-    // *** Catch location var
-    $id_current['category']     =       magixcjquery_filter_isVar::isPostNumeric($_GET['idclc'])        ;
-    $id_current['subcategory']  =       magixcjquery_filter_isVar::isPostNumeric($_GET['idcls'])        ;
-    $id_current['product']      =       magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct'])    ;
-    $lang =  frontend_model_template::current_Language();
-
-    // *** Load SQL DATA
-    $sort_config = array(
-        'level' => 'all'
-    );
-    $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : $sort_config;
-    $data = frontend_model_catalog::set_sql_data($sort_config,$id_current);
+    // Set and load data
+    $current    =   $ModelSystem->setCurrentId();
+    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array('level' => 'all');
+    $data       =   $ModelCatalog->getData($conf,$current);
+    $current    =   $current['catalog'];
 
     $i = 1;
     $items = null;
@@ -85,7 +82,7 @@ function smarty_function_widget_catalog_nav($params, $template) {
                     if ( isset($row_2['subdata']) AND is_array($row_2['subdata']) AND $row_2['subdata'] != null){
                         foreach($row_2['subdata'] as $row_3){
                             /** HTML FORMAT (LEVEL 3)**/
-                            $data_item_3    = frontend_model_catalog::set_data_item($row_3,$id_current);
+                            $data_item_3    = $ModelCatalog->setItemData($row_3,$current);
                             if ($data_item_3['current'] != 'false') {
                                 $current_item = ' class="'.$class_current.'"';
                             }else {
@@ -99,7 +96,7 @@ function smarty_function_widget_catalog_nav($params, $template) {
                         }
                     }
                     /** HTML FORMAT (LEVEL 2)**/
-                    $data_item_2    = frontend_model_catalog::set_data_item($row_2,$id_current);
+                    $data_item_2    = $ModelCatalog->setItemData($row_2,$current);
                     if ($data_item_2['current'] != 'false') {
                         $current_item = ' class="'.$class_current.'"';
                     }else {
@@ -114,7 +111,7 @@ function smarty_function_widget_catalog_nav($params, $template) {
                 }
             }
             /** HTML FORMAT (LEVEL 1)**/
-            $data_item = frontend_model_catalog::set_data_item($row_1,$id_current);
+            $data_item = $ModelCatalog->setItemData($row_1,$current);
             if ($data_item['current'] != 'false') {
                 $current_item = ' class="'.$class_current.'"';
             }else {
@@ -132,9 +129,9 @@ function smarty_function_widget_catalog_nav($params, $template) {
         if ($items != null) {
             $output .= isset($params['title']) ? $params['title'] : null;
             $output .= '<ul'.$id_container.$class_container.'>';
-            $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+            $output .= isset($params['prepend']) ? $params['prepend'] : null;
             $output .=  $items;
-            $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+            $output .= isset($params['append']) ? $params['append'] : null;
             $output .= '</ul>';
         }
     }

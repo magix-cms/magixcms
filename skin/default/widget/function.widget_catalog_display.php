@@ -32,89 +32,45 @@
  */
 /**
  * Smarty plugin
- * @package Smarty
- * @subpackage plugins
- * Smarty {widget_catalog_display} function plugin
- * Type:     function
- * Name:     widget_catalog_display
- * Date:     September 27, 2012
- * Update:   December  29, 2012
- * Purpose:
- * Output:  string
- * @link    htt://www.sire-sam.be, http://www.magix-dev.be
- * @author   Samuel Lesire
- * @author   Gerits Aurelien
- * @version  1.1
- * @param array
- * @param Smarty
- * @return string
- * @example & @doc : report to: https://github.com/sire-sam/Magix-CMS_Widget-Frontend/blob/master/function.widget_catalog_display.txt
+ * @package     Smarty
+ * @subpackage  plugins
+ * Type:        function
+ * Name:        widget_catalog_display
+ * Date:        27/09/2013
+ * Update:      05/03/2013
+ * @author      Samuel Lesire
+ * @author      Gerits Aurelien
+ * @link        htt://www.sire-sam.be, http://www.magix-dev.be
+ * @version     1.1
+ * @param       array
+ * @param       Smarty
+ * @return      string
  */
 
-function smarty_function_widget_catalog_display($params, $template) {
+function smarty_function_widget_catalog_display($params, $template)
+{
+    $ModelSystem        =   new magixglobal_model_system();
+    $ModelConstructor   =   new magixglobal_model_constructor();
+    $ModelCatalog       =   new frontend_model_catalog();
 
-    // *** Catch location var
-    $id_current['category']     =       magixcjquery_filter_isVar::isPostNumeric($_GET['idclc'])        ;
-    $id_current['subcategory']  =       magixcjquery_filter_isVar::isPostNumeric($_GET['idcls'])        ;
-    $id_current['product']      =       magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct'])    ;
+    // Set and load data
+    $current    =   $ModelSystem->setCurrentId();
+    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array();
+    $data       =   $ModelCatalog->getData($conf,$current);
 
-    // *** Load SQL data
-    $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
-    $data = frontend_model_catalog::set_sql_data($sort_config,$id_current);
-
-    $output = null;
+    // Format data
+    $html = null;
     if ($data != null){
-        // *** set default html structure
-        $strucHtml_default = array(
-            'container'     =>  array(
-                'htmlBefore'    => '<ul class="thumbnails">',
-                    // items injected here
-                'htmlAfter'     => '</ul>'
-                ),
-            'item'          =>  array(
-                'htmlBefore'    => '<li class="span4"><div class="thumbnail">',
-                    // item's elements injected here (name, img, descr)
-                'htmlAfter'     => '</div></div></li>'
-            ),
-            'img'         =>  array(
-                'classLink'     =>  'img'
-                ),
-            'name'        =>  array(
-                'htmlBefore'    =>  '<div class="caption"> <h3>',
-                'classLink'     =>  'name',
-                'htmlAfter'     =>  '</h3>'
-                ),
-            'descr'       =>  array(
-                'htmlBefore'    => '<p>',
-                'lenght'        => 250,
-                'delemiter'     => '...',
-                'htmlAfter'     => '</p>'
-                ),
-            'price'       =>  array(
-                'htmlBefore'    => '<p class="price">',
-                'currency'      => ' € TTC',
-                'htmlAfter'     => '</p>'
-                ),
-            'current'     =>  array(
-                'class'         =>  ' current'
-                ),
-            'last'        =>  array(
-                'class'         => ' last',
-                'col'           =>  1
-                )
-        );
-
-        // *** Set default elem to display
-        $strucHtml_default['allow']     = array('', 'img', 'name', 'price', 'descr');
-        $strucHtml_default['display']   = array(
-            1 =>    array('','name', 'img', 'descr', 'price'),
-            2 =>    array('','name', 'img', 'descr', 'price'),
-            3 =>    array('','name', 'img', 'descr', 'price')
-        );
-
-        // *** Update html struct & item setting with custom var (params['structureHTML'])
-        $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-        $strucHtml = frontend_model_catalog::set_html_struct($strucHtml_default,$structHtml_custom);
+        $pattern['default']     =   patternCatalog();
+        $pattern['custom']      =   null;
+        if ($params['pattern']) {
+            $pattern['custom']  =
+                (is_array($params['pattern']))
+                    ? $params['pattern']
+                    : patternCatalog($params['pattern'])
+            ;
+        }
+        $pattern['global'] = $ModelConstructor->mergeHtmlPattern($pattern['default'],$pattern['custom']);
 
         // *** format items loop (foreach item)
         // ** Loop management var
@@ -132,10 +88,10 @@ function smarty_function_widget_catalog_display($params, $template) {
         // *** boucle / loop
         do{
             // *** loop management START
-            if ($pass_trough == 0){
+            if ($pass_trough == 0) {
                 // Si je n'ai plus de données à traiter je vide ma variable
                 $row[$deep] = null;
-            }else{
+            } else {
                 // Sinon j'active le traitement des données
                 $pass_trough = 0;
             }
@@ -147,8 +103,8 @@ function smarty_function_widget_catalog_display($params, $template) {
             }
 
             // Si ma donnée possède des sous-donnée sous-forme de tableau
-            if (isset($row[$deep]['subdata']) ){
-                if (is_array($row[$deep]['subdata']) AND $row[$deep]['subdata'] != null){
+            if (isset($row[$deep]['subdata'])) {
+                if (is_array($row[$deep]['subdata']) AND $row[$deep]['subdata'] != null) {
                     // On monte d'une profondeur
                     $deep++;
                     $deep_minus++;
@@ -158,19 +114,19 @@ function smarty_function_widget_catalog_display($params, $template) {
                     // Désactive le traitement des données
                     $pass_trough = 1;
                 }
-            }elseif($deep != 1){
-                if ( $row[$deep] == null) {
-                    if ($row[$deep_minus]['subdata'] == null){
+            } elseif($deep != 1) {
+                if ($row[$deep] == null) {
+                    if ($row[$deep_minus]['subdata'] == null) {
                         // Si je n'ai pas de sous-données & pas de données à traiter & pas de frères à récupérer dans mon parent
                         // ====> désactive le tableaux de sous-données du parent et retourne au niveau de mon parent
                         unset ($row[$deep_minus]['subdata']);
                         unset ($i[$deep]);
                         // @TODO test if there's no other solution too englobe items with container
-                        $items[$deep] = $strucHtml_item['container']['htmlBefore'].$items[$deep].$strucHtml_item['container']['htmlAfter'];
+                        $items[$deep] = $pattern['item']['container']['htmlBefore'].$items[$deep].$pattern['item']['container']['htmlAfter'];
                         $deep--;
                         $deep_minus = $deep  - 1;
                         $deep_plus = $deep  + 1;
-                    }else{
+                    } else {
                         // Je récupère un frère dans mon parent
                         $row[$deep] = array_shift($row[$deep_minus]['subdata']);
                     }
@@ -181,33 +137,33 @@ function smarty_function_widget_catalog_display($params, $template) {
             // *** loop management END
 
             // *** list format START
-            if ($row[$deep] != null AND $pass_trough != 1){
+            if ($row[$deep] != null AND $pass_trough != 1) {
                 $i[$deep]++;
 
                 // Récupération de la taille de l'image
                 if (isset($structHtml['img']['size_'.$deep]))
-                    $row[$deep]['img_size'] = $structHtml['img']['size_'.$deep];
+                    $row[$deep]['img_size']     =   $structHtml['img']['size_'.$deep];
                 elseif (isset($structHtml['img']['size']))
-                    $row[$deep]['img_size'] = $structHtml['img']['size'];
+                    $row[$deep]['img_size']     =   $structHtml['img']['size'];
 
                 // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
-                $item_dataVal  = frontend_model_catalog::set_data_item($row[$deep],$id_current);
+                $item_dataVal       =       $ModelCatalog->setItemData($row[$deep],$current['catalog']);
 
                 // Configuration de la structure HTML de l'item
-                $strucHtml['is_current'] = ($item_dataVal['current'] == 'true' OR $item_dataVal['current'] == 'parent') ? 1 : 0;
-                $strucHtml['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
-                $strucHtml['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
-                $strucHtml_item = frontend_model_catalog::set_html_struct_item($strucHtml,$deep,$i[$deep]);
+                $pattern['global']['is_current']    =   ($item_dataVal['current'] == 'true' OR $item_dataVal['current'] == 'parent') ? 1 : 0;
+                $pattern['global']['id']            =   (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
+                $pattern['global']['url']           =   (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
+                $pattern['item']                    =   $ModelConstructor->setItemPattern($pattern['global'],$deep,$i[$deep]);
 
                 // remise à zero du compteur si élément est le dernier de la ligne
-                if ($strucHtml_item['is_last'] == 1){
+                if ($pattern['item']['is_last'] == 1) {
                     $i[$deep] = 0;
                 }
 
                 // Récupération de l'affichage pour le niveau
-                $strucHtml_item['display'] = (is_array($strucHtml['display'][$deep])) ? $strucHtml['display'][$deep] : $strucHtml['display'][1];
-                if ($strucHtml_item['display'] == null)
-                    $strucHtml_item['display'] = $strucHtml_default['display'][1];
+                $pattern['item']['display'] = (is_array($pattern['global']['display'][$deep])) ? $pattern['global']['display'][$deep] : $pattern['global']['display'][1];
+                if ($pattern['item']['display'] == null)
+                    $pattern['item']['display'] = $pattern['default']['display'][1];
 
 
                 // Récupération des sous-données (enfants)
@@ -219,15 +175,16 @@ function smarty_function_widget_catalog_display($params, $template) {
                 }
 
                 $item = null;
-                foreach ($strucHtml_item['display'] as $elem_type ){
+                foreach ($pattern['item']['display'] as $elem_type )
+                {
                     // BOUCLE de formatage des éléments contenus dans item
-                    $strucHtml_elem = $strucHtml_item[$elem_type ];
-                    if(array_search($elem_type,$strucHtml_item['display'])){
+                    $pattern['elem'] = $pattern['item'][$elem_type ];
+                    if (array_search($elem_type,$pattern['item']['display'])) {
                         // Config class link
                         $item_classLink = null;
-                        if(isset($strucHtml_elem['classLink'])){
-                            $item_classLink = ' class="'.$strucHtml_elem['classLink'].'"';
-                            $item_classLink = ($strucHtml_elem['classLink'] == 'none') ? 'none' : $item_classLink;
+                        if(isset($pattern['elem']['classLink'])){
+                            $item_classLink = ' class="'.$pattern['elem']['classLink'].'"';
+                            $item_classLink = ($pattern['elem']['classLink'] == 'none') ? 'none' : $item_classLink;
                         }
                         // Format element on switch
                         switch($elem_type){
@@ -242,11 +199,11 @@ function smarty_function_widget_catalog_display($params, $template) {
                                 $elem .= ($item_classLink != 'none') ? '</a>' : '';
                                 break;
                             case 'descr':
-                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['descr']), $strucHtml_item['descr']['lenght'] , $strucHtml_item['descr']['delemiter']);
+                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['descr']), $pattern['item']['descr']['lenght'] , $pattern['item']['descr']['delemiter']);
                                 break;
                             case 'price':
                                 if (is_numeric($item_dataVal['price']))
-                                    $elem = $item_dataVal['price'] . $strucHtml_item['price']['currency'];
+                                    $elem = $item_dataVal['price'] . $pattern['item']['price']['currency'];
                                 else
                                     $elem = null;
                                 break;
@@ -254,17 +211,17 @@ function smarty_function_widget_catalog_display($params, $template) {
                                 $elem = null;
                         }
                         if ($elem != null){
-                            $item .= $strucHtml_elem['htmlBefore'];
+                            $item .= $pattern['elem']['htmlBefore'];
                             $item .= $elem;
-                            $item .= $strucHtml_elem['htmlAfter'];
+                            $item .= $pattern['elem']['htmlAfter'];
                         }
                     }
 
                 }
-                $items[$deep] .= $strucHtml_item['item']['htmlBefore'];
+                $items[$deep] .= $pattern['item']['item']['htmlBefore'];
                 $items[$deep] .= $item;
                 $items[$deep] .= $subitems;
-                $items[$deep] .= $strucHtml_item['item']['htmlAfter'];
+                $items[$deep] .= $pattern['item']['item']['htmlAfter'];
             }
             // *** list format END
 
@@ -276,14 +233,106 @@ function smarty_function_widget_catalog_display($params, $template) {
 
         // *** container construct
         if ($items[1] != null) {
-            $output .= $strucHtml['container']['htmlBefore'];
-            $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-            $output .=  $items[1];
-            $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-            $output .= $strucHtml['container']['htmlAfter'];
+            $html  = isset($params['title']) ? $params['title'] : '';
+            $html .= $pattern['global']['container']['htmlBefore'];
+            $html .= isset($params['prepend']) ? $params['prepend'] : null;
+            $html .=  $items[1];
+            $html .= isset($params['append']) ? $params['append'] : null;
+            $html .= $pattern['global']['container']['htmlAfter'];
         }else{
-            $output = null;
+            $html = null;
         }
     }
-    return $output;
+    return $html;
+}
+function patternCatalog ($name=null)
+{
+    $ModelTemplate  =   new frontend_model_template();
+    $tr =   array(
+        'show_product'  =>  $ModelTemplate->getConfigVars('show_product')
+    );
+
+    switch ($name) {
+        case 'product':
+            $pattern = array(
+                'item'          =>  array(
+                    'htmlBefore'    => '<li class="span8"><div class="thumbnail">',
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => '</div></div></li>'
+                )            );
+            break;
+        case 'sidebar':
+            $pattern = array(
+                'item'          =>  array(
+                    'htmlBefore'    => '<li class="span3"><div class="thumbnail">',
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => '</div></div></li>'
+                ),
+                'img'         =>  array(
+                    'classLink'     =>  'img'
+                ),
+                'name'        =>  array(
+                    'htmlBefore'    =>  '<div class="caption"> <p class="lead">',
+                    'classLink'     =>  'name',
+                    'htmlAfter'     =>  '</p>'
+                ),
+                'price'       =>  array(
+                    'htmlBefore' => '<a class="btn" href="#url#">',
+                    'htmlAfter' => '</a>'
+                )
+            );
+            break;
+        default:
+            $pattern = array(
+                'container'     =>  array(
+                    'htmlBefore'    => '<ul class="thumbnails">',
+                    // items injected here
+                    'htmlAfter'     => '</ul>'
+                ),
+                'item'          =>  array(
+                    'htmlBefore'    => '<li class="span4"><div class="thumbnail">',
+                    // item's elements injected here (name, img, descr)
+                    'htmlAfter'     => '</div></div></li>'
+                ),
+                'img'         =>  array(
+                    'classLink'     =>  'img'
+                ),
+                'name'        =>  array(
+                    'htmlBefore'    =>  '<div class="caption"> <h3>',
+                    'classLink'     =>  'name',
+                    'htmlAfter'     =>  '</h3>'
+                ),
+                'descr'       =>  array(
+                    'htmlBefore'    => '<p>',
+                    'lenght'        => 250,
+                    'delemiter'     => '...',
+                    'htmlAfter'     => '</p>'
+                ),
+                'price'       =>  array(
+                    'htmlBefore' => '<a class="btn" href="#url#" title="'.$tr['show_product'].'">',
+                    'currency'      => ' € TTC',
+                    'htmlAfter' => '</a>'
+                ),
+                'current'     =>  array(
+                    'class'         =>  ' current'
+                ),
+                'last'        =>  array(
+                    'class'         => ' last',
+                    'col'           =>  1
+                ),
+                'allow'      =>  array(
+                    '',
+                    'img',
+                    'name',
+                    'price',
+                    'descr'
+                ),
+                'display'   =>  array(
+                    1 =>    array('','name', 'img', 'descr', 'price'),
+                    2 =>    array('','name', 'img', 'descr', 'price'),
+                    3 =>    array('','name', 'img', 'descr', 'price')
+                )
+            );
+    }
+    return $pattern;
 }

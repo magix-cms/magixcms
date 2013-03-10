@@ -32,45 +32,13 @@
                 </div>
                 {$content_product}
                 <div id="product-gallery">
-                    <p class="title">{#gallery#|firststring}</p>
                     {widget_product_gallery
-                        htmlStructure = [
-                            'container' => [
-                                'htmlBefore' => '<ul class="thumbnails">'
-                            ],
-                            'img' => [
-                                'classLink' => 'thumbnail gallery-link'
-                            ]
-                        ]
+                        title= "<h2>{#gallery#|ucfirst}</h2>"
                     }
                  </div>
                 {widget_catalog_display
-                    htmlStructure = [
-                        'container' => [
-                            'htmlBefore' => '<h2>Produits similaires</h2><ul class="thumbnails">',
-                            'htmlAfter' => '</ul>'
-                            ],
-                        'item' => [
-                            'htmlBefore' => '<li class="span8"><div class="thumbnail">',
-                            'htmlAfter' => '</div></div></li>'
-                            ],
-                        'name' => [
-                            'htmlBefore' => '<div class="caption"> <h3>',
-                            'classLink' => 'name',
-                            'htmlAfter' => '</h3>'
-                            ],
-                        'img' => [
-                            'classLink' => 'none'
-                            ],
-                        'descr' => [
-                            'htmlBefore' => '<p>',
-                            'htmlAfter' => '</p>'
-                            ],
-                        'price' => [
-                            'htmlBefore' => '<a class="btn" href="|#url#|" title="Voir le produit"> Voir le produit: ',
-                            'htmlAfter' => '</a>'
-                            ]
-                    ]
+                    title   =   "<h2>{#similar_products#|ucfirst}</h2>"
+                    pattern =   'product'
                 }
             </div>
         </div>

@@ -84,9 +84,6 @@ function smarty_function_widget_news_nav($params, $template){
             $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current']    : 'current';
         }
 
-        // *** set html preprend var
-        $title = isset($params['title']) ? $params['title'] : null;
-
         // *** Set translation var
         $tr_show_news = frontend_model_template::getConfigVars('show_news');
 
@@ -109,11 +106,11 @@ function smarty_function_widget_news_nav($params, $template){
         }
 
         // *** container construct
-        $output  = isset($title) ? $title : null;
+        $output  = isset($params['title']) ? $params['title'] : '';
         $output .= '<ul'.$id_container.$class_container.'>';
-            $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+            $output .= isset($params['prepend']) ? $params['prepend'] : null;
             $output .=  $items;
-            $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+            $output .= isset($params['append']) ? $params['append'] : null;
         $output .= '</ul>';
     }
     return $output;

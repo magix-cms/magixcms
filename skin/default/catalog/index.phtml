@@ -11,30 +11,7 @@
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
                     <h1>{#catalog_root_h1#}</h1>
-                        {widget_catalog_display
-                            htmlStructure = [
-                                'container' => [
-                                    'htmlBefore' => "<ul class='thumbnails'>",
-                                    'htmlAfter' => '</ul>'
-                                ],
-                                'item' => [
-                                    'htmlBefore' => '<li class="span4"><div class="thumbnail">',
-                                    'htmlAfter' => '</div></div></li>'
-                                ],
-                                'img' => [
-                                    'classLink' => 'none'
-                                ],
-                                'name' => [
-                                    'htmlBefore' => '<div class="caption"> <h3>',
-                                    'classLink' => 'name',
-                                    'htmlAfter' => '</h3>'
-                                ],
-                                'descr' => [
-                                    'htmlBefore' => '<p>',
-                                    'htmlAfter' => '</p>'
-                                ]
-                            ]
-                        }
+                        {widget_catalog_display}
             </div>
         </div>
         <div class="clear">&nbsp;</div>

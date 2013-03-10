@@ -86,11 +86,11 @@ function smarty_function_widget_news_display($params, $template)
     if ($data != null) {
         $pattern['default']     =   patternNews();
         $pattern['custom']      =   null;
-        if ($params['htmlStructure']) {
+        if ($params['pattern']) {
             $pattern['custom']  =
-                (is_array($params['htmlStructure']))
-                    ? $params['htmlStructure']
-                    : patternNews($params['htmlStructure'])
+                (is_array($params['pattern']))
+                    ? $params['pattern']
+                    : patternNews($params['pattern'])
             ;
         }
         $pattern['global']  =   $ModelConstructor->mergeHtmlPattern($pattern['default'],$pattern['custom']);
@@ -168,10 +168,11 @@ function smarty_function_widget_news_display($params, $template)
                 $items['html'] .= $pattern['item']['item']['htmlAfter'];
             }
         // *** container construct
+        $html  = isset($params['title']) ? $params['title'] : '';
         $html .= $pattern['global']['container']['htmlBefore'];
-        $html .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+        $html .= isset($params['prepend']) ? $params['prepend'] : null;
         $html .=  $items['html'];
-        $html .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+        $html .= isset($params['append']) ? $params['append'] : null;
         $html .= $pattern['global']['container']['htmlAfter'];
         $html .=  $pagination['html'];
     }

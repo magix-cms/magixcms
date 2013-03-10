@@ -13,32 +13,7 @@
             <h1>{$name_subcat}</h1>
             {$content_subcat}
             {widget_catalog_display
-                htmlStructure = [
-                    'container' => [
-                        'htmlBefore' => "<h2>{#products#}</h2><ul class='thumbnails'>",
-                        'htmlAfter' => '</ul>'
-                    ],
-                    'item' => [
-                        'htmlBefore' => '<li class="span8"><div class="thumbnail">',
-                        'htmlAfter' => '</div></div></li>'
-                    ],
-                    'img' => [
-                        'classLink' => 'none'
-                    ],
-                    'name' => [
-                        'htmlBefore' => '<div class="caption"> <h3>',
-                        'classLink' => 'name',
-                        'htmlAfter' => '</h3>'
-                    ],
-                    'descr' => [
-                        'htmlBefore' => '<p>',
-                        'htmlAfter' => '</p>'
-                    ],
-                    'price' => [
-                        'htmlBefore' => '<a class="btn" href="|#url#|" title="Voir le produit"> Voir le produit: ',
-                        'htmlAfter' => '</a>'
-                    ]
-                ]
+                pattern = 'product'
             }
             </div>
         </div>
