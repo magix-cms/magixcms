@@ -46,7 +46,7 @@ class magixglobal_model_pager{
      * @param numeric $current
      * @return numerice
      */
-    public function set_pagination_offset($limit,$current){
+    public function setPaginationOffset($limit,$current){
         $pagination = new magixcjquery_pager_pagination();
         return $pagination->pageOffset($limit,$current);
     }
@@ -59,7 +59,7 @@ class magixglobal_model_pager{
      * @param string $separator
      * @return array|null
      */
-    public function set_pagination_data($totalItems,$perPage,$basePath,$currentPage=1,$separator='/',$debug=false)
+    public function setPaginationData($totalItems,$perPage,$basePath,$currentPage=1,$separator='/',$debug=false)
     {
         $output = array();
         $total['items']     = $totalItems;

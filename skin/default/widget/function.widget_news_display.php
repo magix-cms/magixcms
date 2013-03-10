@@ -60,24 +60,24 @@ function smarty_function_widget_news_display($params, $template)
 
     // Set and load data
     $current    =   $ModelSystem->setCurrentId();
-    $conf       =   (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
+    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array();
     $data       =   $ModelNews->getData($conf,$current);
 
     // Set Pagination
     $pagination['html'] =   null;
     if ($data['total'] AND $data['limit']) {
         $pagination['src']  =
-            $ModelPager->set_pagination_data(
+            $ModelPager->setPaginationData(
                 $data['total'],
                 $data['limit'],
-                '/'.$active['lang']['iso'].$ModelRewrite->mod_news_lang($active['lang']['iso']),
-                $active['news']['pagination']['id'],
+                '/'.$current['lang']['iso'].$ModelRewrite->mod_news_lang($current['lang']['iso']),
+                $current['news']['pagination']['id'],
                 '/'
             );
         $pagination['html']     =
             $ModelConstructor->formatPaginationHtml(
                 $pagination['src'],
-                $active['news']['pagination']['id']
+                $current['news']['pagination']['id']
             );
         unset($data['total']);
         unset($data['limit']);
@@ -103,7 +103,7 @@ function smarty_function_widget_news_display($params, $template)
         foreach ($data as $row)
         {
             $i++;
-            $item['data']   =   $ModelNews->setItemData($row,$active);
+            $item['data']   =   $ModelNews->setItemData($row,$current);
 
                 // *** set item html structure & var
                 $pattern['global']['is_current']    =   ($item['data']['current'] == 'true') ? 1 : 0;

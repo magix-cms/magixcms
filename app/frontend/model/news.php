@@ -191,16 +191,6 @@ class frontend_model_news extends frontend_db_news {
         }
         return $htmlItem;
     }
-    /**
-     * Retourne les données sql sur base des paramètres passés en paramète
-     * @param numeric $limit
-     * @param numeric $current
-     * @return numerice
-     */
-    public function set_pagination_offset($limit,$current){
-        $pagination = new magixcjquery_pager_pagination();
-        return $pagination->pageOffset($limit,$current);
-    }
 
     /**
      * Retourne les données sql sur base des paramètres passés en paramète
@@ -216,14 +206,14 @@ class frontend_model_news extends frontend_db_news {
         if (!(array_key_exists('news',$current)))
             return null;
 
-        $ModelNews      =   new frontend_model_news();
+        $ModelPager      =   new magixglobal_model_pager();
 
         // set default values for query
         $data['conf']   =   array(
             'id'       =>  $current['news']['tag']['id'],
             'type'      =>  null,
             'limit'     =>  10,
-            'offset'    =>  $ModelNews->set_pagination_offset(10,$current['news']['pagination']['id']),
+            'offset'    =>  $ModelPager->setPaginationOffset(10,$current['news']['pagination']['id']),
             'lang'      =>  $current['lang']['iso'],
             'level'     =>  'all'
         );
@@ -256,7 +246,7 @@ class frontend_model_news extends frontend_db_news {
         // set number of line to return (with pagination)
         if (isset($custom['limit'])) {
             $data['conf']['limit']          =   $custom['limit'];
-            $data['conf']['offset']          =   $ModelNews->set_pagination_offset(
+            $data['conf']['offset']          =   $ModelPager->setPaginationOffset(
                 $data['conf']['limit'],
                 $current['pagination']['id']
             );
