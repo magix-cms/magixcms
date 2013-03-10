@@ -63,7 +63,7 @@ function smarty_function_widget_news_display($params, $template)
 
     // Set Pagination
     $pagination['html'] =   null;
-    if ($data['total'] AND $data['limit']) {
+    if (isset($data['total']) AND isset($data['limit'])) {
         $pagination['src']  =
             $ModelPager->setPaginationData(
                 $data['total'],
