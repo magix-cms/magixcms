@@ -108,7 +108,6 @@ function smarty_function_widget_cms_nav($params, $template)
             $items .= '</li>';
         }
 
-
         if ($items != null) {
             $output  = isset($params['title']) ? $params['title'] : '';
             $output .= '<ul'.$id_container.$class_container.'>';
