@@ -520,12 +520,20 @@ class backend_db_catalog{
     /**
      * @param $delete_catalog
      */
-    protected function d_catalog($delete_catalog){
+    protected function d_product($delete_catalog){
         $sql = array(
             'DELETE FROM mc_catalog_galery WHERE idcatalog = '.$delete_catalog,
             'DELETE FROM mc_catalog_rel_product WHERE idcatalog = '.$delete_catalog,
             'DELETE FROM mc_catalog_product WHERE idcatalog = '.$delete_catalog,
             'DELETE FROM mc_catalog WHERE idcatalog = '.$delete_catalog
+        );
+        magixglobal_model_db::layerDB()->transaction($sql);
+    }
+    protected function u_move_product($move,$idlang){
+        $sql = array(
+            'DELETE FROM mc_catalog_rel_product WHERE idcatalog = '.$move,
+            'DELETE FROM mc_catalog_product WHERE idcatalog = '.$move,
+            'UPDATE mc_catalog SET idlang = '.$idlang.' WHERE idcatalog = '.$move
         );
         magixglobal_model_db::layerDB()->transaction($sql);
     }

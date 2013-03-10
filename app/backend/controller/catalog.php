@@ -174,7 +174,7 @@ class backend_controller_catalog extends backend_db_catalog{
     /**
      * Les variables globales
      */
-    public $edit,$section,$getlang,$action,$tab,$idadmin,$callback,$title_search,$copy;
+    public $edit,$section,$getlang,$action,$tab,$idadmin,$callback,$title_search,$copy,$move;
 
 	/**
 	 * @access public
@@ -305,6 +305,9 @@ class backend_controller_catalog extends backend_db_catalog{
         //Copy
         if(magixcjquery_filter_request::isPost('copy')){
             $this->copy = magixcjquery_filter_isVar::isPostNumeric($_POST['copy']);
+        }
+        if(magixcjquery_filter_request::isPost('move')){
+            $this->move = magixcjquery_filter_isVar::isPostNumeric($_POST['move']);
         }
 	}
 
@@ -1004,18 +1007,54 @@ class backend_controller_catalog extends backend_db_catalog{
      */
     private function copy_product(){
         if(isset($this->copy)){
-            $this->i_catalog_product_copy(
+            parent::i_catalog_product_copy(
                 $this->copy,
                 $this->idadmin
             );
         }
     }
 
-    private function remove_product(){
-        if(isset($this->delete_catalog)){
-            parent::d_catalog($this->delete_catalog);
+    private function move_product(){
+        if(isset($this->move) AND isset($this->idlang)){
+            parent::u_move_product($this->move,$this->idlang);
         }
     }
+
+    /**
+     * Suppression d'un produit avec les liaisons
+     */
+    private function remove_product(){
+        if(isset($this->delete_catalog)){
+            parent::d_product($this->delete_catalog);
+        }
+    }
+
+    /**
+     * Construction du menu select
+     * @return string
+     */
+    private function lang_select(){
+        $idlang = '';
+        $iso = '';
+        foreach(backend_db_block_lang::s_data_lang() as $key){
+            $idlang[]=$key['idlang'];
+            $iso[]=$key['iso'];
+        }
+        $lang_conb = array_combine($idlang,$iso);
+        $select = backend_model_forms::select_static_row(
+            $lang_conb
+            ,
+            array(
+                'attr_name'=>'idlang',
+                'attr_id'=>'idlang',
+                'default_value'=>'',
+                'empty_value'=>'',
+                'upper_case'=>true
+            )
+        );
+        return $select;
+    }
+
     /**
      * Retourne au format JSON la liste des produits
      * @param $limit
@@ -1996,8 +2035,14 @@ class backend_controller_catalog extends backend_db_catalog{
                             if(isset($this->copy)){
                                 $this->copy_product();
                             }
+                        }elseif($this->action === 'move'){
+                            if(isset($this->move)){
+                                $this->move_product();
+                            }
                         }
+
                     }else{
+                        $create->assign('select_lang',$this->lang_select());
                         $create->assign('pagination',$this->product_pagination(20));
                         $create->display('catalog/product/list.phtml');
                     }

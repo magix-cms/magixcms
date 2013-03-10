@@ -196,12 +196,18 @@ class backend_model_forms{
                             $default_value = $upper_case ? magixcjquery_string_convert::upTextCase($options['default_value']) : $options['default_value'];
                             $mselect .= '<option selected="selected" value="'.$options['default_value'].'">'.$default_value.'</option>';
                         }
-                        $mselect .= '<option value="">---------------------</option>';
+                        if($empty_value != ''){
+                            $mselect .= '<option value="">---------------------</option>';
+                        }
                     }else{
-                        $mselect .= '<option value="">'.$empty_value.'</option>';
+                        if($empty_value != ''){
+                            $mselect .= '<option value="">'.$empty_value.'</option>';
+                        }
                     }
                 }else{
-                    $mselect .= '<option value="">'.$empty_value.'</option>';
+                    if($empty_value != ''){
+                        $mselect .= '<option value="">'.$empty_value.'</option>';
+                    }
                 }
                 foreach($default_array as $row => $val){
                     $row_value = $row;

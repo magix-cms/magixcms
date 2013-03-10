@@ -1,6 +1,8 @@
 [magixcms](http://www.magix-cms.com/)
 ===================================================
 
+![Logo Magix CMS](http://blog.aurelien-gerits.be/wp-content/uploads/2013/03/logo-magix-cms-positif.png "Logo Magix CMS")
+
 Presentation
 ------------
 

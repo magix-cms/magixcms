@@ -1,0 +1,29 @@
+{include file="section/head.phtml"}
+<title>Magix CMS | Admin</title>
+</head>
+<body class="module-cms">
+{include file="section/top.phtml"}
+<div class="container-fluid">
+    <div class="row-fluid">
+    {include file="section/colleft.phtml"}
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1>Traduction statique</h1>
+                    <h2>Core</h2>
+                    <p>
+                        <a class="btn" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;tab=core">
+                            <span class="icon-file-alt"></span> Local
+                        </a>
+                    </p>
+                    <h2>Plugins</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="section/footer.phtml"}
+{include file="section/js.phtml"}
+{include file="js.phtml"}
+</body>
+</html>

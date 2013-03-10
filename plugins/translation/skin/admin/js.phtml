@@ -1,0 +1,17 @@
+{script src="/{baseadmin}/min/?f=plugins/{$pluginName}/js/admin.js" concat={$concat} type="javascript"}
+<script type="text/javascript">
+    var tab = "{$smarty.get.tab}";
+    var plugin = "{$smarty.get.plugin}";
+    $(function(){
+        if (typeof MC_plugins_translation == "undefined")
+        {
+            console.log("MC_plugins_translation is not defined");
+        }else{
+        {if $smarty.get.getlang}
+            {if $smarty.get.tab}
+                MC_plugins_translation.runEdit(getlang,tab,plugin);
+            {/if}
+        {/if}
+        }
+    });
+</script>
