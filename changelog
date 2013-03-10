@@ -1,5 +1,25 @@
 #### 2.4.0
 Beta 1
+    * Ajout du déplacement de produit dans une autre langue (#34)
+    * Modification du système de création de menu select
+    * Ajout du plugin translation (Edition des traductions statique #40)
+    * Suppression des produits avec transaction - multi tables (#34)
+    * Ajout de la copie de produit
+    * Ajout de la suppression de produits
+    * Bug fix - Widget_news_display
+        * revision de condition, pouvant créer un bug si les données sont vides
+    * Traduction - locali18n
+    * CMS - code styling revision & improvement
+    * Catalog - massive improvement + global revision code styling
+        * Amélioration des class et widget cataloge, révision du code et du nommage.
+        * Révision du nommage des widgets
+    * Backend - bug - function classe magixglobal/pager renommée
+        * Modification des appel vers les function de magixglobal_pager,renommées dans précédent commit
+    * News - Bug fix & improvement
+    * Nettoyage du fichier admin du plugin contact (#7)
+    * Modification du lien vers fichier RSS (définition de la langue)
+    * Suppression des fichiers inutile dans db=>block (backend)
+    * Suppression de max_record dans la table config
     * Fix bug ajout de pages parente (undefined function)
     * Ajout du système d'upgrade des tables 2.3.6 => 2.4.0
     * Fix bug date_register des pages
