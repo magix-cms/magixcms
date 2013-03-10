@@ -23,7 +23,7 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2011 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
@@ -31,23 +31,21 @@
  *
  */
 /**
- * Smarty {widget_news_display}
- * function plugin
- *
- * Type:     function
- * Name:     widget_news_display
- * Update:   December  25, 2012
- * Update:   March   5, 2013
- * Purpose:  
- * Examples: {widget_news_display}
- * Output:   
- * @link
- * @author   Sire Sam (sire-sam.be)
- * @author   Gerits Aurelien
- * @version  1.1
- * @param array
- * @param Smarty
- * @return string
+ * Smarty plugin
+ * @package     Smarty
+ * @subpackage  plugins
+ * Type:        function
+ * Name:        widget_news_display
+ * date:        25/12/2013
+ * Update:      10/03/2013
+ * Examples:    {widget_news_display}
+ * @author      Sire Sam (sire-sam.be)
+ * @link        htt://www.sire-sam.be, http://www.magix-dev.be
+ * @author      Gerits Aurelien
+ * @version     1.1
+ * @param       array
+ * @param       Smarty
+ * @return      string
  */
 function smarty_function_widget_news_display($params, $template)
 {
@@ -88,7 +86,6 @@ function smarty_function_widget_news_display($params, $template)
     if ($data != null) {
         $pattern['default']     =   patternNews();
         $pattern['custom']      =   null;
-
         if ($params['htmlStructure']) {
             $pattern['custom']  =
                 (is_array($params['htmlStructure']))
@@ -154,11 +151,14 @@ function smarty_function_widget_news_display($params, $template)
                                 $elem = null;
                         }
 
-//                        if ($elem != null){
+                        if ($elem != null
+                            OR isset($pattern['elem']['htmlBefore'])
+                            OR isset($pattern['elem']['htmlAfter'])
+                        ) {
                             $item['html']   .= $pattern['elem']['htmlBefore'];
                             $item['html']   .= $elem;
                             $item['html']   .= $pattern['elem']['htmlAfter'];
-//                        }
+                        }
                     }
 
                 }

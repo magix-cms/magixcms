@@ -108,16 +108,23 @@ class magixglobal_model_constructor {
         }
         return $default;
     }
-
-    public function setItemPattern($htmlPattern,$position)
+    /*
+     * Set html pattern fot item with val replacement
+     * @access  public
+     * @param   array   $htmlPattern
+     * @param   int     $position
+     * @param   int     $deep
+     * @return  array
+     */
+    public function setItemPattern($htmlPattern,$position,$deep=1)
     {
+        $d          =   ($deep > 1) ? '_'.$deep : null;
         $pattern    =   null;
-
         $htmlPattern['is_last'] = 0;
-        if (is_numeric($htmlPattern['last']['col'])) {
+        if (is_numeric($htmlPattern['last']['col'.$d])) {
             if (
-                is_int($htmlPattern['last']['col']/ $position)
-                AND ($position != 1 AND $htmlPattern['last']['col'] != 1)
+                is_int($htmlPattern['last']['col'.$d]/ $position)
+                AND ($position != 1 AND $htmlPattern['last']['col'.$d] != 1)
             ) {
                 $htmlPattern['is_last'] = 1;
             }
@@ -130,15 +137,15 @@ class magixglobal_model_constructor {
                     foreach($v AS $sk => $sv){
                         // $sk == Item Structure values Key ==  htmlAfter,htmlBefore,class,...
                         // $sk == Item Structure values
-                        if (isset($htmlPattern[$k][$sk])) {
+                        if (isset($htmlPattern[$k][$sk.$d])) {
                             if ($sk == 'htmlBefore') {
 
                                 $rplc['class']['position']  =   null;
-                                if ($htmlPattern['is_last'] == 1){
-                                    $rplc['class']['string'] .= ' '.$htmlPattern['last']['class'];
+                                if ($htmlPattern['is_last'] == 1) {
+                                    $rplc['class']['string'] .= ' '.$htmlPattern['last']['class'.$d];
                                 }
                                 if ($htmlPattern['is_current'] == 1) {
-                                    $rplc['class']['string'] .= ' '.$htmlPattern['current']['class'];
+                                    $rplc['class']['string'] .= ' '.$htmlPattern['current']['class'.$d];
                                 }
 
                                 $rplc['class']['attr']  =   null;
@@ -161,10 +168,10 @@ class magixglobal_model_constructor {
                                 );
                                 $rplc['class'] = null;
 
-                                $pattern[$k][$sk] = str_replace($rplc['key'],$rplc['val'],$htmlPattern[$k][$sk]);
+                                $pattern[$k][$sk] = str_replace($rplc['key'],$rplc['val'],$htmlPattern[$k][$sk.$d]);
 
                             }else{
-                                $pattern[$k][$sk] = $htmlPattern[$k][$sk];
+                                $pattern[$k][$sk] = $htmlPattern[$k][$sk.$d];
                             }
                         }elseif (($k == 'current' AND $sk == 'class') OR ($k == 'descr' AND ($sk == 'lenght' OR $sk == 'delemiter')) OR ($sk == 'htmlBefore') OR ($sk == 'htmlAfter') ) {
                             // si aucune valeur pour mon niveau mais que je suis des valeurs d'héritage => récupére la valeur de premier niveaux

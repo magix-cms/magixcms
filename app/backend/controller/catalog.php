@@ -998,7 +998,7 @@ class backend_controller_catalog extends backend_db_catalog{
     private function json_listing_product($limit){
         $pager = new magixglobal_model_pager();
         $max = $limit;
-        $offset= $pager->set_pagination_offset($limit,$this->getpage);
+        $offset= $pager->setPaginationOffset($limit,$this->getpage);
         $role = new backend_model_role();
         $sort = 'idcatalog';
         if(parent::s_catalog($this->getlang,$role->sql_arg(),$limit,$max,$offset,$sort) != null){
@@ -1044,7 +1044,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if (isset($total) AND isset($limit)) {
             $lib_rewrite = new magixglobal_model_rewrite();
             $basePath = '/'.PATHADMIN.'/catalog.php?section=product&amp;getlang='.$this->getlang.'&amp;';
-            $dataPager = magixglobal_model_pager::set_pagination_data(
+            $dataPager = magixglobal_model_pager::setPaginationData(
                 $total,
                 $limit,
                 $basePath,
