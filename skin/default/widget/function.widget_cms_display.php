@@ -40,10 +40,8 @@
  *
  * Type:     function
  * Name:     widget_cms_display
- * Date:     29-12-2012
- * Update:   12-01-2013
- * Purpose:
- * Output:
+ * Date:     29/12/2012
+ * Update:   10/03/2013
  * @author   Sire Sam (http://www.sire-sam.be)
  * @author   Gerits Aurélien (http://www.magix-dev.be)
  * @version  1.0
@@ -51,63 +49,30 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_cms_display($params, $template){
+function smarty_function_widget_cms_display($params, $template)
+{
+    $ModelSystem        =   new magixglobal_model_system();
+    $ModelConstructor   =   new magixglobal_model_constructor();
+    $ModelCms           =   new frontend_model_cms();
 
-    // *** Catch location var
-    $id_current['page'] = isset($_GET['getidpage']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage']) : null;
-    $id_current['page_p'] = isset($_GET['getidpage_p']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage_p']) : null;
+    // Set and load data
+    $current    =   $ModelSystem->setCurrentId();
+    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array();
+    $data       =   $ModelCms->getData($conf,$current);
+    $current    =   $current['cms'];
 
-    // *** Load SQL data
-    $sort_config = (is_array($params['dataSelect'])) ? $params['dataSelect'] : array();
-    $data = frontend_model_cms::set_sql_data($sort_config,$id_current);
-
-    $output = null;
+    $htm = null;
     if($data != null){
-        // *** set default html structure
-        $strucHtml_default = array(
-            'container'     =>  array(
-                'htmlBefore'    => '<ul class="thumbnails">',
-                // items injected here
-                'htmlAfter'     => '</ul>'
-            ),
-            'item'          =>  array(
-                'htmlBefore'    => '<li class="span4"><div class="thumbnail"><div class="caption"> ',
-                // item's elements injected here (name, descr)
-                'htmlAfter'     => '</div></div></li>'
-            ),
-            'name'        =>  array(
-                'htmlBefore'    =>  '<h3>',
-                'classLink'     =>  'name',
-                'htmlAfter'     =>  '</h3>'
-            ),
-            'descr'       =>  array(
-                'htmlBefore'    => '<p>',
-                'lenght'        => 250,
-                'delemiter'     => '...',
-                'htmlAfter'     => '</p>'
-            ),
-            'current'     =>  array(
-                'class'         =>  ' current'
-            ),
-            'last'        =>  array(
-                'class'         => ' last',
-                'col'           =>  1
-            )
-        );
-
-        // *** Set default elem to display
-        $strucHtml_default['allow']     = array('', 'name', 'descr');
-        $strucHtml_default['display']   = array(
-            1 =>    array('','name', 'descr'),
-            2 =>    array('','name', 'descr')
-        );
-
-        // *** Update html struct & item setting with custom var (params['structureHTML'])
-        $structHtml_custom = ($params['htmlStructure']) ? $params['htmlStructure'] : null;
-        $strucHtml = frontend_model_cms::set_html_struct($strucHtml_default,$structHtml_custom);
-
-        // *** Set translation var
-        $tr_show_page = ucfirst(frontend_model_template::getConfigVars('show_page'));
+        $pattern['default']     =   patternCms();
+        $pattern['custom']      =   null;
+        if ($params['pattern']) {
+            $pattern['custom']  =
+                (is_array($params['pattern']))
+                    ? $params['pattern']
+                    : patternCms($params['pattern'])
+            ;
+        }
+        $pattern['global'] = $ModelConstructor->mergeHtmlPattern($pattern['default'],$pattern['custom']);
 
         // *** format items loop (foreach item)
         // ** Loop management var
@@ -157,8 +122,7 @@ function smarty_function_widget_cms_display($params, $template){
                         // ====> désactive le tableaux de sous-données du parent et retourne au niveau de mon parent
                         unset ($row[$deep_minus]['subdata']);
                         unset ($i[$deep]);
-                        // @TODO test if there's no other solution too englobe items with container
-                        $items[$deep] = $strucHtml_item['container']['htmlBefore'].$items[$deep].$strucHtml_item['container']['htmlAfter'];
+                        $items[$deep] = $pattern['item']['container']['htmlBefore'].$items[$deep].$pattern['item']['container']['htmlAfter'];
                         $deep--;
                         $deep_minus = $deep  - 1;
                         $deep_plus = $deep  + 1;
@@ -177,23 +141,23 @@ function smarty_function_widget_cms_display($params, $template){
                 $i[$deep]++;
 
                 // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
-                $item_dataVal  = frontend_model_cms::set_data_item($row[$deep],$id_current);
+                $item_dataVal  = $ModelCms->setItemData($row[$deep],$current);
 
                 // Configuration de la structure HTML de l'item
-                $strucHtml['is_current'] = ($item_dataVal['current'] == 'true') ? 1 : 0;
-                $strucHtml['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
-                $strucHtml['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
-                $strucHtml_item = frontend_model_cms::set_html_struct_item($strucHtml,$deep,$i[$deep]);
+                $pattern['global']['is_current'] = ($item_dataVal['current'] == 'true') ? 1 : 0;
+                $pattern['global']['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
+                $pattern['global']['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
+                $pattern['item'] = $ModelConstructor->setItemPattern($pattern['global'],$deep,$i[$deep]);
 
                 // remise à zero du compteur si élément est le dernier de la ligne
-                if ($strucHtml_item['is_last'] == 1){
+                if ($pattern['item']['is_last'] == 1){
                     $i[$deep] = 0;
                 }
 
                 // Récupération de l'affichage pour le niveau
-                $strucHtml_item['display'] = (is_array($strucHtml['display'][$deep])) ? $strucHtml['display'][$deep] : $strucHtml['display'][1];
-                if ($strucHtml_item['display'] == null)
-                    $strucHtml_item['display'] = $strucHtml_default['display'][1];
+                $pattern['item']['display'] = (is_array($pattern['global']['display'][$deep])) ? $pattern['global']['display'][$deep] : $pattern['global']['display'][1];
+                if ($pattern['item']['display'] == null)
+                    $pattern['item']['display'] = $pattern['default']['display'][1];
 
 
                 // Récupération des sous-données (enfants)
@@ -205,42 +169,42 @@ function smarty_function_widget_cms_display($params, $template){
                 }
 
                 $item = null;
-                foreach ($strucHtml_item['display'] as $elem_type ){
+                foreach ($pattern['item']['display'] as $elem_type ){
                     // BOUCLE de formatage des éléments contenus dans item
-                    $strucHtml_elem = $strucHtml_item[$elem_type ];
-                    if(array_search($elem_type,$strucHtml_item['display'])){
+                    $pattern['elem'] = $pattern['item'][$elem_type ];
+                    if(array_search($elem_type,$pattern['item']['display'])){
                         // Config class link
                         $item_classLink = null;
-                        if(isset($strucHtml_elem['classLink'])){
-                            $item_classLink = ' class="'.$strucHtml_elem['classLink'].'"';
-                            $item_classLink = ($strucHtml_elem['classLink'] == 'none') ? 'none' : $item_classLink;
+                        if(isset($pattern['elem']['classLink'])){
+                            $item_classLink = ' class="'.$pattern['elem']['classLink'].'"';
+                            $item_classLink = ($pattern['elem']['classLink'] == 'none') ? 'none' : $item_classLink;
                         }
                         // Format element on switch
                         switch($elem_type){
                             case 'name':
-                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'.$tr_show_page.': '.$item_dataVal['name'].'">' : '';
+                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'.$item_dataVal['name'].'">' : '';
                                 $elem .= $item_dataVal['name'];
                                 $elem .= ($item_classLink != 'none') ? '</a>'  : '';
                                 break;
                             case 'descr':
-                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['descr']), $strucHtml_item['descr']['lenght'] , $strucHtml_item['descr']['delemiter']);
+                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['descr']), $pattern['item']['descr']['lenght'] , $pattern['item']['descr']['delemiter']);
                                 break;
                             default:
                                 $elem = null;
                         }
                         if ($elem != null){
-                            $item .= $strucHtml_elem['htmlBefore'];
+                            $item .= $pattern['elem']['htmlBefore'];
                             $item .= $elem;
-                            $item .= $strucHtml_elem['htmlAfter'];
+                            $item .= $pattern['elem']['htmlAfter'];
                         }
                     }
 
                 }
 
-                $items[$deep] .= $strucHtml_item['item']['htmlBefore'];
+                $items[$deep] .= $pattern['item']['item']['htmlBefore'];
                 $items[$deep] .= $item;
                 $items[$deep] .= $subitems;
-                $items[$deep] .= $strucHtml_item['item']['htmlAfter'];
+                $items[$deep] .= $pattern['item']['item']['htmlAfter'];
             }
             // *** list format END
 
@@ -253,14 +217,61 @@ function smarty_function_widget_cms_display($params, $template){
 
         // *** container construct
         if ($items[$deep] != null) {
-            $output .= $strucHtml['container']['htmlBefore'];
-            $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
-            $output .=  $items[$deep];
-            $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-            $output .= $strucHtml['container']['htmlAfter'];
+            $htm .= $pattern['global']['container']['htmlBefore'];
+            $htm .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
+            $htm .=  $items[$deep];
+            $htm .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
+            $htm .= $pattern['global']['container']['htmlAfter'];
         }else{
-            $output = null;
+            $htm = null;
         }
     }
-	return $output;
+	return $htm;
+}
+function patternCms ($name=null)
+{
+    switch ($name) {
+        default:
+            // *** set default html structure
+            $pattern = array(
+                'container'     =>  array(
+                    'htmlBefore'    => '<ul class="thumbnails">',
+                    // items injected here
+                    'htmlAfter'     => '</ul>'
+                ),
+                'item'          =>  array(
+                    'htmlBefore'    => '<li class="span4"><div class="thumbnail"><div class="caption"> ',
+                    // item's elements injected here (name, descr)
+                    'htmlAfter'     => '</div></div></li>'
+                ),
+                'name'        =>  array(
+                    'htmlBefore'    =>  '<h3>',
+                    'classLink'     =>  'name',
+                    'htmlAfter'     =>  '</h3>'
+                ),
+                'descr'       =>  array(
+                    'htmlBefore'    => '<p>',
+                    'lenght'        => 250,
+                    'delemiter'     => '...',
+                    'htmlAfter'     => '</p>'
+                ),
+                'current'     =>  array(
+                    'class'         =>  ' current'
+                ),
+                'last'        =>  array(
+                    'class'         => ' last',
+                    'col'           =>  1
+                ),
+                'allow'       =>  array(
+                    '',
+                    'name',
+                    'descr'
+                ),
+                'display'     =>  array(
+                    1 =>    array('','name', 'descr'),
+                    2 =>    array('','name', 'descr')
+                )
+            );
+    }
+    return $pattern;
 }

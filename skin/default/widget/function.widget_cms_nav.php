@@ -41,7 +41,7 @@
  * Type:     function
  * Name:     widget_cms_nav
  * Date:     22/09/2012
- * Update:   12/01/2012
+ * Update:   10/03/2012
  * Output:
  * @author   Sire Sam (http://www.sire-sam.be)
  * @author   Gerits Aurélien (http://www.magix-dev.be)
@@ -50,123 +50,73 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_widget_cms_nav($params, $template){
+function smarty_function_widget_cms_nav($params, $template)
+{
+    $ModelSystem        =   new magixglobal_model_system();
+    $ModelConstructor   =   new magixglobal_model_constructor();
+    $ModelCms           =   new frontend_model_cms();
 
-    // *** Catch location var
-    $id_current = isset($_GET['getidpage']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage']) : null;
-    $id_current_p = isset($_GET['getidpage_p']) ? magixcjquery_form_helpersforms::inputNumeric($_GET['getidpage_p']) : null;
-    $lang =  frontend_model_template::current_Language();
+    // Set and load data
+    $current    =   $ModelSystem->setCurrentId();
+    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array('level' => 'all');
+    $data       =   $ModelCms->getData($conf,$current);
+    $current    =   $current['cms'];
 
-    /**
-     * @TODO revoir en profondeur les méthodes de ce widget pour être en cohérence avec les autres méthodes (voir: widget_cms_display)
-     */
-    // ***Hierarchy level Display var
-    $data_sort_id = null;
-    $data_sort_type = null;
-    $sub_data_display = 1;                 // [0 => don't display, 1 => display]
-    $data_display = 1;                     // [0 => don't display, 1 => display]
-    if (isset($params['hierarchy']) ){
-            $hierarchy = $params['hierarchy'];
-            if (isset($hierarchy['select'])){
-                if( $hierarchy['select'] == 'current'){
-                    if ($_SERVER['SCRIPT_NAME'] == '/cms.php'){
-                        $data_sort_id = $id_current_p != null ? $id_current_p : $id_current;
-                    }
-                } elseif( is_array($hierarchy['select'])){
-                    if (array_key_exists($lang,$hierarchy['select'])){
-                        $data_sort_id = $hierarchy['select'][$lang];
-                    }
-                }
-            }elseif(isset($hierarchy['exclude'])){
-                if( is_array($hierarchy['exclude'])){
-                    if (array_key_exists($lang,$hierarchy['exclude'])){
-                        $data_sort_id = $hierarchy['exclude'][$lang];
-                        $data_sort_type = 'exclude';
-                    }
-                }
-            }
-            if (isset($hierarchy['level'])){
-                if ( $hierarchy['level'] == 'parent') {  $sub_data_display = 0;}
-                if ( $hierarchy['level'] == 'child')  {  $data_display = 0;}
-            }
-    }
-
-        // ****SQL DATA
-    $data_sort_id = (is_array($data_sort_id)) ? implode(',',$data_sort_id) : magixcjquery_form_helpersforms::inputNumeric($data_sort_id);
-    $data = frontend_db_block_cms::s_parent_p($lang,$data_sort_id,$data_sort_type);
-
-
-    if($data != null){
-            // ***HTML attributs var
-        if ($params['htmlAttribut']){
+    $i = 1;
+    $items = null;
+    $output = null;
+    if ($data != null) {
+        // *** set default html attributs
+        if ($params['htmlAttribut']) {
             $htmlAttr = $params['htmlAttribut'];
-
             $id_container       =       isset($htmlAttr['id_container'])       ? ' id="'.$htmlAttr['id_container'].'"'      : null;
             $class_container    =       isset($htmlAttr['class_container'])    ? ' class="'.$htmlAttr['class_container'].'"'   : null;
-            $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current'] : 'current';
+            $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current'] : 'active';
         }
-            // ***HTML injection var
-        $title = isset($params['title']) ? $params['title'] : null;
 
-            // ***tanslation var
-        $tr_show_page = ucfirst(frontend_model_template::getConfigVars('show_page'));
-
-        /*** FORMATTING ***/
-        /**********************/
-        $items = null;
-        foreach($data as $row){
-
-            /** SUB-DATA (child pages)**/
-            $sub_data = ($sub_data_display != 0) ? frontend_db_block_cms::s_child_page($row['idpage']) : null;
-            $sub_items = null;
-
-            if ($sub_data != null) {
-                $list_items = null;
-                foreach($sub_data as $sub_row){
-                    $current_item = ($sub_row['idpage'] == $id_current) ? $class_current : null;
-                    $uri_item = magixglobal_model_rewrite::filter_cms_url($sub_row['iso'], $sub_row['idcat_p'], $row['uri_page'], $sub_row['idpage'], $sub_row['uri_page'],true);
-                    $name_item = $sub_row['title_page'];
-                    $class_item = ($current_item != null) ? ' class="'.$current_item.'"' : null;
-
-                    $item =  '<li'.$class_item.'>';
-                        $item .= '<a href="'.$uri_item.'" title="'.$tr_show_page .': '.$name_item.'">';
-                            $item .= $name_item;
-                        $item .= '</a>';
-                    $item .= '</li>';
-                    $list_items .= $item;
+        // *** format items loop (foreach item)
+        foreach($data as $row_1){
+            $items_2 = null;
+            if ( isset($row_1['subdata']) AND is_array($row_1['subdata'])){
+                foreach($row_1['subdata'] as $row_2){
+                    /** HTML FORMAT (LEVEL 2)**/
+                    $data_item_2    = $ModelCms->setItemData($row_2,$current);
+                    if ($data_item_2['current'] != 'false') {
+                        $current_item = ' class="'.$class_current.'"';
+                    }else {
+                        $current_item = null;
+                    }
+                    $items_2 .= '<li'.$current_item.'>';
+                    $items_2 .= '<a href="'.$data_item_2['uri'].'" title="'. $data_item_2['name'].'">';
+                    $items_2 .= $data_item_2['name'];
+                    $items_2 .= '</a>';
+                    $items_2 .= '</li>';
                 }
-                $sub_items = $list_items;
             }
-
-            /** DATA (parent pages)**/
-            $current_item = ($row['idpage'] == $id_current OR $row['idpage'] == $id_current_p) ? $class_current : null;
-            $uri_item = magixglobal_model_rewrite::filter_cms_url($row['iso'], NULL, NULL, $row['idpage'], $row['uri_page'],true);
-            $name_item = $row['title_page'];
-            $class_item = ($current_item != null) ? ' class="'.$current_item.'"' : null;
-
-            $item =  '<li'.$class_item.'>';
-                $item .= '<a href="'.$uri_item.'" title="'.$tr_show_page .': '.$name_item.'">';
-                    $item .= $name_item;
-                $item .= '</a>';
-                $item .= ($sub_items != null) ? '<ul class="subnav-list">'.$sub_items.'</ul>' : '';
-            $item .= '</li>';
-            $items .= ($data_display != 0) ? $item : $sub_items ;
+            /** HTML FORMAT (LEVEL 1)**/
+            $data_item = $ModelCms->setItemData($row_1,$current);
+            if ($data_item['current'] != 'false') {
+                $current_item = ' class="'.$class_current.'"';
+            }else {
+                $current_item = null;
+            }
+            $items .= '<li'.$current_item.'>';
+            $items .= '<a href="'.$data_item['uri'].'" title="'. $data_item['name'].'">';
+            $items .= $data_item['name'];
+            $items .= '</a>';
+            $items .=  ($items_2 != null) ? '<ul class="subnav-list">'.$items_2.'</ul>' : '';
+            $items .= '</li>';
         }
+
 
         if ($items != null) {
-            $output  = isset($title) ? $title : null;
+            $output  = isset($params['title']) ? $params['title'] : '';
             $output .= '<ul'.$id_container.$class_container.'>';
             $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
             $output .=  $items;
             $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
             $output .= '</ul>';
-        }else {
-            $output = null;
         }
-
-
-    }else{
-        $output = null;
     }
 	return $output;
 }

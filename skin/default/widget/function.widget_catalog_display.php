@@ -58,7 +58,6 @@ function smarty_function_widget_catalog_display($params, $template)
     $conf       =   (is_array($params['conf'])) ? $params['conf'] : array();
     $data       =   $ModelCatalog->getData($conf,$current);
 
-    // Format data
     $html = null;
     if ($data != null){
         $pattern['default']     =   patternCatalog();
@@ -121,7 +120,6 @@ function smarty_function_widget_catalog_display($params, $template)
                         // ====> désactive le tableaux de sous-données du parent et retourne au niveau de mon parent
                         unset ($row[$deep_minus]['subdata']);
                         unset ($i[$deep]);
-                        // @TODO test if there's no other solution too englobe items with container
                         $items[$deep] = $pattern['item']['container']['htmlBefore'].$items[$deep].$pattern['item']['container']['htmlAfter'];
                         $deep--;
                         $deep_minus = $deep  - 1;

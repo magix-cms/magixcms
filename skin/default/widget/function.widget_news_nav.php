@@ -75,9 +75,9 @@ function smarty_function_widget_news_nav($params, $template){
     $current    =   $current['news'];
 
     $output = null;
-    if ($data != null){
+    if ($data != null) {
         // *** set default html attributs
-        if ($params['htmlAttribut']){
+        if ($params['htmlAttribut']) {
             $htmlAttr = $params['htmlAttribut'];
             $id_container       =       isset($htmlAttr['id_container'])       ? ' id="'.$htmlAttr['id_container'].'"'      : null;
             $class_container    =       isset($htmlAttr['class_container'])    ? ' class="'.$htmlAttr['class_container'].'"'   : null;

@@ -13,7 +13,11 @@
             <div id="article-inner" class="span8">
                 <h1>{$name_home}</h1>
                 {$content_home}
-                {widget_cms_display}
+                {widget_cms_display
+                    conf = [
+                        'level' => 'parent'
+                    ]
+                }
             </div>
         </div>
         <div class="clear">&nbsp;</div>
