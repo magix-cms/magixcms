@@ -69,7 +69,7 @@ if (!file_exists($config)) {
 	header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
 	header("Pragma: no-cache" );
 	header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-    header("Location: /install/");
+    header("Location: /install/index.php");
     exit;
 }
 magixglobal_Autoloader::register();
