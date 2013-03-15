@@ -606,7 +606,7 @@ class backend_controller_plugins{
     /**
      * @access public
      * Assign les variables dans les fichiers phtml
-     * @param void $tpl_var
+     * @param string|array $tpl_var
      * @param string $value
      * @param bool $nocache
      * @throws Exception
