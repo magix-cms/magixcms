@@ -108,6 +108,7 @@ class backend_controller_user extends backend_db_admin{
      * @return null|string
      */
     private function role_select($idadmin=null){
+        $role = new backend_model_role();
         if($idadmin != null){
             $user_role = parent::s_user_role($idadmin);
             foreach($user_role as $key){
@@ -118,10 +119,10 @@ class backend_controller_user extends backend_db_admin{
         }else{
             $user_role_conb = null;
         }
-        if(parent::s_role() != null){
+        if(parent::s_role($role->sql_arg()) != null){
             $id_role = '';
             $role_name = '';
-            foreach(parent::s_role() as $key){
+            foreach(parent::s_role($role->sql_arg()) as $key){
                 $id_role[]=$key['id_role'];
                 $role_name[]=$key['role_name'];
             }
@@ -147,8 +148,9 @@ class backend_controller_user extends backend_db_admin{
      * Retourne au format JSON la liste des utilisateurs
      */
     private function json_list_user(){
-        if(parent::s_users() != null){
-            foreach (parent::s_users() as $key){
+        $role = new backend_model_role();
+        if(parent::s_users($role->sql_arg()) != null){
+            foreach (parent::s_users($role->sql_arg()) as $key){
                 $json[]= '{"idadmin":'.json_encode($key['idadmin']).',"pseudo":'.json_encode($key['pseudo'])
                 .',"email":'.json_encode($key['email']).',"role_name":'.json_encode($key['role_name'])
                 .'}';

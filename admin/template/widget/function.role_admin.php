@@ -35,15 +35,25 @@
 /**
  * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
  * Copyright: MAGIX CMS
- * Date: 27/12/12
- * Time: 01:31
+ * Date: 17/03/2013
+ * Time: 23:07
  * License: Dual licensed under the MIT or GPL Version
  */
 function smarty_function_role_admin($params, $template){
     if(isset($_SESSION['useridadmin']) AND isset($_SESSION['useradmin']) AND isset($_SESSION['userkeyid'])){
         $admin = new backend_db_admin();
         $data = $admin->s_member_data($_SESSION['useridadmin']);
-        return $data['role_name'];
+        if(isset($params['items'])){
+            if(is_array($params['items'])){
+                if(array_key_exists($data['role_name'],$params['items'])){
+                    return true;
+                }
+            }elseif(is_string($params['items'])){
+                if($data['role_name'] === $params['items']){
+                    return true;
+                }
+            }
+        }
     }
 }
 ?>

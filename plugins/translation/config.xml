@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- /*
- * MAGIX CMS Copyright (c) 2011 Gerits Aurelien, 
+ * MAGIX CMS Copyright (c) 2013 Gerits Aurelien,
  * http://www.magix-dev
  * Dual licensed under the MIT AND GPL Version 3 licenses.
  *
- * Date: August 4 17:00 2011
+ * Date: March 17 17:00 2013
  */-->
 <config>
 	<acl>
@@ -23,10 +23,10 @@
 					</author>
 				</authors>
 				<version>
-					<date_create>11/12/2011</date_create>
-					<date_update>14/02/2013</date_update>
-					<number>3.0</number>
-					<phase>Stable</phase>
+					<date_create>10/03/2013</date_create>
+					<date_update>17/03/2013</date_update>
+					<number>0.8</number>
+					<phase>Beta</phase>
 					<support>
 						<ticket href="https://github.com/gtraxx/magixcms/issues"></ticket>
 					</support>

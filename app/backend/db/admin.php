@@ -153,21 +153,26 @@ class backend_db_admin{
 
     /**
      * Retourne la liste des rôles
+     * @param $select_role
      * @return array
      */
-    protected function s_role(){
+    protected function s_role($select_role){
         $sql='SELECT r.id_role,r.role_name
-        FROM mc_admin_role_user AS r';
+        FROM mc_admin_role_user AS r
+        WHERE r.id_role IN('.$select_role.')';
         return magixglobal_model_db::layerDB()->select($sql);
     }
+
     /**
      * Retourne la liste des utilisateurs
+     * @param $select_role
      * @return array
      */
-    protected function s_users(){
+    protected function s_users($select_role){
         $sql='SELECT m.*,r.role_name
         FROM mc_admin_member AS m
-        JOIN mc_admin_role_user as r USING(id_role)';
+        JOIN mc_admin_role_user as r USING(id_role)
+        WHERE m.id_role IN('.$select_role.')';
         return magixglobal_model_db::layerDB()->select($sql);
     }
 
@@ -187,22 +192,6 @@ class backend_db_admin{
             )
         );
     }
-	/**
-     * @deprecated
-	 * Retourne les personnes connecté ou online
-	 * @return void
-	 */
-	function s_session_membres(){
-		$sql = 'SELECT pr.idadmin, pr.pseudo, p.perms,
-				CASE WHEN session.userid IS NULL
-				THEN 0
-				ELSE 1
-				END AS connex
-				FROM mc_admin_member pr
-				LEFT JOIN mc_admin_session AS session ON ( pr.idadmin = session.userid )
-				LEFT JOIN mc_admin_perms AS p ON ( p.idadmin = pr.idadmin )';
-		return magixglobal_model_db::layerDB()->select($sql);
-	}
 
     /**
      * Insert un nouvel utilisateur
