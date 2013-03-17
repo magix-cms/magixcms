@@ -100,6 +100,7 @@ class backend_controller_plugins{
       	}
 		return self::$_createInstance;
     }
+
 	/**
 	 * @access private
 	 * return void
@@ -107,11 +108,13 @@ class backend_controller_plugins{
 	public function directory_plugins(){
 		return magixglobal_model_system::base_path().self::PATHPLUGINS.DIRECTORY_SEPARATOR;
 	}
+
 	/**
 	 * @access public
 	 * Retourne la configuration des accès au plugin depuis un fichier xml
 	 * @param string $plugin_folder
-	 */
+     * @return \SimpleXMLElement[]|string
+     */
 	public function allow_access_config($plugin_folder){
 		$pathxml = $this->pluginDir($plugin_folder).'config.xml';
 		if(file_exists($pathxml)){
@@ -252,14 +255,14 @@ class backend_controller_plugins{
 	 * @param $plugin (string)
 	 * @return string
 	 */
-	private function icon_plugin($plugin){
+	/*private function icon_plugin($plugin){
 		if(file_exists($this->directory_plugins().$plugin.DIRECTORY_SEPARATOR.'icon.png')){
 			$icon = '<img src="/plugins/'.$plugin.'/icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
 		}else{
 			$icon = '<span class="icon-file"></span>';
 		}
 		return $icon;
-	}
+	}*/
 
     /**
      * Retourne le chemin de l'icône
@@ -274,10 +277,13 @@ class backend_controller_plugins{
             return false;
         }
     }
-	/**
-	 * execute ou instance la class du plugin
-	 * @param void $className
-	 */
+
+    /**
+     * Instance la class du plugin
+     * @param string $className
+     * @return string
+     * @throws Exception
+     */
 	private function execute_plugins($className){
 		if(class_exists($className)){
 			try{
@@ -419,7 +425,6 @@ class backend_controller_plugins{
                         $role = new backend_model_role();
                         $role_data = explode(',',$role->sql_arg());
 						$access = (string) $this->allow_access_config($this->getplugin());
-						//$perms = backend_db_admin::adminDbMember()->perms_session_membres($_SESSION['useradmin']);
 						if($debug){
 							$firebug = new magixcjquery_debug_magixfire();
 							$firebug->magixFireLog($this->getplugin().': '.$access);
@@ -430,13 +435,6 @@ class backend_controller_plugins{
                             }elseif($access == '*'){
                                 $load->run();
                             }
-							/*if($access >= $perms['perms']){
-								$load->run();
-							}elseif($access == '*'){
-								$load->run();
-							}else{
-								exit();
-							}*/
 						}else{
 							$load->run();
 						}
@@ -677,27 +675,25 @@ class backend_controller_plugins{
 	public function testInstall(){
 		return backend_model_smarty::getInstance()->testInstall();
 	}
+
 	/**
 	 * @access public
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
-	private function display_plugins(){
-		if($this->getplugin()){
-			try{
+	public function run(){
+        if($this->getplugin()){
+            try{
                 $this->assign('pluginName',$this->pluginName());
                 $this->assign('pluginUrl',$this->pluginUrl());
                 $this->assign('pluginPath',$this->pluginPath());
                 $this->assign('pluginInfo',$this->load_config_info());
-				$this->load_plugin();
-			}catch (Exception $e){
-				magixglobal_model_system::magixlog('An error has occured :',$e);
-			}
-		}
+                $this->load_plugin();
+            }catch (Exception $e){
+                magixglobal_model_system::magixlog('An error has occured :',$e);
+            }
+        }
 	}
-	public function run(){
-		$this->display_plugins();
-	}
-//####### INSTALL TABLE ######
+    //####### INSTALL TABLE ######
 	/**
 	 * @access private
 	 * load sql file

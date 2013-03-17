@@ -69,13 +69,26 @@ class plugins_translation_admin{
         }
     }
 
+    private function list_plugin($create){
+        $makefiles = new magixcjquery_files_makefiles();
+        $dir = $makefiles->scanRecursiveDir($create->directory_plugins());
+        if($dir != null){
+            foreach($dir as $d){
+                if(file_exists($create->directory_plugins().$d.DIRECTORY_SEPARATOR.'i18n')){
+                    $array_plugin[]=$d;
+                }
+            }
+            return $array_plugin;
+        }
+    }
+
     /**
      * Parse le fichier de configuration
      * @param $file
      * @return mixed
      * @throws Exception
      */
-    public function parse_ini($file){
+    private function parse_ini($file){
         if ($lines = file($file)) {
             foreach ($lines as $key){
                 if (!preg_match('/[0-9a-z]/i', $key) or preg_match('/^#/', $key)){
@@ -198,6 +211,7 @@ class plugins_translation_admin{
         if(magixcjquery_filter_request::isGet('getlang')){
             if(isset($this->action)){
                 if($this->action == 'list'){
+                    $create->assign('array_plugin_i18n',$this->list_plugin($create));
                     $create->display('list.phtml');
                 }elseif($this->action == 'edit'){
                     if(isset($this->tab)){

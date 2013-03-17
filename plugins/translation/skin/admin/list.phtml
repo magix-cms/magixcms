@@ -17,6 +17,15 @@
                         </a>
                     </p>
                     <h2>Plugins</h2>
+                    <ul class="inline">
+                    {foreach $array_plugin_i18n as $key => $value nocache}
+                    <li>
+                        <a class="btn" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;tab=plugin&amp;plugin={$value}">
+                        {$value}
+                        </a>
+                    </li>
+                    {/foreach}
+                    </ul>
                 </div>
             </div>
         </div>
