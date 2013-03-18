@@ -1,6 +1,6 @@
 {include file="section/head.phtml" section="prepend"}
-{headmeta meta="description" content="{cms_seo config_param=['seo'=>$seoDescr_page,'default'=>$name_page]}"}
-<title>{cms_seo config_param=['seo'=>$seoTitle_page,'default'=>$name_page]}</title>
+{nocache}{headmeta meta="description" content="{cms_seo config_param=['seo'=>$seoDescr_page,'default'=>$name_page]}"}{/nocache}
+<title>{nocache}{cms_seo config_param=['seo'=>$seoTitle_page,'default'=>$name_page]}{/nocache}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="cms">
@@ -10,16 +10,18 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-                <h1>{$name_page}</h1>
+                <h1>{nocache}{$name_page}{/nocache}</h1>
                 <p>
                     <small>
+                        {nocache}
                         Publié le {$dateRegister_page}
                         {if $dateUpdate_page}
                         , mis à jour le {$dateUpdate_page}
                         {/if}
+                        {/nocache}
                     </small>
                 </p>
-                {$content_page}
+                {nocache}{$content_page}{/nocache}
             </div>
         </div>
         <div class="clear">&nbsp;</div>
