@@ -64,11 +64,11 @@ function smarty_function_script($params, $template){
 	$src = $params['src'];
 	$type= $params['type'];
 	if (!isset($src)) {
-	 	trigger_error("src: missing 'src' parameter in link");
+	 	trigger_error("src: missing 'src' parameter in link",E_USER_WARNING);
 		return;
 	}
 	if (!isset($type)) {
-	 	trigger_error("type: missing 'type' parameter in type");
+	 	trigger_error("type: missing 'type' parameter in type",E_USER_WARNING);
 		return;
 	}
 	$ini = new magixcjquery_view_helper_script();
