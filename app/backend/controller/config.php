@@ -156,7 +156,7 @@ class backend_controller_config extends backend_db_config{
     private function load_assign_config($create){
         $data = self::load_data_config();
         foreach($data as $key => $value){
-            $create->assign($key,$value);
+            $create->assign('config_'.$key,$value);
         }
     }
 

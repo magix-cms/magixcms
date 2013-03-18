@@ -18,6 +18,7 @@
                     </ul>
                 </div>
             </li>
+            {if $config_cms eq 1}
             <li>
                 <a href="#cms" class="showit{if {script_name} eq "cms"} open{/if}">
                     <span class="icon-plus"></span> Pages
@@ -38,7 +39,10 @@
                     </ul>
                 </div>
             </li>
+            {/if}
+        {* -- END PAGES -- *}
         </ul>
+        {if $config_news eq 1}
         <ul class="nav nav-list">
         {* -- START NEWS -- *}
             <li class="nav-header">Actualités</li>
@@ -64,6 +68,8 @@
             </li>
         {* -- END NEWS -- *}
         </ul>
+        {/if}
+        {if $config_catalog eq 1}
         <ul class="nav nav-list">
         {* -- START CATALOG -- *}
             <li class="nav-header">Catalogue</li>
@@ -101,15 +107,16 @@
             </li>
         {* -- END CATALOG -- *}
         </ul>
+        {/if}
     </div>
+    {if $config_plugins eq 1}
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
-        {* -- START NEWS -- *}
+        {* -- START PLUGINS -- *}
             <li class="nav-header">Plugins</li>
-            {*<li><a href="/{baseadmin}/plugins.php?name=contact"><span class="icon-envelope"></span> Contact</a></li>
-            <li><a href="/{baseadmin}/plugins.php?name=clearcache"><span class="icon-trash"></span> Clearcache</a></li>*}
             {widget_plugins_nav}
         {* -- END NEWS -- *}
         </ul>
     </div>
+    {/if}
 </div>
