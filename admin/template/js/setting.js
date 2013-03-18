@@ -3,7 +3,7 @@
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2013 sc-box.com <support@magix-cms.com>
+ # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
  #
  # OFFICIAL TEAM :
  #
@@ -44,10 +44,17 @@ $(function(){
         window.open($(this).attr('href'));
         return false;
     });
-    // jmShowIt config
+    // jmShowIt sidebar
     $('a.showit').jmShowIt({
         open: 'open',
         contenerClass : 'div.collapse-item',
+        activeClass : 'on',
+        debug : false
+    });
+    // jmShowIt metas
+    $('a.view-metas').jmShowIt({
+        open: 'open',
+        contenerClass : 'div.collapse-metas',
         activeClass : 'on',
         debug : false
     });

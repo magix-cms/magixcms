@@ -188,11 +188,16 @@ tbody.ui-sortable > .ui-sortable-helper{
 /*
 * jmShowIt
 */
-.showit.open > .icon-plus:before { content: "\f068"; }
-.collapse-item{
+.showit.open > .icon-plus:before,
+.view-metas.open > .icon-plus:before{
+    content: "\f068";
+}
+.collapse-item,
+.collapse-metas{
     display:none;
 }
-.collapse-item.on{
+.collapse-item.on,
+.collapse-metas.on{
     display:block;
 }
 /*
