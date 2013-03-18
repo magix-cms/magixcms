@@ -45,11 +45,13 @@
  * Model image
  */
 class backend_model_image {
-	/**
-	 * Vérifie si le type est bien une image
-	 * @param $filename
-	 * @return size
-	 */
+
+    /**
+     * Vérifie si le type est bien une image
+     * @param $filename
+     * @param bool $debug
+     * @return size
+     */
 	public static function image_valid($filename,$debug=false){
 		try{
 			$firebug = new magixcjquery_debug_magixfire();
@@ -89,6 +91,7 @@ class backend_model_image {
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
+
 	/**
 	 * Retourne l'extension du fichier image
 	 * @param $filename
@@ -115,13 +118,14 @@ class backend_model_image {
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
 	}
-		/**
-		 * function fixe maxsize
-		 * @param $maxh hauteur maximum
-		 * @param $maxw largeur maximum
-		 * @param string $source
-		 * @return bool
-		 */
+
+    /**
+     * function fixe maxsize
+     * @param $maxh hauteur maximum
+     * @param $maxw largeur maximum
+     * @param string $source
+     * @return bool
+     */
 	public static function imgSizeMax($source,$maxw,$maxh){  
 		list($width, $height) = getimagesize($source);
 		if($width>$maxw || $height>$maxh){
@@ -130,13 +134,14 @@ class backend_model_image {
 			return true;
 		}
 	}
+
 	/**
-		 * function fixe minsize
-		 * @param $maxh hauteur minimum
-		 * @param $maxw largeur minimum
-		 * @param string $source
-		 * @return bool
-		 */
+     * function fixe minsize
+     * @param $maxh hauteur minimum
+     * @param $maxw largeur minimum
+     * @param string $source
+     * @return bool
+     */
 	public static function imgSizeMin($source,$maxw,$maxh){  
 		list($width, $height) = getimagesize($source);
 		if($width<$maxw || $height<$maxh){
@@ -145,11 +150,14 @@ class backend_model_image {
 			return true;
 		}
 	}
-	/**
-	 * Upload une image 
-	 * @param files $img
-	 * @param dir $path
-	 */
+
+    /**
+     * Upload une image
+     * @param files $img
+     * @param dir $path
+     * @param bool $debug
+     * @return null|string
+     */
 	public static function upload_img($img,$path,$debug=false){
 			$error = null;
 			$firebug = new magixcjquery_debug_magixfire();
