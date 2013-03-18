@@ -36,11 +36,11 @@
  * MAGIX CMS
  * @category   config 
  * @package    frontend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.4
- * Update : 22/09/2011
+ * @version    2.0
+ * Update : 18/03/2013
  * Configuration / extends smarty with class
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name smarty
@@ -74,9 +74,6 @@ class frontend_model_smarty extends Smarty{
 	}
 	private function setPath(){
 		return magixglobal_model_system::base_path();
-		/*$pathdir = dirname(realpath( __FILE__ ));
-		$arraydir = array('app\frontend\config', 'app/frontend/config');
-		return $smartydir = magixglobal_model_system::root_path($arraydir,array('', '') , $pathdir);*/
 	}
 	/**
 	 * Les paramètres pour la configuration de smarty 3
