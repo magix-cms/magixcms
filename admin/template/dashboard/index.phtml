@@ -71,7 +71,7 @@
                                     <ul class="inline">
                                     {foreach $array_lang as $key => $value nocache}
                                         <li>
-                                            <a href="/{baseadmin}/cms.php?getlang={$key}">
+                                            <a href="/{baseadmin}/cms.php?getlang={$key}&amp;action=list">
                                                 <span class="icon-flag"></span> {$value|upper}
                                             </a>
                                         </li>
@@ -128,7 +128,7 @@
                                     <ul class="inline">
                                     {foreach $array_lang as $key => $value nocache}
                                         <li>
-                                            <a href="/{baseadmin}/news.php?getlang={$key}">
+                                            <a href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
                                                 <span class="icon-flag"></span> {$value|upper}
                                             </a>
                                         </li>
