@@ -1,4 +1,22 @@
 #### 2.4.0
+Beta 2
+    * Ajout de la configuration de l'administration
+    * Fix URL élément dashboard
+    * Modification de la gestion des erreurs des inclusions de script
+    * Suppression du dossier extends
+    * Suppression du cache des éléments dynamique (#53)
+    * Clean file (model image)
+    * Fix bug conflit showit sidebar avec métas
+    * Révision des rôles des administrateurs (#20)
+        * Modification du système de test des rôles
+        * Ajout des permissions dans le système utilisateurs
+    * Ajout de la classe active pour menu horizontal (backend)
+        * Modification du script d'identification de fichier (backend)
+    * Correction des informations sur le système de cache
+    * Ajout du support des plugins dans le plugin translation
+    * Update comment - backend/controller/plugin.php
+    * Bug fix Install - infinite loop
+
 Beta 1
     * Ajout du déplacement de produit dans une autre langue (#34)
     * Modification du système de création de menu select
