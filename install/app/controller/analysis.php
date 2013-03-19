@@ -101,7 +101,7 @@ class app_controller_analysis{
     }
 
     /**
-     *
+     * Retourne au format JSON le statut des modules PHP
      */
     private function json_check(){
         $json[]= '{"phpversion":'.json_encode($this->check_compare()).',"mbstring":'.json_encode($this->check_mbstring())
@@ -111,6 +111,56 @@ class app_controller_analysis{
         print '['.implode(',',$json).']';
     }
 
+    /**
+     * @param $root
+     * @return int
+     */
+    private function chmod_config($root){
+        if(!is_writable($root.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'config')){
+            $check = 0;
+        }else{
+            $check = 1;
+        }
+        return $check;
+    }
+
+    /**
+     * @param $root
+     * @return int
+     */
+    private function chmod_var($root){
+        if(!is_writable($root.DIRECTORY_SEPARATOR.'var')){
+            $check = 0;
+        }else{
+            $check = 1;
+        }
+        return $check;
+    }
+
+    /**
+     * @param $root
+     * @return int
+     */
+    private function chmod_caching($root){
+        if(!is_writable($root.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'caching')){
+            $check = 0;
+        }else{
+            $check = 1;
+        }
+        return $check;
+    }
+
+    /**
+     * Retourne au format JSON les permissions de dossier
+     */
+    private function json_chmod(){
+        $root = magixglobal_model_system::base_path();
+        $json[]= '{"var_caching":'.json_encode($this->chmod_var($root))
+        .',"config":'.json_encode($this->chmod_config($root))
+        .',"caching":'.json_encode($this->chmod_caching($root))
+        .'}';
+        print '['.implode(',',$json).']';
+    }
     /**
      *
      */
@@ -124,6 +174,14 @@ class app_controller_analysis{
             $header->getStatus('200');
             $header->json_header("UTF-8");
             $this->json_check();
+        }elseif(magixcjquery_filter_request::isGet('json_chmod')){
+            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+            $header->pragma();
+            $header->cache_control("nocache");
+            $header->getStatus('200');
+            $header->json_header("UTF-8");
+            $this->json_chmod();
         }else{
             app_model_smarty::getInstance()->display('analysis/index.phtml');
         }

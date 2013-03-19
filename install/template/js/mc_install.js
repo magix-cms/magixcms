@@ -71,11 +71,11 @@ var MC_install = (function ($, undefined) {
             });
         })
     }
+
     /**
      * Retourne le tableau du résultat des analyses
-     * @param getlang
      */
-    function jsonAnalysis(getlang){
+    function jsonAnalysis(){
         $.nicenotify({
             ntype: "ajax",
             uri: '/install/analysis.php?json_check=true',
@@ -215,6 +215,101 @@ var MC_install = (function ($, undefined) {
                                     spl_result
                                 )
                             )
+                        )
+                    });
+                }
+            }
+        });
+    }
+
+    /**
+     * Analyse les permissions de dossiers
+     */
+    function jsonChmod(){
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/install/analysis.php?json_chmod=true',
+            typesend: 'get',
+            datatype: 'json',
+            beforeParams:function(){
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/install/template/img/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#list_chmod').html(loader);
+            },
+            successParams:function(j){
+                $('#list_chmod').empty();
+                $.nicenotify.initbox(j,{
+                    display:false
+                });
+                var tbl = $(document.createElement('table')),
+                    tbody = $(document.createElement('tbody'));
+                tbl.attr("id", "table_checking")
+                    .addClass('table table-bordered table-condensed table-hover')
+                    .append(
+                        $(document.createElement("thead"))
+                            .append(
+                                $(document.createElement("tr"))
+                                    .append(
+                                        $(document.createElement("th")).append("Dossier"),
+                                        $(document.createElement("th")).append("Permission")
+                                    )
+                            ),
+                        tbody
+                    );
+                tbl.appendTo('#list_chmod');
+                if(j === undefined){
+                    console.log(j);
+                }
+                if(j !== null){
+                    $.each(j, function(i,item) {
+                        if(item.var_caching != 0){
+                            var var_caching = $(document.createElement("tr")).addClass('success');
+                            var var_caching_result = "is writable";
+                        }else{
+                            var var_caching = $(document.createElement("tr")).addClass('error');
+                            var var_caching_result = "is not writable";
+                        }
+                        if(item.config != 0){
+                            var config = $(document.createElement("tr")).addClass('success');
+                            var config_result = "is writable";
+                        }else{
+                            var config = $(document.createElement("tr")).addClass('error');
+                            var config_result = "is not writable";
+                        }
+                        if(item.caching != 0){
+                            var caching = $(document.createElement("tr")).addClass('success');
+                            var caching_result = "is writable";
+                        }else{
+                            var caching = $(document.createElement("tr")).addClass('error');
+                            var caching_result = "is not writable";
+                        }
+
+                        tbody.append(
+                            var_caching
+                                .append(
+                                    $(document.createElement("td")).append("/var"),
+                                    $(document.createElement("td")).append(
+                                        var_caching_result
+                                    )
+                                ),
+                            config
+                                .append(
+                                    $(document.createElement("td")).append("/app/config"),
+                                    $(document.createElement("td")).append(
+                                        config_result
+                                    )
+                                ),
+                            caching
+                                .append(
+                                    $(document.createElement("td")).append("/admin/caching"),
+                                    $(document.createElement("td")).append(
+                                        caching_result
+                                    )
+                                )
                         )
                     });
                 }
@@ -383,6 +478,7 @@ var MC_install = (function ($, undefined) {
         },
         runAnalysis:function () {
             jsonAnalysis();
+            jsonChmod();
         },
         runConfig:function () {
             addConfig();
