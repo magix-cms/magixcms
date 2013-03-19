@@ -69,6 +69,11 @@ class plugins_translation_admin{
         }
     }
 
+    /**
+     * Retourne un tableau de la liste des plugins
+     * @param $create
+     * @return array
+     */
     private function list_plugin($create){
         $makefiles = new magixcjquery_files_makefiles();
         $dir = $makefiles->scanRecursiveDir($create->directory_plugins());
@@ -94,9 +99,8 @@ class plugins_translation_admin{
                 if (!preg_match('/[0-9a-z]/i', $key) or preg_match('/^#/', $key)){
                     continue;
                 }
-                if (preg_match('/(\[)(.*)(\])/i', $key)){
-                } else {
-                    preg_match('/(.*)=(.*)/', $key, $key2);
+                if (preg_match('/(.*)=(.*)/', $key, $key2)){
+
                     $result[$key2[1]] = trim($key2[2]);
                 }
             }
@@ -203,7 +207,7 @@ class plugins_translation_admin{
     }
 
     /**
-     *
+     * Execution du plugin
      */
     public function run(){
         $header= new magixglobal_model_header();

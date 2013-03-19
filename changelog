@@ -1,5 +1,11 @@
 #### 2.4.0
 Beta 2
+    * Ajout du switch smarty dans les templates
+    * Fix bug suppression utilisateurs (#54)
+    * Ajout des moteurs de recherches dans le catalogue (#48)
+    * Ajout de l'analyse des permissions de dossier à l'installation
+        * Ajout du dossier install dans les conditions apache
+    * Fix bug tinyMCE Bootstrap (https://github.com/gtraxx/tinymce-skin-bootstrap/commit/5f7cb41ffbc650668914c963c9f871a1efc9958a)
     * Ajout de la configuration de l'administration
     * Fix URL élément dashboard
     * Modification de la gestion des erreurs des inclusions de script
