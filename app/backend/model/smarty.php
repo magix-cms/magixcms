@@ -139,7 +139,7 @@ class backend_model_smarty extends Smarty{
 		 */
 		//$this->load_filter('pre','magixmin');
 		$this->autoload_filters = array('pre' => array('magixmin'));
-        //$this->loadPlugin('smarty_compiler_switch');
+        $this->loadPlugin('smarty_compiler_switch');
 		/**
 		 * 
 		 * @var error_reporting
