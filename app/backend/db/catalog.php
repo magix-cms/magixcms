@@ -93,6 +93,17 @@ class backend_db_catalog{
         ));
     }
 
+    protected function s_catalog_category_list($idlang,$clibelle){
+        $sql = 'SELECT c.*,lang.iso
+        FROM mc_catalog_c AS c
+    	JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+		WHERE c.idlang = :idlang AND c.clibelle LIKE :clibelle';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idlang'	=>	$idlang,
+            ':clibelle'=>'%'.$clibelle.'%'
+        ));
+    }
+
     /**
      * Retourne les données de la catégorie pour édition
      * @param $edit
@@ -344,6 +355,23 @@ class backend_db_catalog{
 		ORDER BY cl.'.$sort.' DESC'.$limit.$offset;
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':idlang'	=>	$idlang
+        ));
+    }
+
+    /**
+     * Retourne la liste des produits après une recherche
+     * @param $idlang
+     * @param $titlecatalog
+     * @return array
+     */
+    protected function s_catalog_list($idlang,$titlecatalog){
+        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.idlang, lang.iso
+		FROM mc_catalog AS cl
+		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
+		WHERE cl.idlang = :idlang AND cl.titlecatalog LIKE :titlecatalog';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':idlang'	=>	$idlang,
+            ':titlecatalog'=>'%'.$titlecatalog.'%'
         ));
     }
 

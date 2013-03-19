@@ -168,7 +168,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @var d_in_product
 	 */
 	public $d_rel_product;
-	public $product_search;
+	public $product_search,$name_product,$name_category;
 	public $get_search_page;
     public $delete_catalog,$delete_image,$delete_product,$delete_galery;
     /**
@@ -279,9 +279,13 @@ class backend_controller_catalog extends backend_db_catalog{
 		if(isset($_POST['product_search'])){
 			$this->product_search = magixcjquery_form_helpersforms::inputClean($_POST['product_search']);
 		}
-		if(isset($_GET['get_search_page'])){
-			$this->get_search_page = magixcjquery_form_helpersforms::inputClean($_GET['get_search_page']);
-		}
+        if(magixcjquery_filter_request::isGet('name_product')){
+            $this->name_product = magixcjquery_form_helpersforms::inputClean($_GET['name_product']);
+        }
+        if(magixcjquery_filter_request::isGet('name_category')){
+            $this->name_category = magixcjquery_form_helpersforms::inputClean($_GET['name_category']);
+        }
+
         //Global
         if(magixcjquery_filter_request::isGet('section')){
             $this->section = magixcjquery_form_helpersforms::inputClean($_GET['section']);
@@ -1712,6 +1716,39 @@ class backend_controller_catalog extends backend_db_catalog{
             parent::d_product_rel($this->delete_product);
         }
     }
+    //Autocomplete
+    /**
+     * Retourne au format JSON le nom des catégories recherchés
+     */
+    private function json_autocomplete_category(){
+        if(isset($this->name_category)){
+            if(parent::s_catalog_category_list($this->getlang,$this->name_category) != null){
+                foreach (parent::s_catalog_category_list($this->getlang,$this->name_category) as $key){
+                    $json[]= '{"idclc":'.json_encode($key['idclc']).
+                        ',"clibelle":'.json_encode($key['clibelle']).'}';
+                }
+                print $this->callback.'(['.implode(',',$json).'])';
+            }else{
+                print $this->callback.'([{"idclc":"0","clibelle":"Aucune valeur"}])';
+            }
+        }
+    }
+    /**
+     * Retourne au format JSON le nom des produits recherchés
+     */
+    private function json_autocomplete_product(){
+        if(isset($this->name_product)){
+            if(parent::s_catalog_list($this->getlang,$this->name_product) != null){
+                foreach (parent::s_catalog_list($this->getlang,$this->name_product) as $key){
+                    $json[]= '{"idcatalog":'.json_encode($key['idcatalog']).
+                        ',"titlecatalog":'.json_encode($key['titlecatalog']).'}';
+                }
+                print $this->callback.'(['.implode(',',$json).'])';
+            }else{
+                print $this->callback.'([{"idcatalog":"0","titlecatalog":"Aucune valeur"}])';
+            }
+        }
+    }
     //TINYMCE
     /**
      * Retourne les produits du catalogue dans l'éditeur
@@ -1732,11 +1769,11 @@ class backend_controller_catalog extends backend_db_catalog{
                         $key['idproduct'],
                         true
                     );
-                    $search[]= '{"idproduct":'.json_encode($key['idproduct']).',"titlecatalog":'.json_encode($key['titlecatalog']).
+                    $json[]= '{"idproduct":'.json_encode($key['idproduct']).',"titlecatalog":'.json_encode($key['titlecatalog']).
                         ',"category":'.json_encode($key['clibelle']).',"subcategory":'.json_encode($key['slibelle']).
                         ',"uriproduct":'.json_encode($url_product).',"iso":'.json_encode($key['iso']).'}';
                 }
-                print '['.implode(',',$search).']';
+                print '['.implode(',',$json).']';
             }
         }
     }
@@ -1760,6 +1797,14 @@ class backend_controller_catalog extends backend_db_catalog{
                                 $header->getStatus('200');
                                 $header->json_header("UTF-8");
                                 $this->json_listing_category();
+                            }elseif(isset($this->name_category)){
+                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                $header->pragma();
+                                $header->cache_control("nocache");
+                                $header->getStatus('200');
+                                $header->json_header("UTF-8");
+                                $this->json_autocomplete_category();
                             }
                         }elseif($this->action === 'add'){
                             if(isset($this->clibelle)){
@@ -1943,6 +1988,14 @@ class backend_controller_catalog extends backend_db_catalog{
                                 $header->getStatus('200');
                                 $header->json_header("UTF-8");
                                 $this->json_list_product();
+                            }elseif(isset($this->name_product)){
+                                $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                                $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                                $header->pragma();
+                                $header->cache_control("nocache");
+                                $header->getStatus('200');
+                                $header->json_header("UTF-8");
+                                $this->json_autocomplete_product();
                             }
                         }elseif($this->action === 'add'){
                             if(isset($this->titlecatalog)){

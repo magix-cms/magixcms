@@ -76,6 +76,48 @@ var MC_catalog = (function ($, undefined) {
     }
 
     /**
+     * Retourne au format JSON les catégories recherchés
+     * @param section
+     * @param getlang
+     */
+    function autoCompleteCategory(section,getlang){
+        $( "#name_category" ).autocomplete({
+            minLength: 2,
+            source: function(req, add){
+                //pass request to server
+                $.ajax({
+                    url:'/admin/catalog.php?section='+section+'&getlang='+getlang+'&callback=?&action=list',
+                    type:"get",
+                    dataType: 'json',
+                    data: 'name_category='+req.term,
+                    async: true,
+                    cache: true,
+                    success: function(data){
+                        add($.map(data, function(item) {
+                            return {
+                                value : item.clibelle,
+                                url : '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc
+                            }
+                        }));
+                    }
+                });
+            },
+            focus : function(event, ui) {
+                $(this).val(ui.item.clibelle);
+                return false;
+            },
+            select : function(event, ui) {
+                window.location.href = ui.item.url;
+                return false;
+            }
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>").data("ui-item.autocomplete", item).append(
+                    '<a href="'+item.url+'">' + item.value + '</span></a>')
+                .appendTo(ul.addClass('list-row'));
+        };
+    }
+
+    /**
      * Retourne la liste des catégories dans la langue
      * @param section
      * @param getlang
@@ -1114,6 +1156,48 @@ var MC_catalog = (function ($, undefined) {
 
     //PRODUCT
     /**
+     * Autocomplete des produits
+     * @param section
+     * @param getlang
+     */
+    function autoCompleteCatalog(section,getlang){
+        $( "#name_product" ).autocomplete({
+            minLength: 2,
+            source: function(req, add){
+                //pass request to server
+                $.ajax({
+                    url:'/admin/catalog.php?section='+section+'&getlang='+getlang+'&callback=?&action=list',
+                    type:"get",
+                    dataType: 'json',
+                    data: 'name_product='+req.term,
+                    async: true,
+                    cache: true,
+                    success: function(data){
+                        add($.map(data, function(item) {
+                            return {
+                                value : item.titlecatalog,
+                                url : '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog
+                            }
+                        }));
+                    }
+                });
+            },
+            focus : function(event, ui) {
+                $(this).val(ui.item.titlecatalog);
+                return false;
+            },
+            select : function(event, ui) {
+                window.location.href = ui.item.url;
+                return false;
+            }
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $("<li></li>").data("ui-item.autocomplete", item).append(
+                    '<a href="'+item.url+'">' + item.value + '</span></a>')
+                .appendTo(ul.addClass('list-row'));
+        };
+    }
+
+    /**
      * Ajouter un produit
      * @param section
      * @param getlang
@@ -2143,10 +2227,12 @@ var MC_catalog = (function ($, undefined) {
             graph();
         },
         runListCategory:function(section,getlang){
+            autoCompleteCategory(section,getlang);
             jsonListCategory(section,getlang);
             addCategory(section,getlang);
         },
         runEditCategory:function(section,getlang,edit){
+            autoCompleteCategory(section,getlang);
             if($("#categorylink").length != 0){
                 JsonUrlCategory(section,getlang,edit);
                 updateCategory(section,getlang,edit,'text');
@@ -2176,6 +2262,7 @@ var MC_catalog = (function ($, undefined) {
             }
         },
         runListProduct:function(section,getlang){
+            autoCompleteCatalog(section,getlang);
             jsonListProduct(section,getlang);
             addProduct(section,getlang);
             copyProduct(section,getlang);
@@ -2183,6 +2270,7 @@ var MC_catalog = (function ($, undefined) {
             removeProduct(section,getlang);
         },
         runEditProduct:function(section,getlang,edit){
+            autoCompleteCatalog(section,getlang);
             if($("#urlcatalog").length != 0){
                 updateProduct(section,getlang,edit,'text');
             }else if($('#load_catalog_product_img').length != 0){

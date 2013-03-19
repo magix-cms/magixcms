@@ -106,7 +106,7 @@ var MC_user = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-
+                        jsonUser();
                     }
                 });
                 return false;
@@ -328,13 +328,14 @@ var MC_user = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/users.php',
+                            uri: '/admin/users.php?action=remove',
                             typesend: 'post',
                             noticedata : {delele_user:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
+                                jsonUser();
                             }
                         });
                     },

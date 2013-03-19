@@ -387,6 +387,13 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Retourne l'URL de la page courante
+     * @param getlang
+     * @param edit
+     * @constructor
+     */
     function JsonUrlPage(getlang,edit){
         $.nicenotify({
             ntype: "ajax",
@@ -417,6 +424,12 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Retourne la liste des pages enfants
+     * @param getlang
+     * @param getParent
+     */
     function jsonListChild(getlang,getParent){
         $.nicenotify({
             ntype: "ajax",
@@ -622,6 +635,12 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Suppression de la page
+     * @param getlang
+     * @param getParent
+     */
     function remove(getlang,getParent){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
@@ -661,6 +680,12 @@ var MC_pages = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Active la page
+     * @param getlang
+     * @param getParent
+     */
     function updateActive(getlang,getParent){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
@@ -723,6 +748,12 @@ var MC_pages = (function ($, undefined) {
             });
         });
     }
+
+    /**
+     * Déplacement de la page
+     * @param getlang
+     * @param edit
+     */
     function move(getlang,edit){
         var url = '/admin/cms.php?getlang='+getlang+'&action=move&edit='+edit;
         var formsPages = $('#forms_cms_move').validate({
