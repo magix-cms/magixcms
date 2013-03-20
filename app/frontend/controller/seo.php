@@ -83,13 +83,15 @@ class frontend_controller_seo extends frontend_db_seo{
 			$this->iso
 		);
 	}
+
 	/**
 	 * @access public
 	 * Remplace les données en tre crochet pour construire la réécriture
 	 * @param string $record
 	 * @param string $category
 	 * @param string $subcategory
-	 */
+     * @return mixed
+     */
 	public function replace_var_rewrite($record='',$category='',$subcategory=''){
 		$db = self::load_current_seo();
 		if($db != null){

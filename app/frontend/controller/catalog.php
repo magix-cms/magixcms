@@ -100,13 +100,10 @@ class frontend_controller_catalog extends frontend_db_catalog
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
-        $template->assign(
-            array(
-                'name_cat'      =>  $data['clibelle'],
-                'content_cat'   =>  $data['c_content'],
-                'imgPath_cat'   =>  $data['imgPath']
-            )
-        );
+
+        $template->assign('name_cat',   $data['clibelle'],  true);
+        $template->assign('content_cat',$data['c_content'], true);
+        $template->assign('imgPath_cat',$data['imgPath'],   true);
 	}
     /**
      * Assign subcategory's data to smarty
@@ -136,16 +133,14 @@ class frontend_controller_catalog extends frontend_db_catalog
                                     true
                                 );
         // *** Assign data to Smarty var
+        $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
-        frontend_model_template::assign(
-            array(
-                'name_subcat'       =>  $data['slibelle'],
-                'content_subcat'    =>  $data['s_content'],
-                'imgPath_subcat'    =>  $data['imgPath'],
-                'name_cat'          =>  $data['clibelle'],
-                'url_cat'           =>  $data['url']['cat']
-            )
-        );
+
+        $template->assign('name_subcat',    $data['slibelle'],  true);
+        $template->assign('content_subcat', $data['s_content'], true);
+        $template->assign('imgPath_subcat', $data['imgPath'],   true);
+        $template->assign('name_cat',       $data['clibelle'],  true);
+        $template->assign('url_cat',        $data['url']['cat'],true);
 	}
     /**
      * Assign product's data to smarty
@@ -179,23 +174,23 @@ class frontend_controller_catalog extends frontend_db_catalog
                                         true
                                     );
         // *** Assign data to Smarty var
+        $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
-        frontend_model_template::assign(
-            array(
-                // ** Assign Product Data
-                'id_catalog'        =>  $data['idcatalog'],
-                'id_product'        =>  $data['idproduct'],
-                'name_product'      =>  $data['titlecatalog'],
-                'price_product'     =>  $data['price'],
-                'imgPath_product'   =>  $data['imgPath'],
-                'content_product'   =>  $data['desccatalog'],
-                'date_product'      =>  $data['date_catalog'],
-                'url_product'       =>  $data['url']['product'],
-                // ** Assign parent cat data
-                'name_cat'          =>  $data['clibelle'],
-                'url_cat'           =>  $data['url']['cat']
-            )
-        );
+
+        // ** Assign Product Data
+        $template->assign('id_catalog',     $data['idcatalog'],     true);
+        $template->assign('id_product',     $data['id_product'],    true);
+        $template->assign('name_product',   $data['titlecatalog'],  true);
+        $template->assign('price_product',  $data['price'],         true);
+        $template->assign('imgPath_product',$data['imgPath'],       true);
+        $template->assign('content_product',$data['desccatalog'],   true);
+        $template->assign('date_product',   $data['date_catalog'],  true);
+        $template->assign('url_product',    $data['url']['product'],true);
+
+        // ** Assign parent cat data
+        $template->assign('name_cat',       $data['clibelle'],      true);
+        $template->assign('url_cat',        $data['url']['cat'],    true);
+
         // ** Assign parent subcat data
         if ($data['idcls'] != 0) {
             $data['url']['subcat']  =   $rewrite->filter_catalog_subcategory_url(
@@ -207,13 +202,9 @@ class frontend_controller_catalog extends frontend_db_catalog
                 true
             );
             /** @noinspection PhpParamsInspection */
-            frontend_model_template::assign(
-                array(
-                    // ** Assign Product Data
-                    'name_subcat'       =>  $data['slibelle'],
-                    'url_subcat'        =>  $data['url']['subcat']
-                )
-            );
+            
+            $template->assign('name_subcat', $data['slibelle'],     true);
+            $template->assign('url_subcat',  $data['url']['subcat'],true);
         }
     }
 	/**

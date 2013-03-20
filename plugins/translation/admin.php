@@ -94,14 +94,15 @@ class plugins_translation_admin{
      * @throws Exception
      */
     private function parse_ini($file){
+        $result = array();
         if ($lines = file($file)) {
-            foreach ($lines as $key){
-                if (!preg_match('/[0-9a-z]/i', $key) or preg_match('/^#/', $key)){
+            foreach ($lines as $line){
+                if (!preg_match('/[0-9a-z]/i', $line) or preg_match('/^#/', $line)){
                     continue;
                 }
-                if (preg_match('/(.*)=(.*)/', $key, $key2)){
+                if (preg_match('/(.*)=(.*)/', $line, $match)){
 
-                    $result[$key2[1]] = trim($key2[2]);
+                    $result[trim($match[1])] = trim($match[2]);
                 }
             }
         } else {
@@ -126,12 +127,7 @@ class plugins_translation_admin{
      */
     private function setConfigFile($path,$filename){
         $files = $this->pathConfigFile($path,$filename);
-
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            $data = parse_ini_file($files, false, INI_SCANNER_RAW);
-        } else {
-            $data = $this->parse_ini($files);
-        }
+        $data = $this->parse_ini($files);
         return $data;
     }
 

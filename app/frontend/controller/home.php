@@ -74,14 +74,11 @@ class frontend_controller_home extends frontend_db_home
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
-        $template->assign(
-            array(
-                'name_home'         => $data['subject'],
-                'content_home'      =>$data['content'],
-                'seoTitle_home'     =>$data['metatitle'],
-                'seoDescr_home'     =>$data['metadescription']
-            )
-        );
+
+        $template->assign('name_home',      $data['subject'],       true);
+        $template->assign('content_home',   $data['content'],       true);
+        $template->assign('seoTitle_home',  $data['metatitle'],     true);
+        $template->assign('seoDescr_home',  $data['metadescription'],true);
 	}
     /**
      * Control, loading and display

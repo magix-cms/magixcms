@@ -107,17 +107,15 @@ class frontend_controller_cms extends frontend_db_cms
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
-        $template->assign(
-            array(
-                'name_page'         => $data['title_page'],
-                'content_page'      =>$data['content_page'],
-                'url_page'          =>$data['url']['page'],
-                'dateUpdate_page'   =>$data['last_update'],
-                'dateRegister_page' =>$data['date_register'],
-                'seoTitle_page'     =>$data['seo_title_page'],
-                'seoDescr_page'     =>$data['seo_desc_page']
-            )
-        );
+
+        $template->assign('name_page',          $data['title_page'],    true);
+        $template->assign('content_page',       $data['content_page'],  true);
+        $template->assign('url_page',           $data['url']['page'],   true);
+        $template->assign('dateUpdate_page',    $data['last_update'],   true);
+        $template->assign('dateRegister_page',  $data['date_register'], true);
+        $template->assign('seoTitle_page',      $data['seo_title_page'],true);
+        $template->assign('seoDescr_page',      $data['seo_desc_page'], true);
+
         // ** Assign parent page data
         if ($data['idpage_p'] != null){
             $data['url']['page_p'] = magixglobal_model_rewrite::filter_cms_url(
@@ -129,13 +127,8 @@ class frontend_controller_cms extends frontend_db_cms
                 true
             );
             /** @noinspection PhpParamsInspection */
-            $template->assign(
-                array(
-                    'name_page_p'         => $data['title_page_p'],
-                    'url_page_p'          =>$data['url']['page_p']
-                )
-            );
-
+            $template->assign('name_page_p',$data['title_page_p'],true);
+            $template->assign('url_page_p',$data['url']['page_p'],true);
         }
     }
     /**

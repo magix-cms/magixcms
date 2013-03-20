@@ -123,15 +123,12 @@ class frontend_controller_news extends frontend_db_news
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
-        $template->assign(
-            array(
-                'name_news'         =>  $data['n_title'],
-                'content_news'      =>  $data['n_content'],
-                'dateRegister_news' =>  $data['date_register'],
-                'dateUpdate_news'   =>  $data['date_publish'],
-                'imgPath_news'      =>  $data['imgPath']
-            )
-        );
+
+        $template->assign('name_news',          $data['n_title'],       true);
+        $template->assign('content_news',       $data['n_content'],     true);
+        $template->assign('dateRegister_news',  $data['date_register'], true);
+        $template->assign('dateUpdate_news',    $data['date_publish'],  true);
+        $template->assign('imgPath_news',       $data['imgPath'],       true);
 	}
 	/**
 	 * 
