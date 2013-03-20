@@ -202,7 +202,7 @@ class frontend_controller_catalog extends frontend_db_catalog
                 true
             );
             /** @noinspection PhpParamsInspection */
-            
+
             $template->assign('name_subcat', $data['slibelle'],     true);
             $template->assign('url_subcat',  $data['url']['subcat'],true);
         }
