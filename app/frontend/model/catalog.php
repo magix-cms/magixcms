@@ -305,6 +305,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                     'subcategory',
                     'product',
                     'last-product',
+                    'last-product-cat',
+                    'last-product-subcat',
                     'all',
                     'product-gallery'
                 );
@@ -430,10 +432,13 @@ class frontend_model_catalog extends frontend_db_catalog {
                 );
 
             }
-        } elseif ($conf['level'][1] == 'last-product') {
+        } elseif ($conf['level'][1] == 'last-product' OR $conf['level'][1] == 'last-product-cat') {
             // Product[last]
-            // @TODO: mise en place des paramètre 'exclude', de selectionner depuis catégorie ou sous-catégorie
+            // @TODO: mise en place des paramètre 'exclude'
             $data   =   parent::s_product($conf['id'],null,$conf['limit']);
+
+        } elseif ($conf['level'][1] == 'last-product-subcat') {
+            $data   =   parent::s_product(null,$conf['id'],$conf['limit']);
 
         } elseif($conf['level'][1] == 'product-gallery') {
             // Product Gallery
