@@ -139,10 +139,10 @@ function smarty_function_widget_catalog_display($params, $template)
                 $i[$deep]++;
 
                 // Récupération de la taille de l'image
-                if (isset($structHtml['img']['size_'.$deep]))
-                    $row[$deep]['img_size']     =   $structHtml['img']['size_'.$deep];
-                elseif (isset($structHtml['img']['size']))
-                    $row[$deep]['img_size']     =   $structHtml['img']['size'];
+                if (isset($pattern['global']['img']['size_'.$deep]))
+                    $row[$deep]['img_size']     =   $pattern['global']['img']['size_'.$deep];
+                elseif (isset($pattern['global']['img']['size']))
+                    $row[$deep]['img_size']     =   $pattern['global']['img']['size'];
 
                 // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
                 $item_dataVal       =       $ModelCatalog->setItemData($row[$deep],$current['catalog']);
