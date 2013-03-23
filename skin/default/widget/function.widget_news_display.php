@@ -152,28 +152,28 @@ function smarty_function_widget_news_display($params, $template)
                         }
 
                         if ($elem != null
-                            OR isset($pattern['elem']['htmlBefore'])
-                            OR isset($pattern['elem']['htmlAfter'])
+                            OR isset($pattern['elem']['before'])
+                            OR isset($pattern['elem']['after'])
                         ) {
-                            $item['html']   .= $pattern['elem']['htmlBefore'];
+                            $item['html']   .= $pattern['elem']['before'];
                             $item['html']   .= $elem;
-                            $item['html']   .= $pattern['elem']['htmlAfter'];
+                            $item['html']   .= $pattern['elem']['after'];
                         }
                     }
 
                 }
                 // *** item construct
-                $items['html'] .= $pattern['item']['item']['htmlBefore'];
+                $items['html'] .= $pattern['item']['item']['before'];
                     $items['html'] .= $item['html'];
-                $items['html'] .= $pattern['item']['item']['htmlAfter'];
+                $items['html'] .= $pattern['item']['item']['after'];
             }
         // *** container construct
         $html  = isset($params['title']) ? $params['title'] : '';
-        $html .= $pattern['global']['container']['htmlBefore'];
+        $html .= $pattern['global']['container']['before'];
         $html .= isset($params['prepend']) ? $params['prepend'] : null;
         $html .=  $items['html'];
         $html .= isset($params['append']) ? $params['append'] : null;
-        $html .= $pattern['global']['container']['htmlAfter'];
+        $html .= $pattern['global']['container']['after'];
         $html .=  $pagination['html'];
     }
 	return $html;
@@ -190,41 +190,41 @@ function patternNews ($name=null)
         case 'sidebar':
             $pattern    =   array(
                 'container'     =>  array(
-                    'htmlBefore'    =>  '<ul class="thumbnails">',
+                    'before'    =>  '<ul class="thumbnails">',
                     // items injected here
-                    'htmlAfter'     =>  '</ul>'
+                    'after'     =>  '</ul>'
                 ),
                 'item'          =>  array(
-                    'htmlBefore'    => '<li class="span3"><a href="#url#" title="'.$tr['show_news'].'" class="thumbnail">',
+                    'before'    => '<li class="span3"><a href="#url#" title="'.$tr['show_news'].'" class="thumbnail">',
                     // item's elements injected here (name, img, descr, ...)
-                    'htmlAfter'     => '</a></li>'
+                    'after'     => '</a></li>'
                 ),
                 'img'           =>  array(
-                    'htmlBefore'
+                    'before'
                     => ' ',
-                    'htmlAfter'
+                    'after'
                     =>  ' '
                 ),
                 'date'          =>  array(
-                    'htmlBefore'    => '<span class="date badge">',
+                    'before'    => '<span class="date badge">',
                     'format'        =>  array(
                         'day'   => 'd/',
                         'month'   => 'm/',
                         'year'   => 'Y'
                     ),
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => '</span><br />'
+                    'after'     => '</span><br />'
                 ),
                 'name'          =>  array(
-                    'htmlBefore'
+                    'before'
                     =>  ' ',
-                    'htmlAfter'
+                    'after'
                     =>  ' '
                 ),
                 'tag'           =>  array(
-                    'htmlBefore'    => '<span class="tag">',
+                    'before'    => '<span class="tag">',
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => '<span>'
+                    'after'     => '<span>'
                 ),
                 'display'       =>  array(
                     1           => array(
@@ -238,55 +238,55 @@ function patternNews ($name=null)
         default:
             $pattern    =   array(
                 'container'     =>  array(
-                    'htmlBefore'    =>  '<ul class="thumbnails">',
+                    'before'    =>  '<ul class="thumbnails">',
                     // items injected here
-                    'htmlAfter'     =>  '</ul>'
+                    'after'     =>  '</ul>'
                 ),
                 'item'          =>  array(
-                    'htmlBefore'    => '<li class="span4"><div class="thumbnail">',
+                    'before'    => '<li class="span4"><div class="thumbnail">',
                     // item's elements injected here (name, img, descr, ...)
-                    'htmlAfter'     => '</div></div></li>'
+                    'after'     => '</div></div></li>'
                 ),
                 'img'           =>  array(
-                    'htmlBefore'
+                    'before'
                     => ' ',
-                    'htmlAfter'
+                    'after'
                     =>  ' '
                 ),
                 'name'          =>  array(
-                    'htmlBefore'
+                    'before'
                     =>  '<div class="caption">
                             <h3>
                                 <a href="#url#" title="'.$tr['show_news'].'">',
-                    'htmlAfter'
+                    'after'
                             =>  '</a>
                             </h3>'
                 ),
                 'descr'         =>  array(
-                    'htmlBefore'    =>  '<p>',
+                    'before'    =>  '<p>',
                     'lenght'        =>  250,
                     'delemiter'     =>  '...',
-                    'htmlAfter'     =>  '</p>'
+                    'after'     =>  '</p>'
                 ),
                 'pagination'    =>  array(
-                    'htmlBefore'    => '<div>',
+                    'before'    => '<div>',
                     'class'         => 'pagination',
-                    'htmlAfter'     => '</div>'
+                    'after'     => '</div>'
                 ),
                 'date'          =>  array(
-                    'htmlBefore'    => '<span class="date badge badge-info pull-right">',
+                    'before'    => '<span class="date badge badge-info pull-right">',
                     'format'        =>  array(
                         'day'   => 'd/',
                         'month'   => 'm/',
                         'year'   => 'Y'
                     ),
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => '</span>'
+                    'after'     => '</span>'
                 ),
                 'tag'           =>  array(
-                    'htmlBefore'    => '<span class="tag">',
+                    'before'    => '<span class="tag">',
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => '<span>'
+                    'after'     => '<span>'
                 ),
                 'current'       =>  array(
                     'class'         =>  ' current'

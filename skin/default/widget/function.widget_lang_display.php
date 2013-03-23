@@ -80,26 +80,26 @@ function smarty_function_widget_lang_display($params, $template){
         // *** set default html structure
         $strucHtml_default = array(
             'container'     =>  array(
-                'htmlBefore'    => '<ul class="nav">',
+                'before'    => '<ul class="nav">',
                 // items injected here
-                'htmlAfter'     => '</ul>'
+                'after'     => '</ul>'
             ),
             'item'          =>  array(
-                'htmlBefore'    => '<li>',
+                'before'    => '<li>',
                 // item's elements injected here (name, img, descr)
-                'htmlAfter'     => '</li>'
+                'after'     => '</li>'
             ),
             'icon'         =>  array(
-                'htmlBefore'    =>  ' ',
-                'htmlAfter'     =>  ' '
+                'before'    =>  ' ',
+                'after'     =>  ' '
             ),
             'name'        =>  array(
-                'htmlBefore'    =>  ' ',
-                'htmlAfter'     =>  ' '
+                'before'    =>  ' ',
+                'after'     =>  ' '
             ),
             'iso'       =>  array(
-                'htmlBefore'    => '(',
-                'htmlAfter'     => ')'
+                'before'    => '(',
+                'after'     => ')'
             ),
             'current'     =>  array(
                 'class'         =>  ' current'
@@ -170,25 +170,25 @@ function smarty_function_widget_lang_display($params, $template){
                 }
                 // *** elem construct
                 if ($elem != null){
-                    $item .= $strucHtml_elem['htmlBefore'];
+                    $item .= $strucHtml_elem['before'];
                     $item .= $elem;
-                    $item .= $strucHtml_elem['htmlAfter'];
+                    $item .= $strucHtml_elem['after'];
                 }
             }
         }
         // *** item construct
-        $items .= $strucHtml['item']['htmlBefore'];
+        $items .= $strucHtml['item']['before'];
             $items .= '<a href="/'.$row['iso'].'/" hreflang="'.$row['iso'].'" title="'.ucfirst($t_go_to_version).': '.$row['language'].'">';
                 $items .= $item;
             $items .= '</a>';
-        $items .= $strucHtml['item']['htmlAfter'];
+        $items .= $strucHtml['item']['after'];
     }
     // *** container construct
-    $output .= $strucHtml['container']['htmlBefore'];
+    $output .= $strucHtml['container']['before'];
         $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
             $output .=  $items;
         $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-    $output .= $strucHtml['container']['htmlAfter'];
+    $output .= $strucHtml['container']['after'];
     }
     return $output;
 }

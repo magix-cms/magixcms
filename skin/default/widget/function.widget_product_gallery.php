@@ -107,22 +107,22 @@ function smarty_function_widget_product_gallery($params, $template)
                 $i = 0;
             }
 
-            $items['html'] .= $pattern['item']['item']['htmlBefore'];
+            $items['html'] .= $pattern['item']['item']['before'];
             $items['html'] .= '<a href="'.$item['data']['img_src']['maxi'].'" rel="productGallery" title="Agrandir"'.$pattern['item']['img']['classLink'].'>';
                 $items['html'] .= '<img src="'.$item['data']['img_src']['mini'].'" alt="Galery" />';
             $items['html'] .= '</a>';
-            $items['html'] .= $pattern['item']['item']['htmlAfter'];
+            $items['html'] .= $pattern['item']['item']['after'];
         }
     }
 
     // *** ouput
     if ($items['html'] != null) {
         $html  = isset($params['title']) ? $params['title'] : '';
-        $html .= $pattern['global']['container']['htmlBefore'];
+        $html .= $pattern['global']['container']['before'];
         $html .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
         $html .=  $items['html'];
         $html .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-        $html .= $pattern['global']['container']['htmlAfter'];
+        $html .= $pattern['global']['container']['after'];
     }
 
    return $html;
@@ -133,14 +133,14 @@ function patternMicroGallery ($name=null)
         default:
             $pattern = array(
                 'container'     =>  array(
-                    'htmlBefore'    =>  '<ul class="thumbnails">',
+                    'before'    =>  '<ul class="thumbnails">',
                     // items injected here
-                    'htmlAfter'     =>  '</ul>'
+                    'after'     =>  '</ul>'
                 ),
                 'item'          =>  array(
-                    'htmlBefore'    => '<li class="span2">',
+                    'before'    => '<li class="span2">',
                     // item's elements injected here (name, img, descr, ...)
-                    'htmlAfter'     => '</li>'
+                    'after'     => '</li>'
                 ),
                 'img'           =>  array(
                     'classLink'     =>  'thumbnail gallery-link'

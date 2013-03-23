@@ -122,7 +122,7 @@ function smarty_function_widget_cms_display($params, $template)
                         // ====> désactive le tableaux de sous-données du parent et retourne au niveau de mon parent
                         unset ($row[$deep_minus]['subdata']);
                         unset ($i[$deep]);
-                        $items[$deep] = $pattern['item']['container']['htmlBefore'].$items[$deep].$pattern['item']['container']['htmlAfter'];
+                        $items[$deep] = $pattern['item']['container']['before'].$items[$deep].$pattern['item']['container']['after'];
                         $deep--;
                         $deep_minus = $deep  - 1;
                         $deep_plus = $deep  + 1;
@@ -193,18 +193,18 @@ function smarty_function_widget_cms_display($params, $template)
                                 $elem = null;
                         }
                         if ($elem != null){
-                            $item .= $pattern['elem']['htmlBefore'];
+                            $item .= $pattern['elem']['before'];
                             $item .= $elem;
-                            $item .= $pattern['elem']['htmlAfter'];
+                            $item .= $pattern['elem']['after'];
                         }
                     }
 
                 }
 
-                $items[$deep] .= $pattern['item']['item']['htmlBefore'];
+                $items[$deep] .= $pattern['item']['item']['before'];
                 $items[$deep] .= $item;
                 $items[$deep] .= $subitems;
-                $items[$deep] .= $pattern['item']['item']['htmlAfter'];
+                $items[$deep] .= $pattern['item']['item']['after'];
             }
             // *** list format END
 
@@ -217,11 +217,11 @@ function smarty_function_widget_cms_display($params, $template)
 
         // *** container construct
         if ($items[$deep] != null) {
-            $htm .= $pattern['global']['container']['htmlBefore'];
+            $htm .= $pattern['global']['container']['before'];
             $htm .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
             $htm .=  $items[$deep];
             $htm .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-            $htm .= $pattern['global']['container']['htmlAfter'];
+            $htm .= $pattern['global']['container']['after'];
         }else{
             $htm = null;
         }
@@ -235,25 +235,25 @@ function patternCms ($name=null)
             // *** set default html structure
             $pattern = array(
                 'container'     =>  array(
-                    'htmlBefore'    => '<ul class="thumbnails">',
+                    'before'    => '<ul class="thumbnails">',
                     // items injected here
-                    'htmlAfter'     => '</ul>'
+                    'after'     => '</ul>'
                 ),
                 'item'          =>  array(
-                    'htmlBefore'    => '<li class="span4"><div class="thumbnail"><div class="caption"> ',
+                    'before'    => '<li class="span4"><div class="thumbnail"><div class="caption"> ',
                     // item's elements injected here (name, descr)
-                    'htmlAfter'     => '</div></div></li>'
+                    'after'     => '</div></div></li>'
                 ),
                 'name'        =>  array(
-                    'htmlBefore'    =>  '<h3>',
+                    'before'    =>  '<h3>',
                     'classLink'     =>  'name',
-                    'htmlAfter'     =>  '</h3>'
+                    'after'     =>  '</h3>'
                 ),
                 'descr'       =>  array(
-                    'htmlBefore'    => '<p>',
+                    'before'    => '<p>',
                     'lenght'        => 250,
                     'delemiter'     => '...',
-                    'htmlAfter'     => '</p>'
+                    'after'     => '</p>'
                 ),
                 'current'     =>  array(
                     'class'         =>  ' current'

@@ -120,7 +120,7 @@ function smarty_function_widget_catalog_display($params, $template)
                         // ====> désactive le tableaux de sous-données du parent et retourne au niveau de mon parent
                         unset ($row[$deep_minus]['subdata']);
                         unset ($i[$deep]);
-                        $items[$deep] = $pattern['item']['container']['htmlBefore'].$items[$deep].$pattern['item']['container']['htmlAfter'];
+                        $items[$deep] = $pattern['item']['container']['before'].$items[$deep].$pattern['item']['container']['after'];
                         $deep--;
                         $deep_minus = $deep  - 1;
                         $deep_plus = $deep  + 1;
@@ -209,17 +209,17 @@ function smarty_function_widget_catalog_display($params, $template)
                                 $elem = null;
                         }
                         if ($elem != null){
-                            $item .= $pattern['elem']['htmlBefore'];
+                            $item .= $pattern['elem']['before'];
                             $item .= $elem;
-                            $item .= $pattern['elem']['htmlAfter'];
+                            $item .= $pattern['elem']['after'];
                         }
                     }
 
                 }
-                $items[$deep] .= $pattern['item']['item']['htmlBefore'];
+                $items[$deep] .= $pattern['item']['item']['before'];
                 $items[$deep] .= $item;
                 $items[$deep] .= $subitems;
-                $items[$deep] .= $pattern['item']['item']['htmlAfter'];
+                $items[$deep] .= $pattern['item']['item']['after'];
             }
             // *** list format END
 
@@ -232,11 +232,11 @@ function smarty_function_widget_catalog_display($params, $template)
         // *** container construct
         if ($items[1] != null) {
             $html  = isset($params['title']) ? $params['title'] : '';
-            $html .= $pattern['global']['container']['htmlBefore'];
+            $html .= $pattern['global']['container']['before'];
             $html .= isset($params['prepend']) ? $params['prepend'] : null;
             $html .=  $items[1];
             $html .= isset($params['append']) ? $params['append'] : null;
-            $html .= $pattern['global']['container']['htmlAfter'];
+            $html .= $pattern['global']['container']['after'];
         }else{
             $html = null;
         }
@@ -254,62 +254,62 @@ function patternCatalog ($name=null)
         case 'product':
             $pattern = array(
                 'item'          =>  array(
-                    'htmlBefore'    => '<li class="span8"><div class="thumbnail">',
+                    'before'    => '<li class="span8"><div class="thumbnail">',
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => '</div></div></li>'
+                    'after'     => '</div></div></li>'
                 )            );
             break;
         case 'sidebar':
             $pattern = array(
                 'item'          =>  array(
-                    'htmlBefore'    => '<li class="span3"><div class="thumbnail">',
+                    'before'    => '<li class="span3"><div class="thumbnail">',
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => '</div></div></li>'
+                    'after'     => '</div></div></li>'
                 ),
                 'img'         =>  array(
                     'classLink'     =>  'img'
                 ),
                 'name'        =>  array(
-                    'htmlBefore'    =>  '<div class="caption"> <p class="lead">',
+                    'before'    =>  '<div class="caption"> <p class="lead">',
                     'classLink'     =>  'name',
-                    'htmlAfter'     =>  '</p>'
+                    'after'     =>  '</p>'
                 ),
                 'price'       =>  array(
-                    'htmlBefore' => '<a class="btn" href="#url#">',
-                    'htmlAfter' => '</a>'
+                    'before' => '<a class="btn" href="#url#">',
+                    'after' => '</a>'
                 )
             );
             break;
         default:
             $pattern = array(
                 'container'     =>  array(
-                    'htmlBefore'    => '<ul class="thumbnails">',
+                    'before'    => '<ul class="thumbnails">',
                     // items injected here
-                    'htmlAfter'     => '</ul>'
+                    'after'     => '</ul>'
                 ),
                 'item'          =>  array(
-                    'htmlBefore'    => '<li class="span4"><div class="thumbnail">',
+                    'before'    => '<li class="span4"><div class="thumbnail">',
                     // item's elements injected here (name, img, descr)
-                    'htmlAfter'     => '</div></div></li>'
+                    'after'     => '</div></div></li>'
                 ),
                 'img'         =>  array(
                     'classLink'     =>  'img'
                 ),
                 'name'        =>  array(
-                    'htmlBefore'    =>  '<div class="caption"> <h3>',
+                    'before'    =>  '<div class="caption"> <h3>',
                     'classLink'     =>  'name',
-                    'htmlAfter'     =>  '</h3>'
+                    'after'     =>  '</h3>'
                 ),
                 'descr'       =>  array(
-                    'htmlBefore'    => '<p>',
+                    'before'    => '<p>',
                     'lenght'        => 250,
                     'delemiter'     => '...',
-                    'htmlAfter'     => '</p>'
+                    'after'     => '</p>'
                 ),
                 'price'       =>  array(
-                    'htmlBefore' => '<a class="btn" href="#url#" title="'.$tr['show_product'].'">',
+                    'before' => '<a class="btn" href="#url#" title="'.$tr['show_product'].'">',
                     'currency'      => ' € TTC',
-                    'htmlAfter' => '</a>'
+                    'after' => '</a>'
                 ),
                 'current'     =>  array(
                     'class'         =>  ' current'

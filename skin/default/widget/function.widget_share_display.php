@@ -148,22 +148,22 @@ function smarty_function_widget_share_display($params, $template){
     // *** Set default html structure
     $strucHtml_default = array(
         'container'     =>  array(
-            'htmlBefore'    => '<ul>',
+            'before'    => '<ul>',
             // items injected here
-            'htmlAfter'     => '</ul>'
+            'after'     => '</ul>'
         ),
         'item'          =>  array(
-            'htmlBefore'    => '<li>',
+            'before'    => '<li>',
             // item's elements injected here (name, img, descr)
-            'htmlAfter'     => '</li>'
+            'after'     => '</li>'
         ),
         'img'         =>  array(
-            'htmlBefore'    =>  ' ',
-            'htmlAfter'     =>  ' '
+            'before'    =>  ' ',
+            'after'     =>  ' '
         ),
         'name'        =>  array(
-            'htmlBefore'    =>  ' ',
-            'htmlAfter'     =>  ' '
+            'before'    =>  ' ',
+            'after'     =>  ' '
         ),
         'current'     =>  array(
             'class'         =>  ' current'
@@ -230,18 +230,18 @@ function smarty_function_widget_share_display($params, $template){
             }
         }
         // ** item construct
-        $items .= $strucHtml['item']['htmlBefore'];
+        $items .= $strucHtml['item']['before'];
             $items .= '<a id="share-'.$row['name'].'" class="targetblank" href="'.$row['url'].'" title="'.ucfirst($t_share_on).': '.$row['name'].'">';
                 $items .= $elem;
             $items .= '</a>';
-        $items .= $strucHtml['item']['htmlAfter'];
+        $items .= $strucHtml['item']['after'];
     }
     // *** container construct
-    $output = $strucHtml['container']['htmlBefore'];
+    $output = $strucHtml['container']['before'];
         $output .= isset($params['htmlPrepend']) ? $params['htmlPrepend'] : null;
             $output .=  $items;
         $output .= isset($params['htmlAppend']) ? $params['htmlAppend'] : null;
-    $output .= $strucHtml['container']['htmlAfter'];
+    $output .= $strucHtml['container']['after'];
 
 	return $output;
 }
