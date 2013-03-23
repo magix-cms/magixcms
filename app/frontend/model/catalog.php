@@ -73,7 +73,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                         )
                     );
                 if (isset($row['imgcatalog']) != null){
-                    $img_size = (isset($row['img_size'])) ? $row['img_size'] : null;
+                    $img_size = (isset($row['img_size'])) ? $row['img_size'] : 'product';
                     $data['img_src']   =
                         $ModelImagepath->filterPathImg(
                             array(
