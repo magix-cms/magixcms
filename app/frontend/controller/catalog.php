@@ -101,6 +101,7 @@ class frontend_controller_catalog extends frontend_db_catalog
         $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
 
+        $template->assign('id_cat',     $data['idclc'],  true);
         $template->assign('name_cat',   $data['clibelle'],  true);
         $template->assign('content_cat',$data['c_content'], true);
         $template->assign('imgPath_cat',$data['imgPath'],   true);
@@ -136,10 +137,12 @@ class frontend_controller_catalog extends frontend_db_catalog
         $template = new frontend_model_template();
         /** @noinspection PhpParamsInspection */
 
+        $template->assign('id_subcat',      $data['idcls'],  true);
         $template->assign('name_subcat',    $data['slibelle'],  true);
         $template->assign('content_subcat', $data['s_content'], true);
         $template->assign('imgPath_subcat', $data['imgPath'],   true);
         $template->assign('name_cat',       $data['clibelle'],  true);
+        $template->assign('id_cat',         $data['idclc'],  true);
         $template->assign('url_cat',        $data['url']['cat'],true);
 	}
     /**

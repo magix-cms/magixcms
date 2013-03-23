@@ -77,9 +77,9 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data['img_src']   =
                         $ModelImagepath->filterPathImg(
                             array(
-                                'filtermod'=>'catalog',
-                                'img'=>$img_size.'/'.$row['imgcatalog'],
-                                'levelmod'=>'product'
+                                'filtermod' =>  'catalog',
+                                'img'       =>  $img_size.'/'.$row['imgcatalog'],
+                                'levelmod'  =>  ''
                             )
                         );
                 }

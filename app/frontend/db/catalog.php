@@ -53,7 +53,7 @@ class frontend_db_catalog
     protected function s_category_data($idclc)
     {
     	$select = 'SELECT
-            c.clibelle,c.pathclibelle,c.c_content,c.img_c
+            c.idclc,c.clibelle,c.pathclibelle,c.c_content,c.img_c
 	      FROM mc_catalog_c as c
 		  WHERE c.idclc = :idclc
 		';
@@ -73,7 +73,7 @@ class frontend_db_catalog
 	protected function s_subcategory_data($idcls)
     {
         $select = 'SELECT
-                s.slibelle,s.pathslibelle,s.s_content,s.img_s,
+                s.idcls,s.slibelle,s.pathslibelle,s.s_content,s.img_s,
                 c.idclc,c.clibelle,c.pathclibelle,
                 lang.iso
             FROM mc_catalog_s as s
@@ -268,7 +268,6 @@ class frontend_db_catalog
             {$order_clause}
             {$limit_clause}
 		";
-        magixcjquery_debug_magixfire::magixFireLog('querry',$select);
         return magixglobal_model_db::layerDB()->select($select);
     }
     /**
