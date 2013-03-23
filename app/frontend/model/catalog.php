@@ -432,7 +432,8 @@ class frontend_model_catalog extends frontend_db_catalog {
             }
         } elseif ($conf['level'][1] == 'last-product') {
             // Product[last]
-            $data   =   parent::s_product(null,null,$conf['limit']);
+            // @TODO: mise en place des paramètre 'exclude', de selectionner depuis catégorie ou sous-catégorie
+            $data   =   parent::s_product($conf['id'],null,$conf['limit']);
 
         } elseif($conf['level'][1] == 'product-gallery') {
             // Product Gallery

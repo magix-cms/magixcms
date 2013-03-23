@@ -235,23 +235,23 @@ class frontend_db_catalog
      * @param int $limit
      * @return array
      */
-    protected static function s_product($idclc=null,$idcls=null,$limit=null)
+    protected static function s_product($idclc=null,$idcls=0,$limit=null)
     {
         $order_clause = 'ORDER BY p.orderproduct';
-        if ($idclc == null and $idcls == null) {
+        if (isset($idclc) OR isset($idcls)) {
+            $where_clause      = 'WHERE ';
+            $where_clause     .= (isset($idclc)) ? 'p.idclc = '.$idclc : '';
+            $where_clause     .= (isset($idclc) AND isset($idcls)) ? ' AND ' : '';
+            $where_clause     .= (isset($idcls)) ? 'p.idcls = '.$idcls.' ' : '';
+        } else {
             // @TODO devrait recevoir la langue en paramète
             $where_clause = 'WHERE lang.iso = \''.frontend_model_template::current_Language().'\'';
             $order_clause = 'ORDER BY p.idproduct';
-        } else {
-            $where_clause      = 'WHERE ';
-            $where_clause     .= ($idclc != null) ? 'p.idclc = '.$idclc.' AND ' : '';
-            $where_clause     .= ($idcls != null) ? 'p.idcls = '.$idcls.' ' : 'p.idcls = 0 ';
         }
         $limit_clause = null;
         if (is_int($limit)) {
             $limit_clause = 'LIMIT '.$limit;
         }
-
         $select = "SELECT
                 p.idproduct,p.idclc, p.idcls,
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
@@ -268,6 +268,7 @@ class frontend_db_catalog
             {$order_clause}
             {$limit_clause}
 		";
+        magixcjquery_debug_magixfire::magixFireLog('querry',$select);
         return magixglobal_model_db::layerDB()->select($select);
     }
     /**
