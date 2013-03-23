@@ -20,6 +20,7 @@ $(function() {
         relative_urls : false,
         elements : 'absurls',
         //remove_script_host : false,
+        entity_encoding : "raw",
         theme : "advanced",
         plugins : "safari,xhtmlxtras,inlinepopups,advlink,advimage,insertdatetime,style,layer,table,fullscreen,contextmenu,paste,preview,media,wordcount,codehighlight,tablegrid,youtube,mc_pages,mc_news,loremipsum,visualblocks,pdw"+catalog_tinymce_plugin+manager_tinymce_plugin+filemanager_tinymce_plugin,
         // Theme options
