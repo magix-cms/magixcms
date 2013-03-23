@@ -138,7 +138,7 @@ class magixglobal_model_constructor {
                         // $sk == Item Structure values Key ==  htmlAfter,htmlBefore,class,...
                         // $sk == Item Structure values
                         if (isset($htmlPattern[$k][$sk.$d])) {
-                            if ($sk == 'htmlBefore') {
+                            if ($sk == 'before') {
 
                                 $rplc['class']['position']  =   null;
                                 if ($htmlPattern['is_last'] == 1) {
