@@ -147,7 +147,7 @@ function smarty_function_widget_cms_display($params, $template)
                 $pattern['global']['is_current'] = ($item_dataVal['current'] == 'true') ? 1 : 0;
                 $pattern['global']['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
                 $pattern['global']['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
-                $pattern['item'] = $ModelConstructor->setItemPattern($pattern['global'],$deep,$i[$deep]);
+                $pattern['item'] = $ModelConstructor->setItemPattern($pattern['global'],$i[$deep],$deep);
 
                 // remise à zero du compteur si élément est le dernier de la ligne
                 if ($pattern['item']['is_last'] == 1){
