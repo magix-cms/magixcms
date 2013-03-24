@@ -1,6 +1,6 @@
 {include file="section/head.phtml" section="prepend"}
-{headmeta meta="description" content={seo_rewrite config_param=['level'=>'2','idmetas'=>'2','default'=>$name_subcat] category=$name_cat subcategory=$name_subcat}}
-    <title>{seo_rewrite config_param=['level'=>'2','idmetas'=>'1','default'=>$name_subcat] category=$name_cat subcategory=$name_subcat}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'2','idmetas'=>'2','default'=>$subcat.name] category=$cat.name subcategory=$subcat.name}}
+    <title>{seo_rewrite config_param=['level'=>'2','idmetas'=>'1','default'=>$subcat.name] category=$cat.name subcategory=$subcat.name}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="catalog-subcat">
@@ -10,8 +10,8 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-            <h1>{$name_subcat}</h1>
-            {$content_subcat}
+            <h1>{$subcat.name}</h1>
+            {$subcat.content}
             {widget_catalog_display
                 pattern = 'product'
             }

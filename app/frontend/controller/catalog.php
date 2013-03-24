@@ -99,12 +99,11 @@ class frontend_controller_catalog extends frontend_db_catalog
         }
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
-        /** @noinspection PhpParamsInspection */
+        $Catalog  = new frontend_model_catalog();
 
-        $template->assign('id_cat',     $data['idclc'],  true);
-        $template->assign('name_cat',   $data['clibelle'],  true);
-        $template->assign('content_cat',$data['c_content'], true);
-        $template->assign('imgPath_cat',$data['imgPath'],   true);
+        $dataClean  =   $Catalog->setItemData($data,0);
+        /** @noinspection PhpParamsInspection */
+        $template->assign('cat',     $dataClean,  true);
 	}
     /**
      * Assign subcategory's data to smarty
@@ -135,15 +134,12 @@ class frontend_controller_catalog extends frontend_db_catalog
                                 );
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
-        /** @noinspection PhpParamsInspection */
+        $Catalog  = new frontend_model_catalog();
 
-        $template->assign('id_subcat',      $data['idcls'],  true);
-        $template->assign('name_subcat',    $data['slibelle'],  true);
-        $template->assign('content_subcat', $data['s_content'], true);
-        $template->assign('imgPath_subcat', $data['imgPath'],   true);
-        $template->assign('name_cat',       $data['clibelle'],  true);
-        $template->assign('id_cat',         $data['idclc'],  true);
-        $template->assign('url_cat',        $data['url']['cat'],true);
+        $dataClean  =   $Catalog->setItemData($data,0);
+        /** @noinspection PhpParamsInspection */
+        $template->assign('subcat',     $dataClean,  true);
+        $this->load_category_data();
 	}
     /**
      * Assign product's data to smarty
@@ -170,16 +166,17 @@ class frontend_controller_catalog extends frontend_db_catalog
                                         $data['idproduct'],
                                         true
                                     );
-        $data['url']['cat']     =   $rewrite->filter_catalog_category_url(
-                                        $data['iso'],
-                                        $data['pathclibelle'],
-                                        $data['idclc'],
-                                        true
-                                    );
+
         // *** Assign data to Smarty var
         $template = new frontend_model_template();
-        /** @noinspection PhpParamsInspection */
+        $Catalog  = new frontend_model_catalog();
 
+        $dataClean  =   $Catalog->setItemData($data,0);
+        /** @noinspection PhpParamsInspection */
+        $template->assign('product',     $dataClean,  true);
+
+
+/*
         // ** Assign Product Data
         $template->assign('id_catalog',     $data['idcatalog'],     true);
         $template->assign('id_product',     $data['id_product'],    true);
@@ -189,26 +186,9 @@ class frontend_controller_catalog extends frontend_db_catalog
         $template->assign('content_product',$data['desccatalog'],   true);
         $template->assign('date_product',   $data['date_catalog'],  true);
         $template->assign('url_product',    $data['url']['product'],true);
-
-        // ** Assign parent cat data
-        $template->assign('name_cat',       $data['clibelle'],      true);
-        $template->assign('url_cat',        $data['url']['cat'],    true);
-
-        // ** Assign parent subcat data
-        if ($data['idcls'] != 0) {
-            $data['url']['subcat']  =   $rewrite->filter_catalog_subcategory_url(
-                $data['iso'],
-                $data['pathclibelle'],
-                $data['idclc'],
-                $data['pathslibelle'],
-                $data['idcls'],
-                true
-            );
-            /** @noinspection PhpParamsInspection */
-
-            $template->assign('name_subcat', $data['slibelle'],     true);
-            $template->assign('url_subcat',  $data['url']['subcat'],true);
-        }
+*/
+        $this->load_category_data();
+        $this->load_subcategory_data();
     }
 	/**
 	 * Control, loading and display
@@ -218,20 +198,20 @@ class frontend_controller_catalog extends frontend_db_catalog
     {
         $template = new frontend_model_template;
         if (isset($this->idproduct)) {
-                // *** Display product
             $this->load_product_data();
             $template->display('catalog/product.phtml');
+
         } elseif (isset($this->idcls)) {
-                // *** Display subcategory
             $this->load_subcategory_data();
             $template->display('catalog/subcategory.phtml');
+
         } elseif (isset($this->idclc)) {
-                // *** Display category
             $this->load_category_data();
             $template->display('catalog/category.phtml');
+
         } else {
-                // *** Display root
             $template->display('catalog/index.phtml');
+
         }
 	}
 }

@@ -62,7 +62,7 @@ function smarty_function_widget_share_display($params, $template){
         // ** Catch module's page name
         $smarty = frontend_model_smarty::getInstance();
 
-        // ** identify active module
+        // ** find active module
         $script['fileName'] = substr($_SERVER['SCRIPT_NAME'],1);
         $script['chartBeforeExt'] = strpos($script['fileName'], '.');
         $active_mod = substr($script['fileName'], 0, $script['chartBeforeExt']);
@@ -71,14 +71,17 @@ function smarty_function_widget_share_display($params, $template){
         $name = null;
         switch($active_mod){
             case 'index':
-                $name = $smarty->getTemplateVars('title'); // Catch meta Title content
+                $name = $smarty->getTemplateVars('title');
             case 'catalog':
                 if(isset($_GET['idproduct'])){
-                    $name = $smarty->getTemplateVars('name_product'); // Catch meta Title content
+                    $productData = $smarty->getTemplateVars('product');
+                    $name = $productData['name'];
                 }elseif(isset($_GET['idcls'])){
-                    $name = $smarty->getTemplateVars('name_subcat'); // Catch meta Title content
+                    $subcatData = $smarty->getTemplateVars('subcat');
+                    $name = $subcatData['name'];
                 }elseif(isset($_GET['idclc'])){
-                    $name = $smarty->getTemplateVars('name_cat'); // Catch meta Title content
+                    $catData = $smarty->getTemplateVars('cat');
+                    $name = $catData['name'];
                 }else{
                     $name = $smarty->getConfigVars('catalog_root_h1');
                 }

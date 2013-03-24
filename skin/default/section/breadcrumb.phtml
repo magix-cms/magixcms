@@ -33,22 +33,22 @@
             {if $smarty.get.idcls OR $smarty.get.idproduct}
                 {* ## Catégories *}
                 <li>
-                    <a href="{geturl}/{$url_cat}/" title="{#show_category#|firststring}}: {$name_cat}">
-                        {$name_cat}
+                    <a href="{geturl}/{$cat.url}/" title="{#show_category#|firststring}}: {$cat.name}">
+                        {$cat.name}
                     </a>
                     <span class="divider">/</span>
                 </li>
                 {if $smarty.get.idcls AND $smarty.get.idproduct}
                     {* ## Sous-catégories *}
                     <li>
-                        <a href="{geturl}/{$url_subcat}/" title="{#show_subcategory#|firststring}}: {$name_subcat}">
-                            {$name_subcat}
+                        <a href="{geturl}/{$subcat.url}/" title="{#show_subcategory#|firststring}}: {$subcat.name}">
+                            {$subcat.name}
                         </a>
                         <span class="divider">/</span>
                     </li>
                 {elseif $smarty.get.idcls}
                     <li>
-                        {$name_subcat}
+                        {$subcat.name}
                     </li>
                     {* /sous-catégories *}
                 {/if}
@@ -60,7 +60,7 @@
                 {/if}
             {else}
                 <li>
-                    {$name_cat}
+                    {$cat.name}
                 </li>
                 {* /Catégories *}
             {/if}

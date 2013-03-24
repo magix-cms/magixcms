@@ -83,7 +83,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                             )
                         );
                 }
-                $data['uri']       =
+                $data['url']       =
                     $ModelRewrite->filter_catalog_product_url(
                         $row['iso'],
                         $row['pathclibelle'],
@@ -98,8 +98,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['name']      = $row['titlecatalog'];
                 $data['current']   = ($row['idproduct'] == $current['product']['id']) ? 'true' : 'false';
                 $data['price']     = $row['price'];
-                $data['descr']     = $row['desccatalog'];
-
+                $data['content']     = $row['desccatalog'];
             } elseif (isset($row['slibelle'])) {
                 // *** Subcategory
                 if ($row['idcls'] == $current['subcategory']['id']){
@@ -125,7 +124,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                             )
                         );
                 }
-                $data['uri']       =
+                $data['url']       =
                     $ModelRewrite->filter_catalog_subcategory_url(
                         $row['iso'],
                         $row['pathclibelle'],
@@ -136,7 +135,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                     );
                 $data['id']        = $row['idcls'];
                 $data['name']      = $row['slibelle'];
-                $data['descr']     = ($row['s_content'] != '') ? $row['s_content'] : null;
+                $data['content']     = ($row['s_content'] != '') ? $row['s_content'] : null;
 
             } elseif(isset($row['clibelle'])) {
                 // *** Category
@@ -166,7 +165,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                         )
                     );
                 }
-                $data['uri']       =
+                $data['url']       =
                     $ModelRewrite->filter_catalog_category_url(
                         $row['iso'],
                         $row['pathclibelle'],
@@ -175,7 +174,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                     );
                 $data['id']        =    $row['idclc'];
                 $data['name']      =    $row['clibelle'];
-                $data['descr']     =    ($row['c_content'] != '') ? $row['c_content'] : null;
+                $data['content']     =    ($row['c_content'] != '') ? $row['c_content'] : null;
 
             } elseif(isset($row['idmicro'])) {
                 $data['id']        = $row['idmicro'];
@@ -419,16 +418,22 @@ class frontend_model_catalog extends frontend_db_catalog {
 
             } elseif ( (isset($current['category']['id']) OR isset($current['subcategory']['id'])) AND empty($custom['select'])) {
                 // Product[in_category OR in_subcategory]
+                if (isset($current['category']['id'])) {
+                    $catId  =   $current['category']['id'];
+                    $subcatId  =   (isset($current['subcategory']['id'])) ? $current['subcategory']['id'] : 0;
+                } else {
+                    $catId  =   null;
+                    $subcatId  =   (isset($current['subcategory']['id'])) ? $current['subcategory']['id'] : null;
+                }
                 $data   =   parent::s_product(
-                    $current['category']['id'],
-                    $current['subcategory']['id']
+                    $catId,
+                    $subcatId
                 );
-
             } else {
                 // All products in lang
                 $data   =   parent::s_product(
                     $conf['id'],
-                    null
+                    0
                 );
 
             }

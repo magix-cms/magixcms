@@ -1,6 +1,6 @@
 {include file="section/head.phtml" section="prepend"}
-{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>$name_cat] category=$name_cat}}
-    <title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>$name_cat]  category=$name_cat}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>$cat.name] category=$cat.name}}
+    <title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>$cat.name]  category=$cat.name}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="catalog-cat">
@@ -10,8 +10,8 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-                <h1>{$name_cat}</h1>
-                {$content_cat}
+                <h1>{$cat.name}</h1>
+                {$cat.content}
                 {widget_catalog_display}
                 {widget_catalog_display
                     conf =[

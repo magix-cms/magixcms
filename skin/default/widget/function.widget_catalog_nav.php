@@ -89,7 +89,7 @@ function smarty_function_widget_catalog_nav($params, $template)
                                 $current_item = null;
                             }
                             $items_3 .= '<li'.$current_item.'>';
-                            $items_3 .= '<a href="'.$data_item_3['uri'].'" title="'. $data_item_3['name'].'">';
+                            $items_3 .= '<a href="'.$data_item_3['url'].'" title="'. $data_item_3['name'].'">';
                             $items_3 .= $data_item_3['name'];
                             $items_3 .= '</a>';
                             $items_3 .= '</li>';
@@ -103,7 +103,7 @@ function smarty_function_widget_catalog_nav($params, $template)
                         $current_item = null;
                     }
                     $items_2 .= '<li'.$current_item.'>';
-                    $items_2 .= '<a href="'.$data_item_2['uri'].'" title="'. $data_item_2['name'].'">';
+                    $items_2 .= '<a href="'.$data_item_2['url'].'" title="'. $data_item_2['name'].'">';
                     $items_2 .= $data_item_2['name'];
                     $items_2 .= '</a>';
                     $items_2 .=  ($items_3 != null) ? '<ul class="subnav-list">'.$items_3.'</ul>' : '';
@@ -118,7 +118,7 @@ function smarty_function_widget_catalog_nav($params, $template)
                 $current_item = null;
             }
             $items .= '<li'.$current_item.'>';
-            $items .= '<a href="'.$data_item['uri'].'" title="'. $data_item['name'].'">';
+            $items .= '<a href="'.$data_item['url'].'" title="'. $data_item['name'].'">';
             $items .= $data_item['name'];
             $items .= '</a>';
             $items .=  ($items_2 != null) ? '<ul class="subnav-list">'.$items_2.'</ul>' : '';
