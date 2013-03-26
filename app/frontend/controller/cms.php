@@ -93,42 +93,22 @@ class frontend_controller_cms extends frontend_db_cms
      */
 	private function load_page_data()
     {
-        // *** Load Sql data
-		$data = parent::s_page_data($this->getidpage);
-        // ** Set url
-        $data['url']['page'] = magixglobal_model_rewrite::filter_cms_url(
-            $data['iso'],
-            $data['idpage_p'],
-            $data['uri_page_p'],
-            $data['idpage'],
-            $data['uri_page'],
-            true
-        );
-        // *** Assign data to Smarty var
+        $ModelCms    =   new frontend_model_cms();
         $template = new frontend_model_template();
-        /** @noinspection PhpParamsInspection */
 
-        $template->assign('name_page',          $data['title_page'],    true);
-        $template->assign('content_page',       $data['content_page'],  true);
-        $template->assign('url_page',           $data['url']['page'],   true);
-        $template->assign('dateUpdate_page',    $data['last_update'],   true);
-        $template->assign('dateRegister_page',  $data['date_register'], true);
-        $template->assign('seoTitle_page',      $data['seo_title_page'],true);
-        $template->assign('seoDescr_page',      $data['seo_desc_page'], true);
+		$data = parent::s_page_data($this->getidpage);
+        $dataClean  =   $ModelCms->setItemData($data,0);
+        $dataClean['seoTitle']  =   $data['seo_title_page'];
+        $dataClean['seoDescr']  =   $data['seo_desc_page'];
+
+        $template->assign('page',   $dataClean, true);
 
         // ** Assign parent page data
         if ($data['idpage_p'] != null){
-            $data['url']['page_p'] = magixglobal_model_rewrite::filter_cms_url(
-                $data['iso'],
-                null,
-                null,
-                $data['idpage_p'],
-                $data['uri_page_p'],
-                true
-            );
+            $parent = parent::s_page_data($data['idpage_p']);
+            $parentClean  =   $ModelCms->setItemData($parent,0);
             /** @noinspection PhpParamsInspection */
-            $template->assign('name_page_p',$data['title_page_p'],true);
-            $template->assign('url_page_p',$data['url']['page_p'],true);
+            $template->assign('parent',$parentClean);
         }
     }
     /**

@@ -3,8 +3,8 @@
     {if $smarty.server.SCRIPT_NAME == '/cms.php' OR $smarty.server.SCRIPT_NAME == '/index.php'}
         {* ## Navigation *}
         {widget_cms_nav
-            hierarchy=[
-                'select' => 'all',
+            conf = [
+                'context' => 'all',
                 'level' => 'all'
             ]
             htmlAttribut=[
@@ -19,7 +19,7 @@
         {* ## Navigation *}
         {widget_catalog_nav
             conf = [
-                'level' => ['category' => 'subcategory']
+                'context' => ['category' => 'subcategory']
             ]
             htmlAttribut=[
                 'id_container' => 'secondary-nav',
@@ -31,7 +31,7 @@
         {* ## Dernier produit *}
         {widget_catalog_display
             conf = [
-                'level' => 'last-product',
+                'context' => 'last-product',
                 'limit' => 2
             ]
             pattern = 'sidebar'

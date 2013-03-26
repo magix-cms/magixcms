@@ -50,11 +50,13 @@ class frontend_model_cms extends frontend_db_cms
     public function setItemData($row,$current)
     {
         $ModelRewrite   =   new magixglobal_model_rewrite();
+
         $data = null;
-        if ($row != null){
+
+        if ($row != null) {
             $data['id']     =   $row['idpage'];
             $data['name']   =   $row['title_page'];
-            $data['uri']    =
+            $data['url']    =
                 ($row['idcat_p'] != 0)
                 ? $ModelRewrite->filter_cms_url(
                     $row['iso'],
@@ -72,12 +74,13 @@ class frontend_model_cms extends frontend_db_cms
                     $row['uri_page'],
                     true
                 );
+            $data['current']   = false;
             if ($row['idpage'] == $current['record']['id'] OR $row['idpage'] == $current['parent']['id']) {
-                $data['current']   = 'true';
-            }else {
-                $data['current']   = 'false';
+                $data['current']   = true;
             }
-            $data['descr']     = $row['content_page'];
+            $data['content']     = $row['content_page'];
+            $data['date']['update']     = $row['last_update'];
+            $data['date']['register']   = $row['date_register'];
             return $data;
         }
     }
@@ -103,7 +106,7 @@ class frontend_model_cms extends frontend_db_cms
             'type'      =>  null,
             'limit'     =>  null,
             'lang'      =>  $current['lang']['iso'],
-            'level'     =>  array(1 => 'parent')
+            'context'     =>  array(1 => 'parent')
         );
         $current    =   $current['cms'];
 
@@ -126,12 +129,12 @@ class frontend_model_cms extends frontend_db_cms
         }
 
         // custom values: display
-        if (isset($custom['level'])) {
-            if (is_array($custom['level'])) {
-                foreach ($custom['level'] as $k => $v)
+        if (isset($custom['context'])) {
+            if (is_array($custom['context'])) {
+                foreach ($custom['context'] as $k => $v)
                 {
-                    $conf['level'][1] = $k;
-                        $conf['level'][2] = $v;
+                    $conf['context'][1] = $k;
+                        $conf['context'][2] = $v;
                 }
             } else {
                 $allowed = array(
@@ -140,16 +143,16 @@ class frontend_model_cms extends frontend_db_cms
                     'parent',
                     'child'
                 );
-                if (array_search($custom['level'],$allowed)) {
-                    $conf['level'][1]   =   $custom['level'];
+                if (array_search($custom['context'],$allowed)) {
+                    $conf['context'][1]   =   $custom['context'];
                 }
             }
         }
 
         // *** Load SQL data
-        if ($conf['level'][1] == 'parent' OR $conf['level'][1] == 'all') {
+        if ($conf['context'][1] == 'parent' OR $conf['context'][1] == 'all') {
             $data = parent::s_page($conf['lang'],$conf['id'],$conf['type'],$conf['limit']);
-            if($data != null AND ($conf['level'][2] == 'child' OR $conf['level'][1] == 'all'))
+            if($data != null AND ($conf['context'][2] == 'child' OR $conf['context'][1] == 'all'))
             {
                 foreach ($data as $k1 => $v1)
                 {
@@ -163,7 +166,7 @@ class frontend_model_cms extends frontend_db_cms
                  }
                 $data_2 = null;
             }
-        } elseif ($conf['level'][1] == 'child') {
+        } elseif ($conf['context'][1] == 'child') {
             $data = parent::s_page_child(
                 $conf['lang'],
                 $conf['id'],

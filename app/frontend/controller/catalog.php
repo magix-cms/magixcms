@@ -83,26 +83,12 @@ class frontend_controller_catalog extends frontend_db_catalog
      */
 	private function load_category_data()
     {
-        // *** Load Sql data
-		$data = parent::s_category_data($this->idclc);
-            // ** Set image path
-        $data['imgPath'] = null;
-        if ($data['img_c'] != null) {
-            $modelImagePath = new magixglobal_model_imagepath();
-            $data['imgPath'] =  $modelImagePath->filterPathImg(
-                                    array(
-                                        'filtermod' =>  'catalog',
-                                        'img'       =>  $data['img_c'],
-                                        'levelmod'  =>  'category'
-                                    )
-                                );
-        }
-        // *** Assign data to Smarty var
         $template = new frontend_model_template();
         $Catalog  = new frontend_model_catalog();
 
+		$data = parent::s_category_data($this->idclc);
         $dataClean  =   $Catalog->setItemData($data,0);
-        /** @noinspection PhpParamsInspection */
+
         $template->assign('cat',     $dataClean,  true);
 	}
     /**
@@ -111,33 +97,13 @@ class frontend_controller_catalog extends frontend_db_catalog
      */
 	private function load_subcategory_data()
     {
-        // *** Load Sql data
-		$data = parent::s_subcategory_data($this->idcls);
-            // ** Set image path
-        $data['imgPath'] = null;
-        if ($data['img_s'] != null) {
-            $modelImagePath = new magixglobal_model_imagepath();
-            $data['imgPath'] =  $modelImagePath->filterPathImg(
-                                    array(
-                                        'filtermod' =>  'catalog',
-                                        'img'       =>  $data['img_s'],
-                                        'levelmod'  =>  'subcategory'
-                                    )
-                                );
-        }
-            // ** Set url
-        $data['url']['cat'] =   magixglobal_model_rewrite::filter_catalog_category_url(
-                                    $data['iso'],
-                                    $data['pathclibelle'],
-                                    $data['idclc'],
-                                    true
-                                );
-        // *** Assign data to Smarty var
+
         $template = new frontend_model_template();
         $Catalog  = new frontend_model_catalog();
 
+		$data = parent::s_subcategory_data($this->idcls);
         $dataClean  =   $Catalog->setItemData($data,0);
-        /** @noinspection PhpParamsInspection */
+
         $template->assign('subcat',     $dataClean,  true);
         $this->load_category_data();
 	}
@@ -147,46 +113,13 @@ class frontend_controller_catalog extends frontend_db_catalog
      */
     private function load_product_data()
     {
-        // *** Load Sql data
-        $data = parent::s_product_data($this->idproduct);
-        // ** Set image path
-        $data['imgPath'] = null;
-        if ($data['imgcatalog'] != null) {
-            $data['imgPath'] = '/upload/catalogimg/medium/'.$data['imgcatalog'];
-        }
-        // ** Set url
-        $rewrite    = new magixglobal_model_rewrite();
-        $data['url']['product'] =   $rewrite->filter_catalog_product_url(
-                                        $data['iso'],
-                                        $data['pathclibelle'],
-                                        $data['idclc'],
-                                        $data['pathslibelle'],
-                                        $data['idcls'],
-                                        $data['urlcatalog'],
-                                        $data['idproduct'],
-                                        true
-                                    );
-
-        // *** Assign data to Smarty var
         $template = new frontend_model_template();
         $Catalog  = new frontend_model_catalog();
 
-        $dataClean  =   $Catalog->setItemData($data,0);
-        /** @noinspection PhpParamsInspection */
+        $data = parent::s_product_data($this->idproduct);
+        $dataClean  =   $Catalog->setItemData($data,true);
+
         $template->assign('product',     $dataClean,  true);
-
-
-/*
-        // ** Assign Product Data
-        $template->assign('id_catalog',     $data['idcatalog'],     true);
-        $template->assign('id_product',     $data['id_product'],    true);
-        $template->assign('name_product',   $data['titlecatalog'],  true);
-        $template->assign('price_product',  $data['price'],         true);
-        $template->assign('imgPath_product',$data['imgPath'],       true);
-        $template->assign('content_product',$data['desccatalog'],   true);
-        $template->assign('date_product',   $data['date_catalog'],  true);
-        $template->assign('url_product',    $data['url']['product'],true);
-*/
         $this->load_category_data();
         $this->load_subcategory_data();
     }

@@ -58,7 +58,7 @@ function smarty_function_widget_catalog_nav($params, $template)
 
     // Set and load data
     $current    =   $ModelSystem->setCurrentId();
-    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array('level' => 'all');
+    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array('context' => 'all');
     $data       =   $ModelCatalog->getData($conf,$current);
     $current    =   $current['catalog'];
 
@@ -83,8 +83,9 @@ function smarty_function_widget_catalog_nav($params, $template)
                         foreach($row_2['subdata'] as $row_3){
                             /** HTML FORMAT (LEVEL 3)**/
                             $data_item_3    = $ModelCatalog->setItemData($row_3,$current);
-                            if ($data_item_3['current'] != 'false') {
+                            if ( $data_item_3['current'] === true) {
                                 $current_item = ' class="'.$class_current.'"';
+
                             }else {
                                 $current_item = null;
                             }
@@ -97,7 +98,7 @@ function smarty_function_widget_catalog_nav($params, $template)
                     }
                     /** HTML FORMAT (LEVEL 2)**/
                     $data_item_2    = $ModelCatalog->setItemData($row_2,$current);
-                    if ($data_item_2['current'] != 'false') {
+                    if ($data_item_2['current'] === true) {
                         $current_item = ' class="'.$class_current.'"';
                     }else {
                         $current_item = null;
@@ -112,7 +113,7 @@ function smarty_function_widget_catalog_nav($params, $template)
             }
             /** HTML FORMAT (LEVEL 1)**/
             $data_item = $ModelCatalog->setItemData($row_1,$current);
-            if ($data_item['current'] != 'false') {
+            if ($data_item['current'] === true) {
                 $current_item = ' class="'.$class_current.'"';
             }else {
                 $current_item = null;

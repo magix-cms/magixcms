@@ -10,14 +10,14 @@
     {if $smarty.server.SCRIPT_NAME == '/cms.php'}
         {if $smarty.get.getidpage_p}
             <li>
-                <a href="{geturl}/{$url_page_p}" title="{#show_page#|firststring}: {$name_page_p}">
-                    {$name_page_p}
+                <a href="{geturl}/{$parent.url}" title="{#show_page#|firststring}: {$parent.name}">
+                    {$parent.name}
                 </a>
                 <span class="divider">/</span>
             </li>
         {/if}
         <li>
-            {$name_page}
+            {$page.name}
         </li>
     {/if}
         {* # Catalogue *}

@@ -46,7 +46,6 @@
  * @param       Smarty
  * @return      string
  */
-
 function smarty_function_widget_catalog_display($params, $template)
 {
     $ModelSystem        =   new magixglobal_model_system();
@@ -141,6 +140,7 @@ function smarty_function_widget_catalog_display($params, $template)
                 // Récupération de la taille de l'image
                 if (isset($pattern['global']['img']['size_'.$deep]))
                     $row[$deep]['img_size']     =   $pattern['global']['img']['size_'.$deep];
+
                 elseif (isset($pattern['global']['img']['size']))
                     $row[$deep]['img_size']     =   $pattern['global']['img']['size'];
 
@@ -148,7 +148,7 @@ function smarty_function_widget_catalog_display($params, $template)
                 $item_dataVal       =       $ModelCatalog->setItemData($row[$deep],$current['catalog']);
 
                 // Configuration de la structure HTML de l'item
-                $pattern['global']['is_current']    =   ($item_dataVal['current'] == 'true' OR $item_dataVal['current'] == 'parent') ? 1 : 0;
+                $pattern['global']['is_current']    =   $item_dataVal['current'];
                 $pattern['global']['id']            =   (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
                 $pattern['global']['url']           =   (isset($item_dataVal['url'])) ? $item_dataVal['url'] : '#';
                 $pattern['item']                    =   $ModelConstructor->setItemPattern($pattern['global'],$i[$deep],$deep);
@@ -288,7 +288,7 @@ function patternCatalog ($name=null)
                     'after'     => '</ul>'
                 ),
                 'item'          =>  array(
-                    'before'    => '<li class="span4"><div class="thumbnail">',
+                    'before'    => '<li class="span4 #current-last#"><div class="thumbnail">',
                     // item's elements injected here (name, img, descr)
                     'after'     => '</div></div></li>'
                 ),
@@ -312,7 +312,7 @@ function patternCatalog ($name=null)
                     'after' => '</a>'
                 ),
                 'current'     =>  array(
-                    'class'         =>  ' current'
+                    'class'         =>  ' active'
                 ),
                 'last'        =>  array(
                     'class'         => ' last',

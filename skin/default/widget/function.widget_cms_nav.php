@@ -81,13 +81,13 @@ function smarty_function_widget_cms_nav($params, $template)
                 foreach($row_1['subdata'] as $row_2){
                     /** HTML FORMAT (LEVEL 2)**/
                     $data_item_2    = $ModelCms->setItemData($row_2,$current);
-                    if ($data_item_2['current'] != 'false') {
+                    if ($data_item_2['current'] === true) {
                         $current_item = ' class="'.$class_current.'"';
                     }else {
                         $current_item = null;
                     }
                     $items_2 .= '<li'.$current_item.'>';
-                    $items_2 .= '<a href="'.$data_item_2['uri'].'" title="'. $data_item_2['name'].'">';
+                    $items_2 .= '<a href="'.$data_item_2['url'].'" title="'. $data_item_2['name'].'">';
                     $items_2 .= $data_item_2['name'];
                     $items_2 .= '</a>';
                     $items_2 .= '</li>';
@@ -95,13 +95,13 @@ function smarty_function_widget_cms_nav($params, $template)
             }
             /** HTML FORMAT (LEVEL 1)**/
             $data_item = $ModelCms->setItemData($row_1,$current);
-            if ($data_item['current'] != 'false') {
+            if ($data_item['current'] === true) {
                 $current_item = ' class="'.$class_current.'"';
             }else {
                 $current_item = null;
             }
             $items .= '<li'.$current_item.'>';
-            $items .= '<a href="'.$data_item['uri'].'" title="'. $data_item['name'].'">';
+            $items .= '<a href="'.$data_item['url'].'" title="'. $data_item['name'].'">';
             $items .= $data_item['name'];
             $items .= '</a>';
             $items .=  ($items_2 != null) ? '<ul class="subnav-list">'.$items_2.'</ul>' : '';

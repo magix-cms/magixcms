@@ -144,10 +144,14 @@ function smarty_function_widget_cms_display($params, $template)
                 $item_dataVal  = $ModelCms->setItemData($row[$deep],$current);
 
                 // Configuration de la structure HTML de l'item
-                $pattern['global']['is_current'] = ($item_dataVal['current'] == 'true') ? 1 : 0;
-                $pattern['global']['id'] = (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
-                $pattern['global']['url'] = (isset($item_dataVal['uri'])) ? $item_dataVal['uri'] : '#';
-                $pattern['item'] = $ModelConstructor->setItemPattern($pattern['global'],$i[$deep],$deep);
+                $pattern['global']['is_current']    =   ($item_dataVal['current'] === true) ? 1 : 0;
+                $pattern['global']['id']            =   (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
+                $pattern['global']['url']           =   (isset($item_dataVal['url'])) ? $item_dataVal['url'] : '#';
+                $pattern['item']    = $ModelConstructor->setItemPattern(
+                    $pattern['global'],
+                    $i[$deep],
+                    $deep
+                );
 
                 // remise à zero du compteur si élément est le dernier de la ligne
                 if ($pattern['item']['is_last'] == 1){
@@ -182,12 +186,12 @@ function smarty_function_widget_cms_display($params, $template)
                         // Format element on switch
                         switch($elem_type){
                             case 'name':
-                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['uri'].'" title="'.$item_dataVal['name'].'">' : '';
+                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['url'].'" title="'.$item_dataVal['name'].'">' : '';
                                 $elem .= $item_dataVal['name'];
                                 $elem .= ($item_classLink != 'none') ? '</a>'  : '';
                                 break;
                             case 'descr':
-                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['descr']), $pattern['item']['descr']['lenght'] , $pattern['item']['descr']['delemiter']);
+                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['content']), $pattern['item']['descr']['lenght'] , $pattern['item']['descr']['delemiter']);
                                 break;
                             default:
                                 $elem = null;
