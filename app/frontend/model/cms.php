@@ -74,9 +74,9 @@ class frontend_model_cms extends frontend_db_cms
                     $row['uri_page'],
                     true
                 );
-            $data['current']   = false;
+            $data['active']   = false;
             if ($row['idpage'] == $current['record']['id'] OR $row['idpage'] == $current['parent']['id']) {
-                $data['current']   = true;
+                $data['active']   = true;
             }
             $data['content']     = $row['content_page'];
             $data['date']['update']     = $row['last_update'];

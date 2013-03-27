@@ -144,7 +144,7 @@ function smarty_function_widget_cms_display($params, $template)
                 $item_dataVal  = $ModelCms->setItemData($row[$deep],$current);
 
                 // Configuration de la structure HTML de l'item
-                $pattern['global']['is_current']    =   ($item_dataVal['current'] === true) ? 1 : 0;
+                $pattern['global']['is_current']    =   ($item_dataVal['active'] === true) ? 1 : 0;
                 $pattern['global']['id']            =   (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
                 $pattern['global']['url']           =   (isset($item_dataVal['url'])) ? $item_dataVal['url'] : '#';
                 $pattern['item']    = $ModelConstructor->setItemPattern(
@@ -259,7 +259,7 @@ function patternCms ($name=null)
                     'delemiter'     => '...',
                     'after'     => '</p>'
                 ),
-                'current'     =>  array(
+                'active'     =>  array(
                     'class'         =>  ' current'
                 ),
                 'last'        =>  array(

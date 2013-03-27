@@ -86,12 +86,12 @@
             </li>
             {if $smarty.get.uri_get_news}
                 <li>
-                    {$name_news}
+                    {$news.name}
                 </li>
             {/if}
             {if $smarty.get.tag}
                 <li>
-                   {#theme#|firststring}: {$name_tag}
+                   {#theme#|firststring}: {$tag.name}
                 </li>
             {/if}
     {/if}

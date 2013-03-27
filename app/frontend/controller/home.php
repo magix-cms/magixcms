@@ -68,17 +68,17 @@ class frontend_controller_home extends frontend_db_home
      */
 	private function load_home_data()
     {
-        // *** Load Sql data
-    	$data = parent::s_data_home($this->getlang);
-
-        // *** Assign data to Smarty var
         $template = new frontend_model_template();
-        /** @noinspection PhpParamsInspection */
 
-        $template->assign('name_home',      $data['subject'],       true);
-        $template->assign('content_home',   $data['content'],       true);
-        $template->assign('seoTitle_home',  $data['metatitle'],     true);
-        $template->assign('seoDescr_home',  $data['metadescription'],true);
+    	$data = parent::s_data_home($this->getlang);
+        $dataClean  =   array(
+            'name'      =>  $data['subject'],
+            'content'   =>  $data['content'],
+            'seoTitle'  =>  $data['metatitle'],
+            'seoDescr'  =>  $data['metadescription']
+        );
+
+        $template->assign('home',$dataClean);
 	}
     /**
      * Control, loading and display

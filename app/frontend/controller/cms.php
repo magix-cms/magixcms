@@ -49,42 +49,31 @@
 class frontend_controller_cms extends frontend_db_cms
 {
     /**
-     * getidpage_p catch on GET
+     * idParent catch on GET
      * @var integer
      */
-	public $getidpage_p;
+	public $idParent;
     /**
-     * geturi_page_p catch on GET
+     * idPage catch on GET
      * @var integer
      */
-	public $geturi_page_p;
-    /**
-     * getidpage catch on GET
-     * @var integer
-     */
-	public $getidpage;
-    /**
-     * geturi_page catch on GET
-     * @var integer
-     */
-	public $geturi_page;
+	public $idPage;
 	/**
 	 * function construct
 	 *
 	 */
 	function __construct()
     {
-		if (magixcjquery_filter_request::isGet('getidpage_p')) {
-			$this->getidpage_p = magixcjquery_filter_isVar::isPostAlphaNumeric($_GET['getidpage_p']);
+        $FilterRequest  =   new magixcjquery_filter_request;
+        $FilterVar      =   new magixcjquery_filter_isVar;
+
+		if ($FilterRequest->isGet('getidpage_p')) {
+			$this->idParent = $FilterVar->isPostAlphaNumeric($_GET['getidpage_p']);
+
 		}
-		if (magixcjquery_filter_request::isGet('geturi_page')) {
-			$this->geturi_page = magixcjquery_filter_isVar::isPostAlphaNumeric($_GET['geturi_page']);
-		}
-		if (magixcjquery_filter_request::isGet('getidpage_p')) {
-			$this->getidpage_p = magixcjquery_filter_isVar::isPostNumeric($_GET['getidpage_p']);
-		}
-		if (magixcjquery_filter_request::isGet('getidpage')) {
-			$this->getidpage = magixcjquery_filter_isVar::isPostNumeric($_GET['getidpage']);
+		if ($FilterRequest->isGet('getidpage')) {
+			$this->idPage = $FilterVar->isPostNumeric($_GET['getidpage']);
+
 		}
 	}
     /**
@@ -96,7 +85,7 @@ class frontend_controller_cms extends frontend_db_cms
         $ModelCms    =   new frontend_model_cms();
         $template = new frontend_model_template();
 
-		$data = parent::s_page_data($this->getidpage);
+		$data = parent::s_page_data($this->idPage);
         $dataClean  =   $ModelCms->setItemData($data,0);
         $dataClean['seoTitle']  =   $data['seo_title_page'];
         $dataClean['seoDescr']  =   $data['seo_desc_page'];
@@ -104,10 +93,9 @@ class frontend_controller_cms extends frontend_db_cms
         $template->assign('page',   $dataClean, true);
 
         // ** Assign parent page data
-        if ($data['idpage_p'] != null){
-            $parent = parent::s_page_data($data['idpage_p']);
+        if (isset($this->idParent)) {
+            $parent = parent::s_page_data($this->idParent);
             $parentClean  =   $ModelCms->setItemData($parent,0);
-            /** @noinspection PhpParamsInspection */
             $template->assign('parent',$parentClean);
         }
     }
@@ -117,7 +105,7 @@ class frontend_controller_cms extends frontend_db_cms
      */
 	public function run()
     {
-		if(isset($this->getidpage)){
+		if(isset($this->idPage)){
 			$this->load_page_data();
 			frontend_model_template::display('cms/index.phtml');
 		}

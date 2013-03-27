@@ -10,11 +10,10 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-            <h1>{$name_tag}</h1>
+            <h1>{$tag.name|ucfirst}</h1>
                 {widget_news_display}
             </div>
         </div>
-        <div class="clear">&nbsp;</div>
     </div>
 {include file="section/footer.phtml"}
 </div>

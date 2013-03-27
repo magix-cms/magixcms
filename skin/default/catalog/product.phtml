@@ -11,9 +11,11 @@
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
                 <h1>{$product.name}</h1>
-                <div id="product-info" class="span3 well pull-right">
-                    {if $product.img_src != null}
-                        <img src="{$product.img_src}" alt="{$product.name}" />
+                <div id="product-info" class="span3 pull-right img-polaroid">
+                    {if $product.imgSrc.medium}
+                        <a href="{$product.imgSrc.large}" class="img-zoom" title="{#zoom_in#|ucfirst}">
+                            <img src="{$product.imgSrc.medium}" alt="{$product.name}" />
+                        </a>
                     {else}
                         <img src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
                     {/if}
@@ -42,7 +44,6 @@
                 }
             </div>
         </div>
-        <div class="clear">&nbsp;</div>
     </div>
 {include file="section/footer.phtml"}
 </div>

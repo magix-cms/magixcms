@@ -80,7 +80,7 @@ function smarty_function_widget_news_display($params, $template)
         unset($data['total']);
         unset($data['limit']);
     }
-
+    $current = $current['news'];
     // Format data
     $html = null;
     if ($data != null) {
@@ -100,12 +100,12 @@ function smarty_function_widget_news_display($params, $template)
         foreach ($data as $row)
         {
             $i++;
-            $item['data']   =   $ModelNews->setItemData($row,$current);
+            $itemData   =   $ModelNews->setItemData($row,$current);
 
                 // *** set item html structure & var
-                $pattern['global']['is_current']    =   ($item['data']['current'] == 'true') ? 1 : 0;
-                $pattern['global']['id']            =   (isset($item['data']['id'])) ? $item['data']['id'] : 0;
-                $pattern['global']['url']           =   (isset($item['data']['uri'])) ? $item['data']['uri'] : '#';
+                $pattern['global']['is_active']    =   ($itemData['active'] === true) ? 1 : 0;
+                $pattern['global']['id']            =   (isset($itemData['id'])) ? $itemData['id'] : 0;
+                $pattern['global']['url']           =   (isset($itemData['uri'])) ? $itemData['uri'] : '#';
                 $pattern['item']                    =   $ModelConstructor->setItemPattern($pattern['global'],$i);
 
                 // *** Reset iteration if item is last of the line
@@ -117,35 +117,40 @@ function smarty_function_widget_news_display($params, $template)
                 if ($pattern['item']['display'][1] == null)
                     $pattern['item']['display'][1] = $pattern['default']['display'][1];
 
+                if (isset($itemData['imgSrc'])) {
+                    $size = (isset($pattern['item']['img']['size'])) ? $pattern['item']['img']['size'] : 'small';
+                    $itemData['imgSrc'] =   $itemData['imgSrc'][$size];
+                }
+
 
                 // *** format item loop (foreach element)
-                $item['html'] = null;
+                $itemHtml = null;
                 foreach ($pattern['item']['display'][1] as $elem_type )
                 {
                     $pattern['elem'] = $pattern['item'][$elem_type ];
                     if(array_search($elem_type,$pattern['item']['display'][1])){
                         switch($elem_type){
                             case 'name':
-                                $elem = $item['data']['name'];
+                                $elem = $itemData['name'];
                                 break;
                             case 'img':
-                                $elem = '<img src="'.$item['data']['img_src'].'" alt="'.$item['data']['name'].'"/>';
+                                $elem = '<img src="'.$itemData['imgSrc'].'" alt="'.$itemData['name'].'"/>';
                                 break;
                             case 'descr':
                                 $elem =
                                     magixcjquery_form_helpersforms::inputCleanTruncate(
                                         magixcjquery_form_helpersforms::inputTagClean(
-                                            $item['data']['descr']
+                                            $itemData['content']
                                         ),
                                         $pattern['item']['descr']['lenght'],
                                         $pattern['item']['descr']['delemiter']
                                     );
                                 break;
                             case 'date':
-                                $elem = $ModelConstructor->formatDateHtml($item['data']['date'],$pattern['item']);
+                                $elem = $ModelConstructor->formatDateHtml($itemData['date']['publish'],$pattern['item']);
                                 break;
                             case 'tag':
-                                $elem = $item['data']['tag'];
+                                $elem = $itemData['tag'];
                                 break;
                             default:
                                 $elem = null;
@@ -155,16 +160,16 @@ function smarty_function_widget_news_display($params, $template)
                             OR isset($pattern['elem']['before'])
                             OR isset($pattern['elem']['after'])
                         ) {
-                            $item['html']   .= $pattern['elem']['before'];
-                            $item['html']   .= $elem;
-                            $item['html']   .= $pattern['elem']['after'];
+                            $itemHtml   .= $pattern['elem']['before'];
+                            $itemHtml   .= $elem;
+                            $itemHtml   .= $pattern['elem']['after'];
                         }
                     }
 
                 }
                 // *** item construct
                 $items['html'] .= $pattern['item']['item']['before'];
-                    $items['html'] .= $item['html'];
+                    $items['html'] .= $itemHtml;
                 $items['html'] .= $pattern['item']['item']['after'];
             }
         // *** container construct
@@ -195,7 +200,7 @@ function patternNews ($name=null)
                     'after'     =>  '</ul>'
                 ),
                 'item'          =>  array(
-                    'before'    => '<li class="span3"><a href="#url#" title="'.$tr['show_news'].'" class="thumbnail">',
+                    'before'    => '<li class="span3 #current-last#"><a href="#url#" title="'.$tr['show_news'].'" class="thumbnail">',
                     // item's elements injected here (name, img, descr, ...)
                     'after'     => '</a></li>'
                 ),
@@ -206,7 +211,7 @@ function patternNews ($name=null)
                     =>  ' '
                 ),
                 'date'          =>  array(
-                    'before'    => '<span class="date badge">',
+                    'before'    => '<span class="date span badge">',
                     'format'        =>  array(
                         'day'   => 'd/',
                         'month'   => 'm/',
@@ -288,8 +293,8 @@ function patternNews ($name=null)
                     // item's elements injected here (name, img, descr)
                     'after'     => '<span>'
                 ),
-                'current'       =>  array(
-                    'class'         =>  ' current'
+                'active'       =>  array(
+                    'class'         =>  ' active'
                 ),
                 'last'          =>  array(
                     'class'         => ' last',

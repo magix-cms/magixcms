@@ -218,7 +218,7 @@ class magixglobal_model_system{
 
         $current['news']['record']['id'] = null;
         if ($FilterRequest->isGet('getnews'))
-            $current['news']['record']['id']    =   $HelperClean->inputNumeric($_GET['getnews']);
+            $current['news']['record']['id']    =   $HelperClean->inputAlphaNumeric($_GET['getnews']);
 
         $current['news']['pagination']['id'] = 1;
         if ($FilterRequest->isGet('page'))

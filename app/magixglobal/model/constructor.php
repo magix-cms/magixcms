@@ -144,8 +144,8 @@ class magixglobal_model_constructor {
                                 if ($htmlPattern['is_last'] == 1) {
                                     $rplc['class']['string'] .= ' '.$htmlPattern['last']['class'.$d];
                                 }
-                                if ($htmlPattern['is_current'] == 1) {
-                                    $rplc['class']['string'] .= ' '.$htmlPattern['current']['class'.$d];
+                                if ($htmlPattern['is_active'] == 1) {
+                                    $rplc['class']['string'] .= ' '.$htmlPattern['active']['class'.$d];
                                 }
 
                                 $rplc['class']['attr']  =   null;
@@ -173,7 +173,7 @@ class magixglobal_model_constructor {
                             }else{
                                 $pattern[$k][$sk] = $htmlPattern[$k][$sk.$d];
                             }
-                        }elseif (($k == 'current' AND $sk == 'class') OR ($k == 'descr' AND ($sk == 'lenght' OR $sk == 'delemiter')) OR ($sk == 'htmlBefore') OR ($sk == 'htmlAfter') ) {
+                        }elseif (($k == 'active' AND $sk == 'class') OR ($k == 'descr' AND ($sk == 'lenght' OR $sk == 'delemiter')) OR ($sk == 'htmlBefore') OR ($sk == 'htmlAfter') ) {
                             // si aucune valeur pour mon niveau mais que je suis des valeurs d'héritage => récupére la valeur de premier niveaux
                             $pattern[$k][$sk] = $sv;
                         }else{

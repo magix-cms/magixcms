@@ -137,21 +137,30 @@ function smarty_function_widget_catalog_display($params, $template)
             if ($row[$deep] != null AND $pass_trough != 1) {
                 $i[$deep]++;
 
-                // Récupération de la taille de l'image
-                if (isset($pattern['global']['img']['size_'.$deep]))
-                    $row[$deep]['img_size']     =   $pattern['global']['img']['size_'.$deep];
-
-                elseif (isset($pattern['global']['img']['size']))
-                    $row[$deep]['img_size']     =   $pattern['global']['img']['size'];
-
                 // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
-                $item_dataVal       =       $ModelCatalog->setItemData($row[$deep],$current['catalog']);
+                $itemData       =       $ModelCatalog->setItemData($row[$deep],$current['catalog']);
 
                 // Configuration de la structure HTML de l'item
-                $pattern['global']['is_current']    =   $item_dataVal['current'];
-                $pattern['global']['id']            =   (isset($item_dataVal['id'])) ? $item_dataVal['id'] : 0;
-                $pattern['global']['url']           =   (isset($item_dataVal['url'])) ? $item_dataVal['url'] : '#';
+                $pattern['global']['is_current']    =   $itemData['active'];
+                $pattern['global']['id']            =   (isset($itemData['id'])) ? $itemData['id'] : 0;
+                $pattern['global']['url']           =   (isset($itemData['url'])) ? $itemData['url'] : '#';
                 $pattern['item']                    =   $ModelConstructor->setItemPattern($pattern['global'],$i[$deep],$deep);
+
+                // Récupération de la taille de l'image
+                if (isset($pattern['global']['img']['size_'.$deep])) {
+                    $row[$deep]['img_size']     =   $pattern['global']['img']['size_'.$deep];
+
+                } elseif (isset($pattern['global']['img']['size'])) {
+                    $row[$deep]['img_size']     =   $pattern['global']['img']['size'];
+
+                } else {
+                    $row[$deep]['img_size']     =   'medium';
+                }
+
+                if (is_array($itemData['imgSrc'])) {
+                    $itemData['imgSrc'] =   $itemData['imgSrc'][$row[$deep]['img_size']];
+
+                }
 
                 // remise à zero du compteur si élément est le dernier de la ligne
                 if ($pattern['item']['is_last'] == 1) {
@@ -187,21 +196,21 @@ function smarty_function_widget_catalog_display($params, $template)
                         // Format element on switch
                         switch($elem_type){
                             case 'name':
-                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['url'].'" title="'. $item_dataVal['name'].'">' : '';
-                                $elem .= $item_dataVal['name'];
+                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$itemData['url'].'" title="'. $itemData['name'].'">' : '';
+                                $elem .= $itemData['name'];
                                 $elem .= ($item_classLink != 'none') ? '</a>'  : '';
                                 break;
                             case 'img':
-                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$item_dataVal['url'].'" title="'. $item_dataVal['name'].'">' : '';
-                                $elem .= '<img src="'.$item_dataVal['img_src'].'" alt="'.$item_dataVal['name'].'"/>';
+                                $elem = ($item_classLink != 'none') ? '<a'.$item_classLink.' href="'.$itemData['url'].'" title="'. $itemData['name'].'">' : '';
+                                $elem .= '<img src="'.$itemData['imgSrc'].'" alt="'.$itemData['name'].'"/>';
                                 $elem .= ($item_classLink != 'none') ? '</a>' : '';
                                 break;
                             case 'descr':
-                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($item_dataVal['content']), $pattern['item']['descr']['lenght'] , $pattern['item']['descr']['delemiter']);
+                                $elem = magixcjquery_form_helpersforms::inputCleanTruncate( magixcjquery_form_helpersforms::inputTagClean($itemData['content']), $pattern['item']['descr']['lenght'] , $pattern['item']['descr']['delemiter']);
                                 break;
                             case 'price':
-                                if (is_numeric($item_dataVal['price']))
-                                    $elem = $item_dataVal['price'] . $pattern['item']['price']['currency'];
+                                if (is_numeric($itemData['price']))
+                                    $elem = $itemData['price'] . $pattern['item']['price']['currency'];
                                 else
                                     $elem = null;
                                 break;
@@ -262,7 +271,7 @@ function patternCatalog ($name=null)
         case 'sidebar':
             $pattern = array(
                 'item'          =>  array(
-                    'before'    => '<li class="span3"><div class="thumbnail">',
+                    'before'    => '<li class="span3"><div class="thumbnail text-center">',
                     // item's elements injected here (name, img, descr)
                     'after'     => '</div></div></li>'
                 ),
@@ -293,7 +302,8 @@ function patternCatalog ($name=null)
                     'after'     => '</div></div></li>'
                 ),
                 'img'         =>  array(
-                    'classLink'     =>  'img'
+                    'classLink'     =>  'img',
+                    'size'          =>  'medium'
                 ),
                 'name'        =>  array(
                     'before'    =>  '<div class="caption"> <h3>',
@@ -311,7 +321,7 @@ function patternCatalog ($name=null)
                     'currency'      => ' € TTC',
                     'after' => '</a>'
                 ),
-                'current'     =>  array(
+                'active'     =>  array(
                     'class'         =>  ' active'
                 ),
                 'last'        =>  array(

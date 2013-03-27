@@ -1,7 +1,7 @@
 {include file="section/head.phtml"}
 {headmeta meta="googleSiteVerification" content="{google_tools tools='webmaster'}"}
-{headmeta meta="description" content="{static_metas param='' dynamic=$seoDescr_home}"}
-<title>{static_metas param='' dynamic=$seoTitle_home}</title>
+{headmeta meta="description" content="{static_metas param='' dynamic=$home.seoDescr}"}
+<title>{static_metas param='' dynamic=$home.seoTitle}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="home">
@@ -11,8 +11,8 @@
     {include file="section/sidebar.phtml"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
-                <h1>{$name_home}</h1>
-                {$content_home}
+                <h1>{$home.name}</h1>
+                {$home.content}
                 {widget_cms_display
                     conf = [
                         'context' => 'parent'
@@ -20,7 +20,6 @@
                 }
             </div>
         </div>
-        <div class="clear">&nbsp;</div>
     </div>
 {include file="section/footer.phtml"}
 </div>

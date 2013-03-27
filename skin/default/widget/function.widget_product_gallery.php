@@ -70,7 +70,7 @@ function smarty_function_widget_product_gallery($params, $template)
 
     // Set and load data
     $current    =   $ModelSystem->setCurrentId();
-    $conf       =   array('level' => 'product-gallery');
+    $conf       =   array('context' => 'product-gallery');
     $data       =   $ModelCatalog->getData($conf,$current);
 
     $html = null;
@@ -143,7 +143,7 @@ function patternMicroGallery ($name=null)
                     'after'     => '</li>'
                 ),
                 'img'           =>  array(
-                    'classLink'     =>  'thumbnail gallery-link'
+                    'classLink'     =>  'thumbnail img-gallery'
                 ),
                 'last'          =>  array(
                     'class'         => ' last',

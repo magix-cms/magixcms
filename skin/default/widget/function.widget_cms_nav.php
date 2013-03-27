@@ -71,7 +71,7 @@ function smarty_function_widget_cms_nav($params, $template)
             $htmlAttr = $params['htmlAttribut'];
             $id_container       =       isset($htmlAttr['id_container'])       ? ' id="'.$htmlAttr['id_container'].'"'      : null;
             $class_container    =       isset($htmlAttr['class_container'])    ? ' class="'.$htmlAttr['class_container'].'"'   : null;
-            $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current'] : 'active';
+            $class_active      =       isset($htmlAttr['class_active'])      ? $htmlAttr['class_active'] : 'active';
         }
 
         // *** format items loop (foreach item)
@@ -81,8 +81,8 @@ function smarty_function_widget_cms_nav($params, $template)
                 foreach($row_1['subdata'] as $row_2){
                     /** HTML FORMAT (LEVEL 2)**/
                     $data_item_2    = $ModelCms->setItemData($row_2,$current);
-                    if ($data_item_2['current'] === true) {
-                        $current_item = ' class="'.$class_current.'"';
+                    if ($data_item_2['active'] === true) {
+                        $current_item = ' class="'.$class_active.'"';
                     }else {
                         $current_item = null;
                     }
@@ -95,8 +95,8 @@ function smarty_function_widget_cms_nav($params, $template)
             }
             /** HTML FORMAT (LEVEL 1)**/
             $data_item = $ModelCms->setItemData($row_1,$current);
-            if ($data_item['current'] === true) {
-                $current_item = ' class="'.$class_current.'"';
+            if ($data_item['active'] === true) {
+                $current_item = ' class="'.$class_active.'"';
             }else {
                 $current_item = null;
             }

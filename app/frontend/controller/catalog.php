@@ -50,31 +50,36 @@ class frontend_controller_catalog extends frontend_db_catalog
 	 * idclc catch on GET
 	 * @var integer
 	 */
-	public $idclc;
+	public $idCat;
 	/**
      * idcls catch on GET
 	 * @var integer
 	 */
-	public $idcls;
+	public $idSubcat;
 	/**
      * idproduct catch on GET
 	 * @var integer
 	 */
-	public $idproduct;
+	public $idProduct;
 	/**
 	 * function construct
 	 *
 	 */
 	function __construct()
     {
-		if (magixcjquery_filter_request::isGet('idclc')) {
-			$this->idclc = magixcjquery_filter_isVar::isPostNumeric($_GET['idclc']);
+        $FilterRequest  =   new magixcjquery_filter_request;
+        $FilterVar      =   new magixcjquery_filter_isVar;
+
+		if ($FilterRequest->isGet('idclc')) {
+			$this->idCat = $FilterVar->isPostNumeric($_GET['idclc']);
+
 		}
-		if (magixcjquery_filter_request::isGet('idcls')) {
-			$this->idcls = magixcjquery_filter_isVar::isPostNumeric($_GET['idcls']);
+		if ($FilterRequest->isGet('idcls')) {
+			$this->idSubcat = $FilterVar->isPostNumeric($_GET['idcls']);
+
 		}
-		if (magixcjquery_filter_request::isGet('idproduct')) {
-			$this->idproduct = magixcjquery_filter_isVar::isPostNumeric($_GET['idproduct']);
+		if ($FilterRequest->isGet('idproduct')) {
+			$this->idProduct = $FilterVar->isPostNumeric($_GET['idproduct']);
 		}
 	}
     /**
@@ -86,7 +91,7 @@ class frontend_controller_catalog extends frontend_db_catalog
         $template = new frontend_model_template();
         $Catalog  = new frontend_model_catalog();
 
-		$data = parent::s_category_data($this->idclc);
+		$data = parent::s_category_data($this->idCat);
         $dataClean  =   $Catalog->setItemData($data,0);
 
         $template->assign('cat',     $dataClean,  true);
@@ -101,7 +106,7 @@ class frontend_controller_catalog extends frontend_db_catalog
         $template = new frontend_model_template();
         $Catalog  = new frontend_model_catalog();
 
-		$data = parent::s_subcategory_data($this->idcls);
+		$data = parent::s_subcategory_data($this->idSubcat);
         $dataClean  =   $Catalog->setItemData($data,0);
 
         $template->assign('subcat',     $dataClean,  true);
@@ -116,7 +121,7 @@ class frontend_controller_catalog extends frontend_db_catalog
         $template = new frontend_model_template();
         $Catalog  = new frontend_model_catalog();
 
-        $data = parent::s_product_data($this->idproduct);
+        $data = parent::s_product_data($this->idProduct);
         $dataClean  =   $Catalog->setItemData($data,true);
 
         $template->assign('product',     $dataClean,  true);
@@ -130,15 +135,15 @@ class frontend_controller_catalog extends frontend_db_catalog
 	public function run()
     {
         $template = new frontend_model_template;
-        if (isset($this->idproduct)) {
+        if (isset($this->idProduct)) {
             $this->load_product_data();
             $template->display('catalog/product.phtml');
 
-        } elseif (isset($this->idcls)) {
+        } elseif (isset($this->idSubcat)) {
             $this->load_subcategory_data();
             $template->display('catalog/subcategory.phtml');
 
-        } elseif (isset($this->idclc)) {
+        } elseif (isset($this->idCat)) {
             $this->load_category_data();
             $template->display('catalog/category.phtml');
 

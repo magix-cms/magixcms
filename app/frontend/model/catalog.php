@@ -61,7 +61,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $subcat['id']   = (isset($row['idcls'])) ? $row['idcls'] : null;
                 $subcat['name'] = (isset($row['pathslibelle'])) ? $row['pathslibelle'] : null;
 
-                $data['img_src']   =
+                $data['imgSrc']   =
                     $ModelImagepath->filterPathImg(
                         array(
                             'img'=>'skin/'.
@@ -69,16 +69,33 @@ class frontend_model_catalog extends frontend_db_catalog {
                                 '/img/catalog/product-default.png'
                         )
                     );
-                if (isset($row['imgcatalog']) != null){
-                    $img_size = (isset($row['img_size'])) ? $row['img_size'] : 'product';
-                    $data['img_src']   =
+                if (isset($row['imgcatalog'])) {
+                    $data['imgSrc']   = array(
+                        'small'  =>
                         $ModelImagepath->filterPathImg(
                             array(
                                 'filtermod' =>  'catalog',
-                                'img'       =>  $img_size.'/'.$row['imgcatalog'],
+                                'img'       =>  'mini/'.$row['imgcatalog'],
                                 'levelmod'  =>  ''
                             )
-                        );
+                        ),
+                        'medium'    =>
+                        $ModelImagepath->filterPathImg(
+                            array(
+                                'filtermod' =>  'catalog',
+                                'img'       =>  'medium/'.$row['imgcatalog'],
+                                'levelmod'  =>  ''
+                            )
+                        ),
+                        'large' =>
+                        $ModelImagepath->filterPathImg(
+                            array(
+                                'filtermod' =>  'catalog',
+                                'img'       =>  'product/'.$row['imgcatalog'],
+                                'levelmod'  =>  ''
+                            )
+                        )
+                    );
                 }
 
                 $data['url']       =
@@ -93,15 +110,15 @@ class frontend_model_catalog extends frontend_db_catalog {
                         true
                     );
 
-                $data['current']   = false;
+                $data['active']   = false;
                 if (is_array($current)) {
-                    $data['current']   =
+                    $data['active']   =
                         (isset($current['product']['id']) AND $current['product']['id'] == $row['idproduct'] )
                             ? true
                             : false;
 
                 } elseif ($current === true) {
-                    $data['current']   = true;
+                    $data['active']   = true;
 
                 }
 
@@ -112,12 +129,12 @@ class frontend_model_catalog extends frontend_db_catalog {
 
             // *** Subcategory
             } elseif (isset($row['slibelle'])) {
-                $data['current']   = false;
+                $data['active']   = false;
                 if (is_array($current) AND isset($current['subcategory']['id'])) {
-                    $data['current']   = ($current['subcategory']['id'] == $row['idcls']) ? true : false;
+                    $data['active']   = ($current['subcategory']['id'] == $row['idcls']) ? true : false;
                 }
 
-                $data['img_src']   =
+                $data['imgSrc']   =
                     $ModelImagepath->filterPathImg(
                         array(
                             'img'=>'skin/'.
@@ -125,8 +142,9 @@ class frontend_model_catalog extends frontend_db_catalog {
                             '/img/catalog/subcategory-default.png'
                         )
                     );
-                if (isset($row['img_s']) != null){
-                    $data['img_src']   =
+                if (isset($row['img_s'])){
+                    $data['imgSrc'] =   array();
+                    $data['imgSrc']['small']   =
                         $ModelImagepath->filterPathImg(
                             array(
                                 'filtermod'=>'catalog',
@@ -134,6 +152,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                                 'levelmod'=>'subcategory'
                             )
                         );
+                    $data['imgSrc']['medium']   =   $data['imgSrc']['small'];
+                    $data['imgSrc']['large']    =   $data['imgSrc']['small'];
                 }
 
                 $data['url']       =
@@ -152,12 +172,12 @@ class frontend_model_catalog extends frontend_db_catalog {
 
              // *** Category
             } elseif(isset($row['clibelle'])) {
-                $data['current']   =    false;
+                $data['active']   =    false;
                 if (is_array($current) AND isset($current['category']['id'])) {
-                    $data['current']   = ($current['category']['id'] == $row['idclc']) ? true : false;
+                    $data['active']   = ($current['category']['id'] == $row['idclc']) ? true : false;
                 }
 
-                $data['img_src']   =
+                $data['imgSrc']   =
                     $ModelImagepath->filterPathImg(
                         array(
                             'img'=>'skin/'.
@@ -166,14 +186,18 @@ class frontend_model_catalog extends frontend_db_catalog {
                         )
                     );
 
-                if (isset($row['img_c']) != null){
-                    $data['img_src']   = $ModelImagepath->filterPathImg(
+                if (isset($row['img_c'])){
+                    $data['imgSrc'] =   array();
+                    $data['imgSrc']['small']   = $ModelImagepath->filterPathImg(
                         array(
                             'filtermod'=>'catalog',
                             'img'=>$row['img_c'],
                             'levelmod'=>'category'
                         )
                     );
+                    // I know it's like cheat
+                    $data['imgSrc']['medium']   =   $data['imgSrc']['small'];
+                    $data['imgSrc']['large']    =   $data['imgSrc']['small'];
                 }
 
                 $data['url']       =
@@ -420,6 +444,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                 }
             }
         } elseif ( $conf['context'][1] == 'product') {
+
+
             if (isset($current['product']['id']) AND empty($custom['select'])) {
                 // Product[in_product]
                 $data   =   parent::s_product_in_product(

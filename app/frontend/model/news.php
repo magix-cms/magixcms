@@ -44,10 +44,10 @@ class frontend_model_news extends frontend_db_news {
     /**
      * Formate les valeurs principales d'un élément suivant la ligne passées en paramètre
      * @param $row
-     * @param $id_current
+     * @param $current
      * @return array|null
      */
-    public function setItemData($row,$id_current)
+    public function setItemData($row,$current)
     {
         $ModelImagepath     =   new magixglobal_model_imagepath();
         $ModelDateformat    =   new magixglobal_model_dateformat();
@@ -73,21 +73,30 @@ class frontend_model_news extends frontend_db_news {
 
                 }
             }
-            if (isset($row['n_image']) != null){
-                $data['img_src']   =
+
+            $data['imgSrc']   = $ModelImagepath->filterPathImg(
+                array(
+                    'img'=>
+                    'skin/'.
+                        $ModelTemplate->frontendTheme()->themeSelected().
+                        '/img/news/news-default.png')
+            );
+            if (isset($row['n_image'])){
+                $data['imgSrc']   =   array(
+                    'small' =>
+                        $ModelImagepath->filterPathImg(
+                            array (
+                                'filtermod'=>'news',
+                                'img'=> 's_'.$row['n_image']
+                            )
+                        ),
+                    'medium' =>
                     $ModelImagepath->filterPathImg(
-                        array(
+                        array (
                             'filtermod'=>'news',
-                            'img'=>'s_'.$row['n_image']
+                            'img'=> $row['n_image']
                         )
-                    );
-            }else{
-                $data['img_src']   = $ModelImagepath->filterPathImg(
-                    array(
-                        'img'=>
-                            'skin/'.
-                            $ModelTemplate->frontendTheme()->themeSelected().
-                            '/img/news/news-default.png')
+                    )
                 );
             }
 
@@ -103,9 +112,13 @@ class frontend_model_news extends frontend_db_news {
                     $row['keynews'],
                     true
                 );
-            $data['current']   = ($row['idnews'] == $id_current['news']) ? 'true' : 'false';
-            $data['date']      = $ModelDateformat->SQLDate($row['date_publish']);
-            $data['descr']     = $row['n_content'];
+            $data['current']    =   false;
+            if (isset($current['record']['id'])) {
+                $data['active']   = ($row['keynews'] == $current['record']['id']) ? true : false;
+            }
+            $data['date']['register']      = $ModelDateformat->SQLDate($row['date_register']);
+            $data['date']['publish']       = $ModelDateformat->SQLDate($row['date_publish']);
+            $data['content']     = $row['n_content'];
         }
         return $data;
     }

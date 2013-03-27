@@ -70,7 +70,7 @@ function smarty_function_widget_catalog_nav($params, $template)
        $htmlAttr = isset($params['htmlAttribut']) ? $params['htmlAttribut'] : null;
        $id_container       =       isset($htmlAttr['id_container'])       ? ' id="'.$htmlAttr['id_container'].'"'      : null;
        $class_container    =       isset($htmlAttr['class_container'])    ? ' class="'.$htmlAttr['class_container'].'"'   : null;
-       $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current'] : 'current';
+       $class_current      =       isset($htmlAttr['class_current'])      ? $htmlAttr['class_current'] : 'active';
 
         // *** format items loop (foreach item)
         foreach($data as $row_1){
@@ -83,7 +83,7 @@ function smarty_function_widget_catalog_nav($params, $template)
                         foreach($row_2['subdata'] as $row_3){
                             /** HTML FORMAT (LEVEL 3)**/
                             $data_item_3    = $ModelCatalog->setItemData($row_3,$current);
-                            if ( $data_item_3['current'] === true) {
+                            if ( $data_item_3['active'] === true) {
                                 $current_item = ' class="'.$class_current.'"';
 
                             }else {
@@ -98,7 +98,7 @@ function smarty_function_widget_catalog_nav($params, $template)
                     }
                     /** HTML FORMAT (LEVEL 2)**/
                     $data_item_2    = $ModelCatalog->setItemData($row_2,$current);
-                    if ($data_item_2['current'] === true) {
+                    if ($data_item_2['active'] === true) {
                         $current_item = ' class="'.$class_current.'"';
                     }else {
                         $current_item = null;
@@ -113,7 +113,7 @@ function smarty_function_widget_catalog_nav($params, $template)
             }
             /** HTML FORMAT (LEVEL 1)**/
             $data_item = $ModelCatalog->setItemData($row_1,$current);
-            if ($data_item['current'] === true) {
+            if ($data_item['active'] === true) {
                 $current_item = ' class="'.$class_current.'"';
             }else {
                 $current_item = null;

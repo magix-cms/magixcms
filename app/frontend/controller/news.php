@@ -47,66 +47,45 @@
 class frontend_controller_news extends frontend_db_news
 {
     /**
-     * strLangue catch on GET
-     * @var integer
-     */
-	public $getlang;
-	/**
-	 * variable de sessions deslangues
-	 * @var string
-	 */
-	public $slang;
-    /**
-     * getnews catch on GET
      * @var string
      */
-	public $getnews;
+	public $idNews;
     /**
-     * getdate catch on GET
+     * @var int
+     */
+    public $idPagination;
+    /**
      * @var date
      */
-	public $getdate;
-    /**
-     * uri_get_news catch on GET
-     * @var string
-     */
-	public $uri_get_news,
+	public $dateNews;
      /**
-     * tag catch on GET
      * @var string
      */
-     $tag;
+     public $idTag;
 	/**
 	 * function construct
-	 *
 	 */
 	function __construct()
     {
-		if (magixcjquery_filter_request::isGet('strLangue')) {
-			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
+        $FilterRequest  =   new magixcjquery_filter_request();
+        $CleanUrl       =   new magixcjquery_url_clean();
+
+		if ($FilterRequest->isGet('getnews')) {
+			$this->idNews = magixcjquery_filter_var::clean($_GET['getnews']);
+
 		}
-		if (magixcjquery_filter_request::isGet('getnews')) {
-			$this->getnews = magixcjquery_filter_var::clean($_GET['getnews']);
+		if ($FilterRequest->isGet('getdate')) {
+			$this->dateNews = ($_GET['getdate']);
+
 		}
-		if (magixcjquery_filter_request::isGet('getdate')) {
-			$this->getdate = ($_GET['getdate']);
-		}
-		if (magixcjquery_filter_request::isGet('uri_get_news')) {
-			$this->uri_get_news = magixcjquery_url_clean::rplMagixString($_GET['uri_get_news']);
-		}
-		if (magixcjquery_filter_request::isGet('page')) {
-				// si numéric
-		      if (is_numeric($_GET['page'])) {
-		          $this->getpage = intval($_GET['page']);
-		      } else {
-		      	// Sinon retourne la première page
-		          $this->getpage = 1;        
-               }
-		 } else {
-		    $this->getpage = 1;
-		}
-		if (magixcjquery_filter_request::isGet('tag')) {
-			$this->tag = magixcjquery_url_clean::make2tagString($_GET['tag']);
+        $this->idPagination = 1;
+		if ($FilterRequest->isGet('page') AND is_numeric($_GET['page'])) {
+		          $this->idPagination = intval($_GET['page']);
+
+        }
+		if ($FilterRequest->isGet('tag')) {
+			$this->idTag = $CleanUrl->make2tagString($_GET['tag']);
+
 		}
 	}
     /**
@@ -115,33 +94,29 @@ class frontend_controller_news extends frontend_db_news
      */
 	private function load_news_data()
     {
-        $data = parent::s_newsData($this->getnews,$this->getdate);
-        $data['imgPath'] = null;
-        if ($data['n_image'] != null) {
-            $data['imgPath'] = '/upload/news/'.$data['n_image'];
-        }
-        // *** Assign data to Smarty var
         $template = new frontend_model_template();
-        /** @noinspection PhpParamsInspection */
+        $News     = new frontend_model_news();
 
-        $template->assign('name_news',          $data['n_title'],       true);
-        $template->assign('content_news',       $data['n_content'],     true);
-        $template->assign('dateRegister_news',  $data['date_register'], true);
-        $template->assign('dateUpdate_news',    $data['date_publish'],  true);
-        $template->assign('imgPath_news',       $data['imgPath'],       true);
+        $data       = parent::s_newsData($this->idNews,$this->dateNews);
+        $dataClean  =   $News->setItemData($data,true);
+
+        $template->assign('news',$dataClean);
 	}
 	/**
 	 * 
 	 * fonction run
 	 */
-	public function run(){
+	public function run()
+    {
         $template = new frontend_model_template();
-		if (isset($this->getnews)) {
+		if (isset($this->idNews)) {
 			$this->load_news_data();
-            $template->display('news/record.phtml');
-		} elseif (magixcjquery_filter_request::isGet('tag')) {
-            $template->assign('name_tag', urldecode($this->tag));
+            $template->display('news/news.phtml');
+
+		} elseif (isset($this->idTag)) {
+            $template->assign('tag', array('name'=>urldecode($this->idTag)));
             $template->display('news/tag.phtml');
+
 		} else {
             $template->display('news/index.phtml');
 		}
