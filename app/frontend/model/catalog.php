@@ -214,7 +214,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 // *** Micro-gallery (product page)
             } elseif(isset($row['idmicro'])) {
                 $data['id']        = $row['idmicro'];
-                $data['img_src']['mini']   =
+                $data['img_src']['small']   =
                     $ModelImagepath->filterPathImg(
                         array(
                             'filtermod'=>'catalog',
@@ -223,7 +223,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                             'levelmod'=>'galery'
                         )
                     );
-                $data['img_src']['maxi']   =
+                $data['img_src']['medium']   =
                     $ModelImagepath->filterPathImg(
                         array(
                             'filtermod'=>'catalog',
