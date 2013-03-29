@@ -51,6 +51,91 @@ $(function(){
         activeClass : 'on',
         debug : false
     });
+
+
+    // Navigation avec mémoir de menu en local storage :D
+    // by sire-sam and highly commented for gtraxx ;)
+    // --------------------------------------------------
+    /**
+     * Initialize localstorage or display his data for sidebar menu
+     */
+    function lauchMenustorage()
+    {
+        // set localstorage key
+        var menuStorage =   localStorage.getItem('menuStorage');
+
+        // If localStorage is NOT SET
+        if (menuStorage == null) {
+            // set json structure
+            var json = {'active':[]};
+            // convert to string and assign to localstorage
+            localStorage.setItem('menuStorage',JSON.stringify(json));
+
+            // If localStorage IS SET, ensures that all elements are visible
+        } else {
+            // convert (string)localstorage to json
+            var menuJson    =   JSON.parse(menuStorage);
+            // show each target on localstorage
+            $.each(menuJson.active,function (key,val)
+            {
+                $(val).show();
+            });
+        }
+    }
+
+    /**
+     * Set localStorage on sidebar menu
+     * @TODO ajouter la gestion de l'icon
+     * @TODO ajouter la valeur d'IdProfil dans le nom du localStorage, si plusieurs compte utilisent le même navigateur
+     */
+//    localStorage.removeItem('menuStorage'); // reset local storage (for debuging)
+    if (Modernizr.localstorage) {
+        // Init localStorage on load
+        lauchMenustorage();
+        // reset handler on sidebar links
+        $('#sidebar .showit').addClass('menuStorage').removeClass('showit').off('click');
+
+        // set handler on sidebar links
+        $('.menuStorage').on('click', function(event)
+        {
+            event.preventDefault();
+
+            // set node to show/hide
+            var target  =   $(this).attr('href');
+
+            // get local storage
+            var menuStorage =   localStorage.getItem('menuStorage');
+            if (menuStorage == null) {
+                lauchMenustorage();
+            }
+
+            // (string)locastorage to json
+            var menuJson    =   JSON.parse(menuStorage);
+
+            var itemWasOpen   =   false;
+            // search if target exist in localstorage
+            $.each(menuJson.active,function (key,val)
+            {
+                // if target existe in localstorage, hide node, remove value
+                if (val == target) {
+                    itemWasOpen   =   true;
+                    $(target).hide();
+                    menuJson.active.splice(key,1);
+                    console.log("menujson Removed =  %o",menuJson.active);
+                }
+            });
+
+            if (itemWasOpen == false) {
+                    // if target was'nt in localstorage, show node, add value
+                    $(target).show();
+                    menuJson.active.push(target);
+            }
+            // update localstorage
+            localStorage.setItem('menuStorage',JSON.stringify(menuJson));
+        });
+    }
+
+
     // jmShowIt metas
     $('a.view-metas').jmShowIt({
         open: 'open',
