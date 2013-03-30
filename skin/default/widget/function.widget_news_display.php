@@ -117,9 +117,12 @@ function smarty_function_widget_news_display($params, $template)
                 if ($pattern['item']['display'][1] == null)
                     $pattern['item']['display'][1] = $pattern['default']['display'][1];
 
-                if (isset($itemData['imgSrc'])) {
-                    $size = (isset($pattern['item']['img']['size'])) ? $pattern['item']['img']['size'] : 'small';
-                    $itemData['imgSrc'] =   $itemData['imgSrc'][$size];
+                $imgSize = (isset($pattern['item']['img']['size'])) ? $pattern['item']['img']['size'] : 'small';
+                if (isset($itemData['imgSrc'][$imgSize])) {
+                    $itemData['imgSrc'] =   $itemData['imgSrc'][$imgSize];
+                } else {
+                    $itemData['imgSrc'] =   $itemData['imgSrc']['default'];
+
                 }
 
 

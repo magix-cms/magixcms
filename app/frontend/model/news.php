@@ -74,13 +74,6 @@ class frontend_model_news extends frontend_db_news {
                 }
             }
 
-            $data['imgSrc']   = $ModelImagepath->filterPathImg(
-                array(
-                    'img'=>
-                    'skin/'.
-                        $ModelTemplate->frontendTheme()->themeSelected().
-                        '/img/news/news-default.png')
-            );
             if (isset($row['n_image'])){
                 $data['imgSrc']   =   array(
                     'small' =>
@@ -99,6 +92,13 @@ class frontend_model_news extends frontend_db_news {
                     )
                 );
             }
+            $data['imgSrc']['default']   = $ModelImagepath->filterPathImg(
+                array(
+                    'img'=>
+                    'skin/'.
+                        $ModelTemplate->frontendTheme()->themeSelected().
+                        '/img/news/news-default.png')
+            );
 
             $data['id']        = $row['idnews'];
             $data['name']      = $row['n_title'];

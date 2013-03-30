@@ -61,14 +61,6 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $subcat['id']   = (isset($row['idcls'])) ? $row['idcls'] : null;
                 $subcat['name'] = (isset($row['pathslibelle'])) ? $row['pathslibelle'] : null;
 
-                $data['imgSrc']   =
-                    $ModelImagepath->filterPathImg(
-                        array(
-                            'img'=>'skin/'.
-                                $ModelTemplate->frontendTheme()->themeSelected().
-                                '/img/catalog/product-default.png'
-                        )
-                    );
                 if (isset($row['imgcatalog'])) {
                     $data['imgSrc']   = array(
                         'small'  =>
@@ -97,6 +89,14 @@ class frontend_model_catalog extends frontend_db_catalog {
                         )
                     );
                 }
+                $data['imgSrc']['default']   =
+                    $ModelImagepath->filterPathImg(
+                        array(
+                            'img'=>'skin/'.
+                                $ModelTemplate->frontendTheme()->themeSelected().
+                                '/img/catalog/product-default.png'
+                        )
+                    );
 
                 $data['url']       =
                     $ModelRewrite->filter_catalog_product_url(
@@ -134,14 +134,6 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data['active']   = ($current['subcategory']['id'] == $row['idcls']) ? true : false;
                 }
 
-                $data['imgSrc']   =
-                    $ModelImagepath->filterPathImg(
-                        array(
-                            'img'=>'skin/'.
-                            $ModelTemplate->frontendTheme()->themeSelected().
-                            '/img/catalog/subcategory-default.png'
-                        )
-                    );
                 if (isset($row['img_s'])){
                     $data['imgSrc'] =   array();
                     $data['imgSrc']['small']   =
@@ -155,6 +147,14 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data['imgSrc']['medium']   =   $data['imgSrc']['small'];
                     $data['imgSrc']['large']    =   $data['imgSrc']['small'];
                 }
+                $data['imgSrc']['default']   =
+                    $ModelImagepath->filterPathImg(
+                        array(
+                            'img'=>'skin/'.
+                                $ModelTemplate->frontendTheme()->themeSelected().
+                                '/img/catalog/subcategory-default.png'
+                        )
+                    );
 
                 $data['url']       =
                     $ModelRewrite->filter_catalog_subcategory_url(
@@ -177,15 +177,6 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data['active']   = ($current['category']['id'] == $row['idclc']) ? true : false;
                 }
 
-                $data['imgSrc']   =
-                    $ModelImagepath->filterPathImg(
-                        array(
-                            'img'=>'skin/'.
-                                $ModelTemplate->frontendTheme()->themeSelected().
-                                '/img/catalog/category-default.png'
-                        )
-                    );
-
                 if (isset($row['img_c'])){
                     $data['imgSrc'] =   array();
                     $data['imgSrc']['small']   = $ModelImagepath->filterPathImg(
@@ -199,6 +190,14 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data['imgSrc']['medium']   =   $data['imgSrc']['small'];
                     $data['imgSrc']['large']    =   $data['imgSrc']['small'];
                 }
+                $data['imgSrc']['default']   =
+                    $ModelImagepath->filterPathImg(
+                        array(
+                            'img'=>'skin/'.
+                                $ModelTemplate->frontendTheme()->themeSelected().
+                                '/img/catalog/category-default.png'
+                        )
+                    );
 
                 $data['url']       =
                     $ModelRewrite->filter_catalog_category_url(

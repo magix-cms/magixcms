@@ -157,10 +157,14 @@ function smarty_function_widget_catalog_display($params, $template)
                     $row[$deep]['img_size']     =   'medium';
                 }
 
-                if (is_array($itemData['imgSrc'])) {
-                    $itemData['imgSrc'] =   $itemData['imgSrc'][$row[$deep]['img_size']];
+                $imgSize = (isset($pattern['item']['img']['size'])) ? $pattern['item']['img']['size'] : 'small';
+                if (isset($itemData['imgSrc'][$imgSize])) {
+                    $itemData['imgSrc'] =   $itemData['imgSrc'][$imgSize];
+                } else {
+                    $itemData['imgSrc'] =   $itemData['imgSrc']['default'];
 
                 }
+
 
                 // remise à zero du compteur si élément est le dernier de la ligne
                 if ($pattern['item']['is_last'] == 1) {
