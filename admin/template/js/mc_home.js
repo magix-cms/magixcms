@@ -301,6 +301,45 @@ var MC_home = (function ($, undefined) {
         });
         $('#forms_home_edit').formsUpdatePages;
     }
+
+    /**
+     * Suppression de page d'accueil
+     */
+    function remove(){
+        $(document).on('click','.delete-home',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/home.php?action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_home:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:false
+                                });
+                                jsonHome();
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public        
         runCharts:function(){
@@ -309,6 +348,7 @@ var MC_home = (function ($, undefined) {
         runList:function(){
             jsonHome();
             add();
+            remove();
         },
         runEdit:function(edit){
             update(edit);
