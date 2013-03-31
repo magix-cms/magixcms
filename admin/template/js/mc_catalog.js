@@ -336,6 +336,46 @@ var MC_catalog = (function ($, undefined) {
     }
 
     /**
+     * Suppression de la catégorie
+     * @param section
+     * @param getlang
+     */
+    function removeCategory(section,getlang){
+        $(document).on('click','.delete-pages',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_category:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:true
+                                });
+                                jsonListCategory(section,getlang);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
+    /**
      * Retourne l'url de la catégorie
      * @param section
      * @param getlang
@@ -2230,6 +2270,7 @@ var MC_catalog = (function ($, undefined) {
             autoCompleteCategory(section,getlang);
             jsonListCategory(section,getlang);
             addCategory(section,getlang);
+            removeCategory(section,getlang);
         },
         runEditCategory:function(section,getlang,edit){
             autoCompleteCategory(section,getlang);

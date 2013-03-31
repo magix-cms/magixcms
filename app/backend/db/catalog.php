@@ -93,6 +93,11 @@ class backend_db_catalog{
         ));
     }
 
+    /**
+     * @param $idlang
+     * @param $clibelle
+     * @return array
+     */
     protected function s_catalog_category_list($idlang,$clibelle){
         $sql = 'SELECT c.*,lang.iso
         FROM mc_catalog_c AS c
@@ -119,6 +124,21 @@ class backend_db_catalog{
         ));
     }
 
+    /**
+     * Vérifie le nombre de sous catégories
+     * @param $edit
+     * @return array
+     */
+    protected function v_catalog_subcategory($edit){
+        $sql = 'SELECT count(s.idcls) AS COUNT_SUB_CAT
+        FROM mc_catalog_c AS c
+    	JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	JOIN mc_catalog_s as s ON (s.idclc = c.idclc)
+    	WHERE c.idclc = :edit';
+        return magixglobal_model_db::layerDB()->selectOne($sql,array(
+            ':edit'=>$edit
+        ));
+    }
     /**
      * Insertion d'une catégorie
      * @param $clibelle
@@ -150,6 +170,11 @@ class backend_db_catalog{
             )
         );
     }
+
+    /**
+     * @param $i
+     * @param $id
+     */
     protected function u_order_category_product($i,$id){
         $sql = 'UPDATE mc_catalog_product SET orderproduct = :i WHERE idproduct = :id';
         magixglobal_model_db::layerDB()->update($sql,
@@ -179,6 +204,11 @@ class backend_db_catalog{
             )
         );
     }
+
+    /**
+     * @param $img_c
+     * @param $edit
+     */
     protected function u_catalog_category_image($img_c,$edit){
         $sql = 'UPDATE mc_catalog_c SET img_c = :img_c WHERE idclc = :edit';
         magixglobal_model_db::layerDB()->update($sql,
@@ -205,6 +235,19 @@ class backend_db_catalog{
             ":edit"=>$edit
         ));
     }
+
+    /**
+     * Suppression des catégories avec une transaction pour la suppression des produits liés
+     * @param $delete_category
+     */
+    protected function d_category($delete_category){
+        $sql = array(
+            'DELETE FROM mc_catalog_product WHERE idclc = '.$delete_category,
+            'DELETE FROM mc_catalog_c WHERE idclc = '.$delete_category
+        );
+        magixglobal_model_db::layerDB()->transaction($sql);
+    }
+
     //SOUS CATEGORIE
 
     /**
@@ -557,6 +600,12 @@ class backend_db_catalog{
         );
         magixglobal_model_db::layerDB()->transaction($sql);
     }
+
+    /**
+     * Déplacement d'un produit en supprimant les relations
+     * @param $move
+     * @param $idlang
+     */
     protected function u_move_product($move,$idlang){
         $sql = array(
             'DELETE FROM mc_catalog_rel_product WHERE idcatalog = '.$move,

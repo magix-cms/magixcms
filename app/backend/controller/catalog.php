@@ -170,7 +170,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	public $d_rel_product;
 	public $product_search,$name_product,$name_category;
 	public $get_search_page;
-    public $delete_catalog,$delete_image,$delete_product,$delete_galery;
+    public $delete_catalog,$delete_image,$delete_product,$delete_galery,$delete_category,$delete_subcategory;
     /**
      * Les variables globales
      */
@@ -244,6 +244,12 @@ class backend_controller_catalog extends backend_db_catalog{
         }
         if(magixcjquery_filter_request::isPost('delete_galery')){
             $this->delete_galery = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_galery']);
+        }
+        if(magixcjquery_filter_request::isPost('delete_category')){
+            $this->delete_category = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_category']);
+        }
+        if(magixcjquery_filter_request::isPost('delete_subcategory')){
+            $this->delete_subcategory = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_subcategory']);
         }
 		if(magixcjquery_filter_request::isGet('page')) {
 				// si numéric
@@ -642,6 +648,21 @@ class backend_controller_catalog extends backend_db_catalog{
             $p = $this->order_pages;
             for ($i = 0; $i < count($p); $i++) {
                 parent::u_order_category_product($i,$p[$i]);
+            }
+        }
+    }
+
+    /**
+     * Suppression de la catégorie
+     * @param $create
+     */
+    private function remove_category($create){
+        if(isset($this->delete_category)){
+            $verify = parent::v_catalog_subcategory($this->delete_category);
+            if($verify['COUNT_SUB_CAT'] != 0){
+                $create->display('catalog/request/child-exist.phtml');
+            }else{
+                parent::d_category($this->delete_category);
             }
         }
     }
@@ -1890,7 +1911,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                 }
                             }
                         }elseif($this->action === 'remove'){
-
+                            $this->remove_category($create);
                         }
                     }else{
                         $create->display('catalog/category/list.phtml');
