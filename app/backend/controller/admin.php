@@ -139,6 +139,9 @@ class backend_controller_admin extends backend_db_admin{
 	 * @param bool $debug
 	 */
 	private function authSession($debug = false){
+        //Language model init class
+        $language = new backend_model_language();
+        $language->run();
 		$token = isset($_SESSION['mc_auth_token']) ? $_SESSION['mc_auth_token'] : magixglobal_model_cryptrsa::tokenId();
 		$tokentools = $this->hashPassCreate($token);
 		backend_controller_template::assign('hashpass',$tokentools);
@@ -159,6 +162,7 @@ class backend_controller_admin extends backend_db_admin{
 				}
 				if(count(parent::s_auth_exist($this->acmail,$this->acpass)) == true){
 					$session = new backend_model_sessions();
+                    $lang = new backend_model_language();
 					$string = $_SERVER['HTTP_USER_AGENT'];
 					$string .= 'SHIFLETT';
 					/* Add any other data that is consistent */
@@ -168,11 +172,13 @@ class backend_controller_admin extends backend_db_admin{
 					$this->start_session();
 					$const_url = parent::s_member_data_by_mail($this->acmail);
 					if (!isset($_SESSION['useradmin']) AND !isset($_SESSION['userkeyid'])) {
-						$session->openSession($const_url['idadmin'],session_regenerate_id(true), $const_url['keyuniqid']);
+						$lang = new backend_model_language();
+                        $session->openSession($const_url['idadmin'],session_regenerate_id(true), $const_url['keyuniqid']);
 						//session_regenerate_id(true);
                         $_SESSION['useridadmin'] = $const_url['idadmin'];
 		    			$_SESSION['useradmin'] = $this->acmail;
 		    			$_SESSION['userkeyid'] = $const_url['keyuniqid'];
+                        $_SESSION['adminLanguage'] = $lang->run();
 						if($debug == true){
 							$firebug = new magixcjquery_debug_magixfire();
 							$firebug->magixFireGroup('usersession');
@@ -185,6 +191,7 @@ class backend_controller_admin extends backend_db_admin{
                         $_SESSION['useridadmin'] = $const_url['idadmin'];
                         $_SESSION['useradmin'] = $this->acmail;
                         $_SESSION['userkeyid'] = $const_url['keyuniqid'];
+                        $_SESSION['adminLanguage'] = $lang->run();
 						if($debug == true){
 							$firebug = new magixcjquery_debug_magixfire();
 							$firebug->magixFireGroup('usersession');

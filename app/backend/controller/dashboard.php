@@ -116,6 +116,14 @@ class backend_controller_dashboard extends backend_db_dashboard{
 	 */
 	public function run(){
         $create = new backend_controller_template();
+        $create->addConfigFile(
+            array(
+                backend_controller_template::basePathConfig().'dashboard',
+            ),
+            array('local_')
+            ,
+            true
+        );
         if(isset($this->action)){
             if($this->action == 'version'){
                 $this->format_version($create);

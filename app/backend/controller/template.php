@@ -31,6 +31,39 @@
  *
  */
 class backend_controller_template{
+
+    /**
+     * @return string
+     */
+    public static function basePathConfig(){
+        return magixglobal_model_system::base_path().PATHADMIN.DIRECTORY_SEPARATOR.'i18n'.DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Chargement du fichier de configuration suivant la langue en cours de session.
+     * @access private
+     * return string
+     */
+    private function pathConfigLoad($configfile){
+        try {
+            return $configfile.backend_model_language::current_Language().'.conf';
+        }catch (Exception $e){
+            magixglobal_model_system::magixlog('An error has occured :',$e);
+        }
+    }
+
+    /**
+     * Charge le fichier de configuration associer à la langue
+     * @param $configfile
+     * @param bool $section
+     */
+    public static function configLoad($configfile, $section = false){
+        backend_model_smarty::getInstance()->configLoad(
+            $configfile,
+            $section
+        );
+    }
+
     /**
      * @access public
      * Affiche le template
@@ -106,4 +139,48 @@ class backend_controller_template{
 	public static function getConfigVars($varname = null, $search_parents = true){
 		return backend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
+
+    /**
+     * Ajoute un dossier de configuration smarty
+     * @param $config_dir
+     * @param null $key
+     */
+    public static function addConfigDir($config_dir, $key=null){
+        backend_model_smarty::getInstance()->addConfigDir($config_dir,$key);
+    }
+    /**
+     * Ajoute un ou plusieurs dossier de configuration et charge les fichiers associés ainsi que les variables
+     * @access public
+     * @param array $addConfigDir
+     * @param array $load_files
+     * @param bool $debug
+     * @throws Exception
+     */
+    public static function addConfigFile(array $addConfigDir,array $load_files,$debug=false){
+        if(is_array($addConfigDir)){
+            self::addConfigDir($addConfigDir);
+        }else{
+            throw new Exception('Error: addConfigDir is not array');
+        }
+        if(is_array($load_files)){
+            foreach ($load_files as $key => $val){
+                if(is_string($key)){
+                    if(array_key_exists($key, $load_files)){
+                        self::configLoad(self::pathConfigLoad($key), $val);
+                    }
+                }else{
+                    self::configLoad(self::pathConfigLoad($load_files[$key]));
+                }
+            }
+        }else{
+            throw new Exception('Error: load_files is not array');
+        }
+        if($debug!=false){
+            $config_dir = backend_model_smarty::getInstance()->getConfigDir();
+            $firebug = new magixcjquery_debug_magixfire();
+            $firebug->magixFireDump('Config Dir', $config_dir);
+            $firebug->magixFireDump('Load Files in configdir', $load_files);
+            $firebug->magixFireDump('Config vars', self::getConfigVars());
+        }
+    }
 }

@@ -62,6 +62,9 @@ $members = new backend_controller_admin();
 $members->securePage();
 $members->closeSession();
 if(magixcjquery_filter_request::isSession('useradmin')){
+    //Language model init class
+    $language = new backend_model_language();
+    $language->run();
 	backend_controller_config::load_attribute_config();
 	$ini = new backend_controller_dashboard();
 	$ini->run();

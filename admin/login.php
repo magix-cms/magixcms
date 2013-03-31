@@ -58,6 +58,7 @@ require('../lib/mcbackend.php');
 /**
  * Autoload Frontend
  */
+//Language model init class
 $members = new backend_controller_admin();
-$members->login(false);
+$members->login(true);
 ?>

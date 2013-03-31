@@ -84,7 +84,7 @@ class backend_model_smarty extends Smarty{
 		 * Path -> configs
 		 */
 		$this->setConfigDir(array(
-            self::setPath()."/app/backend/local/"
+            self::setPath().'/'.PATHADMIN.'/i18n/section/'
         ));
 		/**
 		 * Path -> templates
