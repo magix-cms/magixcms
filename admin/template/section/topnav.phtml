@@ -25,7 +25,7 @@
                     <li{if {script_name} eq "theming"} class="active"{/if}><a href="/{baseadmin}/theming.php"><span class="icon-columns"></span> Thèmes</a></li>
                     {/if}
                     {if $config_lang eq 1}
-                    <li{if {script_name} eq "lang"} class="active"{/if}><a href="/{baseadmin}/lang.php"><span class="icon-flag"></span> Langues</a></li>
+                    <li{if {script_name} eq "lang"} class="active"{/if}><a href="/{baseadmin}/lang.php"><span class="icon-flag"></span> {#languages#|ucfirst}</a></li>
                     {/if}
                     {if {role_admin items='administrator'}}
                     <li class="dropdown">
