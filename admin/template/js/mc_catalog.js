@@ -895,6 +895,49 @@ var MC_catalog = (function ($, undefined) {
     }
 
     /**
+     * Suppression d'une sous catégorie
+     * @param section
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
+    function removeSubCategory(section,getlang,edit,tab){
+        $(document).on('click','.delete-pages',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title:"Supprimer cet élément",
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            typesend: 'post',
+                            noticedata : {delete_subcategory:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:true
+                                });
+                                jsonListSubCategory(section,getlang,edit);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+    /**
      * Retourne l'url de la sous catégorie
      * @param section
      * @param getlang
@@ -2280,6 +2323,7 @@ var MC_catalog = (function ($, undefined) {
             }else if($('#list_subcategory').length != 0){
                 jsonListSubCategory(section,getlang,edit);
                 addSubCategory(section,getlang,edit);
+                removeSubCategory(section,getlang,edit,'subcat');
             }else if($('#load_catalog_category_img').length != 0){
                 getImageCategory(section,getlang,edit);
                 updateCategory(section,getlang,edit,'image');

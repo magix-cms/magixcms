@@ -972,6 +972,14 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
 
+    /**
+     * Suppression de la catégorie
+     */
+    private function remove_subcategory(){
+        if(isset($this->delete_subcategory)){
+            parent::d_subcategory($this->delete_subcategory);
+        }
+    }
     // ####### SECTION PRODUITS
     /**
      * Ajoute un nouveau produit
@@ -1872,6 +1880,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $this->addSubCategory($create);
                                             }elseif(isset($this->order_pages)){
                                                 $this->update_order_subcategory();
+                                            }elseif(isset($this->delete_subcategory)){
+                                                $this->remove_subcategory();
                                             }else{
                                                 $this->load_category_edit_data($create,$data);
                                                 $create->display('catalog/category/edit.phtml');

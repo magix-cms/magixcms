@@ -375,6 +375,18 @@ class backend_db_catalog{
             )
         );
     }
+
+    /**
+     * Suppression des sous catégories avec une transaction pour la suppression des produits liés
+     * @param $delete_subcategory
+     */
+    protected function d_subcategory($delete_subcategory){
+        $sql = array(
+            'DELETE FROM mc_catalog_product WHERE idcls = '.$delete_subcategory,
+            'DELETE FROM mc_catalog_s WHERE idcls = '.$delete_subcategory
+        );
+        magixglobal_model_db::layerDB()->transaction($sql);
+    }
     //PRODUCT
 
     /**
