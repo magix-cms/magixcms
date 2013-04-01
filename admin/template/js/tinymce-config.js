@@ -13,7 +13,7 @@
 $(function() {
     $('.mceEditor').tinymce({
         // Location of TinyMCE script
-        script_url : '/admin/template/js/tiny_mce.'+editor_version+'/tiny_mce.js',
+        script_url : '/'+baseadmin+'/template/js/tiny_mce.'+editor_version+'/tiny_mce.js',
         //document_base_url :"/",
         apply_source_formatting : true,
         mode : "exact",
@@ -68,7 +68,7 @@ $(function() {
 });
 function openFilemanager(field_name, url, type, win) {
     tinyMCE.activeEditor.windowManager.open({
-        file : '/admin/template/js/filemanager/index.php',
+        file : '/'+baseadmin+'/template/js/filemanager/index.php',
         title : 'File Browser',
         width : 800,
         height : 600,
