@@ -398,7 +398,7 @@ class backend_controller_news extends backend_db_news{
             $img = '<p><img src="/upload/news/s_'.$news_img.'" class="img-polaroid" alt="" /></p>';
             $img .= '<p><a class="delete-image">Supprimer</a></p>';
 		}else{
-			$img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+			$img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
 		}
 		print $img;
 	}

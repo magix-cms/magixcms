@@ -893,10 +893,10 @@ class backend_controller_catalog extends backend_db_catalog{
                 $img = '<p><img src="/upload/catalogimg/subcategory/'.$img_s.'" class="img-polaroid" alt="" /></p>';
                 $img .= '<p><a href="#" data-delete="'.$img_s.'" class="btn delete-image"><span class="icon-trash"></span> Supprimer</a></p>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
             }
         }else{
-            $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+            $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
         }
         print $img;
     }
@@ -1457,10 +1457,10 @@ class backend_controller_catalog extends backend_db_catalog{
                 $img .= '</li>';
                 $img .= '</ul>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
             }
         }else{
-            $img .= '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+            $img .= '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
         }
         $img .= '</div>';
         print $img;
