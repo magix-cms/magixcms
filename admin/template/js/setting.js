@@ -59,7 +59,7 @@ $(function(){
     /**
      * Initialize localstorage or display his data for sidebar menu
      */
-    function lauchMenustorage()
+    /*function lauchMenustorage()
     {
         // set localstorage key
         var menuStorage =   localStorage.getItem('menuStorage');
@@ -89,7 +89,7 @@ $(function(){
      * @TODO ajouter la valeur d'IdProfil dans le nom du localStorage, si plusieurs compte utilisent le même navigateur
      */
 //    localStorage.removeItem('menuStorage'); // reset local storage (for debuging)
-    if (Modernizr.localstorage) {
+    /*if (Modernizr.localstorage) {
         // Init localStorage on load
         lauchMenustorage();
         // reset handler on sidebar links
@@ -133,7 +133,7 @@ $(function(){
             // update localstorage
             localStorage.setItem('menuStorage',JSON.stringify(menuJson));
         });
-    }
+    }*/
 
 
     // jmShowIt metas

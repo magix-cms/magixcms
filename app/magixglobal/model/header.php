@@ -214,6 +214,18 @@ class magixglobal_model_header{
 			magixcjquery_debug_magixfire::magixFireLog("Headers:", headers_list());
 		}
 	}
+
+    /**
+     * Retourne l'entête javascript
+     * @param $charset
+     * @param bool $debug
+     */
+    public function javascript_header($charset,$debug=false){
+        header('Content-type: text/javascript; charset='.$charset);
+        if($debug == true){
+            magixcjquery_debug_magixfire::magixFireLog("Headers:", headers_list());
+        }
+    }
 	/**
 	 * retourne l'entete html
 	 * @param string $charset
