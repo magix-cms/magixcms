@@ -20,6 +20,9 @@ h3 {
 .input-inline-btn{
     margin-left: 15px;
 }
+/*
+* UI Spinner
+*/
 .ui-spinner {
     position:relative;
     display: inline-block;
@@ -136,6 +139,12 @@ input[type='text'].ui-spinner-input {
 .sidebar-nav ul ul{
     list-style: none;
 }
+#sidebar {
+    max-width: 220px;
+}
+#sidebar .nav-flag {
+    margin: 5px 0;
+}
 /*.dropdown:hover .dropdown-menu {
     display: block;
 }
@@ -166,13 +175,15 @@ a.menu:after, .dropdown-toggle:after {
 #graphPages{
     max-height: 300px;
 }
-
+/*
+* UI Sortable
+*/
 tbody.ui-sortable{}
 tbody.ui-sortable > .ui-sortable-helper{
     width: 100%;
 }
 /**
-* PREVIEW
+* PREVIEW Fancybox
 */
 .post-preview{
     font-size: 28.5px;
@@ -180,7 +191,7 @@ tbody.ui-sortable > .ui-sortable-helper{
     font-weight: lighter;
 }
 /**
-* =====    Thumbails
+* ===== Thumbails Theming
 **/
 #theming .thumbnail img{
     margin-top:5px;
@@ -206,7 +217,9 @@ tbody.ui-sortable > .ui-sortable-helper{
 .block-row{
     margin:5px 0;
 }
-/* List image*/
+/*
+* List image
+*/
 .list-picture li{
     text-align:center;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -230,6 +243,7 @@ tbody.ui-sortable > .ui-sortable-helper{
     max-height:120px;
 }
 /*
+* UI Autocomplete
 * disposition en tableau des listes avec autocomplete
 */
 ul.autocomplete-list-row{
@@ -253,8 +267,4 @@ ul.autocomplete-list-row li span{
 */
 .mc-error{
     margin:5px 0 0 0;
-}
-
-#sidebar {
-    max-width: 220px;
 }

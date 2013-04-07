@@ -65,6 +65,8 @@ $(function() {
         theme_advanced_resizing_min_width : 320,
         language : 'fr'
     });
+    // Load a script from a specific URL using the global script loader
+    // .load('/'+baseadmin+'/template/js/plugins/holder.js')
 });
 function openFilemanager(field_name, url, type, win) {
     tinyMCE.activeEditor.windowManager.open({
