@@ -1,4 +1,51 @@
 #### 2.4.0
+Beta 3
+    * Fix bug système de traduction admin (#6)
+        * Ajout de surcharge smarty (backend)
+        * Suppression du dossier dashboard (i18) (#6)
+        * Création du dossier modules + fichier dashboard (#6)
+    * Works #57 Modèle de script/balisage Bootstrap via tinyMCE
+        * Compression des fichiers JS des plugins tinyMCE (mc_catalog,mc_pages, mc_news)
+    * Fix issue Image substitution produits catégories etc (#64)
+    * Modification des drapeau de langues dans sidebar
+    * Ajout baseadmin dans config tinymce
+    * Ajout de la suppression de sous catégorie (#63)
+    * Ajout de la suppression catégorie catalog (#60)
+    * Première traduction de topnav backend (#6)
+    * Ajout de la suppression de page d'accueil (#62)
+    * Ajout du système de traduction de l'administration (#6)
+        * Ajout de fonction native de smarty dans l'API template (backend)
+        * Ajout de addConfigFile (chargement multi config) dans template
+        * Ajout des traductions dans login
+    * fix #59 + imgSrc method improvement
+    * Fix chargement modernizr avec balise smarty
+    * [BO] Add basic localStorage feature for sidebar (First test)
+    * Fix #23 (3rd commit)
+    * Multiple bug fix - enhancement - update + work on #23
+    * Work on #23 - CMS + widget syntax revision
+        widget_catalog_display
+        widget_catalog_nav
+        widget_cms_display
+        widget_cms_nav
+    * Massive syntax revision - catalog smarty var
+    * Bug Fixe - Widget catalog display -img size
+    * Bug fix from previous commit
+        * Modification du nommage de 'htmlBefore' en 'before' dans le constructor
+    * Massive Syntax revision - Widget pattern
+        * Révision du nommage des pattern pour les widget.
+        * Les clées 'htmlAfter' et 'htmlBefore' devienne 'after' et 'before' pour un plus grande simplicité à l'intégration
+    * Enhancement - catalog model getData
+        * load 'last-product' data by subcategory's id
+    * fix bug - level deep recursive issue
+    * fix bug - Catalog - db - s_product
+    * fix bug - product img in model/catalog.php - SetData product
+    * Removing unused folder - /skin/default/img/css
+        * Les images css seront injectées dans le dossier css. Pour faciliter la mise à jour de bootstrap
+    * Modification de l'encodage dans tinyMCE
+    * Nettoyage du fichier des réécritures d'URL
+    * Modification de l'url du plugin contact dans le skin
+    * Ajout de la mise en cache dans l'assignation des variables (#54)
+
 Beta 2
     * Ajout du switch smarty dans les templates
     * Fix bug suppression utilisateurs (#54)

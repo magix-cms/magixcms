@@ -174,6 +174,19 @@ class backend_controller_template{
      * @param array $load_files
      * @param bool $debug
      * @throws Exception
+     * @example:
+        backend_controller_template::addConfigFile(array(
+            'test'
+        ),array('test_'),true);
+         *
+        backend_controller_template::addConfigFile(array(
+            'test'
+        ),array('test_'=>'montest'),true);
+        OR
+        backend_controller_template::addConfigFile(array(
+            'test',
+            autre'
+        ),array('test_'=>array('montest'),'truc_'),true);
      */
     public static function addConfigFile(array $addConfigDir,array $load_files,$debug=false){
         $firebug = new magixcjquery_debug_magixfire();
