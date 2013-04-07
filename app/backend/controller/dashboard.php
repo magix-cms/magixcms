@@ -94,14 +94,21 @@ class backend_controller_dashboard extends backend_db_dashboard{
 		}
 		return $v;
 	}
-	/*
-	 * Affiche la version du CMS ainsi que le message attaché
-	 */
-	private function format_version($create){
+
+    /**
+     * Affiche la version du CMS ainsi que le message attaché
+     * @param $create
+     */
+    private function format_version($create){
         $version = '<strong>'.self::read_local_version().'</strong> ('.self::read_local_phase().')';
         $create->assign('version', $version, true);
         $create->display('dashboard/version.phtml');
 	}
+
+    /**
+     * Retourne un tableau des statistiques des utilisateurs
+     * @return array
+     */
     private function load_stats_user(){
         $data = parent::c_users();
         foreach($data as $key){
@@ -116,19 +123,15 @@ class backend_controller_dashboard extends backend_db_dashboard{
 	 */
 	public function run(){
         $create = new backend_controller_template();
-        $create->addConfigFile(
-            array(
-                backend_controller_template::basePathConfig().'dashboard',
-            ),
-            array('local_')
-            ,
-            true
-        );
         if(isset($this->action)){
             if($this->action == 'version'){
                 $this->format_version($create);
             }
         }else{
+            $create->addConfigFile(array(
+                    'modules'
+                ),array('dashboard_'),true
+            );
             // Assigne un tableau des langues
             $create->assign('array_stats_user',self::load_stats_user());
             $create->display('dashboard/index.phtml');

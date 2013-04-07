@@ -40,7 +40,14 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 class backend_controller_ajax{
+    /**
+     * @var int
+     */
     public $getlang,$tab,$action;
+
+    /**
+     * Constructor
+     */
     public function __construct(){
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
@@ -68,8 +75,6 @@ class backend_controller_ajax{
         $delimiter = "\n";
         foreach ($iterator as $fileinfo) {
             if (in_array($fileinfo->getExtension(), $extensions)) {
-                //echo 'File path = ' .$fileinfo->getPathname();
-                //echo 'File extension = ' .$fileinfo->getExtension();
                 $pos = strpos($fileinfo->getPathname(),PATHADMIN);
                 $len = strlen($pos);
                 $files[] = $delimiter.'["'

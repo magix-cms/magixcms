@@ -76,36 +76,44 @@ class backend_model_smarty extends Smarty{
 		 $this->right_delimiter = '%>';
 		 */
 	}
-	private function setPath(){
+
+    /**
+     * @return mixed
+     */
+    private function setPath(){
 		return magixglobal_model_system::base_path();
 	}
-	protected function setParams() {
+
+    /**
+     *
+     */
+    protected function setParams() {
 		/**
 		 * Path -> configs
 		 */
 		$this->setConfigDir(array(
-            self::setPath().'/'.PATHADMIN.'/i18n/section/'
+            self::setPath().PATHADMIN.'/i18n/section/'
         ));
 		/**
 		 * Path -> templates
 		 */
         $this->setTemplateDir(array(
-            self::setPath().'/'.PATHADMIN.'/template/'
+            self::setPath().PATHADMIN.'/template/'
         ));
 		/**
 		 * path plugins
 		 * @var void
 		 */
         $this->setPluginsDir(array(
-			self::setPath().'/lib/smarty3/plugins/'
-			,self::setPath().'/app/wdcore/'
-			,self::setPath().'/'.PATHADMIN.'/template/widget/'
+			self::setPath().'lib/smarty3/plugins/'
+			,self::setPath().'app/wdcore/'
+			,self::setPath().PATHADMIN.'/template/widget/'
 		));
 		/**
 		 * Path -> compile
 		 */
         $this->setCompileDir(
-            self::setPath().'/'.PATHADMIN.'/caching/templates_c/'
+            self::setPath().PATHADMIN.'/caching/templates_c/'
         );
 		/**
 		 * debugging (true/false)
@@ -133,7 +141,7 @@ class backend_model_smarty extends Smarty{
 		/**
 		 * cache_dir -> cache
 		 */
-        $this->setCacheDir(self::setPath().'/'.PATHADMIN.'/caching/tpl_caches/');
+        $this->setCacheDir(self::setPath().PATHADMIN.'/caching/tpl_caches/');
 		/**
 		 * load pre filter
 		 */
