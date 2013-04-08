@@ -257,6 +257,10 @@ class backend_controller_home extends backend_db_home{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('home_'),false
+        );
         if(isset($this->action)){
             if($this->action == 'list'){
                 if(magixcjquery_filter_request::isGet('json_list_home')){

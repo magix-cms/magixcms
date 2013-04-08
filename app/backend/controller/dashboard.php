@@ -130,7 +130,7 @@ class backend_controller_dashboard extends backend_db_dashboard{
         }else{
             $create->addConfigFile(array(
                     'modules'
-                ),array('dashboard_'),true
+                ),array('dashboard_'),false
             );
             // Assigne un tableau des langues
             $create->assign('array_stats_user',self::load_stats_user());

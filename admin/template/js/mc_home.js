@@ -40,6 +40,9 @@
  */
 var MC_home = (function ($, undefined) {
     //Fonction Private
+    /**
+     * Graphique
+     */
     function graph(){
         $.nicenotify({
             ntype: "ajax",
@@ -72,6 +75,10 @@ var MC_home = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Liste des pages
+     */
     function jsonHome(){
         $.nicenotify({
             ntype: "ajax",
@@ -171,7 +178,14 @@ var MC_home = (function ($, undefined) {
                                 .append(
                                 $(document.createElement("td")).append(item.idhome),
                                 $(document.createElement("td")).append(item.iso),
-                                $(document.createElement("td")).append(item.subject),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/home.php?action=edit&edit='+item.idhome)
+                                        .attr("title", "Editer "+item.iso)
+                                        .append(
+                                            item.subject
+                                        )
+                                ),
                                 $(document.createElement("td")).append(content),
                                 $(document.createElement("td")).append(item.pseudo),
                                 $(document.createElement("td")).append(metatitle),
@@ -220,6 +234,10 @@ var MC_home = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Ajout d'une nouvelle page
+     */
     function add(){
         var formsAddHome = $("#forms_home_add").validate({
             onsubmit: true,
@@ -272,6 +290,11 @@ var MC_home = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Modification d'une page
+     * @param edit
+     */
     function update(edit){
         var url = '/admin/home.php?action=edit&edit='+edit;
         var formsUpdatePages = $('#forms_home_edit').validate({
