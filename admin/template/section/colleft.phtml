@@ -5,13 +5,13 @@
             <li class="nav-header">Pages</li>
             <li>
                 <a href="#home" class="showit{if {script_name} eq "home"} open{/if}">
-                    <span class="icon-plus"></span> Page d'accueil
+                    <span class="icon-plus"></span> {#home#|ucfirst}
                 </a>
                 <div class="collapse-item{if {script_name} eq "home"} on{/if}" id="home">
                     <ul class="inline nav-flag">
                         <li>
                             <a href="/{baseadmin}/home.php?action=list">
-                                <span class="icon-list-ul"></span> Liste
+                                <span class="icon-list-ul"></span> {#list#|ucfirst}
                             </a>
                         </li>
                     </ul>
@@ -40,10 +40,10 @@
         {if $config_news eq 1}
         <ul class="nav nav-list">
         {* -- START NEWS -- *}
-            <li class="nav-header">Actualités</li>
+            <li class="nav-header">{#news#|upper}</li>
             <li>
                 <a href="#news" class="showit{if {script_name} eq "news"} open{/if}">
-                    <span class="icon-plus"></span> Articles
+                    <span class="icon-plus"></span> {#article#|upper}
                 </a>
                 <div class="collapse-item{if {script_name} eq "news"} on{/if}" id="news">
                     <ul class="inline nav-flag">
@@ -63,10 +63,10 @@
         {if $config_catalog eq 1}
         <ul class="nav nav-list">
         {* -- START CATALOG -- *}
-            <li class="nav-header">Catalogue</li>
+            <li class="nav-header">{#catalog#|upper}</li>
             <li>
                 <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category"} open{/if}">
-                    <span class="icon-plus"></span> Catégories
+                    <span class="icon-plus"></span> {#category#|ucfirst}
                 </a>
                 <div class="collapse-item{if {script_name} eq "catalog:category" OR  {script_name} eq "catalog:subcategory"} on{/if}" id="catalog-category">
                     <ul class="inline nav-flag">
@@ -82,7 +82,7 @@
             </li>
             <li>
                 <a href="#catalog-product" class="showit{if {script_name} eq "catalog:product"} open{/if}">
-                    <span class="icon-plus"></span> Produits
+                    <span class="icon-plus"></span> {#products#|ucfirst}
                 </a>
                 <div class="collapse-item{if {script_name} eq "catalog:product"} on{/if}" id="catalog-product">
                     <ul class="inline nav-flag">
