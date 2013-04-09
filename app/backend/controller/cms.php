@@ -657,6 +657,10 @@ class backend_controller_cms extends backend_db_cms{
 	public function run(){
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('cms_'),false
+        );
 		if(magixcjquery_filter_request::isGet('getlang')){
             if(isset($this->action)){
                 if($this->action == 'list'){

@@ -8,7 +8,7 @@
         <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
     </p>
     <p class="controls-row offset1 input-append">
-        <label for="uri_page">URL Simplifié</label>
+        <label for="uri_page">{#url_rewriting#|ucfirst}</label>
         <input type="text" class="input-xlarge" id="uri_page" name="uri_page" readonly="readonly" size="30" value="{$uri_page}" />
         <a class="unlocked" href="#">
             <span class="add-on icon-lock"></span>
@@ -16,21 +16,21 @@
     </p>
     <div class="clearfix"></div>
     <p>
-        <label for="title_page">Titre :</label>
+        <label for="title_page">{#label_title#|ucfirst} :</label>
         <input type="text" class="input-xlarge" id="title_page" name="title_page" value="{$title_page}" size="50" />
     </p>
     <p>
-        <label for="content_page" class="inlinelabel">Contenu :</label>
+        <label for="content_page" class="inlinelabel">{#label_content#|ucfirst} :</label>
         <textarea name="content_page" id="content_page" class="mceEditor">{$content_page}</textarea>
     </p>
     <p>
         <a href="#metas" class="btn view-metas">
-            <span class="icon-plus"></span> Voir les métas
+            <span class="icon-plus"></span> {#display_metas#|ucfirst}
         </a>
     </p>
     <div class="collapse-metas" id="metas">
         <p>
-            <label for="seo_title_page">Title :</label>
+            <label for="seo_title_page">{#label_title#|ucfirst} :</label>
             <textarea class="span6" id="seo_title_page" name="seo_title_page" cols="70" rows="3">{$seo_title_page}</textarea>
         </p>
         <p>
@@ -39,6 +39,6 @@
         </p>
     </div>
     <p>
-        <input type="submit" class="btn btn-primary" value="Envoyer" />
+        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
     </p>
 </form>

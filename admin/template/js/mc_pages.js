@@ -566,7 +566,14 @@ var MC_pages = (function ($, undefined) {
                                 $(document.createElement("td")).append(
                                     item.idpage
                                 ),
-                                $(document.createElement("td")).append(item.title_page),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                        .attr("title", "Editer "+item.title_page)
+                                        .append(
+                                            item.title_page
+                                        )
+                                ),
                                 $(document.createElement("td")).append(content_page),
                                 $(document.createElement("td")).append(seo_title_page),
                                 $(document.createElement("td")).append(seo_desc_page),
