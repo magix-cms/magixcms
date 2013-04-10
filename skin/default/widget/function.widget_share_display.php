@@ -133,6 +133,12 @@ function smarty_function_widget_share_display($params, $template){
             'name' => 'viadeo',
             'url' => 'http://www.viadeo.com/shareit/share/?url='.$url['share'].'&amp;title='.$name.'&amp;overview='.$name,
             'img' => 'viadeo.png'
+        ),
+        'google' => array(
+            'name' => 'google',
+            'url' => 'https://plus.google.com/share?url='.$url['share'],
+            'onclick' => 'javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;',//TODO Prendre en charge dans le formatage
+            'img' => 'google.png'//TODO Créer l'image
         )
     );
 
