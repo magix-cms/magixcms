@@ -19,7 +19,7 @@
                 </small>
                 {if $news.imgSrc.small}
                     <a href="{$news.imgSrc.medium}" class="img-zoom" title="{#zoom_in#}">
-                        <img src="{$news.imgSrc.small}" alt="{$name_news}" class="pull-right img-polaroid" />
+                        <img src="{$news.imgSrc.small}" alt="{$news.name}" class="pull-right img-polaroid" />
                     </a>
                 {/if}
                 {$news.content}

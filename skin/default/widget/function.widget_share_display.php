@@ -138,13 +138,13 @@ function smarty_function_widget_share_display($params, $template){
             'name' => 'google',
             'url' => 'https://plus.google.com/share?url='.$url['share'],
             'onclick' => 'javascript:window.open(this.href,\'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;',//TODO Prendre en charge dans le formatage
-            'img' => 'google.png'//TODO Créer l'image
+            'img' => 'google.png'
         )
     );
 
         // ** Select Data
-        if (isset($params['dataSelect']['select'])){
-            $dataSelect = explode(',',$params['dataSelect']['select']);
+        if (isset($params['dataSelect']['context'])){
+            $dataSelect = explode(',',$params['dataSelect']['context']);
             foreach($dataSelect as $share){
                 if(array_key_exists($share,$data_default)){
                     $data[] = $data_default[$share];
