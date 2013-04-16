@@ -1,4 +1,4 @@
-<div class="span7">
+<div class="span10">
 <form id="forms_config_edit" method="post" action="">
         {foreach $array_radio_config as $key => $value nocache}
             {*{if $value@iteration % 2 == 0 && $value@iteration > 0}
@@ -13,7 +13,7 @@
             {/if}
             <div class="span5">
                 <h3>
-                    {$key}
+                    {#$key#|ucfirst}
                 </h3>
                 <label class="radio inline">
                     <input type="radio" name="{$key}" id="{$key}" value="0"{if $value eq 0} checked="checked"{/if} />
