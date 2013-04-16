@@ -5,10 +5,10 @@ $(function(){
     {
         console.log("MC_config is not defined");
     }else{
-        {if $smarty.get.tab}
-        {if $smarty.get.tab eq 'editor' OR $smarty.get.tab eq 'cache'}
+        {if $smarty.get.section}
+        {if $smarty.get.section eq 'editor' OR $smarty.get.section eq 'cache'}
             MC_config.runEditor();
-        {elseif $smarty.get.tab eq 'imagesize'}
+        {elseif $smarty.get.section eq 'imagesize'}
             MC_config.runImages();
         {/if}
         {else}

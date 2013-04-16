@@ -68,7 +68,7 @@ var MC_config = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/config.php?tab=editor&action=edit',
+                    uri: '/admin/config.php?section=editor&action=edit',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:false,
@@ -87,7 +87,7 @@ var MC_config = (function ($, undefined) {
         $('#forms_editor_css_edit').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?tab=editor&action=edit',
+                uri: '/admin/config.php?section=editor&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 resetform:false,
@@ -104,7 +104,7 @@ var MC_config = (function ($, undefined) {
         $('#'+formsId).on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?tab=imagesize&action=edit',
+                uri: '/admin/config.php?section=imagesize&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 successParams:function(data){
@@ -120,7 +120,7 @@ var MC_config = (function ($, undefined) {
         $('#forms_config_concat').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?tab=cache&action=edit',
+                uri: '/admin/config.php?section=cache&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 resetform:false,
@@ -137,7 +137,7 @@ var MC_config = (function ($, undefined) {
         $('#forms_config_cache').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?tab=cache&action=edit',
+                uri: '/admin/config.php?section=cache&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 resetform:false,

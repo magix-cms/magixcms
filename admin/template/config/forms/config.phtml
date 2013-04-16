@@ -17,11 +17,11 @@
                 </h3>
                 <label class="radio inline">
                     <input type="radio" name="{$key}" id="{$key}" value="0"{if $value eq 0} checked="checked"{/if} />
-                    Désactivé
+                    {#off#|ucfirst}
                 </label>
                 <label class="radio inline">
                     <input type="radio" name="{$key}" id="{$key}_{$value@iteration}" value="1"{if $value eq 1} checked="checked"{/if} />
-                    Activé
+                    {#on#|ucfirst}
                 </label>
             </div>
             {if $value@last}
@@ -30,7 +30,7 @@
         {/foreach}
     <div class="clearfix"></div>
     <p class="input-btn">
-        <input type="submit" class="btn btn-primary" value="Envoyer" />
+        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
     </p>
 </form>
 </div>

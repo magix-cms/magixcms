@@ -76,7 +76,7 @@ class backend_controller_config extends backend_db_config{
 	 * @var string
 	 */
 	public $metasrewrite,$plugins;
-    public $action,$tab;
+    public $action,$section,$tab;
     public $id_size_img,$config_size_attr,$width,$height,$img_resizing;
 	/**
 	 * function construct
@@ -103,6 +103,9 @@ class backend_controller_config extends backend_db_config{
 		}
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('section')){
+            $this->section = magixcjquery_form_helpersforms::inputClean($_GET['section']);
         }
         if(magixcjquery_filter_request::isGet('tab')){
             $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
@@ -282,37 +285,32 @@ class backend_controller_config extends backend_db_config{
             $create->display('config/request/success_update.phtml');
         }
     }
-    /**
-     * @param $type
-     * @return mixed
-     */
-    private function img_size_type($type){
-        //Tableau des variables à rechercher
-        $search = array('small','medium','large');
-        $replace = array('Mini','Moyen','Grand');
-        return str_replace($search ,$replace,$type);
-    }
 
     /**
      * @param $attr_name
      * @return array
      */
     private function load_img_forms($attr_name){
-        $tab_img = array();
-        $tab_img[] = array();
-        $i = 0;
-        foreach(parent::s_attribute_img_size_config($attr_name) as $row){
-            $tab_img[$i]['id_size_img'] = $row['id_size_img'];
-            $tab_img[$i]['attr_name'] = $row['attr_name'];
-            $tab_img[$i]['config_size_attr'] = $row['config_size_attr'];
-            $tab_img[$i]['type'] = $row['type'];
-            $tab_img[$i]['width'] = $row['width'];
-            $tab_img[$i]['height'] = $row['height'];
-            $tab_img[$i]['img_resizing'] = $row['img_resizing'];
-            $tab_img[$i]['img_size_type'] = $this->img_size_type($row['type']);
-            $i++;
+        $attr = parent::s_attribute_img_size_config($attr_name);
+        if($attr != null){
+            $tab_img = array();
+            $tab_img[] = array();
+            $i = 0;
+            foreach($attr as $key){
+                $tab_img[$i]['id_size_img'] = $key['id_size_img'];
+                $tab_img[$i]['attr_name'] = $key['attr_name'];
+                $tab_img[$i]['config_size_attr'] = $key['config_size_attr'];
+                $tab_img[$i]['type'] = $key['type'];
+                $tab_img[$i]['width'] = $key['width'];
+                $tab_img[$i]['height'] = $key['height'];
+                $tab_img[$i]['img_resizing'] = $key['img_resizing'];
+                $tab_img[$i]['img_size_type'] = $key['type'];
+                $i++;
+            }
+            return $tab_img;
+        }else{
+            return null;
         }
-        return $tab_img;
     }
 
     /**
@@ -384,8 +382,12 @@ class backend_controller_config extends backend_db_config{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
-        if(isset($this->tab)){
-            if($this->tab == 'editor'){
+        $create->addConfigFile(array(
+                'modules'
+            ),array('config_'),false
+        );
+        if(isset($this->section)){
+            if($this->section == 'editor'){
                 if(isset($this->action)){
                     if($this->action == 'edit'){
                         if(isset($this->manager_setting)){
@@ -398,17 +400,22 @@ class backend_controller_config extends backend_db_config{
                     $this->load_editor_data($create);
                     $create->display('config/editor.phtml');
                 }
-            }elseif($this->tab == 'imagesize'){
+            }elseif($this->section == 'imagesize'){
                 if(isset($this->action)){
                     if($this->action == 'edit'){
                         $this->update_imagesize($create);
                     }
                 }else{
-                    $create->assign('imgsize_news',$this->load_img_forms('news'));
-                    $create->assign('imgsize_catalog',$this->load_img_forms('catalog'));
+                    $create->assign('imgsize',
+                        array(
+                            'news'=>$this->load_img_forms('news'),
+                            'catalog'=>$this->load_img_forms('catalog'),
+                            'plugins'=>$this->load_img_forms('plugins')
+                        )
+                    );
                     $create->display('config/imagesize.phtml');
                 }
-            }elseif($this->tab == 'cache'){
+            }elseif($this->section == 'cache'){
                 if(isset($this->action)){
                     if($this->action == 'edit'){
                         if(isset($this->concat)){
