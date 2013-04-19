@@ -44,7 +44,7 @@
                             <h3><span class="icon-user"></span> {#users#|ucfirst}</h3>
                             {foreach $array_stats_user as $key => $value nocache}
                             <p>
-                                <span class="badge badge-info">{$value}</span> {$key|ucfirst}
+                                <span class="badge">{$value}</span> {$key|ucfirst}
                             </p>
                             {/foreach}
                         </div>
@@ -53,7 +53,7 @@
                             <ul class="inline">
                             {foreach $array_lang as $key => $value nocache}
                             <li>
-                                <span class="badge badge-info">{$value|upper}</span>
+                                <span class="badge">{$value|upper}</span>
                             </li>
                             {/foreach}
                             </ul>
@@ -72,7 +72,7 @@
                                     {foreach $array_lang as $key => $value nocache}
                                         <li>
                                             <a href="/{baseadmin}/cms.php?getlang={$key}&amp;action=list">
-                                                <span class="icon-flag"></span> {$value|upper}
+                                                <span class="badge">{$value|upper}</span>
                                             </a>
                                         </li>
                                     {/foreach}
@@ -85,7 +85,7 @@
                             <ul class="unstyled">
                                 <li>
                                     <a href="/{baseadmin}/home.php?action=list">
-                                        <span class="icon-list-ul"></span> {#list#|ucfirst}
+                                        <span class="badge"><span class="icon-list-ul"></span> {#list#|ucfirst}</span>
                                     </a>
                                 </li>
                             </ul>
@@ -96,24 +96,24 @@
                             <h3><span class="icon-shopping-cart"></span> {#catalog#|ucfirst}</h3>
                             <ul class="unstyled">
                                 <li>
-                                    <span class="icon-folder-open-alt"></span> {#category#|ucfirst}
+                                    <h4><span class="icon-folder-open-alt"></span> {#category#|ucfirst}</h4>
                                     <ul class="inline">
                                     {foreach $array_lang as $key => $value nocache}
                                         <li>
                                             <a href="/{baseadmin}/catalog.php?section=category&amp;getlang={$key}">
-                                                <span class="icon-flag"></span> {$value|upper}
+                                                <span class="badge">{$value|upper}</span>
                                             </a>
                                         </li>
                                     {/foreach}
                                     </ul>
                                 </li>
                                 <li>
-                                    <span class="icon-shopping-cart"></span> {#products#|ucfirst}
+                                    <h4><span class="icon-shopping-cart"></span> {#products#|ucfirst}</h4>
                                     <ul class="inline">
                                     {foreach $array_lang as $key => $value nocache}
                                         <li>
                                             <a href="/{baseadmin}/catalog.php?section=product&amp;getlang={$key}">
-                                                <span class="icon-flag"></span> {$value|upper}
+                                                <span class="badge">{$value|upper}</span>
                                             </a>
                                         </li>
                                     {/foreach}
@@ -129,7 +129,7 @@
                                     {foreach $array_lang as $key => $value nocache}
                                         <li>
                                             <a href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
-                                                <span class="icon-flag"></span> {$value|upper}
+                                                <span class="badge">{$value|upper}</span>
                                             </a>
                                         </li>
                                     {/foreach}
