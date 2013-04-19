@@ -12,9 +12,9 @@
             <div id="article-inner" class="span8">
                 <h1>{$news.name}</h1>
                 <small>
-                    Publiée le {$news.date.register|date_format:"%d-%m-%Y"}
+                    {#published_on#|ucfirst} {$news.date.register|date_format:"%d-%m-%Y"}
                     {if $news.date.publish|date_format:"%d-%m-%Y" != $news.date.register|date_format:"%d-%m-%Y"}
-                        mis à jour le {$news.date.publish|date_format:"%d-%m-%Y"}
+                        {#updated_on#} {$news.date.publish|date_format:"%d-%m-%Y"}
                     {/if}
                 </small>
                 {if $news.imgSrc.small}
