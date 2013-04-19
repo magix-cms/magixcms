@@ -1,4 +1,4 @@
-<div class="span11">
+<div id="conf-img-size" class="span11">
 {if $smarty.get.tab eq "news"}
     <h2>{#news#|ucfirst}</h2>
     {foreach $imgsize.news as $key => $value nocache}
@@ -9,8 +9,8 @@
             <div class="row-fluid">
         {/if}
         <form class="forms-config" method="post" action="" id="si_{$value.attr_name}_{$value.config_size_attr}_{$value.type}">
-            <h3>{$value.config_size_attr}: {$value.img_size_type}</h3>
-            <div class="control-group">
+            <div class="control-group well">
+                <h3 class="span2">{$value.img_size_type}</h3>
                 <div class="span3 controls pull-left">
                     <span>{#width#|ucfirst} :</span>
                     <input type="text" class="input-small spincount" name="width" value="{$value.width}" size="50" />
@@ -19,7 +19,7 @@
                     <span>{#height#|ucfirst} :</span>
                     <input type="text" class="input-small spincount" name="height" value="{$value.height}" size="50" />
                 </div>
-                <div class="span4 controls pull-left">
+                <div class="span2 controls pull-left">
                     <label class="radio inline">
                         <input type="radio" name="img_resizing" value="basic" {if $value.img_resizing eq 'basic'} checked="checked"{/if} />
                         Basic
@@ -29,10 +29,10 @@
                         Adaptive
                     </label>
                 </div>
-                <p class="input-btn">
+                <div class="input-btn">
                     <input type="hidden" name="id_size_img" value="{$value.id_size_img}" />
-                    <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
-                </p>
+                    <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
+                </div>
             </div>
         </form>
         {if $value@last}
@@ -42,6 +42,7 @@
 {elseif $smarty.get.tab eq "plugins"}
     <h2>Plugins</h2>
     {if $imgsize.plugins != NULL}
+        {$section = null}
     {foreach $imgsize.plugins as $key => $value nocache}
         {if $value@first}
             <div class="row-fluid">
@@ -50,8 +51,12 @@
             <div class="row-fluid">
         {/if}
         <form class="forms-config" method="post" action="" id="si_{$value.attr_name}_{$value.config_size_attr}_{$value.type}">
-            <h3>{$value.config_size_attr}: {$value.img_size_type}</h3>
-            <div class="control-group">
+            {if $value.config_size_attr != $section }
+                <h3>{{$value.config_size_attr|ucfirst}}</h3>
+                {$section = $value.config_size_attr}
+            {/if}
+            <div class="control-group well">
+                <h4 class="span2">{$value.img_size_type}</h4>
                 <div class="span3 controls pull-left">
                     <span>{#width#|ucfirst} :</span>
                     <input type="text" class="input-small spincount" name="width" value="{$value.width}" size="50" />
@@ -60,7 +65,7 @@
                     <span>{#height#|ucfirst} :</span>
                     <input type="text" class="input-small spincount" name="height" value="{$value.height}" size="50" />
                 </div>
-                <div class="span4 controls pull-left">
+                <div class="span2 controls pull-left">
                     <label class="radio inline">
                         <input type="radio" name="img_resizing" value="basic" {if $value.img_resizing eq 'basic'} checked="checked"{/if} />
                         Basic
@@ -72,7 +77,7 @@
                 </div>
                 <p class="input-btn">
                     <input type="hidden" name="id_size_img" value="{$value.id_size_img}" />
-                    <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+                    <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
                 </p>
             </div>
         </form>
@@ -83,6 +88,7 @@
     {/if}
 {else}
     <h2>{#catalog#|ucfirst}</h2>
+    {$section = null}
     {foreach $imgsize.catalog as $key => $value nocache}
         {if $value@first}
             <div class="row-fluid">
@@ -91,8 +97,12 @@
         <div class="row-fluid">
         {/if}
         <form class="forms-config" method="post" action="" id="si_{$value.attr_name}_{$value.config_size_attr}_{$value.type}">
-            <h3>{#$value.config_size_attr#|ucfirst}: {$value.img_size_type|ucfirst}</h3>
-            <div class="control-group">
+            {if $value.config_size_attr != $section }
+                <h3>{{#$value.config_size_attr#|ucfirst}}</h3>
+                {$section = $value.config_size_attr}
+            {/if}
+            <div class="control-group well">
+                <h4 class="span2">{$value.img_size_type}</h4>
                 <div class="span3 controls pull-left">
                     <span>{#width#|ucfirst} :</span>
                     <input type="text" class="input-small spincount" name="width" value="{$value.width}" size="50" />
@@ -101,7 +111,7 @@
                     <span>{#height#|ucfirst} :</span>
                     <input type="text" class="input-small spincount" name="height" value="{$value.height}" size="50" />
                 </div>
-                <div class="span4 controls pull-left">
+                <div class="span2 controls pull-left">
                     <label class="radio inline">
                         <input type="radio" name="img_resizing" value="basic" {if $value.img_resizing eq 'basic'} checked="checked"{/if} />
                         Basic
@@ -111,10 +121,10 @@
                         Adaptive
                     </label>
                 </div>
-                <p class="input-btn">
+                <div class="input-btn">
                     <input type="hidden" name="id_size_img" value="{$value.id_size_img}" />
-                    <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
-                </p>
+                    <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
+                </div>
             </div>
         </form>
         {if $value@last}

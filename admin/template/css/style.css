@@ -268,3 +268,7 @@ ul.autocomplete-list-row li span{
 .mc-error{
     margin:5px 0 0 0;
 }
+
+.forms-config .ui-spinner {
+    max-width: 100px;
+}
