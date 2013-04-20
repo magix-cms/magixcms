@@ -1,6 +1,6 @@
 {include file="section/head.phtml" section="prepend"}
-{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>#seo_t_static_news#] category=$current_name_tag}}
-<title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>#seo_t_static_news#] category=$current_name_tag}</title>
+{headmeta meta="description" content={seo_rewrite config_param=['level'=>'1','idmetas'=>'2','default'=>#seo_t_static_news#] category=$tag.name}}
+<title>{seo_rewrite config_param=['level'=>'1','idmetas'=>'1','default'=>#seo_t_static_news#] category=$tag.name}</title>
 {include file="section/css.phtml"}
 </head>
 <body id="news-tag">
