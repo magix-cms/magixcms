@@ -58,22 +58,26 @@ class magixglobal_model_constructor {
                     switch ($v['name']) {
                         case 'first':
                             $item['name'] = '<<';
+                            $item['classLink'] = ' class="to-first"';
                             break;
                         case 'previous':
                             $item['name'] = '<';
+                            $item['classLink'] = ' class="to-previous"';
                             break;
                         case 'next':
                             $item['name'] = '>';
+                            $item['classLink'] = ' class="to-next"';
                             break;
                         case 'last':
                             $item['name'] = '>>';
+                            $item['classLink'] = ' class="to-last"';
                             break;
                         default:
                             $item['name'] = $v['name'];
                     }
                     $item['class']    =  ($item['name'] == $idActive) ? ' class="active"' : null;
                     $ouput['html']   .=  '<li'.$item['class'].'>';
-                        $ouput['html']   .=  '<a href="'.$v['url'].'" title="'.$item['name'].'" >';
+                        $ouput['html']   .=  '<a href="'.$v['url'].'" title="'.$item['name'].'"'.$item['classLink'].'>';
                             $ouput['html']   .=  $item['name'];
                         $ouput['html']   .=  '</a>';
                     $ouput['html']   .=  '</li>';
