@@ -90,7 +90,8 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'content_css', NULL, 'string', NULL),
 (NULL, 'concat', '0' , 'string', NULL),
 (NULL, 'cache', 'none' , 'string', NULL),
-(NULL, 'googleplus', NULL , 'string', 'Google plus');
+(NULL, 'googleplus', NULL , 'string', 'Google plus'),
+(NULL, 'robots', 'noindex,nofollow', 'string', 'metas robots');
 
 ALTER TABLE `mc_catalog` ADD `imgcatalog` VARCHAR( 125 ) NULL AFTER `titlecatalog`;
 

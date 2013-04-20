@@ -62,7 +62,11 @@ class backend_controller_googletools extends backend_db_config{
      * string
      * @var googleplus
      */
-    $googleplus;
+    $googleplus,
+    /**
+     * @var webmaster
+     */
+    $robots;
     public $action;
 	/**
 	 * Function construct
@@ -77,6 +81,9 @@ class backend_controller_googletools extends backend_db_config{
         if(magixcjquery_filter_request::isPost('googleplus')){
             $this->googleplus = magixcjquery_form_helpersforms::inputClean($_POST['googleplus']);
         }
+        if(magixcjquery_filter_request::isPost('robots')){
+            $this->robots = magixcjquery_form_helpersforms::inputClean($_POST['robots']);
+        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -89,7 +96,7 @@ class backend_controller_googletools extends backend_db_config{
     private function load_assign_setting($create){
         $data = parent::s_data_setting();
         $assign_exclude = array(
-            'theme','editor','magix_version','content_css','concat','cache'
+            'theme','editor','magix_version','content_css','concat','cache','robots'
         );
         foreach($data as $key){
             if( !(array_search($key['setting_id'],$assign_exclude) ) ){
@@ -98,6 +105,35 @@ class backend_controller_googletools extends backend_db_config{
         }
     }
 
+    /**
+     * @return string
+     * @TODO Traduire la valeur vide du select
+     */
+    private function load_robots_data(){
+        $config = parent::s_setting_id('robots');
+        switch($config['setting_value']){
+            case 'noindex,nofollow':
+                $default_value = 'noindex';
+                break;
+            case 'index,follow,all':
+                $default_value = 'index';
+                break;
+        }
+        $select = backend_model_forms::select_static_row(
+            array(
+                'noindex,nofollow'=>'noindex',
+                'index,follow,all'=>'index'
+            ),
+            array(
+                'attr_name'=>'robots',
+                'attr_id'=>'robots',
+                'default_value'=>array($config['setting_value']=>$default_value),
+                'empty_value'=>'Selectionner l\'indexation',
+                'upper_case'=>false
+            )
+        );
+        return $select;
+    }
     /**
      * Enregistre la configuration des googletools
      * @param $create
@@ -109,6 +145,8 @@ class backend_controller_googletools extends backend_db_config{
             $tools = 'analytics';
         }elseif(isset($this->googleplus)){
             $tools = 'googleplus';
+        }elseif(isset($this->robots)){
+            $tools = 'robots';
         }
         switch($tools){
             case 'webmaster':
@@ -119,6 +157,9 @@ class backend_controller_googletools extends backend_db_config{
                 break;
             case 'googleplus':
                 parent::u_setting_value('googleplus',$this->googleplus);
+                break;
+            case 'robots':
+                parent::u_setting_value('robots',$this->robots);
                 break;
         }
         $create->display('googletools/request/success_update.phtml');
@@ -133,12 +174,16 @@ class backend_controller_googletools extends backend_db_config{
         $create = new backend_controller_template();
         if(isset($this->action)){
             if($this->action === 'edit'){
-                if(isset($this->webmaster) OR isset($this->analytics) OR isset($this->googleplus)){
+                if(isset($this->webmaster)
+                    OR isset($this->analytics)
+                    OR isset($this->googleplus)
+                    OR isset($this->robots)){
                     $this->save($create);
                 }
             }
         }else{
             $this->load_assign_setting($create);
+            $create->assign('select_robots',$this->load_robots_data());
             $create->display('googletools/index.phtml');
         }
 	}
