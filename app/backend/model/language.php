@@ -83,6 +83,8 @@ class backend_model_language{
         }else{
             if(magixcjquery_filter_request::isSession('adminLanguage')){
                 $lang = magixcjquery_filter_join::getCleanAlpha($_SESSION['adminLanguage'],3);
+            } else {
+                $lang = 'fr';
             }
         }
         return $lang;
