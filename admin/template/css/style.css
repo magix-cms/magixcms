@@ -74,6 +74,11 @@ h3 {
 input[type='text'].ui-spinner-input {
     border: none;
 }
+/* Badge et label */
+a:hover > .label,
+a:hover > .badge {
+    background-color: #000000;
+}
 /**
 * LOGIN
 */
@@ -144,6 +149,14 @@ input[type='text'].ui-spinner-input {
 }
 #sidebar .nav-flag {
     margin: 5px 0;
+}
+#sidebar .lang-group {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+#sidebar .lang-group > a:hover,
+#sidebar .lang-group > .active {
+    background-color: #3A87AD;
 }
 /*.dropdown:hover .dropdown-menu {
     display: block;

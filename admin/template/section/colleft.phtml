@@ -23,15 +23,14 @@
                     <span class="icon-plus"></span> Pages
                 </a>
                 <div class="collapse-item{if {script_name} eq "cms"} on{/if}" id="cms">
-                    <ul class="inline nav-flag">
+                    <div class="lang-group">
                         {foreach $array_lang as $key => $value nocache}
-                        <li>
-                            <a href="/{baseadmin}/cms.php?getlang={$key}&amp;action=list">
-                                <span class="badge">{$value|upper}</span>
+                            {if $smarty.get.getlang == $key}{$langActive = ' active'}{else}{$langActive = ''}{/if}
+                            <a class="badge {$langActive}" href="/{baseadmin}/cms.php?getlang={$key}&amp;action=list">
+                                {$value|upper}
                             </a>
-                        </li>
                         {/foreach}
-                    </ul>
+                    </div>
                 </div>
             </li>
             {/if}
@@ -46,15 +45,14 @@
                     <span class="icon-plus"></span> {#article#|ucfirst}
                 </a>
                 <div class="collapse-item{if {script_name} eq "news"} on{/if}" id="news">
-                    <ul class="inline nav-flag">
+                    <div class="lang-group">
                         {foreach $array_lang as $key => $value nocache}
-                        <li>
-                            <a href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
-                                <span class="badge">{$value|upper}</span>
+                            {if $smarty.get.getlang == $key}{$langActive = ' active'}{else}{$langActive = ''}{/if}
+                            <a class="badge {$langActive}" href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
+                                {$value|upper}
                             </a>
-                        </li>
                         {/foreach}
-                    </ul>
+                    </div>
                 </div>
             </li>
         {* -- END NEWS -- *}
@@ -69,15 +67,14 @@
                     <span class="icon-plus"></span> {#category#|ucfirst}
                 </a>
                 <div class="collapse-item{if {script_name} eq "catalog:category" OR  {script_name} eq "catalog:subcategory"} on{/if}" id="catalog-category">
-                    <ul class="inline nav-flag">
+                    <div class="lang-group">
                         {foreach $array_lang as $key => $value nocache}
-                        <li>
-                            <a href="/{baseadmin}/catalog.php?section=category&amp;getlang={$key}">
-                                <span class="badge">{$value|upper}</span>
+                            {if $smarty.get.getlang == $key}{$langActive = ' active'}{else}{$langActive = ''}{/if}
+                            <a class="badge {$langActive}" href="/{baseadmin}/catalog.php?section=category&amp;getlang={$key}">
+                                {$value|upper}
                             </a>
-                        </li>
                         {/foreach}
-                    </ul>
+                    </div>
                 </div>
             </li>
             <li>
@@ -85,15 +82,14 @@
                     <span class="icon-plus"></span> {#products#|ucfirst}
                 </a>
                 <div class="collapse-item{if {script_name} eq "catalog:product"} on{/if}" id="catalog-product">
-                    <ul class="inline nav-flag">
-                    {foreach $array_lang as $key => $value nocache}
-                        <li>
-                            <a href="/{baseadmin}/catalog.php?section=product&amp;getlang={$key}">
-                                <span class="badge">{$value|upper}</span>
+                    <div class="lang-group">
+                        {foreach $array_lang as $key => $value nocache}
+                            {if $smarty.get.getlang == $key}{$langActive = ' active'}{else}{$langActive = ''}{/if}
+                            <a class="badge {$langActive}" href="/{baseadmin}/catalog.php?section=product&amp;getlang={$key}">
+                                {$value|upper}
                             </a>
-                        </li>
-                    {/foreach}
-                    </ul>
+                        {/foreach}
+                    </div>
                 </div>
             </li>
         {* -- END CATALOG -- *}
