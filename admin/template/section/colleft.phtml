@@ -8,13 +8,12 @@
                     <span class="icon-plus"></span> {#home#|ucfirst}
                 </a>
                 <div class="collapse-item{if {script_name} eq "home"} on{/if}" id="home">
-                    <ul class="inline nav-flag">
-                        <li>
-                            <a href="/{baseadmin}/home.php?action=list">
-                                <span class="icon-list-ul"></span> {#list#|ucfirst}
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="lang-group">
+                        {if {script_name} eq "home"}{$langActive = ' active'}{else}{$langActive = ''}{/if}
+                        <a class="badge {$langActive}" href="/{baseadmin}/home.php?action=list">
+                            <span class="icon-list-ul"></span> {#list#|ucfirst}
+                        </a>
+                    </div>
                 </div>
             </li>
             {if $config_cms eq 1}
