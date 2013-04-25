@@ -100,7 +100,8 @@ class plugins_translation_admin{
                 if (!preg_match('/[0-9a-z]/i', $line) or preg_match('/^#/', $line)){
                     continue;
                 }
-                if (preg_match('/(.*)=(.*)/', $line, $match)){
+                //if (preg_match('/(.*)=(.*)/', $line, $match)){
+                if (preg_match('/^([^=]+)=(.*)$/', $line, $match)){
 
                     $result[trim($match[1])] = trim($match[2]);
                 }
