@@ -347,7 +347,7 @@ class backend_controller_plugins{
             );
         }
      * URL et Langues :
-     * 
+     *
         public function setConfig(){
             return array(
                 'url'=> array(

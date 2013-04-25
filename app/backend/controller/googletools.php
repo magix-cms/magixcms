@@ -172,6 +172,10 @@ class backend_controller_googletools extends backend_db_config{
 	public function run(){
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('googletools_'),false
+        );
         if(isset($this->action)){
             if($this->action === 'edit'){
                 if(isset($this->webmaster)
