@@ -67,7 +67,11 @@ class backend_controller_plugins{
 	 * 
 	 * @var string
 	 */
-	public $getplugin;
+	public $getplugin,
+        /**
+         * @var int
+         */
+        $getlang;
 	/**
 	 * Constante pour le chemin vers le dossier de configuration des langues statiques pour le contenu
 	 * @var string
@@ -85,6 +89,9 @@ class backend_controller_plugins{
 		if(magixcjquery_filter_request::isGet('name')){
 			$this->getplugin = magixcjquery_form_helpersforms::inputClean($_GET['name']);
 		}
+        if(magixcjquery_filter_request::isGet('getlang')){
+            $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
+        }
 	}
 
 	/**
@@ -326,7 +333,29 @@ class backend_controller_plugins{
 	}*/
 	/**
 	 * @access private
-	 * Construction de la liste des plugins
+	 * Construction de la liste des plugins suivant des paramètres prédéfinis
+     * @example:
+     *
+     * Icons :
+     *
+        public function setConfig(){
+            return array(
+                'icon'=> array(
+                    'type'=>'font',
+                    'name'=>'icon-flag'
+                )
+            );
+        }
+     * URL et Langues :
+     * 
+        public function setConfig(){
+            return array(
+                'url'=> array(
+                    'lang'=>true,
+                    'action'=>'list'
+                )
+            );
+    }
 	 */
 	public function set_html_item($debug=false){
 		/**
@@ -351,54 +380,133 @@ class backend_controller_plugins{
                             $access = $this->allow_access_config($d);
                             $role = new backend_model_role();
                             $data_role = $role->data();
-                            if(method_exists($class,'set_icon')){
+                            // Si la methode setConfig existe on charge les éléments
+                            if(method_exists($class,'setConfig')){
                                 $class_name = $this->execute_plugins($class);
-                                $set_icon = $class_name->set_icon();
+                                $setConfig = $class_name->setConfig();
                             }else{
                                 if($this->pathImgIcon($d,'icon.png')){
-                                    $set_icon['type'] = 'image';
-                                    $set_icon['name'] = 'icon.png';
+                                    $setConfig['icon']['type'] = 'image';
+                                    $setConfig['icon']['name'] = 'icon.png';
                                 }else{
-                                    $set_icon['type'] = 'font';
-                                    $set_icon['name'] = 'icon-folder-close';
+                                    $setConfig['icon']['type'] = 'font';
+                                    $setConfig['icon']['name'] = 'icon-folder-close';
                                 }
                             }
-                            if($set_icon['type'] == 'image'){
-                                $icon = '<img src="'.$this->pathImgIcon($d,$set_icon['name']).'" width="16" height="16" alt="icon '.$d.'" />';
-                            }elseif($set_icon['type'] == 'font'){
-                                $icon = '<span class="'.$set_icon['name'].'"></span>';
-                            }
-                            if(isset($this->getplugin)){
-                                if($this->getplugin == $d){
-                                    $class_active = ' class="active"';
+                            // setConfig doit être un tableau
+                            if(is_array($setConfig)){
+                                if($setConfig['icon']['type'] == 'image'){
+                                    $icon = '<img src="'.$this->pathImgIcon($d,$setConfig['icon']['name']).'" width="16" height="16" alt="icon '.$d.'" />';
+                                }elseif($setConfig['icon']['type'] == 'font'){
+                                    $icon = '<span class="'.$setConfig['icon']['name'].'"></span>';
+                                }
+                                if(isset($this->getplugin)){
+                                    if($this->getplugin == $d){
+                                        $class_active = ' class="active"';
+                                        $class_open = ' open';
+                                        $class_on = ' on';
+                                    }else{
+                                        $class_active = '';
+                                        $class_open = '';
+                                        $class_on = '';
+                                    }
                                 }else{
                                     $class_active = '';
+                                    $class_open = '';
+                                    $class_on = '';
+                                }
+                                $array_lang = self::getTemplateVars('array_lang');
+                                // Vérifie si URL est disponible dans le tableau
+                                if(array_key_exists('url',$setConfig)){
+                                    if(isset($setConfig['url']['lang'])){
+                                        $lang = $setConfig['url']['lang'];
+                                    }else{
+                                        $lang = false;
+                                    }
+                                    if(isset($setConfig['url']['action'])){
+                                        $action = '&amp;action='.$setConfig['url']['action'];
+                                    }else{
+                                        $action = '';
+                                    }
+                                }else{
+                                    $lang = false;
+                                    $action = '';
+                                }
+                                //Si le fichier d'accès est disponible, on retourne les permissions
+                                if($access != null OR $access != ''){
+                                    if($access >= $data_role['id']){
+                                        //Si mode multi langue
+                                        if($lang == true){
+                                            $list .= '<li>';
+                                            $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
+                                            $list .= '<span class="icon-plus"></span> '.$d;
+                                            $list .= '</a>';
+                                            $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';
+                                            $list .= '<div class="lang-group">';
+                                            foreach($array_lang as $key => $value){
+                                                //Ajoute la class active à la langue courante
+                                                if($this->getlang === $key){
+                                                    $lang_active = ' active';
+                                                }else{
+                                                    $lang_active = '';
+                                                }
+                                                $list .='<a class="badge'.$lang_active.'" href="/admin/plugins.php?name='.$d.'&amp;getlang='.$key.$action.'">';
+                                                $list .= magixcjquery_string_convert::upTextCase($value).'</a>';
+                                            }
+                                            $list .= '</div>';
+                                            $list .= '</div>';
+                                            $list .= '</li>';
+                                        }else{
+                                            $list .= '<li>';
+                                            $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
+                                            $list .= magixcjquery_string_convert::ucFirst($d).'</a>';
+                                            $list .= '</li>';
+                                        }
+                                    }elseif($access == '*'){
+                                        //Si mode multi langue
+                                        if($lang == true){
+                                            $list .= '<li>';
+                                            $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
+                                            $list .= '<span class="icon-plus"></span> '.$d;
+                                            $list .= '</a>';
+                                            $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';
+                                            $list .= '<div class="lang-group">';
+                                            foreach($array_lang as $key => $value){
+                                                //Ajoute la class active à la langue courante
+                                                if($this->getlang === $key){
+                                                    $lang_active = ' active';
+                                                }else{
+                                                    $lang_active = '';
+                                                }
+                                                $list .='<a class="badge'.$lang_active.'" href="/admin/plugins.php?name='.$d.'&amp;getlang='.$key.$action.'">';
+                                                $list .= magixcjquery_string_convert::upTextCase($value).'</a>';
+                                            }
+                                            $list .= '</div>';
+                                            $list .= '</div>';
+                                            $list .= '</li>';
+                                        }else{
+                                            $list .= '<li>';
+                                            $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
+                                            $list .= magixcjquery_string_convert::ucFirst($d).'</a>';
+                                            $list .= '</li>';
+                                        }
+                                    }
+                                }else{
+                                    $list .= '<li>';
+                                    $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
+                                    $list .= magixcjquery_string_convert::ucFirst($d).'</a>';
+                                    $list .= '</li>';
                                 }
                             }else{
-                                $class_active = '';
-                            }
-                            //Si le fichier d'accès est disponible, on retourne les permissions
-                            if($access != null OR $access != ''){
-                                if($access >= $data_role['id']){
-                                    $list .= '<li'.$class_active.'>';
-                                    $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
-                                    $list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
-                                }elseif($access == '*'){
-                                    $list .= '<li'.$class_active.'>';
-                                    $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
-                                    $list .= magixcjquery_string_convert::ucFirst($d).'</a></li>';
-                                }
-                            }else{
-                                $list .= '<li'.$class_active.'>';
-                                $list .='<a href="/admin/plugins.php?name='.$d.'">'.$icon.' ';
-                                $list .=magixcjquery_string_convert::ucFirst($d).'</a></li>';
+                                throw new Exception('setConfig is not array');
                             }
                             //Si on demande un debug
                             if($debug){
                                 $firebug = new magixcjquery_debug_magixfire();
                                 $firebug->magixFireLog($d.' access: '.$access);
-                                $firebug->magixFireLog($d.' icon type: '.$set_icon['type']);
-                                $firebug->magixFireLog($d.' icon name: '.$set_icon['name']);
+                                $firebug->magixFireLog($d.' icon type: '.$setConfig['icon']['type']);
+                                $firebug->magixFireLog($d.' icon name: '.$setConfig['icon']['name']);
+                                $firebug->magixFireLog($d.' URL: '.$setConfig['url']);
                             }
                         }
                     }
@@ -660,6 +768,17 @@ class backend_controller_plugins{
      */
     public static function getConfigVars($varname = null, $search_parents = true){
         return backend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
+    }
+
+    /**
+     * Charge une variable assigné dans le template pour PHP
+     * @param null $varname
+     * @param null $_ptr
+     * @param bool $search_parents
+     * @return string
+     */
+    public static function getTemplateVars($varname = null, $_ptr = null, $search_parents = true){
+        return backend_model_smarty::getInstance()->getTemplateVars($varname, $_ptr, $search_parents);
     }
 	/**
 	 * @access public

@@ -232,15 +232,20 @@ class plugins_translation_admin{
     }
 
     /**
-     * Set icon pour le menu
+     * Set Configuration pour le menu
      * @return array
      */
-    public function set_icon(){
-        $icon = array(
-            'type'=>'font',
-            'name'=>'icon-flag'
+    public function setConfig(){
+        return array(
+            'icon'=> array(
+                'type'=>'font',
+                'name'=>'icon-flag'
+            ),
+            'url'=> array(
+                'lang'=>true,
+                'action'=>'list'
+            )
         );
-        return $icon;
     }
 }
 ?>

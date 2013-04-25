@@ -150,12 +150,12 @@ a:hover > .badge {
 #sidebar .nav-flag {
     margin: 5px 0;
 }
-#sidebar .lang-group {
+.lang-group {
     margin-bottom: 10px;
     margin-top: 5px;
 }
-#sidebar .lang-group > a:hover,
-#sidebar .lang-group > .active {
+.lang-group > a:hover,
+.lang-group > .active {
     background-color: #3A87AD;
 }
 /*.dropdown:hover .dropdown-menu {
