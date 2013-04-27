@@ -1,5 +1,5 @@
 {include file="section/head.phtml"}
-{headmeta meta="googleSiteVerification" content="{google_tools tools='webmaster'}"}
+{if {google_tools tools='webmaster'} != ''}{headmeta meta="googleSiteVerification" content="{google_tools tools='webmaster'}"}{/if}
 {headmeta meta="description" content="{static_metas param='' dynamic=$home.seoDescr}"}
 <title>{static_metas param='' dynamic=$home.seoTitle}</title>
 {include file="section/css.phtml"}

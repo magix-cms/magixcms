@@ -99,6 +99,9 @@ EOT;
 			$webmasterdata = frontend_model_setting::select_uniq_setting('webmaster');
 			$tools = $webmasterdata['setting_value'];
 			break;
+        case 'robots':
+            $robotsdata = frontend_model_setting::select_uniq_setting('robots');
+            $tools = $robotsdata['setting_value'];
 	}
 	return $tools;
 }

@@ -12,7 +12,7 @@
     <meta name="dcterms.language" content="{getlang}" />
     <meta name="dcterms.creator" content="magix-cms.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {headmeta meta="robots" content="index,follow,all"}
+    {headmeta meta="robots" content={google_tools tools='robots'}}
     {headmeta meta="keywords" content=""}
     {if {module type="news"} eq true}
         {headlink rel="rss" href="{geturl}/news_{getlang}_rss.xml"}
