@@ -1,4 +1,39 @@
 #### 2.4.0
+Beta 4
+    * Works API plugin info (about) - premier test avec des tabs
+    * Works #71 Sidebar admin (modification API sidebar plugin)
+    * Works #67 Traduction FR Administration (googletools suite)
+        * Modification du tableau des auteurs + informations (plugins)
+    * Fix #55 Gestion de la métas robots
+        * Works #67 Traduction FR Administration (googletools)
+    * Works #6 Administration multilangue
+        * Ajout de conditions supplémentaires pour la langue active dans la sidebar
+    * Works #71 Sidebar admin (configuration des icones et des liens + multilangues)
+        * Modification de l'API des plugins avec ajout de fonctionnalités smarty
+    * Fix #40 regex - Plugin création de fichiers de traduction statique
+    * Fix #71 modification du lien des pages d'accueil
+    * Fix #71 Sidebar admin (Application de lang-group)
+    * :back - Login - Bug config file - Fix
+    * :front - news/tag - fix wrong var name
+    * :front - pagination - add class on some links
+    * Works #55 Gestion de la métas robots (Backend + SQL)
+    * Works #67 Traduction FR Administration (config cache)
+        * Fix #67 Sidebar admin
+    * :front - News - fix missing translations
+    *  :translations - minor update
+        * Changement intitulé du <h1> sur le root des news
+    * Works #67 Traduction FR Administration (config)
+    * Fix #69 Disposition tailles des images admin
+        * Works #67 traduction du module config (imagesize, config)
+        * Adaptation du module config avec des sections + tabs pour imagesize
+    *  :front - template - wrong var name
+        *Replace old var's name
+    * widget_share_display.php add google share
+    * Work #67 Traduction FR Administration
+        * Traduction module CMS
+        * Traduction module home
+        * Traduction du dashboard, colleft, topnav
+
 Beta 3
     * Fix bug système de traduction admin (#6)
         * Ajout de surcharge smarty (backend)

@@ -43,7 +43,7 @@ class plugins_translation_admin{
     /**
      * @var string
      */
-    public $action,$tab,$getlang,$plugin,$config_var,$config_value;
+    public $action,$tab,$section,$getlang,$plugin,$config_var,$config_value;
     //private $result = array();
     /**
      *
@@ -54,6 +54,9 @@ class plugins_translation_admin{
         }
         if(magixcjquery_filter_request::isGet('tab')){
             $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        }
+        if(magixcjquery_filter_request::isGet('section')){
+            $this->section = magixcjquery_form_helpersforms::inputClean($_GET['section']);
         }
         if(magixcjquery_filter_request::isGet('plugin')){
             $this->plugin = magixcjquery_form_helpersforms::inputClean($_GET['plugin']);
@@ -215,16 +218,18 @@ class plugins_translation_admin{
                     $create->assign('array_plugin_i18n',$this->list_plugin($create));
                     $create->display('list.phtml');
                 }elseif($this->action == 'edit'){
-                    if(isset($this->tab)){
+                    if(isset($this->section)){
                         if(isset($this->config_value)){
                             $header->html_header("UTF-8");
                             $this->saveFiles($create,$this->tab);
                         }else{
-                            $create->assign('array_config_file',$this->getConfigFile($this->tab));
+                            $create->assign('array_config_file',$this->getConfigFile($this->section));
                             $create->display('edit.phtml');
                         }
                     }
                 }
+            }elseif(isset($this->tab)){
+                $create->display('about.phtml');
             }
         }else{
             $create->display('index.phtml');
@@ -237,12 +242,8 @@ class plugins_translation_admin{
      */
     public function setConfig(){
         return array(
-            'icon'=> array(
-                'type'=>'font',
-                'name'=>'icon-flag'
-            ),
             'url'=> array(
-                'lang'=>true,
+                'lang'=>'list',
                 'action'=>'list'
             )
         );

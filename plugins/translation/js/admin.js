@@ -40,12 +40,12 @@
  */
 var MC_plugins_translation = (function ($, undefined) {
     //Fonction Private
-    function save(getlang,tab,plugin){
+    function save(getlang,section,plugin){
         $("#forms_plugins_translation").on('submit',function(){
-            if(tab === 'core'){
-                var url = '/admin/plugins.php?name=translation&getlang='+getlang+'&action=edit&tab='+tab;
-            }else if(tab === 'plugin'){
-                var url = '/admin/plugins.php?name=translation&getlang='+getlang+'&action=edit&tab='+tab+'&plugin='+plugin;
+            if(section === 'core'){
+                var url = '/admin/plugins.php?name=translation&getlang='+getlang+'&action=edit&section='+section;
+            }else if(section === 'plugin'){
+                var url = '/admin/plugins.php?name=translation&getlang='+getlang+'&action=edit&section='+section+'&plugin='+plugin;
             }
             $.nicenotify({
                 ntype: "submit",
@@ -66,8 +66,8 @@ var MC_plugins_translation = (function ($, undefined) {
         //Fonction Public        
         run:function () {
         },
-        runEdit:function (getlang,tab,plugin) {
-            save(getlang,tab,plugin);
+        runEdit:function (getlang,section,plugin) {
+            save(getlang,section,plugin);
         }
     };
 })(jQuery);

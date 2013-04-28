@@ -203,13 +203,18 @@ class plugins_contact_admin extends database_plugins_contact{
             'plugins'=>true
         );
     }
-    //Set icon pour le menu
-    public function set_icon(){
-        $icon = array(
-            'type'=>'font',
-            'name'=>'icon-envelope-alt'
+
+    /**
+     * Set Configuration pour le menu
+     * @return array
+     */
+    public function setConfig(){
+        return array(
+            'url'=> array(
+                'lang'=>'list',
+                'action'=>'list'
+            )
         );
-        return $icon;
     }
 	//SITEMAP
 	private function lastmod_dateFormat(){

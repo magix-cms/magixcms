@@ -18,17 +18,18 @@
 						<name>Gerits Aurelien</name>
 						<link>
 							<website href="http://www.magix-cms.com" />
-							<blog href="http://www.magix-cjquery.com" />
+							<blog href="http://blog.aurelien-gerits.be" />
 						</link>
 					</author>
 				</authors>
 				<version>
 					<date_create>10/03/2013</date_create>
-					<date_update>17/03/2013</date_update>
-					<number>0.8</number>
+					<date_update>28/04/2013</date_update>
+					<number>0.9</number>
 					<phase>Beta</phase>
 					<support>
 						<ticket href="https://github.com/gtraxx/magixcms/issues"></ticket>
+                        <git href="https://github.com/gtraxx/magixcms"></git>
 					</support>
 				</version>
 			</infos>

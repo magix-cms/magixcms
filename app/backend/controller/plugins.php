@@ -201,7 +201,7 @@ class backend_controller_plugins{
 							if($v->version->support->git['href'] != false){
 								$r .= '<tr>
 									<td>GIT:</td>
-									<td><a class="targetblank" href="'.$v->version->support->git['href'].'"><span class="icon-github"></span></a></td>
+									<td><a class="targetblank" href="'.$v->version->support->git['href'].'"><span class="icon-github icon-large"></span></a></td>
 								</tr>';
 							}
 							$r .= '</table>';
@@ -218,7 +218,7 @@ class backend_controller_plugins{
 							foreach($v->authors->author as $row){
 								$r.= '<tr>';
 								$r.= '<td>'.$row->name.'</td>';
-								$r .= '<td><ul>';
+								$r .= '<td><ul class="unstyled">';
 								$t = '';
 								foreach($row->link->children() as $link){
 									$r .= '<li><a class="targetblank"';
@@ -359,6 +359,7 @@ class backend_controller_plugins{
     }
 	 */
 	public function set_html_item($debug=false){
+        $firebug = new magixcjquery_debug_magixfire();
 		/**
 		 * Si le dossier est accessible en lecture
 		 */
@@ -422,22 +423,26 @@ class backend_controller_plugins{
                                     if(isset($setConfig['url']['lang'])){
                                         $lang = $setConfig['url']['lang'];
                                     }else{
-                                        $lang = false;
+                                        $lang = 'none';
                                     }
                                     if(isset($setConfig['url']['action'])){
-                                        $action = '&amp;action='.$setConfig['url']['action'];
+                                        if($setConfig['url']['action'] != ''){
+                                            $action = '&amp;action='.$setConfig['url']['action'];
+                                        }else{
+                                            $action = '';
+                                        }
                                     }else{
                                         $action = '';
                                     }
                                 }else{
-                                    $lang = false;
+                                    $lang = 'none';
                                     $action = '';
                                 }
                                 //Si le fichier d'accès est disponible, on retourne les permissions
                                 if($access != null OR $access != ''){
                                     if($access >= $data_role['id']){
                                         //Si mode multi langue
-                                        if($lang == true){
+                                        if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
                                             $list .= '<span class="icon-plus"></span> '.$d;
@@ -465,7 +470,7 @@ class backend_controller_plugins{
                                         }
                                     }elseif($access == '*'){
                                         //Si mode multi langue
-                                        if($lang == true){
+                                        if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
                                             $list .= '<span class="icon-plus"></span> '.$d;
@@ -503,7 +508,7 @@ class backend_controller_plugins{
                             }
                             //Si on demande un debug
                             if($debug){
-                                $firebug = new magixcjquery_debug_magixfire();
+                                $firebug->magixFireLog($d.' pluginPath: '.$pluginPath);
                                 $firebug->magixFireLog($d.' access: '.$access);
                                 $firebug->magixFireLog($d.' icon type: '.$setConfig['icon']['type']);
                                 $firebug->magixFireLog($d.' icon name: '.$setConfig['icon']['name']);

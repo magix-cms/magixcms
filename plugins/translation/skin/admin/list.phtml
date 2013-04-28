@@ -10,9 +10,10 @@
             <div class="row-fluid">
                 <div class="span12">
                     <h1>Traduction statique</h1>
+                    {include file="section/tab.phtml"}
                     <h2>Core</h2>
                     <p>
-                        <a class="btn" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;tab=core">
+                        <a class="btn" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;section=core">
                             <span class="icon-file-alt"></span> Local
                         </a>
                     </p>
@@ -20,7 +21,7 @@
                     <ul class="inline">
                     {foreach $array_plugin_i18n as $key => $value nocache}
                     <li>
-                        <a class="btn" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;tab=plugin&amp;plugin={$value}">
+                        <a class="btn" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;section=plugin&amp;plugin={$value}">
                         {$value}
                         </a>
                     </li>
