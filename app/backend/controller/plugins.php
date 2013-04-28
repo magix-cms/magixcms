@@ -150,7 +150,7 @@ class backend_controller_plugins{
 	 * @access public
 	 * Chargement des données de configuration dans le fichier XML
 	 */
-	public function load_config_info(){
+	public function config_xml_data(){
 		$pathxml = $this->pluginDir().'config.xml';
 		if(file_exists($pathxml)){
 			try {
@@ -167,49 +167,49 @@ class backend_controller_plugins{
 						//echo ReflectionObject::export($v['attr']);
 						$r = '';
 						if($v->version){
-							$r .= '<table class="table-plugin-info">
+							$r .= '<table class="table table-bordered table-condensed table-hover">
 								<tr>
-									<td class="small-icon">Création:</td>
+									<td>Création:</td>
 									<td>'.$v->version->date_create.'</td>
 								</tr>
 								<tr>
-									<td class="small-icon">Update:</td>
+									<td>Update:</td>
 									<td>'.$v->version->date_update.'</td>
 								</tr>
 								<tr>
-									<td class="small-icon">Version:</td>
+									<td>Version:</td>
 									<td>'.$v->version->number.' '.$v->version->phase.'</td>
 								</tr>';
 							if($v->version->support->forum['href'] != false){
 								$r .= '<tr>
-									<td class="small-icon">Support:</td>
-									<td><a style="text-decoration:underline;" class="targetblank" href="'.$v->version->support->forum['href'].'">'.$v->version->support->forum.'</a></td>
+									<td>Support:</td>
+									<td><a class="targetblank" href="'.$v->version->support->forum['href'].'">'.$v->version->support->forum.'</a></td>
 								</tr>';
 							}
 							if($v->version->support->ticket['href'] != false){
 								$r .= '<tr>
-									<td class="small-icon">Tickets:</td>
-									<td><a style="text-decoration:underline;" class="targetblank" href="'.$v->version->support->ticket['href'].'"><span class="lfloat magix-icon magix-icon-bug-plus"></span>Signaler un bug</a></td>
+									<td>Tickets:</td>
+									<td><a class="targetblank" href="'.$v->version->support->ticket['href'].'"><span class="icon-bullhorn"></span> Signaler un bug</a></td>
 								</tr>';
 							}
 							if($v->version->support->svn['href'] != false){
 								$r .= '<tr>
 									<td class="small-icon">SVN:</td>
-									<td><a class="targetblank" href="'.$v->version->support->svn['href'].'"><span class="lfloat magix-icon magix-icon-subversion"></span></a></td>
+									<td><a class="targetblank" href="'.$v->version->support->svn['href'].'"><span class="icon icon-svn"></span></a></td>
 								</tr>';
 							}
 							if($v->version->support->git['href'] != false){
 								$r .= '<tr>
-									<td class="small-icon">GIT:</td>
-									<td><a class="targetblank" href="'.$v->version->support->git['href'].'"><span class="lfloat magix-icon magix-icon-git"></span></a></td>
+									<td>GIT:</td>
+									<td><a class="targetblank" href="'.$v->version->support->git['href'].'"><span class="icon-github"></span></a></td>
 								</tr>';
 							}
 							$r .= '</table>';
 						}
 						if($v->authors){
-							$r .= '<table class="table-plugin-author">
+							$r .= '<table class="table table-bordered table-condensed table-hover">
 								<thead>
-									<tr style="padding:3px;" class="ui-widget ui-widget-header">
+									<tr>
 										<th>Author</th>
 										<th>Website</th>
 									</tr>
@@ -217,11 +217,12 @@ class backend_controller_plugins{
 								<tbody>';
 							foreach($v->authors->author as $row){
 								$r.= '<tr>';
-								$r.= '<td class="medium-cell">'.$row->name.'</td>';
+								$r.= '<td>'.$row->name.'</td>';
 								$r .= '<td><ul>';
 								$t = '';
 								foreach($row->link->children() as $link){
-									$r .= '<li><a style="text-decoration:underline;" class="targetblank"'; 									$r .= 'href="'.$link->attributes()->href.'">'.$link->attributes()->href.'</a></li>';
+									$r .= '<li><a class="targetblank"';
+                                    $r .= 'href="'.$link->attributes()->href.'">'.$link->attributes()->href.'</a></li>';
 								}
 								$r.='</ul></td>';
 								$r.= '</tr>';
@@ -802,10 +803,14 @@ class backend_controller_plugins{
 	public function run(){
         if($this->getplugin()){
             try{
-                $this->assign('pluginName',$this->pluginName());
-                $this->assign('pluginUrl',$this->pluginUrl());
-                $this->assign('pluginPath',$this->pluginPath());
-                $this->assign('pluginInfo',$this->load_config_info());
+                self::assign(
+                    array(
+                        'pluginName'    =>  $this->pluginName(),
+                        'pluginUrl'     =>  $this->pluginUrl(),
+                        'pluginPath'    =>  $this->pluginPath(),
+                        'pluginInfo'    =>  $this->config_xml_data()
+                    )
+                );
                 $this->load_plugin();
             }catch (Exception $e){
                 magixglobal_model_system::magixlog('An error has occured :',$e);
