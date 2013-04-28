@@ -17,19 +17,19 @@
 					<author>
 						<name>Gerits Aurelien</name>
 						<link>
-							<website href="http://www.magix-cms.com" />
-							<blog href="http://www.magix-cjquery.com" />
+                            <website href="http://www.magix-cms.com" />
+                            <blog href="http://blog.aurelien-gerits.be" />
 						</link>
 					</author>
 				</authors>
 				<version>
-					<date_create> - </date_create>
-					<date_update>11/12/2011</date_update>
-					<number>2.1</number>
+					<date_create>10/04/2010</date_create>
+					<date_update>29/04/2013</date_update>
+					<number>2.2</number>
 					<phase>Stable</phase>
 					<support>
-						<ticket href="http://magixdev.indefero.net/p/magixcms/"></ticket>
-						<forum href="http://forum.logiciel-referencement-professionnel.com/plugins-f5.html">Forum plugins</forum>
+                        <ticket href="https://github.com/gtraxx/magixcms/issues"></ticket>
+                        <git href="https://github.com/gtraxx/magixcms"></git>
 					</support>
 				</version>
 			</infos>

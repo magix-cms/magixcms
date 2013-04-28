@@ -160,8 +160,12 @@ class plugins_clearcache_admin{
                 }
             }
         }else{
-			// Retourne la page index.phtml
-            $create->display('index.phtml');
+            if(isset($this->tab)){
+                $create->display('about.phtml');
+            }else{
+                // Retourne la page index.phtml
+                $create->display('index.phtml');
+            }
 		}
 	}
 }

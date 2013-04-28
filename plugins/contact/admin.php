@@ -59,7 +59,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	/**
 	 * Les variables globales
 	 */
-	public $action,$getlang;
+	public $action,$tab,$getlang;
 
     /**
      * Les variables du plugin contact
@@ -77,6 +77,9 @@ class plugins_contact_admin extends database_plugins_contact{
 		}
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('tab')){
+            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
         }
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
@@ -178,6 +181,8 @@ class plugins_contact_admin extends database_plugins_contact{
                             $this->remove();
                         }
                     }
+                }elseif(isset($this->tab)){
+                    $create->display('about.phtml');
                 }
             }else{
                 if(magixcjquery_filter_request::isGet('json_graph')){

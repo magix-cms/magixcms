@@ -221,7 +221,7 @@ class backend_controller_plugins{
 								$r .= '<td><ul class="unstyled">';
 								$t = '';
 								foreach($row->link->children() as $link){
-									$r .= '<li><a class="targetblank"';
+									$r .= '<li><a class="targetblank" ';
                                     $r .= 'href="'.$link->attributes()->href.'">'.$link->attributes()->href.'</a></li>';
 								}
 								$r.='</ul></td>';
@@ -451,7 +451,7 @@ class backend_controller_plugins{
                                             $list .= '<div class="lang-group">';
                                             foreach($array_lang as $key => $value){
                                                 //Ajoute la class active à la langue courante
-                                                if($this->getlang === $key){
+                                                if($this->getplugin === $d AND $this->getlang === $key){
                                                     $lang_active = ' active';
                                                 }else{
                                                     $lang_active = '';
@@ -479,7 +479,7 @@ class backend_controller_plugins{
                                             $list .= '<div class="lang-group">';
                                             foreach($array_lang as $key => $value){
                                                 //Ajoute la class active à la langue courante
-                                                if($this->getlang === $key){
+                                                if($this->getplugin === $d AND $this->getlang === $key){
                                                     $lang_active = ' active';
                                                 }else{
                                                     $lang_active = '';
