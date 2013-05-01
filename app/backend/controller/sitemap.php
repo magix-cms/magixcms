@@ -72,11 +72,14 @@ class backend_controller_sitemap extends backend_db_sitemap{
             $this->idlang = magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
         }
 	}
+
     /**
      * Construction du menu select
+     * @param $create
      * @return string
      */
-    private function lang_select(){
+    private function lang_select($create){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         $idlang = '';
         $iso = '';
         foreach(backend_db_block_lang::s_data_lang() as $key){
@@ -88,11 +91,11 @@ class backend_controller_sitemap extends backend_db_sitemap{
             $lang_conb
             ,
             array(
-                'attr_name'=>'idlang',
-                'attr_id'=>'idlang',
-                'default_value'=>'',
-                'empty_value'=>'Selectionner les langues',
-                'upper_case'=>true
+                'attr_name'     =>  'idlang',
+                'attr_id'       =>  'idlang',
+                'default_value' =>  '',
+                'empty_value'   =>  $create->getConfigVars('select_language'),
+                'upper_case'    =>  true
             )
         );
         return $select;
@@ -571,113 +574,6 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	}
 
 	/**
-     * @deprecated
-	 * Construction des plugins enregistré dans l'autoload et qui comporte un sitemap
-	 */
-	/*private function register_plugins(){
-		$register = null;
-		/**
-		 * Appel les plugins enregistré dans l'autoload
-		 */
-		//plugins_Autoloader::register();
-		/**
-		 * Si le dossier est accessible en lecture
-		 */
-		/*if(!is_readable($this->directory_plugins())){
-			throw new exception('Error in register plugin: Plugin is not minimal permission');
-		}
-		/**
-		 * Appel de la classe makeFiles dans magixcjquery
-		 * @var void
-		 */
-		/*$makefiles = new magixcjquery_files_makefiles();
-		/**
-		 * scanne les dossiers du dossier plugins
-		 * @var array()
-		 */
-		/*$dir = $makefiles->scanRecursiveDir($this->directory_plugins());
-		if($dir != null){
-			foreach($dir as $d){
-				/**
-				 * Si le fichier exist on continue
-				 */
-				/*if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
-					/**
-					 * Retourne le dossier ou chemin vers le dossier du plugin
-					 * @var string
-					 */
-					/*$pluginPath = $this->directory_plugins().$d;
-					if($makefiles->scanDir($pluginPath) != null){
-						//Si la classe exist on recherche la fonction createSitemap
-						if(class_exists('plugins_'.$d.'_admin')){
-							$options_mod = $this->ini_options_mod('plugins_'.$d.'_admin');
-							//$create = $this->get_call_class('plugins_'.$d.'_admin');
-							//Si la méthode existe on ajoute le plugin dans le sitemap
-							//if(method_exists($create,'createSitemap')){
-							if($options_mod != null){
-
-								$register .= '<tr>';
-								$register .= '<td>'.magixcjquery_string_convert::ucFirst($d).'</td>';
-								$index = '';
-								$level1 = '';
-								$level2 = '';
-								$records= '';
-								switch($options_mod['index']){
-									case 0:
-										$index .= '<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
-									break;
-									case 1:
-										$index .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
-									break;
-								}
-								switch($options_mod['level1']){
-									case 0:
-										$level1 .='<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
-									break;
-									case 1:
-										$level1 .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
-									break;
-								}
-								switch($options_mod['level2']){
-									case 0:
-										$level2 .='<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
-									break;
-									case 1:
-										$level2 .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
-									break;
-								}
-								switch($options_mod['records']){
-									case 0:
-										$records .='<div style="border:none;" class="ui-state-error"><span style="float:left;" class="ui-icon ui-icon-close"></span></div>';
-									break;
-									case 1:
-										$records .= '<div style="border:none;" class="ui-state-highlight"><span style="float:left;" class="ui-icon ui-icon-check"></span></div>';
-									break;
-								}
-								$register .= '<td>';
-								$register .= $index;
-								$register .= '</td>';
-								$register .= '<td>';
-								$register .= $level1;
-								$register .= '</td>';
-								$register .= '<td>';
-								$register .= $level2;
-								$register .= '</td>';
-								$register .= '<td>';
-								$register .= $records;
-								$register .= '</td>';
-								$register .= '</tr>';
-							}
-							//}
-						}
-					}
-				}
-			}
-		}
-		return $register;
-	}*/
-
-	/**
 	 * Compression GZ du fichier XML
 	 */
 	private function compressed(){
@@ -753,6 +649,10 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	public function run(){
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('sitemap_'),false
+        );
         if(isset($this->xml_type)){
             if($this->xml_type == 'index'){
                 $this->index($create);
@@ -768,7 +668,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
                 $this->compressedGooglePing($create);
             }
         }else{
-            $create->assign('select_lang',$this->lang_select());
+            $create->assign('select_lang',$this->lang_select($create));
             $create->display('sitemap/index.phtml');
         }
 	}

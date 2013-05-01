@@ -1,12 +1,12 @@
 <div class="row-fluid">
-    <h2>Création des sitemaps</h2>
+    <h2>{#h2_creating_sitemap#|ucfirst}</h2>
     <div class="block-row span11">
         <div class="span3">
             <span class="badge">1</span> Sitemap Index
         </div>
         <div class="span8">
             <a href="#" class="btn btn-primary" id="sitemap_index">
-                <span class="icon-sitemap"></span> Création du fichier
+                <span class="icon-sitemap"></span> {#file_creation#|ucfirst}
             </a>
         </div>
     </div>
@@ -18,7 +18,7 @@
             <form id="forms_sitemap_url_add" class="form-horizontal form-inline" method="post" action="">
                 <p>
                     {$select_lang}
-                    <input type="submit" class="btn btn-primary" value="Envoyer" />
+                    <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
                 </p>
             </form>
         </div>
@@ -31,15 +31,15 @@
             <form id="forms_sitemap_images_add" class="form-horizontal form-inline" method="post" action="">
                 <p>
                     {$select_lang}
-                    <input type="submit" class="btn btn-primary" value="Envoyer" />
+                    <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
                 </p>
             </form>
         </div>
     </div>
-    <h2>Envoi des sitemaps</h2>
+    <h2>{#h2_sending_sitemap#|ucfirst}</h2>
     <div class="block-row span11">
         <span class="span7">
-            <span class="badge">1</span> Permet de faire un ping à google pour le sitemap
+            <span class="badge">1</span> {#span_googleping#}
         </span>
         <span class="span1">
             <a href="#" id="pinguer" class="btn btn-small googleping">
@@ -49,7 +49,7 @@
     </div>
     <div class="block-row span11">
         <span class="span7">
-            <span class="badge badge-inverse">2</span> Permet de faire un ping à google avec un fichier GZ pour le sitemap
+            <span class="badge badge-inverse">2</span> {#span_googleping_gz#}
         </span>
         <span class="span1">
             <a href="#" id="compressed" class="btn btn-small googleping">
