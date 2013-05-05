@@ -252,7 +252,7 @@ class backend_controller_plugins{
 	 * Retourne le chemin vers le dossier I18N du plugin
 	 */
 	private function path_dir_i18n(){
-		$dir_i18n = $this->directory_plugins().$this->getplugin().self::I18N.DIRECTORY_SEPARATOR;
+		$dir_i18n = $this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR.self::I18N.DIRECTORY_SEPARATOR;
 		if(file_exists($dir_i18n)){
 			return $dir_i18n;
 		}
@@ -542,7 +542,9 @@ class backend_controller_plugins{
 						if($debug){
 							$firebug = new magixcjquery_debug_magixfire();
 							$firebug->magixFireLog($this->getplugin().': '.$access);
+                            $firebug->magixFireLog($this->path_dir_i18n());
 						}
+                        $this->configLoad();
                         if($access != null OR $access != ''){
                             if(array_key_exists($access,$role_data)){
                                 $load->run();
@@ -550,7 +552,7 @@ class backend_controller_plugins{
                                 $load->run();
                             }
 						}else{
-							$load->run();
+                            $load->run();
 						}
 					}
 				}else{
@@ -609,24 +611,32 @@ class backend_controller_plugins{
 	 * @static
 	 */
 	public function sessionLanguage(){
-		if(isset($_SESSION['mc_adminlanguage'])){
-			if(!empty($_SESSION['mc_adminlanguage'])){
-				return magixcjquery_filter_join::getCleanAlpha($_SESSION['mc_adminlanguage'],3);
+		if(isset($_SESSION['adminLanguage'])){
+			if(!empty($_SESSION['adminLanguage'])){
+				return magixcjquery_filter_join::getCleanAlpha($_SESSION['adminLanguage'],3);
 			}
 		}
 	}
 
-	/**
-	 * Chargement du fichier de configuration suivant la langue.
-	 * @access private
-	 * return string
-	 */
-	private function pathConfigLoad($configfile){
-		try {
-			return $this->path_dir_i18n().$configfile.$this->sessionLanguage.'.conf';
-		} catch (Exception $e) {
-			magixglobal_model_system::magixlog("Error path config", $e);
-		}
+    /**
+     * Chargement du fichier de configuration suivant la langue en cours de session.
+     * @access private
+     * return string
+     */
+    private function pathConfigLoad($configfile,$filextension=false,$plugin=''){
+        try {
+            $filextends = $filextension ? $filextension : '.conf';
+            $lang = $this->sessionLanguage;
+            if(file_exists($this->path_dir_i18n())){
+                $translate = !empty($lang) ? $lang : 'fr';
+                return $this->path_dir_i18n().$configfile.$translate.$filextends;
+            }else{
+                return null;
+            }
+
+        } catch (Exception $e) {
+            magixglobal_model_system::magixlog("Error path config", $e);
+        }
     }
 
     /**
@@ -683,7 +693,7 @@ class backend_controller_plugins{
      */
     public function append_assign($assign,$fetch){
         if($assign){
-            return backend_config_smarty::getInstance()->assign($assign,$fetch);
+            return backend_model_smarty::getInstance()->assign($assign,$fetch);
         }else{
             throw new Exception('Unable to assign a variable in template');
         }
@@ -698,8 +708,8 @@ class backend_controller_plugins{
      * @return
      */
     public function append_display($page,$cache_id = null,$compile_id = null){
-        backend_config_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
-        return backend_config_smarty::getInstance()->display($page,$cache_id,$compile_id);
+        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
+        return backend_model_smarty::getInstance()->display($page,$cache_id,$compile_id);
     }
 
     /**
@@ -711,8 +721,8 @@ class backend_controller_plugins{
      * @return
      */
     public function append_fetch($page,$cache_id = null,$compile_id = null){
-        backend_config_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
-        return backend_config_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
+        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
+        return backend_model_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
     }
 
     /**
@@ -739,18 +749,20 @@ class backend_controller_plugins{
      * Charge le fichier de configuration associer à la langue
      * @param bool|string $sections (optionnel) :la section à charger
      */
-	public static function configLoad($sections = false){
-		backend_config_smarty::getInstance()->configLoad(
-			self::pathConfigLoad(self::$ConfigFile), $sections
-		);
+	public function configLoad($sections = false){
+        if(self::pathConfigLoad(self::$ConfigFile) != null){
+            backend_model_smarty::getInstance()->configLoad(
+                self::pathConfigLoad(self::$ConfigFile), $sections
+            );
+        }
 	}
 
     /**
      * Charge le fichier de configuration pour les mails associer à la langue
      * @param bool|string $sections (optionnel) :la section à charger
      */
-	public static function configLoadMail($sections = false){
-		backend_config_smarty::getInstance()->configLoad(
+	public function configLoadMail($sections = false){
+		backend_model_smarty::getInstance()->configLoad(
             self::pathConfigLoad(self::$MailConfigFile), $sections
 		);
 	}
@@ -762,7 +774,7 @@ class backend_controller_plugins{
      * @param mixed $compile_id
      * @param object $parent
      */
-    public static function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
+    public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null){
         backend_model_smarty::getInstance()->isCached($template, $cache_id, $compile_id, $parent);
     }
 
@@ -772,7 +784,7 @@ class backend_controller_plugins{
      * @param bool $search_parents
      * @return string
      */
-    public static function getConfigVars($varname = null, $search_parents = true){
+    public function getConfigVars($varname = null, $search_parents = true){
         return backend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
     }
 
@@ -783,7 +795,7 @@ class backend_controller_plugins{
      * @param bool $search_parents
      * @return string
      */
-    public static function getTemplateVars($varname = null, $_ptr = null, $search_parents = true){
+    public function getTemplateVars($varname = null, $_ptr = null, $search_parents = true){
         return backend_model_smarty::getInstance()->getTemplateVars($varname, $_ptr, $search_parents);
     }
 	/**
