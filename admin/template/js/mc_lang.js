@@ -40,16 +40,16 @@
  */
 var MC_lang = (function ($, undefined) {
     //Fonction Private
-    function graph(){
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/lang.php?json_graph=true',
+            uri: '/'+baseadmin+'/lang.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -71,16 +71,22 @@ var MC_lang = (function ($, undefined) {
             }
         });
     }
-    function jsonLang(){
+
+    /**
+     * Retourne la liste des langues
+     * @param baseadmin
+     * @param iso
+     */
+    function jsonLang(baseadmin,iso){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/lang.php?action=list&json_list_lang=true',
+            uri: '/'+baseadmin+'/lang.php?action=list&json_list_lang=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -111,8 +117,8 @@ var MC_lang = (function ($, undefined) {
                                     .attr("rel","tooltip")
                                     .append("ISO")
                             ),
-                            $(document.createElement("th")).append("Language"),
-                            $(document.createElement("th")).append("Défaut"),
+                            $(document.createElement("th")).append(Globalize.localize( "language", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "default", iso )),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span")).addClass("icon-eye-open")
                             ),
@@ -148,7 +154,7 @@ var MC_lang = (function ($, undefined) {
                                     .addClass("active-pages")
                                     .attr("href", "#")
                                     .attr("data-active", item.idlang)
-                                    .attr("title", "Activer la langue: "+item.iso).append(
+                                    .attr("title", Globalize.localize( "activate_language", iso )+item.iso).append(
                                     $(document.createElement("span")).addClass("icon-eye-close")
                                 )
                             )
@@ -158,14 +164,14 @@ var MC_lang = (function ($, undefined) {
                                     .addClass("active-pages")
                                     .attr("href", "#")
                                     .attr("data-active", item.idlang)
-                                    .attr("title", "Activer la langue: "+item.iso).append(
+                                    .attr("title", Globalize.localize( "activate_language", iso )+item.iso).append(
                                     $(document.createElement("span")).addClass("icon-eye-open")
                                 )
                             )
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/lang.php?action=edit&edit='+item.idlang)
+                                .attr("href", '/'+baseadmin+'/lang.php?action=edit&edit='+item.idlang)
                                 .attr("title", "Editer "+item.iso)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -176,7 +182,7 @@ var MC_lang = (function ($, undefined) {
                                 .addClass("delete-lang")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idlang)
-                                .attr("title", "Supprimer "+": "+item.iso)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.iso)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
@@ -233,7 +239,13 @@ var MC_lang = (function ($, undefined) {
             }
         });
     }
-    function add(){
+
+    /**
+     * Ajoute une nouvelle langue
+     * @param baseadmin
+     * @param iso
+     */
+    function add(baseadmin,iso){
         var formsAddLang = $("#forms_lang_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -249,7 +261,7 @@ var MC_lang = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/lang.php?action=add',
+                    uri: '/'+baseadmin+'/lang.php?action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -258,7 +270,7 @@ var MC_lang = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonLang();
+                        jsonLang(baseadmin,iso);
                     }
                 });
                 return false;
@@ -285,7 +297,13 @@ var MC_lang = (function ($, undefined) {
             return false;
         });
     }
-    function update(edit){
+
+    /**
+     * Edite une langue
+     * @param baseadmin
+     * @param edit
+     */
+    function update(baseadmin,edit){
         var formsUpdatelang = $('#forms_lang_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -301,7 +319,7 @@ var MC_lang = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/lang.php?action=edit&edit='+edit,
+                    uri: '/'+baseadmin+'/lang.php?action=edit&edit='+edit,
                     typesend: 'post',
                     idforms: $(form),
                     resetform:false,
@@ -316,7 +334,13 @@ var MC_lang = (function ($, undefined) {
         });
         $('#forms_lang_edit').formsUpdatelang;
     }
-    function updateActive(){
+
+    /**
+     * Modifie le statut d'une langue
+     * @param baseadmin
+     * @param iso
+     */
+    function updateActive(baseadmin,iso){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
             var id = $(this).data("active");
@@ -326,7 +350,7 @@ var MC_lang = (function ($, undefined) {
                 height:180,
                 width:350,
                 modal: true,
-                title: "Changer le status d'une langue",
+                title: Globalize.localize( "change_of_status", iso ),
                 buttons: [
                     {
                         text: "Activer",
@@ -334,14 +358,14 @@ var MC_lang = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/lang.php?action=edit',
+                                uri: '/'+baseadmin+'/lang.php?action=edit',
                                 typesend: 'post',
                                 noticedata:{active_lang:1,idlang:id},
                                 successParams:function(j){
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonLang();
+                                    jsonLang(baseadmin,iso);
                                 }
                             });
                             return false;
@@ -353,14 +377,14 @@ var MC_lang = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/lang.php?action=edit',
+                                uri: '/'+baseadmin+'/lang.php?action=edit',
                                 typesend: 'post',
                                 noticedata:{active_lang:0,idlang:id},
                                 successParams:function(j){
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonLang();
+                                    jsonLang(baseadmin,iso);
                                 }
                             });
                             return false;
@@ -372,16 +396,16 @@ var MC_lang = (function ($, undefined) {
     }
     return {
         //Fonction Public
-        runCharts:function(){
-            graph();
+        runCharts:function(baseadmin){
+            graph(baseadmin);
         },
-        runList:function(){
-            jsonLang();
-            add();
-            updateActive();
+        runList:function(baseadmin,iso){
+            jsonLang(baseadmin,iso);
+            add(baseadmin,iso);
+            updateActive(baseadmin,iso);
         },
-        runEdit:function(edit){
-            update(edit);
+        runEdit:function(baseadmin,edit){
+            update(baseadmin,edit);
         }
     };
 })(jQuery);

@@ -7,11 +7,11 @@ $(function(){
         console.log("MC_lang is not defined");
     }else{
         if($('#list_lang').length != 0){
-            MC_lang.runList();
+            MC_lang.runList(baseadmin,iso);
         }else if($('#forms_lang_edit').length != 0){
-            MC_lang.runEdit(edit);
+            MC_lang.runEdit(baseadmin,edit);
         }else{
-            MC_lang.runCharts();
+            MC_lang.runCharts(baseadmin);
         }
     }
 });

@@ -50,7 +50,7 @@
                     {/if}
                     {if $config_lang eq 1}
                     <li{if {script_name} eq "lang"} class="active"{/if}>
-                        <a href="/{baseadmin}/lang.php">
+                        <a href="/{baseadmin}/lang.php?action=list">
                             <span class="icon-flag"></span> {#languages#|ucfirst}
                         </a>
                     </li>
@@ -62,10 +62,19 @@
                         </a>
                         <ul class="dropdown-menu">
                             {if $config_metasrewrite eq 1}
-                            <li>
-                                <a href="/{baseadmin}/seo.php">
+                            <li class="dropdown-submenu">
+                                <a tabindex="-1" href="#">
                                     <span class="icon-bolt"></span> SEO
                                 </a>
+                                <ul class="dropdown-menu">
+                                    {foreach $array_lang as $key => $value nocache}
+                                    <li>
+                                        <a tabindex="-1" href="/{baseadmin}/seo.php?getlang={$key}&amp;action=list">
+                                            {$value|upper}
+                                        </a>
+                                    </li>
+                                    {/foreach}
+                                </ul>
                             </li>
                             {/if}
                             <li><a href="/{baseadmin}/googletools.php">

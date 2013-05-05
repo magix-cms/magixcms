@@ -40,16 +40,20 @@
  */
 var MC_news = (function ($, undefined) {
     //Fonction Private
-    function graph(){
+    /**
+     * Statistiques des news
+     * @param baseadmin
+     */
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/news.php?json_graph=true',
+            uri: '/'+baseadmin+'/news.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -77,17 +81,18 @@ var MC_news = (function ($, undefined) {
     /**
      * Retourne un tableau HTML des actualités
      * @param getlang
+     * @param baseadmin
      */
-    function jsonPages(getlang){
+    function jsonPages(baseadmin,getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/news.php?getlang='+getlang+'&action=list&json_list_news=true',
+            uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=list&json_list_news=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -184,7 +189,7 @@ var MC_news = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
+                                .attr("href", '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
                                 .attr("title", "Editer "+item.n_title)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -206,7 +211,7 @@ var MC_news = (function ($, undefined) {
                                 $(document.createElement("td")).append(item.idnews),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
+                                        .attr("href", '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
                                         .attr("title", "Editer "+item.n_title)
                                         .append(
                                         item.n_title
@@ -269,8 +274,9 @@ var MC_news = (function ($, undefined) {
     /**
      * Ajout d'une news
      * @param getlang
+     * @param baseadmin
      */
-    function add(getlang){
+    function add(baseadmin,getlang){
         var formsAddNews = $("#forms_news_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -283,7 +289,7 @@ var MC_news = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/news.php?getlang='+getlang+'&action=add',
+                    uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -292,7 +298,7 @@ var MC_news = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonPages(getlang);
+                        jsonPages(baseadmin,getlang);
                     }
                 });
                 return false;
@@ -318,7 +324,13 @@ var MC_news = (function ($, undefined) {
             return false;
         });
     }
-    function updateActive(getlang){
+
+    /**
+     * Modificatio du statut de l'actualité
+     * @param baseadmin
+     * @param getlang
+     */
+    function updateActive(baseadmin,getlang){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
             var id = $(this).data("active");
@@ -336,14 +348,14 @@ var MC_news = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/news.php?getlang='+getlang+'&action=edit',
+                                uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit',
                                 typesend: 'post',
                                 noticedata:{published:1,idnews:id},
                                 successParams:function(j){
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonPages(getlang);
+                                    jsonPages(baseadmin,getlang);
                                 }
                             });
                             return false;
@@ -355,14 +367,14 @@ var MC_news = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/news.php?getlang='+getlang+'&action=edit',
+                                uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit',
                                 typesend: 'post',
                                 noticedata:{published:0,idnews:id},
                                 successParams:function(j){
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonPages(getlang);
+                                    jsonPages(baseadmin,getlang);
                                 }
                             });
                             return false;
@@ -372,7 +384,13 @@ var MC_news = (function ($, undefined) {
             });
         });
     }
-    function remove(getlang){
+
+    /**
+     * Suppression de l'actualité
+     * @param baseadmin
+     * @param getlang
+     */
+    function remove(baseadmin,getlang){
         $(document).on('click','.delete-news',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -388,14 +406,14 @@ var MC_news = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/news.php?getlang='+getlang+'&action=remove',
+                            uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=remove',
                             typesend: 'post',
                             noticedata : {delete_news:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonPages(getlang);
+                                jsonPages(baseadmin,getlang);
                             }
                         });
                     },
@@ -412,18 +430,19 @@ var MC_news = (function ($, undefined) {
      * @param getlang
      * @param edit
      * @constructor
+     * @param baseadmin
      */
-    function JsonUrlPage(getlang,edit){
+    function JsonUrlPage(baseadmin,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit+'&json_urinews=true',
+            uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+edit+'&json_urinews=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 $("#newslink").hide().val('');
                 var loader = $(document.createElement("span")).addClass("loader").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -448,17 +467,18 @@ var MC_news = (function ($, undefined) {
      * Chargement de l'image associée à la news
      * @param getlang
      * @param edit
+     * @param baseadmin
      */
-    function getImage(getlang,edit){
+    function getImage(baseadmin,getlang,edit){
         if($('#load_news_img').length!=0){
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit+'&ajax_image=true',
+                uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+edit+'&ajax_image=true',
                 typesend: 'get',
                 beforeParams:function(){
                     var loader = $(document.createElement("span")).addClass("loader").append(
                         $(document.createElement("img"))
-                            .attr('src','/admin/template/img/loader/small_loading.gif')
+                            .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                             .attr('width','20px')
                             .attr('height','20px')
                     )
@@ -483,8 +503,16 @@ var MC_news = (function ($, undefined) {
 
         }
     }
-    function update(getlang,edit,tab){
-        var url = '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit;
+
+    /**
+     * Modification de l'actualité
+     * @param baseadmin
+     * @param getlang
+     * @param edit
+     * @param tab
+     */
+    function update(baseadmin,getlang,edit,tab){
+        var url = '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+edit;
         if(tab === 'text'){
             var formsUpdatePages = $('#forms_news_edit').validate({
                 onsubmit: true,
@@ -533,7 +561,14 @@ var MC_news = (function ($, undefined) {
             });
         }
     }
-    function removeImage(getlang,edit){
+
+    /**
+     * Suppression de l'image d'actualité
+     * @param baseadmin
+     * @param getlang
+     * @param edit
+     */
+    function removeImage(baseadmin,getlang,edit){
         $(document).on('click','.delete-image',function(event){
             event.preventDefault();
             $("#window-dialog:ui-dialog").dialog( "destroy" );
@@ -548,7 +583,7 @@ var MC_news = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/news.php?getlang='+getlang+'&action=remove',
+                            uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=remove',
                             typesend: 'post',
                             noticedata : {delete_image:edit},
                             successParams:function(e){
@@ -569,16 +604,16 @@ var MC_news = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        runCharts:function(){
-            graph();
+        runCharts:function(baseadmin){
+            graph(baseadmin);
         },
-        runList:function(getlang){
-            add(getlang);
-            jsonPages(getlang);
-            updateActive(getlang);
-            remove(getlang);
+        runList:function(baseadmin,getlang){
+            add(baseadmin,getlang);
+            jsonPages(baseadmin,getlang);
+            updateActive(baseadmin,getlang);
+            remove(baseadmin,getlang);
         },
-        runEdit:function(getlang,edit){
+        runEdit:function(baseadmin,getlang,edit){
             $('#name_tag').tagsInput({
                 defaultText:'Ajouter un tag',
                 width:'',
@@ -586,7 +621,7 @@ var MC_news = (function ($, undefined) {
                     if ($(this).tagExist(tag)) {
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit,
+                            uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+edit,
                             typesend: 'post',
                             idforms: $(this),
                             resetform:false,
@@ -603,7 +638,7 @@ var MC_news = (function ($, undefined) {
                 onRemoveTag:function(tag){
                     $.nicenotify({
                         ntype: "ajax",
-                        uri: '/admin/news.php?getlang='+getlang+'&action=edit&edit='+edit,
+                        uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+edit,
                         typesend: 'post',
                         idforms: $(this),
                         resetform:false,
@@ -617,11 +652,11 @@ var MC_news = (function ($, undefined) {
                     return false;
                 }
             });
-            JsonUrlPage(getlang,edit);
-            getImage(getlang,edit);
-            removeImage(getlang,edit);
-            update(getlang,edit,'text');
-            update(getlang,edit,'image');
+            JsonUrlPage(baseadmin,getlang,edit);
+            getImage(baseadmin,getlang,edit);
+            removeImage(baseadmin,getlang,edit);
+            update(baseadmin,getlang,edit,'text');
+            update(baseadmin,getlang,edit,'image');
         }
     };
 })(jQuery);

@@ -40,16 +40,16 @@
  */
 var MC_pages = (function ($, undefined) {
     //Fonction Private
-    function graph(){
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?json_graph=true',
+            uri: '/'+baseadmin+'/cms.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -73,13 +73,20 @@ var MC_pages = (function ($, undefined) {
             }
         });
     }
-    function add(getlang,getParent){
+
+    /**
+     * Ajoute une nouvelle page
+     * @param baseadmin
+     * @param getlang
+     * @param getParent
+     */
+    function add(baseadmin,getlang,getParent){
         if(getParent != 0){
             var idforms = $("#forms_cms_add_child");
-            var url = '/admin/cms.php?getlang='+getlang+'&action=add&get_page_p='+getParent;
+            var url = '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=add&get_page_p='+getParent;
         }else{
             var idforms = $("#forms_cms_add_parent");
-            var url = '/admin/cms.php?getlang='+getlang+'&action=add';
+            var url = '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=add';
         }
         var formsAddPages = idforms.validate({
             onsubmit: true,
@@ -102,7 +109,7 @@ var MC_pages = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListParent(getlang);
+                        jsonListParent(baseadmin,getlang);
                     }
                 });
                 return false;
@@ -128,8 +135,15 @@ var MC_pages = (function ($, undefined) {
             return false;
         });
     }
-    function update(getlang,edit){
-        var url = '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+edit;
+
+    /**
+     * Modification d'une page
+     * @param baseadmin
+     * @param getlang
+     * @param edit
+     */
+    function update(baseadmin,getlang,edit){
+        var url = '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+edit;
         var formsUpdatePages = $('#forms_cms_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -150,7 +164,7 @@ var MC_pages = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:true
                         });
-                        JsonUrlPage(getlang,edit);
+                        JsonUrlPage(baseadmin,getlang,edit);
                     }
                 });
                 return false;
@@ -158,16 +172,22 @@ var MC_pages = (function ($, undefined) {
         });
         $('#forms_cms_edit').formsUpdatePages;
     }
-    function jsonListParent(getlang){
+
+    /**
+     * Liste des pages parentes
+     * @param baseadmin
+     * @param getlang
+     */
+    function jsonListParent(baseadmin,getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?getlang='+getlang+'&action=list&json_page_p=true',
+            uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&json_page_p=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -245,7 +265,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var child = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=list&get_page_p='+item.idpage)
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&get_page_p='+item.idpage)
                                 .attr("title", "Gestion des pages enfants de : "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-group")
@@ -253,7 +273,7 @@ var MC_pages = (function ($, undefined) {
                         );
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
                                 .attr("title", "Déplacement de la page: "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -282,7 +302,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                 .attr("title", "Editer "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -308,7 +328,7 @@ var MC_pages = (function ($, undefined) {
                                 ),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                        .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                         .attr("title", "Editer "+item.title_page)
                                         .append(
                                             item.title_page
@@ -338,7 +358,7 @@ var MC_pages = (function ($, undefined) {
                             var serial = $('#table_pages > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
+                                uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -393,18 +413,19 @@ var MC_pages = (function ($, undefined) {
      * @param getlang
      * @param edit
      * @constructor
+     * @param baseadmin
      */
-    function JsonUrlPage(getlang,edit){
+    function JsonUrlPage(baseadmin,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+edit+'&json_uricms=true',
+            uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+edit+'&json_uricms=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 $("#cmslink").hide().val('');
                 var loader = $(document.createElement("span")).addClass("loader").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -429,17 +450,18 @@ var MC_pages = (function ($, undefined) {
      * Retourne la liste des pages enfants
      * @param getlang
      * @param getParent
+     * @param baseadmin
      */
-    function jsonListChild(getlang,getParent){
+    function jsonListChild(baseadmin,getlang,getParent){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/cms.php?getlang='+getlang+'&action=list&get_page_p='+getParent+'&json_child_p=true',
+            uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&get_page_p='+getParent+'&json_child_p=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -513,7 +535,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
                                 .attr("title", "Déplacement de la page: "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -542,7 +564,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                 .attr("title", "Editer "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -568,7 +590,7 @@ var MC_pages = (function ($, undefined) {
                                 ),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                        .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                         .attr("title", "Editer "+item.title_page)
                                         .append(
                                             item.title_page
@@ -596,7 +618,7 @@ var MC_pages = (function ($, undefined) {
                             var serial = $('#table_pages > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
+                                uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -647,8 +669,9 @@ var MC_pages = (function ($, undefined) {
      * Suppression de la page
      * @param getlang
      * @param getParent
+     * @param baseadmin
      */
-    function remove(getlang,getParent){
+    function remove(baseadmin,getlang,getParent){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -664,7 +687,7 @@ var MC_pages = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/cms.php?getlang='+getlang+'&action=remove',
+                            uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=remove',
                             typesend: 'post',
                             noticedata : {delpage:elem},
                             successParams:function(e){
@@ -672,9 +695,9 @@ var MC_pages = (function ($, undefined) {
                                     display:true
                                 });
                                 if(getParent != 0){
-                                    jsonListChild(getlang,getParent);
+                                    jsonListChild(baseadmin,getlang,getParent);
                                 }else{
-                                    jsonListParent(getlang);
+                                    jsonListParent(baseadmin,getlang);
                                 }
                             }
                         });
@@ -692,8 +715,9 @@ var MC_pages = (function ($, undefined) {
      * Active la page
      * @param getlang
      * @param getParent
+     * @param baseadmin
      */
-    function updateActive(getlang,getParent){
+    function updateActive(baseadmin,getlang,getParent){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
             var id = $(this).data("active");
@@ -711,7 +735,7 @@ var MC_pages = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
+                                uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata:{sidebar_page:1,idpage:id},
                                 successParams:function(j){
@@ -719,9 +743,9 @@ var MC_pages = (function ($, undefined) {
                                         display:false
                                     });
                                     if(getParent != 0){
-                                        jsonListChild(getlang,getParent);
+                                        jsonListChild(baseadmin,getlang,getParent);
                                     }else{
-                                        jsonListParent(getlang);
+                                        jsonListParent(baseadmin,getlang);
                                     }
                                 }
                             });
@@ -734,7 +758,7 @@ var MC_pages = (function ($, undefined) {
                             $(this).dialog('close');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/cms.php?getlang='+getlang+'&action=list',
+                                uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list',
                                 typesend: 'post',
                                 noticedata:{sidebar_page:0,idpage:id},
                                 successParams:function(j){
@@ -742,9 +766,9 @@ var MC_pages = (function ($, undefined) {
                                         display:false
                                     });
                                     if(getParent != 0){
-                                        jsonListChild(getlang,getParent);
+                                        jsonListChild(baseadmin,getlang,getParent);
                                     }else{
-                                        jsonListParent(getlang);
+                                        jsonListParent(baseadmin,getlang);
                                     }
                                 }
                             });
@@ -760,9 +784,10 @@ var MC_pages = (function ($, undefined) {
      * Déplacement de la page
      * @param getlang
      * @param edit
+     * @param baseadmin
      */
-    function move(getlang,edit){
-        var url = '/admin/cms.php?getlang='+getlang+'&action=move&edit='+edit;
+    function move(baseadmin,getlang,edit){
+        var url = '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&edit='+edit;
         var formsPages = $('#forms_cms_move').validate({
             onsubmit: true,
             event: 'submit',
@@ -783,7 +808,7 @@ var MC_pages = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:true
                         });
-                        JsonUrlPage(getlang,edit);
+                        JsonUrlPage(baseadmin,getlang,edit);
                     }
                 });
                 return false;
@@ -791,13 +816,19 @@ var MC_pages = (function ($, undefined) {
         });
         $('#forms_cms_edit').formsUpdatePages;
     }
-    function autoCompleteSearch(getlang){
+
+    /**
+     * Autocomplete pour les pages
+     * @param baseadmin
+     * @param getlang
+     */
+    function autoCompleteSearch(baseadmin,getlang){
         $( "#title_search" ).autocomplete({
             minLength: 2,
             source: function(req, add){
                 //pass request to server
                 $.ajax({
-                    url:'/admin/cms.php?getlang='+getlang+'&callback=?&action=list',
+                    url:'/'+baseadmin+'/cms.php?getlang='+getlang+'&callback=?&action=list',
                     type:"get",
                     dataType: 'json',
                     data: 'title_search='+req.term,
@@ -807,7 +838,7 @@ var MC_pages = (function ($, undefined) {
                         add($.map(data, function(item) {
                             return {
                                 value : item.title_page,
-                                url : '/admin/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage
+                                url : '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage
                             }
                         }));
                     }
@@ -829,27 +860,27 @@ var MC_pages = (function ($, undefined) {
     }
     return {
         //Fonction Public
-        runCharts:function(){
-            graph();
+        runCharts:function(baseadmin){
+            graph(baseadmin);
         },
-        runParents:function (getlang) {
-            add(getlang,0);
-            jsonListParent(getlang);
-            updateActive(getlang,0);
-            remove(getlang,0);
-            autoCompleteSearch(getlang);
+        runParents:function (baseadmin,getlang) {
+            add(baseadmin,getlang,0);
+            jsonListParent(baseadmin,getlang);
+            updateActive(baseadmin,getlang,0);
+            remove(baseadmin,getlang,0);
+            autoCompleteSearch(baseadmin,getlang);
         },
-        runChild:function(getlang,getParent){
-            jsonListChild(getlang,getParent);
-            add(getlang,getParent);
-            updateActive(getlang,getParent);
-            remove(getlang,getParent);
-            autoCompleteSearch(getlang);
+        runChild:function(baseadmin,getlang,getParent){
+            jsonListChild(baseadmin,getlang,getParent);
+            add(baseadmin,getlang,getParent);
+            updateActive(baseadmin,getlang,getParent);
+            remove(baseadmin,getlang,getParent);
+            autoCompleteSearch(baseadmin,getlang);
         },
-        runEdit:function(getlang,edit){
-            JsonUrlPage(getlang,edit);
-            update(getlang,edit);
-            autoCompleteSearch(getlang);
+        runEdit:function(baseadmin,getlang,edit){
+            JsonUrlPage(baseadmin,getlang,edit);
+            update(baseadmin,getlang,edit);
+            autoCompleteSearch(baseadmin,getlang);
         }
     };
 })(jQuery);

@@ -43,10 +43,10 @@ var MC_home = (function ($, undefined) {
     /**
      * Graphique
      */
-    function graph(){
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/home.php?json_graph=true',
+            uri: '/'+baseadmin+'/home.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
@@ -77,18 +77,20 @@ var MC_home = (function ($, undefined) {
     }
 
     /**
+     * @param baseadmin
      * Liste des pages
+     * @param iso
      */
-    function jsonHome(){
+    function jsonHome(baseadmin,iso){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/home.php?action=list&json_list_home=true',
+            uri: '/'+baseadmin+'/home.php?action=list&json_list_home=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -113,9 +115,9 @@ var MC_home = (function ($, undefined) {
                                     .addClass("icon-key")
                             ),
                             $(document.createElement("th")).append("ISO"),
-                            $(document.createElement("th")).append("subject"),
-                            $(document.createElement("th")).append("Content"),
-                            $(document.createElement("th")).append("pseudo"),
+                            $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "content", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "nickname", iso )),
                             $(document.createElement("th")).append("Metas Title"),
                             $(document.createElement("th")).append("Metas Description"),
                             $(document.createElement("th"))
@@ -157,8 +159,8 @@ var MC_home = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/home.php?action=edit&edit='+item.idhome)
-                                .attr("title", "Editer "+item.iso)
+                                .attr("href", '/'+baseadmin+'/home.php?action=edit&edit='+item.idhome)
+                                .attr("title", Globalize.localize( "edit", iso )+item.iso)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
                             )
@@ -168,7 +170,7 @@ var MC_home = (function ($, undefined) {
                                 .addClass("delete-home")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idhome)
-                                .attr("title", "Supprimer "+": "+item.iso)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.iso)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
@@ -180,8 +182,8 @@ var MC_home = (function ($, undefined) {
                                 $(document.createElement("td")).append(item.iso),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/home.php?action=edit&edit='+item.idhome)
-                                        .attr("title", "Editer "+item.iso)
+                                        .attr("href", '/'+baseadmin+'/home.php?action=edit&edit='+item.idhome)
+                                        .attr("title", Globalize.localize( "edit", iso )+item.iso)
                                         .append(
                                             item.subject
                                         )
@@ -236,9 +238,11 @@ var MC_home = (function ($, undefined) {
     }
 
     /**
+     * @param baseadmin
      * Ajout d'une nouvelle page
+     * @param iso
      */
-    function add(){
+    function add(baseadmin,iso){
         var formsAddHome = $("#forms_home_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -254,7 +258,7 @@ var MC_home = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/home.php?action=add',
+                    uri: '/'+baseadmin+'/home.php?action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -263,7 +267,7 @@ var MC_home = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        //jsonLang();
+                        jsonHome(baseadmin,iso);
                     }
                 });
                 return false;
@@ -294,9 +298,10 @@ var MC_home = (function ($, undefined) {
     /**
      * Modification d'une page
      * @param edit
+     * @param baseadmin
      */
-    function update(edit){
-        var url = '/admin/home.php?action=edit&edit='+edit;
+    function update(baseadmin,edit){
+        var url = '/'+baseadmin+'/home.php?action=edit&edit='+edit;
         var formsUpdatePages = $('#forms_home_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -327,8 +332,10 @@ var MC_home = (function ($, undefined) {
 
     /**
      * Suppression de page d'accueil
+     * @param baseadmin
+     * @param iso
      */
-    function remove(){
+    function remove(baseadmin,iso){
         $(document).on('click','.delete-home',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -344,14 +351,14 @@ var MC_home = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/home.php?action=remove',
+                            uri: '/'+baseadmin+'/home.php?action=remove',
                             typesend: 'post',
                             noticedata : {delete_home:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonHome();
+                                jsonHome(baseadmin,iso);
                             }
                         });
                     },
@@ -365,16 +372,16 @@ var MC_home = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        runCharts:function(){
-            graph();
+        runCharts:function(baseadmin){
+            graph(baseadmin);
         },
-        runList:function(){
-            jsonHome();
-            add();
-            remove();
+        runList:function(baseadmin,iso){
+            jsonHome(baseadmin,iso);
+            add(baseadmin,iso);
+            remove(baseadmin,iso);
         },
-        runEdit:function(edit){
-            update(edit);
+        runEdit:function(baseadmin,edit){
+            update(baseadmin,edit);
         }
     };
 })(jQuery);

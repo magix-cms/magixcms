@@ -129,8 +129,12 @@ class backend_controller_seo extends backend_db_seo{
      * @param null $update
      */
     private function select_attribute($create,$update=null){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         $tabsModule = array_merge(
-            array('news'=>'News','catalog'=>'catalogue'),
+            array(
+                'news'      =>  $create->getConfigVars('news'),
+                'catalog'   =>  $create->getConfigVars('catalog')
+            ),
             $this->load_listing_plugin()
         );
         $iniModules = new backend_model_modules($tabsModule);
@@ -143,6 +147,7 @@ class backend_controller_seo extends backend_db_seo{
      * @param null $update
      */
     private function select_level($create,$update=null){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         if($update != null){
             $default = array($update=> 'level '.$update);
         }
@@ -154,11 +159,11 @@ class backend_controller_seo extends backend_db_seo{
                 '3'=>'Level 3'
             ),
             array(
-                'attr_name'=>'level',
-                'attr_id'=>'level',
-                'default_value'=>$default,
-                'empty_value'=>'Selectionner le niveau',
-                'upper_case'=>false
+                'attr_name'     =>  'level',
+                'attr_id'       =>'level',
+                'default_value' =>$default,
+                'empty_value'   =>$create->getConfigVars('select_level'),
+                'upper_case'    =>false
             )
         );
         $create->assign('select_level', $select);
@@ -170,6 +175,7 @@ class backend_controller_seo extends backend_db_seo{
      * @param null $update
      */
     private function select_metas($create,$update=null){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         if($update != null){
             if($update == 1){
                 $default = array($update=>'title');
@@ -184,11 +190,11 @@ class backend_controller_seo extends backend_db_seo{
                 '2'=>'Description'
             ),
             array(
-                'attr_name'=>'idmetas',
-                'attr_id'=>'idmetas',
-                'default_value'=>$default,
-                'empty_value'=>'Selectionner le type',
-                'upper_case'=>false
+                'attr_name'     =>  'idmetas',
+                'attr_id'       =>  'idmetas',
+                'default_value' =>  $default,
+                'empty_value'   =>  $create->getConfigVars('select_type'),
+                'upper_case'    =>  false
             )
         );
         $create->assign('select_metas', $select);
@@ -271,10 +277,12 @@ class backend_controller_seo extends backend_db_seo{
 		}
 	}
 
-	/**
-	 * execute ou instance la class du plugin
-	 * @param void $className
-	 */
+    /**
+     * execute ou instance la class du plugin
+     * @param $module
+     * @return
+     * @internal param void $className
+     */
 	private function get_call_class($module){
 		try{
 			$class =  new $module;
@@ -287,10 +295,13 @@ class backend_controller_seo extends backend_db_seo{
 			magixglobal_model_system::magixlog("Error plugins execute", $e);
 		}
 	}
-	/**
-	 * Récupération des options pour la génération
-	 * @param string $module
-	 */
+
+    /**
+     * Récupération des options pour la génération
+     * @param string $module
+     * @throws Exception
+     * @return array
+     */
 	private function ini_options_mod($module){
 		if(method_exists($this->get_call_class('plugins_'.$module.'_admin'),'seo_options')){
 			/* Appelle la  fonction utilisateur sitemap_rewrite_options contenue dans le module */
@@ -306,6 +317,7 @@ class backend_controller_seo extends backend_db_seo{
 			throw new Exception('Method "seo_options" does not exist');
 		}
 	}
+
 	/**
 	 * @access private
 	 * listing plugin
@@ -366,27 +378,10 @@ class backend_controller_seo extends backend_db_seo{
 	public function run(){
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
-		/*if(magixcjquery_filter_request::isGet('add')){
-			self::insertion_rewrite();
-		}elseif(magixcjquery_filter_request::isGet('edit')){
-			if(magixcjquery_filter_request::isPost('strrewrite')){
-				self::update_rewrite();
-			}else{
-				self::display_seo_edit();
-			}
-		}elseif(magixcjquery_filter_request::isGet('load_metas')){
-			$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-			$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-			$header->pragma();
-			$header->cache_control("nocache");
-			$header->getStatus('200');
-			$header->json_header("UTF-8");
-			self::json_list_metas();
-		}elseif(magixcjquery_filter_request::isPost('drmetas')){
-			self::d_rewrite();
-		}else{
-			self::display();
-		}*/
+        $create->addConfigFile(array(
+                'modules'
+            ),array('seo_'),false
+        );
         if(magixcjquery_filter_request::isGet('getlang')){
             if(isset($this->action)){
                 if($this->action == 'list'){

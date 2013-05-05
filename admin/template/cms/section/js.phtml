@@ -1,6 +1,5 @@
 {include file="section/editor.phtml"}
-{script src="/{baseadmin}/min/?g=tinymce" concat={$concat} type="javascript"}
-{script src="/{baseadmin}/min/?g=charts" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?g=tinymce,charts" concat={$concat} type="javascript"}
 {script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/mc_pages.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 {if $smarty.get.get_page_p}
@@ -13,14 +12,14 @@ $(function(){
     }else{
         {if $smarty.get.getlang}
             {if $smarty.get.edit}
-                MC_pages.runEdit(getlang,edit);
+                MC_pages.runEdit(baseadmin,getlang,edit);
             {elseif $smarty.get.get_page_p}
-                MC_pages.runChild(getlang,getParent);
+                MC_pages.runChild(baseadmin,getlang,getParent);
             {else}
-                MC_pages.runParents(getlang);
+                MC_pages.runParents(baseadmin,getlang);
             {/if}
         {elseif !$smarty.get.edit}
-            MC_pages.runCharts();
+            MC_pages.runCharts(baseadmin);
         {/if}
     }
 });

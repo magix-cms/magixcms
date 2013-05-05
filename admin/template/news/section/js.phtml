@@ -1,6 +1,5 @@
 {include file="section/editor.phtml"}
-{script src="/{baseadmin}/min/?g=tinymce" concat={$concat} type="javascript"}
-{script src="/{baseadmin}/min/?g=charts" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?g=tinymce,charts" concat={$concat} type="javascript"}
 {script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/plugins/jquery.tagsinput.js,{baseadmin}/template/js/mc_news.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 $(function(){
@@ -10,12 +9,12 @@ $(function(){
     }else{
         {if $smarty.get.getlang}
             {if $smarty.get.edit}
-            MC_news.runEdit(getlang,edit);
+            MC_news.runEdit(baseadmin,getlang,edit);
             {else}
-            MC_news.runList(getlang);
+            MC_news.runList(baseadmin,getlang);
             {/if}
         {elseif !$smarty.get.edit}
-            MC_news.runCharts();
+            MC_news.runCharts(baseadmin);
         {/if}
     }
 });

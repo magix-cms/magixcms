@@ -111,9 +111,11 @@ class backend_controller_home extends backend_db_home{
 
     /**
      * Construction du menu select
+     * @param $create
      * @return string
      */
-    private function lang_select(){
+    private function lang_select($create){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         $idlang = '';
         $iso = '';
         foreach(backend_db_block_lang::s_data_lang() as $key){
@@ -125,11 +127,11 @@ class backend_controller_home extends backend_db_home{
             $lang_conb
             ,
             array(
-                'attr_name'=>'idlang',
-                'attr_id'=>'idlang',
-                'default_value'=>'',
-                'empty_value'=>'Selectionner les langues',
-                'upper_case'=>true
+                'attr_name'     =>  'idlang',
+                'attr_id'       =>  'idlang',
+                'default_value' =>  '',
+                'empty_value'   =>  $create->getConfigVars('select_language'),
+                'upper_case'    =>  true
             )
         );
         return $select;
@@ -273,7 +275,7 @@ class backend_controller_home extends backend_db_home{
                     $this->json_list_home();
                 }else{
 
-                    $create->assign('select_lang',$this->lang_select());
+                    $create->assign('select_lang',$this->lang_select($create));
                     $create->display('home/list.phtml');
                 }
             }elseif($this->action == 'add'){

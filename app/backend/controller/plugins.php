@@ -604,20 +604,6 @@ class backend_controller_plugins{
 		return self::PATHPLUGINS.'/'.$this->getplugin();
 	}
 
-	/**
-	 * Retourne la langue courante
-	 * @return string
-	 * @access public 
-	 * @static
-	 */
-	public function sessionLanguage(){
-		if(isset($_SESSION['adminLanguage'])){
-			if(!empty($_SESSION['adminLanguage'])){
-				return magixcjquery_filter_join::getCleanAlpha($_SESSION['adminLanguage'],3);
-			}
-		}
-	}
-
     /**
      * Chargement du fichier de configuration suivant la langue en cours de session.
      * @access private
@@ -626,7 +612,7 @@ class backend_controller_plugins{
     private function pathConfigLoad($configfile,$filextension=false,$plugin=''){
         try {
             $filextends = $filextension ? $filextension : '.conf';
-            $lang = $this->sessionLanguage;
+            $lang = backend_model_language::current_Language();
             if(file_exists($this->path_dir_i18n())){
                 $translate = !empty($lang) ? $lang : 'fr';
                 return $this->path_dir_i18n().$configfile.$translate.$filextends;
