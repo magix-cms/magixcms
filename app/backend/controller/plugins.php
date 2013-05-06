@@ -388,11 +388,19 @@ class backend_controller_plugins{
                                 $setConfig = $class_name->setConfig();
                             }else{
                                 if($this->pathImgIcon($d,'icon.png')){
-                                    $setConfig['icon']['type'] = 'image';
-                                    $setConfig['icon']['name'] = 'icon.png';
+                                    $setConfig = array(
+                                        'icon'=>array(
+                                            'type'=>'image',
+                                            'name'=>'icon.png'
+                                        )
+                                    );
                                 }else{
-                                    $setConfig['icon']['type'] = 'font';
-                                    $setConfig['icon']['name'] = 'icon-folder-close';
+                                    $setConfig = array(
+                                        'icon'=>array(
+                                            'type'=>'font',
+                                            'name'=>'icon-folder-close'
+                                        )
+                                    );
                                 }
                             }
                             // setConfig doit être un tableau
