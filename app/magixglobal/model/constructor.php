@@ -105,6 +105,9 @@ class magixglobal_model_constructor {
                             $default[$k][$sk] = $sv;
                         }
                     }
+                } else {
+                    $default[$k] = $v;
+
                 }
             }
         }
