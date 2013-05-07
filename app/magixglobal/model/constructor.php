@@ -39,8 +39,8 @@
  * @copyright  MAGIX CMS Copyright (c) 2011-2013 Gerits Aurelien,
  * http://www.magix-cms.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.0
- * @author Lesire Samuel www.sire-sam.Be
+ * @version    1.1
+ * @author Lesire Samuel www.sire-sam.be
  * @name constructor
  *
  */
@@ -90,6 +90,11 @@ class magixglobal_model_constructor {
 
     }
 
+    /**
+     * @param $default
+     * @param $custom
+     * should be deprecated prefer arrayUpdate method
+     */
     public function mergeHtmlPattern($default,$custom)
     {
         // *** Merge default and custom structure
@@ -112,13 +117,78 @@ class magixglobal_model_constructor {
         }
         return $default;
     }
-    /*
+
+    /**
+     * replace '{value}' by $data[value] in $html
+     * @param array $data
+     * @param string $html
+     * @return string html
+     */
+    public function replaceDataItem ($data,$html)
+    {
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                foreach ($v as $k2 => $v2)
+                {
+                    $rplc['key'][]      =   '{'.$k.'_'.$k2.'}';
+                    $rplc['val'][]      =   $v2;
+
+                }
+            }else {
+                $rplc['key'][]      =   '{'.$k.'}';
+                $rplc['val'][]      =   $v;
+            }
+        }
+        return str_replace($rplc['key'],$rplc['val'],$html);
+    }
+
+    /**
+     * [truncat] 'clean html' tag and 'trim' $string[value] where $conf[value][trim] = xx caracters + $conf[value][delemiter]
+     * [dateFormat] format (date_time)$string[value] in '<span class="$conf[value][dateFormat][key]">$conf[value][dateFormat][key]|val</span>'
+     * @param array $string
+     * @param array $conf
+     * @return array
+     */
+    public function formatString ($string,$conf) {
+        if (!(is_array($conf))) {
+            return array();
+        }
+
+        if (is_array($string)) {
+            foreach ($string as $k => $v)
+            {
+                if (isset($conf[$k])) {
+                    foreach ($conf[$k] as $operation => $setting)
+                    switch ($operation) {
+                        case 'truncat':
+                            if (!(is_int($setting)))
+                                continue;
+                            $delim  =   ($conf[$k]['delemiter']) ? $conf[$k]['delemiter'] : '';
+                            $string[$k] = magixcjquery_form_helpersforms::inputCleanTruncate(
+                                    magixcjquery_form_helpersforms::inputTagClean($v),
+                                    $setting,
+                                    $delim
+                            );
+                            break;
+                        case 'dateFormat':
+                            if (is_array($setting))
+                                $this->formatDateHtml($v,$setting);
+                    }
+
+                }
+            }
+
+        }
+        return $string;
+    }
+    /**
      * Set html pattern fot item with val replacement
      * @access  public
      * @param   array   $htmlPattern
      * @param   int     $position
      * @param   int     $deep
      * @return  array
+     * should be deprecated prefer replaceDataItem method
      */
     public function setItemPattern($htmlPattern,$position,$deep=1)
     {
