@@ -99,9 +99,11 @@ class magixglobal_model_constructor {
     {
         if (is_array($custom)){
             foreach($custom AS $k => $v){
-                foreach($v AS $sk => $sv){
-                    if ($sv != null){
-                        $default[$k][$sk] = $sv;
+                if (is_array($v)){
+                    foreach($v AS $sk => $sv){
+                        if ($sv != null){
+                            $default[$k][$sk] = $sv;
+                        }
                     }
                 }
             }
@@ -144,17 +146,19 @@ class magixglobal_model_constructor {
      */
     public function replaceDataItem ($data,$html)
     {
-        foreach ($data as $k => $v) {
-            if (is_array($v)) {
-                foreach ($v as $k2 => $v2)
-                {
-                    $rplc['key'][]      =   '{'.$k.'_'.$k2.'}';
-                    $rplc['val'][]      =   $v2;
+        if (is_array($data)){
+            foreach ($data as $k => $v) {
+                if (is_array($v)) {
+                    foreach ($v as $k2 => $v2)
+                    {
+                        $rplc['key'][]      =   '{'.$k.'_'.$k2.'}';
+                        $rplc['val'][]      =   $v2;
 
+                    }
+                }else {
+                    $rplc['key'][]      =   '{'.$k.'}';
+                    $rplc['val'][]      =   $v;
                 }
-            }else {
-                $rplc['key'][]      =   '{'.$k.'}';
-                $rplc['val'][]      =   $v;
             }
         }
         return str_replace($rplc['key'],$rplc['val'],$html);
