@@ -89,7 +89,25 @@ class magixglobal_model_constructor {
         return $ouput['html'];
 
     }
-
+    /**
+     * Replace content in $default[key] by $custom[key] if exist
+     * @param $default
+     * @param $custom
+     * @return mixed
+     */
+    public function arrayUpdate($default,$custom)
+    {
+        if (is_array($custom)){
+            foreach($custom AS $k => $v){
+                foreach($v AS $sk => $sv){
+                    if ($sv != null){
+                        $default[$k][$sk] = $sv;
+                    }
+                }
+            }
+        }
+        return $default;
+    }
     /**
      * @param $default
      * @param $custom
