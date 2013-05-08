@@ -160,7 +160,7 @@ var MC_home = (function ($, undefined) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/home.php?action=edit&edit='+item.idhome)
-                                .attr("title", Globalize.localize( "edit", iso )+item.iso)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.iso)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
                             )
@@ -183,7 +183,7 @@ var MC_home = (function ($, undefined) {
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
                                         .attr("href", '/'+baseadmin+'/home.php?action=edit&edit='+item.idhome)
-                                        .attr("title", Globalize.localize( "edit", iso )+item.iso)
+                                        .attr("title", Globalize.localize( "edit", iso )+": "+item.iso)
                                         .append(
                                             item.subject
                                         )

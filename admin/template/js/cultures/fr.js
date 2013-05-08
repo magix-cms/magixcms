@@ -32,7 +32,11 @@
             "menu_display":"Afficher l'élément dans le menu",
             "language":"Langue",
             "default":"Défaut",
-            "activate_language":"Activer la langue"
+            "activate_language":"Activer la langue",
+            "redactor":"Rédacteur",
+            "date_register":"Date sauvegarde",
+            "date_publisher":"Date de publication",
+            "add_tag":"Ajouter un tag"
         }
     });
 }( this ));

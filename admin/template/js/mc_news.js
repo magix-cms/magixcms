@@ -82,8 +82,9 @@ var MC_news = (function ($, undefined) {
      * Retourne un tableau HTML des actualités
      * @param getlang
      * @param baseadmin
+     * @param iso
      */
-    function jsonPages(baseadmin,getlang){
+    function jsonPages(baseadmin,iso,getlang){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=list&json_list_news=true',
@@ -116,15 +117,15 @@ var MC_news = (function ($, undefined) {
                                 $(document.createElement("span"))
                                     .addClass("icon-key")
                             ),
-                            $(document.createElement("th")).append("subject"),
-                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
                                     .addClass("icon-picture")
                             ),
-                            $(document.createElement("th")).append("Rédacteur"),
-                            $(document.createElement("th")).append("Date register"),
-                            $(document.createElement("th")).append("Date published"),
+                            $(document.createElement("th")).append(Globalize.localize( "redactor", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "date_register", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "date_publisher", iso )),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
                                     .addClass("icon-eye-open")
@@ -190,7 +191,7 @@ var MC_news = (function ($, undefined) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
-                                .attr("title", "Editer "+item.n_title)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.n_title)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
                             )
@@ -200,7 +201,7 @@ var MC_news = (function ($, undefined) {
                                 .addClass("delete-news")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idnews)
-                                .attr("title", "Supprimer "+": "+item.n_title)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.n_title)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
@@ -212,7 +213,7 @@ var MC_news = (function ($, undefined) {
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
                                         .attr("href", '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
-                                        .attr("title", "Editer "+item.n_title)
+                                        .attr("title", Globalize.localize( "edit", iso )+": "+item.n_title)
                                         .append(
                                         item.n_title
                                     )
@@ -275,8 +276,9 @@ var MC_news = (function ($, undefined) {
      * Ajout d'une news
      * @param getlang
      * @param baseadmin
+     * @param iso
      */
-    function add(baseadmin,getlang){
+    function add(baseadmin,iso,getlang){
         var formsAddNews = $("#forms_news_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -298,7 +300,7 @@ var MC_news = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonPages(baseadmin,getlang);
+                        jsonPages(baseadmin,iso,getlang);
                     }
                 });
                 return false;
@@ -329,8 +331,9 @@ var MC_news = (function ($, undefined) {
      * Modificatio du statut de l'actualité
      * @param baseadmin
      * @param getlang
+     * @param iso
      */
-    function updateActive(baseadmin,getlang){
+    function updateActive(baseadmin,iso,getlang){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
             var id = $(this).data("active");
@@ -340,7 +343,7 @@ var MC_news = (function ($, undefined) {
                 height:180,
                 width:350,
                 modal: true,
-                title: "Changer le status d'une page",
+                title: Globalize.localize( "change_of_status", iso ),
                 buttons: [
                     {
                         text: "Activer",
@@ -355,7 +358,7 @@ var MC_news = (function ($, undefined) {
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonPages(baseadmin,getlang);
+                                    jsonPages(baseadmin,iso,getlang);
                                 }
                             });
                             return false;
@@ -374,7 +377,7 @@ var MC_news = (function ($, undefined) {
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonPages(baseadmin,getlang);
+                                    jsonPages(baseadmin,iso,getlang);
                                 }
                             });
                             return false;
@@ -389,8 +392,9 @@ var MC_news = (function ($, undefined) {
      * Suppression de l'actualité
      * @param baseadmin
      * @param getlang
+     * @param iso
      */
-    function remove(baseadmin,getlang){
+    function remove(baseadmin,iso,getlang){
         $(document).on('click','.delete-news',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -413,7 +417,7 @@ var MC_news = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonPages(baseadmin,getlang);
+                                jsonPages(baseadmin,iso,getlang);
                             }
                         });
                     },
@@ -534,7 +538,7 @@ var MC_news = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:true
                             });
-                            JsonUrlPage(getlang,edit);
+                            JsonUrlPage(baseadmin,getlang,edit);
                         }
                     });
                     return false;
@@ -554,7 +558,7 @@ var MC_news = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:false
                         });
-                        getImage(getlang,edit);
+                        getImage(baseadmin,getlang,edit);
                     }
                 });
                 return false;
@@ -577,7 +581,7 @@ var MC_news = (function ($, undefined) {
                 resizable: false,
                 height:180,
                 width:350,
-                title:"Supprimer cet élément",
+                title: Globalize.localize( "delete_item", iso ),
                 buttons: {
                     'Delete': function() {
                         $(this).dialog('close');
@@ -590,7 +594,7 @@ var MC_news = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                getImage(getlang,edit);
+                                getImage(baseadmin,getlang,edit);
                             }
                         });
                     },
@@ -607,15 +611,15 @@ var MC_news = (function ($, undefined) {
         runCharts:function(baseadmin){
             graph(baseadmin);
         },
-        runList:function(baseadmin,getlang){
-            add(baseadmin,getlang);
-            jsonPages(baseadmin,getlang);
-            updateActive(baseadmin,getlang);
-            remove(baseadmin,getlang);
+        runList:function(baseadmin,iso,getlang){
+            add(baseadmin,iso,getlang);
+            jsonPages(baseadmin,iso,getlang);
+            updateActive(baseadmin,iso,getlang);
+            remove(baseadmin,iso,getlang);
         },
-        runEdit:function(baseadmin,getlang,edit){
+        runEdit:function(baseadmin,iso,getlang,edit){
             $('#name_tag').tagsInput({
-                defaultText:'Ajouter un tag',
+                defaultText: Globalize.localize( "add_tag", iso ),
                 width:'',
                 onAddTag:function(tag){
                     if ($(this).tagExist(tag)) {

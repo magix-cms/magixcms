@@ -341,6 +341,10 @@ class backend_controller_plugins{
      *
         public function setConfig(){
             return array(
+                'url'=> array(
+                    'lang'  => 'none',
+                    'action'=>''
+                ),
                 'icon'=> array(
                     'type'=>'font',
                     'name'=>'icon-flag'
@@ -352,7 +356,7 @@ class backend_controller_plugins{
         public function setConfig(){
             return array(
                 'url'=> array(
-                    'lang'=>true,
+                    'lang'  =>'list',
                     'action'=>'list'
                 )
             );
@@ -676,18 +680,19 @@ class backend_controller_plugins{
             return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }
     }
+
     /**
      * @deprecated
      * Assign une variable pour smarty
      * @param $assign
      * @param $fetch
      * @throws Exception
-     * @return
-     * @internal param void $page
+     * @return void
+    @internal param void $page
      */
     public function append_assign($assign,$fetch){
         if($assign){
-            return backend_model_smarty::getInstance()->assign($assign,$fetch);
+            backend_model_smarty::getInstance()->assign($assign,$fetch);
         }else{
             throw new Exception('Unable to assign a variable in template');
         }
@@ -699,11 +704,11 @@ class backend_controller_plugins{
      * @param void $page
      * @param null $cache_id
      * @param null $compile_id
-     * @return
+     * @return void
      */
     public function append_display($page,$cache_id = null,$compile_id = null){
         backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
-        return backend_model_smarty::getInstance()->display($page,$cache_id,$compile_id);
+        backend_model_smarty::getInstance()->display($page,$cache_id,$compile_id);
     }
 
     /**
@@ -712,11 +717,11 @@ class backend_controller_plugins{
      * @param void $page
      * @param null $cache_id
      * @param null $compile_id
-     * @return
+     * @return string
      */
     public function append_fetch($page,$cache_id = null,$compile_id = null){
         backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
-        return backend_model_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
+        backend_model_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
     }
 
     /**

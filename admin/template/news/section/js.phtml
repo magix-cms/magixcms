@@ -9,9 +9,9 @@ $(function(){
     }else{
         {if $smarty.get.getlang}
             {if $smarty.get.edit}
-            MC_news.runEdit(baseadmin,getlang,edit);
+            MC_news.runEdit(baseadmin,iso,getlang,edit);
             {else}
-            MC_news.runList(baseadmin,getlang);
+            MC_news.runList(baseadmin,iso,getlang);
             {/if}
         {elseif !$smarty.get.edit}
             MC_news.runCharts(baseadmin);
