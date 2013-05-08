@@ -135,17 +135,21 @@ class plugins_clearcache_admin{
 	}
 
     /**
-     * set_icon
+     * Set Configuration pour le menu
      * @return array
      */
-    public function set_icon(){
-        $icon = array(
-            'type'=>'image',
-            'name'=>'icon.png'
+    public function setConfig(){
+        return array(
+            'url'   =>  array(
+                'lang'  =>  'none',
+                'action'=>  ''
+            ),
+            'icon'  =>  array(
+                'type'  =>  'image',
+                'name'  =>  'icon.png'
+            )
         );
-        return $icon;
     }
-
 	/**
 	 * @access public
 	 * Execute le plugin

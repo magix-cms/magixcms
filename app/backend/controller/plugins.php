@@ -744,7 +744,7 @@ class backend_controller_plugins{
      * @param bool|string $sections (optionnel) :la section à charger
      */
 	public function configLoad($sections = false){
-        if(self::pathConfigLoad(self::$ConfigFile) != null){
+        if(file_exists(self::pathConfigLoad(self::$ConfigFile))){
             backend_model_smarty::getInstance()->configLoad(
                 self::pathConfigLoad(self::$ConfigFile), $sections
             );
