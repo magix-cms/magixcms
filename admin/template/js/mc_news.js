@@ -404,7 +404,7 @@ var MC_news = (function ($, undefined) {
                 resizable: false,
                 height:180,
                 width:350,
-                title:"Supprimer cet élément",
+                title: Globalize.localize( "delete_item", iso ),
                 buttons: {
                     'Delete': function() {
                         $(this).dialog('close');

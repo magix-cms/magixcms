@@ -79,8 +79,9 @@ var MC_pages = (function ($, undefined) {
      * @param baseadmin
      * @param getlang
      * @param getParent
+     * @param iso
      */
-    function add(baseadmin,getlang,getParent){
+    function add(baseadmin,iso,getlang,getParent){
         if(getParent != 0){
             var idforms = $("#forms_cms_add_child");
             var url = '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=add&get_page_p='+getParent;
@@ -109,7 +110,7 @@ var MC_pages = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListParent(baseadmin,getlang);
+                        jsonListParent(baseadmin,iso,getlang);
                     }
                 });
                 return false;
@@ -178,7 +179,7 @@ var MC_pages = (function ($, undefined) {
      * @param baseadmin
      * @param getlang
      */
-    function jsonListParent(baseadmin,getlang){
+    function jsonListParent(baseadmin,iso,getlang){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&json_page_p=true',
@@ -211,8 +212,8 @@ var MC_pages = (function ($, undefined) {
                                 $(document.createElement("span"))
                                     .addClass("icon-key")
                             ),
-                            $(document.createElement("th")).append("Title"),
-                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                             $(document.createElement("th")).append("Metas Title"),
                             $(document.createElement("th")).append("Metas Description"),
                             $(document.createElement("th")).append(
@@ -266,7 +267,7 @@ var MC_pages = (function ($, undefined) {
                         var child = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&get_page_p='+item.idpage)
-                                .attr("title", "Gestion des pages enfants de : "+item.title_page)
+                                .attr("title", Globalize.localize( "management_child_pages", iso )+" "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-group")
                             )
@@ -274,7 +275,7 @@ var MC_pages = (function ($, undefined) {
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
-                                .attr("title", "Déplacement de la page: "+item.title_page)
+                                .attr("title", Globalize.localize( "move_page", iso )+" "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
                             )
@@ -303,7 +304,7 @@ var MC_pages = (function ($, undefined) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                .attr("title", "Editer "+item.title_page)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
                             )
@@ -313,7 +314,7 @@ var MC_pages = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idpage)
-                                .attr("title", "Supprimer "+": "+item.title_page)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
@@ -329,7 +330,7 @@ var MC_pages = (function ($, undefined) {
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
                                         .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                        .attr("title", "Editer "+item.title_page)
+                                        .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
                                         .append(
                                             item.title_page
                                         )
@@ -375,31 +376,31 @@ var MC_pages = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             )
                         )
                     )
@@ -452,7 +453,7 @@ var MC_pages = (function ($, undefined) {
      * @param getParent
      * @param baseadmin
      */
-    function jsonListChild(baseadmin,getlang,getParent){
+    function jsonListChild(baseadmin,iso,getlang,getParent){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&get_page_p='+getParent+'&json_child_p=true',
@@ -485,8 +486,8 @@ var MC_pages = (function ($, undefined) {
                                 $(document.createElement("span"))
                                     .addClass("icon-key")
                             ),
-                            $(document.createElement("th")).append("Title"),
-                            $(document.createElement("th")).append("Content"),
+                            $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
+                            $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                             $(document.createElement("th")).append("Metas Title"),
                             $(document.createElement("th")).append("Metas Description"),
                             $(document.createElement("th")).append(
@@ -536,7 +537,7 @@ var MC_pages = (function ($, undefined) {
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
-                                .attr("title", "Déplacement de la page: "+item.title_page)
+                                .attr("title", Globalize.localize( "move_page", iso )+" :"+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
                             )
@@ -565,7 +566,7 @@ var MC_pages = (function ($, undefined) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                .attr("title", "Editer "+item.title_page)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
                             )
@@ -575,7 +576,7 @@ var MC_pages = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idpage)
-                                .attr("title", "Supprimer "+": "+item.title_page)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
@@ -591,7 +592,7 @@ var MC_pages = (function ($, undefined) {
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
                                         .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                        .attr("title", "Editer "+item.title_page)
+                                        .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
                                         .append(
                                             item.title_page
                                         )
@@ -635,28 +636,28 @@ var MC_pages = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             )
                         )
                     )
@@ -670,8 +671,9 @@ var MC_pages = (function ($, undefined) {
      * @param getlang
      * @param getParent
      * @param baseadmin
+     * @param iso
      */
-    function remove(baseadmin,getlang,getParent){
+    function remove(baseadmin,iso,getlang,getParent){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -681,7 +683,7 @@ var MC_pages = (function ($, undefined) {
                 resizable: false,
                 height:180,
                 width:350,
-                title:"Supprimer cet élément",
+                title: Globalize.localize( "delete_item", iso ),
                 buttons: {
                     'Delete': function() {
                         $(this).dialog('close');
@@ -695,9 +697,9 @@ var MC_pages = (function ($, undefined) {
                                     display:true
                                 });
                                 if(getParent != 0){
-                                    jsonListChild(baseadmin,getlang,getParent);
+                                    jsonListChild(baseadmin,iso,getlang,getParent);
                                 }else{
-                                    jsonListParent(baseadmin,getlang);
+                                    jsonListParent(baseadmin,iso,getlang);
                                 }
                             }
                         });
@@ -716,8 +718,9 @@ var MC_pages = (function ($, undefined) {
      * @param getlang
      * @param getParent
      * @param baseadmin
+     * @param iso
      */
-    function updateActive(baseadmin,getlang,getParent){
+    function updateActive(baseadmin,iso,getlang,getParent){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
             var id = $(this).data("active");
@@ -727,10 +730,10 @@ var MC_pages = (function ($, undefined) {
                 height:180,
                 width:350,
                 modal: true,
-                title: "Changer le status d'une page",
+                title: Globalize.localize( "change_of_status", iso ),
                 buttons: [
                     {
-                        text: "Activer",
+                        text: Globalize.localize( "activate", iso ),
                         click: function() {
                             $(this).dialog('close');
                             $.nicenotify({
@@ -743,9 +746,9 @@ var MC_pages = (function ($, undefined) {
                                         display:false
                                     });
                                     if(getParent != 0){
-                                        jsonListChild(baseadmin,getlang,getParent);
+                                        jsonListChild(baseadmin,iso,getlang,getParent);
                                     }else{
-                                        jsonListParent(baseadmin,getlang);
+                                        jsonListParent(baseadmin,iso,getlang);
                                     }
                                 }
                             });
@@ -753,7 +756,7 @@ var MC_pages = (function ($, undefined) {
                         }
                     },
                     {
-                        text: "Désactiver",
+                        text: Globalize.localize( "deactivate", iso ),
                         click: function() {
                             $(this).dialog('close');
                             $.nicenotify({
@@ -766,9 +769,9 @@ var MC_pages = (function ($, undefined) {
                                         display:false
                                     });
                                     if(getParent != 0){
-                                        jsonListChild(baseadmin,getlang,getParent);
+                                        jsonListChild(baseadmin,iso,getlang,getParent);
                                     }else{
-                                        jsonListParent(baseadmin,getlang);
+                                        jsonListParent(baseadmin,iso,getlang);
                                     }
                                 }
                             });
@@ -863,18 +866,18 @@ var MC_pages = (function ($, undefined) {
         runCharts:function(baseadmin){
             graph(baseadmin);
         },
-        runParents:function (baseadmin,getlang) {
-            add(baseadmin,getlang,0);
-            jsonListParent(baseadmin,getlang);
-            updateActive(baseadmin,getlang,0);
-            remove(baseadmin,getlang,0);
+        runParents:function (baseadmin,iso,getlang) {
+            add(baseadmin,iso,getlang,0);
+            jsonListParent(baseadmin,iso,getlang);
+            updateActive(baseadmin,iso,getlang,0);
+            remove(baseadmin,iso,getlang,0);
             autoCompleteSearch(baseadmin,getlang);
         },
-        runChild:function(baseadmin,getlang,getParent){
-            jsonListChild(baseadmin,getlang,getParent);
-            add(baseadmin,getlang,getParent);
-            updateActive(baseadmin,getlang,getParent);
-            remove(baseadmin,getlang,getParent);
+        runChild:function(baseadmin,iso,getlang,getParent){
+            jsonListChild(baseadmin,iso,getlang,getParent);
+            add(baseadmin,iso,getlang,getParent);
+            updateActive(baseadmin,iso,getlang,getParent);
+            remove(baseadmin,iso,getlang,getParent);
             autoCompleteSearch(baseadmin,getlang);
         },
         runEdit:function(baseadmin,getlang,edit){

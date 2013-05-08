@@ -14,9 +14,9 @@ $(function(){
             {if $smarty.get.edit}
                 MC_pages.runEdit(baseadmin,getlang,edit);
             {elseif $smarty.get.get_page_p}
-                MC_pages.runChild(baseadmin,getlang,getParent);
+                MC_pages.runChild(baseadmin,iso,getlang,getParent);
             {else}
-                MC_pages.runParents(baseadmin,getlang);
+                MC_pages.runParents(baseadmin,iso,getlang);
             {/if}
         {elseif !$smarty.get.edit}
             MC_pages.runCharts(baseadmin);

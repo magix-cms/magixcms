@@ -36,7 +36,9 @@
             "redactor":"Rédacteur",
             "date_register":"Date sauvegarde",
             "date_publisher":"Date de publication",
-            "add_tag":"Ajouter un tag"
+            "add_tag":"Ajouter un tag",
+            "management_child_pages":"Gestion des pages enfant de",
+            "move_page":"Déplacement de la page"
         }
     });
 }( this ));
