@@ -267,7 +267,7 @@ class backend_controller_seo extends backend_db_seo{
 	private function load_rewrite($create,$data){
 		if(isset($this->edit)){
             $assign_exclude = array(
-                'iso','idlang','attribute','idmetas','level'
+                'iso','idlang'
             );
             foreach($data as $key => $value){
                 if(!(array_search($key,$assign_exclude))){

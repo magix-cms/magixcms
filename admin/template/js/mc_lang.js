@@ -154,7 +154,7 @@ var MC_lang = (function ($, undefined) {
                                     .addClass("active-pages")
                                     .attr("href", "#")
                                     .attr("data-active", item.idlang)
-                                    .attr("title", Globalize.localize( "activate_language", iso )+item.iso).append(
+                                    .attr("title", Globalize.localize( "activate_language", iso )+": "+item.iso).append(
                                     $(document.createElement("span")).addClass("icon-eye-close")
                                 )
                             )
@@ -164,7 +164,7 @@ var MC_lang = (function ($, undefined) {
                                     .addClass("active-pages")
                                     .attr("href", "#")
                                     .attr("data-active", item.idlang)
-                                    .attr("title", Globalize.localize( "activate_language", iso )+item.iso).append(
+                                    .attr("title", Globalize.localize( "activate_language", iso )+": "+item.iso).append(
                                     $(document.createElement("span")).addClass("icon-eye-open")
                                 )
                             )
@@ -394,6 +394,47 @@ var MC_lang = (function ($, undefined) {
             });
         });
     }
+
+    /**
+     * Suppression de la langue
+     * @param baseadmin
+     * @param iso
+     */
+    function remove(baseadmin,iso){
+        $(document).on('click','.delete-lang',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title: Globalize.localize( "delete_item", iso ),
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/'+baseadmin+'/lang.php?action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_lang:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:true
+                                });
+                                jsonLang(baseadmin,iso);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(baseadmin){
@@ -403,6 +444,7 @@ var MC_lang = (function ($, undefined) {
             jsonLang(baseadmin,iso);
             add(baseadmin,iso);
             updateActive(baseadmin,iso);
+            remove(baseadmin,iso);
         },
         runEdit:function(baseadmin,edit){
             update(baseadmin,edit);

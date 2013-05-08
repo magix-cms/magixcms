@@ -56,6 +56,10 @@ var MC_config = (function ($, undefined) {
             return false;
         })
     }
+
+    /**
+     * Mise à jour du manager/editeur
+     */
     function updateManager(){
         var formsUpdate = $('#forms_editor_edit').validate({
             onsubmit: true,
@@ -83,6 +87,10 @@ var MC_config = (function ($, undefined) {
         });
         $('#forms_editor_edit').formsUpdate;
     }
+
+    /**
+     * Mise à jour des CSS frontend à intégré dans tinyMCE
+     */
     function updateContentCss(){
         $('#forms_editor_css_edit').on('submit',function(){
             $.nicenotify({
@@ -100,6 +108,11 @@ var MC_config = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Modification de la taille des images
+     * @param formsId
+     */
     function updateImage(formsId){
         $('#'+formsId).on('submit',function(){
             $.nicenotify({
@@ -116,6 +129,10 @@ var MC_config = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Mise à jour du statut de la concaténation
+     */
     function updateConcat(){
         $('#forms_config_concat').on('submit',function(){
             $.nicenotify({
@@ -133,6 +150,10 @@ var MC_config = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Mise à jour du système de cache
+     */
     function updateCache(){
         $('#forms_config_cache').on('submit',function(){
             $.nicenotify({

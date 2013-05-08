@@ -148,26 +148,26 @@ class backend_controller_lang extends backend_db_lang{
 	 * @access private
 	 * Charge les données pour l'édition d'une langue
 	 */
-	private function load_data_language(){
+	private function load_data_language($create){
 		$db = parent::s_lang_edit($this->edit);
-		backend_controller_template::assign('idlang', $db['idlang']);
+        $create->assign('idlang', $db['idlang']);
 		$iso = backend_model_forms::code_iso("iso",$db['iso']);
-		backend_controller_template::assign('iso', $iso);
-		backend_controller_template::assign('language', $db['language']);
-		backend_controller_template::assign('default_lang', $db['default_lang']);
+        $create->assign('iso', $iso);
+        $create->assign('language', $db['language']);
+        $create->assign('default_lang', $db['default_lang']);
 	}
+
 	/**
 	 * Suppression d'une lang via une requête ajax
 	 * @access public
 	 */
-	private function delete_lang_record(){
+	private function delete_lang_record($create){
 		if(isset($this->delete_lang)){
 			$count = parent::count_idlang_by_module($this->delete_lang);
 			if($count['ctotal'] != 0){
-				backend_controller_template::display('lang/request/element-exist.phtml');
+                $create->display('lang/request/element_exist.phtml');
 			}else{
 				parent::d_lang($this->delete_lang);
-				backend_controller_template::display('lang/request/delete.phtml');
 			}
 		}
 	}
@@ -255,13 +255,17 @@ class backend_controller_lang extends backend_db_lang{
                     if(isset($this->iso)){
                         $this->edit_lang();
                     }else{
-                        $this->load_data_language();
+                        $this->load_data_language($create);
                         backend_controller_template::display('lang/edit.phtml');
                     }
                 }else{
                     if(isset($this->active_lang)){
                         $this->update_activate_lang();
                     }
+                }
+            }elseif($this->action == 'remove'){
+                if(magixcjquery_filter_request::isPost('delete_lang')){
+                    $this->delete_lang_record($create);
                 }
             }
         }else{
@@ -273,9 +277,7 @@ class backend_controller_lang extends backend_db_lang{
 				$header->getStatus('200');
 				$header->json_header("UTF-8");
 				$this->json_graph();
-			}elseif(magixcjquery_filter_request::isPost('delete_lang')){
-                $this->delete_lang_record();
-            }else{
+			}else{
 				$iso = backend_model_forms::code_iso("iso");
 				backend_controller_template::assign('iso', $iso);
 				backend_controller_template::display('lang/index.phtml');

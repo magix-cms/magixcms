@@ -571,8 +571,9 @@ var MC_news = (function ($, undefined) {
      * @param baseadmin
      * @param getlang
      * @param edit
+     * @param iso
      */
-    function removeImage(baseadmin,getlang,edit){
+    function removeImage(baseadmin,iso,getlang,edit){
         $(document).on('click','.delete-image',function(event){
             event.preventDefault();
             $("#window-dialog:ui-dialog").dialog( "destroy" );
@@ -658,7 +659,7 @@ var MC_news = (function ($, undefined) {
             });
             JsonUrlPage(baseadmin,getlang,edit);
             getImage(baseadmin,getlang,edit);
-            removeImage(baseadmin,getlang,edit);
+            removeImage(baseadmin,iso,getlang,edit);
             update(baseadmin,getlang,edit,'text');
             update(baseadmin,getlang,edit,'image');
         }

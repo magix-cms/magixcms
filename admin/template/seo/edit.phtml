@@ -10,7 +10,7 @@
             <div class="row-fluid">
                 <div class="span12">
                 {include file="seo/section/nav.phtml"}
-                    <h1>{$h1_editing_rewriting} : {$smarty.get.edit}</h1>
+                    <h1>{#h1_editing_rewriting#} : {$attribute|ucfirst} {#level#|ucfirst}({$level})</h1>
                     <div class="mc-message clearfix"></div>
                     {include file="seo/forms/edit.phtml"}
                 </div>

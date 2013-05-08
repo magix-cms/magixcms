@@ -40,16 +40,16 @@
  */
 var MC_seo = (function ($, undefined) {
     //Fonction Private
-    function graph(){
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/seo.php?json_graph=true',
+            uri: '/'+baseadmin+'/seo.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -74,6 +74,10 @@ var MC_seo = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Configuration de insertAtCaretPos
+     */
     function addTags(){
         $("#add-category").bind("click",function (){
             var myContent = $("#strrewrite").val();
@@ -91,16 +95,23 @@ var MC_seo = (function ($, undefined) {
             return false;
         });
     }
-    function jsonList(getlang){
+
+    /**
+     * La liste des métas
+     * @param baseadmin
+     * @param iso
+     * @param getlang
+     */
+    function jsonList(baseadmin,iso,getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/seo.php?getlang='+getlang+'&action=list&json_list_seo=true',
+            uri: '/'+baseadmin+'/seo.php?getlang='+getlang+'&action=list&json_list_seo=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -127,7 +138,7 @@ var MC_seo = (function ($, undefined) {
                             $(document.createElement("th")).append("attribut"),
                             $(document.createElement("th")).append("idmetas"),
                             $(document.createElement("th")).append("metas"),
-                            $(document.createElement("th")).append("niveau"),
+                            $(document.createElement("th")).append(Globalize.localize( "level", iso )),
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
@@ -154,15 +165,15 @@ var MC_seo = (function ($, undefined) {
                                 .addClass("delete-seo")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idrewrite)
-                                .attr("title", "Supprimer "+": "+item.idrewrite)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.idrewrite)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
                         );
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/seo.php?getlang='+getlang+'&action=edit&edit='+item.idrewrite)
-                                .attr("title", "Editer "+item.idrewrite)
+                                .attr("href", '/'+baseadmin+'/seo.php?getlang='+getlang+'&action=edit&edit='+item.idrewrite)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.idrewrite)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
                             )
@@ -206,8 +217,15 @@ var MC_seo = (function ($, undefined) {
             }
         });
     }
-    function add(getlang){
-        var url = '/admin/seo.php?getlang='+getlang+'&action=add';
+
+    /**
+     * Ajout d'une nouvelle métas
+     * @param baseadmin
+     * @param iso
+     * @param getlang
+     */
+    function add(baseadmin,iso,getlang){
+        var url = '/'+baseadmin+'/seo.php?getlang='+getlang+'&action=add';
         var formsAdd = $('#forms_seo_add').validate({
             onsubmit: true,
             event: 'submit',
@@ -237,7 +255,7 @@ var MC_seo = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:true
                         });
-                        jsonList(getlang);
+                        jsonList(baseadmin,iso,getlang);
                     }
                 });
                 return false;
@@ -245,8 +263,15 @@ var MC_seo = (function ($, undefined) {
         });
         $('#forms_seo_add').formsAdd;
     }
-    function update(getlang,edit){
-        var url = '/admin/seo.php?getlang='+getlang+'&action=edit&edit='+edit;
+
+    /**
+     * Mise à jour d'une métas
+     * @param getlang
+     * @param edit
+     * @param baseadmin
+     */
+    function update(baseadmin,getlang,edit){
+        var url = '/'+baseadmin+'/seo.php?getlang='+getlang+'&action=edit&edit='+edit;
         var formsUpdate = $('#forms_seo_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -285,16 +310,16 @@ var MC_seo = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        runCharts:function(){
-            graph();
+        runCharts:function(baseadmin){
+            graph(baseadmin);
         },
-        runList:function(getlang){
+        runList:function(baseadmin,iso,getlang){
             addTags();
-            add(getlang);
-            jsonList(getlang);
+            add(baseadmin,iso,getlang);
+            jsonList(baseadmin,iso,getlang);
         },
-        runEdit:function(getlang,edit){
-            update(getlang,edit);
+        runEdit:function(baseadmin,getlang,edit){
+            update(baseadmin,getlang,edit);
         }
     };
 })(jQuery);

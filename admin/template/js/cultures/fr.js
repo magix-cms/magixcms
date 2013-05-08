@@ -38,7 +38,8 @@
             "date_publisher":"Date de publication",
             "add_tag":"Ajouter un tag",
             "management_child_pages":"Gestion des pages enfant de",
-            "move_page":"Déplacement de la page"
+            "move_page":"Déplacement de la page",
+            "level":"Niveau"
         }
     });
 }( this ));

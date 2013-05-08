@@ -8,12 +8,12 @@ $(function(){
     }else{
     {if $smarty.get.getlang}
         {if $smarty.get.edit}
-        MC_seo.runEdit(getlang,edit);
+        MC_seo.runEdit(baseadmin,getlang,edit);
         {else}
-        MC_seo.runList(getlang);
+        MC_seo.runList(baseadmin,iso,getlang);
         {/if}
     {elseif !$smarty.get.edit}
-        MC_seo.runCharts();
+        MC_seo.runCharts(baseadmin);
     {/if}
     }
 });
