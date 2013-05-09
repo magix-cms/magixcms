@@ -106,7 +106,7 @@ class frontend_model_news extends frontend_db_news {
                 $ModelRewrite->filter_news_url(
                     $row['iso'],
                     $ModelDateformat->date_europeen_format(
-                        $row['date_publish']
+                        $row['date_register']
                     ),
                     $row['n_uri'],
                     $row['keynews'],
