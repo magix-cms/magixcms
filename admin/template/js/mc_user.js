@@ -40,16 +40,16 @@
  */
 var MC_user = (function ($, undefined) {
     //Fonction Private
-    function graph(){
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/users.php?json_graph=true',
+            uri: '/'+baseadmin+'/users.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                    .attr('src','/admin/template/img/loader/small_loading.gif')
+                    .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                     .attr('width','20px')
                     .attr('height','20px')
                 )
@@ -71,7 +71,12 @@ var MC_user = (function ($, undefined) {
             }
         });
     }
-    function add(){
+
+    /**
+     * Ajoute un utilisateur
+     * @param baseadmin
+     */
+    function add(baseadmin,iso){
         var formsAddUser = $("#forms_user_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -97,7 +102,7 @@ var MC_user = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/users.php?action=add',
+                    uri: '/'+baseadmin+'/users.php?action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -106,7 +111,7 @@ var MC_user = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonUser();
+                        jsonUser(baseadmin,iso);
                     }
                 });
                 return false;
@@ -132,16 +137,16 @@ var MC_user = (function ($, undefined) {
             return false;
         });
     }
-    function jsonUser(){
+    function jsonUser(baseadmin,iso){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/users.php?action=list&json_list_user=true',
+            uri: '/'+baseadmin+'/users.php?action=list&json_list_user=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -165,9 +170,9 @@ var MC_user = (function ($, undefined) {
                                 $(document.createElement("span"))
                                     .addClass("icon-key")
                             ),
-                            $(document.createElement("th")).append("Pseudo"),
-                            $(document.createElement("th")).append("Email"),
-                            $(document.createElement("th")).append("Rôle"),
+                            $(document.createElement("th")).append(Globalize.localize( "nickname", iso )),
+                            $(document.createElement("th")).append("Mail"),
+                            $(document.createElement("th")).append(Globalize.localize( "role", iso )),
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
@@ -191,8 +196,8 @@ var MC_user = (function ($, undefined) {
                     $.each(j, function(i,item) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/users.php?action=edit&edit='+item.idadmin)
-                                .attr("title", "Editer "+item.pseudo)
+                                .attr("href", '/'+baseadmin+'/users.php?action=edit&edit='+item.idadmin)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.pseudo)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
                             )
@@ -202,7 +207,7 @@ var MC_user = (function ($, undefined) {
                                 .addClass("delete-user")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idadmin)
-                                .attr("title", "Supprimer "+": "+item.pseudo)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.pseudo)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-trash")
                             )
@@ -211,7 +216,14 @@ var MC_user = (function ($, undefined) {
                             $(document.createElement("tr"))
                                 .append(
                                 $(document.createElement("td")).append(item.idadmin),
-                                $(document.createElement("td")).append(item.pseudo),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/users.php?action=edit&edit='+item.idadmin)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.pseudo)
+                                    .append(
+                                        item.pseudo
+                                    )
+                                ),
                                 $(document.createElement("td")).append(item.email),
                                 $(document.createElement("td")).append(item.role_name)
                                 ,
@@ -226,22 +238,22 @@ var MC_user = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             )
                         )
                     )
@@ -249,8 +261,14 @@ var MC_user = (function ($, undefined) {
             }
         });
     }
-    function update(edit){
-        var url = '/admin/users.php?action=edit&edit='+edit;
+
+    /**
+     * Mise à jour des informations d'un utilisateurs
+     * @param baseadmin
+     * @param edit
+     */
+    function update(baseadmin,edit){
+        var url = '/'+baseadmin+'/users.php?action=edit&edit='+edit;
         var formsUpdateData = $('#forms_user_data_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -312,7 +330,13 @@ var MC_user = (function ($, undefined) {
         $('#forms_user_data_edit').formsUpdateData;
         $('#forms_user_password_edit').formsUpdatePassword;
     }
-    function remove(){
+
+    /**
+     * Suppression d'un utilisateur
+     * @param baseadmin
+     * @param iso
+     */
+    function remove(baseadmin,iso){
         $(document).on('click','.delete-user',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -322,20 +346,20 @@ var MC_user = (function ($, undefined) {
                 resizable: false,
                 height:180,
                 width:350,
-                title:"Supprimer cet élément",
+                title: Globalize.localize( "delete_item", iso ),
                 buttons: {
                     'Delete': function() {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/users.php?action=remove',
+                            uri: '/'+baseadmin+'/users.php?action=remove',
                             typesend: 'post',
                             noticedata : {delele_user:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonUser();
+                                jsonUser(baseadmin,iso);
                             }
                         });
                     },
@@ -349,16 +373,16 @@ var MC_user = (function ($, undefined) {
     }
     return {
         //Fonction Public
-        runCharts:function(){
-            graph();
+        runCharts:function(baseadmin){
+            graph(baseadmin);
         },
-        runList:function(){
-            add();
-            jsonUser();
-            remove();
+        runList:function(baseadmin,iso){
+            add(baseadmin,iso);
+            jsonUser(baseadmin,iso);
+            remove(baseadmin,iso);
         },
-        runEdit:function(edit){
-            update(edit);
+        runEdit:function(baseadmin,edit){
+            update(baseadmin,edit);
         }
     };
 })(jQuery);

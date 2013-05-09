@@ -7,11 +7,11 @@ $(function(){
         console.log("MC_user is not defined");
     }else{
         if($('#list_user').length != 0){
-            MC_user.runList();
+            MC_user.runList(baseadmin,iso);
         }else if($('#forms_user_data_edit').length != 0){
-            MC_user.runEdit(edit);
+            MC_user.runEdit(baseadmin,edit);
         }else{
-            MC_user.runCharts();
+            MC_user.runCharts(baseadmin);
         }
     }
 });

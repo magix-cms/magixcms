@@ -39,7 +39,8 @@
             "add_tag":"Ajouter un tag",
             "management_child_pages":"Gestion des pages enfant de",
             "move_page":"Déplacement de la page",
-            "level":"Niveau"
+            "level":"Niveau",
+            "role":"Rôle"
         }
     });
 }( this ));

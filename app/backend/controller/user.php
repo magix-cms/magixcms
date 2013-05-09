@@ -104,10 +104,12 @@ class backend_controller_user extends backend_db_admin{
 
     /**
      * Construction du menu select pour les rôles
+     * @param $create
      * @param null $idadmin
      * @return null|string
      */
-    private function role_select($idadmin=null){
+    private function role_select($create,$idadmin=null){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         $role = new backend_model_role();
         if($idadmin != null){
             $user_role = parent::s_user_role($idadmin);
@@ -131,11 +133,11 @@ class backend_controller_user extends backend_db_admin{
                 $role_conb
                 ,
                 array(
-                    'attr_name'=>'id_role',
-                    'attr_id'=>'id_role',
-                    'default_value'=>$user_role_conb,
-                    'empty_value'=>'Selectionner les rôles',
-                    'upper_case'=>false
+                    'attr_name'     =>  'id_role',
+                    'attr_id'       =>  'id_role',
+                    'default_value' =>  $user_role_conb,
+                    'empty_value'   =>  $create->getConfigVars('select_role'),
+                    'upper_case'    =>  false
                 )
             );
         }else{
@@ -246,6 +248,10 @@ class backend_controller_user extends backend_db_admin{
 	public function run(){
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('user_'),false
+        );
         if(isset($this->action)){
             if($this->action === 'add'){
                 if(isset($this->email)){
@@ -261,7 +267,7 @@ class backend_controller_user extends backend_db_admin{
                     $header->json_header("UTF-8");
                     $this->json_list_user();
                 }else{
-                    $create->assign('role_select',$this->role_select());
+                    $create->assign('role_select',$this->role_select($create));
                     $create->display('user/list.phtml');
                 }
             }elseif($this->action === 'edit'){
@@ -271,7 +277,7 @@ class backend_controller_user extends backend_db_admin{
                     $this->update_user_password($create);
                 }else{
                     $this->load_data($create);
-                    $create->assign('role_select',$this->role_select($this->edit));
+                    $create->assign('role_select',$this->role_select($create,$this->edit));
                     $create->display('user/edit.phtml');
                 }
             }elseif($this->action === 'remove'){

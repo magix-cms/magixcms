@@ -1,9 +1,9 @@
 <div class="row-fluid">
     <div class="span4">
-        <h3>Données utilisateur</h3>
+        <h3>{#user_data#}</h3>
         <form id="forms_user_data_edit" method="post" action="">
             <p class="control-group">
-                <input type="text" placeholder="Nom d'utilisateur" class="input-large" id="pseudo" name="pseudo" value="{$pseudo}" size="50" />
+                <input type="text" placeholder="{#username#|ucfirst}" class="input-large" id="pseudo" name="pseudo" value="{$pseudo}" size="50" />
             </p>
             <p class="control-group">
                 <input type="text" placeholder="Email" class="input-large" id="email" name="email" value="{$email}" size="50" />
@@ -12,21 +12,21 @@
                 {$role_select}
             </p>
             <p>
-                <input type="submit" class="btn" />
+                <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
             </p>
         </form>
     </div>
     <div class="span5">
-        <h3>Changement de mot de passe</h3>
+        <h3>{#change_password#}</h3>
         <form id="forms_user_password_edit" method="post" action="">
             <p class="control-group">
-                <input type="password" placeholder="Mot de passe" class="input-large" id="cryptpass" name="cryptpass" value="" size="50" />
+                <input type="password" placeholder="{#password#|ucfirst}" class="input-large" id="cryptpass" name="cryptpass" value="" size="50" />
             </p>
             <p class="control-group">
-                <input type="password" placeholder="Confirmer le mot de passe" class="input-large" id="cryptpass_confirm" name="cryptpass_confirm" value="" size="50" />
+                <input type="password" placeholder="{#confirm_password#|ucfirst}" class="input-large" id="cryptpass_confirm" name="cryptpass_confirm" value="" size="50" />
             </p>
             <p>
-                <input type="submit" class="btn" />
+                <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
             </p>
         </form>
     </div>

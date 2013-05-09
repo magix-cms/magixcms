@@ -44,12 +44,12 @@ var MC_sitemap = (function ($, undefined) {
     /**
      * Création du sitemap principal
      */
-    function addIndex(){
+    function addIndex(baseadmin){
         $('#sitemap_index').on('click',function(event){
             event.preventDefault();
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/sitemap.php',
+                uri: '/'+baseadmin+'/sitemap.php',
                 typesend: 'post',
                 idforms: $(this),
                 noticedata:{xml_type:'index'},
@@ -66,8 +66,9 @@ var MC_sitemap = (function ($, undefined) {
     /**
      * Création des sitemaps par langue
      * @param type
+     * @param baseadmin
      */
-    function add(type){
+    function add(baseadmin,type){
         $('#forms_sitemap_'+type+'_add').validate({
             onsubmit: true,
             event: 'submit',
@@ -79,7 +80,7 @@ var MC_sitemap = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/sitemap.php',
+                    uri: '/'+baseadmin+'/sitemap.php',
                     typesend: 'post',
                     idforms: $(form),
                     noticedata:{xml_type:type},
@@ -94,14 +95,19 @@ var MC_sitemap = (function ($, undefined) {
             }
         });
     }
-    function googleping(){
+
+    /**
+     * Création de ping vers google
+     * @param baseadmin
+     */
+    function googleping(baseadmin){
         $(document).on('click','.googleping',function(event){
             event.preventDefault();
             var type = $(this).attr('id');
             //console.log(type);
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/sitemap.php',
+                uri: '/'+baseadmin+'/sitemap.php',
                 typesend: 'post',
                 noticedata:{tools_type:type},
                 successParams:function(data){
@@ -115,11 +121,11 @@ var MC_sitemap = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        run:function () {
-            addIndex();
-            add('url');
-            add('images');
-            googleping();
+        run:function (baseadmin) {
+            addIndex(baseadmin);
+            add(baseadmin,'url');
+            add(baseadmin,'images');
+            googleping(baseadmin);
         }
     };
 })(jQuery);
