@@ -4,7 +4,7 @@
         <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
     </p>
     <p class="offset1">
-        <label for="title_page">Titre :</label>
+        <label for="title_page">{#label_title#|ucfirst} :</label>
         <input type="text" class="input-xlarge" id="title_page" name="title_page" disabled="disabled" readonly="readonly" value="{$title_page}" size="50" />
     </p>
     <div class="clearfix"></div>
@@ -16,6 +16,6 @@
         {$selectlang}
     </p>
     <p>
-        <input type="submit" class="btn btn-primary" value="Envoyer" />
+        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
     </p>
 </form>

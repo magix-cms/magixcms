@@ -585,6 +585,10 @@ class backend_controller_news extends backend_db_news{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('news_'),false
+        );
         if(magixcjquery_filter_request::isGet('getlang')){
             if(isset($this->action)){
                 if($this->action == 'list'){

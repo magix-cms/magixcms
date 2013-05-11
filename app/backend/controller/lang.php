@@ -231,6 +231,10 @@ class backend_controller_lang extends backend_db_lang{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('language_'),false
+        );
         if(isset($this->action)){
             if($this->action == 'list'){
                 if(magixcjquery_filter_request::isGet('json_list_lang')){

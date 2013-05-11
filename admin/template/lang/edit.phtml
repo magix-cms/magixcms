@@ -10,7 +10,7 @@
             <div class="row-fluid">
                 <div class="span12">
                     {include file="lang/section/nav.phtml"}
-                    <h1>Edition de la langue : {$idlang}</h1>
+                    <h1>{#editing_language#|ucfirst} : {$language}</h1>
                     <div class="mc-message clearfix"></div>
                     <form id="forms_lang_edit" method="post" action="">
                         <p class="control-group">
@@ -18,21 +18,21 @@
                         {$iso}
                         </p>
                         <p class="control-group">
-                            <label for="language">Nom *</label>
-                            <input type="text" placeholder="Nom de la langue" class="input-large" id="language" name="language" value="{$language}" size="50" />
+                            <label for="language">{#name_language#|ucfirst} *</label>
+                            <input type="text" placeholder="{#name_language#|ucfirst}" class="input-large" id="language" name="language" value="{$language}" size="50" />
                         </p>
                         <p class="control-group">
-                            <label>Langue par défaut :</label>
+                            <label>{#default_language#|ucfirst} :</label>
                             {if $default_lang eq '1'}
-                            Non <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" />
-                            Oui <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" checked="checked" />
+                            {#no#|ucfirst} <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" />
+                            {#yes#|ucfirst} <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" checked="checked" />
                             {else}
-                            Non <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" checked="checked" />
-                            Oui <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" />
+                            {#no#|ucfirst} <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" checked="checked" />
+                            {#yes#|ucfirst} <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" />
                             {/if}
                         </p>
                         <p>
-                            <input type="submit" class="btn" />
+                            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
                         </p>
                     </form>
                 </div>

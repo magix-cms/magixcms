@@ -4,12 +4,12 @@
         {$iso}
     </p>
     <p class="control-group">
-        <label for="language">Nom *</label>
-        <input type="text" placeholder="Nom de la langue" class="input-large" id="language" name="language" value="" size="50" />
+        <label for="language">{#name_language#|ucfirst} *</label>
+        <input type="text" placeholder="{#name_language#|ucfirst}" class="input-large" id="language" name="language" value="" size="50" />
     </p>
     <p class="control-group">
-        <label>Langue par défaut :</label>
-        Non <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" checked="checked" />
-        Oui <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" />
+        <label>{#default_language#|ucfirst} :</label>
+        {#no#|ucfirst} <input type="radio" id="default_lang_0" name="default_lang" class="radio" value="0" checked="checked" />
+        {#yes#|ucfirst} <input type="radio" id="default_lang_1" name="default_lang" class="radio" value="1" />
     </p>
 </form>

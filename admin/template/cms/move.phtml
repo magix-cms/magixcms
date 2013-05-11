@@ -10,7 +10,7 @@
             <div class="row-fluid">
                 <div class="span12">
                 {include file="cms/section/nav.phtml"}
-                    <h1>Déplacer la page : {$idpage}</h1>
+                    <h1>{#move_page#|ucfirst} : {$title_page}</h1>
                     <div class="mc-message clearfix"></div>
                     {include file="cms/forms/move.phtml"}
                 </div>

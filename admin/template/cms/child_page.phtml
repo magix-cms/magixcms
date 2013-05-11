@@ -10,10 +10,10 @@
             <div class="row-fluid">
                 <div class="span12">
                 {include file="cms/section/nav.phtml"}
-                    <h1 class="small">Liste des pages enfants</h1>
+                    <h1 class="small">{#list_of_child_pages#|ucfirst}</h1>
                     <p>
                         <a class="btn btn-primary" href="#" id="open-add">
-                            <span class="icon-plus"></span> Ajouter une page
+                            <span class="icon-plus"></span> {#add_a_page#|ucfirst}
                         </a>
                     </p>
                     <div id="list_child"></div>
@@ -22,7 +22,7 @@
         </div>
     </div>
 </div>
-<div id="forms-add" class="hide" title="Ajouter une nouvelle page">
+<div id="forms-add" class="hide" title="{#add_a_new_page#|ucfirst}">
     {include file="cms/forms/add.phtml"}
 </div>
 {include file="section/footer.phtml"}

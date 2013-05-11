@@ -10,10 +10,10 @@
             <div class="row-fluid">
                 <div class="span12">
                     {include file="news/section/nav.phtml"}
-                    <h1>Liste des actualités</h1>
+                    <h1>{#list_of_news#|ucfirst}</h1>
                     <p>
                         <a class="btn btn-primary" href="#" id="open-add">
-                            <span class="icon-plus"></span> Ajouter une page
+                            <span class="icon-plus"></span> {#add_a_page#|ucfirst}
                         </a>
                     </p>
                     <div class="mc-message clearfix"></div>
@@ -23,7 +23,7 @@
         </div>
     </div>
 </div>
-<div id="forms-add" class="hide" title="Ajouter une nouvelle page">
+<div id="forms-add" class="hide" title="{#add_a_new_page#|ucfirst}">
 {include file="news/forms/add.phtml"}
 </div>
 {include file="section/footer.phtml"}
