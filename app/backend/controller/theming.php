@@ -108,7 +108,8 @@ class backend_controller_theming extends backend_db_theming{
      * @access private
      * Scanne le dossier skin (public) et retourne les images ou capture des thèmes
      */
-    private function scanTemplateDir(){
+    private function scanTemplateDir($create){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         $skin = $this->directory_skin();
         if(!is_readable($skin)){
             throw new exception('skin is not minimal permission');
@@ -126,11 +127,11 @@ class backend_controller_theming extends backend_db_theming{
         foreach($dir as $d){
             if($d == $this->load_theme()){
                 $btn_class = ' btn-primary';
-                $btn_title = 'Sélectionner';
+                $btn_title = $create->getConfigVars('select');
             }else{
                 $ctpl = '';
                 $btn_class = '';
-                $btn_title = 'Choisir';
+                $btn_title = $create->getConfigVars('choose');
             }
             $themePath = self::directory_skin().$d;
             if($makefiles->scanDir($themePath) != null){
@@ -180,7 +181,7 @@ class backend_controller_theming extends backend_db_theming{
                     $header->cache_control("nocache");
                     $header->getStatus('200');
                     $header->html_header("UTF-8");
-                    $create->assign('themes',$this->scanTemplateDir());
+                    $create->assign('themes',$this->scanTemplateDir($create));
                     $create->display('theming/req.phtml');
                 }
             }elseif($this->action == 'edit'){
@@ -189,7 +190,7 @@ class backend_controller_theming extends backend_db_theming{
                 }
             }
         }else{
-            $create->assign('themes',$this->scanTemplateDir());
+            $create->assign('themes',$this->scanTemplateDir($create));
             $create->display('theming/index.phtml');
         }
     }
