@@ -44,7 +44,8 @@
  * @name db
  *
  */
-class magixglobal_model_db{
+class magixglobal_model_db
+{
 	/**
 	 * ini class magixLayer
 	 * singleton dbplugins
@@ -68,27 +69,28 @@ class magixglobal_model_db{
      * @throws Exception
      * @return array|bool
      */
-	private function load_sql_file($sqlfile){
-		$db_structure = "";
-		$structureFile = $sqlfile;
-		if(!file_exists($structureFile)){
+	protected function load_sql_file($sqlfile)
+    {
+		if(!file_exists($sqlfile)) {
 			throw new Exception("Error : Not File exist .sql");
 		}else{ 
-			$db_structure = preg_split("/;\\s*[\r\n]+/",file_get_contents($structureFile));
+			$db_structure = preg_split("/;\\s*[\r\n]+/",file_get_contents($sqlfile));
 			if($db_structure != null){
 				$tables = $db_structure;
+                return $tables;
+
 			}else{
-				magixcjquery_debug_magixfire::magixFireError("Error : SQL File is empty");
+				magixcjquery_debug_magixfire::magixFireError('Error : SQL File is empty: '.$sqlfile);
 				return false;
+
 			}
 		}
-		return $tables;
 	}
 	/**
 	 * Création des tables avec la lecture du fichier SQL
 	 * @param void $sqlfile
 	 */
-	public static function create_new_sqltable($sqlfile){
+	public function create_new_sqltable($sqlfile){
 		if(self::load_sql_file($sqlfile) != false){
 			foreach(self::load_sql_file($sqlfile) as $query){
 				$query = magixcjquery_filter_var::trimText($query);
