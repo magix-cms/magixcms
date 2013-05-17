@@ -112,7 +112,7 @@ var MC_sitemap = (function ($, undefined) {
                 noticedata:{tools_type:type},
                 successParams:function(data){
                     $.nicenotify.initbox(data,{
-                        display:false
+                        display:true
                     });
                 }
             });

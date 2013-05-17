@@ -589,7 +589,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	private function googlePing($create){
 		$sitemap = new magixcjquery_xml_sitemap();
 		$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml');
-        $create->display('sitemap/request/ping.phtml');
+        $create->display('sitemap/request/success_ping.phtml');
 	}
 	/**
 	 * Compression GZ + ping Google
@@ -602,7 +602,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			$this->compressed();
 			$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
 		}
-        $create->display('sitemap/request/ping.phtml');
+        $create->display('sitemap/request/success_ping.phtml');
 	}
 	/**
 	 * @access private
@@ -639,7 +639,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			$this->endXMLWriter();
             $create->display('sitemap/request/success_add.phtml');
 		}else{
-            $create->display('sitemap/request/noimages.phtml');
+            $create->display('sitemap/request/no-image.phtml');
 		}
 	}
 	/**
