@@ -457,7 +457,7 @@ class backend_controller_plugins{
                                         if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
-                                            $list .= '<span class="icon-plus"></span> '.$d;
+                                            $list .= '<span class="icon-expand-alt"></span> '.$d;
                                             $list .= '</a>';
                                             $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';
                                             $list .= '<div class="lang-group">';
@@ -485,7 +485,7 @@ class backend_controller_plugins{
                                         if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
-                                            $list .= '<span class="icon-plus"></span> '.$d;
+                                            $list .= '<span class="icon-expand-alt"></span> '.$d;
                                             $list .= '</a>';
                                             $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';
                                             $list .= '<div class="lang-group">';
