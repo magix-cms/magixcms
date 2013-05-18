@@ -1,5 +1,6 @@
 {script src="/{baseadmin}/min/?f={baseadmin}/template/js/mc_theming.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
+<<<<<<< HEAD
     $(function(){
         if (typeof MC_theming == "undefined")
         {
@@ -8,4 +9,14 @@
             MC_theming.run(baseadmin);
         }
     });
+=======
+$(function(){
+    if (typeof MC_theming == "undefined")
+    {
+        console.log("MC_theming is not defined");
+    }else{
+        MC_theming.run(baseadmin);
+    }
+});
+>>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
 </script>

@@ -214,6 +214,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("id","order_pages_"+item.idclc)
                                 //.addClass("ui-state-default")
                                 .append(
+<<<<<<< HEAD
                                     $(document.createElement("td")).append(
                                         item.idclc
                                     ),
@@ -229,6 +230,23 @@ var MC_catalog = (function ($, undefined) {
                                     ,
                                     remove
                                 )
+=======
+                                $(document.createElement("td")).append(
+                                    item.idclc
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                        .attr("title", "Editer "+item.clibelle)
+                                        .append(item.clibelle)
+                                ),
+                                $(document.createElement("td")).append(c_content),
+                                $(document.createElement("td")).append(img),
+                                edit
+                                ,
+                                remove
+                            )
+>>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
                         )
                     });
                     $('#table_category > tbody').sortable({
@@ -772,6 +790,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("id","order_pages_"+item.idcls)
                                 //.addClass("ui-state-default")
                                 .append(
+<<<<<<< HEAD
                                     $(document.createElement("td")).append(
                                         item.idcls
                                     ),
@@ -787,6 +806,23 @@ var MC_catalog = (function ($, undefined) {
                                     ,
                                     remove
                                 )
+=======
+                                $(document.createElement("td")).append(
+                                    item.idcls
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                        .attr("title", "Editer "+item.slibelle)
+                                        .append(item.slibelle)
+                                ),
+                                $(document.createElement("td")).append(s_content),
+                                $(document.createElement("td")).append(img),
+                                edit
+                                ,
+                                remove
+                            )
+>>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
                         )
                     });
                     $('#table_subcategory > tbody').sortable({
@@ -1468,6 +1504,7 @@ var MC_catalog = (function ($, undefined) {
                         tbody.append(
                             $(document.createElement("tr"))
                                 .append(
+<<<<<<< HEAD
                                     $(document.createElement("td")).append(
                                         item.idcatalog
                                     ),
@@ -1489,6 +1526,29 @@ var MC_catalog = (function ($, undefined) {
                                     ,
                                     remove
                                 )
+=======
+                                $(document.createElement("td")).append(
+                                    item.idcatalog
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                        .attr("title", "Editer "+item.titlecatalog)
+                                        .append(item.titlecatalog)
+                                ),
+                                $(document.createElement("td")).append(img),
+                                $(document.createElement("td")).append(item.price),
+                                $(document.createElement("td")).append(content),
+                                $(document.createElement("td")).append(item.pseudo),
+                                copy
+                                ,
+                                move
+                                ,
+                                edit
+                                ,
+                                remove
+                            )
+>>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
                         )
                     });
                 }else{
@@ -2258,6 +2318,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("id","order_pages_"+item.idrelproduct)
                                 //.addClass("ui-state-default")
                                 .append(
+<<<<<<< HEAD
                                     $(document.createElement("td")).append(
                                         item.idrelproduct
                                     ),
@@ -2277,6 +2338,27 @@ var MC_catalog = (function ($, undefined) {
                                     ,
                                     remove
                                 )
+=======
+                                $(document.createElement("td")).append(
+                                    item.idrelproduct
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section=product&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                        .attr("title", "Editer "+item.titlecatalog)
+                                        .append(item.titlecatalog)
+                                ),
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("a"))
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section=category&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                        .attr("title", "Editer "+item.clibelle)
+                                        .append(item.clibelle)
+                                ),
+                                $(document.createElement("td")).append(slibelle)
+                                ,
+                                remove
+                            )
+>>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
                         )
                     });
                 }else{
