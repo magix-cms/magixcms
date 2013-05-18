@@ -40,11 +40,11 @@
  */
 var MC_config = (function ($, undefined) {
     //Fonction Private
-    function updateConfig(){
+    function updateConfig(baseadmin){
         $('#forms_config_edit').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?action=edit',
+                uri: '/'+baseadmin+'/config.php?action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 successParams:function(data){
@@ -60,7 +60,7 @@ var MC_config = (function ($, undefined) {
     /**
      * Mise à jour du manager/editeur
      */
-    function updateManager(){
+    function updateManager(baseadmin){
         var formsUpdate = $('#forms_editor_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -72,7 +72,7 @@ var MC_config = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/config.php?section=editor&action=edit',
+                    uri: '/'+baseadmin+'/config.php?section=editor&action=edit',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:false,
@@ -91,11 +91,11 @@ var MC_config = (function ($, undefined) {
     /**
      * Mise à jour des CSS frontend à intégré dans tinyMCE
      */
-    function updateContentCss(){
+    function updateContentCss(baseadmin){
         $('#forms_editor_css_edit').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?section=editor&action=edit',
+                uri: '/'+baseadmin+'/config.php?section=editor&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 resetform:false,
@@ -113,11 +113,11 @@ var MC_config = (function ($, undefined) {
      * Modification de la taille des images
      * @param formsId
      */
-    function updateImage(formsId){
+    function updateImage(baseadmin,formsId){
         $('#'+formsId).on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?section=imagesize&action=edit',
+                uri: '/'+baseadmin+'/config.php?section=imagesize&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 successParams:function(data){
@@ -133,11 +133,11 @@ var MC_config = (function ($, undefined) {
     /**
      * Mise à jour du statut de la concaténation
      */
-    function updateConcat(){
+    function updateConcat(baseadmin){
         $('#forms_config_concat').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?section=cache&action=edit',
+                uri: '/'+baseadmin+'/config.php?section=cache&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 resetform:false,
@@ -154,11 +154,11 @@ var MC_config = (function ($, undefined) {
     /**
      * Mise à jour du système de cache
      */
-    function updateCache(){
+    function updateCache(baseadmin){
         $('#forms_config_cache').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/config.php?section=cache&action=edit',
+                uri: '/'+baseadmin+'/config.php?section=cache&action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 resetform:false,
@@ -173,14 +173,14 @@ var MC_config = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        runConfig:function () {
-            updateConfig();
+        runConfig:function (baseadmin) {
+            updateConfig(baseadmin);
         },
-        runEditor:function () {
-            updateManager();
-            updateContentCss();
-            updateConcat();
-            updateCache();
+        runEditor:function (baseadmin) {
+            updateManager(baseadmin);
+            updateContentCss(baseadmin);
+            updateConcat(baseadmin);
+            updateCache(baseadmin);
         },
         runImages:function () {
             $('.spincount').spinner({
@@ -188,7 +188,7 @@ var MC_config = (function ($, undefined) {
             });
             $(".forms-config").each(function(){
                 var formsId = $(this).attr('id');
-                updateImage(formsId);
+                updateImage(baseadmin,formsId);
             });
         }
     };

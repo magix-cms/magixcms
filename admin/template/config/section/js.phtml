@@ -7,12 +7,12 @@ $(function(){
     }else{
         {if $smarty.get.section}
         {if $smarty.get.section eq 'editor' OR $smarty.get.section eq 'cache'}
-            MC_config.runEditor();
+            MC_config.runEditor(baseadmin);
         {elseif $smarty.get.section eq 'imagesize'}
-            MC_config.runImages();
+            MC_config.runImages(baseadmin);
         {/if}
         {else}
-            MC_config.runConfig();
+            MC_config.runConfig(baseadmin);
         {/if}
     }
 });
