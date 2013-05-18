@@ -9,7 +9,6 @@
             console.log("MC_catalog is not defined");
         }else{
 
-<<<<<<< HEAD
             {if $smarty.get.section eq 'category'}
                 {if $smarty.get.getlang}
                     {if $smarty.get.edit}
@@ -35,33 +34,6 @@
             {elseif !$smarty.get.section}
                 MC_catalog.runCharts(baseadmin);
             {/if}
-=======
-        {if $smarty.get.section eq 'category'}
-            {if $smarty.get.getlang}
-                {if $smarty.get.edit}
-                    MC_catalog.runEditCategory(baseadmin,iso,section,getlang,edit);
-                {else}
-                    MC_catalog.runListCategory(baseadmin,iso,section,getlang);
-                {/if}
-            {/if}
-        {elseif $smarty.get.section eq 'subcategory'}
-            {if $smarty.get.getlang}
-                {if $smarty.get.edit}
-                    MC_catalog.runEditSubcategory(baseadmin,iso,section,getlang,edit);
-                {/if}
-            {/if}
-        {elseif $smarty.get.section eq 'product'}
-            {if $smarty.get.getlang}
-                {if $smarty.get.edit}
-                    MC_catalog.runEditProduct(baseadmin,iso,section,getlang,edit);
-                {else}
-                    MC_catalog.runListProduct(baseadmin,iso,section,getlang);
-                {/if}
-            {/if}
-        {elseif !$smarty.get.section}
-            MC_catalog.runCharts(baseadmin);
-        {/if}
->>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
         }
     });
 </script>

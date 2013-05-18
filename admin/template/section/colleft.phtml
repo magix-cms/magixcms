@@ -1,11 +1,7 @@
 <div id="sidebar" class="span3">
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
-<<<<<<< HEAD
             {* -- START PAGES -- *}
-=======
-        {* -- START PAGES -- *}
->>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
             <li class="nav-header"><span class="icon-file-alt"></span> Pages</li>
             <li>
                 <a href="#home" class="showit{if {script_name} eq "home"} open{/if}">
@@ -48,7 +44,6 @@
             {* -- END PAGES -- *}
         </ul>
         {if $config_news eq 1}
-<<<<<<< HEAD
             <ul class="nav nav-list">
                 {* -- START NEWS -- *}
                 <li class="nav-header"><span class="icon-rss"></span> {#news#|upper}</li>
@@ -69,34 +64,12 @@
                                 </a>
                             {/foreach}
                         </div>
-=======
-        <ul class="nav nav-list">
-        {* -- START NEWS -- *}
-            <li class="nav-header"><span class="icon-rss"></span> {#news#|upper}</li>
-            <li>
-                <a href="#news" class="showit{if {script_name} eq "news"} open{/if}">
-                    <span class="icon-expand-alt"></span> {#article#|ucfirst}
-                </a>
-                <div class="collapse-item{if {script_name} eq "news"} on{/if}" id="news">
-                    <div class="lang-group">
-                        {foreach $array_lang as $key => $value nocache}
-                            {if {script_name} eq "news"}
-                                {if $smarty.get.getlang == $key}{$langActive = ' active'}{else}{$langActive = ''}{/if}
-                            {else}
-                                {$langActive = ''}
-                            {/if}
-                            <a class="badge {$langActive}" href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
-                                {$value|upper}
-                            </a>
-                        {/foreach}
->>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
                     </div>
                 </li>
                 {* -- END NEWS -- *}
             </ul>
         {/if}
         {if $config_catalog eq 1}
-<<<<<<< HEAD
             <ul class="nav nav-list">
                 {* -- START CATALOG -- *}
                 <li class="nav-header"><span class="icon-shopping-cart"></span> {#catalog#|upper}</li>
@@ -117,27 +90,6 @@
                                 </a>
                             {/foreach}
                         </div>
-=======
-        <ul class="nav nav-list">
-        {* -- START CATALOG -- *}
-            <li class="nav-header"><span class="icon-shopping-cart"></span> {#catalog#|upper}</li>
-            <li>
-                <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category"} open{/if}">
-                    <span class="icon-expand-alt"></span> {#category#|ucfirst}
-                </a>
-                <div class="collapse-item{if {script_name} eq "catalog:category" OR  {script_name} eq "catalog:subcategory"} on{/if}" id="catalog-category">
-                    <div class="lang-group">
-                        {foreach $array_lang as $key => $value nocache}
-                            {if {script_name} eq "catalog:category" OR  {script_name} eq "catalog:subcategory"}
-                                {if $smarty.get.getlang == $key}{$langActive = ' active'}{else}{$langActive = ''}{/if}
-                            {else}
-                                {$langActive = ''}
-                            {/if}
-                            <a class="badge {$langActive}" href="/{baseadmin}/catalog.php?section=category&amp;getlang={$key}">
-                                {$value|upper}
-                            </a>
-                        {/foreach}
->>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
                     </div>
                 </li>
                 <li>
@@ -164,7 +116,6 @@
         {/if}
     </div>
     {if $config_plugins eq 1}
-<<<<<<< HEAD
         <div class="well sidebar-nav">
             <ul class="nav nav-list">
                 {* -- START PLUGINS -- *}
@@ -173,15 +124,5 @@
                 {* -- END NEWS -- *}
             </ul>
         </div>
-=======
-    <div class="well sidebar-nav">
-        <ul class="nav nav-list">
-        {* -- START PLUGINS -- *}
-            <li class="nav-header"><span class="icon-puzzle-piece"></span> Plugins</li>
-            {widget_plugins_nav}
-        {* -- END NEWS -- *}
-        </ul>
-    </div>
->>>>>>> a96635cacd79d3d9a7cb9813b1ef4a6557001803
     {/if}
 </div>
