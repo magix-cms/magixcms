@@ -2,7 +2,7 @@
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
         {* -- START PAGES -- *}
-            <li class="nav-header">Pages</li>
+            <li class="nav-header"><span class="icon-file-alt"></span> Pages</li>
             <li>
                 <a href="#home" class="showit{if {script_name} eq "home"} open{/if}">
                     <span class="icon-expand-alt"></span> {#home#|ucfirst}
@@ -46,7 +46,7 @@
         {if $config_news eq 1}
         <ul class="nav nav-list">
         {* -- START NEWS -- *}
-            <li class="nav-header">{#news#|upper}</li>
+            <li class="nav-header"><span class="icon-rss"></span> {#news#|upper}</li>
             <li>
                 <a href="#news" class="showit{if {script_name} eq "news"} open{/if}">
                     <span class="icon-expand-alt"></span> {#article#|ucfirst}
@@ -72,7 +72,7 @@
         {if $config_catalog eq 1}
         <ul class="nav nav-list">
         {* -- START CATALOG -- *}
-            <li class="nav-header">{#catalog#|upper}</li>
+            <li class="nav-header"><span class="icon-shopping-cart"></span> {#catalog#|upper}</li>
             <li>
                 <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category"} open{/if}">
                     <span class="icon-expand-alt"></span> {#category#|ucfirst}
@@ -119,7 +119,7 @@
     <div class="well sidebar-nav">
         <ul class="nav nav-list">
         {* -- START PLUGINS -- *}
-            <li class="nav-header">Plugins</li>
+            <li class="nav-header"><span class="icon-puzzle-piece"></span> Plugins</li>
             {widget_plugins_nav}
         {* -- END NEWS -- *}
         </ul>

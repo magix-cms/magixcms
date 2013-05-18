@@ -43,10 +43,10 @@ var MC_theming = (function ($, undefined) {
     /**
      * Rafraichissement de la liste des templates
      */
-    function refresh(){
+    function refresh(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/theming.php?action=list&ajax_tpl=true',
+            uri: '/'+baseadmin+'/theming.php?action=list&ajax_tpl=true',
             typesend: 'get',
             datatype: 'html',
             beforeParams:function(){
@@ -72,21 +72,21 @@ var MC_theming = (function ($, undefined) {
     /**
      * changement de template
      */
-    function update(){
+    function update(baseadmin){
         $("#theming").on("click",'.skin-tpl', function(event){
             event.preventDefault();
             var skin = $(this).data("skin");
             if(skin != null){
                 $.nicenotify({
                     ntype: "ajax",
-                    uri: '/admin/theming.php?action=edit',
+                    uri: '/'+baseadmin+'/theming.php?action=edit',
                     typesend: 'post',
                     noticedata:{theme:skin},
                     successParams:function(j){
                         $.nicenotify.initbox(j,{
                             display:true
                         });
-                        refresh();
+                        refresh(baseadmin);
                     }
                 });
                 return false;
@@ -95,8 +95,8 @@ var MC_theming = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        run:function () {
-            update();
+        run:function (baseadmin) {
+            update(baseadmin);
         }
     };
 })(jQuery);

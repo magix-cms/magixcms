@@ -43,16 +43,16 @@ var MC_catalog = (function ($, undefined) {
     /**
      * Création du graphique de statistique
      */
-    function graph(){
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?json_graph=true',
+            uri: '/'+baseadmin+'/catalog.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -80,13 +80,13 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function autoCompleteCategory(section,getlang){
+    function autoCompleteCategory(baseadmin,section,getlang){
         $( "#name_category" ).autocomplete({
             minLength: 2,
             source: function(req, add){
                 //pass request to server
                 $.ajax({
-                    url:'/admin/catalog.php?section='+section+'&getlang='+getlang+'&callback=?&action=list',
+                    url:'/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&callback=?&action=list',
                     type:"get",
                     dataType: 'json',
                     data: 'name_category='+req.term,
@@ -96,7 +96,7 @@ var MC_catalog = (function ($, undefined) {
                         add($.map(data, function(item) {
                             return {
                                 value : item.clibelle,
-                                url : '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc
+                                url : '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc
                             }
                         }));
                     }
@@ -122,16 +122,16 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function jsonListCategory(section,getlang){
+    function jsonListCategory(baseadmin,iso,section,getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=list&json_list_category=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=list&json_list_category=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -193,7 +193,7 @@ var MC_catalog = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
                                 .attr("title", "Editer "+item.clibelle)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -219,7 +219,7 @@ var MC_catalog = (function ($, undefined) {
                                 ),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
                                         .attr("title", "Editer "+item.clibelle)
                                         .append(item.clibelle)
                                 ),
@@ -240,7 +240,7 @@ var MC_catalog = (function ($, undefined) {
                             var serial = $('#table_category > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit',
+                                uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -286,7 +286,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function addCategory(section,getlang){
+    function addCategory(baseadmin,section,getlang){
         var formsAdd = $("#forms_catalog_category_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -299,7 +299,7 @@ var MC_catalog = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=add',
+                    uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -308,7 +308,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListCategory(section,getlang);
+                        jsonListCategory(baseadmin,section,getlang);
                     }
                 });
                 return false;
@@ -340,7 +340,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function removeCategory(section,getlang){
+    function removeCategory(baseadmin,iso,section,getlang){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -356,7 +356,7 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=remove',
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=remove',
                             typesend: 'post',
                             noticedata : {delete_category:elem},
                             successParams:function(e){
@@ -382,17 +382,17 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @constructor
      */
-    function JsonUrlCategory(section,getlang,edit){
+    function JsonUrlCategory(baseadmin,section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_uri_category=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_uri_category=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 $("#categorylink").hide().val('');
                 var loader = $(document.createElement("span")).addClass("loader").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -417,12 +417,12 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function updateCategory(section,getlang,edit,tab){
+    function updateCategory(baseadmin,section,getlang,edit,tab){
         if(tab === 'text'){
             $('#forms_catalog_category_edit').on('submit',function(){
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                    uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
                     typesend: 'post',
                     idforms: $(this),
                     resetform:false,
@@ -430,7 +430,7 @@ var MC_catalog = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:true
                         });
-                        JsonUrlCategory(section,getlang,edit)
+                        JsonUrlCategory(baseadmin,section,getlang,edit)
                     }
                 });
                 return false;
@@ -449,7 +449,7 @@ var MC_catalog = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image',
+                        uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image',
                         typesend: 'post',
                         idforms: $(form),
                         resetform:true,
@@ -458,7 +458,7 @@ var MC_catalog = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:false
                             });
-                            getImageCategory(section,getlang,edit);
+                            getImageCategory(baseadmin,section,getlang,edit);
                         }
                     });
                     return false;
@@ -473,16 +473,16 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function getImageCategory(section,getlang,edit){
+    function getImageCategory(baseadmin,section,getlang,edit){
         if($('#load_catalog_category_img').length!=0){
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image&ajax_category_image=true',
+                uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image&ajax_category_image=true',
                 typesend: 'get',
                 beforeParams:function(){
                     var loader = $(document.createElement("span")).addClass("loader").append(
                         $(document.createElement("img"))
-                            .attr('src','/admin/template/img/loader/small_loading.gif')
+                            .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                             .attr('width','20px')
                             .attr('height','20px')
                     )
@@ -514,16 +514,16 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function jsonListCategoryProduct(section,getlang,edit){
+    function jsonListCategoryProduct(baseadmin,iso,section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product&json_category_product=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product&json_category_product=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -597,7 +597,7 @@ var MC_catalog = (function ($, undefined) {
                             var serial = $('#table_category_product > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product',
+                                uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -636,7 +636,7 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function removeCategoryProduct(section,getlang,edit,tab){
+    function removeCategoryProduct(baseadmin,iso,section,getlang,edit,tab){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -652,7 +652,7 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
                             typesend: 'post',
                             noticedata : {delete_product:elem},
                             successParams:function(e){
@@ -680,16 +680,16 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function jsonListSubCategory(section,getlang,edit){
+    function jsonListSubCategory(baseadmin,iso,section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat&json_list_subcategory=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat&json_list_subcategory=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -751,7 +751,7 @@ var MC_catalog = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
                                 .attr("title", "Editer "+item.slibelle)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -777,7 +777,7 @@ var MC_catalog = (function ($, undefined) {
                                 ),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
                                         .attr("title", "Editer "+item.slibelle)
                                         .append(item.slibelle)
                                 ),
@@ -798,7 +798,7 @@ var MC_catalog = (function ($, undefined) {
                             var serial = $('#table_subcategory > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat',
+                                uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -845,7 +845,7 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function addSubCategory(section,getlang,edit){
+    function addSubCategory(baseadmin,section,getlang,edit){
         var formsAdd = $("#forms_catalog_subcategory_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -858,7 +858,7 @@ var MC_catalog = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat',
+                    uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -867,7 +867,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListSubCategory(section,getlang,edit);
+                        jsonListSubCategory(baseadmin,iso,section,getlang,edit);
                     }
                 });
                 return false;
@@ -901,7 +901,7 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function removeSubCategory(section,getlang,edit,tab){
+    function removeSubCategory(baseadmin,iso,section,getlang,edit,tab){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -917,14 +917,14 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
                             typesend: 'post',
                             noticedata : {delete_subcategory:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonListSubCategory(section,getlang,edit);
+                                jsonListSubCategory(section,iso,getlang,edit);
                             }
                         });
                     },
@@ -944,17 +944,17 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @constructor
      */
-    function JsonUrlSubCategory(section,getlang,edit){
+    function JsonUrlSubCategory(baseadmin,section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_uri_subcategory=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&json_uri_subcategory=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 $("#subcategorylink").hide().val('');
                 var loader = $(document.createElement("span")).addClass("loader").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -979,13 +979,13 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function updateSubCategory(section,getlang,edit,tab){
+    function updateSubCategory(baseadmin,section,getlang,edit,tab){
         if(tab === 'text'){
             $('#forms_catalog_subcategory_edit').on('submit',function(event){
                 event.preventDefault();
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                    uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
                     typesend: 'post',
                     idforms: $(this),
                     resetform:false,
@@ -993,7 +993,7 @@ var MC_catalog = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:true
                         });
-                        JsonUrlSubCategory(section,getlang,edit)
+                        JsonUrlSubCategory(baseadmin,section,getlang,edit)
                     }
                 });
                 return false;
@@ -1012,7 +1012,7 @@ var MC_catalog = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image',
+                        uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image',
                         typesend: 'post',
                         idforms: $(form),
                         resetform:true,
@@ -1021,7 +1021,7 @@ var MC_catalog = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:false
                             });
-                            getImageSubCategory(section,getlang,edit);
+                            getImageSubCategory(baseadmin,section,getlang,edit);
                         }
                     });
                     return false;
@@ -1036,16 +1036,16 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function getImageSubCategory(section,getlang,edit){
+    function getImageSubCategory(baseadmin,section,getlang,edit){
         if($('#load_catalog_subcategory_img').length!=0){
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image&ajax_subcategory_image=true',
+                uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image&ajax_subcategory_image=true',
                 typesend: 'get',
                 beforeParams:function(){
                     var loader = $(document.createElement("span")).addClass("loader").append(
                         $(document.createElement("img"))
-                            .attr('src','/admin/template/img/loader/small_loading.gif')
+                            .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                             .attr('width','20px')
                             .attr('height','20px')
                     )
@@ -1077,16 +1077,16 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function jsonListSubCategoryProduct(section,getlang,edit){
+    function jsonListSubCategoryProduct(baseadmin,iso,section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product&json_subcategory_product=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product&json_subcategory_product=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -1160,7 +1160,7 @@ var MC_catalog = (function ($, undefined) {
                             var serial = $('#table_subcategory_product > tbody').sortable('serialize');
                             $.nicenotify({
                                 ntype: "ajax",
-                                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product',
+                                uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=product',
                                 typesend: 'post',
                                 noticedata : serial,
                                 successParams:function(e){
@@ -1199,7 +1199,7 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function removeSubCategoryProduct(section,getlang,edit,tab){
+    function removeSubCategoryProduct(baseadmin,iso,section,getlang,edit,tab){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -1215,7 +1215,7 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
                             typesend: 'post',
                             noticedata : {delete_product:elem},
                             successParams:function(e){
@@ -1243,13 +1243,13 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function autoCompleteCatalog(section,getlang){
+    function autoCompleteCatalog(baseadmin,section,getlang){
         $( "#name_product" ).autocomplete({
             minLength: 2,
             source: function(req, add){
                 //pass request to server
                 $.ajax({
-                    url:'/admin/catalog.php?section='+section+'&getlang='+getlang+'&callback=?&action=list',
+                    url:'/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&callback=?&action=list',
                     type:"get",
                     dataType: 'json',
                     data: 'name_product='+req.term,
@@ -1259,7 +1259,7 @@ var MC_catalog = (function ($, undefined) {
                         add($.map(data, function(item) {
                             return {
                                 value : item.titlecatalog,
-                                url : '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog
+                                url : '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog
                             }
                         }));
                     }
@@ -1285,7 +1285,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function addProduct(section,getlang){
+    function addProduct(baseadmin,iso,section,getlang){
         var formsAdd = $("#forms_catalog_product_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -1298,7 +1298,7 @@ var MC_catalog = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=add',
+                    uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -1307,7 +1307,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListProduct(section,getlang);
+                        jsonListProduct(baseadmin,iso,section,getlang);
                     }
                 });
                 return false;
@@ -1339,20 +1339,20 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function jsonListProduct(section,getlang){
+    function jsonListProduct(baseadmin,iso,section,getlang){
         var getpage = $('.pagination li.active').text();
         if(getpage.length == 0){
             getpage = 1;
         }
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=list&json_listing_product=true&page='+getpage,
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=list&json_listing_product=true&page='+getpage,
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 )
@@ -1429,7 +1429,7 @@ var MC_catalog = (function ($, undefined) {
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
                                 .attr("title", "Editer "+item.titlecatalog)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-edit")
@@ -1473,7 +1473,7 @@ var MC_catalog = (function ($, undefined) {
                                 ),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
                                         .attr("title", "Editer "+item.titlecatalog)
                                         .append(item.titlecatalog)
                                 ),
@@ -1527,13 +1527,13 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function updateProduct(section,getlang,edit,tab){
+    function updateProduct(baseadmin,iso,section,getlang,edit,tab){
         if(tab === 'text'){
             $('#forms_catalog_product_edit').on('submit',function(event){
                 event.preventDefault();
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                    uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
                     typesend: 'post',
                     idforms: $(this),
                     resetform:false,
@@ -1559,7 +1559,7 @@ var MC_catalog = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image',
+                        uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image',
                         typesend: 'post',
                         idforms: $(form),
                         resetform:true,
@@ -1568,7 +1568,7 @@ var MC_catalog = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:false
                             });
-                            getImageProduct(section,getlang,edit);
+                            getImageProduct(baseadmin,section,getlang,edit);
                         }
                     });
                     return false;
@@ -1586,7 +1586,7 @@ var MC_catalog = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=category',
+                        uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=category',
                         typesend: 'post',
                         idforms: $(form),
                         resetform:false,
@@ -1594,7 +1594,7 @@ var MC_catalog = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:false
                             });
-                            jsonListProductCategory(section,getlang,edit);
+                            jsonListProductCategory(baseadmin,iso,section,getlang,edit);
                         }
                     });
                     return false;
@@ -1614,7 +1614,7 @@ var MC_catalog = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=galery',
+                        uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=galery',
                         typesend: 'post',
                         idforms: $(form),
                         resetform:true,
@@ -1623,7 +1623,7 @@ var MC_catalog = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:false
                             });
-                            loadListGalery(section,getlang,edit,"galery");
+                            loadListGalery(baseadmin,section,getlang,edit,"galery");
                         }
                     });
                     return false;
@@ -1637,7 +1637,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function copyProduct(section,getlang){
+    function copyProduct(baseadmin,iso,section,getlang){
         $(document).on('click','.copy-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("copy");
@@ -1653,14 +1653,14 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=copy',
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=copy',
                             typesend: 'post',
                             noticedata : {copy:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(section,getlang);
+                                jsonListProduct(baseadmin,iso,section,getlang);
                             }
                         });
                     },
@@ -1678,7 +1678,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function moveProduct(section,getlang){
+    function moveProduct(baseadmin,iso,section,getlang){
         $(document).on('click','.move-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("move");
@@ -1694,14 +1694,14 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=move',
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=move',
                             typesend: 'post',
                             noticedata : {move:elem,idlang:$('#idlang').val()},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(section,getlang);
+                                jsonListProduct(baseadmin,iso,section,getlang);
                             }
                         });
                     },
@@ -1719,7 +1719,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function removeProduct(section,getlang){
+    function removeProduct(baseadmin,iso,section,getlang){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -1735,14 +1735,14 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=remove',
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=remove',
                             typesend: 'post',
                             noticedata : {delete_catalog:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(section,getlang);
+                                jsonListProduct(baseadmin,iso,section,getlang);
                             }
                         });
                     },
@@ -1760,16 +1760,16 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function getImageProduct(section,getlang,edit){
+    function getImageProduct(baseadmin,section,getlang,edit){
         if($('#load_catalog_product_img').length!=0){
             $.nicenotify({
                 ntype: "ajax",
-                uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image&ajax_product_image=true',
+                uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=image&ajax_product_image=true',
                 typesend: 'get',
                 beforeParams:function(){
                     var loader = $(document.createElement("span")).addClass("loader").append(
                         $(document.createElement("img"))
-                            .attr('src','/admin/template/img/loader/small_loading.gif')
+                            .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                             .attr('width','20px')
                             .attr('height','20px')
                     )
@@ -1801,7 +1801,7 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function removeImage(section,getlang,edit){
+    function removeImage(baseadmin,section,getlang,edit){
         $(document).on('click','.delete-image',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -1817,7 +1817,7 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit,
                             typesend: 'post',
                             noticedata : {delete_image:elem},
                             successParams:function(e){
@@ -1825,11 +1825,11 @@ var MC_catalog = (function ($, undefined) {
                                     display:false
                                 });
                                 if(section === 'category'){
-                                    getImageCategory(section,getlang,edit);
+                                    getImageCategory(baseadmin,section,getlang,edit);
                                 }else if(section === 'subcategory'){
-                                    getImageSubCategory(section,getlang,edit);
+                                    getImageSubCategory(baseadmin,section,getlang,edit);
                                 }else if(section === 'product'){
-                                    getImageProduct(section,getlang,edit);
+                                    getImageProduct(baseadmin,section,getlang,edit);
                                 }
                             }
                         });
@@ -1849,16 +1849,16 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function jsonListProductCategory(section,getlang,edit){
+    function jsonListProductCategory(baseadmin,iso,section,getlang,edit){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=category&json_product_category=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=category&json_product_category=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -1961,7 +1961,7 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function removeProductRel(section,getlang,edit,tab){
+    function removeProductRel(baseadmin,iso,section,getlang,edit,tab){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -1977,7 +1977,7 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
                             typesend: 'post',
                             noticedata : {delete_product:elem},
                             successParams:function(e){
@@ -1985,9 +1985,9 @@ var MC_catalog = (function ($, undefined) {
                                     display:false
                                 });
                                 if(tab === 'category'){
-                                    jsonListProductCategory(section,getlang,edit);
+                                    jsonListProductCategory(baseadmin,iso,section,getlang,edit);
                                 }else if(tab === 'product'){
-                                    jsonListProductRel(section,getlang,edit,'product');
+                                    jsonListProductRel(baseadmin,iso,section,getlang,edit,'product');
                                 }
                             }
                         });
@@ -2008,16 +2008,16 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function loadListGalery(section,getlang,edit,tab){
+    function loadListGalery(baseadmin,section,getlang,edit,tab){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab+'&json_list_galery=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab+'&json_list_galery=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -2075,7 +2075,7 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function removeGalery(section,getlang,edit,tab){
+    function removeGalery(baseadmin,iso,section,getlang,edit,tab){
         $(document).on('click','.delete-image',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -2091,14 +2091,14 @@ var MC_catalog = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
                             typesend: 'post',
                             noticedata : {delete_galery:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                loadListGalery(section,getlang,edit,'galery');
+                                loadListGalery(baseadmin,section,getlang,edit,'galery');
                             }
                         });
                     },
@@ -2118,14 +2118,14 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function autoCompleteProduct(section,getlang,edit,tab){
+    function autoCompleteProduct(baseadmin,iso,section,getlang,edit,tab){
         $( "#titleproduct" ).autocomplete({
             minLength: 2,
             scrollHeight: 220,
             source: function(request, add){
                 //pass request to server
                 $.ajax({
-                    url:'/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=list&callback=?',
+                    url:'/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=list&callback=?',
                     type: "get",
                     dataType: 'json',
                     data: 'title_search='+request.term,
@@ -2146,7 +2146,7 @@ var MC_catalog = (function ($, undefined) {
             select: function(event, ui) {
                 $.nicenotify({
                     ntype: "ajax",
-                    uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                    uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
                     typesend: 'post',
                     noticedata : {idproduct:ui.item.id},
                     successParams:function(data){
@@ -2154,7 +2154,7 @@ var MC_catalog = (function ($, undefined) {
                         $.nicenotify.initbox(data,{
                             display:false
                         });
-                        jsonListProductRel(section,getlang,edit,tab);
+                        jsonListProductRel(baseadmin,iso,section,getlang,edit,tab);
                     }
                 });
                 return false;
@@ -2184,16 +2184,16 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function jsonListProductRel(section,getlang,edit,tab){
+    function jsonListProductRel(baseadmin,iso,section,getlang,edit,tab){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab+'&json_product_rel=true',
+            uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab+'&json_product_rel=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -2237,7 +2237,7 @@ var MC_catalog = (function ($, undefined) {
                     $.each(j, function(i,item) {
                         if(item.slibelle != null){
                             var slibelle = $(document.createElement("a"))
-                                .attr("href", '/admin/catalog.php?section=subcategory&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                .attr("href", '/'+baseadmin+'/catalog.php?section=subcategory&getlang='+getlang+'&action=edit&edit='+item.idcls)
                                 .attr("title", "Editer "+item.slibelle)
                                 .append(item.slibelle);
                         }else{
@@ -2263,13 +2263,13 @@ var MC_catalog = (function ($, undefined) {
                                 ),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/catalog.php?section=product&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section=product&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
                                         .attr("title", "Editer "+item.titlecatalog)
                                         .append(item.titlecatalog)
                                 ),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                        .attr("href", '/admin/catalog.php?section=category&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                        .attr("href", '/'+baseadmin+'/catalog.php?section=category&getlang='+getlang+'&action=edit&edit='+item.idclc)
                                         .attr("title", "Editer "+item.clibelle)
                                         .append(item.clibelle)
                                 ),
@@ -2307,81 +2307,81 @@ var MC_catalog = (function ($, undefined) {
     return {
         //Fonction Public
         runCharts:function(){
-            graph();
+            graph(baseadmin);
         },
-        runListCategory:function(section,getlang){
-            autoCompleteCategory(section,getlang);
-            jsonListCategory(section,getlang);
-            addCategory(section,getlang);
-            removeCategory(section,getlang);
+        runListCategory:function(baseadmin,iso,section,getlang){
+            autoCompleteCategory(baseadmin,section,getlang);
+            jsonListCategory(baseadmin,iso,section,getlang);
+            addCategory(baseadmin,section,getlang);
+            removeCategory(baseadmin,iso,section,getlang);
         },
-        runEditCategory:function(section,getlang,edit){
-            autoCompleteCategory(section,getlang);
+        runEditCategory:function(baseadmin,iso,section,getlang,edit){
+            autoCompleteCategory(baseadmin,section,getlang);
             if($("#categorylink").length != 0){
-                JsonUrlCategory(section,getlang,edit);
-                updateCategory(section,getlang,edit,'text');
+                JsonUrlCategory(baseadmin,section,getlang,edit);
+                updateCategory(baseadmin,section,getlang,edit,'text');
             }else if($('#list_subcategory').length != 0){
-                jsonListSubCategory(section,getlang,edit);
-                addSubCategory(section,getlang,edit);
-                removeSubCategory(section,getlang,edit,'subcat');
+                jsonListSubCategory(baseadmin,iso,section,getlang,edit);
+                addSubCategory(baseadmin,section,getlang,edit);
+                removeSubCategory(baseadmin,section,getlang,edit,'subcat');
             }else if($('#load_catalog_category_img').length != 0){
-                getImageCategory(section,getlang,edit);
-                updateCategory(section,getlang,edit,'image');
-                removeImage(section,getlang,edit);
+                getImageCategory(baseadmin,section,getlang,edit);
+                updateCategory(baseadmin,section,getlang,edit,'image');
+                removeImage(baseadmin,section,getlang,edit);
             }else if($('#list_category_product').length != 0){
-                jsonListCategoryProduct(section,getlang,edit);
-                removeCategoryProduct(section,getlang,edit,'product');
+                jsonListCategoryProduct(baseadmin,iso,section,getlang,edit);
+                removeCategoryProduct(baseadmin,iso,section,getlang,edit,'product');
             }
         },
-        runEditSubcategory:function(section,getlang,edit){
+        runEditSubcategory:function(baseadmin,iso,section,getlang,edit){
             if($("#subcategorylink").length != 0){
-                JsonUrlSubCategory(section,getlang,edit);
-                updateSubCategory(section,getlang,edit,'text');
+                JsonUrlSubCategory(baseadmin,section,getlang,edit);
+                updateSubCategory(baseadmin,section,getlang,edit,'text');
             }else if($('#load_catalog_subcategory_img').length != 0){
-                getImageSubCategory(section,getlang,edit);
-                updateSubCategory(section,getlang,edit,'image');
-                removeImage(section,getlang,edit);
+                getImageSubCategory(baseadmin,section,getlang,edit);
+                updateSubCategory(baseadmin,section,getlang,edit,'image');
+                removeImage(baseadmin,section,getlang,edit);
             }else if($('#list_subcategory_product').length != 0){
-                jsonListSubCategoryProduct(section,getlang,edit);
-                removeSubCategoryProduct(section,getlang,edit,'product');
+                jsonListSubCategoryProduct(baseadmin,iso,section,getlang,edit);
+                removeSubCategoryProduct(baseadmin,iso,section,getlang,edit,'product');
             }
         },
-        runListProduct:function(section,getlang){
-            autoCompleteCatalog(section,getlang);
-            jsonListProduct(section,getlang);
-            addProduct(section,getlang);
-            copyProduct(section,getlang);
-            moveProduct(section,getlang);
-            removeProduct(section,getlang);
+        runListProduct:function(baseadmin,iso,section,getlang){
+            autoCompleteCatalog(baseadmin,section,getlang);
+            jsonListProduct(baseadmin,iso,section,getlang);
+            addProduct(baseadmin,iso,section,getlang);
+            copyProduct(baseadmin,iso,section,getlang);
+            moveProduct(baseadmin,iso,section,getlang);
+            removeProduct(baseadmin,iso,section,getlang);
         },
-        runEditProduct:function(section,getlang,edit){
-            autoCompleteCatalog(section,getlang);
+        runEditProduct:function(baseadmin,iso,section,getlang,edit){
+            autoCompleteCatalog(baseadmin,section,getlang);
             if($("#urlcatalog").length != 0){
-                updateProduct(section,getlang,edit,'text');
+                updateProduct(baseadmin,iso,section,getlang,edit,'text');
             }else if($('#load_catalog_product_img').length != 0){
-                getImageProduct(section,getlang,edit);
-                updateProduct(section,getlang,edit,'image');
-                removeImage(section,getlang,edit);
+                getImageProduct(baseadmin,section,getlang,edit);
+                updateProduct(baseadmin,iso,section,getlang,edit,'image');
+                removeImage(baseadmin,section,getlang,edit);
             }else if($('#forms_catalog_product_category').length != 0){
                 $('#forms_catalog_product_category').relatedSelects({
-                    onChangeLoad: '/admin/catalog.php?section='+section+'&getlang='+getlang+'&action=list',
+                    onChangeLoad: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=list',
                     dataType: 'json',
                     defaultOptionText: 'Choose an Option',
                     loadingMessage: 'Loading, please wait...',
                     disableIfEmpty:true,
                     selects: ['idclc','idcls']
                 });
-                jsonListProductCategory(section,getlang,edit);
-                updateProduct(section,getlang,edit,'category');
-                removeProductRel(section,getlang,edit,'category');
+                jsonListProductCategory(baseadmin,iso,section,getlang,edit);
+                updateProduct(baseadmin,iso,section,getlang,edit,'category');
+                removeProductRel(baseadmin,iso,section,getlang,edit,'category');
             }else if($('#load_catalog_product_galery').length != 0){
-                loadListGalery(section,getlang,edit,'galery');
-                updateProduct(section,getlang,edit,'galery');
-                removeGalery(section,getlang,edit,'galery');
+                loadListGalery(baseadmin,section,getlang,edit,'galery');
+                updateProduct(baseadmin,iso,section,getlang,edit,'galery');
+                removeGalery(baseadmin,iso,section,getlang,edit,'galery');
             }else if($('#forms_catalog_product_related').length != 0){
-                autoCompleteProduct(section,getlang,edit,'product');
-                jsonListProductRel(section,getlang,edit,'product');
-                removeProductRel(section,getlang,edit,'product');
+                autoCompleteProduct(baseadmin,iso,section,getlang,edit,'product');
+                jsonListProductRel(baseadmin,iso,section,getlang,edit,'product');
+                removeProductRel(baseadmin,iso,section,getlang,edit,'product');
             }
         }
     };

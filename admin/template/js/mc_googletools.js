@@ -45,11 +45,11 @@ var MC_googletools = (function ($, undefined) {
      * Mise à jour des googletools
      * @param formsId
      */
-    function update(formsId){
+    function update(baseadmin,formsId){
         $('#'+formsId).on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
-                uri: '/admin/googletools.php?action=edit',
+                uri: '/'+baseadmin+'/googletools.php?action=edit',
                 typesend: 'post',
                 idforms: $(this),
                 successParams:function(data){
@@ -63,10 +63,10 @@ var MC_googletools = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        run:function () {
+        run:function (baseadmin) {
             $(".forms-googletools").each(function(){
                 var formsId = $(this).attr('id');
-                update(formsId);
+                update(baseadmin,formsId);
             });
         }
     };
