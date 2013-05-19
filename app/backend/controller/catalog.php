@@ -36,10 +36,11 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    3.1
+ * @version    4.0
+ * Update 19/05/2013
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name catalog
  *
@@ -1814,7 +1815,7 @@ class backend_controller_catalog extends backend_db_catalog{
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
         $create->addConfigFile(array(
-                'modules'
+                'catalog'
             ),array('catalog_'),false
         );
         if(isset($this->section)){

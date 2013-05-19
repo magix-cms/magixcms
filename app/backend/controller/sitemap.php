@@ -36,10 +36,10 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    5.1
+ * @version    6.0
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name sitemap
  *
@@ -650,7 +650,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
         $create->addConfigFile(array(
-                'modules'
+                'sitemap'
             ),array('sitemap_'),false
         );
         if(isset($this->xml_type)){

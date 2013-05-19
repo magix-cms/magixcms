@@ -36,7 +36,7 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    4.0
@@ -586,7 +586,7 @@ class backend_controller_news extends backend_db_news{
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
         $create->addConfigFile(array(
-                'modules'
+                'news'
             ),array('news_'),false
         );
         if(magixcjquery_filter_request::isGet('getlang')){

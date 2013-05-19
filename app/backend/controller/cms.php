@@ -36,11 +36,10 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2011 -2012 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    5.0 $Id$
- * @id $Rev$
+ * @version    6.0
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name CMS
  *
@@ -658,8 +657,8 @@ class backend_controller_cms extends backend_db_cms{
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
         $create->addConfigFile(array(
-                'modules'
-            ),array('cms_'),false
+                'cms'
+            ),array('pages_'),false
         );
 		if(magixcjquery_filter_request::isGet('getlang')){
             if(isset($this->action)){

@@ -260,7 +260,7 @@ class backend_controller_home extends backend_db_home{
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
         $create->addConfigFile(array(
-                'modules'
+                'home'
             ),array('home_'),false
         );
         if(isset($this->action)){

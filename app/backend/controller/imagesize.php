@@ -36,10 +36,10 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2011 - 2012 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    1.0
+ * @version    2.0
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
  * @name imagesize
  *
@@ -119,6 +119,11 @@ class backend_controller_imagesize extends database_imagesize{
 	 * Execute la classe
 	 */
 	public function run(){
+        $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'config'
+            ),array('config_'),false
+        );
 		if(magixcjquery_filter_request::isPost('id_size_img')){
 			$this->update_img();
 		}else{
@@ -130,12 +135,16 @@ class backend_controller_imagesize extends database_imagesize{
 	}
 }
 class database_imagesize{
-	/**
-	 * @access protected
-	 * Mise à jour des tailles d'image 
-	 * @param integer $num_size
-	 * @param string $name_size
-	 */
+    /**
+     * @access protected
+     * Mise à jour des tailles d'image
+     * @param $width
+     * @param $height
+     * @param $img_resizing
+     * @param $id_size_img
+     * @internal param int $num_size
+     * @internal param string $name_size
+     */
 	protected function u_size_img_config($width,$height,$img_resizing,$id_size_img){
 		$sql = 'UPDATE mc_config_size_img 
 		SET width = :width,height = :height,img_resizing = :img_resizing WHERE id_size_img = :id_size_img';

@@ -1,5 +1,10 @@
 #### 2.4.0
+RC1
+    * Modification de la structure des traductions admin
+
 Beta 4
+    * Works #75 Traduction FR des messages dans javascript (catalog)
+        * Fix icon jsonHome for empty table
     * Works #67 Traduction FR Administration (catalog)
         * Traduction catégories
         * Traduction sous catégories
