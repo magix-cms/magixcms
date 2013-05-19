@@ -1,5 +1,35 @@
 #### 2.4.0
 Beta 4
+    * Works #67 Traduction FR Administration (catalog)
+        * Traduction catégories
+        * Traduction sous catégories
+        * Traduction produits
+    * TinyMCE advanced styles (fancybox)
+    * Works #67 Traduction FR Administration (global)
+    * Works #75 Traduction du module Utilisateurs (googletools,config,catalog)
+    * Upgrade de Font Awesome 3.0.2 => 3.1.0
+    * Fix bug Sitemap ping (fichier request inexistant)
+    * :global - model_db - minor improvement scope
+    * Works #72 Template admin product, category, subcategory, CMS
+    * Works #67 Traduction du module Utilisateurs (CMS, News)
+    * Fix #77 Erreur date url dans setItemData (frontend_model_news)
+    * Traduction du module SEO (Works #75, #67)
+        * Ajout de la suppression des langues (backend)
+        * Ajout de commentaire dans mc_config.js
+        * Fix paramètres removeImage mc_news.js
+    * Works #75 Traduction FR des messages dans javascript (fix cms)
+    * Works #75 Traduction FR des messages dans javascript (fix news,home)
+    * Fix #74 bug (pas de traduction) système de traduction plugins
+        * Ajout de l'API setConfig dans clearcache
+    * :global / constructor / add method
+    * Fix #71 bug Sidebar admin (construction menu plugin)
+    * Ajout de la reecriture du lien vers le dossier admin dans le javascript
+        * Réaménagement de quelques liens dans la navigation horizontal
+        * Fix #74 Amélioration du système de traduction plugins
+        * Optimisation du chargement des fichiers javascripts
+        * Work #75 Traduction FR des messages dans javascript
+    * Fix #74 Système de traduction plugins
+    * Works #67 Traduction FR Administration (sitemap)
     * Works API plugin info (about) - premier test avec des tabs
     * Works #71 Sidebar admin (modification API sidebar plugin)
     * Works #67 Traduction FR Administration (googletools suite)

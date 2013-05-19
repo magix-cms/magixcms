@@ -21,8 +21,11 @@
             "edit":"Editer",
             "remove":"Supprimer",
             "cancel":"Annuler",
+            "move":"Déplacer",
+            "copy":"Copier",
             "activate":"Activer",
             "deactivate":"Désactiver",
+            "name":"Nom",
             "date_of_change":"Date de modification",
             "change_of_status":"Modification du statut",
             "question_change_of_status":"Voulez-vous modifier le statut ?",
@@ -40,7 +43,10 @@
             "management_child_pages":"Gestion des pages enfant de",
             "move_page":"Déplacement de la page",
             "level":"Niveau",
-            "role":"Rôle"
+            "role":"Rôle",
+            "category":"Catégorie",
+            "subcategory":"Sous catégorie",
+            "product":"Produit"
         }
     });
 }( this ));

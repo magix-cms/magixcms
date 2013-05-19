@@ -155,8 +155,8 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-key")
                                         ),
-                                        $(document.createElement("th")).append("Nom"),
-                                        $(document.createElement("th")).append("Content"),
+                                        $(document.createElement("th")).append(Globalize.localize( "name", iso )),
+                                        $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
                                                 .addClass("icon-picture")
@@ -194,7 +194,7 @@ var MC_catalog = (function ($, undefined) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
-                                .attr("title", "Editer "+item.clibelle)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.clibelle)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-edit")
                                 )
@@ -204,7 +204,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idclc)
-                                .attr("title", "Supprimer "+": "+item.clibelle)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.clibelle)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-trash")
                                 )
@@ -220,7 +220,7 @@ var MC_catalog = (function ($, undefined) {
                                     $(document.createElement("td")).append(
                                         $(document.createElement("a"))
                                             .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
-                                            .attr("title", "Editer "+item.clibelle)
+                                            .attr("title", Globalize.localize( "edit", iso )+": "+item.clibelle)
                                             .append(item.clibelle)
                                     ),
                                     $(document.createElement("td")).append(c_content),
@@ -547,7 +547,7 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-key")
                                         ),
-                                        $(document.createElement("th")).append("Nom"),
+                                        $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
@@ -569,7 +569,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idproduct)
-                                .attr("title", "Supprimer "+": "+item.titlecatalog)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-trash")
                                 )
@@ -713,8 +713,8 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-key")
                                         ),
-                                        $(document.createElement("th")).append("Nom"),
-                                        $(document.createElement("th")).append("Content"),
+                                        $(document.createElement("th")).append(Globalize.localize( "name", iso )),
+                                        $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
                                                 .addClass("icon-picture")
@@ -752,7 +752,7 @@ var MC_catalog = (function ($, undefined) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
-                                .attr("title", "Editer "+item.slibelle)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.slibelle)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-edit")
                                 )
@@ -762,7 +762,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idcls)
-                                .attr("title", "Supprimer "+": "+item.slibelle)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.slibelle)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-trash")
                                 )
@@ -778,7 +778,7 @@ var MC_catalog = (function ($, undefined) {
                                     $(document.createElement("td")).append(
                                         $(document.createElement("a"))
                                             .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
-                                            .attr("title", "Editer "+item.slibelle)
+                                            .attr("title", Globalize.localize( "edit", iso )+": "+item.slibelle)
                                             .append(item.slibelle)
                                     ),
                                     $(document.createElement("td")).append(s_content),
@@ -1110,7 +1110,7 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-key")
                                         ),
-                                        $(document.createElement("th")).append("Nom"),
+                                        $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
@@ -1132,7 +1132,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idproduct)
-                                .attr("title", "Supprimer "+": "+item.titlecatalog)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-trash")
                                 )
@@ -1376,7 +1376,7 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-key")
                                         ),
-                                        $(document.createElement("th")).append("Nom"),
+                                        $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
                                                 .addClass("icon-picture")
@@ -1385,7 +1385,7 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-money")
                                         ),
-                                        $(document.createElement("th")).append("Content"),
+                                        $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                                         $(document.createElement("th")).append("Rédacteur"),
                                         $(document.createElement("th"))
                                             .append(
@@ -1430,7 +1430,7 @@ var MC_catalog = (function ($, undefined) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
-                                .attr("title", "Editer "+item.titlecatalog)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.titlecatalog)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-edit")
                                 )
@@ -1440,7 +1440,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idcatalog)
-                                .attr("title", "Supprimer "+": "+item.titlecatalog)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-trash")
                                 )
@@ -1450,7 +1450,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("copy-pages")
                                 .attr("href", "#")
                                 .attr("data-copy", item.idcatalog)
-                                .attr("title", "Copier "+": "+item.titlecatalog)
+                                .attr("title", Globalize.localize( "copy", iso )+": "+item.titlecatalog)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-copy")
                                 )
@@ -1460,7 +1460,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("move-pages")
                                 .attr("href", "#")
                                 .attr("data-move", item.idcatalog)
-                                .attr("title", "Déplacer "+": "+item.titlecatalog)
+                                .attr("title", Globalize.localize( "move", iso )+": "+item.titlecatalog)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-move")
                                 )
@@ -1474,7 +1474,7 @@ var MC_catalog = (function ($, undefined) {
                                     $(document.createElement("td")).append(
                                         $(document.createElement("a"))
                                             .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
-                                            .attr("title", "Editer "+item.titlecatalog)
+                                            .attr("title", Globalize.localize( "edit", iso )+": "+item.titlecatalog)
                                             .append(item.titlecatalog)
                                     ),
                                     $(document.createElement("td")).append(img),
@@ -1882,8 +1882,12 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-key")
                                         ),
-                                        $(document.createElement("th")).append("Catégorie"),
-                                        $(document.createElement("th")).append("Sous Catégorie"),
+                                        $(document.createElement("th")).append(
+                                            Globalize.localize( "category", iso )
+                                        ),
+                                        $(document.createElement("th")).append(
+                                            Globalize.localize( "subcategory", iso )
+                                        ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
@@ -1911,7 +1915,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idproduct)
-                                .attr("title", "Supprimer "+": "+item.clibelle+remove_slibelle)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.clibelle+remove_slibelle)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-trash")
                                 )
@@ -2217,9 +2221,9 @@ var MC_catalog = (function ($, undefined) {
                                             $(document.createElement("span"))
                                                 .addClass("icon-key")
                                         ),
-                                        $(document.createElement("th")).append("Title"),
-                                        $(document.createElement("th")).append("Catégorie"),
-                                        $(document.createElement("th")).append("Sous Catégorie"),
+                                        $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
+                                        $(document.createElement("th")).append(Globalize.localize( "category", iso )),
+                                        $(document.createElement("th")).append(Globalize.localize( "subcategory", iso )),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
@@ -2238,7 +2242,7 @@ var MC_catalog = (function ($, undefined) {
                         if(item.slibelle != null){
                             var slibelle = $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/catalog.php?section=subcategory&getlang='+getlang+'&action=edit&edit='+item.idcls)
-                                .attr("title", "Editer "+item.slibelle)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.slibelle)
                                 .append(item.slibelle);
                         }else{
                             var slibelle = $(document.createElement("span")).addClass("icon-minus");
@@ -2248,7 +2252,7 @@ var MC_catalog = (function ($, undefined) {
                                 .addClass("delete-pages")
                                 .attr("href", "#")
                                 .attr("data-delete", item.idrelproduct)
-                                .attr("title", "Supprimer "+": "+item.titlecatalog)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
                                     $(document.createElement("span")).addClass("icon-trash")
                                 )
@@ -2264,13 +2268,13 @@ var MC_catalog = (function ($, undefined) {
                                     $(document.createElement("td")).append(
                                         $(document.createElement("a"))
                                             .attr("href", '/'+baseadmin+'/catalog.php?section=product&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
-                                            .attr("title", "Editer "+item.titlecatalog)
+                                            .attr("title", Globalize.localize( "edit", iso )+": "+item.titlecatalog)
                                             .append(item.titlecatalog)
                                     ),
                                     $(document.createElement("td")).append(
                                         $(document.createElement("a"))
                                             .attr("href", '/'+baseadmin+'/catalog.php?section=category&getlang='+getlang+'&action=edit&edit='+item.idclc)
-                                            .attr("title", "Editer "+item.clibelle)
+                                            .attr("title", Globalize.localize( "edit", iso )+": "+item.clibelle)
                                             .append(item.clibelle)
                                     ),
                                     $(document.createElement("td")).append(slibelle)

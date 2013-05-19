@@ -204,31 +204,31 @@ var MC_home = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("icon-minus")
                             )
                         )
                     )
