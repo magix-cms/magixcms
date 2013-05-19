@@ -40,7 +40,7 @@
  */
 var MC_plugins_clearcache = (function ($, undefined) {
     //Fonction Private
-    function remove(){
+    function remove(baseadmin){
         $('.clear-cache').on('click',function(event){
             event.preventDefault();
             var elem = $(this).attr("id");
@@ -56,13 +56,13 @@ var MC_plugins_clearcache = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/plugins.php?name=clearcache&action=remove',
+                            uri: '/'+baseadmin+'/plugins.php?name=clearcache&action=remove',
                             typesend: 'post',
                             noticedata : {clear:elem},
                             beforeParams:function(){
                                 var loader = $(document.createElement("span")).addClass("btn-loader").append(
                                     $(document.createElement("img"))
-                                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                                         .attr('width','20px')
                                         .attr('height','20px')
                                 );
@@ -89,8 +89,8 @@ var MC_plugins_clearcache = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        run:function () {
-            remove();
+        run:function (baseadmin) {
+            remove(baseadmin);
         }
     };
 })(jQuery);

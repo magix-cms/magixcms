@@ -40,16 +40,16 @@
  */
 var MC_plugins_contact = (function ($, undefined) {
     //Fonction Private
-    function graph(){
+    function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/plugins.php?name=contact&json_graph=true',
+            uri: '/'+baseadmin+'/plugins.php?name=contact&json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -77,7 +77,7 @@ var MC_plugins_contact = (function ($, undefined) {
      * Ajout de contact
      * @param getlang
      */
-    function add(getlang){
+    function add(baseadmin,getlang){
         var formsAdd = $("#forms_plugins_contact_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -91,7 +91,7 @@ var MC_plugins_contact = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/admin/plugins.php?name=contact&getlang='+getlang+'&action=add',
+                    uri: '/'+baseadmin+'/plugins.php?name=contact&getlang='+getlang+'&action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -100,7 +100,7 @@ var MC_plugins_contact = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonContact(getlang);
+                        jsonContact(baseadmin,getlang);
                     }
                 });
                 return false;
@@ -131,16 +131,16 @@ var MC_plugins_contact = (function ($, undefined) {
      * Liste des contacts
      * @param getlang
      */
-    function jsonContact(getlang){
+    function jsonContact(baseadmin,getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/admin/plugins.php?name=contact&getlang='+getlang+'&action=list&json_list_contact=true',
+            uri: '/'+baseadmin+'/plugins.php?name=contact&getlang='+getlang+'&action=list&json_list_contact=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
                     $(document.createElement("img"))
-                        .attr('src','/admin/template/img/loader/small_loading.gif')
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
                         .attr('width','20px')
                         .attr('height','20px')
                 );
@@ -225,7 +225,7 @@ var MC_plugins_contact = (function ($, undefined) {
      * Suppression du contact
      * @param getlang
      */
-    function remove(getlang){
+    function remove(baseadmin,getlang){
         $(document).on('click','.delete-contact',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -241,14 +241,14 @@ var MC_plugins_contact = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/admin/plugins.php?name=contact&getlang='+getlang+'&action=remove',
+                            uri: '/'+baseadmin+'/plugins.php?name=contact&getlang='+getlang+'&action=remove',
                             typesend: 'post',
                             noticedata : {delete_contact:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonContact(getlang);
+                                jsonContact(baseadmin,getlang);
                             }
                         });
                     },
@@ -262,13 +262,13 @@ var MC_plugins_contact = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        runCharts:function () {
-            graph();
+        runCharts:function (baseadmin) {
+            graph(baseadmin);
         },
-        runList:function (getlang) {
-            jsonContact(getlang);
+        runList:function (baseadmin,getlang) {
+            jsonContact(baseadmin,getlang);
             add(getlang);
-            remove(getlang);
+            remove(baseadmin,getlang);
         }
     };
 })(jQuery);
