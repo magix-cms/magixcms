@@ -1813,6 +1813,10 @@ class backend_controller_catalog extends backend_db_catalog{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $create->addConfigFile(array(
+                'modules'
+            ),array('catalog_'),false
+        );
         if(isset($this->section)){
             if($this->section === 'category'){
                 if(isset($this->getlang)){

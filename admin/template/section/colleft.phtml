@@ -74,13 +74,13 @@
                 {* -- START CATALOG -- *}
                 <li class="nav-header"><span class="icon-shopping-cart"></span> {#catalog#|upper}</li>
                 <li>
-                    <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category"} open{/if}">
+                    <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category" OR {script_name} eq "catalog:subcategory"} open{/if}">
                         <span class="icon-expand-alt"></span> {#category#|ucfirst}
                     </a>
-                    <div class="collapse-item{if {script_name} eq "catalog:category" OR  {script_name} eq "catalog:subcategory"} on{/if}" id="catalog-category">
+                    <div class="collapse-item{if {script_name} eq "catalog:category" OR {script_name} eq "catalog:subcategory"} on{/if}" id="catalog-category">
                         <div class="lang-group">
                             {foreach $array_lang as $key => $value nocache}
-                                {if {script_name} eq "catalog:category" OR  {script_name} eq "catalog:subcategory"}
+                                {if {script_name} eq "catalog:category" OR {script_name} eq "catalog:subcategory"}
                                     {if $smarty.get.getlang == $key}{$langActive = ' active'}{else}{$langActive = ''}{/if}
                                 {else}
                                     {$langActive = ''}

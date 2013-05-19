@@ -3,7 +3,7 @@
         <p>
             <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
             <input type="file" id="imgcatalog" name="imgcatalog" value="" />
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
     <div id="load_catalog_product_img">
@@ -17,9 +17,9 @@
         {/foreach}
     </select>
     <select id="idcls" name="idcls">
-        <option value="">Sélectionner une sous catégorie</option>
+        <option value="">{#select_subcategory#|ucfirst}</option>
     </select>
-    <input type="submit" class="btn btn-primary" />
+    <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
 </form>
 <div id="list_product_category"></div>
 {elseif $smarty.get.tab eq "product"}
@@ -37,7 +37,7 @@
         <p>
             <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
             <input type="file" id="imgcatalog" name="imgcatalog" value="" />
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
     <div id="load_catalog_product_galery"></div>
@@ -48,7 +48,7 @@
             <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
         </p>
         <p class="controls-row offset1 input-append">
-            <label for="urlcatalog">URL Simplifié</label>
+            <label for="urlcatalog">{#url_rewriting#|ucfirst}</label>
             <input type="text" class="input-xlarge" id="urlcatalog" name="urlcatalog" readonly="readonly" size="30" value="{$urlcatalog}" />
             <a class="unlocked" href="#">
                 <span class="add-on icon-lock"></span>
@@ -56,19 +56,19 @@
         </p>
         <div class="clearfix"></div>
         <p>
-            <label for="titlecatalog">Titre :</label>
+            <label for="titlecatalog">{#label_name_product#|ucfirst} :</label>
             <input type="text" class="input-xlarge" id="titlecatalog" name="titlecatalog" value="{$titlecatalog}" size="50" />
         </p>
         <p>
-            <label for="price">Prix :</label>
+            <label for="price">{#label_price#|ucfirst} :</label>
             <input type="text" class="input-small" id="price" name="price" value="{$price}" size="10" />
         </p>
         <p>
-            <label for="desccatalog" class="inlinelabel">Contenu :</label>
+            <label for="desccatalog" class="inlinelabel">{#label_content#|ucfirst} :</label>
             <textarea name="desccatalog" id="desccatalog" class="mceEditor">{$desccatalog}</textarea>
         </p>
         <p>
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
 {/if}

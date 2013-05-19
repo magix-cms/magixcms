@@ -4,7 +4,7 @@
             <label for="img_s">Image :</label>
             <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
             <input type="file" id="img_s" name="img_s" value="" />
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
     <div id="load_catalog_subcategory_img">
@@ -23,22 +23,23 @@
             <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
         </p>
         <p class="controls-row offset1 input-append">
-            <label for="pathslibelle">URL Simplifié</label>
+            <label for="pathslibelle">{#url_rewriting#|ucfirst}</label>
             <input type="text" class="input-xlarge" id="pathslibelle" name="pathslibelle" readonly="readonly" size="30" value="{$pathslibelle}" />
             <a class="unlocked" href="#">
                 <span class="add-on icon-lock"></span>
             </a>
         </p>
+        <div class="clearfix"></div>
         <p>
-            <label for="slibelle">Titre :</label>
+            <label for="slibelle">{#label_name_subcategory#|ucfirst} :</label>
             <input type="text" class="input-xlarge" id="slibelle" name="slibelle" value="{$slibelle}" size="50" />
         </p>
         <p>
-            <label for="s_content" class="inlinelabel">Contenu :</label>
+            <label for="s_content" class="inlinelabel">{#label_content#|ucfirst} :</label>
             <textarea name="s_content" id="s_content" class="mceEditor">{$s_content}</textarea>
         </p>
         <p>
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
 {/if}

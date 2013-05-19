@@ -10,10 +10,10 @@
             <div class="row-fluid">
                 <div class="span12">
                 {include file="catalog/section/nav.phtml"}
-                    <h1>Liste des produits</h1>
+                    <h1>{#listing_product#|ucfirst}</h1>
                     <p>
                         <a class="btn btn-primary" href="#" id="open-add">
-                            <span class="icon-plus"></span> Ajouter un produit
+                            <span class="icon-plus"></span> {#add_a_product#|ucfirst}
                         </a>
                     </p>
                     <div class="mc-message clearfix"></div>
@@ -24,10 +24,10 @@
         </div>
     </div>
 </div>
-<div id="forms-add" class="hide" title="Ajouter un produit">
+<div id="forms-add" class="hide" title="{#add_a_product#|ucfirst}">
 {include file="catalog/product/forms/add.phtml"}
 </div>
-<div id="forms-move" class="hide" title="Déplacer un produit">
+<div id="forms-move" class="hide" title="{#move_a_product#|ucfirst}">
 {include file="catalog/product/forms/move.phtml"}
 </div>
 {include file="section/footer.phtml"}

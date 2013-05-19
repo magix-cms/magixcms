@@ -4,7 +4,7 @@
             <label for="img_c">Image :</label>
             <input type="hidden" name="MAX_FILE_SIZE" value="2048576" />
             <input type="file" id="img_c" name="img_c" value="" />
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
     <div id="load_catalog_category_img">
@@ -13,7 +13,7 @@
 {elseif $smarty.get.tab eq "subcat"}
 <p>
     <a class="btn btn-primary" href="#" id="open-add">
-        <span class="icon-plus"></span> Ajouter une sous catégorie
+        <span class="icon-plus"></span> {#add_a_subcategory#|ucfirst}
     </a>
 </p>
 <div id="list_subcategory"></div>
@@ -30,7 +30,7 @@
             <input type="text" class="input-mini" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
         </p>
         <p class="controls-row offset1 input-append">
-            <label for="pathclibelle">URL Simplifié</label>
+            <label for="pathclibelle">{#url_rewriting#|ucfirst}</label>
             <input type="text" class="input-xlarge" id="pathclibelle" name="pathclibelle" readonly="readonly" size="30" value="{$pathclibelle}" />
             <a class="unlocked" href="#">
                 <span class="add-on icon-lock"></span>
@@ -38,15 +38,15 @@
         </p>
         <div class="clearfix"></div>
         <p>
-            <label for="clibelle">Titre :</label>
+            <label for="clibelle">{#label_name_category#|ucfirst} :</label>
             <input type="text" class="input-xlarge" id="clibelle" name="clibelle" value="{$clibelle}" size="50" />
         </p>
         <p>
-            <label for="c_content" class="inlinelabel">Contenu :</label>
+            <label for="c_content" class="inlinelabel">{#label_content#|ucfirst} :</label>
             <textarea name="c_content" id="c_content" class="mceEditor">{$c_content}</textarea>
         </p>
         <p>
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
 {/if}
