@@ -1,4 +1,4 @@
-<h3>Concaténation</h3>
+<h3>{#concat#}</h3>
 <div class="mc-info clearfix">
     <div class="span7 alert alert-info">
         <span class="icon-info-sign"></span> {#p_concatenating#}
@@ -7,17 +7,17 @@
 <form id="forms_config_concat" class="form-inline" method="post" action="">
     <label class="radio inline">
         <input type="radio" name="concat" id="concat" value="0"{if $concat eq 0} checked="checked"{/if} />
-        Désactivé
+        {#deactivate#}
     </label>
     <label class="radio inline">
         <input type="radio" name="concat" id="concat_1" value="1"{if $concat eq 1} checked="checked"{/if} />
-        Activé
+        {#activate#}
     </label>
     <span class="input-inline-btn">
         <input type="submit" class="btn btn-primary" value="Envoyer" />
     </span>
 </form>
-<h3>Type de cache</h3>
+<h3>{#type_cache#}</h3>
 <div class="mc-info clearfix">
     <div class="span7 alert alert-info">
         <span class="icon-info-sign"></span> {#alert_info_cache_type#}

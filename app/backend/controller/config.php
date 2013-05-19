@@ -235,11 +235,12 @@ class backend_controller_config extends backend_db_config{
      * @param $create
      */
     private function load_editor_data($create){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         $config = parent::s_setting_id('editor');
         $array_manager = array(
-            "openFilemanager"=>"openFilemanager(intégré)",
-            "imagemanager"=>"imagemanager(payant)",
-            "filemanager"=>"filemanager(payant)"
+            "openFilemanager"   =>  "openFilemanager(intégré)",
+            "imagemanager"      =>  "imagemanager(payant)",
+            "filemanager"       =>  "filemanager(payant)"
         );
         /**
          * Création du menu select pour la sélection du gestionnaire de fichiers
@@ -247,13 +248,13 @@ class backend_controller_config extends backend_db_config{
         $select = backend_model_forms::select_static_row(
             $array_manager,
             array(
-                'attr_name'=>'manager_setting',
-                'attr_id'=>'manager_setting',
-                'class'=>'',
-                'attr_multiple'=>false,
-                'default_value'=>$config['setting_value'],
-                'empty_value'=>'Selectionner le manager',
-                'upper_case'=>false
+                'attr_name'     =>  'manager_setting',
+                'attr_id'       =>  'manager_setting',
+                'class'         =>  '',
+                'attr_multiple' =>  false,
+                'default_value' =>  $config['setting_value'],
+                'empty_value'   =>  $create->getConfigVars('select_manager'),
+                'upper_case'    =>  false
             )
         );
         $create->assign('select_manager',$select);
@@ -331,22 +332,24 @@ class backend_controller_config extends backend_db_config{
 
     /**
      * Chargement des données du cache
+     * @param $create
      * @return string
      */
-    private function load_cache_data(){
+    private function load_cache_data($create){
+        $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
         $config = parent::s_setting_id('cache');
         $select = backend_model_forms::select_static_row(
             array(
-                'none'=>'Inactif',
-                'files'=>'Fichiers',
-                'apc'=>'APC'
+                'none'  =>  $create->getConfigVars('inactive'),
+                'files' =>  $create->getConfigVars('files'),
+                'apc'   =>  'APC'
             ),
             array(
-                'attr_name'=>'cache',
-                'attr_id'=>'cache',
-                'default_value'=>$config['setting_value'],
-                'empty_value'=>'Selectionner le cache',
-                'upper_case'=>false
+                'attr_name'     =>  'cache',
+                'attr_id'       =>  'cache',
+                'default_value' =>  $config['setting_value'],
+                'empty_value'   =>  $create->getConfigVars('select_cache'),
+                'upper_case'    =>  false
             )
         );
         return $select;
@@ -408,9 +411,9 @@ class backend_controller_config extends backend_db_config{
                 }else{
                     $create->assign('imgsize',
                         array(
-                            'news'=>$this->load_img_forms('news'),
-                            'catalog'=>$this->load_img_forms('catalog'),
-                            'plugins'=>$this->load_img_forms('plugins')
+                            'news'      =>  $this->load_img_forms('news'),
+                            'catalog'   =>  $this->load_img_forms('catalog'),
+                            'plugins'   =>  $this->load_img_forms('plugins')
                         )
                     );
                     $create->display('config/imagesize.phtml');
@@ -425,7 +428,7 @@ class backend_controller_config extends backend_db_config{
                         }
                     }
                 }else{
-                    $create->assign('select_concat',$this->load_cache_data());
+                    $create->assign('select_concat',$this->load_cache_data($create));
                     $create->display('config/cache.phtml');
                 }
             }
