@@ -45,8 +45,19 @@
  *
  */
 class backend_controller_imagesize extends database_imagesize{
-	public $id_size_img,$config_size_attr,$width,$height,$img_resizing;
-	public function __construct(){
+    /**
+     * @var bool
+     */
+    public $id_size_img,
+        $config_size_attr,
+        $width,
+        $height,
+        $img_resizing;
+
+    /**
+     * Constructeur
+     */
+    public function __construct(){
 		if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
 			$this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
 			$this->height = magixcjquery_filter_isVar::isPostNumeric($_POST['height']);
@@ -58,7 +69,12 @@ class backend_controller_imagesize extends database_imagesize{
 			$this->id_size_img = magixcjquery_filter_isVar::isPostNumeric($_POST['id_size_img']); 
 		}
 	}
-	private function img_size_type($type){
+
+    /**
+     * @param $type
+     * @return mixed
+     */
+    private function img_size_type($type){
 		//Tableau des variables à rechercher
 		$search = array('small','medium','large');
 		$replace = array('Mini','Moyen','Grand');
@@ -104,6 +120,7 @@ class backend_controller_imagesize extends database_imagesize{
 		}
 		return $input;
 	}
+
 	/**
 	 * @access private
 	 * Mise à jour des tailles images des catégories catalogue 
@@ -114,6 +131,7 @@ class backend_controller_imagesize extends database_imagesize{
 			backend_controller_template::display('config/request/update_imgsize.phtml');
 		}
 	}
+
 	/**
 	 * @access public 
 	 * Execute la classe
@@ -147,13 +165,14 @@ class database_imagesize{
      */
 	protected function u_size_img_config($width,$height,$img_resizing,$id_size_img){
 		$sql = 'UPDATE mc_config_size_img 
-		SET width = :width,height = :height,img_resizing = :img_resizing WHERE id_size_img = :id_size_img';
+		SET width = :width,height = :height,img_resizing = :img_resizing
+		WHERE id_size_img = :id_size_img';
 		magixglobal_model_db::layerDB()->update($sql,
 		array(
-			':width'  =>	$width,
-			':height'  =>	$height,
-			':img_resizing'  =>	$img_resizing,
-			':id_size_img' =>	$id_size_img
+			':width'        =>	$width,
+			':height'       =>	$height,
+			':img_resizing' =>	$img_resizing,
+			':id_size_img'  =>	$id_size_img
 		));
 	}
 }
