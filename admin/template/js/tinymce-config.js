@@ -38,7 +38,7 @@ $(function() {
         theme_advanced_toolbar_align : "left",
         theme_advanced_statusbar_location : "bottom",
         theme_advanced_resizing : true,
-        theme_advanced_styles : "imagebox=imagebox;targetblank=targetblank",
+        theme_advanced_styles : "img-zoom=img-zoom;img-gallery=img-gallery;targetblank=targetblank",
         // Drop lists for link/image/media/template dialogs
          template_external_list_url : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
          /*external_link_list_url : "lists/link_list.js",
