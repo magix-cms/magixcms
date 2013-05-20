@@ -66,7 +66,7 @@ var MC_plugins_contact = (function ($, undefined) {
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/'+iso+'/magixmod/contact/',
+                    uri: '/'+iso+'/contact/',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
