@@ -73,27 +73,36 @@ class app_model_smarty extends Smarty{
 		 */
 	}
 	private function setPath(){
-		/*$pathdir = dirname(realpath( __FILE__ ));
-		$arraydir = array('install\exec\config', 'install/exec/config');
-		return $smartydir = magixglobal_model_system::root_path($arraydir,array('', '') , $pathdir);
-		*/
 		return magixglobal_model_system::base_path();
 	}
 	protected function setParams() {
-		// Local
+        /**
+         * Path -> configs
+         */
         $this->setConfigDir(array(
-            self::setPath()."/install/local/"
+            self::setPath()."/install/i18n/"
         ));
-        // Path -> templates
+
+        /**
+         * Path -> templates
+         */
         $this->setTemplateDir(array(
             self::setPath()."/install/template/"
         ));
-		// path plugins
+
+        /**
+         * path plugins
+         * @var void
+         */
         $this->setPluginsDir(array(
             self::setPath().'/lib/smarty3/plugins/',
-            self::setPath().'/app/wdcore/'
+            self::setPath().'/app/wdcore/',
+            self::setPath().'/install/template/widget/'
         ));
-		// Path -> compile
+
+        /**
+         * Path -> compile
+         */
         $this->setCompileDir(
             self::setPath().'/var/templates_c/'
         );

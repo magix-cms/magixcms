@@ -1,0 +1,23 @@
+<?php
+/**
+ * Smarty {autoload_i18n} function plugin
+ *
+ * Type:     function
+ * Name:     
+ * Date:     
+ * Update    
+ * Purpose:  
+ * Examples: 
+ * Output:   
+ * @link 
+ * @author   Gerits Aurelien
+ * @version  1.0
+ * @param array
+ * @param Smarty
+ * @return string
+ */
+function smarty_function_autoload_i18n($params, $template){
+    app_model_smarty::getInstance()->configLoad(
+        'local_'.app_model_language::current_Language().'.conf'
+    );
+}

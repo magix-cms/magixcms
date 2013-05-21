@@ -75,7 +75,7 @@ var MC_install = (function ($, undefined) {
     /**
      * Retourne le tableau du résultat des analyses
      */
-    function jsonAnalysis(){
+    function jsonAnalysis(iso){
         $.nicenotify({
             ntype: "ajax",
             uri: '/install/analysis.php?json_check=true',
@@ -104,8 +104,12 @@ var MC_install = (function ($, undefined) {
                         .append(
                         $(document.createElement("tr"))
                             .append(
-                            $(document.createElement("th")).append("Extension"),
-                            $(document.createElement("th")).append("Résolution")
+                            $(document.createElement("th")).append(
+                                Globalize.localize( "extension", iso )
+                            ),
+                            $(document.createElement("th")).append(
+                                Globalize.localize( "resolution", iso )
+                            )
                         )
                     ),
                     tbody
@@ -125,45 +129,45 @@ var MC_install = (function ($, undefined) {
                         }
                         if(item.mbstring != 0){
                             var mbstring = $(document.createElement("tr")).addClass('success');
-                            var mbstring_result = "is installed";
+                            var mbstring_result = Globalize.localize( "is_installed", iso );
                         }else{
                             var mbstring = $(document.createElement("tr")).addClass('error');
-                            var mbstring_result = "is not installed";
+                            var mbstring_result = Globalize.localize( "is_not_installed", iso );
                         }
                         if(item.iconv != 0){
                             var iconv = $(document.createElement("tr")).addClass('success');
-                            var iconv_result = "is installed";
+                            var iconv_result = Globalize.localize( "is_installed", iso );
                         }else{
                             var iconv = $(document.createElement("tr")).addClass('error');
-                            var iconv_result = "is not installed";
+                            var iconv_result = Globalize.localize( "is_not_installed", iso );
                         }
                         if(item.ob_start != 0){
                             var ob_start = $(document.createElement("tr")).addClass('success');
-                            var ob_start_result = "is installed";
+                            var ob_start_result = Globalize.localize( "is_installed", iso );
                         }else{
                             var ob_start = $(document.createElement("tr")).addClass('error');
-                            var ob_start_result = "is not installed";
+                            var ob_start_result = Globalize.localize( "is_not_installed", iso );
                         }
                         if(item.simplexml != 0){
                             var simplexml = $(document.createElement("tr")).addClass('success');
-                            var simplexml_result = "is installed";
+                            var simplexml_result = Globalize.localize( "is_installed", iso );
                         }else{
                             var simplexml = $(document.createElement("tr")).addClass('error');
-                            var simplexml_result = "is not installed";
+                            var simplexml_result = Globalize.localize( "is_not_installed", iso );
                         }
                         if(item.dom != 0){
                             var dom = $(document.createElement("tr")).addClass('success');
-                            var dom_result = "is installed";
+                            var dom_result = Globalize.localize( "is_installed", iso );
                         }else{
                             var dom = $(document.createElement("tr")).addClass('error');
-                            var dom_result = "is not installed";
+                            var dom_result = Globalize.localize( "is_not_installed", iso );
                         }
                         if(item.spl != 0){
                             var spl = $(document.createElement("tr")).addClass('success');
-                            var spl_result = "is installed";
+                            var spl_result = Globalize.localize( "is_installed", iso );
                         }else{
                             var spl = $(document.createElement("tr")).addClass('error');
-                            var spl_result = "is not installed";
+                            var spl_result = Globalize.localize( "is_not_installed", iso );
                         }
                         tbody.append(
                             phpversion
@@ -225,7 +229,7 @@ var MC_install = (function ($, undefined) {
     /**
      * Analyse les permissions de dossiers
      */
-    function jsonChmod(){
+    function jsonChmod(iso){
         $.nicenotify({
             ntype: "ajax",
             uri: '/install/analysis.php?json_chmod=true',
@@ -254,8 +258,12 @@ var MC_install = (function ($, undefined) {
                             .append(
                                 $(document.createElement("tr"))
                                     .append(
-                                        $(document.createElement("th")).append("Dossier"),
-                                        $(document.createElement("th")).append("Permission")
+                                        $(document.createElement("th")).append(
+                                            Globalize.localize( "dir", iso )
+                                        ),
+                                        $(document.createElement("th")).append(
+                                            Globalize.localize( "permission", iso )
+                                        )
                                     )
                             ),
                         tbody
@@ -268,24 +276,24 @@ var MC_install = (function ($, undefined) {
                     $.each(j, function(i,item) {
                         if(item.var_caching != 0){
                             var var_caching = $(document.createElement("tr")).addClass('success');
-                            var var_caching_result = "is writable";
+                            var var_caching_result = Globalize.localize( "is_writable", iso );
                         }else{
                             var var_caching = $(document.createElement("tr")).addClass('error');
-                            var var_caching_result = "is not writable";
+                            var var_caching_result = Globalize.localize( "is_not_writable", iso );
                         }
                         if(item.config != 0){
                             var config = $(document.createElement("tr")).addClass('success');
-                            var config_result = "is writable";
+                            var config_result = Globalize.localize( "is_writable", iso );
                         }else{
                             var config = $(document.createElement("tr")).addClass('error');
-                            var config_result = "is not writable";
+                            var config_result = Globalize.localize( "is_not_writable", iso );
                         }
                         if(item.caching != 0){
                             var caching = $(document.createElement("tr")).addClass('success');
-                            var caching_result = "is writable";
+                            var caching_result = Globalize.localize( "is_writable", iso );
                         }else{
                             var caching = $(document.createElement("tr")).addClass('error');
-                            var caching_result = "is not writable";
+                            var caching_result = Globalize.localize( "is_not_writable", iso );
                         }
 
                         tbody.append(
@@ -476,9 +484,9 @@ var MC_install = (function ($, undefined) {
         runUpgrade:function(){
             upgrade();
         },
-        runAnalysis:function () {
-            jsonAnalysis();
-            jsonChmod();
+        runAnalysis:function (iso) {
+            jsonAnalysis(iso);
+            jsonChmod(iso);
         },
         runConfig:function () {
             addConfig();

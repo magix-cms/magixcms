@@ -17,8 +17,7 @@ return array(
      '//libjs/plugins/jquery.form.3.20.js','//libjs/plugins/jquery.validate.1.10.0.min.js'),
 	'jimagine' => array('//libjs/jimagine/config.js','//libjs/jimagine/jmConstant.js',
 	'//libjs/jimagine/plugins/jquery.nicenotify.js','//libjs/jimagine/plugins/jquery.jmShowIt.js'),
-	'globalize'=> array('//libjs/globalize/globalize.js',
-    '//libjs/globalize/cultures/globalize.cultures.js'),
+	'globalize'=> array('//libjs/globalize/globalize.js','//libjs/globalize/cultures/globalize.cultures.js'),
     'maxAge' => 31536000,
     'setExpires' => time() + 86400 * 365
 );

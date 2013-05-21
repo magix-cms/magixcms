@@ -14,21 +14,21 @@
         </p>
     </div>
     <div class="control-group">
-        <label class="control-label" for="M_DBUSER">Utilisateur </label>
+        <label class="control-label" for="M_DBUSER">{#label_users#} </label>
         <p class="controls">
-            <input type="text" placeholder="Utilisateur db" class="input-xlarge" id="M_DBUSER" name="M_DBUSER" value="" />
+            <input type="text" placeholder="{#label_users#}" class="input-xlarge" id="M_DBUSER" name="M_DBUSER" value="" />
         </p>
     </div>
     <div class="control-group">
-        <label class="control-label" for="M_DBPASSWORD">Mot de passe </label>
+        <label class="control-label" for="M_DBPASSWORD">{#label_password#} </label>
         <p class="controls">
-            <input type="password" placeholder="Mot de passe db" class="input-xlarge" id="M_DBPASSWORD" name="M_DBPASSWORD" value="" />
+            <input type="password" placeholder="{#label_password#}" class="input-xlarge" id="M_DBPASSWORD" name="M_DBPASSWORD" value="" />
         </p>
     </div>
     <div class="control-group">
-        <label class="control-label" for="M_DBNAME">Nom de la base de données *</label>
+        <label class="control-label" for="M_DBNAME">{#label_database#} *</label>
         <p class="controls">
-            <input type="text" placeholder="Nom de la base de données" class="input-xlarge" id="M_DBNAME" name="M_DBNAME" value="" />
+            <input type="text" placeholder="{#label_database#}" class="input-xlarge" id="M_DBNAME" name="M_DBNAME" value="" />
         </p>
     </div>
     <div class="control-group">
@@ -52,8 +52,8 @@
     </div>
     <div class="control-group">
         <p class="controls">
-            <input type="submit" class="btn btn-primary" value="Envoyer" />
-            <input type="button" id="test_connexion" class="btn btn-info" value="Test de connexion" />
+            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+            <input type="button" id="test_connexion" class="btn btn-info" value="{#connexion_test#|ucfirst}" />
         </p>
     </div>
 </form>

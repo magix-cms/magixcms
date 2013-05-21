@@ -1,40 +1,45 @@
 <?php
 /*
- # -- BEGIN LICENSE BLOCK ----------------------------------
- #
- # This file is part of MAGIX CMS.
- # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
- #
- # OFFICIAL TEAM :
- #
- #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
- #
- # Redistributions of files must retain the above copyright notice.
- # This program is free software: you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
- # the Free Software Foundation, either version 3 of the License, or
- # (at your option) any later version.
- #
- # This program is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- # GNU General Public License for more details.
+# -- BEGIN LICENSE BLOCK ----------------------------------
+#
+# This file is part of MAGIX CMS.
+# MAGIX CMS, The content management system optimized for users
+# Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
+#
+# OFFICIAL TEAM :
+#
+#   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
+#
+# Redistributions of files must retain the above copyright notice.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 
- # You should have received a copy of the GNU General Public License
- # along with this program.  If not, see <http://www.gnu.org/licenses/>.
- #
- # -- END LICENSE BLOCK -----------------------------------
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# -- END LICENSE BLOCK -----------------------------------
 
- # DISCLAIMER
+# DISCLAIMER
 
- # Do not edit or add to this file if you wish to upgrade MAGIX CMS to newer
- # versions in the future. If you wish to customize MAGIX CMS for your
- # needs please refer to http://www.magix-cms.com for more information.
+# Do not edit or add to this file if you wish to upgrade MAGIX CMS to newer
+# versions in the future. If you wish to customize MAGIX CMS for your
+# needs please refer to http://www.magix-cms.com for more information.
+*/
+/**
+ * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
+ * Copyright: MAGIX CMS
+ * Date: 21/05/13
+ * Time: 15:01
+ * License: Dual licensed under the MIT or GPL Version
  */
-
-class backend_model_language{
-
+class app_model_language{
     /**
      * @var array
      */
@@ -85,21 +90,21 @@ class backend_model_language{
         "vi"=>"Vietnamese",
         "zh"=>"Chinese"
     );
-	/**
-	 * lang setting conf
-	 *
-	 * @var string 'fr', ' 'en', ...
-	 */
-	static public $adminLanguage;
-	/**
-	 * function construct class
-	 *
-	 */
-	public function __construct(){
-		if (magixcjquery_filter_request::isGet('adminLanguage')){
-			self::$adminLanguage = magixcjquery_form_helpersforms::inputClean($_GET['adminLanguage']);
-		}
-	}
+    /**
+     * lang setting conf
+     *
+     * @var string 'fr', ' 'en', ...
+     */
+    static public $adminLanguage;
+    /**
+     * function construct class
+     *
+     */
+    public function __construct(){
+        if (magixcjquery_filter_request::isGet('adminLanguage')){
+            self::$adminLanguage = magixcjquery_form_helpersforms::inputClean($_GET['adminLanguage']);
+        }
+    }
 
     /**
      * Retourne la langue en cours de session sinon retourne fr par défaut
@@ -128,8 +133,8 @@ class backend_model_language{
      */
     private function initlang(){
         $lang_array = self::$tabs_iso;
-		$langue = explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-		$langue = strtolower(substr(chop($langue[0]),0,2));
+        $langue = explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        $langue = strtolower(substr(chop($langue[0]),0,2));
         foreach($lang_array as $key => $value){
             if(array_key_exists($key,$lang_array)){
                 switch($langue){
@@ -144,14 +149,14 @@ class backend_model_language{
                 $langue = 'fr';
             }
         }
-		if(empty($_SESSION['adminLanguage']) || !empty(self::$adminLanguage)) {
-			return $_SESSION['adminLanguage'] = empty(self::$adminLanguage) ? $langue : self::$adminLanguage;
-		}else{
-			if (isset(self::$adminLanguage)) {
-				return self::$adminLanguage  = $langue;
-			}
-		}
-	}
+        if(empty($_SESSION['adminLanguage']) || !empty(self::$adminLanguage)) {
+            return $_SESSION['adminLanguage'] = empty(self::$adminLanguage) ? $langue : self::$adminLanguage;
+        }else{
+            if (isset(self::$adminLanguage)) {
+                return self::$adminLanguage  = $langue;
+            }
+        }
+    }
     /**
      * Retourne l'OS courant si windows
      */
@@ -186,8 +191,8 @@ class backend_model_language{
      * Initialisation de la création de session de langue
      */
     public function run(){
-		$this->initlang();
+        $this->initlang();
         self::setTimeLocal(self::current_Language());
-	}
+    }
 }
 ?>
