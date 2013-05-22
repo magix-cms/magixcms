@@ -1,17 +1,20 @@
 #### 2.4.0
 RC1
-    * Works #67 Traduction FR Administration (request)
-    * Works #79 Traduction FR auto installation
-    * Works #75 Traduction FR des messages dans javascript (install)
+    * Fix #67 Traduction FR Administration
+    * Fix #79 Traduction FR installation
+    * Fix #75 Traduction FR des messages dans javascript
     * Modification de l'url post pour le plugin contact (frontend)
     * upgrade swiftmailer 4.3.0 => 5.0.0
     * Ajout de commentaire dans la class imagesize
     * Suppression de la class blockDom
-    * Works #67 Traduction FR Administration (cache)
     * Modification de la structure des traductions admin
 
 Beta 4
+    * Works #67 Traduction FR Administration (request)
+    * Works #79 Traduction FR auto installation
+    * Works #75 Traduction FR des messages dans javascript (install)
     * Works #75 Traduction FR des messages dans javascript (catalog)
+    * Works #67 Traduction FR Administration (cache)
         * Fix icon jsonHome for empty table
     * Works #67 Traduction FR Administration (catalog)
         * Traduction catégories
