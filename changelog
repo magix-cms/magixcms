@@ -1,5 +1,13 @@
 #### 2.4.0
 RC1
+    * Works #67 Traduction FR Administration (request)
+    * Works #79 Traduction FR auto installation
+    * Works #75 Traduction FR des messages dans javascript (install)
+    * Modification de l'url post pour le plugin contact (frontend)
+    * upgrade swiftmailer 4.3.0 => 5.0.0
+    * Ajout de commentaire dans la class imagesize
+    * Suppression de la class blockDom
+    * Works #67 Traduction FR Administration (cache)
     * Modification de la structure des traductions admin
 
 Beta 4
