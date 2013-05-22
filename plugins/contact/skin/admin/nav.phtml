@@ -4,14 +4,14 @@
             <div class="nav-collapse collapse navbar-responsive-collapse">
                 <ul class="nav">
                     <li><a class="brand" href="#">Contact</a></li>
-                    <li><a href="{$pluginUrl}">Statistiques</a></li>
+                    <li><a href="{$pluginUrl}">{#statistics#}</a></li>
                     <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">Langues <b class="caret"></b></a>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">{#languages#} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         {foreach $array_lang as $key => $value nocache}
                             <li>
                                 <a href="{$pluginUrl}&amp;getlang={$key}&amp;action=list">
-                                    <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
+                                    {$value|upper}
                                 </a>
                             </li>
                         {/foreach}

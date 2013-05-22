@@ -11,7 +11,7 @@
                         {foreach $array_lang as $key => $value nocache}
                             <li>
                                 <a href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
-                                    <span><img src="/{baseadmin}/template/img/flags/{$value}.png" alt="{$value}" /> {$value|upper}</span>
+                                    {$value|upper}
                                 </a>
                             </li>
                         {/foreach}

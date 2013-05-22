@@ -1,23 +1,23 @@
-<h2>Manager de fichier pour tinyMCE</h2>
+<h2>{#filemanager_editor#}</h2>
 <form id="forms_editor_edit" method="post" action="">
     {$select_manager}
     <p class="input-btn">
-        <input type="submit" class="btn btn-primary" value="Envoyer" />
+        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
     </p>
 </form>
-<h2>CSS à charger dans tinyMCE</h2>
+<h2>{#content_css_editor#}</h2>
 <form id="forms_editor_css_edit" method="post" action="">
     <p>
-        <label for="content_css">Liens vers vos css :</label>
+        <label for="content_css">{#link_css_editor#} :</label>
         <textarea class="span6" id="content_css" name="content_css" cols="70" rows="3">{$content_css}</textarea>
     </p>
     <div class="mc-info clearfix">
         <p class="span6 alert alert-info">
-            <span class="icon-info-sign"></span> Séparer vos liens par une virgule sous cette forme:
+            <span class="icon-info-sign"></span> {#info_css_editor#}:
             /skin/default/css/bootstrap.css,/skin/default/css/style.css
         </p>
     </div>
     <p class="input-btn">
-        <input type="submit" class="btn btn-primary" value="Envoyer" />
+        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
     </p>
 </form>

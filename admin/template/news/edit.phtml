@@ -22,13 +22,13 @@
                     </div>
                     <ul class="nav nav-tabs clearfix">
                         <li{if !$smarty.get.tab} class="active"{/if}>
-                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}">Texte</a>
+                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}">{#text#|ucfirst}</a>
                         </li>
                         <li{if $smarty.get.tab eq "image"} class="active"{/if}>
-                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=image">Image</a>
+                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;tab=image">Image</a>
                         </li>
                         <li{if $smarty.get.tab eq "tags"} class="active"{/if}>
-                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&action=edit&edit={$smarty.get.edit}&tab=tags">Tags</a>
+                            <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;tab=tags">Tags</a>
                         </li>
                     </ul>
                     <div class="mc-message clearfix"></div>
