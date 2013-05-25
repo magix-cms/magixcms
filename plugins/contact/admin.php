@@ -151,7 +151,6 @@ class plugins_contact_admin extends database_plugins_contact{
             print '['.implode(',',$json).']';
         }
     }
-
 	/**
 	 * Affiche les pages de l'administration du plugin
 	 * @access public

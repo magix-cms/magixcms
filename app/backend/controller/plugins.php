@@ -648,32 +648,43 @@ class backend_controller_plugins{
      * @access public
      * Affiche le template
      * @param string|object $template
+     * @param null $getplugin
      * @param mixed $cache_id
      * @param mixed $compile_id
      * @param object $parent
      */
-    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
-        self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+    public function display($template = null, $getplugin = null, $cache_id = null, $compile_id = null, $parent = null){
+        if($getplugin == null){
+            self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+        }else{
+            self::addTemplateDir(self::directory_plugins().$getplugin.'/skin/admin/');
+        }
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
             backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
         }else{
             backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
         }
     }
+
     /**
      * @access public
      * Retourne le template
      * @param string|object $template
+     * @param null $getplugin
      * @param mixed $cache_id
      * @param mixed $compile_id
      * @param object $parent
-     * @param bool   $display           true: display, false: fetch
-     * @param bool   $merge_tpl_vars    if true parent template variables merged in to local scope
-     * @param bool   $no_output_filter  if true do not run output filter
+     * @param bool $display           true: display, false: fetch
+     * @param bool $merge_tpl_vars    if true parent template variables merged in to local scope
+     * @param bool $no_output_filter  if true do not run output filter
      * @return string rendered template output
      */
-    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
-        self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+    public function fetch($template = null, $getplugin = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
+        if($getplugin == null){
+            self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+        }else{
+            self::addTemplateDir(self::directory_plugins().$getplugin.'/skin/admin/');
+        }
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
             return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }else{

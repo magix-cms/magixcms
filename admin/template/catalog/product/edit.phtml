@@ -27,6 +27,13 @@
                         <li{if $smarty.get.tab eq "galery"} class="active"{/if}>
                             <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;tab=galery">{#galery#|ucfirst}</a>
                         </li>
+                        {if $plugin != null}
+                        {foreach $plugin as $key => $value}
+                            <li{if $smarty.get.plugin eq $key} class="active"{/if}>
+                                <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key}">{$key|ucfirst}</a>
+                            </li>
+                        {/foreach}
+                        {/if}
                     </ul>
                     <div class="mc-message clearfix"></div>
                     {include file="catalog/product/forms/edit.phtml"}

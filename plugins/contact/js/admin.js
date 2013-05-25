@@ -267,7 +267,7 @@ var MC_plugins_contact = (function ($, undefined) {
         },
         runList:function (baseadmin,getlang) {
             jsonContact(baseadmin,getlang);
-            add(getlang);
+            add(baseadmin,getlang);
             remove(baseadmin,getlang);
         }
     };
