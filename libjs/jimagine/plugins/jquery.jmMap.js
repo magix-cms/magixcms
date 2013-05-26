@@ -132,8 +132,8 @@
                         },
                         callback:function(marker){
                             if (marker){
-                                $(lat).val( marker.getPosition().lat() );
-                                $(lng).val( marker.getPosition().lng() );
+                                $(value.lat).val( marker.getPosition().lat() );
+                                $(value.lng).val( marker.getPosition().lng() );
                             }
                         }
                     },
@@ -184,7 +184,7 @@
                             getroute:{
                                 options:{
                                     origin: $(value.search).val(),
-                                    destination: address,
+                                    destination: value.address,
                                     travelMode: google.maps.DirectionsTravelMode.DRIVING
                                 },
                                 callback: function(results){
