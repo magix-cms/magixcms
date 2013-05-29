@@ -7,13 +7,12 @@
 <div id="page" class="container">
 {include file="section/header.phtml"}
     <div id="content" class="row">
-    {include file="section/sidebar.phtml"}
-        <div id="article" class="span9">
-            <div id="article-inner" class="span8">
+        <div id="article" class="span12">
+            <div id="article-inner" class="span10">
             <div class="mc-message clearfix"></div>
             <h1>{#contact_root_h1#}</h1>
-             <legend>{#contact_fiels_resquest#}</legend>
-            <form id="contact-form" method="post" action="" class="form-horizontal">
+            <form id="contact-form" method="post" action="{$smarty.server.REQUEST_URI}" class="form-horizontal">
+                <legend>{#contact_fiels_resquest#}</legend>
                 <div class="control-group">
                     <label class="control-label" for="nom">
                         {#pn_contact_lastname#}* :

@@ -88,6 +88,7 @@ body {
 #contact-form > .control-group > .controls > .alert {
     padding-top: 5px;
     padding-bottom: 5px;
+    margin-left: 20px;
 }
 
 #footer-inner {

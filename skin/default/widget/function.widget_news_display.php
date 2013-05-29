@@ -294,7 +294,7 @@ function patternNews ($name=null)
                 'tag'           =>  array(
                     'before'    => '<span class="tag">',
                     // item's elements injected here (name, img, descr)
-                    'after'     => '<span>'
+                    'after'     => '</span>'
                 ),
                 'active'       =>  array(
                     'class'         =>  ' active'
