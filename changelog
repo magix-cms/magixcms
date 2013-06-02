@@ -1,4 +1,13 @@
 #### 2.4.0
+RC2
+    * Balisage de traduction du plugin clearcache
+    * Fix #72 Template admin product, category, subcategory, CMS
+    * Fix bug ajout d'adresse mail dans le plugin contact
+    * Works #68 Plugins dédiés au catalogue (produit)
+    * Upgrade de jmMap de jimagine
+    * Modification des fichiers request (admin)
+    * plugin - contact - minor improvement
+
 RC1
     * Fix #67 Traduction FR Administration
     * Fix #79 Traduction FR installation
