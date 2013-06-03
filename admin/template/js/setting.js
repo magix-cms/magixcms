@@ -143,6 +143,13 @@ $(function(){
         activeClass : 'on',
         debug : false
     });
+    // jmShowIt block
+    $('a.view-block').jmShowIt({
+        open: 'open',
+        contenerClass : 'div.collapse-block',
+        activeClass : 'on',
+        debug : false
+    });
     // dropdown config
     $('.dropdown-toggle').dropdown();
 

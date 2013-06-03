@@ -217,19 +217,23 @@ tbody.ui-sortable > .ui-sortable-helper{
 */
 /* metas */
 .showit.open > .icon-plus:before,
+.view-block.open > .icon-plus:before,
 .view-metas.open > .icon-plus:before{
     content: "\f068";
 }
 /* Colleft */
 .showit.open > .icon-expand-alt:before,
+.view-block.open > .icon-expand-alt:before,
 .view-metas.open > .icon-expand-alt:before{
     content: "\f117";
 }
 .collapse-item,
+.collapse-block,
 .collapse-metas{
     display:none;
 }
 .collapse-item.on,
+.collapse-block.on,
 .collapse-metas.on{
     display:block;
 }
