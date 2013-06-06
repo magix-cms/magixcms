@@ -660,7 +660,7 @@ var MC_catalog = (function ($, undefined) {
                                     display:false
                                 });
                                 if(tab === 'product'){
-                                    jsonListCategoryProduct(section,getlang,edit);
+                                    jsonListCategoryProduct(baseadmin,iso,section,getlang,edit);
                                 }
                             }
                         });
@@ -845,7 +845,7 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function addSubCategory(baseadmin,section,getlang,edit){
+    function addSubCategory(baseadmin,iso,section,getlang,edit){
         var formsAdd = $("#forms_catalog_subcategory_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -924,7 +924,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonListSubCategory(section,iso,getlang,edit);
+                                jsonListSubCategory(baseadmin,iso,section,getlang,edit);
                             }
                         });
                     },
@@ -1223,7 +1223,7 @@ var MC_catalog = (function ($, undefined) {
                                     display:false
                                 });
                                 if(tab === 'product'){
-                                    jsonListSubCategoryProduct(section,getlang,edit);
+                                    jsonListSubCategoryProduct(baseadmin,iso,section,getlang,edit);
                                 }
                             }
                         });
@@ -2326,8 +2326,8 @@ var MC_catalog = (function ($, undefined) {
                 updateCategory(baseadmin,section,getlang,edit,'text');
             }else if($('#list_subcategory').length != 0){
                 jsonListSubCategory(baseadmin,iso,section,getlang,edit);
-                addSubCategory(baseadmin,section,getlang,edit);
-                removeSubCategory(baseadmin,section,getlang,edit,'subcat');
+                addSubCategory(baseadmin,iso,section,getlang,edit);
+                removeSubCategory(baseadmin,iso,section,getlang,edit,'subcat');
             }else if($('#load_catalog_category_img').length != 0){
                 getImageCategory(baseadmin,section,getlang,edit);
                 updateCategory(baseadmin,section,getlang,edit,'image');

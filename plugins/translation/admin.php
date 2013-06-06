@@ -221,7 +221,7 @@ class plugins_translation_admin{
                     if(isset($this->section)){
                         if(isset($this->config_value)){
                             $header->html_header("UTF-8");
-                            $this->saveFiles($create,$this->tab);
+                            $this->saveFiles($create,$this->section);
                         }else{
                             $create->assign('array_config_file',$this->getConfigFile($this->section));
                             $create->display('edit.phtml');
