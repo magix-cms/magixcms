@@ -1,5 +1,9 @@
 #### 2.4.0
 RC2
+    * Fix #81 Problème plugin translation core
+    * Fix #80 Suppression sous-catégorie
+    * :widget - share_display - minor bug fix
+    * Ajout de la classe view-bloc et collapse-block
     * Balisage de traduction du plugin clearcache
     * Fix #72 Template admin product, category, subcategory, CMS
     * Fix bug ajout d'adresse mail dans le plugin contact
