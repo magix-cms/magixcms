@@ -72,6 +72,7 @@ function smarty_function_widget_share_display($params, $template){
         switch($active_mod){
             case 'index':
                 $name = $smarty->getTemplateVars('title');
+                break;
             case 'catalog':
                 if(isset($_GET['idproduct'])){
                     $productData = $smarty->getTemplateVars('product');
