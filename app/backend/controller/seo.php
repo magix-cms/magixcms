@@ -379,7 +379,7 @@ class backend_controller_seo extends backend_db_seo{
         $header= new magixglobal_model_header();
         $create = new backend_controller_template();
         $create->addConfigFile(array(
-                'modules'
+                'seo'
             ),array('seo_'),false
         );
         if(magixcjquery_filter_request::isGet('getlang')){
