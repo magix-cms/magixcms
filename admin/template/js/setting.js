@@ -39,6 +39,10 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 $(function(){
+    // Disable certain links in docs
+    $('[href^=#]').click(function(e) {
+        e.preventDefault()
+    });
     // *** targetblank in JS for W3C validation
     $('a.targetblank').on('click', function() {
         window.open($(this).attr('href'));
