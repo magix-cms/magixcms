@@ -106,3 +106,22 @@ Do not edit or add to this file if you wish to upgrade magixcms to newer
 versions in the future. If you wish to customize magixcms for your
 needs please refer to magix-cms.com for more information.
 </pre>
+
+##Synchronize your fork
+    
+    #cd your_fork
+    cd magixcms
+
+    #git remote add your_fork git@github.com:gtraxx/magixcms.git
+    git remote add magixcms git@github.com:gtraxx/magixcms.git
+    git fetch magixcms
+
+    #Merge your local copy with the original project
+    git checkout master
+    git merge magixcms/master
+
+    #Commit your changes
+    git commit -a -m "Synchronization with the original project"
+
+    #Send your changes to github
+    git push
