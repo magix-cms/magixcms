@@ -1,4 +1,8 @@
 #### 2.4.0
+RC3
+    * Fix #85 Requête SQL sitemap catégorie catalogue
+    * Fix #82 Rafraichissement des catégories du catalogue après insertion
+
 RC2
     * Fix #81 Problème plugin translation core
     * Fix #80 Suppression sous-catégorie

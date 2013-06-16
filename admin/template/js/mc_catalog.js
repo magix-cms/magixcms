@@ -286,7 +286,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function addCategory(baseadmin,section,getlang){
+    function addCategory(baseadmin,iso,section,getlang){
         var formsAdd = $("#forms_catalog_category_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -308,7 +308,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListCategory(baseadmin,section,getlang);
+                        jsonListCategory(baseadmin,iso,section,getlang);
                     }
                 });
                 return false;
@@ -2316,7 +2316,7 @@ var MC_catalog = (function ($, undefined) {
         runListCategory:function(baseadmin,iso,section,getlang){
             autoCompleteCategory(baseadmin,section,getlang);
             jsonListCategory(baseadmin,iso,section,getlang);
-            addCategory(baseadmin,section,getlang);
+            addCategory(baseadmin,iso,section,getlang);
             removeCategory(baseadmin,iso,section,getlang);
         },
         runEditCategory:function(baseadmin,iso,section,getlang,edit){

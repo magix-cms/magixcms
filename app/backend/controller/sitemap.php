@@ -334,7 +334,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
                 'always',
                 0.7
             );
-			foreach(parent::s_catalog_category_sitemap($idlang) as $data){
+			foreach(parent::s_catalog_category($idlang) as $data){
 		       	$sitemap->writeMakeNode(
 			       	 magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_catalog_category_url(
 						$data['iso'], 
