@@ -77,7 +77,7 @@ class magixglobal_model_rewrite{
 				$langsession = 'catalog';
 					break;	
 				default:
-				$langsession = 'catalogue';	
+				$langsession = 'catalogue';
 		}
 		return $langsession;
 	}
@@ -117,7 +117,7 @@ class magixglobal_model_rewrite{
 				$langsession = '/nieuws/';
 					break;	
 				default:
-				$langsession = '/actualites/';	
+				$langsession = '/actualites/';
 		}
 		return $langsession;
 	}
