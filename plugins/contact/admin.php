@@ -216,7 +216,8 @@ class plugins_contact_admin extends database_plugins_contact{
         return array(
             'url'=> array(
                 'lang'=>'list',
-                'action'=>'list'
+                'action'=>'list',
+                'name'=>'Contact'
             )
         );
     }

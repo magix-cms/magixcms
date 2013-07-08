@@ -361,6 +361,17 @@ class backend_controller_plugins{
                 )
             );
     }
+     * Renommer le plugin :
+     *
+    public function setConfig(){
+        return array(
+            'url'=> array(
+                'lang'  =>'none',
+                'action'=>'',
+                'name'=>'mon plugin'
+            )
+        );
+    }
 	 */
 	public function set_html_item($debug=false){
         $firebug = new magixcjquery_debug_magixfire();
@@ -446,9 +457,19 @@ class backend_controller_plugins{
                                     }else{
                                         $action = '';
                                     }
+                                    if(isset($setConfig['url']['name'])){
+                                        if($setConfig['url']['name'] != ''){
+                                            $name = magixcjquery_string_convert::ucFirst($setConfig['url']['name']);
+                                        }else{
+                                            $name = magixcjquery_string_convert::ucFirst($d);
+                                        }
+                                    }else{
+                                        $name = magixcjquery_string_convert::ucFirst($d);
+                                    }
                                 }else{
                                     $lang = 'none';
                                     $action = '';
+                                    $name = magixcjquery_string_convert::ucFirst($d);
                                 }
                                 //Si le fichier d'accès est disponible, on retourne les permissions
                                 if($access != null OR $access != ''){
@@ -457,7 +478,7 @@ class backend_controller_plugins{
                                         if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
-                                            $list .= '<span class="icon-expand-alt"></span> '.$d;
+                                            $list .= '<span class="icon-expand-alt"></span> '.$name;
                                             $list .= '</a>';
                                             $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';
                                             $list .= '<div class="lang-group">';
@@ -477,7 +498,8 @@ class backend_controller_plugins{
                                         }else{
                                             $list .= '<li>';
                                             $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
-                                            $list .= magixcjquery_string_convert::ucFirst($d).'</a>';
+                                            $list .= $name;
+                                            $list .= '</a>';
                                             $list .= '</li>';
                                         }
                                     }elseif($access == '*'){
@@ -485,7 +507,8 @@ class backend_controller_plugins{
                                         if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
-                                            $list .= '<span class="icon-expand-alt"></span> '.$d;
+                                            $list .= '<span class="icon-expand-alt"></span> ';
+                                            $list .= $name;
                                             $list .= '</a>';
                                             $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';
                                             $list .= '<div class="lang-group">';
@@ -505,14 +528,16 @@ class backend_controller_plugins{
                                         }else{
                                             $list .= '<li>';
                                             $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
-                                            $list .= magixcjquery_string_convert::ucFirst($d).'</a>';
+                                            $list .= $name;
+                                            $list .= '</a>';
                                             $list .= '</li>';
                                         }
                                     }
                                 }else{
                                     $list .= '<li>';
                                     $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
-                                    $list .= magixcjquery_string_convert::ucFirst($d).'</a>';
+                                    $list .= $name;
+                                    $list .= '</a>';
                                     $list .= '</li>';
                                 }
                             }else{

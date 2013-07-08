@@ -12,7 +12,7 @@
                 {include file="catalog/section/nav.phtml"}
                     <h1>{#editing_the_product#|ucfirst} : {$titlecatalog}</h1>
                     <ul class="nav nav-tabs clearfix">
-                        <li{if !$smarty.get.tab} class="active"{/if}>
+                        <li{if !$smarty.get.tab && !$smarty.get.plugin} class="active"{/if}>
                             <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}">{#text#|ucfirst}</a>
                         </li>
                         <li{if $smarty.get.tab eq "image"} class="active"{/if}>
@@ -48,5 +48,8 @@
 {include file="section/footer.phtml"}
 {include file="section/js.phtml"}
 {include file="catalog/section/js.phtml"}
+{if $smarty.get.plugin}
+{$plugin_display.javascript}
+{/if}
 </body>
 </html>

@@ -1861,19 +1861,15 @@ class backend_controller_catalog extends backend_db_catalog{
     /**
      * Chargement du plugin dans le produit du catalogue (edition)
      * Execution de la fonction catalog_product du plugin
-     * @param $getlang
      */
-    private function load_plugin($getlang){
+    private function load_plugin(){
         if(isset($this->plugin)){
             if(file_exists($this->directory_plugins().$this->plugin.DIRECTORY_SEPARATOR.'admin.php')){
                 $pluginPath = $this->directory_plugins().$this->plugin;
                 if(class_exists('plugins_'.$this->plugin.'_admin')){
                     if(method_exists('plugins_'.$this->plugin.'_admin','catalog_product')){
-                        $param_arr = array($this->plugin,$getlang);
+                        $param_arr = array($this->plugin,$this->getlang,$this->edit);
                         $this->load_config_plugins('plugins_'.$this->plugin.'_admin', $param_arr);
-                        $create = new backend_controller_plugins();
-                        $template = $create->fetch('catalog.phtml',$this->plugin);
-                        $create->assign('plugin_display',$template);
                     }
                 }
             }
@@ -2217,8 +2213,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                     $this->update_product($create);
                                 }elseif(isset($this->plugin)){
                                     $this->load_product_edit_data($create,$data);
-                                    $this->load_plugin($this->getlang);
-                                    $create->display('catalog/product/edit.phtml');
+                                    $this->load_plugin();
                                 }else{
                                     $this->load_product_edit_data($create,$data);
                                     $create->display('catalog/product/edit.phtml');
