@@ -53,8 +53,9 @@ class frontend_db_catalog
     protected function s_category_data($idclc)
     {
     	$select = 'SELECT
-            c.idclc,c.clibelle,c.pathclibelle,c.c_content,c.img_c
+            c.idclc,c.clibelle,c.pathclibelle,c.c_content,c.img_c,lang.iso
 	      FROM mc_catalog_c as c
+	      JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		  WHERE c.idclc = :idclc
 		';
         return magixglobal_model_db::layerDB()->selectOne(
@@ -78,7 +79,7 @@ class frontend_db_catalog
                 lang.iso
             FROM mc_catalog_s as s
             LEFT JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
-            LEFT JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+            JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
             WHERE s.idcls = :idcls
         ';
 		return magixglobal_model_db::layerDB()->selectOne(
@@ -108,7 +109,7 @@ class frontend_db_catalog
             LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
             LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
             LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
-            LEFT JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+            JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
             WHERE p.idproduct = :idproduct
         ';
 		return magixglobal_model_db::layerDB()->selectOne(
