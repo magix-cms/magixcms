@@ -1,7 +1,15 @@
 #### 2.4.0
 RC3
+    * fix for #86 to check
+    * Fix #68 Plugins dédiés au catalogue (API Beta)
+        * Modification du nom d'un plugin avec la fonction setConfig
+        * Ajout de la traduction anglophone du plugin validate
     * Fix #85 Requête SQL sitemap catégorie catalogue
     * Fix #82 Rafraichissement des catégories du catalogue après insertion
+    * Désactive les liens avec le dièse dans l'administration
+    * Fix bug Nom de dossier incorrect traduction SEO
+    * Modification des informations de licence du plugin contact
+    * Modification du config.xml du plugin translation
 
 RC2
     * Fix #81 Problème plugin translation core
