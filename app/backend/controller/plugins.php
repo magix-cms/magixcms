@@ -67,7 +67,7 @@ class backend_controller_plugins{
 	 * 
 	 * @var string
 	 */
-	public $getplugin,
+	public $nameplugin,
         /**
          * @var int
          */
@@ -87,7 +87,7 @@ class backend_controller_plugins{
 	 */
 	public function __construct(){
 		if(magixcjquery_filter_request::isGet('name')){
-			$this->getplugin = magixcjquery_form_helpersforms::inputClean($_GET['name']);
+			$this->nameplugin = magixcjquery_form_helpersforms::inputClean($_GET['name']);
 		}
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
@@ -242,8 +242,8 @@ class backend_controller_plugins{
 	 * @access protected
 	 * getplugin
 	 */
-	private function getplugin(){
-		if(isset($this->getplugin) != null){
+	private function nameplugin(){
+		if(isset($this->nameplugin) != null){
 			return magixcjquery_filter_isVar::isPostAlpha($_GET['name']);
 		}
 	}
@@ -252,7 +252,7 @@ class backend_controller_plugins{
 	 * Retourne le chemin vers le dossier I18N du plugin
 	 */
 	private function path_dir_i18n(){
-		$dir_i18n = $this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR.self::I18N.DIRECTORY_SEPARATOR;
+		$dir_i18n = $this->directory_plugins().$this->nameplugin().DIRECTORY_SEPARATOR.self::I18N.DIRECTORY_SEPARATOR;
 		if(file_exists($dir_i18n)){
 			return $dir_i18n;
 		}
@@ -563,22 +563,22 @@ class backend_controller_plugins{
 	 * Chargement d'un plugin dans l'administration
 	 * @access private
 	 */
-	private function load_plugin($debug=false){
+	private function setplugin($debug=false){
 		try{
 			plugins_Autoloader::register();
 			//Si le fichier admin.php existe dans le plugin
-			if(file_exists($this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR.'admin.php')){
+			if(file_exists($this->directory_plugins().$this->nameplugin().DIRECTORY_SEPARATOR.'admin.php')){
 				//Si la classe exist on recherche la fonction run()
-				if(class_exists('plugins_'.$this->getplugin().'_admin')){
-					$load = $this->execute_plugins('plugins_'.$this->getplugin().'_admin');
+				if(class_exists('plugins_'.$this->nameplugin().'_admin')){
+					$load = $this->execute_plugins('plugins_'.$this->nameplugin().'_admin');
 					//Si la méthode existe on ajoute le plugin dans le register et execute la fonction run()
 					if(method_exists($load,'run')){
                         $role = new backend_model_role();
                         $role_data = explode(',',$role->sql_arg());
-						$access = (string) $this->allow_access_config($this->getplugin());
+						$access = (string) $this->allow_access_config($this->nameplugin());
 						if($debug){
 							$firebug = new magixcjquery_debug_magixfire();
-							$firebug->magixFireLog($this->getplugin().': '.$access);
+							$firebug->magixFireLog($this->nameplugin().': '.$access);
                             $firebug->magixFireLog($this->path_dir_i18n());
 						}
                         $this->configLoad();
@@ -593,7 +593,7 @@ class backend_controller_plugins{
 						}
 					}
 				}else{
-					throw new Exception ('Class '.$this->getplugin().' is not found');
+					throw new Exception ('Class '.$this->nameplugin().' is not found');
 				}
 			}
 		}catch (Exception $e){
@@ -608,7 +608,7 @@ class backend_controller_plugins{
 	 * pluginName
 	 */
 	public function pluginName(){
-		return $this->getplugin();
+		return $this->nameplugin();
 	}
 
 	/**
@@ -628,7 +628,7 @@ class backend_controller_plugins{
      */
     public function pluginDir($plugin_folder=null){
 		if($plugin_folder == null){
-			return $this->directory_plugins().$this->getplugin().DIRECTORY_SEPARATOR;
+			return $this->directory_plugins().$this->nameplugin().DIRECTORY_SEPARATOR;
 		}else{
 			return $this->directory_plugins().$plugin_folder.DIRECTORY_SEPARATOR;
 		}
@@ -638,7 +638,7 @@ class backend_controller_plugins{
 	 * Retourne le chemin du dossier du plugin courant
 	 */
 	public function pluginPath(){
-		return self::PATHPLUGINS.'/'.$this->getplugin();
+		return self::PATHPLUGINS.'/'.$this->nameplugin();
 	}
 
     /**
@@ -673,16 +673,16 @@ class backend_controller_plugins{
      * @access public
      * Affiche le template
      * @param string|object $template
-     * @param null $getplugin
+     * @param null $nameplugin
      * @param mixed $cache_id
      * @param mixed $compile_id
      * @param object $parent
      */
-    public function display($template = null, $getplugin = null, $cache_id = null, $compile_id = null, $parent = null){
-        if($getplugin == null){
-            self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+    public function display($template = null, $nameplugin = null, $cache_id = null, $compile_id = null, $parent = null){
+        if($nameplugin == null){
+            self::addTemplateDir(self::directory_plugins().self::nameplugin().'/skin/admin/');
         }else{
-            self::addTemplateDir(self::directory_plugins().$getplugin.'/skin/admin/');
+            self::addTemplateDir(self::directory_plugins().$nameplugin.'/skin/admin/');
         }
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
             backend_model_smarty::getInstance()->display($template, $cache_id, $compile_id, $parent);
@@ -695,7 +695,7 @@ class backend_controller_plugins{
      * @access public
      * Retourne le template
      * @param string|object $template
-     * @param null $getplugin
+     * @param null $nameplugin
      * @param mixed $cache_id
      * @param mixed $compile_id
      * @param object $parent
@@ -704,11 +704,11 @@ class backend_controller_plugins{
      * @param bool $no_output_filter  if true do not run output filter
      * @return string rendered template output
      */
-    public function fetch($template = null, $getplugin = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
-        if($getplugin == null){
-            self::addTemplateDir(self::directory_plugins().self::getplugin().'/skin/admin/');
+    public function fetch($template = null, $nameplugin = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
+        if($nameplugin == null){
+            self::addTemplateDir(self::directory_plugins().self::nameplugin().'/skin/admin/');
         }else{
-            self::addTemplateDir(self::directory_plugins().$getplugin.'/skin/admin/');
+            self::addTemplateDir(self::directory_plugins().$nameplugin.'/skin/admin/');
         }
         if(!self::isCached($template, $cache_id, $compile_id, $parent)){
             return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
@@ -743,7 +743,7 @@ class backend_controller_plugins{
      * @return void
      */
     public function append_display($page,$cache_id = null,$compile_id = null){
-        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
+        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->nameplugin().'/skin/admin/');
         backend_model_smarty::getInstance()->display($page,$cache_id,$compile_id);
     }
 
@@ -756,7 +756,7 @@ class backend_controller_plugins{
      * @return string
      */
     public function append_fetch($page,$cache_id = null,$compile_id = null){
-        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->getplugin().'/skin/admin/');
+        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->nameplugin().'/skin/admin/');
         backend_model_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
     }
 
@@ -853,7 +853,7 @@ class backend_controller_plugins{
 	 * Affiche la page index du plugin et execute la fonction run (obligatoire)
 	 */
 	public function run(){
-        if($this->getplugin()){
+        if($this->nameplugin()){
             try{
                 self::assign(
                     array(
@@ -863,7 +863,7 @@ class backend_controller_plugins{
                         'pluginInfo'    =>  $this->config_xml_data()
                     )
                 );
-                $this->load_plugin();
+                $this->setplugin();
             }catch (Exception $e){
                 magixglobal_model_system::magixlog('An error has occured :',$e);
             }
@@ -894,5 +894,85 @@ class backend_controller_plugins{
 			magixglobal_model_system::magixlog('Error install table '.$this->pluginName().':',$e);
 		}
 	}
+    //###### EXTEND MODULE #####
+    /**
+     * execute ou instance la class du plugin
+     * @param $module
+     * @throws Exception
+     */
+    private function get_call_class($module){
+        try{
+            $class =  new $module;
+            if($class instanceof $module){
+                return $class;
+            }else{
+                throw new Exception('not instantiate the class: '.$module);
+            }
+        }catch(Exception $e) {
+            magixglobal_model_system::magixlog("Error plugins execute", $e);
+        }
+    }
+
+    /**
+     * @param string $pluginName
+     * @param string $methodName
+     * @param array $param_arr
+     */
+    public function extend_module($pluginName,$methodName,$param_arr){
+        if(file_exists($this->directory_plugins().$pluginName.DIRECTORY_SEPARATOR.'admin.php')){
+            if(class_exists('plugins_'.$pluginName.'_admin')){
+                if(method_exists('plugins_'.$pluginName.'_admin',$methodName)){
+                    call_user_func_array(
+                        array(
+                            $this->get_call_class('plugins_'.$pluginName.'_admin'),
+                            $methodName
+                        ),
+                        $param_arr
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Scanne les plugins et vérifie si la fonction d'execution exist afin de l'intégrer dans le module
+     * @access private
+     * @param string $methodName
+     * @return array|null
+     */
+    public function menu_item_plugin($methodName){
+        try{
+            plugins_Autoloader::register();
+            // Si le dossier est accessible en lecture
+            if(!is_readable($this->directory_plugins())){
+                throw new exception('Error in load plugin: Plugin is not minimal permission');
+            }
+            $makefiles = new magixcjquery_files_makefiles();
+            $dir = $makefiles->scanRecursiveDir($this->directory_plugins());
+            if($dir != null){
+                $data = null;
+                foreach($dir as $d){
+                    if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
+                        $pluginPath = $this->directory_plugins().$d;
+                        if($makefiles->scanDir($pluginPath) != null){
+                            if(class_exists('plugins_'.$d.'_admin')){
+                                if(method_exists('plugins_'.$d.'_admin',$methodName)){
+                                    $data[] = $d;
+                                }
+                            }
+                        }
+                    }
+                }
+                if(is_array($data)){
+                    $arr_item = array_flip($data);
+                }else{
+                    $arr_item = null;
+                }
+                return $arr_item;
+            }
+        }catch (Exception $e){
+            magixglobal_model_system::magixlog('An error has occured :',$e);
+        }
+    }
 }
 ?>

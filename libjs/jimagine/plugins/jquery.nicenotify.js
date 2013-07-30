@@ -3,8 +3,7 @@
  #
  # This file is part of Jimagine.
  # Toolbox for jQuery
- # Copyright (C) 2011 - 2012
- # Gerits Aurelien <aurelien[at]magix-dev[dot]be> - <gerits[dot]aurelien[at]gmail[dot]com>
+ # Copyright (C) 2011 - 2013  Gerits Aurelien <aurelien[at]magix-dev[dot]be>
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
  # the Free Software Foundation, either version 3 of the License, or
@@ -22,7 +21,7 @@
  */
 /**
  * MAGIX DEV
- * @copyright  MAGIX DEV Copyright (c) 2011 - 2012 Gerits Aurelien,
+ * @copyright  MAGIX DEV Copyright (c) 2011 - 2013 Gerits Aurelien,
  * http://www.magix-dev.be
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.3

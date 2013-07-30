@@ -26,32 +26,23 @@
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    0.1
  * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
- * @name config
- * 
+ * @name jmSoundCloud
  */
-(function(){
-    if (typeof Object.create === 'function') {
-        return;
-    }
-    function F(){}
-    Object.create = function( o ) {
-        F.prototype = o;
-        return new F();
+(function($) {
+    $.fn.jmSoundCloud = function(settings) {
+        // Default options value
+        var options = {};
+        if ($.isPlainObject(settings)) {
+            var o = $.extend(true,options, settings || {});
+        }else{
+            console.log("%s: %o","jmSoundCloud settings is not object");
+        }
+        // Reference to the container element
+        var self = $(this);
+        return this.each(function() {
+            $.getJSON('https://soundcloud.com/oembed?format=js&url=' + self.attr('href') + '&iframe=true&callback=?', function(response){
+                self.replaceWith(response.html);
+            });
+        });
     };
-})();
-$(function(){
-	//usage : log('inside',this,arguments);
-	/*var test = $("#logo img").attr("src");
-	log(test, $("#header"), arguments);*/
-	window.log = function(){
-		log.history = log.history || [];
-		log.history.push(arguments);
-		if(this.console){
-			arguments.callee = arguments.callee.caller;
-			var newarr = [].slice.call(arguments);
-			(typeof console.log === 'object' ? log.apply.call(console.log,console, newarr) : console.log.apply(console, newarr));
-		}
-	};
-	// make if safe to use console.log always
-	(function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,timeStamp,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();){b[a]=b[a]||c}})((function(){try{console.log();return window.console;}catch(err){return window.console={};}})());
-});
+})(jQuery);

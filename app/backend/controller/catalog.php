@@ -1783,89 +1783,18 @@ class backend_controller_catalog extends backend_db_catalog{
         }
     }
     //PLUGINS
-    /**
-     * execute ou instance la class du plugin
-     * @param $module
-     * @throws Exception
-     */
-    private function get_call_class($module){
-        try{
-            $class =  new $module;
-            if($class instanceof $module){
-                return $class;
-            }else{
-                throw new Exception('not instantiate the class: '.$module);
-            }
-        }catch(Exception $e) {
-            magixglobal_model_system::magixlog("Error plugins execute", $e);
-        }
-    }
 
-    /**
-     * @access private
-     * return string
-     */
-    private function directory_plugins(){
-        return magixglobal_model_system::base_path().DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR;
-    }
 
-    /**
-     * @access private
-     * Execution de la fonction catalog_product du plugin
-     * @param $class
-     * @param $param_arr
-     */
-    private function load_config_plugins($class,$param_arr){
-        call_user_func_array(array($this->get_call_class($class),'catalog_product'),$param_arr);
-    }
-
-    /**
-     * Scanne les plugins et vérifie si la fonction d'execution exist afin de l'intégrer dans le catalogue
-     * @access private
-     */
-    private function menu_item_plugin($getlang){
-        try{
-            plugins_Autoloader::register();
-            // Si le dossier est accessible en lecture
-            if(!is_readable($this->directory_plugins())){
-                throw new exception('Error in load plugin: Plugin is not minimal permission');
-            }
-            $makefiles = new magixcjquery_files_makefiles();
-            $dir = $makefiles->scanRecursiveDir($this->directory_plugins());
-            if($dir != null){
-                $data = null;
-                foreach($dir as $d){
-                    if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
-                        $pluginPath = $this->directory_plugins().$d;
-                        if($makefiles->scanDir($pluginPath) != null){
-                            if(class_exists('plugins_'.$d.'_admin')){
-                                if(method_exists('plugins_'.$d.'_admin','catalog_product')){
-                                    $data[] = $d;
-                                }
-                            }
-                        }
-                    }
-                }
-                if(is_array($data)){
-                    $arr_item = array_flip($data);
-                }else{
-                    $arr_item = null;
-                }
-                return $arr_item;
-            }
-        }catch (Exception $e){
-            magixglobal_model_system::magixlog('An error has occured :',$e);
-        }
-    }
 
     /**
      * Chargement du plugin dans le produit du catalogue (edition)
      * Execution de la fonction catalog_product du plugin
      */
-    private function load_plugin(){
+    /*private function load_plugin(){
         if(isset($this->plugin)){
-            if(file_exists($this->directory_plugins().$this->plugin.DIRECTORY_SEPARATOR.'admin.php')){
-                $pluginPath = $this->directory_plugins().$this->plugin;
+            $inst_plugin = new backend_controller_plugins();
+            if(file_exists($inst_plugin->directory_plugins().$this->plugin.DIRECTORY_SEPARATOR.'admin.php')){
+                $pluginPath = $inst_plugin->directory_plugins().$this->plugin;
                 if(class_exists('plugins_'.$this->plugin.'_admin')){
                     if(method_exists('plugins_'.$this->plugin.'_admin','catalog_product')){
                         $param_arr = array($this->plugin,$this->getlang,$this->edit);
@@ -1874,7 +1803,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 }
             }
         }
-    }
+    }*/
 
     //TINYMCE
     /**
@@ -1911,6 +1840,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $plugin = new backend_controller_plugins();
         $create->addConfigFile(array(
                 'catalog'
             ),array('catalog_'),false
@@ -2136,7 +2066,7 @@ class backend_controller_catalog extends backend_db_catalog{
                             }
                         }elseif($this->action === 'edit'){
                             $data = parent::s_catalog_data($this->edit);
-                            $create->assign('plugin',$this->menu_item_plugin($this->getlang));
+                            $create->assign('plugin',$plugin->menu_item_plugin('catalog_product'));
                             if(isset($this->tab)){
                                 if($this->tab === 'image'){
                                     if(isset($this->imgcatalog)){
@@ -2212,8 +2142,10 @@ class backend_controller_catalog extends backend_db_catalog{
                                 }if(isset($this->titlecatalog)){
                                     $this->update_product($create);
                                 }elseif(isset($this->plugin)){
+                                    // Chargement du plugin dans le produit du catalogue (edition)
                                     $this->load_product_edit_data($create,$data);
-                                    $this->load_plugin();
+                                    $param_arr = array($this->plugin,$this->getlang,$this->edit);
+                                    $plugin->extend_module($this->plugin,'catalog_product',$param_arr);
                                 }else{
                                     $this->load_product_edit_data($create,$data);
                                     $create->display('catalog/product/edit.phtml');
