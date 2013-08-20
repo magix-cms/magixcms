@@ -51,8 +51,7 @@ class magixglobal_model_constructor {
         if ($data == null)
             return null;
 
-        $ouput['html']   =   '<div class="pagination">';
-            $ouput['html']   .=   '<ul>';
+            $ouput['html']   =   '<ul class="pagination">';
                 foreach ($data as $v)
                 {
                     switch ($v['name']) {
@@ -84,7 +83,6 @@ class magixglobal_model_constructor {
 
                 }
             $ouput['html']   .=   '</ul>';
-        $ouput['html']   .=  '</div>';
 
         return $ouput['html'];
 
