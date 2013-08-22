@@ -161,16 +161,16 @@ class plugins_contact_public extends database_plugins_contact{
 
 	/**
 	 * Envoi du mail 
-	 * Si return true retourne success.phtml
-	 * sinon retourne empty.phtml
+	 * Si return true retourne success.tpl
+	 * sinon retourne empty.tpl
 	 */
 	protected function send_email($create){
 		if(isset($this->email)){
             $create->configLoad();
 			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
-				$create->display('empty.phtml');
+				$create->display('empty.tpl');
 			}elseif(!magixcjquery_filter_isVar::isMail($this->email)){
-				$create->display('mail.phtml');
+				$create->display('mail.tpl');
 			}else{
 				if($create->getLanguage()){
 					if(parent::c_show_table() != 0){
@@ -190,12 +190,12 @@ class plugins_contact_public extends database_plugins_contact{
 								);
 								$core_mail->batch_send_mail($message);
 							}
-							$create->display('success.phtml');
+							$create->display('success.tpl');
 						}else{
-							$create->display('error_email_config.phtml');
+							$create->display('error_email_config.tpl');
 						}
 					}else{
-						$create->display('error_install.phtml');
+						$create->display('error_install.tpl');
 					}
 				}
 			}
@@ -210,7 +210,7 @@ class plugins_contact_public extends database_plugins_contact{
 		if(isset($this->email)){
 			$this->send_email($create);
 		}else{
-			$create->display('index.phtml');
+			$create->display('index.tpl');
 		}
     }
 }

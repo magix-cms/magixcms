@@ -137,18 +137,18 @@ class frontend_controller_catalog extends frontend_db_catalog
         $template = new frontend_model_template;
         if (isset($this->idProduct)) {
             $this->load_product_data();
-            $template->display('catalog/product.phtml');
+            $template->display('catalog/product.tpl');
 
         } elseif (isset($this->idSubcat)) {
             $this->load_subcategory_data();
-            $template->display('catalog/subcategory.phtml');
+            $template->display('catalog/subcategory.tpl');
 
         } elseif (isset($this->idCat)) {
             $this->load_category_data();
-            $template->display('catalog/category.phtml');
+            $template->display('catalog/category.tpl');
 
         } else {
-            $template->display('catalog/index.phtml');
+            $template->display('catalog/index.tpl');
 
         }
 	}

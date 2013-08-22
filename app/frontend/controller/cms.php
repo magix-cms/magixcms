@@ -107,7 +107,7 @@ class frontend_controller_cms extends frontend_db_cms
     {
 		if(isset($this->idPage)){
 			$this->load_page_data();
-			frontend_model_template::display('cms/index.phtml');
+			frontend_model_template::display('cms/index.tpl');
 		}
 	}
 }

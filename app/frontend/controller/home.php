@@ -88,7 +88,7 @@ class frontend_controller_home extends frontend_db_home
     {
         if(isset($this->getlang)){
             $this->load_home_data();
-            frontend_model_template::display('home/index.phtml');
+            frontend_model_template::display('home/index.tpl');
         }
 	}
 }

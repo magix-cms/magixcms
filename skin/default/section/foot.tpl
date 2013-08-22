@@ -7,4 +7,4 @@
 Cependant l'emplacement de la configuration des boites de dialogue s'effectue à cet endroit
 {ajax_notify}
 *}
-{include file="section/javascript.phtml"}
+{include file="section/javascript.tpl"}

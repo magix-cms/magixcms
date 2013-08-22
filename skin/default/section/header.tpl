@@ -4,7 +4,7 @@
             <a id="logo" class="brand" href="/{getlang}/" title="{#logo_link_title#|firststring}">
                 <img src="/skin/{template}/img/logo-magix_cms.png" alt="{#logo_img_alt#|firststring}" />
             </a>
-            {include file="section/primary-nav.phtml"}
+            {include file="section/primary-nav.tpl"}
             <ul id="lang-box" class="nav pull-right">
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{#chooser_language#|firststring}">
@@ -40,6 +40,6 @@
                 }
             </li>
         </ul>
-        {include file="section/breadcrumb.phtml"}
+        {include file="section/breadcrumb.tpl"}
     </div>
 </div>

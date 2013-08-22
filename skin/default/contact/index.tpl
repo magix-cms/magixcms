@@ -1,11 +1,11 @@
-{include file="section/head.phtml" section="prepend"}
+{include file="section/head.tpl" section="prepend"}
 {headmeta meta="description" content={seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>#seo_d_static_plugin_contact#]}}
     <title>{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_plugin_contact#]}</title>
-{include file="section/css.phtml"}
+{include file="section/css.tpl"}
 </head>
 <body id="contact">
 <div id="page" class="container">
-{include file="section/header.phtml"}
+{include file="section/header.tpl"}
     <div id="content" class="row">
         <div id="article" class="span12">
             <div id="article-inner" class="span10">
@@ -82,9 +82,9 @@
             </div>
         </div>
     </div>
-{include file="section/footer.phtml"}
+{include file="section/footer.tpl"}
 </div>
-{include file="section/foot.phtml"}
+{include file="section/foot.tpl"}
 {script src="/min/?f=libjs/plugins/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
 <script type="text/javascript">
     $(function(){

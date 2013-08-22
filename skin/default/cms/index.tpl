@@ -1,13 +1,13 @@
-{include file="section/head.phtml" section="prepend"}
+{include file="section/head.tpl" section="prepend"}
 {headmeta meta="description" content="{cms_seo config_param=['seo'=>$page.seoDescr,'default'=>$page.name]}"}
 <title>{cms_seo config_param=['seo'=>$page.seoTitle,'default'=>$page.name]}</title>
-{include file="section/css.phtml"}
+{include file="section/css.tpl"}
 </head>
 <body id="cms">
 <div id="page" class="container">
-{include file="section/header.phtml"}
+{include file="section/header.tpl"}
     <div id="content" class="row">
-    {include file="section/sidebar.phtml"}
+    {include file="section/sidebar.tpl"}
         <div id="article" class="span9">
             <div id="article-inner" class="span8">
                 <h1>{$page.name}</h1>
@@ -23,8 +23,8 @@
             </div>
         </div>
         </div>
-    {include file="section/footer.phtml"}
+    {include file="section/footer.tpl"}
     </div>
-{include file="section/foot.phtml"}
+{include file="section/foot.tpl"}
 </body>
 </html>

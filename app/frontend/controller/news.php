@@ -111,14 +111,14 @@ class frontend_controller_news extends frontend_db_news
         $template = new frontend_model_template();
 		if (isset($this->idNews)) {
 			$this->load_news_data();
-            $template->display('news/news.phtml');
+            $template->display('news/news.tpl');
 
 		} elseif (isset($this->idTag)) {
             $template->assign('tag', array('name'=>urldecode($this->idTag)));
-            $template->display('news/tag.phtml');
+            $template->display('news/tag.tpl');
 
 		} else {
-            $template->display('news/index.phtml');
+            $template->display('news/index.tpl');
 		}
 	}
 }
