@@ -308,6 +308,48 @@ var MC_seo = (function ($, undefined) {
         });
         $('#forms_seo_edit').formsUpdate;
     }
+
+    /**
+     * Suppression SEO
+     * @param baseadmin
+     * @param ison
+     * @param getlang
+     */
+    function remove(baseadmin,iso,getlang){
+        $(document).on('click','.delete-seo',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title: Globalize.localize( "delete_item", iso ),
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/'+baseadmin+'/seo.php?getlang='+getlang+'&action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_metas:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:true
+                                });
+                                jsonList(baseadmin,iso,getlang);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     return {
         //Fonction Public        
         runCharts:function(baseadmin){
@@ -317,6 +359,7 @@ var MC_seo = (function ($, undefined) {
             addTags();
             add(baseadmin,iso,getlang);
             jsonList(baseadmin,iso,getlang);
+            remove(baseadmin,iso,getlang);
         },
         runEdit:function(baseadmin,getlang,edit){
             update(baseadmin,getlang,edit);

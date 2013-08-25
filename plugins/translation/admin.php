@@ -80,10 +80,13 @@ class plugins_translation_admin{
     private function list_plugin($create){
         $makefiles = new magixcjquery_files_makefiles();
         $dir = $makefiles->scanRecursiveDir($create->directory_plugins());
+        $iso = backend_db_block_lang::s_data_iso($this->getlang);
         if($dir != null){
             foreach($dir as $d){
                 if(file_exists($create->directory_plugins().$d.DIRECTORY_SEPARATOR.'i18n')){
-                    $array_plugin[]=$d;
+                    if(file_exists($create->directory_plugins().$d.DIRECTORY_SEPARATOR.'i18n'.DIRECTORY_SEPARATOR.'public_local_'.$iso['iso'].'.conf')){
+                        $array_plugin[]=$d;
+                    }
                 }
             }
             return $array_plugin;
@@ -199,9 +202,9 @@ class plugins_translation_admin{
                 }
                 // Close the file handle.
                 fclose($fh);
-                $create->display('request/success_update.phtml');
+                $create->display('request/success_update.tpl');
             }else{
-                $create->display('request/error_writable.phtml');
+                $create->display('request/error_writable.tpl');
             }
         }
     }
@@ -216,7 +219,7 @@ class plugins_translation_admin{
             if(isset($this->action)){
                 if($this->action == 'list'){
                     $create->assign('array_plugin_i18n',$this->list_plugin($create));
-                    $create->display('list.phtml');
+                    $create->display('list.tpl');
                 }elseif($this->action == 'edit'){
                     if(isset($this->section)){
                         if(isset($this->config_value)){
@@ -224,15 +227,15 @@ class plugins_translation_admin{
                             $this->saveFiles($create,$this->section);
                         }else{
                             $create->assign('array_config_file',$this->getConfigFile($this->section));
-                            $create->display('edit.phtml');
+                            $create->display('edit.tpl');
                         }
                     }
                 }
             }elseif(isset($this->tab)){
-                $create->display('about.phtml');
+                $create->display('about.tpl');
             }
         }else{
-            $create->display('index.phtml');
+            $create->display('index.tpl');
         }
     }
 

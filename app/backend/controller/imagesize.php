@@ -128,7 +128,7 @@ class backend_controller_imagesize extends database_imagesize{
 	private function update_img(){
 		if(isset($this->id_size_img)){
 			parent::u_size_img_config($this->width, $this->height,$this->img_resizing, $this->id_size_img);	
-			backend_controller_template::display('config/request/update_imgsize.phtml');
+			backend_controller_template::display('config/request/update_imgsize.tpl');
 		}
 	}
 
@@ -148,7 +148,7 @@ class backend_controller_imagesize extends database_imagesize{
 			backend_controller_template::assign('img_size_forms_catalog', $this->load_img_forms('catalog'));
 			backend_controller_template::assign('img_size_forms_news', $this->load_img_forms('news'));
 			backend_controller_template::assign('img_size_forms_plugins', $this->load_img_forms('plugins'));
-			backend_controller_template::display('config/imagesize.phtml');		
+			backend_controller_template::display('config/imagesize.tpl');
 		}
 	}
 }

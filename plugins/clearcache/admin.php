@@ -131,7 +131,7 @@ class plugins_clearcache_admin{
                 break;
 
 		}
-        $create->display('success_update.phtml');
+        $create->display('success_update.tpl');
 	}
 
     /**
@@ -165,10 +165,10 @@ class plugins_clearcache_admin{
             }
         }else{
             if(isset($this->tab)){
-                $create->display('about.phtml');
+                $create->display('about.tpl');
             }else{
-                // Retourne la page index.phtml
-                $create->display('index.phtml');
+                // Retourne la page index.tpl
+                $create->display('index.tpl');
             }
 		}
 	}

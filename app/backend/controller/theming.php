@@ -145,7 +145,7 @@ class backend_controller_theming extends backend_db_theming{
                 }else{
                     $img = magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png';
                 }
-                $template .= '<li class="span3">';
+                $template .= '<li class="col-sm-4">';
                 $template .= '<div class="thumbnail">';
                 $template .= '<img src="'.$img.'" data-src="holder.js/260x180" alt="'.$btn_title.'">';
                 $template .= '<div class="caption">';
@@ -166,7 +166,7 @@ class backend_controller_theming extends backend_db_theming{
     private function update(){
         if(isset($this->ptheme)){
             parent::u_change_theme($this->ptheme);
-            backend_controller_template::display('theming/request/success_update.phtml');
+            backend_controller_template::display('theming/request/success_update.tpl');
         }
     }
 
@@ -187,7 +187,7 @@ class backend_controller_theming extends backend_db_theming{
                     $header->getStatus('200');
                     $header->html_header("UTF-8");
                     $create->assign('themes',$this->scanTemplateDir($create));
-                    $create->display('theming/req.phtml');
+                    $create->display('theming/req.tpl');
                 }
             }elseif($this->action == 'edit'){
                 if(isset($this->ptheme)){
@@ -196,7 +196,7 @@ class backend_controller_theming extends backend_db_theming{
             }
         }else{
             $create->assign('themes',$this->scanTemplateDir($create));
-            $create->display('theming/index.phtml');
+            $create->display('theming/index.tpl');
         }
     }
 }

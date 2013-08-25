@@ -105,7 +105,7 @@ class app_controller_clear{
                 }
             }
         }else{
-            app_model_smarty::getInstance()->display('clear/index.phtml');
+            app_model_smarty::getInstance()->display('clear/index.tpl');
         }
     }
 }

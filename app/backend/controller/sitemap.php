@@ -95,6 +95,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
                 'attr_id'       =>  'idlang',
                 'default_value' =>  '',
                 'empty_value'   =>  $create->getConfigVars('select_language'),
+                'class'         =>  'form-control',
                 'upper_case'    =>  true
             )
         );
@@ -589,7 +590,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	private function googlePing($create){
 		$sitemap = new magixcjquery_xml_sitemap();
 		$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml');
-        $create->display('sitemap/request/success_ping.phtml');
+        $create->display('sitemap/request/success_ping.tpl');
 	}
 	/**
 	 * Compression GZ + ping Google
@@ -602,7 +603,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			$this->compressed();
 			$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
 		}
-        $create->display('sitemap/request/success_ping.phtml');
+        $create->display('sitemap/request/success_ping.tpl');
 	}
 	/**
 	 * @access private
@@ -612,7 +613,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		$this->createXMLIndexFile();
 		$this->writeIndex();
 		$this->endXMLWriter();
-        $create->display('sitemap/request/success_add.phtml');
+        $create->display('sitemap/request/success_add.tpl');
 	}
 	/**
 	 * @access private
@@ -625,7 +626,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			$this->writeCatalog($idlang);
 			$this->writeplugin($idlang);
 			$this->endXMLWriter();
-        $create->display('sitemap/request/success_add.phtml');
+        $create->display('sitemap/request/success_add.tpl');
 	}
 	/**
 	 * @access private
@@ -637,9 +638,9 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			$this->createXMLImgFile($idlang);
 			$this->writeImagesCatalog($idlang);
 			$this->endXMLWriter();
-            $create->display('sitemap/request/success_add.phtml');
+            $create->display('sitemap/request/success_add.tpl');
 		}else{
-            $create->display('sitemap/request/no-image.phtml');
+            $create->display('sitemap/request/no-image.tpl');
 		}
 	}
 	/**
@@ -669,7 +670,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
             }
         }else{
             $create->assign('select_lang',$this->lang_select($create));
-            $create->display('sitemap/index.phtml');
+            $create->display('sitemap/index.tpl');
         }
 	}
 }

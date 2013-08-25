@@ -131,6 +131,7 @@ class backend_controller_home extends backend_db_home{
                 'attr_id'       =>  'idlang',
                 'default_value' =>  '',
                 'empty_value'   =>  $create->getConfigVars('select_language'),
+                'class'         =>  'form-control',
                 'upper_case'    =>  true
             )
         );
@@ -190,7 +191,7 @@ class backend_controller_home extends backend_db_home{
     private function insert_new_page($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				$create->display('home/request/empty.phtml');
+				$create->display('home/request/empty.tpl');
 			}else{
 				if(parent::s_lang_home($this->idlang) == null){
 					parent::i_new_home(
@@ -198,9 +199,9 @@ class backend_controller_home extends backend_db_home{
 						$this->idlang,
 						$this->idadmin
 					);
-					$create->display('home/request/success_add.phtml');
+					$create->display('home/request/success_add.tpl');
 				}else{
-					$create->display('home/request/element_exist.phtml');
+					$create->display('home/request/element_exist.tpl');
 				}
 			}
 		}
@@ -213,7 +214,7 @@ class backend_controller_home extends backend_db_home{
     private function update_data_page($create){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				$create->display('home/request/empty.phtml');
+				$create->display('home/request/empty.tpl');
 			}else{
                 parent::u_home(
                     $this->subject,
@@ -223,7 +224,7 @@ class backend_controller_home extends backend_db_home{
                     $this->idadmin,
                     $this->edit
                 );
-                $create->display('home/request/success_update.phtml');
+                $create->display('home/request/success_update.tpl');
 			}
 		}
 	}
@@ -276,7 +277,7 @@ class backend_controller_home extends backend_db_home{
                 }else{
 
                     $create->assign('select_lang',$this->lang_select($create));
-                    $create->display('home/list.phtml');
+                    $create->display('home/list.tpl');
                 }
             }elseif($this->action == 'add'){
                 if(isset($this->subject)){
@@ -288,7 +289,7 @@ class backend_controller_home extends backend_db_home{
                         $this->update_data_page($create);
                     }else{
                         $this->load_data_page($create);
-                        $create->display('home/edit.phtml');
+                        $create->display('home/edit.tpl');
                     }
                 }
             }elseif($this->action == 'remove'){
@@ -306,7 +307,7 @@ class backend_controller_home extends backend_db_home{
                 $header->json_header("UTF-8");
                 $this->json_graph();
             }else{
-                $create->display('home/index.phtml');
+                $create->display('home/index.tpl');
             }
         }
 	}

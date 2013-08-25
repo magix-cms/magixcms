@@ -92,7 +92,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	 */
 	private function install_table($create){
 		if(parent::c_show_table() == 0){
-			$create->db_install_table('db.sql', 'request/install.phtml');
+			$create->db_install_table('db.sql', 'request/install.tpl');
 		}else{
 			$magixfire = new magixcjquery_debug_magixfire();
 			$magixfire->magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
@@ -108,10 +108,10 @@ class plugins_contact_admin extends database_plugins_contact{
     private function add($create){
 		if(isset($this->mail_contact)){
 			if(empty($this->mail_contact)){
-				$create->display('request/empty.phtml');
+				$create->display('request/empty.tpl');
 			}else {
 				parent::i_contact($this->getlang,$this->mail_contact);
-                $create->display('request/success_add.phtml');
+                $create->display('request/success_add.tpl');
 			}
 		}
 	}
@@ -171,7 +171,7 @@ class plugins_contact_admin extends database_plugins_contact{
                             $header->json_header("UTF-8");
                             $this->json_list_contact();
                         }else{
-                            $create->display('list.phtml');
+                            $create->display('list.tpl');
                         }
                     }elseif($this->action == 'add'){
                         $this->add($create);
@@ -181,7 +181,7 @@ class plugins_contact_admin extends database_plugins_contact{
                         }
                     }
                 }elseif(isset($this->tab)){
-                    $create->display('about.phtml');
+                    $create->display('about.tpl');
                 }
             }else{
                 if(magixcjquery_filter_request::isGet('json_graph')){
@@ -193,7 +193,7 @@ class plugins_contact_admin extends database_plugins_contact{
                     $header->json_header("UTF-8");
                     $this->json_graph();
                 }else{
-                    $create->display('index.phtml');
+                    $create->display('index.tpl');
                 }
             }
         }

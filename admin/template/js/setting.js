@@ -158,7 +158,7 @@ $(function(){
     $('.dropdown-toggle').dropdown();
 
     //Prevent link brand
-    $('.nav-collapse .nav .brand').on('click',function(event){
+    $('.nav-collapse .nav .navbar-brand').on('click',function(event){
         event.preventDefault();
         return false;
     });
@@ -168,10 +168,12 @@ $(function(){
         var lock = $('span.icon-lock',this);
         var unlock = $('span.icon-unlock',this);
         if (lock.length != 0) {
-            $(this).prev().removeAttr("readonly");
+            $(this).parent().prev().removeAttr("readonly");
+            $(this).parent().prev().removeAttr("disabled");
             lock.removeClass('icon-lock').addClass('icon-unlock');
         } else {
-            $(this).prev().attr("readonly","readonly");
+            $(this).parent().prev().attr("readonly","readonly");
+            $(this).parent().prev().attr("disabled","disabled");
             unlock.removeClass('icon-unlock').addClass('icon-lock');
         }
     });
@@ -299,7 +301,7 @@ $(function(){
                 }
             }
         },
-        errorClass: "alert alert-error",
+        errorClass: "alert alert-warning",
         errorElement:"div",
         validClass: "success",
         // set this class to error-labels to indicate valid fields

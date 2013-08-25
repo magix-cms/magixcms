@@ -69,11 +69,11 @@ class app_controller_database{
      */
     private function install_db(){
         if(!file_exists($this->dirConfig().'config.php')){
-            app_model_smarty::getInstance()->display('database/request/file_exist.phtml');
+            app_model_smarty::getInstance()->display('database/request/file_exist.tpl');
         }else{
             if(file_exists($this->load_sql_file())){
                 magixglobal_model_db::create_new_sqltable($this->load_sql_file());
-                app_model_smarty::getInstance()->display('database/request/success_table.phtml');
+                app_model_smarty::getInstance()->display('database/request/success_table.tpl');
             }
         }
     }
@@ -87,7 +87,7 @@ class app_controller_database{
                 $this->install_db();
             }
         }else{
-            app_model_smarty::getInstance()->display('database/index.phtml');
+            app_model_smarty::getInstance()->display('database/index.tpl');
         }
     }
 }

@@ -2165,15 +2165,21 @@ var MC_catalog = (function ($, undefined) {
             }
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
             if(item.subcategory != null){
-                subcategory = item.subcategory;
+                subcategory = $(document.createElement("span")).append(
+                    "&nbsp;|&nbsp;",
+                    item.subcategory
+                );
             }else{
-                subcategory = $(document.createElement("i")).addClass('icon-minus');
+                subcategory = "";
             }
             return $("<li></li>").data("ui-item.autocomplete", item).append(
                 $(document.createElement("a")).append(
                         $(document.createElement("span")).append(item.category),
-                        $(document.createElement("span")).append(subcategory),
-                        $(document.createElement("span")).append(item.title)
+                        $(document.createElement("span")).append(
+                            "&nbsp;|&nbsp;",
+                            item.title
+                        ),
+                        subcategory
                     )
                     //.attr('href','#')
                     .addClass('autcomplete-product')

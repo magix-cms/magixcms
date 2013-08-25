@@ -1,4 +1,31 @@
 #### 2.4.0
+RC4
+    * Fix #92 Utilisation du système de modèle
+    * Work #91 template - extension de fichiers
+        * skin backend rename *.phtml to .tpl
+        * app/frontend*: edit extension on display() call
+        * plugin/contact/admin: edit extension on display() call
+        * plugin/contact/skin.admin: rename *.phtml to .tpl
+        * plugin/clearcache/admin: edit extension on display() call
+        * plugin/clearcache/skin.admin: rename *.phtml to .tpl
+        * plugin/translation/admin: edit extension on display() call
+        * plugin/translation/skin.admin: rename *.phtml to .tpl
+    * Fix #88 Update Bootstrap 2.3.4 => 3 (backend)
+        * Upgrade Bootstrap 2.3.4 => 3.0.0
+        * Adaptation des fichiers du template admin
+    * Fix #90 Bug Liaison produits
+    * Fix #89 Bug ajout page cms enfant
+    * Work #91 - Frontend file extension revision .phtml -> .tpl
+        * skin/default: rename *.phtml to .tpl
+        * app/frontend*: edit extension on display() call
+        * plugin/contact/public: edit extension on display() call
+        * plugin/contact/skin.public: rename *.phtml to .tpl
+    * Update constructor pagination - bootstrap 3 compatibility
+        * Minor change for bootstrap 3 compatibility
+    * Work #68 Modification de l'API des plugins destinés aux modules natif
+    * Mise à jour de la librairie jimagine (ajout de jmSoundCloud)
+    * Upgrade jQuery UI 1.10.1 => 1.10.3 (backend)
+    * Should fix issue #87
 RC3
     * fix for #86 to check
     * Fix #68 Plugins dédiés au catalogue (API Beta)

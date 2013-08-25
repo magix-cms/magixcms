@@ -201,11 +201,11 @@ class backend_controller_admin extends backend_db_admin{
 						magixglobal_model_redirect::backend_redirect_login(false);	
 					}
 				}else{
-                    $fetch = backend_controller_template::fetch('login/request/error.phtml');
+                    $fetch = backend_controller_template::fetch('login/request/error.tpl');
 					backend_controller_template::assign('login_message',$fetch);
 				}
 			}else{
-                $fetch = backend_controller_template::fetch('login/request/hash.phtml');
+                $fetch = backend_controller_template::fetch('login/request/hash.tpl');
                 backend_controller_template::assign('login_message',$fetch);
 			}
 		}
@@ -252,6 +252,6 @@ class backend_controller_admin extends backend_db_admin{
 		$this->start_session();
 		$this->tokenInitSession();
 		$this->authSession($debug);
-		backend_controller_template::display('login/index.phtml');
+		backend_controller_template::display('login/index.tpl');
 	}
 }

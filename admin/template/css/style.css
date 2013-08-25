@@ -1,6 +1,7 @@
 body {
     padding-top: 60px;
     position:relative;
+    background-color: #FFFFFF;
 }
 h1{
     font-size: 28.5px;
@@ -10,6 +11,16 @@ h2{
 }
 h3 {
     font-size: 20.5px;
+}
+h4{
+    font-size: 18.5px;
+}
+/* Dashboard */
+.module-dashboard h4{
+    font-size: 14.5px;
+}
+#article{
+    margin-left:10px;
 }
 /*
 * FORMS
@@ -138,17 +149,20 @@ a:hover > .badge {
 .nav-header {
     font-size:14px;
 }
-.sidebar-nav {
+/*.sidebar-nav {
     padding: 9px 0;
 }
 .sidebar-nav ul ul{
     list-style: none;
-}
+}*/
 #sidebar {
     max-width: 220px;
 }
 #sidebar .nav-flag {
     margin: 5px 0;
+}
+#sidebar > .nav > li > a{
+    padding: 4px 15px;
 }
 /*
 * lang-group
@@ -156,6 +170,7 @@ a:hover > .badge {
 .lang-group {
     margin-bottom: 10px;
     margin-top: 5px;
+    margin-left: 15px;
 }
 .lang-group > a:hover,
 .lang-group > .active {
@@ -184,7 +199,7 @@ a.menu:after, .dropdown-toggle:after {
     margin-top: 0;
 }
 
-.hide {
+.hide-modal {
     display: none;
 }
 
@@ -286,8 +301,8 @@ ul.autocomplete-list-row li{
 ul.autocomplete-list-row li span{
     display:table-cell;
     vertical-align:middle;
-    min-width: 100px;
 }
+
 /**
 * setting error
 */
@@ -297,4 +312,41 @@ ul.autocomplete-list-row li span{
 
 .forms-config .ui-spinner {
     max-width: 100px;
+}
+
+.forms-config > .well > h3,
+.forms-config > .well > h4{
+    margin: 5px 0;
+}
+
+/* Article
+*****/
+#article > h1:first-child {
+    margin-top: 0;
+}
+
+#article form{
+    margin: 5px 0;
+}
+
+/* Extend Bootstrap
+****************/
+.img-responsive {
+    margin: 0 auto;
+}
+/* Message Alert */
+.mc-message .alert{
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+/* Forms */
+
+.form-group label{
+    margin-top: 5px;
+}
+/* Margin top for container table and button */
+.table-row,
+.btn-row{
+    margin-top: 10px;
 }

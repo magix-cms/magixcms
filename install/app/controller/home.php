@@ -41,7 +41,7 @@
  */
 class app_controller_home{
     public function run(){
-        app_model_smarty::getInstance()->display('home/index.phtml');
+        app_model_smarty::getInstance()->display('home/index.tpl');
     }
 }
 ?>

@@ -124,23 +124,23 @@ class backend_controller_lang extends backend_db_lang{
 			$verify_lang = parent::s_verif_lang($this->iso);
 			$verify_default = parent::count_default_language();
 			if(empty($this->iso) OR empty($this->language)){
-                $create->display('lang/request/empty.phtml');
+                $create->display('lang/request/empty.tpl');
 			}elseif($verify_lang['numlang'] == '0'){
 				if($this->default_lang == null){
 					$langdefault = '0';
 					parent::i_new_lang($this->iso,$this->language,$langdefault);
-                    $create->display('lang/request/success_add.phtml');
+                    $create->display('lang/request/success_add.tpl');
 				}else{
 					if($verify_default['deflanguage'] == '1'){
-                        $create->display('lang/request/default_exist.phtml');
+                        $create->display('lang/request/default_exist.tpl');
 					}else{
 						$langdefault = $this->default_lang;
 						parent::i_new_lang($this->iso,$this->language,$langdefault);
-                        $create->display('lang/request/success_add.phtml');
+                        $create->display('lang/request/success_add.tpl');
 					}
 				}
 			}else{
-                $create->display('lang/request/element-exist.phtml');
+                $create->display('lang/request/element-exist.tpl');
 			}
 		}
 	}
@@ -165,7 +165,7 @@ class backend_controller_lang extends backend_db_lang{
 		if(isset($this->delete_lang)){
 			$count = parent::count_idlang_by_module($this->delete_lang);
 			if($count['ctotal'] != 0){
-                $create->display('lang/request/element_exist.phtml');
+                $create->display('lang/request/element_exist.tpl');
 			}else{
 				parent::d_lang($this->delete_lang);
 			}
@@ -185,14 +185,14 @@ class backend_controller_lang extends backend_db_lang{
 			}
 			if($this->default_lang != null){
 				if($verify_default['deflanguage'] == '1'){
-					backend_controller_template::display('lang/request/default_exist.phtml');
+					backend_controller_template::display('lang/request/default_exist.tpl');
 				}else{
 					parent::u_lang($this->iso,$this->language,$langdefault,$this->edit);
-					backend_controller_template::display('lang/request/success_update.phtml');
+					backend_controller_template::display('lang/request/success_update.tpl');
 				}
 			}else{
 				parent::u_lang($this->iso,$this->language,$langdefault,$this->edit);
-				backend_controller_template::display('lang/request/success_update.phtml');
+				backend_controller_template::display('lang/request/success_update.tpl');
 			}
 		}
 	}
@@ -248,7 +248,7 @@ class backend_controller_lang extends backend_db_lang{
                 }else{
                     $iso = backend_model_forms::code_iso("iso");
                     $create->assign('iso', $iso);
-                    $create->display('lang/list.phtml');
+                    $create->display('lang/list.tpl');
                 }
             }elseif($this->action == 'add'){
                 if(isset($this->iso)){
@@ -260,7 +260,7 @@ class backend_controller_lang extends backend_db_lang{
                         $this->edit_lang();
                     }else{
                         $this->load_data_language($create);
-                        backend_controller_template::display('lang/edit.phtml');
+                        backend_controller_template::display('lang/edit.tpl');
                     }
                 }else{
                     if(isset($this->active_lang)){
@@ -284,7 +284,7 @@ class backend_controller_lang extends backend_db_lang{
 			}else{
 				$iso = backend_model_forms::code_iso("iso");
 				backend_controller_template::assign('iso', $iso);
-				backend_controller_template::display('lang/index.phtml');
+				backend_controller_template::display('lang/index.tpl');
 			}
 		}
 	}

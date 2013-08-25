@@ -78,7 +78,7 @@ class app_controller_upgrade extends app_db_upgrade{
                     foreach($data as $key){
                         parent::u_catalog_product_image($key['imgcatalog'],$key['idcatalog']);
                     }
-                    app_model_smarty::getInstance()->display('upgrade/request/success_table.phtml');
+                    app_model_smarty::getInstance()->display('upgrade/request/success_table.tpl');
                 }
             }
         }
@@ -95,7 +95,7 @@ class app_controller_upgrade extends app_db_upgrade{
                 }
             }
         }else{
-            app_model_smarty::getInstance()->display('upgrade/index.phtml');
+            app_model_smarty::getInstance()->display('upgrade/index.tpl');
         }
     }
 }

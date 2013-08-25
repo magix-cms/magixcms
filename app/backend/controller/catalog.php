@@ -395,7 +395,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $pathclibelle,
                     $this->getlang
                 );
-                $create->display('catalog/request/success_add.phtml');
+                $create->display('catalog/request/success_add.tpl');
             }
         }
     }
@@ -464,7 +464,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->c_content,
                     $this->edit
                 );
-                $create->display('catalog/request/success_update.phtml');
+                $create->display('catalog/request/success_update.tpl');
             }
         }
     }
@@ -607,13 +607,13 @@ class backend_controller_catalog extends backend_db_catalog{
     private function ajax_category_image($img_c){
         if($img_c != null){
             if(file_exists(self::dirImgCategory().$img_c)){
-                $img = '<p><img src="/upload/catalogimg/category/'.$img_c.'" class="img-polaroid" alt="" /></p>';
+                $img = '<p><img src="/upload/catalogimg/category/'.$img_c.'" class="img-thumbnail" alt="" /></p>';
                 $img .= '<p><a href="#" data-delete="'.$img_c.'" class="btn delete-image"><span class="icon-trash"></span> Supprimer</a></p>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-thumbnail" /></p>';
             }
         }else{
-            $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-polaroid" /></p>';
+            $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-thumbnail" /></p>';
         }
         print $img;
     }
@@ -664,7 +664,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if(isset($this->delete_category)){
             $verify = parent::v_catalog_subcategory($this->delete_category);
             if($verify['COUNT_SUB_CAT'] != 0){
-                $create->display('catalog/request/child-exist.phtml');
+                $create->display('catalog/request/child-exist.tpl');
             }else{
                 parent::d_category($this->delete_category);
             }
@@ -711,7 +711,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $pathslibelle,
                     $this->edit
                 );
-                $create->display('catalog/request/success_add.phtml');
+                $create->display('catalog/request/success_add.tpl');
             }
         }
     }
@@ -784,7 +784,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->s_content,
                     $this->edit
                 );
-                $create->display('catalog/request/success_update.phtml');
+                $create->display('catalog/request/success_update.tpl');
             }
         }
     }
@@ -894,13 +894,13 @@ class backend_controller_catalog extends backend_db_catalog{
     private function ajax_subcategory_image($img_s){
         if($img_s != null){
             if(file_exists(self::dirImgSubCategory().$img_s)){
-                $img = '<p><img src="/upload/catalogimg/subcategory/'.$img_s.'" class="img-polaroid" alt="" /></p>';
+                $img = '<p><img src="/upload/catalogimg/subcategory/'.$img_s.'" class="img-thumbnail" alt="" /></p>';
                 $img .= '<p><a href="#" data-delete="'.$img_s.'" class="btn delete-image"><span class="icon-trash"></span> Supprimer</a></p>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
+                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
             }
         }else{
-            $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
+            $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
         }
         print $img;
     }
@@ -999,7 +999,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->getlang,
                     $this->idadmin
                 );
-                $create->display('catalog/request/success_add.phtml');
+                $create->display('catalog/request/success_add.tpl');
             }
         }
     }
@@ -1034,7 +1034,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->edit,
                     $this->idadmin
                 );
-                $create->display('catalog/request/success_update.phtml');
+                $create->display('catalog/request/success_update.tpl');
             }
         }
     }
@@ -1086,6 +1086,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 'attr_id'=>'idlang',
                 'default_value'=>'',
                 'empty_value'=>'',
+                'class'=>'form-control',
                 'upper_case'=>true
             )
         );
@@ -1461,10 +1462,10 @@ class backend_controller_catalog extends backend_db_catalog{
                 $img .= '</li>';
                 $img .= '</ul>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
+                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
             }
         }else{
-            $img .= '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
+            $img .= '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
         }
         $img .= '</div>';
         print $img;
@@ -1720,7 +1721,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->edit,
                     $this->idproduct
                 );
-                $create->display('catalog/request/success_add.phtml');
+                $create->display('catalog/request/success_add.tpl');
             }
         }
     }
@@ -1905,7 +1906,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $this->ajax_category_image($data['img_c']);
                                             }else{
                                                 $this->load_category_edit_data($create,$data);
-                                                $create->display('catalog/category/edit.phtml');
+                                                $create->display('catalog/category/edit.tpl');
                                             }
                                         }elseif($this->tab === 'subcat'){
                                             if(isset($this->slibelle)){
@@ -1916,7 +1917,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $this->remove_subcategory();
                                             }else{
                                                 $this->load_category_edit_data($create,$data);
-                                                $create->display('catalog/category/edit.phtml');
+                                                $create->display('catalog/category/edit.tpl');
                                             }
                                         }elseif($this->tab === 'product'){
                                             if(isset($this->order_pages)){
@@ -1933,7 +1934,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $this->remove_product_category();
                                             }else{
                                                 $this->load_category_edit_data($create,$data);
-                                                $create->display('catalog/category/edit.phtml');
+                                                $create->display('catalog/category/edit.tpl');
                                             }
                                         }
                                     }else{
@@ -1943,7 +1944,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $this->remove_category_image();
                                         }else{
                                             $this->load_category_edit_data($create,$data);
-                                            $create->display('catalog/category/edit.phtml');
+                                            $create->display('catalog/category/edit.tpl');
                                         }
                                     }
                                 }
@@ -1956,7 +1957,7 @@ class backend_controller_catalog extends backend_db_catalog{
                             $this->remove_category($create);
                         }
                     }else{
-                        $create->display('catalog/category/list.phtml');
+                        $create->display('catalog/category/list.tpl');
                     }
                 }
             }elseif($this->section === 'subcategory'){
@@ -1981,7 +1982,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $this->update_subcategory_image($data);
                                         }else{
                                             $this->load_subcategory_edit_data($create,$data);
-                                            $create->display('catalog/subcategory/edit.phtml');
+                                            $create->display('catalog/subcategory/edit.tpl');
                                         }
                                     }elseif($this->tab === 'product'){
                                         if(isset($this->order_pages)){
@@ -1998,7 +1999,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $this->remove_product_category();
                                         }else{
                                             $this->load_subcategory_edit_data($create,$data);
-                                            $create->display('catalog/subcategory/edit.phtml');
+                                            $create->display('catalog/subcategory/edit.tpl');
                                         }
                                     }
                                 }else{
@@ -2016,7 +2017,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->remove_subcategory_image();
                                     }else{
                                         $this->load_subcategory_edit_data($create,$data);
-                                        $create->display('catalog/subcategory/edit.phtml');
+                                        $create->display('catalog/subcategory/edit.tpl');
                                     }
                                 }
                             }
@@ -2081,7 +2082,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->ajax_product_image($data['imgcatalog']);
                                     }else{
                                         $this->load_product_edit_data($create,$data);
-                                        $create->display('catalog/product/edit.phtml');
+                                        $create->display('catalog/product/edit.tpl');
                                     }
                                 }elseif($this->tab === 'category'){
                                     if(magixcjquery_filter_request::isGet('json_product_category')){
@@ -2099,7 +2100,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                     }else{
                                         $this->load_product_edit_data($create,$data);
                                         $create->assign('array_list_category',$this->array_list_category());
-                                        $create->display('catalog/product/edit.phtml');
+                                        $create->display('catalog/product/edit.tpl');
                                     }
                                 }elseif($this->tab === 'product'){
                                     if(isset($this->idproduct)){
@@ -2116,7 +2117,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->remove_product_rel();
                                     }else{
                                         $this->load_product_edit_data($create,$data);
-                                        $create->display('catalog/product/edit.phtml');
+                                        $create->display('catalog/product/edit.tpl');
                                     }
                                 }elseif($this->tab === 'galery'){
                                     if(magixcjquery_filter_request::isGet('json_list_galery')){
@@ -2133,7 +2134,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->remove_product_galery();
                                     }else{
                                         $this->load_product_edit_data($create,$data);
-                                        $create->display('catalog/product/edit.phtml');
+                                        $create->display('catalog/product/edit.tpl');
                                     }
                                 }
                             }else{
@@ -2148,7 +2149,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                     $plugin->extend_module($this->plugin,'catalog_product',$param_arr);
                                 }else{
                                     $this->load_product_edit_data($create,$data);
-                                    $create->display('catalog/product/edit.phtml');
+                                    $create->display('catalog/product/edit.tpl');
                                 }
                             }
                         }elseif($this->action === 'remove'){
@@ -2165,7 +2166,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     }else{
                         $create->assign('select_lang',$this->lang_select());
                         $create->assign('pagination',$this->product_pagination(20));
-                        $create->display('catalog/product/list.phtml');
+                        $create->display('catalog/product/list.tpl');
                     }
                 }
             }
@@ -2187,7 +2188,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 $header->json_header("UTF-8");
                 $this->json_url_product();
             }else{
-                $create->display('catalog/index.phtml');
+                $create->display('catalog/index.tpl');
             }
         }
 	}

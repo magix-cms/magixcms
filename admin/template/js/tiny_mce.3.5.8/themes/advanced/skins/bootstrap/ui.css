@@ -1,6 +1,7 @@
 .mceEditor > table{
     width:700px;
 }
+
 /* Reset */
 .bootstrapSkin table,
 .bootstrapSkin tbody,
@@ -13,6 +14,9 @@
 .bootstrapSkin span,
 .bootstrapSkin *,
 .bootstrapSkin .mceText {
+    -moz-box-sizing: content-box; /* Reset border-box FF */
+    -webkit-box-sizing: content-box; /* Reset border-box Webkit */
+    box-sizing: content-box; /* Reset border-box other */
     border: 0;
     margin: 0;
     padding: 0;

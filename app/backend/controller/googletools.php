@@ -125,11 +125,12 @@ class backend_controller_googletools extends backend_db_config{
                 'index,follow,all'=>'index'
             ),
             array(
-                'attr_name'=>'robots',
-                'attr_id'=>'robots',
-                'default_value'=>array($config['setting_value']=>$default_value),
-                'empty_value'=>'Selectionner l\'indexation',
-                'upper_case'=>false
+                'attr_name'     =>  'robots',
+                'attr_id'       =>  'robots',
+                'default_value' =>  array($config['setting_value']=>$default_value),
+                'empty_value'   =>  'Selectionner l\'indexation',
+                'class'         =>  'form-control',
+                'upper_case'    =>  false
             )
         );
         return $select;
@@ -162,7 +163,7 @@ class backend_controller_googletools extends backend_db_config{
                 parent::u_setting_value('robots',$this->robots);
                 break;
         }
-        $create->display('googletools/request/success_update.phtml');
+        $create->display('googletools/request/success_update.tpl');
     }
 
 	/**
@@ -188,7 +189,7 @@ class backend_controller_googletools extends backend_db_config{
         }else{
             $this->load_assign_setting($create);
             $create->assign('select_robots',$this->load_robots_data());
-            $create->display('googletools/index.phtml');
+            $create->display('googletools/index.tpl');
         }
 	}
 }

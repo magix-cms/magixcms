@@ -414,7 +414,7 @@ class backend_db_cms{
 	 * @param string $seo_desc_page
 	 */
 	protected function i_new_child_page($idadmin,$idlang,$get_page_p,$title_page,$uri_page){
-		$order_page = $this->s_max_child_order_page($idlang);
+		$order_page = $this->s_max_child_order_page($get_page_p);
 		$sql = 'INSERT INTO mc_cms_pages (idadmin,idlang,idcat_p,title_page,uri_page,date_register,order_page)
 		VALUE(:idadmin,:idlang,:get_page_p,:title_page,:uri_page,NOW(),:order_page)';
 		magixglobal_model_db::layerDB()->insert($sql,

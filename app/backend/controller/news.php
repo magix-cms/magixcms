@@ -246,7 +246,7 @@ class backend_controller_news extends backend_db_news{
     private function insert_news_data(){
         if(isset($this->n_title)){
             if(empty($this->n_title)){
-                backend_controller_template::display('news/request/empty.phtml');
+                backend_controller_template::display('news/request/empty.tpl');
             }else{
                 parent::i_news(
                     $this->extract_random_idnews(20),
@@ -255,7 +255,7 @@ class backend_controller_news extends backend_db_news{
                     $this->n_title,
                     magixcjquery_url_clean::rplMagixString($this->n_title)
                 );
-                backend_controller_template::display('news/request/success_add.phtml');
+                backend_controller_template::display('news/request/success_add.tpl');
             }
         }
     }
@@ -385,7 +385,7 @@ class backend_controller_news extends backend_db_news{
         $create->assign('date_register',$data['date_register'],true);
         $create->assign('published',$data['published'],true);
         $create->assign('tags',$data['WORD_LIST'],true);
-        $create->display('news/edit.phtml');
+        $create->display('news/edit.tpl');
 	}
 
 	/**
@@ -395,10 +395,10 @@ class backend_controller_news extends backend_db_news{
 	 */
 	private function ajax_image($news_img){
 		if($news_img != null){
-            $img = '<p><img src="/upload/news/s_'.$news_img.'" class="img-polaroid" alt="" /></p>';
+            $img = '<p><img src="/upload/news/s_'.$news_img.'" class="img-thumbnail" alt="" /></p>';
             $img .= '<p><a class="delete-image">Supprimer</a></p>';
 		}else{
-			$img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-polaroid" /></p>';
+			$img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
 		}
 		print $img;
 	}
@@ -410,7 +410,7 @@ class backend_controller_news extends backend_db_news{
 	private function update_news_data($create){
 		if(isset($this->n_title)){
 			if(empty($this->n_title)){
-				$create->display('news/request/empty.phtml');
+				$create->display('news/request/empty.tpl');
 			}else{
 				switch($this->published){
 					case 0:
@@ -444,7 +444,7 @@ class backend_controller_news extends backend_db_news{
                         'iso'=>$data['iso']
                     )
                 );
-                $create->display('news/request/success_update.phtml');
+                $create->display('news/request/success_update.tpl');
 			}
 		}
 	}
@@ -602,7 +602,7 @@ class backend_controller_news extends backend_db_news{
                         $header->json_header("UTF-8");
                         $this->json_list_news($max);
                     }else{
-                        $create->display('news/list.phtml');
+                        $create->display('news/list.tpl');
                     }
                 }elseif($this->action == 'add'){
                     if(isset($this->n_title)){
@@ -669,7 +669,7 @@ class backend_controller_news extends backend_db_news{
                 $header->json_header("UTF-8");
                 $this->json_url_news();
             }else{
-                $create->display('news/index.phtml');
+                $create->display('news/index.tpl');
             }
         }
 	}

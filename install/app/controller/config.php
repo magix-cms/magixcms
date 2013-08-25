@@ -161,7 +161,7 @@ class app_controller_config{
                 fwrite($fp,$full_conf);
                 fclose($fp);
                 //chmod(self::$configfile, 0666);
-                app_model_smarty::getInstance()->display('config/request/success_add.phtml');
+                app_model_smarty::getInstance()->display('config/request/success_add.tpl');
             } catch(Exception $e) {
                 magixcjquery_debug_magixfire::magixFireError($e);
             }
@@ -178,7 +178,7 @@ class app_controller_config{
             && isset($this->M_DBNAME))
         {
             if(file_exists(self::$configfile)){
-                app_model_smarty::getInstance()->display('config/request/file_exist.phtml');
+                app_model_smarty::getInstance()->display('config/request/file_exist.tpl');
             }else{
                 if(!defined('M_DBDRIVER')
                     OR !defined('M_DBHOST')
@@ -197,7 +197,7 @@ class app_controller_config{
                     define('M_DBNAME',$this->M_DBNAME);
                 }
                 if(magixglobal_model_db::layerDB()->PDOConnexion()){
-                    app_model_smarty::getInstance()->display('config/request/success_connexion.phtml');
+                    app_model_smarty::getInstance()->display('config/request/success_connexion.tpl');
                 }
             }
         }
@@ -218,7 +218,7 @@ class app_controller_config{
                 }
             }
         }else{
-            app_model_smarty::getInstance()->display('config/index.phtml');
+            app_model_smarty::getInstance()->display('config/index.tpl');
         }
     }
 }

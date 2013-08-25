@@ -102,7 +102,7 @@ class backend_controller_dashboard extends backend_db_dashboard{
     private function format_version($create){
         $version = '<strong>'.self::read_local_version().'</strong> ('.self::read_local_phase().')';
         $create->assign('version', $version, true);
-        $create->display('dashboard/version.phtml');
+        $create->display('dashboard/version.tpl');
 	}
 
     /**
@@ -134,7 +134,7 @@ class backend_controller_dashboard extends backend_db_dashboard{
             );
             // Assigne un tableau des langues
             $create->assign('array_stats_user',self::load_stats_user());
-            $create->display('dashboard/index.phtml');
+            $create->display('dashboard/index.tpl');
         }
 	}
 }

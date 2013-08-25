@@ -678,7 +678,7 @@ class backend_db_catalog{
      * @return array
      */
     protected function s_product_rel($edit){
-        $sql = 'SELECT rel.idrelproduct,rel.idproduct, rel.idcatalog, c.idclc, c.clibelle, s.idcls, s.slibelle, cl.titlecatalog
+        $sql = 'SELECT rel.idrelproduct,rel.idproduct, cl.idcatalog, c.idclc, c.clibelle, s.idcls, s.slibelle, cl.titlecatalog
         FROM mc_catalog_rel_product AS rel
         JOIN mc_catalog_product AS p ON(rel.idproduct = p.idproduct)
         JOIN mc_catalog AS cl ON (cl.idcatalog = p.idcatalog)

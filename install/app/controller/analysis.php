@@ -183,7 +183,7 @@ class app_controller_analysis{
             $header->json_header("UTF-8");
             $this->json_chmod();
         }else{
-            app_model_smarty::getInstance()->display('analysis/index.phtml');
+            app_model_smarty::getInstance()->display('analysis/index.tpl');
         }
     }
 }

@@ -110,7 +110,11 @@ var MC_pages = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListParent(baseadmin,iso,getlang);
+                        if(getParent != 0){
+                            jsonListChild(baseadmin,iso,getlang,getParent)
+                        }else{
+                            jsonListParent(baseadmin,iso,getlang);
+                        }
                     }
                 });
                 return false;

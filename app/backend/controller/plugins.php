@@ -240,7 +240,7 @@ class backend_controller_plugins{
 	}
 	/**
 	 * @access protected
-	 * getplugin
+	 * nameplugin
 	 */
 	private function nameplugin(){
 		if(isset($this->nameplugin) != null){
@@ -425,8 +425,8 @@ class backend_controller_plugins{
                                 }elseif($setConfig['icon']['type'] == 'font'){
                                     $icon = '<span class="'.$setConfig['icon']['name'].'"></span>';
                                 }
-                                if(isset($this->getplugin)){
-                                    if($this->getplugin == $d){
+                                if(isset($this->nameplugin)){
+                                    if($this->nameplugin == $d){
                                         $class_active = ' class="active"';
                                         $class_open = ' open';
                                         $class_on = ' on';
@@ -484,7 +484,7 @@ class backend_controller_plugins{
                                             $list .= '<div class="lang-group">';
                                             foreach($array_lang as $key => $value){
                                                 //Ajoute la class active à la langue courante
-                                                if($this->getplugin === $d AND $this->getlang === $key){
+                                                if($this->nameplugin === $d AND $this->getlang === $key){
                                                     $lang_active = ' active';
                                                 }else{
                                                     $lang_active = '';
@@ -514,7 +514,7 @@ class backend_controller_plugins{
                                             $list .= '<div class="lang-group">';
                                             foreach($array_lang as $key => $value){
                                                 //Ajoute la class active à la langue courante
-                                                if($this->getplugin === $d AND $this->getlang === $key){
+                                                if($this->nameplugin === $d AND $this->getlang === $key){
                                                     $lang_active = ' active';
                                                 }else{
                                                     $lang_active = '';

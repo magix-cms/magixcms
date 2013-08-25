@@ -70,7 +70,7 @@ class app_controller_user extends app_db_user{
                 $this->cryptpass,
                 magixglobal_model_cryptrsa::uuid_generator()
             );
-            app_model_smarty::getInstance()->display('user/request/success_add.phtml');
+            app_model_smarty::getInstance()->display('user/request/success_add.tpl');
         }
     }
     /**
@@ -82,7 +82,7 @@ class app_controller_user extends app_db_user{
                 $this->insert_user();
             }
         }else{
-            app_model_smarty::getInstance()->display('user/index.phtml');
+            app_model_smarty::getInstance()->display('user/index.tpl');
         }
     }
 }

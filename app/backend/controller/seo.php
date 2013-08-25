@@ -163,6 +163,7 @@ class backend_controller_seo extends backend_db_seo{
                 'attr_id'       =>'level',
                 'default_value' =>$default,
                 'empty_value'   =>$create->getConfigVars('select_level'),
+                'class'         =>  'form-control',
                 'upper_case'    =>false
             )
         );
@@ -194,6 +195,7 @@ class backend_controller_seo extends backend_db_seo{
                 'attr_id'       =>  'idmetas',
                 'default_value' =>  $default,
                 'empty_value'   =>  $create->getConfigVars('select_type'),
+                'class'         =>  'form-control',
                 'upper_case'    =>  false
             )
         );
@@ -207,7 +209,7 @@ class backend_controller_seo extends backend_db_seo{
 	private function add($create){
 		if(isset($this->strrewrite)){
 			if(empty($this->attribute) OR empty($this->idmetas)){
-                $create->display('seo/request/empty.phtml');
+                $create->display('seo/request/empty.tpl');
 			}elseif(parent::v_rewrite_meta(
                 $this->getlang,
                 $this->attribute,
@@ -221,9 +223,9 @@ class backend_controller_seo extends backend_db_seo{
 					$this->idmetas,
 					$this->level
 				);
-                $create->display('seo/request/success_add.phtml');
+                $create->display('seo/request/success_add.tpl');
 			}else{
-                $create->display('seo/request/element_exist.phtml');
+                $create->display('seo/request/element_exist.tpl');
 			}
 		}
 	}
@@ -236,7 +238,7 @@ class backend_controller_seo extends backend_db_seo{
 		if(isset($this->edit)){
 			if(isset($this->strrewrite)){
 				if(empty($this->attribute) OR empty($this->idmetas)){
-                    $create->display('seo/request/empty.phtml');
+                    $create->display('seo/request/empty.tpl');
 				}else{
 					parent::u_rewrite_metas(
                         $this->getlang,
@@ -246,7 +248,7 @@ class backend_controller_seo extends backend_db_seo{
                         $this->level,
                         $this->edit
                     );
-                    $create->display('seo/request/success_update.phtml');
+                    $create->display('seo/request/success_update.tpl');
 				}
 			}
 		}
@@ -397,7 +399,7 @@ class backend_controller_seo extends backend_db_seo{
                         $this->select_attribute($create);
                         $this->select_level($create);
                         $this->select_metas($create);
-                        $create->display('seo/list.phtml');
+                        $create->display('seo/list.tpl');
                     }
                 }elseif($this->action == 'add'){
                     if(isset($this->strrewrite)){
@@ -413,7 +415,7 @@ class backend_controller_seo extends backend_db_seo{
                             $this->select_attribute($create,$data['attribute']);
                             $this->select_level($create,$data['level']);
                             $this->select_metas($create,$data['idmetas']);
-                            $create->display('seo/edit.phtml');
+                            $create->display('seo/edit.tpl');
                         }
                     }
                 }elseif($this->action == 'remove'){
@@ -432,7 +434,7 @@ class backend_controller_seo extends backend_db_seo{
                 $header->json_header("UTF-8");
                 $this->json_graph();
             }else{
-                $create->display('seo/index.phtml');
+                $create->display('seo/index.tpl');
             }
         }
 	}

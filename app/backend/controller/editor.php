@@ -102,7 +102,7 @@ EOT;
 		if($this->editor){
 			backend_model_setting::update_setting_label('editor',$this->editor);
 			backend_model_setting::update_setting_value('editor','pdw_file_browser');
-			backend_controller_template::display('config/request/success.phtml');
+			backend_controller_template::display('config/request/success.tpl');
 		}
 	}
 	/**
@@ -112,7 +112,7 @@ EOT;
 	private function send_manager_editor(){
 		if($this->manager_setting){
 			backend_model_setting::update_setting_value('editor',$this->manager_setting);
-			backend_controller_template::display('config/request/success.phtml');
+			backend_controller_template::display('config/request/success.tpl');
 		}
 	}
 	/**
@@ -133,7 +133,7 @@ EOT;
 			self::send_manager_editor();
 		}else{
 			$this->load_wysiwyg_editor();
-			backend_controller_template::display('config/editor.phtml');
+			backend_controller_template::display('config/editor.tpl');
 		}
 	}
 }

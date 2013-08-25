@@ -24,8 +24,8 @@
 				</authors>
 				<version>
 					<date_create>10/04/2010</date_create>
-					<date_update>29/04/2013</date_update>
-					<number>2.2</number>
+					<date_update>24/08/2013</date_update>
+					<number>2.3</number>
 					<phase>Stable</phase>
 					<support>
                         <ticket href="https://github.com/gtraxx/magixcms/issues"></ticket>

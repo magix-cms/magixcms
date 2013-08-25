@@ -86,11 +86,12 @@ class backend_model_modules{
         $select = backend_model_forms::select_static_row(
             $default_array,
             array(
-                'attr_name'=>'attribute',
-                'attr_id'=>'attribute',
-                'default_value'=>$update,
-                'empty_value'=>'Selectionner le module',
-                'upper_case'=>false
+                'attr_name'     =>  'attribute',
+                'attr_id'       =>  'attribute',
+                'default_value' =>  $update,
+                'empty_value'   =>  'Selectionner le module',
+                'class'         =>  'form-control',
+                'upper_case'    =>  false
             )
         );
         return $select;

@@ -250,7 +250,7 @@ class backend_controller_config extends backend_db_config{
             array(
                 'attr_name'     =>  'manager_setting',
                 'attr_id'       =>  'manager_setting',
-                'class'         =>  '',
+                'class'         =>  'form-control',
                 'attr_multiple' =>  false,
                 'default_value' =>  $config['setting_value'],
                 'empty_value'   =>  $create->getConfigVars('select_manager'),
@@ -267,7 +267,7 @@ class backend_controller_config extends backend_db_config{
     private function update_manager_setting($create){
         if(isset($this->manager_setting)){
             parent::u_setting_value('editor',$this->manager_setting);
-            $create->display('config/request/success_update.phtml');
+            $create->display('config/request/success_update.tpl');
         }
     }
 
@@ -283,7 +283,7 @@ class backend_controller_config extends backend_db_config{
                 $content_css = $this->content_css;
             }
             parent::u_setting_value('content_css',$content_css);
-            $create->display('config/request/success_update.phtml');
+            $create->display('config/request/success_update.tpl');
         }
     }
 
@@ -326,7 +326,7 @@ class backend_controller_config extends backend_db_config{
                 $this->img_resizing,
                 $this->id_size_img
             );
-            $create->display('config/request/success_update.phtml');
+            $create->display('config/request/success_update.tpl');
         }
     }
 
@@ -349,6 +349,7 @@ class backend_controller_config extends backend_db_config{
                 'attr_id'       =>  'cache',
                 'default_value' =>  $config['setting_value'],
                 'empty_value'   =>  $create->getConfigVars('select_cache'),
+                'class'         =>  'form-control',
                 'upper_case'    =>  false
             )
         );
@@ -362,7 +363,7 @@ class backend_controller_config extends backend_db_config{
     private function update_concat_data($create){
         if(isset($this->concat)){
             parent::u_setting_value('concat',$this->concat);
-            $create->display('config/request/success_update.phtml');
+            $create->display('config/request/success_update.tpl');
         }
     }
 
@@ -373,7 +374,7 @@ class backend_controller_config extends backend_db_config{
     private function update_cache_data($create){
         if(isset($this->cache)){
             parent::u_setting_value('cache',$this->cache);
-            $create->display('config/request/success_update.phtml');
+            $create->display('config/request/success_update.tpl');
         }
     }
 
@@ -401,7 +402,7 @@ class backend_controller_config extends backend_db_config{
                     }
                 }else{
                     $this->load_editor_data($create);
-                    $create->display('config/editor.phtml');
+                    $create->display('config/editor.tpl');
                 }
             }elseif($this->section == 'imagesize'){
                 if(isset($this->action)){
@@ -416,7 +417,7 @@ class backend_controller_config extends backend_db_config{
                             'plugins'   =>  $this->load_img_forms('plugins')
                         )
                     );
-                    $create->display('config/imagesize.phtml');
+                    $create->display('config/imagesize.tpl');
                 }
             }elseif($this->section == 'cache'){
                 if(isset($this->action)){
@@ -429,18 +430,18 @@ class backend_controller_config extends backend_db_config{
                     }
                 }else{
                     $create->assign('select_concat',$this->load_cache_data($create));
-                    $create->display('config/cache.phtml');
+                    $create->display('config/cache.tpl');
                 }
             }
         }else{
             if(isset($this->action)){
                 if($this->action == 'edit'){
                     $this->update_config();
-                    $create->display('config/request/success_update.phtml');
+                    $create->display('config/request/success_update.tpl');
                 }
             }else{
                 $create->assign('array_radio_config',$this->load_data_config());
-                $create->display('config/index.phtml');
+                $create->display('config/index.tpl');
             }
         }
 	}
