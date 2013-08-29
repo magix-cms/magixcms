@@ -9,7 +9,7 @@
         </a>
     </p>
     <div class="mc-message clearfix"></div>
-    <div id="list_catalog_product" class="table-responsive"></div>
+    <div id="list_catalog_product"></div>
     {$pagination}
 {/block}
 {block name="modal"}

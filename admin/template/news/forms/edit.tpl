@@ -21,7 +21,7 @@
 <form id="forms_news_edit" method="post" action="">
     <div class="row">
         <div class="form-group">
-            <div class="col-sm-4">
+            <div class="col-lg-4 col-sm-4">
                 <label class="radio-inline">
                     <input type="radio" name="published" value="1"{if $published eq 1} checked="checked"{/if} /> {#online#|ucfirst}
                 </label>
@@ -33,18 +33,18 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <div class="col-lg-2">
+            <div class="col-lg-2 col-sm-2">
                 <label for="iso">ISO</label>
                 <input type="text" class="form-control" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-sm-8">
                 <label for="newslink">URL</label>
                 <input type="text" class="form-control" id="newslink" readonly="readonly" size="50" value="" />
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-8 col-sm-8">
             <label for="n_uri">{#url_rewriting#|ucfirst}</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="n_uri" name="n_uri" readonly="readonly" size="30" value="{$n_uri}" />
@@ -58,7 +58,7 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-sm-8">
                 <label for="n_title">{#label_title#|ucfirst} :</label>
                 <input type="text" class="form-control" id="n_title" name="n_title" value="{$n_title}" size="50" />
             </div>
@@ -66,7 +66,7 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <div class="col-lg-12">
+            <div class="col-lg-12 col-sm-12">
                 <label for="n_content">{#label_content#|ucfirst} :</label>
                 <textarea name="n_content" id="n_content" class="form-control mceEditor">{$n_content}</textarea>
             </div>

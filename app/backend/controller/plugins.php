@@ -218,7 +218,7 @@ class backend_controller_plugins{
 							foreach($v->authors->author as $row){
 								$r.= '<tr>';
 								$r.= '<td>'.$row->name.'</td>';
-								$r .= '<td><ul class="unstyled">';
+								$r .= '<td><ul class="list-unstyled">';
 								$t = '';
 								foreach($row->link->children() as $link){
 									$r .= '<li><a class="targetblank" ';

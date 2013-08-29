@@ -25,18 +25,18 @@
     <form id="forms_catalog_category_edit" method="post" action="">
         <div class="row">
             <div class="form-group">
-                <div class="col-lg-2">
+                <div class="col-lg-2 col-sm-2">
                     <label for="iso">ISO</label>
                     <input type="text" class="form-control" id="iso" disabled="disabled" readonly="readonly" size="3" value="{$iso|upper}" />
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-sm-8">
                     <label for="categorylink">URL</label>
                     <input type="text" class="form-control" id="categorylink" readonly="readonly" size="50" value="" />
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-sm-8">
             <label for="pathclibelle">{#url_rewriting#|ucfirst}</label>
                 <div class="input-group">
                 <input type="text" class="form-control" id="pathclibelle" name="pathclibelle" readonly="readonly" size="30" value="{$pathclibelle}" />
@@ -50,7 +50,7 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-sm-8">
                     <label for="clibelle">{#label_name_category#|ucfirst} :</label>
                     <input type="text" class="form-control" id="clibelle" name="clibelle" value="{$clibelle}" size="50" />
                 </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <div class="col-lg-12">
+                <div class="col-lg-12 col-sm-12">
                     <label for="c_content" class="inlinelabel">{#label_content#|ucfirst} :</label>
                     <textarea name="c_content" id="c_content" class="form-control mceEditor">{$c_content}</textarea>
                 </div>

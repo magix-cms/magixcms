@@ -3,10 +3,10 @@
 {block name="article:content"}
 {include file="news/section/nav.tpl"}
     <div class="row">
-        <span class="col-sm-10">
+        <span class="col-lg-10 col-sm-10">
             <h1>{#editing_the_page#|ucfirst} : {$n_title}</h1>
         </span>
-        <span class="col-sm-2">
+        <span class="col-lg-2 col-sm-2">
             <a class="btn btn-primary btn-large post-preview" href="#">
                 <span class="icon-zoom-in"></span>
             </a>

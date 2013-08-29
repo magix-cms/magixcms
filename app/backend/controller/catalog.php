@@ -1417,50 +1417,48 @@ class backend_controller_catalog extends backend_db_catalog{
      * @param string $imgcatalog
      */
     private function ajax_product_image($imgcatalog){
-        $img = '<div class="container-fluid">';
+        $img = '<div class="container">';
         if($imgcatalog != null){
             if(file_exists(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog)){
                 $small = getimagesize(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $medium = getimagesize(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $product = getimagesize(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $img .= '<p>';
-                $img .= '<a href="#" data-delete="'.$imgcatalog.'" class="btn btn-block delete-image"><span class="icon-trash"></span> Supprimer</a>';
+                $img .= '<a href="#" data-delete="'.$imgcatalog.'" class="btn btn-default btn-block delete-image"><span class="icon-trash"></span> Supprimer</a>';
                 $img .= '</p>';
-                $img .= '<ul class="thumbnails">';
-                $img .= '<li class="span2">';
+                $img .= '<div class="col-lg-2 col-sm-3">';
                     $img .= '<div class="thumbnail">';
                         $img .= '<img src="/upload/catalogimg/mini/'.$imgcatalog.'" alt="" />';
                         $img .= '<div class="caption">';
-                            $img .= '<ul class="unstyled">';
+                            $img .= '<ul class="list-unstyled">';
                             $img .= '<li>width:'.$small[0].'</li>';
                             $img .= '<li>height:'.$small[1].'</li>';
                             $img .= '</ul>';
                         $img .= '</div>';
                     $img .= '</div>';
-                $img .= '</li>';
-                $img .= '<li class="span3">';
+                $img .= '</div>';
+                $img .= '<div class="col-lg-3 col-sm-4">';
                     $img .= '<div class="thumbnail">';
                         $img .= '<img src="/upload/catalogimg/medium/'.$imgcatalog.'" alt="" />';
                         $img .= '<div class="caption">';
-                            $img .= '<ul class="unstyled">';
+                            $img .= '<ul class="list-unstyled">';
                             $img .= '<li>width:'.$medium[0].'</li>';
                             $img .= '<li>height:'.$medium[1].'</li>';
                             $img .= '</ul>';
                         $img .= '</div>';
                     $img .= '</div>';
-                $img .= '</li>';
-                $img .= '<li class="span5">';
+                $img .= '</div>';
+                $img .= '<div class="col-lg-5 col-sm-5">';
                     $img .= '<div class="thumbnail">';
                         $img .= '<img src="/upload/catalogimg/product/'.$imgcatalog.'" alt="" />';
                         $img .= '<div class="caption">';
-                            $img .= '<ul class="unstyled">';
+                            $img .= '<ul class="list-unstyled">';
                             $img .= '<li>width:'.$product[0].'</li>';
                             $img .= '<li>height:'.$product[1].'</li>';
                             $img .= '</ul>';
                         $img .= '</div>';
                     $img .= '</div>';
-                $img .= '</li>';
-                $img .= '</ul>';
+                $img .= '</div>';
             }else{
                 $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
             }

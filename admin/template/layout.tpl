@@ -38,14 +38,14 @@
     {block name="main:before"}{/block}
     <main id="main" class="row">
         {block name="aside"}
-            <aside id="sidebar" class="col-sm-3 col-xs-12 pull-left well">
+            <aside id="sidebar" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-left well">
                 {block name='aside:content'}
                     {include file="section/sidebar.tpl"}
                 {/block}
             </aside>
         {/block}
         {block name='article'}
-            <article id="article" class="col-sm-9 pull-left">
+            <article id="article" class="col-lg-9 col-md-9 col-sm-8 pull-left">
                 {block name='article:content'}
                 {/block}
             </article>
