@@ -1,5 +1,7 @@
 #### 2.4.0
 RC4
+    * Mise en place des tailles sm de bootstrap + définition des tailles classique (backend)
+    * Upgrade jQuery form et jquery validate
     * Fix #92 Utilisation du système de modèle
     * Work #91 template - extension de fichiers
         * skin backend rename *.phtml to .tpl
