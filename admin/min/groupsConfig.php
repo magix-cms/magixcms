@@ -13,7 +13,7 @@
 
 return array(
 	'adminjs' => array('//libjs/jquery-1.8.3.min.js','//libjs/jquery-ui-1.10.3.custom.min.js',
-     '//libjs/plugins/jquery.form.3.20.js','//libjs/plugins/jquery.validate.1.10.0.min.js','//libjs/plugins/additional-methods.1.10.0.min.js',
+     '//libjs/plugins/jquery.form.3.40.min.js','//libjs/plugins/jquery.validate.1.11.1.min.js','//libjs/plugins/additional-methods.1.11.1.min.js',
      '//'.PATHADMIN.'/template/js/plugins/bootstrap.3.0.0.min.js','//'.PATHADMIN.'/template/js/plugins/respond.min.js','//'.PATHADMIN.'/template/js/plugins/holder.js'),
 	'jimagine' => array('//libjs/jimagine/config.js','//libjs/jimagine/jmConstant.js',
 	'//libjs/jimagine/plugins/jquery.nicenotify.js','//libjs/jimagine/plugins/jquery.jmShowIt.js',
