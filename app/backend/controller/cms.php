@@ -59,7 +59,7 @@ class backend_controller_cms extends backend_db_cms{
 	$sidebar_page,
 	$rel_title_page;
 	public $getlang,$get_page_p,$edit,$title_search,$action;
-	public $page_search,$title_p_lang,$title_p_move,$callback;
+	public $page_search,$title_p_lang,$callback;
 	public $cat_p_lang;
 	public $del_relang_p,$delpage,$move;
 	/**
@@ -130,13 +130,7 @@ class backend_controller_cms extends backend_db_cms{
 		if(magixcjquery_filter_request::isPost('del_relang_p')){
 			$this->del_relang_p = magixcjquery_filter_isVar::isPostNumeric($_POST['del_relang_p']);
 		}
-		//MOVE
-		if(magixcjquery_filter_request::isGet('move')){
-			$this->move = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['move']);
-		}
-		if(magixcjquery_filter_request::isGet('title_p_move')){
-			$this->title_p_move = magixcjquery_form_helpersforms::inputClean($_GET['title_p_move']);
-		}
+
 		//JQUERY CALLBACK
 		if(magixcjquery_filter_request::isGet('callback')){
 			$this->callback = (string) magixcjquery_form_helpersforms::inputClean($_GET['callback']);
@@ -550,9 +544,10 @@ class backend_controller_cms extends backend_db_cms{
 
     /**
      * Retourne un menu select des langues
+     * @param $create
      * @return string
      */
-    private function lang_select(){
+    private function lang_select($create){
         $idlang = '';
         $iso = '';
         foreach(backend_db_block_lang::s_data_lang() as $key){
@@ -564,12 +559,12 @@ class backend_controller_cms extends backend_db_cms{
             $lang_conb
             ,
             array(
-                'attr_name'=>'idlang',
-                'attr_id'=>'idlang',
-                'default_value'=>'',
-                'empty_value'=>'Selectionner les langues',
-                'class'=>'form-control',
-                'upper_case'=>true
+                'attr_name'     =>  'idlang',
+                'attr_id'       =>  'idlang',
+                'default_value' =>  '',
+                'empty_value'   =>  $create->getConfigVars('select_language'),
+                'class'         =>  'form-control',
+                'upper_case'    =>  true
             )
         );
         return $select;
@@ -579,18 +574,18 @@ class backend_controller_cms extends backend_db_cms{
      * @access private
      * Charge les données pour le déplacement d'une page CMS
      * @param $create
-     * @param integer $move
+     * @param integer $edit
      * @return void
      */
-	protected function load_data_move_page($create,$move){
-		$data = parent::s_edit_page($move);
+	protected function load_data_move_page($create,$edit){
+		$data = parent::s_edit_page($edit);
         $create->assign(
             array(
                 'idpage'        =>  $data['idpage'],
                 'title_page'    =>  $data['title_page'],
                 'iso'           =>  $data['iso'],
                 'uri_page'      =>  $data['uri_page'],
-                'selectlang'    =>  $this->lang_select()
+                'selectlang'    =>  $this->lang_select($create)
             )
         );
     }
@@ -600,15 +595,15 @@ class backend_controller_cms extends backend_db_cms{
 	 * Modifie l'emplacement d'une page CMS
 	 */
 	protected function update_move_page($create){
-		if(isset($this->idlang) AND isset($this->move)){
-			$verify = parent::verify_idcat_p($this->move);
+		if(isset($this->idlang) AND isset($this->edit)){
+			$verify = parent::verify_idcat_p($this->edit);
 			if($verify['childpages'] == '0'){
 				if($this->idcat_p != null){
 				$idcat_p = $this->idcat_p;
 				}else{
 					$idcat_p = 0;
 				}
-				parent::u_move_page($this->idlang, $idcat_p, $this->move);
+				parent::u_move_page($this->idlang, $idcat_p, $this->edit);
                 $create->display('cms/request/success_update.tpl');
 			}else{
                 $create->display('cms/request/child-exist.tpl');
@@ -742,7 +737,7 @@ class backend_controller_cms extends backend_db_cms{
                     if(magixcjquery_filter_request::isPost('idlang')){
                         $this->update_move_page($create);
                     }else{
-                        $this->load_data_move_page($create,$this->move);
+                        $this->load_data_move_page($create,$this->edit);
                         $create->display('cms/move.tpl');
                     }
                 }elseif($this->action == 'remove'){

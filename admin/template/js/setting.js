@@ -284,6 +284,8 @@ $(function(){
                     $("<br /><br />").insertBefore(error);
                 }*/
 
+            }else if ( element.next().is(".input-group-btn") ){
+                error.insertAfter(element.parent());
             }else if ( element.is(".checkMail") ){
                 error.insertAfter(element.next());
             }else if ( element.is("#cryptpass") ){

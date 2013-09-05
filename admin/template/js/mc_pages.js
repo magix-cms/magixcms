@@ -278,7 +278,7 @@ var MC_pages = (function ($, undefined) {
                         );
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&edit='+item.idpage)
                                 .attr("title", Globalize.localize( "move_page", iso )+" "+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -540,7 +540,7 @@ var MC_pages = (function ($, undefined) {
                         }
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&move='+item.idpage)
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&edit='+item.idpage)
                                 .attr("title", Globalize.localize( "move_page", iso )+" :"+item.title_page)
                                 .append(
                                 $(document.createElement("span")).addClass("icon-move")
@@ -795,13 +795,16 @@ var MC_pages = (function ($, undefined) {
      */
     function move(baseadmin,getlang,edit){
         var url = '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&edit='+edit;
-        var formsPages = $('#forms_cms_move').validate({
+        $('#forms_cms_move').validate({
             onsubmit: true,
             event: 'submit',
             rules: {
                 title_page: {
                     required: true,
                     minlength: 2
+                },
+                idlang : {
+                    required: true
                 }
             },
             submitHandler: function(form) {
@@ -821,7 +824,6 @@ var MC_pages = (function ($, undefined) {
                 return false;
             }
         });
-        $('#forms_cms_edit').formsUpdatePages;
     }
 
     /**
@@ -888,6 +890,9 @@ var MC_pages = (function ($, undefined) {
             JsonUrlPage(baseadmin,getlang,edit);
             update(baseadmin,getlang,edit);
             autoCompleteSearch(baseadmin,getlang);
+        },
+        runMove:function(baseadmin,getlang,edit){
+            move(baseadmin,getlang,edit);
         }
     };
 })(jQuery);

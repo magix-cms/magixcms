@@ -11,10 +11,12 @@ $(function(){
         console.log("MC_pages is not defined");
     }else{
         {if $smarty.get.getlang}
-            {if $smarty.get.edit}
+            {if $smarty.get.action eq 'edit'}
                 MC_pages.runEdit(baseadmin,getlang,edit);
             {elseif $smarty.get.get_page_p}
                 MC_pages.runChild(baseadmin,iso,getlang,getParent);
+            {elseif $smarty.get.action eq 'move'}
+                MC_pages.runMove(baseadmin,getlang,edit);
             {else}
                 MC_pages.runParents(baseadmin,iso,getlang);
             {/if}

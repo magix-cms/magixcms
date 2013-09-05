@@ -325,13 +325,6 @@ ul.autocomplete-list-row li span{
     vertical-align:middle;
 }
 
-/**
-* setting error
-*/
-.mc-error{
-    margin:5px 0 0 0;
-}
-
 .forms-config .ui-spinner {
     max-width: 100px;
 }
@@ -357,13 +350,16 @@ ul.autocomplete-list-row li span{
     margin: 0 auto;
 }
 /* Message Alert */
-.mc-message .alert{
+.alert{
     padding: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
-/* Forms */
+.mc-error{
+    margin-top: 5px;
+}
 
+/* Forms */
 .form-group label{
     margin-top: 5px;
 }
