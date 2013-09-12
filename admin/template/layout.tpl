@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8" />
     {headmeta meta="contentType" content="html" charset="utf8"}
-    <base href="{geturl}/">
     <meta name="dcterms.language" content="{iso}" />
     <meta name="dcterms.creator" content="Magix CMS" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

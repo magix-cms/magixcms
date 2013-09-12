@@ -313,7 +313,7 @@ class frontend_controller_plugins{
     public function fetch($template = null,$plugin='',$cache_id = null,$compile_id = null,$parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
         if(file_exists('skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin))){
             if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-                frontend_model_smarty::getInstance()->fetch(
+                return frontend_model_smarty::getInstance()->fetch(
                     'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
                     $cache_id,
                     $compile_id,
@@ -323,7 +323,7 @@ class frontend_controller_plugins{
                     $no_output_filter
                 );
             }else{
-                frontend_model_smarty::getInstance()->fetch(
+                return frontend_model_smarty::getInstance()->fetch(
                     'skin/'.frontend_model_template::frontendTheme()->themeSelected().'/'.self::controlGetPlugin($plugin).'/'.$template,
                     $cache_id,
                     $compile_id,
@@ -335,7 +335,7 @@ class frontend_controller_plugins{
             }
         }else{
             if(!self::isCached($template, $cache_id, $compile_id, $parent)){
-                frontend_model_smarty::getInstance()->fetch(
+                return frontend_model_smarty::getInstance()->fetch(
                     $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
                     $cache_id,
                     $compile_id,
@@ -345,7 +345,7 @@ class frontend_controller_plugins{
                     $no_output_filter
                 );
             }else{
-                frontend_model_smarty::getInstance()->fetch(
+                return frontend_model_smarty::getInstance()->fetch(
                     $this->directory_plugins().self::controlGetPlugin($plugin).'/skin/public/'.$template,
                     $cache_id,
                     $compile_id,
