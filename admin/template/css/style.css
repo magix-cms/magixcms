@@ -194,6 +194,12 @@ a:hover > .badge {
     margin-top: 5px;
     margin-left: 15px;
 }
+.lang-group a:first-child{
+    margin-left: 0;
+}
+.lang-group a{
+    margin-left: 5px;
+}
 .lang-group > a:hover,
 .lang-group > .active {
     background-color: #3A87AD;

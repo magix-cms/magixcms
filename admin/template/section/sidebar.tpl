@@ -31,9 +31,7 @@
                         {else}
                             {$langActive = ''}
                         {/if}
-                        <a class="badge {$langActive}" href="/{baseadmin}/cms.php?getlang={$key}&amp;action=list">
-                            {$value|upper}
-                        </a>
+                        <a class="badge{$langActive}" href="/{baseadmin}/cms.php?getlang={$key}&amp;action=list">{$value|upper}</a>
                     {/foreach}
                 </div>
             </div>
@@ -57,9 +55,7 @@
                         {else}
                             {$langActive = ''}
                         {/if}
-                        <a class="badge {$langActive}" href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">
-                            {$value|upper}
-                        </a>
+                        <a class="badge{$langActive}" href="/{baseadmin}/news.php?getlang={$key}&amp;action=list">{$value|upper} </a>
                     {/foreach}
                 </div>
             </div>
@@ -83,9 +79,7 @@
                         {else}
                             {$langActive = ''}
                         {/if}
-                        <a class="badge {$langActive}" href="/{baseadmin}/catalog.php?section=category&amp;getlang={$key}">
-                            {$value|upper}
-                        </a>
+                        <a class="badge{$langActive}" href="/{baseadmin}/catalog.php?section=category&amp;getlang={$key}">{$value|upper} </a>
                     {/foreach}
                 </div>
             </div>
@@ -102,9 +96,7 @@
                         {else}
                             {$langActive = ''}
                         {/if}
-                        <a class="badge {$langActive}" href="/{baseadmin}/catalog.php?section=product&amp;getlang={$key}">
-                            {$value|upper}
-                        </a>
+                        <a class="badge{$langActive}" href="/{baseadmin}/catalog.php?section=product&amp;getlang={$key}">{$value|upper}</a>
                     {/foreach}
                 </div>
             </div>
