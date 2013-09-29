@@ -1,4 +1,4 @@
-{if $catalog eq 1}
+{if $config_catalog eq 1}
 <script type="text/javascript">
     var catalog_tinymce_plugin = ",mc_catalog";
     var catalog_tinymce_button = ",mc_catalog";

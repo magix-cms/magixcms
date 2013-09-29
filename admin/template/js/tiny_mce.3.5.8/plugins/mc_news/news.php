@@ -55,7 +55,7 @@ if(file_exists($baseadmin)){
     <title>{#mc_news_dlg.title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript" src="/libjs/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="/libjs/plugins/jquery.form.3.20.js"></script>
+    <script type="text/javascript" src="/libjs/plugins/jquery.form.3.40.min.js"></script>
     <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
     <script type="text/javascript">
         var baseadmin = <?php print '"'.PATHADMIN.'"'; ?>
