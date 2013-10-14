@@ -104,7 +104,7 @@ function smarty_function_widget_cms_nav($params, $template)
             $items .= '<a href="'.$data_item['url'].'" title="'. $data_item['name'].'">';
             $items .= $data_item['name'];
             $items .= '</a>';
-            $items .=  ($items_2 != null) ? '<ul class="hidden-sm-lower">'.$items_2.'</ul>' : '';
+            $items .=  ($items_2 != null) ? '<ul class="hidden-sm">'.$items_2.'</ul>' : '';
             $items .= '</li>';
         }
 

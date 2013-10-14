@@ -107,7 +107,7 @@ function smarty_function_widget_catalog_nav($params, $template)
                     $items_2 .= '<a href="'.$data_item_2['url'].'" title="'. $data_item_2['name'].'">';
                     $items_2 .= $data_item_2['name'];
                     $items_2 .= '</a>';
-                    $items_2 .=  ($items_3 != null) ? '<ul class="hidden-sm-lower">'.$items_3.'</ul>' : '';
+                    $items_2 .=  ($items_3 != null) ? '<ul class="hidden-sm">'.$items_3.'</ul>' : '';
                     $items_2 .= '</li>';
                 }
             }
@@ -122,7 +122,7 @@ function smarty_function_widget_catalog_nav($params, $template)
             $items .= '<a href="'.$data_item['url'].'" title="'. $data_item['name'].'">';
             $items .= $data_item['name'];
             $items .= '</a>';
-            $items .=  ($items_2 != null) ? '<ul class="hidden-sm-lower">'.$items_2.'</ul>' : '';
+            $items .=  ($items_2 != null) ? '<ul class="hidden-sm">'.$items_2.'</ul>' : '';
             $items .= '</li>';
         }
 
