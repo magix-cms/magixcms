@@ -266,48 +266,68 @@ function patternCatalog ($name=null)
     switch ($name) {
         case 'product':
             $pattern = array(
+                'container'     =>  array(
+                    'before'    =>  '<div class="product-list row">',
+                    // items injected here
+                    'after'     =>  '</div>'
+                ),
                 'item'          =>  array(
-                    'before'    => '<li class="span8"><div class="thumbnail">',
-                    // item's elements injected here (name, img, descr)
-                    'after'     => '</div></div></li>'
-                )            );
+                    'before'    => '<div class="thumbnail col-sm-6 col-md-4 col-lg-3">',
+                    // item's elements injected here (name, img, descr, ...)
+                    'after'     => '</div></div>'
+                )
+            );
             break;
         case 'sidebar':
             $pattern = array(
+                'container'     =>  array(
+                    'before'    =>  '<div class="news-list-last sidebar-list row">',
+                    // items injected here
+                    'after'     =>  '</div>'
+                ),
                 'item'          =>  array(
-                    'before'    => '<li class="span3"><div class="thumbnail text-center">',
-                    // item's elements injected here (name, img, descr)
-                    'after'     => '</div></div></li>'
+                    'before'    => '<a class="thumbnail text-center col-xs-6 col-sm-12 #current-last#" href="#url#" title="'.$tr['show_news'].'" >',
+                    // item's elements injected here (name, img, descr, ...)
+                    'after'     => '</a>'
                 ),
-                'img'         =>  array(
-                    'classLink'     =>  'img'
+                'img'           =>  array(
+                    'before'
+                    => ' ',
+                    'classLink' => 'none',
+                    'after'
+                    =>  ' '
                 ),
-                'name'        =>  array(
-                    'before'    =>  '<div class="caption"> <p class="lead">',
-                    'classLink'     =>  'name',
-                    'after'     =>  '</p>'
+                'name'          =>  array(
+                    'before'
+                    =>  '<span class="panel-title">',
+                    'classLink' =>  'none',
+                    'after'
+                    =>  '</span>'
                 ),
                 'price'       =>  array(
-                    'before' => '<a class="btn" href="#url#">',
-                    'after' => '</a>'
+                    'before' => '<span class="price label label-primary">',
+                    'after' => '</span>'
                 )
             );
             break;
         default:
             $pattern = array(
                 'container'     =>  array(
-                    'before'    => '<ul class="thumbnails">',
+                    'before'    =>  '<div class="product-list">',
                     // items injected here
-                    'after'     => '</ul>'
+                    'after'     =>  '</div>'
                 ),
                 'item'          =>  array(
-                    'before'    => '<li class="span4 #current-last#"><div class="thumbnail">',
-                    // item's elements injected here (name, img, descr)
-                    'after'     => '</div></div></li>'
+                    'before'    => '<div class="thumbnail">',
+                    // item's elements injected here (name, img, descr, ...)
+                    'after'     => '</div></div>'
                 ),
-                'img'         =>  array(
-                    'classLink'     =>  'img',
-                    'size'          =>  'medium'
+                'img'           =>  array(
+                    'before'
+                    => ' ',
+                    'classLink' => 'none',
+                    'after'
+                    =>  ' '
                 ),
                 'name'        =>  array(
                     'before'    =>  '<div class="caption"> <h3>',
@@ -340,9 +360,9 @@ function patternCatalog ($name=null)
                     'descr'
                 ),
                 'display'   =>  array(
-                    1 =>    array('','name', 'img', 'descr', 'price'),
-                    2 =>    array('','name', 'img', 'descr', 'price'),
-                    3 =>    array('','name', 'img', 'descr', 'price')
+                    1 =>    array('', 'img', 'name', 'descr', 'price'),
+                    2 =>    array('', 'img', 'name', 'descr', 'price'),
+                    3 =>    array('', 'img', 'name', 'descr', 'price')
                 )
             );
     }

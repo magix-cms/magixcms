@@ -1,1 +1,0 @@
-{headlink rel="stylesheet" href="/min/?f=skin/{template}/css/fancybox/jquery.fancybox.css,skin/{template}/css/bootstrap.css,skin/{template}/css/style.css" concat=$concat media="screen"}

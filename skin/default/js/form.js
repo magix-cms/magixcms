@@ -52,8 +52,8 @@ $(document).ready(function(){
                 }
             }
         },
-        errorClass: "alert alert-error",
-        errorElement:"span",
+        errorClass: "alert alert-warning",
+        errorElement:"div",
         validClass: "success",
         // set this class to error-labels to indicate valid fields
         success: function(label) {

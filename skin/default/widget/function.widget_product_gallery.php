@@ -133,17 +133,17 @@ function patternMicroGallery ($name=null)
         default:
             $pattern = array(
                 'container'     =>  array(
-                    'before'    =>  '<ul class="thumbnails">',
+                    'before'    =>  '<div class="thumbnails">',
                     // items injected here
-                    'after'     =>  '</ul>'
+                    'after'     =>  '</div>'
                 ),
                 'item'          =>  array(
-                    'before'    => '<li class="span2">',
+                    'before'    => '<div class="thumbnail col-xs-6 col-md-6">',
                     // item's elements injected here (name, img, descr, ...)
-                    'after'     => '</li>'
+                    'after'     => '</div>'
                 ),
                 'img'           =>  array(
-                    'classLink'     =>  'thumbnail img-gallery'
+                    'classLink'     =>  'img-gallery'
                 ),
                 'last'          =>  array(
                     'class'         => ' last',

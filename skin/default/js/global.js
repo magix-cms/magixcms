@@ -34,10 +34,12 @@ $(function()
             title : null
         }
     });
+    /*
         // *** for gallery videos
     $(".video").fancybox({
         type: 'iframe',
         autoSize : true,
         padding : 5
     });
+*/
 });

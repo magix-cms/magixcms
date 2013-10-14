@@ -1,5 +1,4 @@
-<div id="primary-sidebar" class="span3">
-    {* # Pages *}
+    {* # CMS *}
     {if $smarty.server.SCRIPT_NAME == '/cms.php' OR $smarty.server.SCRIPT_NAME == '/index.php'}
         {* ## Navigation *}
         {widget_cms_nav
@@ -9,12 +8,12 @@
             ]
             htmlAttribut=[
                 'id_container' => 'secondary-nav',
-                'class_container' => 'nav nav-list well',
+                'class_container' => 'nav nav-pills nav-stacked',
                 'class_current'     => 'active'
             ]
         }
     {/if}
-    {* # Catalogue *}
+    {* # Catalog *}
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
         {* ## Navigation *}
         {widget_catalog_nav
@@ -23,40 +22,20 @@
             ]
             htmlAttribut=[
                 'id_container' => 'secondary-nav',
-                'class_container' => 'nav nav-list well',
+                'class_container' => 'nav nav-pills nav-stacked',
                 'class_current'     => 'active'
             ]
-        prepend="<li class='nav-header'>{#catalog_navigation#}</li>"
-        }
-        {* ## Dernier produit *}
-        {widget_catalog_display
-            conf = [
-                'context' => 'last-product',
-                'limit' => 2
-            ]
-            pattern = 'sidebar'
-            prepend = "<li class='nav-header'>{#last_products#}</li>"
         }
     {/if}
-    {* # Actualités *}
+    {* # News *}
     {if $smarty.server.SCRIPT_NAME == '/news.php'}
         {* ## Navigation *}
         {widget_news_nav
             htmlAttribut=[
                 'id_container' => 'secondary-nav',
-                'class_container' => 'nav nav-list well',
+                'class_container' => 'nav nav-pills nav-stacked',
                 'class_current'     => 'active'
             ]
-            prepend="<li class='nav-header'>{#news_by_theme#}</li>"
-        }
-        {* ## Dernières actualités *}
-        {widget_news_display
-            conf    =   [
-                'level' => 'last-news',
-                'limit' => 3
-            ]
-            pattern = 'sidebar'
-            prepend = "<li class='nav-header'>{#last_news#}</li>"
+            prepend="<p class='lead'>{#news_by_theme#}</p>"
         }
     {/if}
-</div>

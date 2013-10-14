@@ -1,0 +1,100 @@
+/*  Header
+    ****/
+#nav-lang {
+    right: 0;
+    left: auto;
+}
+
+#navbar-header {
+    float: none;
+}
+
+#navbar-headline {
+    line-height: 50px;
+}
+
+#nav-primary-inner {
+    margin-bottom: 0;
+}
+
+#share-nav {
+    right: 0;
+    left: auto;
+}
+
+    #share-nav > li > a > img {
+        margin-right: 10px;
+    }
+
+
+#breadcrumb {
+    font-size: 11px;
+    background-color: transparent;
+}
+
+/*  Main
+    ****/
+#secondary-nav > li > ul {
+    list-style: none;
+    font-size: 12px;
+}
+
+#secondary-nav ul > .active {
+    font-weight: bold;
+}
+
+#secondary-nav > .active > ul {
+    display: block !important;
+}
+
+.sidebar-list > .lead {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.sidebar-list > .thumbnail {
+    margin: 0;
+    padding: 10px;
+    border-width: 0 0 1px 0;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+    .sidebar-list > .thumbnail:first-child {
+        border-bottom: 0;
+    }
+
+.sidebar-list > .thumbnail > .price,
+.sidebar-list > .thumbnail > .date {
+    display: block;
+    margin: 0 20%;
+}
+
+/*  Article
+    *****/
+#article > h1:first-child {
+    margin-top: 0;
+}
+
+/*  Content List
+    ***********/
+.news-list > .thumbnail > img {
+    float: left;
+    margin: 10px 20px 10px 10px;
+}
+
+.news-list > .thumbnail > .caption > h3 {
+    margin-top: 0;
+}
+
+
+/*  Extend Bootstrap
+    ****************/
+.img-responsive {
+    margin: 0 auto;
+}
+
+.img-galery,
+.img-zoom {
+    z-index: 1;
+}

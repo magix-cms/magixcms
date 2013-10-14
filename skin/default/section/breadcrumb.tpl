@@ -1,10 +1,9 @@
-<ol id="breadcrumb" class="breadcrumb">
+<ol id="breadcrumb" class="breadcrumb container">
 {if $smarty.server.SCRIPT_NAME != '/index.php'}
     <li>
         <a href="{geturl}/{getlang}/" title="{#show_home#|firststring}">
             {#home#|firststring}
         </a>
-        <span class="divider">/</span>
     </li>
         {* # Pages *}
     {if $smarty.server.SCRIPT_NAME == '/cms.php'}
@@ -13,7 +12,6 @@
                 <a href="{geturl}/{$parent.url}" title="{#show_page#|firststring}: {$parent.name}">
                     {$parent.name}
                 </a>
-                <span class="divider">/</span>
             </li>
         {/if}
         <li>
@@ -28,7 +26,6 @@
                 <a href="{geturl}/{getlang}/{#nav_catalog_uri#}" title="{#show_catalog#|firststring}">
                     {#catalog#|firststring}
                 </a>
-                <span class="divider">/</span>
             </li>
             {if $smarty.get.idcls OR $smarty.get.idproduct}
                 {* ## Catégories *}
@@ -36,16 +33,14 @@
                     <a href="{geturl}/{$cat.url}/" title="{#show_category#|firststring}}: {$cat.name}">
                         {$cat.name}
                     </a>
-                    <span class="divider">/</span>
-                </li>
+                    </li>
                 {if $smarty.get.idcls AND $smarty.get.idproduct}
                     {* ## Sous-catégories *}
                     <li>
                         <a href="{geturl}/{$subcat.url}/" title="{#show_subcategory#|firststring}}: {$subcat.name}">
                             {$subcat.name}
                         </a>
-                        <span class="divider">/</span>
-                    </li>
+                            </li>
                 {elseif $smarty.get.idcls}
                     <li>
                         {$subcat.name}
@@ -79,8 +74,7 @@
                     <a href="{geturl}/{getlang}/{#nav_news_uri#}/" title="{#show_news#|firststring}">
                         {#news#|firststring}
                     </a>
-                    <span class="divider">/</span>
-                    {else}
+                        {else}
                     {#news#|firststring}
                 {/if}
             </li>

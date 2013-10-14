@@ -198,14 +198,14 @@ function patternNews ($name=null)
         case 'sidebar':
             $pattern    =   array(
                 'container'     =>  array(
-                    'before'    =>  '<ul class="thumbnails">',
+                    'before'    =>  '<div class="news-list-last sidebar-list row">',
                     // items injected here
-                    'after'     =>  '</ul>'
+                    'after'     =>  '</div>'
                 ),
                 'item'          =>  array(
-                    'before'    => '<li class="span3 #current-last#"><a href="#url#" title="'.$tr['show_news'].'" class="thumbnail">',
+                    'before'    => '<a class="thumbnail text-center col-xs-6 col-sm-12 #current-last#" href="#url#" title="'.$tr['show_news'].'" >',
                     // item's elements injected here (name, img, descr, ...)
-                    'after'     => '</a></li>'
+                    'after'     => '</span></a>'
                 ),
                 'img'           =>  array(
                     'before'
@@ -214,20 +214,20 @@ function patternNews ($name=null)
                     =>  ' '
                 ),
                 'date'          =>  array(
-                    'before'    => '<span class="date span badge">',
+                    'before'    => '<span class="date label label-default">',
                     'format'        =>  array(
                         'day'   => 'd/',
                         'month'   => 'm/',
                         'year'   => 'Y'
                     ),
                     // item's elements injected here (name, img, descr)
-                    'after'     => '</span><br />'
+                    'after'     => '</span>'
                 ),
                 'name'          =>  array(
                     'before'
-                    =>  ' ',
+                    =>  '<span class="caption"></span><span class="panel-title">',
                     'after'
-                    =>  ' '
+                    =>  '</span>'
                 ),
                 'tag'           =>  array(
                     'before'    => '<span class="tag">',
@@ -236,9 +236,9 @@ function patternNews ($name=null)
                 ),
                 'display'       =>  array(
                     1           => array(
-                        'date',
                         'img',
-                        'name'
+                        'name',
+                        'date'
                     )
                 )
             );
@@ -246,14 +246,14 @@ function patternNews ($name=null)
         default:
             $pattern    =   array(
                 'container'     =>  array(
-                    'before'    =>  '<ul class="thumbnails">',
+                    'before'    =>  '<div class="news-list">',
                     // items injected here
-                    'after'     =>  '</ul>'
+                    'after'     =>  '</div>'
                 ),
                 'item'          =>  array(
-                    'before'    => '<li class="span4"><div class="thumbnail">',
+                    'before'    => '<div class="thumbnail col-xs-6 col-lg-6">',
                     // item's elements injected here (name, img, descr, ...)
-                    'after'     => '</div></div></li>'
+                    'after'     => '</div></div>'
                 ),
                 'img'           =>  array(
                     'before'
@@ -261,10 +261,19 @@ function patternNews ($name=null)
                     'after'
                     =>  ' '
                 ),
+                'date'          =>  array(
+                    'before'    => '<div class="caption"><span class="date badge badge-info pull-right">',
+                    'format'        =>  array(
+                        'day'   => 'd/',
+                        'month'   => 'm/',
+                        'year'   => 'Y'
+                    ),
+                    // item's elements injected here (name, img, descr)
+                    'after'     => '</span>'
+                ),
                 'name'          =>  array(
                     'before'
-                    =>  '<div class="caption">
-                            <h3>
+                    =>  '<h3>
                                 <a href="#url#" title="'.$tr['show_news'].'">',
                     'after'
                             =>  '</a>
@@ -281,16 +290,6 @@ function patternNews ($name=null)
                     'class'         => 'pagination',
                     'after'     => '</div>'
                 ),
-                'date'          =>  array(
-                    'before'    => '<span class="date badge badge-info pull-right">',
-                    'format'        =>  array(
-                        'day'   => 'd/',
-                        'month'   => 'm/',
-                        'year'   => 'Y'
-                    ),
-                    // item's elements injected here (name, img, descr)
-                    'after'     => '</span>'
-                ),
                 'tag'           =>  array(
                     'before'    => '<span class="tag">',
                     // item's elements injected here (name, img, descr)
@@ -306,10 +305,10 @@ function patternNews ($name=null)
                 'display'       =>  array(
                     1           => array(
                         'img',
-                        'name',
                         'date',
-                        'descr',
-                        'tag'
+                        'name',
+                        'descr'/*,
+                        'tag'*/
                     )
                 ),
                 'allow' => array(
