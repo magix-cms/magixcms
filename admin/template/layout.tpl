@@ -23,6 +23,11 @@
     {headlink rel="stylesheet" href=$smarty.capture.styleSheetIe concat={$concat} media="screen"}
     <![endif]-->
 {/block}
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/libjs/html5shiv.js" type="text/javascript"></script>
+    <script src="/libjs/respond.min.js" type="text/javascript"></script>
+    <![endif]-->
     {block name="install"}
     {/block}
     {headmeta meta="description" content="Magix CMS | Admin"}

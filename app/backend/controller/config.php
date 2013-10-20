@@ -239,8 +239,7 @@ class backend_controller_config extends backend_db_config{
         $config = parent::s_setting_id('editor');
         $array_manager = array(
             "openFilemanager"   =>  "openFilemanager(intégré)",
-            "imagemanager"      =>  "imagemanager(payant)",
-            "filemanager"       =>  "filemanager(payant)"
+            "moxiemanager"      =>  "moxiemanager(payant)"
         );
         /**
          * Création du menu select pour la sélection du gestionnaire de fichiers

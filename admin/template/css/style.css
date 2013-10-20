@@ -374,3 +374,7 @@ ul.autocomplete-list-row li span{
 .btn-row{
     margin-top: 10px;
 }
+/* Editor */
+.mceEditor{
+    min-height: 200px
+}
