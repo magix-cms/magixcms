@@ -1,4 +1,30 @@
 #### 2.4.0
+RC5
+    * Add Button loremipsum tinyMCE
+    * Fix bug structure galery (admin)
+    * Upgrade tinyMCE 4.0.6 => 4.0.8
+        * Adapted plugin mc_catalog for tinyMCE 4.0.6
+        * Adapted plugin mc_pages for tinyMCE 4.0.6
+        * Adapted plugin mc_news for tinyMCE 4.0.6
+        * Upgrade jQuery 1.10.2
+        * Add HTML5shiv
+        * Add CSS for tinyMCE 4.0.6
+    * view: skin/default/widget - remove useless class
+    * some personal tricks I did when bootstrap 3 was still in beta - no problem anymore with final version
+    * view: skin/default | massive refactoring && improvement
+        * bootstrap V3
+        * include bootstrap less files for more fun
+        * using smarty template {extend} method
+        * other stuff
+    * Fix bug load plugin mc_catalog in tinyMCE (jquery forms version)
+        * Add default ORDER category catalog (backend)
+    * Modification de la disposition des langues (lang-group)
+    * Suppression de la balise "base" tag issue with ie7
+    * Mise à jour de respond.js (prise en charge de la balise main)
+    * Fix bug affichage des messages de validation (backend)
+    * Fix bug déplacement d'une page CMS (backend)
+    * Upgrade minify backend (2.1.7)
+    * Upgrade minify frontend (2.1.7)
 RC4
     * Mise en place des tailles sm de bootstrap + définition des tailles classique (backend)
     * Upgrade jQuery form et jquery validate
