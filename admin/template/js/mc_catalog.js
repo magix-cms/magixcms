@@ -2031,15 +2031,18 @@ var MC_catalog = (function ($, undefined) {
                 $('#load_catalog_product_galery').empty();
                 var div = $(document.createElement('div'))
                         .attr('id','list_product_galery')
-                        .addClass('row-fluid'),
+                        .addClass('row'),
                     ul = $(document.createElement('ul'))
-                        .addClass('thumbnails list-picture');
+                        .addClass('list-unstyled list-inline list-picture');
                 $.nicenotify.initbox(j,{
                     display:false
                 });
                 div.append(
+                    $(document.createElement('div'))
+                        .addClass('container')
+                    .append(
                     ul
-                );
+                ));
                 div.appendTo('#load_catalog_product_galery');
 
                 if(j === undefined){
@@ -2047,13 +2050,19 @@ var MC_catalog = (function ($, undefined) {
                 }
                 if(j !== null){
                     $.each(j, function(i,item) {
+                        var Width = $('.list-picture img').width(),col;
+                        if(Width > 150){
+                            col = 'col-lg-3 col-md-3 col-sm-3 col-xs-7';
+                        }else{
+                            col = 'col-lg-2 col-md-2 col-sm-2 col-xs-6';
+                        }
                         ul.append(
-                            $(document.createElement("li")).addClass('span2').append(
+                            $(document.createElement("li")).addClass(col).append(
                                 $(document.createElement("div")).append(
                                     $(document.createElement("a"))
                                         .attr('href','#')
                                         .attr("data-delete", item.idmicro)
-                                        .addClass('btn btn-mini btn-danger')
+                                        .addClass('btn btn-xs btn-danger')
                                         .addClass('delete-image')
                                         .append(
                                             '&times;'

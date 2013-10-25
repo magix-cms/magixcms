@@ -290,6 +290,7 @@ tbody.ui-sortable > .ui-sortable-helper{
 * List image
 */
 .list-picture li{
+    margin:0 0 0 5px;
     text-align:center;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 3px;

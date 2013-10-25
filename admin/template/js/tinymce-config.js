@@ -24,7 +24,7 @@
         ],
         toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | forecolor backcolor',
         toolbar2: 'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | '+manager_tinymce_button+' image media | link unlink anchor | code | preview',
-        toolbar3: 'table | hr removeformat | fullscreen | visualblocks template | inserttime | youtube | mc_pages mc_news mc_catalog',
+        toolbar3: 'table | hr removeformat | fullscreen | visualblocks template | loremipsum | inserttime | youtube | mc_pages mc_news mc_catalog',
         menubar: false,
         toolbar_items_size: 'small',
         image_advtab: true ,
@@ -32,6 +32,18 @@
         filemanager_title:"Responsive Filemanager" ,
         external_plugins: {
             "filemanager" : '/'+baseadmin+'/template/js/filemanager/plugin.min.js'
+        },
+        setup: function(ed) {
+            ed.addButton('loremipsum', {
+                title: 'loremipsum',
+                //text : 'loremipsum',
+                image: '/'+baseadmin+'/template/img/ico/loremipsum.png',
+                icon: true,
+                onclick: function() {
+                    var li = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.|Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.|Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.|Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+                    ed.insertContent(li);
+                }
+            });
         },
         language : tinyLanguage,
         //content_css: "css/content.css",
