@@ -1,0 +1,70 @@
+<div class="container">
+<form action="#" method="get" class="form-horizontal">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="checkbox-inline">
+                    <label>
+                        <input type="checkbox" id="nogutter" name="nogutter" value="1">
+                        {{nogutter}}
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input type="checkbox" id="light" name="light" value="1">
+                        {{light}}
+                    </label>
+                </div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input type="checkbox" id="collapse" name="collapse" value="1">
+                        {{collapse}}
+                    </label>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label for="highlight" class="col-lg-9 col-xs-9 control-label">{{highlight}}:</label>
+                    <input class="form-control" id="highlight" name="highlight" type="text" value="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="form-group">
+                    <label for="language" class="control-label">{{choose_language}}:</label>
+                    <select name="language" id="language">
+                        <option value="bash">Bash(Shell)</option>
+                        <option value="css">CSS</option>
+                        <option value="jscript">Javascript</option>
+                        <option value="php">PHP</option>
+                        <option value="plain">Plain(Text)</option>
+                        <option value="sql">SQL</option>
+                        <option value="xml">XML/XHTML</option>
+                        <option value="smarty">Smarty</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label for="firstline" class="control-label">{{firstline}}:</label>
+                    <input class="form-control" id="firstline" name="firstline" type="text" size="5" value="1" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label" for="code">{{paste}}:</label>
+                <textarea class="form-control" name="code" id="code" rows="15" cols="20"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <input id="insert-btn" type="button" class="btn btn-primary btn-block" value="Insert" />
+    </div>
+</form>
+</div>

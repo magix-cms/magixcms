@@ -85,9 +85,9 @@ class backend_controller_ajax{
 
             }
         }
-        $ouput = 'var tinyMCETemplateList = new Array(';
+        $ouput = 'var tinyMCETemplateList = [';
         $ouput .= implode(',',$files);
-        $ouput .= $delimiter.');';
+        $ouput .= $delimiter.'];';
         print $ouput;
     }
 

@@ -1,4 +1,5 @@
 ;(function ( $, window, document, undefined ) {
+    $()
     var tinyLanguage;
     switch(iso){
         case 'fr':
@@ -20,11 +21,11 @@
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table contextmenu paste textcolor youtube mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
+            'insertdatetime media table contextmenu paste textcolor template youtube codehighlight mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
         ],
         toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | forecolor backcolor',
         toolbar2: 'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | '+manager_tinymce_button+' image media | link unlink anchor | code | preview',
-        toolbar3: 'table | hr removeformat | fullscreen | visualblocks template | loremipsum | inserttime | youtube | mc_pages mc_news mc_catalog',
+        toolbar3: 'table | hr removeformat | fullscreen | visualblocks template | loremipsum | inserttime | youtube | mc_pages mc_news mc_catalog codehighlight',
         menubar: false,
         toolbar_items_size: 'small',
         image_advtab: true ,
@@ -45,8 +46,8 @@
                 }
             });
         },
+        templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,
-        //content_css: "css/content.css",
         schema: "html5",
         end_container_on_empty_block: false,
         /*fix_list_elements : true*/
