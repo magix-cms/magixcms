@@ -85,7 +85,7 @@ $.nicenotify.notifier = {
     background : "#efefef"
 };
  */
-(function($){
+;(function ( $, window, document, undefined ) {
 	$.nicenotify = function(options){
         var settings = {
             ntype: "simple",
@@ -174,7 +174,7 @@ $.nicenotify.notifier = {
         if(opt.ntype == ""){
             console.log("%s: %o","ntype is null");
             return false;
-        }else if(typeof(opt.ntype) == "undefined"){
+        }else if(typeof(opt.ntype) == undefined){
             console.log("%s: %o","ntype is undefined");
             return false;
         }else{
@@ -374,4 +374,4 @@ $.nicenotify.notifier = {
 			},opts.delay);
 		}
 	}
-})(jQuery);
+})( jQuery, window, document );

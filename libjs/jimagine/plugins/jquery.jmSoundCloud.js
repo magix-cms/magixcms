@@ -24,11 +24,11 @@
  * @copyright  MAGIX DEV Copyright (c) 2011 - 2013 Gerits Aurelien,
  * http://www.magix-dev.be
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
- * @version    0.1
+ * @version    0.2
  * @author Gérits Aurélien <aurelien[at]magix-dev[dot]be>
  * @name jmSoundCloud
  */
-(function($) {
+;(function ( $, window, document, undefined ) {
     $.fn.jmSoundCloud = function(settings) {
         // Default options value
         var options = {};
@@ -38,11 +38,11 @@
             console.log("%s: %o","jmSoundCloud settings is not object");
         }
         // Reference to the container element
-        var self = $(this);
-        return this.each(function() {
-            $.getJSON('https://soundcloud.com/oembed?format=js&url=' + self.attr('href') + '&iframe=true&callback=?', function(response){
-                self.replaceWith(response.html);
+        return this.each(function(i, item) {
+            var $this = $(item);
+            $.getJSON('https://soundcloud.com/oembed?format=js&url=' + $this.attr('href') + '&iframe=true&callback=?', function(response){
+                $this.replaceWith(response.html);
             });
         });
     };
-})(jQuery);
+})( jQuery, window, document );

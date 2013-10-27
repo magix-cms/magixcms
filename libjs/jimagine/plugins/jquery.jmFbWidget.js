@@ -54,7 +54,7 @@
          }
  * });
  */
-(function($){
+;(function ( $, window, document, undefined ) {
 	$.fn.jmFbWidget = function(settings){
 		// Default options value
 	    var options = {
@@ -90,4 +90,4 @@
         	return false;
         }
 	};
-})(jQuery);
+})( jQuery, window, document );

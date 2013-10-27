@@ -29,7 +29,7 @@
  * @contributor jbdemonte
  * @name jmMap
  */
-;(function ($) {
+;(function ( $, window, document, undefined ) {
     var methods = {
         getLatLng: function (value){
             if (value.lat !== false && value.lng !== false){
@@ -245,7 +245,7 @@
         }
         return this;
     };
-})(jQuery);
+})( jQuery, window, document );
 /**
  * mapTimer
  *
@@ -258,7 +258,7 @@
         });
     }
  */
-;(function ($) {
+;(function ( $, window, document, undefined ) {
     $.mapTimer = function(settings){
         // Default options value
         var options = {
@@ -276,4 +276,4 @@
         }
         return updateTimer(o.ts, o.func);
     }
-})(jQuery);
+})( jQuery, window, document );

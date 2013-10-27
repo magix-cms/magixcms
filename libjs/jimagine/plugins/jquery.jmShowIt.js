@@ -55,7 +55,7 @@
         <p>Foo</p>
      </div>
  */
-(function($){
+;(function ( $, window, document, undefined ) {
 	$.fn.jmShowIt = function(options){
 		var defaults = {
             open: 'open',
@@ -110,4 +110,4 @@
 			});
 		});
 	};
-})(jQuery);
+})( jQuery, window, document );
