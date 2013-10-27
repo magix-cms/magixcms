@@ -16,8 +16,6 @@ $(function()
         window.console = {};
         for (var i = 0; i < names.length; ++i) window.console[names[i]] = function() {};
     }
-    var ie6 = ($.browser.msie && $.browser.version < 7);
-    var ie7 = ($.browser.msie && $.browser.version > 6);
 
         // *** target_blank
     $('a.targetblank').click( function() {
