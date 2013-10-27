@@ -1,5 +1,4 @@
 ;(function ( $, window, document, undefined ) {
-    $()
     var tinyLanguage;
     switch(iso){
         case 'fr':
