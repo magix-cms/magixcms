@@ -16,8 +16,8 @@
 </script>
     {elseif $editor eq 'openFilemanager'}
 <script type="text/javascript">
-    var manager_tinymce_plugin = " filemanager";
-    var manager_tinymce_button = " filemanager";
+    var manager_tinymce_plugin = " responsivefilemanager";
+    var manager_tinymce_button = " responsivefilemanager";
 </script>
 {/if}
 <script type="text/javascript">

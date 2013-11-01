@@ -1,5 +1,4 @@
 <?php
-
 include('config/config.php');
 
 $_SESSION["verify"]= "RESPONSIVEfilemanager";
@@ -127,7 +126,6 @@ $get_params = http_build_query(array(
     'field_id'  => isset($_GET['field_id']) ? $_GET['field_id'] : '',
     'fldr'      => ''
 ));
-
 ?>
 
 <!DOCTYPE html>
@@ -171,7 +169,12 @@ $get_params = http_build_query(array(
 	<script type="text/javascript" src="jPlayer/jquery.jplayer.min.js"></script>
 	<script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
 	<script type="text/javascript" src="js/jquery.queryloader2.min.js"></script>
-	<script type="text/javascript" src="//dme0ih8comzn4.cloudfront.net/js/feather.js"></script>
+	<? if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) { ?>
+	    <script type="text/javascript" src="https://dme0ih8comzn4.cloudfront.net/js/feather.js"></script>
+	<? }else{ ?>
+	    <script type="text/javascript" src="http://feather.aviary.com/js/feather.js "></script>
+	<? } ?>
+	
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 	  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
@@ -248,17 +251,19 @@ $get_params = http_build_query(array(
 	<input type="hidden" id="ok" value="<?php echo lang_OK; ?>" />
 	<input type="hidden" id="cancel" value="<?php echo lang_Cancel; ?>" />
 	<input type="hidden" id="rename" value="<?php echo lang_Rename; ?>" />
+	<input type="hidden" id="lang_duplicate" value="<?php echo lang_Duplicate; ?>" />
+	<input type="hidden" id="duplicate" value="<?php if($duplicate_files) echo 1; else echo 0; ?>" />
 	<input type="hidden" id="base_url" value="<?php echo $base_url?>"/>
 	<input type="hidden" id="base_url_true" value="<?php echo base_url(); ?>"/>
 	<input type="hidden" id="fldr_value" value="<?php echo $subdir; ?>"/>
 	<input type="hidden" id="sub_folder" value="<?php echo $subfolder; ?>"/>
 	<input type="hidden" id="file_number_limit_js" value="<?php echo $file_number_limit_js; ?>" />
 	<input type="hidden" id="descending" value="<?php echo $descending?"true":"false"; ?>" />
-	<?php $protocol = strpos(mb_strtolower($_SERVER['SERVER_PROTOCOL']),'https') === FALSE ? 'http' : 'https'; ?>
+	<?php $protocol = 'http'; ?>
 	<input type="hidden" id="current_url" value="<?php echo str_replace(array('&filter='.$filter),array(''),$protocol."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>" />
 	<input type="hidden" id="lang_show_url" value="<?php echo lang_Show_url; ?>" />
 	<input type="hidden" id="lang_extract" value="<?php echo lang_Extract; ?>" />
-	<input type="hidden" id="lang_file_info" value="<?php echo mb_strtoupper(lang_File_info); ?>" />
+	<input type="hidden" id="lang_file_info" value="<?php echo fix_strtoupper(lang_File_info); ?>" />
 	<input type="hidden" id="lang_edit_image" value="<?php echo lang_Edit_image; ?>" />
 <?php if($upload_files){ ?>
 <!----- uploader div start ------->
@@ -314,8 +319,7 @@ $get_params = http_build_query(array(
 	    
 $class_ext = '';
 $src = '';
-		 
-$dir = opendir($current_path.$subfolder.$subdir);
+
 if ($_GET['type']==1) 	 $apply = 'apply_img';
 elseif($_GET['type']==2) $apply = 'apply_link';
 elseif($_GET['type']==0 && $_GET['field_id']=='') $apply = 'apply_none';
@@ -425,7 +429,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			    <input id="select-type-5" name="radio-sort" type="radio" data-item="ff-item-type-5" class="hide"  />
 			    <label id="ff-item-type-5" title="<?php echo lang_Music; ?>" for="select-type-5" class="tip btn ff-label-type-5"><i class="icon-music"></i></label>
 			    <?php } ?>
-			    <input accesskey="f" type="text" class="filter-input" id="filter-input" name="filter" placeholder="<?php echo mb_strtolower(lang_Text_filter); ?>..." value="<?php echo $filter; ?>"/><?php if($n_files>$file_number_limit_js){ ?><label id="filter" class="btn"><i class="icon-play"></i></label><?php } ?>
+			    <input accesskey="f" type="text" class="filter-input" id="filter-input" name="filter" placeholder="<?php echo fix_strtolower(lang_Text_filter); ?>..." value="<?php echo $filter; ?>"/><?php if($n_files>$file_number_limit_js){ ?><label id="filter" class="btn"><i class="icon-play"></i></label><?php } ?>
 			    
 			    <input id="select-type-all" name="radio-sort" type="radio" data-item="ff-item-type-all" class="hide"  />
 			     <label id="ff-item-type-all" title="<?php echo lang_All; ?>" <?php if($_GET['type']==1 || $_GET['type']==3){ ?>style="visibility: hidden;" <?php } ?> data-item="ff-item-type-all" for="select-type-all" style="margin-rigth:0px;" class="tip btn btn-inverse ff-label-type-all"><i class="icon-align-justify icon-white"></i></label>
@@ -515,6 +519,12 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 		    $file=$file_array['file'];
 			if($file == '.' || (isset($file_array['extension']) && $file_array['extension']!=lang_Type_dir) || ($file == '..' && $subdir == '') || in_array($file, $hidden_folders) || ($filter!='' && $file!=".." && strpos($file,$filter)===false))
 			    continue;
+			$new_name=fix_filename($file);
+			if($file!='..' && $file!=$new_name){
+			    //rename
+			    rename_folder($current_path.$subdir.$new_name,$new_name);
+			    $file=$new_name;
+			}
 			//add in thumbs folder if not exist 
 			if (!file_exists($thumbs_path.$subdir.$file)) create_folder(false,$thumbs_path.$subdir.$file);
 			$class_ext = 3;			
@@ -531,7 +541,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			?>
 			<li data-name="<?php echo $file ?>" <?php if($file=='..') echo 'class="back"'; else echo 'class="dir"'; ?>>
 				<figure data-name="<?php echo $file ?>" class="<?php if($file=="..") echo "back-"; ?>directory" data-type="<?php if($file!=".."){ echo "dir"; } ?>">
-				    <a title="<?php echo lang_Open?>" class="folder-link" href="dialog.php?<?php echo $get_params.$src."&".uniqid() ?>">
+				    <a class="folder-link" href="dialog.php?<?php echo $get_params.$src."&".uniqid() ?>">
 				    <div class="img-precontainer">
 					<div class="img-container directory"><span></span>
 					<img class="directory-img"  src="img/<?php echo $icon_theme; ?>/folder<?php if($file==".."){ echo "_back"; }?>.jpg" alt="folder" />
@@ -552,7 +562,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			<?php }else{ ?>
 				    </a>
 				    <div class="box">
-					<h4 class="<?php if($ellipsis_title_after_first_row){ echo "ellipsis"; } ?>"><a title="<?php echo lang_Open?>" class="folder-link" data-file="<?php echo $file ?>" href="dialog.php?<?php echo $get_params.$src."&".uniqid() ?>"><?php echo $file; ?></a></h4>
+					<h4 class="<?php if($ellipsis_title_after_first_row){ echo "ellipsis"; } ?>"><a class="folder-link" data-file="<?php echo $file ?>" href="dialog.php?<?php echo $get_params.$src."&".uniqid() ?>"><?php echo $file; ?></a></h4>
 				    </div>
 				    <input type="hidden" class="name" value=""/>
 				    <input type="hidden" class="date" value="<?php echo $file_array['date']; ?>"/>
@@ -577,7 +587,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 		    foreach ($files as $nu=>$file_array) {		
 			$file=$file_array['file'];
 		    
-			    if($file == '.' || $file == '..' || is_dir($current_path.$subfolder.$subdir.$file) || in_array($file, $hidden_files) || !in_array(mb_strtolower($file_array['extension']), $ext) || ($filter!='' && strpos($file,$filter)===false))
+			    if($file == '.' || $file == '..' || is_dir($current_path.$subfolder.$subdir.$file) || in_array($file, $hidden_files) || !in_array(fix_strtolower($file_array['extension']), $ext) || ($filter!='' && strpos($file,$filter)===false))
 				    continue;
 			    
 			    $file_path=$current_path.$subfolder.$subdir.$file;
@@ -612,7 +622,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			    $show_original_mini=false;
 			    $mini_src="";
 			    $src_thumb="";
-			    $extension_lower=mb_strtolower($file_array['extension']);
+			    $extension_lower=fix_strtolower($file_array['extension']);
 			    if(in_array($extension_lower, $ext_img)){
 				$src = $base_url . $cur_dir . $file;
 				$mini_src = $src_thumb = $thumbs_path.$subdir. $file;
@@ -671,7 +681,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 ?>
 		<li class="ff-item-type-<?php echo $class_ext; ?> file"  data-name="<?php echo $file; ?>">
 			<figure data-name="<?php echo $file ?>" data-type="<?php if($is_img){ echo "img"; }else{ echo "file"; } ?>">
-				<a href="javascript:void('')" title="<?php echo  lang_Select?>" class="link" data-file="<?php echo $file; ?>" data-field_id="<?php echo $_GET['field_id']; ?>" data-function="<?php echo $apply; ?>">
+				<a href="javascript:void('')" class="link" data-file="<?php echo $file; ?>" data-field_id="<?php echo $_GET['field_id']; ?>" data-function="<?php echo $apply; ?>">
 				<div class="img-precontainer">
 				    <?php if($is_icon_thumb){ ?><div class="filetype"><?php echo $extension_lower ?></div><?php } ?>
 				    <div class="img-container">
@@ -693,7 +703,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 				<?php } ?>
 				</a>	
 				<div class="box">				
-				<h4 class="<?php if($ellipsis_title_after_first_row){ echo "ellipsis"; } ?>"><a href="javascript:void('')" title="<?php echo  lang_Select?>" class="link" data-file="<?php echo $file; ?>" data-field_id="<?php echo $_GET['field_id']; ?>" data-function="<?php echo $apply; ?>">
+				<h4 class="<?php if($ellipsis_title_after_first_row){ echo "ellipsis"; } ?>"><a href="javascript:void('')" class="link" data-file="<?php echo $file; ?>" data-field_id="<?php echo $_GET['field_id']; ?>" data-function="<?php echo $apply; ?>">
 				<?php echo $filename; ?></a> </h4>
 				</div>
 				<input type="hidden" class="date" value="<?php echo $file_array['date']; ?>"/>
@@ -731,15 +741,13 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			}
 		    }
 		
-	?></div><?php
-		closedir($dir);
-		?>
+	?></div>
 	    </ul>
 	    <?php } ?>
 	</div>
     </div>
 </div>
-    
+
     <!----- lightbox div start ------->    
     <div id="previewLightbox" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
 	    <div class='lightbox-content'>
@@ -771,5 +779,4 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
     <img id='aviary_img' src='' class="hide"/>
 </body>
 </html>
-<?php
-} ?>
+<?php } ?>

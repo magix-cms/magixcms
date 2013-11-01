@@ -1,4 +1,9 @@
 #### 2.4.0
+Stable
+    * Upgrade responsivefilemanager 9.1.4 => 9.2.1
+    * Add icon responsivefilemanager in tinyMCE
+    * Add select langue Admin
+    * Upgrade tinyMCE 4.0.9 => 4.0.10
 RC5
     * Add Button loremipsum tinyMCE
     * Fix bug structure galery (admin)

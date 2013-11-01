@@ -86,7 +86,14 @@
                 {/if}
             </ul>
             <p class="navbar-text pull-right">
-                <a href="{geturl}/admin/dashboard.php?acsclose" class="navbar-link"><span class="icon-off"></span> Logout</a>
+                <select id="admin-language" title="{#select_admin_language#}">
+                    <option {if {iso} == "fr"}selected="selected" {/if} value="fr">
+                        FR
+                    </option>
+                </select>
+                <a href="{geturl}/admin/dashboard.php?acsclose" class="navbar-link">
+                    <span class="icon-off"></span> Logout
+                </a>
             </p>
         </div>
     </div>

@@ -177,7 +177,20 @@ $(function(){
             unlock.removeClass('icon-unlock').addClass('icon-lock');
         }
     });
-
+    function selectCurrentIso(id,adminurl){
+        if ( typeof adminurl === "string" ) {
+            $(document).on('change','select#'+id,function(){
+                var $currentOption = $(this).find('option:selected').val();
+                window.location.href = adminurl+$currentOption;
+            });
+        }else{
+            console.error("Error url is not string");
+        }
+    }
+    selectCurrentIso(
+        'admin-language',
+        '/'+baseadmin+'/dashboard.php?adminLanguage='
+    );
     //$(".alert").alert('close');
     /*$("a[rel=popover]").popover({
         placement: 'right',

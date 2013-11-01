@@ -149,6 +149,9 @@ a:hover > .badge {
 .nav-header {
     font-size:14px;
 }
+#admin-language{
+    margin-right:5px;
+}
 /*.sidebar-nav {
     padding: 9px 0;
 }
