@@ -366,6 +366,8 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"iso":'.json_encode($key['iso']).'}';
             }
             print '['.implode(',',$json_data).']';
+        }else{
+            print '{}';
         }
     }
 
@@ -640,6 +642,8 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"idclc":'.json_encode($key['idclc']).',"titlecatalog":'.json_encode($key['titlecatalog']).'}';
             }
             print '['.implode(',',$product).']';
+        }else{
+            print '{}';
         }
     }
     /**
@@ -695,6 +699,8 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"iso":'.json_encode($key['iso']).'}';
             }
             print '['.implode(',',$json_data).']';
+        }else{
+            print '{}';
         }
     }
 
@@ -1130,6 +1136,8 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"pseudo":'.json_encode($key['pseudo']).'}';
             }
             print '['.implode(',',$json_data).']';
+        }else{
+            print '{}';
         }
     }
 

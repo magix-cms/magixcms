@@ -22,14 +22,14 @@
             'searchreplace visualblocks code fullscreen',
             'insertdatetime media table contextmenu paste textcolor template youtube codehighlight mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
         ],
-        toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | forecolor backcolor',
+        toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | fontsizeselect | forecolor backcolor',
         toolbar2: 'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | '+manager_tinymce_button+' image media | link unlink anchor | code | preview',
-        toolbar3: 'table | hr removeformat | fullscreen | visualblocks | loremipsum | inserttime | youtube | mc_pages mc_news mc_catalog codehighlight',
+        toolbar3: 'table | hr removeformat | fullscreen | visualblocks | loremipsum | inserttime | styleselect | youtube | mc_pages mc_news mc_catalog codehighlight',
         menubar: false,
         toolbar_items_size: 'small',
         image_advtab: true ,
         external_filemanager_path: '/'+baseadmin+'/template/js/filemanager/',
-        filemanager_title:"Responsive Filemanager" ,
+        filemanager_title: "Responsive Filemanager",
         external_plugins: {
             "filemanager" : '/'+baseadmin+'/template/js/filemanager/plugin.min.js'
         },
@@ -45,6 +45,23 @@
                 }
             });
         },
+        style_formats: [
+            {title: 'Lightbox simple', selector: 'a', classes: 'img-zoom',
+                attributes: {
+                    'data-fancybox-group': 'lightbox'
+                }
+            },
+            {title: 'Lightbox galery', selector: 'a', classes: 'img-gallery',
+                attributes: {
+                    'data-fancybox-group': 'lightbox'
+                }
+            },
+            {title: 'Image float left', selector: 'img', classes: 'pull-left img-float'},
+            {title: 'Image float right', selector: 'img', classes: 'pull-right img-float'},
+            {title: 'Image rounded', selector: 'img', classes: 'img-rounded'},
+            {title: 'Image circle', selector: 'img', classes: 'img-circle'},
+            {title: 'Image thumbnail', selector: 'img', classes: 'img-thumbnail'}
+        ],
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,
         schema: "html5",
