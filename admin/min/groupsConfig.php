@@ -15,18 +15,18 @@ return array(
 	'adminjs' =>    array(
         '//libjs/jquery-1.10.2.min.js',
         '//libjs/jquery-ui-1.10.3.custom.min.js',
-        '//libjs/plugins/jquery.form.3.40.min.js',
-        '//libjs/plugins/jquery.validate.1.11.1.min.js',
-        '//libjs/plugins/additional-methods.1.11.1.min.js',
-        '//'.PATHADMIN.'/template/js/plugins/bootstrap.3.0.0.min.js',
-        '//'.PATHADMIN.'/template/js/plugins/holder.js'
+        '//libjs/vendor/jquery.form.3.40.min.js',
+        '//libjs/vendor/jquery.validate.1.11.1.min.js',
+        '//libjs/vendor/additional-methods.1.11.1.min.js',
+        '//'.PATHADMIN.'/template/js/vendor/bootstrap.3.0.2.min.js',
+        '//'.PATHADMIN.'/template/js/vendor/holder.js'
     ),
 	'jimagine' =>   array(
         '//libjs/jimagine/config.js',
         '//libjs/jimagine/jmConstant.js',
 	    '//libjs/jimagine/plugins/jquery.nicenotify.js',
         '//libjs/jimagine/plugins/jquery.jmShowIt.js',
-        '//'.PATHADMIN.'/template/js/plugins/jquery.fancybox.js',
+        '//'.PATHADMIN.'/template/js/vendor/jquery.fancybox.js',
         '//'.PATHADMIN.'/template/js/setting.js'
     ),
 	'globalize' =>  array(
@@ -34,20 +34,20 @@ return array(
         '//libjs/globalize/cultures/globalize.cultures.js'
     ),
     'charts'    =>  array(
-        '//'.PATHADMIN.'/template/js/plugins/raphael-min.js',
-        '//'.PATHADMIN.'/template/js/plugins/morris.min.js'
+        '//'.PATHADMIN.'/template/js/vendor/raphael-min.js',
+        '//'.PATHADMIN.'/template/js/vendor/morris.min.js'
     ),
     'tinymce' => array(
-        '//'.PATHADMIN.'/template/js/tiny_mce.'.VERSION_EDITOR.'/jquery.tinymce.min.js'
+        '//'.PATHADMIN.'/template/js/vendor/tiny_mce.'.VERSION_EDITOR.'/jquery.tinymce.min.js'
     ),
     'css' => array(
-        '//'.PATHADMIN.'/template/css/bootstrap.3.0.0.min.css',
+        '//'.PATHADMIN.'/template/css/bootstrap/bootstrap.min.css',
         '//'.PATHADMIN.'/template/css/font-awesome.css',
         '//'.PATHADMIN.'/template/css/ui-bootstrap/jquery-ui-1.10.3.custom.css',
         '//'.PATHADMIN.'/template/css/fancybox/jquery.fancybox.css',
         '//'.PATHADMIN.'/template/css/morris.css',
         '//'.PATHADMIN.'/template/css/jquery.tagsinput.css',
-        '//'.PATHADMIN.'/template/css/style.css'
+        '//'.PATHADMIN.'/template/css/main.css'
     ),
     'maxAge' => 31536000,
     'setExpires' => time() + 86400 * 365

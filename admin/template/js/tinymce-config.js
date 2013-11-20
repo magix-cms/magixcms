@@ -13,7 +13,7 @@
     }
     $('.mceEditor').tinymce({
         // Location of TinyMCE script
-        script_url : '/'+baseadmin+'/template/js/tiny_mce.'+editor_version+'/tinymce.min.js',
+        script_url : '/'+baseadmin+'/template/js/vendor/tiny_mce.'+editor_version+'/tinymce.min.js',
         theme: "modern",
         relative_urls : false,
         entity_encoding : "raw",

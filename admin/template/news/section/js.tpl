@@ -1,6 +1,6 @@
 {include file="section/editor.tpl"}
 {script src="/{baseadmin}/min/?g=tinymce,charts" concat={$concat} type="javascript"}
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/plugins/jquery.tagsinput.js,{baseadmin}/template/js/mc_news.js" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,{baseadmin}/template/js/vendor/jquery.tagsinput.js,{baseadmin}/template/js/mc_news.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 $(function(){
     if (typeof MC_news == "undefined")

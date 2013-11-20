@@ -52,8 +52,8 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-lg-12 col-sm-12">
-                    <label for="c_content" class="inlinelabel">{#label_content#|ucfirst} :</label>
-                    <textarea name="c_content" id="c_content" class="form-control mceEditor">{$s_content}</textarea>
+                    <label for="s_content" class="inlinelabel">{#label_content#|ucfirst} :</label>
+                    <textarea name="s_content" id="s_content" class="form-control mceEditor">{$s_content}</textarea>
                 </div>
             </div>
         </div>

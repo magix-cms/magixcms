@@ -21,7 +21,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/install/template/img/favicon.ico" />
     <![endif]-->
     {block name="styleSheet"}
-    {capture name="styleSheet"}/min/?f=install/template/css/bootstrap.3.0.0.min.css,install/template/css/font-awesome.css,install/template/css/style.css{/capture}
+    {capture name="styleSheet"}/min/?f=install/template/css/bootstrap/bootstrap.min.css,install/template/css/font-awesome.css,install/template/css/main.css{/capture}
     {capture name="styleSheetIe"}/min/?f=install/template/css/font-awesome-ie7.min.css{/capture}
     {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat={$concat} media="screen"}
     <!--[if IE 7]>
@@ -32,36 +32,38 @@
     <title>Magix CMS | Install</title>
 </head>
 <body id="{block name='body:id'}layout{/block}" class="install">
-    <div class="container-narrow">
-    {* Header *}
-    <header>
-        {include file="section/top.tpl"}
-    </header>
-    {block name="main:before"}{/block}
-    <main id="main" class="container">
-        {block name="main:breadcrumb"}
-        {function name=breadcrumb active=''}
-            <ul class="breadcrumb">
-                {foreach $data as $key => $value nocache}
-                    <li>
-                        <a href="/install/{$key}">{$value}</a>
-                    </li>
-                {/foreach}
-                {if $active != ''}
-                    <li>
-                        <span class="active">{$active}</span>
-                    </li>
-                {/if}
-            </ul>
-        {/function}
-        {/block}
-        {block name='main:content'}
-        {/block}
-        {block name="main:pager"}
-        {/block}
-    </main>
-    {block name="main:after"}{/block}
-    {include file="section/footer.tpl"}
+    <div id="page" class="container">
+        {* Header *}
+        <header class="row">
+            {include file="section/top.tpl"}
+        </header>
+        {block name="main:before"}{/block}
+        <main id="content" class="row">
+            <article id="article" class="col-sm-12 col-md-12">
+            {block name="main:breadcrumb"}
+            {function name=breadcrumb active=''}
+                <ol class="breadcrumb">
+                    {foreach $data as $key => $value nocache}
+                        <li>
+                            <a href="/install/{$key}">{$value}</a>
+                        </li>
+                    {/foreach}
+                    {if $active != ''}
+                        <li>
+                            <span class="active">{$active}</span>
+                        </li>
+                    {/if}
+                </ol>
+            {/function}
+            {/block}
+            {block name='main:content'}
+            {/block}
+            {block name="main:pager"}
+            {/block}
+            </article>
+        </main>
+        {block name="main:after"}{/block}
+        {include file="section/footer.tpl"}
     </div>
 {include file="section/js.tpl"}
 {block name='javascript'}{/block}

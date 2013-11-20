@@ -1487,6 +1487,8 @@ class backend_controller_catalog extends backend_db_catalog{
                 ',"clibelle":'.json_encode($key['clibelle']).',"slibelle":'.json_encode($key['slibelle']).'}';
             }
             print '['.implode(',',$product).']';
+        }else{
+            print '{}';
         }
     }
 
@@ -1674,6 +1676,8 @@ class backend_controller_catalog extends backend_db_catalog{
                 }
                 print '['.implode(',',$json).']';
             }
+        }else{
+            print '{}';
         }
     }
 
@@ -1745,6 +1749,8 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"idcls":'.json_encode($key['idcls']).',"slibelle":'.json_encode($key['slibelle']).'}';
             }
             print '['.implode(',',$product).']';
+        }else{
+            print '{}';
         }
     }
 
@@ -2049,7 +2055,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                 $header->cache_control("nocache");
                                 $header->getStatus('200');
                                 $header->json_header("UTF-8");
-                                $this->json_idcls($this->selidclc);
+                                $this->json_idcls($this->getidclc);
                             }elseif(isset($this->title_search)){
                                 $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
                                 $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");

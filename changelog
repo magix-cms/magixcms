@@ -1,3 +1,13 @@
+#### 2.4.1
+    * Add Less Bootstrap in install
+    * Fix #99 edit content sub category backend
+    * Fix #98 select menu sub category
+    * Fix #97 Add Less Bootstrap in backend
+    * Restructure javascript backend
+    * Work #96 : Magix cms style in tinyMCE 4
+    * Fix bug empty json in catalog
+    * add class "img-float" (skin default)
+
 #### 2.4.0
 Stable
     * Upgrade responsivefilemanager 9.1.4 => 9.2.1

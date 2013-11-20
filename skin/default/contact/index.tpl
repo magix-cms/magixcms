@@ -85,7 +85,7 @@
     }
 {/block}
 {block name="foot" append}
-    {script src="/min/?f=libjs/plugins/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
     <script type="text/javascript">
         var iso = '{getlang}';
         $(function(){

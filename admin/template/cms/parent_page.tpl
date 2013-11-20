@@ -2,7 +2,7 @@
 {block name='body:id'}module-pages{/block}
 {block name="article:content"}
 {include file="cms/section/nav.tpl"}
-    <h1 class="small">{#list_of_parent_pages#|ucfirst}</h1>
+    <h1>{#list_of_parent_pages#|ucfirst}</h1>
     <div class="mc-message clearfix"></div>
     <p>
         <a class="btn btn-primary" href="#" id="open-add">

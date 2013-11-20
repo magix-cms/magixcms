@@ -1,5 +1,5 @@
 {script src="/{baseadmin}/min/?g=charts" concat={$concat} type="javascript"}
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/plugins/jquery.a-tools-1.5.2.min.js,{baseadmin}/template/js/mc_seo.js" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/vendor/jquery.a-tools-1.5.2.min.js,{baseadmin}/template/js/mc_seo.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 $(function(){
     if (typeof MC_seo == "undefined")
