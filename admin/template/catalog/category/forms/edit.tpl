@@ -21,6 +21,8 @@
 <div id="list_subcategory"></div>
 {elseif $smarty.get.tab eq "product"}
 <div id="list_category_product" class="table-row"></div>
+{elseif $smarty.get.plugin}
+    {block name="forms"}{/block}
 {else}
     <form id="forms_catalog_category_edit" method="post" action="">
         <div class="row">

@@ -1675,9 +1675,9 @@ class backend_controller_catalog extends backend_db_catalog{
                     $json[]= '{"idmicro":'.json_encode($list['idmicro']).',"imgcatalog":'.json_encode($list['imgcatalog']).'}';
                 }
                 print '['.implode(',',$json).']';
+            }else{
+                print '{}';
             }
-        }else{
-            print '{}';
         }
     }
 
@@ -1887,6 +1887,7 @@ class backend_controller_catalog extends backend_db_catalog{
                         }elseif($this->action === 'edit'){
                             if(isset($this->edit)){
                                 $data = parent::s_catalog_category_data($this->edit);
+                                $create->assign('plugin',$plugin->menu_item_plugin('catalog_category'));
                                 if(magixcjquery_filter_request::isGet('json_uri_category')){
                                     $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
                                     $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
@@ -1949,6 +1950,11 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $create->display('catalog/category/edit.tpl');
                                             }
                                         }
+                                    }elseif(isset($this->plugin)){
+                                        // Chargement du plugin dans le produit du catalogue (edition)
+                                        $this->load_category_edit_data($create,$data);
+                                        $param_arr = array($this->plugin,$this->getlang,$this->edit);
+                                        $plugin->extend_module($this->plugin,'catalog_category',$param_arr);
                                     }else{
                                         if(isset($this->clibelle)){
                                             $this->update_category($create);
@@ -1980,6 +1986,7 @@ class backend_controller_catalog extends backend_db_catalog{
                         }elseif($this->action === 'edit'){
                             if(isset($this->edit)){
                                 $data = parent::s_catalog_subcategory_data($this->edit);
+                                $create->assign('plugin',$plugin->menu_item_plugin('catalog_subcategory'));
                                 if(isset($this->tab)){
                                     if($this->tab === 'image'){
                                         if(magixcjquery_filter_request::isGet('ajax_subcategory_image')){
@@ -2027,6 +2034,11 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $this->update_subcategory($create);
                                     }elseif(isset($this->delete_image)){
                                         $this->remove_subcategory_image();
+                                    }elseif(isset($this->plugin)){
+                                        // Chargement du plugin dans le produit du catalogue (edition)
+                                        $this->load_subcategory_edit_data($create,$data);
+                                        $param_arr = array($this->plugin,$this->getlang,$this->edit);
+                                        $plugin->extend_module($this->plugin,'catalog_subcategory',$param_arr);
                                     }else{
                                         $this->load_subcategory_edit_data($create,$data);
                                         $create->display('catalog/subcategory/edit.tpl');

@@ -489,7 +489,7 @@ class backend_controller_plugins{
                                                 }else{
                                                     $lang_active = '';
                                                 }
-                                                $list .='<a class="badge'.$lang_active.'" href="/admin/plugins.php?name='.$d.'&amp;getlang='.$key.$action.'">';
+                                                $list .='<a class="badge'.$lang_active.'" href="/'.PATHADMIN.'/plugins.php?name='.$d.'&amp;getlang='.$key.$action.'">';
                                                 $list .= magixcjquery_string_convert::upTextCase($value).'</a>';
                                             }
                                             $list .= '</div>';
@@ -497,7 +497,7 @@ class backend_controller_plugins{
                                             $list .= '</li>';
                                         }else{
                                             $list .= '<li>';
-                                            $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
+                                            $list .='<a'.$class_active.' href="/'.PATHADMIN.'/plugins.php?name='.$d.$action.'">'.$icon.' ';
                                             $list .= $name;
                                             $list .= '</a>';
                                             $list .= '</li>';
@@ -519,7 +519,7 @@ class backend_controller_plugins{
                                                 }else{
                                                     $lang_active = '';
                                                 }
-                                                $list .='<a class="badge'.$lang_active.'" href="/admin/plugins.php?name='.$d.'&amp;getlang='.$key.$action.'">';
+                                                $list .='<a class="badge'.$lang_active.'" href="/'.PATHADMIN.'/plugins.php?name='.$d.'&amp;getlang='.$key.$action.'">';
                                                 $list .= magixcjquery_string_convert::upTextCase($value).'</a>';
                                             }
                                             $list .= '</div>';
@@ -527,7 +527,7 @@ class backend_controller_plugins{
                                             $list .= '</li>';
                                         }else{
                                             $list .= '<li>';
-                                            $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
+                                            $list .='<a'.$class_active.' href="/'.PATHADMIN.'/plugins.php?name='.$d.$action.'">'.$icon.' ';
                                             $list .= $name;
                                             $list .= '</a>';
                                             $list .= '</li>';
@@ -535,7 +535,7 @@ class backend_controller_plugins{
                                     }
                                 }else{
                                     $list .= '<li>';
-                                    $list .='<a'.$class_active.' href="/admin/plugins.php?name='.$d.$action.'">'.$icon.' ';
+                                    $list .='<a'.$class_active.' href="/'.PATHADMIN.'/plugins.php?name='.$d.$action.'">'.$icon.' ';
                                     $list .= $name;
                                     $list .= '</a>';
                                     $list .= '</li>';
@@ -833,6 +833,17 @@ class backend_controller_plugins{
     public function getTemplateVars($varname = null, $_ptr = null, $search_parents = true){
         return backend_model_smarty::getInstance()->getTemplateVars($varname, $_ptr, $search_parents);
     }
+
+    /**
+     * Get template directories
+     *
+     * @param mixed index of directory to get, null to get all
+     * @return array|string list of template directories, or directory of $index
+     */
+    public function getTemplateDir($index=null){
+        return backend_model_smarty::getInstance()->getTemplateDir($index);
+    }
+
 	/**
 	 * @access public
 	 * Active le système de debug de smarty 3
