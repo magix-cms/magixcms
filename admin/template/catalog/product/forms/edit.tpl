@@ -56,7 +56,7 @@
     </form>
     <div id="load_catalog_product_galery"></div>
 {elseif $smarty.get.plugin}
-    {$plugin_display.template}
+{block name="forms"}{/block}
 {else}
     <form id="forms_catalog_product_edit" method="post" action="">
         <div class="row">
