@@ -34,6 +34,7 @@ Site officiel
 -----
 
  * http://www.magix-cms.com (site officiel)
+ * http://www.magix-cms.com/fr/catalogue/ (Documentation intégrateur)
  * http://plugin.magix-cms.com (plugins - en cours de développement)
 
 Ressources
