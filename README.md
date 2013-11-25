@@ -1,7 +1,7 @@
 [magixcms](http://www.magix-cms.com/)
 ===================================================
 
-![Logo Magix CMS](http://blog.aurelien-gerits.be/wp-content/uploads/2013/03/logo-magix-cms-positif.png "Logo Magix CMS")
+![Logo Magix CMS](http://www.magix-cms.com/skin/magixcms2/img/logo-magix_cms.png "Logo Magix CMS")
 
 Presentation
 ------------
@@ -15,8 +15,6 @@ ainsi qu'une indexation optimal dans les moteurs de recherches.
     N'utilisez pas la version de ce dépôt pour autre chose que vos propres tests,
     la dernière version stable sur le site est optimisé pour la mise en production.
 
-Magix CMS est actuellement en refonte, la version 2.4.0 sera la première phase, 
-la suite sera appliquée en fonction des demandent utilisateurs.
 
 Authors
 -------
@@ -29,13 +27,14 @@ Authors
 
 ## Contributors
 
- * Lesire Samuel (www.sire-sam.be)
+ * Lesire Samuel (http://www.sire-sam.be)
+ * Jean-Baptiste Demonte (http://jb.demonte.fr)
  
 Site officiel
 -----
 
  * http://www.magix-cms.com (site officiel)
- * http://www.magix-cms.net (documentation développeur)
+ * http://plugin.magix-cms.com (plugins - en cours de développement)
 
 Ressources
 -----
