@@ -67,7 +67,7 @@ class backend_controller_plugins{
 	 * 
 	 * @var string
 	 */
-	public $nameplugin,
+	public $nameplugin,$plugin,
         /**
          * @var int
          */
@@ -91,6 +91,9 @@ class backend_controller_plugins{
 		}
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
+        }
+        if(magixcjquery_filter_request::isGet('plugin')){
+            $this->plugin = magixcjquery_form_helpersforms::inputClean($_GET['plugin']);
         }
 	}
 
@@ -680,7 +683,11 @@ class backend_controller_plugins{
      */
     public function display($template = null, $nameplugin = null, $cache_id = null, $compile_id = null, $parent = null){
         if($nameplugin == null){
-            self::addTemplateDir(self::directory_plugins().self::nameplugin().'/skin/admin/');
+            if(isset($this->plugin)){
+                self::addTemplateDir(self::directory_plugins().$this->plugin.'/skin/admin/');
+            }else{
+                self::addTemplateDir(self::directory_plugins().self::nameplugin().'/skin/admin/');
+            }
         }else{
             self::addTemplateDir(self::directory_plugins().$nameplugin.'/skin/admin/');
         }
@@ -706,7 +713,11 @@ class backend_controller_plugins{
      */
     public function fetch($template = null, $nameplugin = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false){
         if($nameplugin == null){
-            self::addTemplateDir(self::directory_plugins().self::nameplugin().'/skin/admin/');
+            if(isset($this->plugin)){
+                self::addTemplateDir(self::directory_plugins().$this->plugin.'/skin/admin/');
+            }else{
+                self::addTemplateDir(self::directory_plugins().self::nameplugin().'/skin/admin/');
+            }
         }else{
             self::addTemplateDir(self::directory_plugins().$nameplugin.'/skin/admin/');
         }
