@@ -72,6 +72,7 @@
                 <input type="submit" class="btn btn-primary" value="{#pn_contact_send#|ucfirst}" />
             </div>
         </div>
+        <div class="mc-message"></div>
     </form>
 {/block}
 {block name='aside:content' append}
@@ -82,11 +83,15 @@
     ]
     pattern = 'sidebar'
     prepend = "<h2 class='lead'>{#last_news#|ucfirst}</h2>"
-    }
+}
 {/block}
 {block name="foot" append}
     {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
     <script type="text/javascript">
+        $.nicenotify.notifier = {
+            box:"",
+            elemclass : '.mc-message'
+        };
         var iso = '{getlang}';
         $(function(){
             if (typeof MC_plugins_contact == "undefined")
