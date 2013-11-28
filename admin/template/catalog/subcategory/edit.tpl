@@ -4,7 +4,7 @@
 {include file="catalog/section/nav.tpl"}
     <h1>{#editing_the_subcategory#|ucfirst} : {$slibelle}</h1>
     <ul class="nav nav-tabs clearfix">
-        <li{if !$smarty.get.tab} class="active"{/if}>
+        <li{if !$smarty.get.tab && !$smarty.get.plugin} class="active"{/if}>
             <a href="/{baseadmin}/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}">{#text#|ucfirst}</a>
         </li>
         <li{if $smarty.get.tab eq "image"} class="active"{/if}>

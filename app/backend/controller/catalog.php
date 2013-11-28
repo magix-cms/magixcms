@@ -1795,28 +1795,6 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
-    //PLUGINS
-
-
-
-    /**
-     * Chargement du plugin dans le produit du catalogue (edition)
-     * Execution de la fonction catalog_product du plugin
-     */
-    /*private function load_plugin(){
-        if(isset($this->plugin)){
-            $inst_plugin = new backend_controller_plugins();
-            if(file_exists($inst_plugin->directory_plugins().$this->plugin.DIRECTORY_SEPARATOR.'admin.php')){
-                $pluginPath = $inst_plugin->directory_plugins().$this->plugin;
-                if(class_exists('plugins_'.$this->plugin.'_admin')){
-                    if(method_exists('plugins_'.$this->plugin.'_admin','catalog_product')){
-                        $param_arr = array($this->plugin,$this->getlang,$this->edit);
-                        $this->load_config_plugins('plugins_'.$this->plugin.'_admin', $param_arr);
-                    }
-                }
-            }
-        }
-    }*/
 
     //TINYMCE
     /**

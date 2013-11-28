@@ -70,7 +70,9 @@ $current_language = $auth->getLanguage();
 $auth->mcAuth();
 session_write_close();
 session_start();
-mb_internal_encoding('UTF-8');
+if (function_exists('mb_internal_encoding')){
+    mb_internal_encoding('UTF-8');
+}
 
 $base_url = "";  // base url (only domain) of site (without final /). If you prefer relative urls leave empty
 $upload_dir = '/media/'; // path from base_url to base of upload folder (with start and final /)
