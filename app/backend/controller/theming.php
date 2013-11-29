@@ -135,7 +135,7 @@ class backend_controller_theming extends backend_db_theming{
                 $btn_title = $create->getConfigVars('select');
             }else{
                 $ctpl = '';
-                $btn_class = '';
+                $btn_class = ' btn-default';
                 $btn_title = $create->getConfigVars('choose');
             }
             $themePath = self::directory_skin().$d;

@@ -41,7 +41,7 @@
         </div>
     </div>
     <p>
-        <a href="#metas" class="btn view-metas">
+        <a href="#metas" class="btn btn-default view-metas">
             <span class="icon-plus"></span> {#display_metas#|ucfirst}
         </a>
     </p>
