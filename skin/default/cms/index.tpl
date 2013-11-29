@@ -1,6 +1,6 @@
 {extends file="layout.tpl"}
 {block name="title"}{cms_seo config_param=['seo'=>$page.seoTitle,'default'=>$page.name]}{/block}
-{block name="decription"}{cms_seo config_param=['seo'=>$page.seoDescr,'default'=>$page.name]}{/block}
+{block name="description"}{cms_seo config_param=['seo'=>$page.seoDescr,'default'=>$page.name]}{/block}
 {block name='body:id'}cms{/block}
 
 {block name="article:content"}
