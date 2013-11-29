@@ -84,7 +84,7 @@ DELETE FROM `mc_setting` WHERE `setting_id` = 'microgalery';
 
 UPDATE `mc_setting` SET `setting_value` = 'openFilemanager' WHERE `setting_id` = 'editor';
 
-UPDATE `mc_setting` SET `setting_value` = '2.4.0' WHERE `setting_id` = 'magix_version';
+UPDATE `mc_setting` SET `setting_value` = '2.4.1' WHERE `setting_id` = 'magix_version';
 
 INSERT INTO `mc_setting` VALUES
 (NULL, 'content_css', NULL, 'string', NULL),

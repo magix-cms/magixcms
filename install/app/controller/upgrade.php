@@ -63,7 +63,7 @@ class app_controller_upgrade extends app_db_upgrade{
      * load sql file
      */
     private function load_sql_file(){
-        return magixglobal_model_system::base_path().'install'.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'update.2.4.0.sql';
+        return magixglobal_model_system::base_path().'install'.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'update.2.4.1.sql';
     }
 
     /**
