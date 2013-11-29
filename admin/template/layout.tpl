@@ -34,6 +34,7 @@
     <title>Magix CMS | Admin</title>
 </head>
 <body id="{block name='body:id'}layout{/block}">
+{block name="body:container"}
 {* Header *}
 <header>
     {include file="section/top.tpl"}
@@ -65,5 +66,6 @@
 {include file="section/js.tpl"}
 {* javascript *}
 {block name='javascript'}{/block}
+{/block}
 </body>
 </html>

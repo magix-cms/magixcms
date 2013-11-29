@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8" />
     {headmeta meta="contentType" content="html" charset="utf8"}
-    <base href="{geturl}/">
     <meta name="dcterms.language" content="{iso}" />
     <meta name="dcterms.creator" content="Magix CMS" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +31,7 @@
     <title>Magix CMS | Install</title>
 </head>
 <body id="{block name='body:id'}layout{/block}" class="install">
+    {block name="page"}
     <div id="page" class="container">
         {* Header *}
         <header class="row">
@@ -65,6 +65,7 @@
         {block name="main:after"}{/block}
         {include file="section/footer.tpl"}
     </div>
+    {/block}
 {include file="section/js.tpl"}
 {block name='javascript'}{/block}
 </body>

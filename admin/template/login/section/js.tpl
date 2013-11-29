@@ -1,1 +1,0 @@
-{script src="/{baseadmin}/min/?g=adminjs,jimagine" concat={$concat} type="javascript"}

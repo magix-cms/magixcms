@@ -1,7 +1,6 @@
-{include file="section/head.tpl"}
-<title>Magix CMS | Login</title>
-</head>
-<body class="module-login">
+{extends file="layout.tpl"}
+{block name='body:id'}module-login{/block}
+{block name="body:container"}
 <div class="container">
     <div class="box-login">
         <h2 class="text-center">
@@ -28,6 +27,7 @@
         </form>
     </div>
 </div>
-{include file="login/section/js.tpl"}
-</body>
-</html>
+{block name='javascript'}
+    {include file="section/js.tpl"}
+{/block}
+{/block}
