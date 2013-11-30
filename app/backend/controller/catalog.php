@@ -604,13 +604,21 @@ class backend_controller_catalog extends backend_db_catalog{
     /**
      * @access private
      * Retourne l'image de la catégorie
-     * @param string $img_c
+     * @param $create
+     * @param $img_c
      */
-    private function ajax_category_image($img_c){
+    private function ajax_category_image($create,$img_c){
+        if(file_exists($create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf')){
+            $create->configLoad(
+                $create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf',
+                ''
+            );
+        }
         if($img_c != null){
             if(file_exists(self::dirImgCategory().$img_c)){
                 $img = '<p><img src="/upload/catalogimg/category/'.$img_c.'" class="img-thumbnail" alt="" /></p>';
-                $img .= '<p><a href="#" data-delete="'.$img_c.'" class="btn delete-image"><span class="icon-trash"></span> Supprimer</a></p>';
+                $img .= '<p><a href="#" data-delete="'.$img_c.'" class="btn btn-danger delete-image">';
+                $img .= '<span class="icon-trash"></span> '.$create->getConfigVars("remove").'</a></p>';
             }else{
                 $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-thumbnail" /></p>';
             }
@@ -892,16 +900,25 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
+
     /**
      * @access private
      * Retourne l'image de la sous catégorie
-     * @param string $img_s
+     * @param $create
+     * @param $img_s
      */
-    private function ajax_subcategory_image($img_s){
+    private function ajax_subcategory_image($create,$img_s){
+        if(file_exists($create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf')){
+            $create->configLoad(
+                $create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf',
+                ''
+            );
+        }
         if($img_s != null){
             if(file_exists(self::dirImgSubCategory().$img_s)){
                 $img = '<p><img src="/upload/catalogimg/subcategory/'.$img_s.'" class="img-thumbnail" alt="" /></p>';
-                $img .= '<p><a href="#" data-delete="'.$img_s.'" class="btn delete-image"><span class="icon-trash"></span> Supprimer</a></p>';
+                $img .= '<p><a href="#" data-delete="'.$img_s.'" class="btn btn-danger delete-image">';
+                $img .= '<span class="icon-trash"></span> '.$create->getConfigVars("remove").'</a></p>';
             }else{
                 $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
             }
@@ -1419,20 +1436,29 @@ class backend_controller_catalog extends backend_db_catalog{
             parent::u_catalog_product_image(null,$this->edit);
         }
     }
+
     /**
      * @access private
      * Retourne l'image du produit
-     * @param string $imgcatalog
+     * @param $create
+     * @param $imgcatalog
      */
-    private function ajax_product_image($imgcatalog){
-        $img = '<div class="container">';
+    private function ajax_product_image($create,$imgcatalog){
+        if(file_exists($create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf')){
+            $create->configLoad(
+                $create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf',
+                ''
+            );
+        }
+        $img = '';
         if($imgcatalog != null){
             if(file_exists(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog)){
                 $small = getimagesize(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $medium = getimagesize(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $product = getimagesize(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR.$imgcatalog);
                 $img .= '<p>';
-                $img .= '<a href="#" data-delete="'.$imgcatalog.'" class="btn btn-default btn-block delete-image"><span class="icon-trash"></span> Supprimer</a>';
+                $img .= '<a href="#" data-delete="'.$imgcatalog.'" class="btn btn-danger btn-block delete-image">';
+                $img .= '<span class="icon-trash"></span> '.$create->getConfigVars("remove").'</a>';
                 $img .= '</p>';
                 $img .= '<div class="col-lg-2 col-sm-3">';
                     $img .= '<div class="thumbnail">';
@@ -1473,7 +1499,6 @@ class backend_controller_catalog extends backend_db_catalog{
         }else{
             $img .= '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
         }
-        $img .= '</div>';
         print $img;
     }
 
@@ -1894,7 +1919,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                                 $header->cache_control("nocache");
                                                 $header->getStatus('200');
                                                 $header->html_header("UTF-8");
-                                                $this->ajax_category_image($data['img_c']);
+                                                $this->ajax_category_image($create,$data['img_c']);
                                             }else{
                                                 $this->load_category_edit_data($create,$data);
                                                 $create->display('catalog/category/edit.tpl');
@@ -1974,7 +1999,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                             $header->cache_control("nocache");
                                             $header->getStatus('200');
                                             $header->html_header("UTF-8");
-                                            $this->ajax_subcategory_image($data['img_s']);
+                                            $this->ajax_subcategory_image($create,$data['img_s']);
                                         }elseif(isset($this->img_s)){
                                             $this->update_subcategory_image($data);
                                         }else{
@@ -2081,7 +2106,7 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $header->cache_control("nocache");
                                         $header->getStatus('200');
                                         $header->html_header("UTF-8");
-                                        $this->ajax_product_image($data['imgcatalog']);
+                                        $this->ajax_product_image($create,$data['imgcatalog']);
                                     }else{
                                         $this->load_product_edit_data($create,$data);
                                         $create->display('catalog/product/edit.tpl');

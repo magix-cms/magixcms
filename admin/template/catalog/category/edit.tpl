@@ -30,6 +30,7 @@
     {include file="catalog/category/forms/edit.tpl"}
 {/block}
 {block name="modal"}
+    <div id="window-dialog"></div>
     {if $smarty.get.tab eq "subcat"}
         <div id="forms-add" class="hide-modal" title="{#add_a_subcategory#|ucfirst}">
             {include file="catalog/subcategory/forms/add.tpl"}

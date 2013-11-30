@@ -237,6 +237,8 @@ class backend_controller_news extends backend_db_news{
                 .'}';
             }
             print '['.implode(',',$json).']';
+        }else{
+            print '{}';
         }
     }
     /**
@@ -388,15 +390,22 @@ class backend_controller_news extends backend_db_news{
         $create->display('news/edit.tpl');
 	}
 
-	/**
-	 * @access private
-	 * Charge les données de l'image de la news
-	 * @param string $news_img
-	 */
-	private function ajax_image($news_img){
+    /**
+     * @access private
+     * Charge les données de l'image de la news
+     * @param $create
+     * @param $news_img
+     */
+    private function ajax_image($create,$news_img){
+        if(file_exists($create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf')){
+            $create->configLoad(
+                $create->basePathConfig('section').'local_'.backend_model_language::current_Language().'.conf',
+                ''
+            );
+        }
 		if($news_img != null){
             $img = '<p><img src="/upload/news/s_'.$news_img.'" class="img-thumbnail" alt="" /></p>';
-            $img .= '<p><a class="delete-image">Supprimer</a></p>';
+            $img .= '<p><a class="btn btn-danger delete-image"><span class="icon-trash"></span> '.$create->getConfigVars("remove").'</a></p>';
 		}else{
 			$img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
 		}
@@ -626,7 +635,7 @@ class backend_controller_news extends backend_db_news{
                             $header->cache_control("nocache");
                             $header->getStatus('200');
                             $header->html_header("UTF-8");
-                            $this->ajax_image($data['n_image']);
+                            $this->ajax_image($create,$data['n_image']);
                         }elseif(isset($this->n_image)){
                             $this->update_news_image();
                         }elseif(isset($this->n_title)){

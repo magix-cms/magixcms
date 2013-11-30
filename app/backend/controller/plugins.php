@@ -798,7 +798,8 @@ class backend_controller_plugins{
 	public function configLoad($sections = false){
         if(file_exists(self::pathConfigLoad(self::$ConfigFile))){
             backend_model_smarty::getInstance()->configLoad(
-                self::pathConfigLoad(self::$ConfigFile), $sections
+                self::pathConfigLoad(self::$ConfigFile),
+                $sections
             );
         }
 	}
@@ -809,7 +810,8 @@ class backend_controller_plugins{
      */
 	public function configLoadMail($sections = false){
 		backend_model_smarty::getInstance()->configLoad(
-            self::pathConfigLoad(self::$MailConfigFile), $sections
+            self::pathConfigLoad(self::$MailConfigFile),
+            $sections
 		);
 	}
 
