@@ -176,7 +176,9 @@ class backend_controller_cms extends backend_db_cms{
                 '}';
 			}
 			print '['.implode(',',$json).']';
-		}
+		}else{
+            print '{}';
+        }
 	}
 	/**
 	 * @access private
@@ -210,7 +212,9 @@ class backend_controller_cms extends backend_db_cms{
                     '}';
 			}
 			print '['.implode(',',$json).']';
-		}
+		}else{
+            print '{}';
+        }
 	}
 
     /**

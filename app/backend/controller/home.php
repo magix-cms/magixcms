@@ -164,7 +164,9 @@ class backend_controller_home extends backend_db_home{
 				',"metadescription":'.json_encode($metadescription).'}';
 			}
 			print '['.implode(',',$json).']';
-		}
+		}else{
+            print '{}';
+        }
 	}
 
     /**
