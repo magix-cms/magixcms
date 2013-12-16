@@ -73,22 +73,32 @@ class backend_controller_ajax{
         $extensions = array("html");
         // delimiteur
         $delimiter = "\n";
-        foreach ($iterator as $fileinfo) {
-            if (in_array($fileinfo->getExtension(), $extensions)) {
-                $pos = strpos($fileinfo->getPathname(),PATHADMIN);
-                $len = strlen($pos);
-                $files[] = $delimiter.'["'
-                    . $fileinfo->getBasename('.'.$fileinfo->getExtension())
-                    . '", "'
-                    . DIRECTORY_SEPARATOR.substr($fileinfo->getPathname(),$pos)
-                    . '"]';
-
+        if(is_object($iterator)){
+            foreach ($iterator as $fileinfo) {
+                // Compatibility with php < 5.3.6
+                if (version_compare(phpversion(), '5.3.6', '<')) {
+                    $getExtension = pathinfo($fileinfo->getFilename(), PATHINFO_EXTENSION);
+                }else{
+                    $getExtension = $fileinfo->getExtension();
+                }
+                if (in_array($getExtension, $extensions)) {
+                    $pos = strpos($fileinfo->getPathname(),PATHADMIN);
+                    $len = strlen($pos);
+                    $files[] = $delimiter.'{'
+                        . 'title:"'. $fileinfo->getBasename('.'.$getExtension)
+                        . '", url:"'
+                        . DIRECTORY_SEPARATOR.substr($fileinfo->getPathname(),$pos)
+                        . '"}';
+                }
+            }
+            if(is_array($files)){
+                asort($files,SORT_REGULAR);
+                $ouput = 'templates = [';
+                $ouput .= implode(',',$files);
+                $ouput .= $delimiter.']';
+                print $ouput;
             }
         }
-        $ouput = 'var tinyMCETemplateList = [';
-        $ouput .= implode(',',$files);
-        $ouput .= $delimiter.'];';
-        print $ouput;
     }
 
     /**

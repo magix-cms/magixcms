@@ -1040,7 +1040,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $urlcatalog = magixcjquery_url_clean::rplMagixString($this->titlecatalog,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
                 }
                 if(!empty($this->price)){
-                    $price = number_format($this->price,0,'.',',');
+                    $price = number_format($this->price,2,'.',',');
                 }else{
                     $price = null;
                 }
@@ -1226,6 +1226,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 'urlcatalog'    =>  $data['urlcatalog'],
                 'titlecatalog'  =>  $data['titlecatalog'],
                 'desccatalog'   =>  $data['desccatalog'],
+                'price'         =>  $data['price'],
                 'iso'           =>  $data['iso']
             )
         );

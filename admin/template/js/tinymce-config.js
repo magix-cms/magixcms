@@ -24,7 +24,7 @@
         ],
         toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | fontsizeselect | forecolor backcolor',
         toolbar2: 'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | '+manager_tinymce_button+' image media | link unlink anchor | code | preview',
-        toolbar3: 'table | hr removeformat | fullscreen | visualblocks | loremipsum | inserttime | styleselect | youtube | mc_pages mc_news mc_catalog codehighlight',
+        toolbar3: 'table | hr removeformat | fullscreen | visualblocks | loremipsum | inserttime | styleselect | template | youtube | mc_pages mc_news mc_catalog codehighlight',
         menubar: false,
         toolbar_items_size: 'small',
         image_advtab: true ,
