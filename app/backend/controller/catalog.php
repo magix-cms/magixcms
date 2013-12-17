@@ -983,6 +983,8 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"titlecatalog":'.json_encode($key['titlecatalog']).'}';
             }
             print '['.implode(',',$product).']';
+        }else{
+            print '{}';
         }
     }
     /**
