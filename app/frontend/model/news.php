@@ -60,6 +60,7 @@ class frontend_model_news extends frontend_db_news {
             $tag['data']    =   parent::s_tagByNews($row['idnews']);
 
             if (is_array($tag['data'])) {
+                $data['tagData'] = array();
                 foreach ($tag['data'] as $t){
                     $t['uri'] =
                         $ModelRewrite->filter_news_tag_url(
@@ -70,6 +71,12 @@ class frontend_model_news extends frontend_db_news {
                     $data['tag']    .=  '<a href="'.$t['uri'].'" title="'.$t['name_tag'].'">';
                     $data['tag']    .=  $t['name_tag'];
                     $data['tag']    .=  '</a> ';
+                    $data['tagData'][]  =  array(
+                        'id' =>  $t['name_tag'],
+                        'name'=> $t['name_tag'],
+                        'iso' => $row['iso'],
+                        'url'   =>  $t['uri']
+                    );
 
                 }
             }

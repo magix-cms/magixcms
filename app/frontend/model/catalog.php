@@ -123,9 +123,10 @@ class frontend_model_catalog extends frontend_db_catalog {
                 }
 
                 $data['id']        = $row['idproduct'];
+                $data['idcatalog'] = $row['idcatalog'];
                 $data['name']      = $row['titlecatalog'];
                 $data['price']     = $row['price'];
-                $data['content']     = $row['desccatalog'];
+                $data['content']   = $row['desccatalog'];
 
             // *** Subcategory
             } elseif (isset($row['slibelle'])) {
