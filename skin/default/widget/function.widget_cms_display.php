@@ -239,12 +239,12 @@ function patternCms ($name=null)
             // *** set default html structure
             $pattern = array(
                 'container'     =>  array(
-                    'before'    => '<ul class="thumbnails">',
+                    'before'    => '<ul class="list-unstyled">',
                     // items injected here
                     'after'     => '</ul>'
                 ),
                 'item'          =>  array(
-                    'before'    => '<li class="span4"><div class="thumbnail"><div class="caption"> ',
+                    'before'    => '<li><div class="thumbnail col-sm-6 col-md-4 col-lg-3"><div class="caption"> ',
                     // item's elements injected here (name, descr)
                     'after'     => '</div></div></li>'
                 ),

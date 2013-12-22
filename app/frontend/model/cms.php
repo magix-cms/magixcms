@@ -84,12 +84,12 @@ class frontend_model_cms extends frontend_db_cms
             return $data;
         }
     }
+
     /**
      * Retourne les données sql sur base des paramètres passés en paramète
-     * @param array $data
+     * @param $custom
      * @param array $current
      * @return array|null
-     *
      */
     public static function getData($custom,$current)
     {
