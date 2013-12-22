@@ -46,6 +46,7 @@
             });
         },
         style_formats: [
+            {title: 'TargetBlank', selector: 'a', classes: 'targeblank'},
             {title: 'Lightbox simple', selector: 'a', classes: 'img-zoom',
                 attributes: {
                     'data-fancybox-group': 'lightbox'
