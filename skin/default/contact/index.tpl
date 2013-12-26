@@ -8,19 +8,19 @@
     <form id="contact-form" method="post" action="{$smarty.server.REQUEST_URI}" class="form-horizontal">
         <legend>{#contact_fiels_resquest#|ucfirst}</legend>
         <div class="form-group">
-            <label class="col-md-3" for="nom">
+            <label class="col-md-3" for="lastname">
                 {#pn_contact_lastname#|ucfirst}* :
             </label>
             <div class="col-md-6">
-                <input id="nom" type="text" name="nom" value="" class="form-control"  />
+                <input id="lastname" type="text" name="lastname" value="" class="form-control"  />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-3" for="prenom">
+            <label class="col-md-3" for="firstname">
                 {#pn_contact_firstname#|ucfirst}* :
             </label>
             <div class="col-md-6">
-                <input id="prenom" type="text" name="prenom" value="" class="form-control" />
+                <input id="firstname" type="text" name="firstname" value="" class="form-control" />
             </div>
         </div>
         <div class="form-group">
@@ -36,31 +36,31 @@
                 {#pn_contact_phone#|ucfirst} :
             </label>
             <div class="col-md-6">
-                <input id="tel" type="text" name="tel" value="" class="form-control"  />
+                <input id="phone" type="text" name="phone" value="" class="form-control"  />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-3" for="adresse">
+            <label class="col-md-3" for="adress">
                 {#pn_contact_address#|ucfirst} :
             </label>
             <div class="col-md-6">
-                <input id="adresse" type="text" name="adresse" value="" class="form-control"  />
+                <input id="adress" type="text" name="adress" value="" class="form-control"  />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-3" for="programme">
+            <label class="col-md-3" for="title">
                 {#pn_contact_programme#|ucfirst} :
             </label>
             <div class="col-md-6">
-                <input id="programme" type="text" name="programme" value="{$smarty.post.moreinfo}" class="form-control"  />
+                <input id="title" type="text" name="title" value="{$smarty.post.moreinfo}" class="form-control"  />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-3" for="programme">
+            <label class="col-md-3" for="content">
                 {#pn_contact_message#|ucfirst} :
             </label>
             <div class="col-md-6">
-                <textarea id="message" name="message" rows="5" class="form-control" ></textarea>
+                <textarea id="content" name="content" rows="5" class="form-control" ></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -68,7 +68,6 @@
                 &nbsp;
             </p>
             <div class="col-md-6">
-                <input id="getLanguage" type="hidden" name="getLanguage" value="{getlang}" />
                 <input type="submit" class="btn btn-primary" value="{#pn_contact_send#|ucfirst}" />
             </div>
         </div>

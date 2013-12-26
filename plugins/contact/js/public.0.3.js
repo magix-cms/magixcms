@@ -46,11 +46,11 @@ var MC_plugins_contact = (function ($, undefined) {
             onsubmit: true,
             event: 'submit',
             rules: {
-                nom: {
+                lastname: {
                     required: true,
                     minlength: 2
                 },
-                prenom: {
+                firstname: {
                     required: true,
                     minlength: 2
                 },
@@ -58,7 +58,7 @@ var MC_plugins_contact = (function ($, undefined) {
                     required: true,
                     email: true
                 },
-                message: {
+                content: {
                     required: true,
                     minlength: 2
                 }

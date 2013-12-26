@@ -47,117 +47,131 @@
  *
  */
 class plugins_contact_public extends database_plugins_contact{
+    /**
+     * @var frontend_controller_plugins
+     */
+    protected $template;
 	/**
 	 * 
 	 * @var string
 	 */
 	public $moreinfo;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $programme;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $nom;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $prenom;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $email;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $tel;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $adresse;
-	/**
-	 * 
-	 * @var string
-	 */
-	public $message;
+	public $lastname,$firstname,$email,$phone,$adress,$content;
 	/**
 	 * Class constructor
 	 */
-	function __construct(){
-		if(isset($_POST['moreinfo'])){
+	public function __construct(){
+		if(magixcjquery_filter_request::isPost('moreinfo')){
 			$this->moreinfo = $_POST['moreinfo'];
 		}
-		if(isset($_POST['programme'])){
-			$this->programme = magixcjquery_form_helpersforms::inputClean($_POST['programme']);
+		if(magixcjquery_filter_request::isPost('title')){
+			$this->title = magixcjquery_form_helpersforms::inputClean($_POST['title']);
 		}
-		if(isset($_POST['nom'])){
-			$this->nom = magixcjquery_form_helpersforms::inputClean($_POST['nom']);
+		if(magixcjquery_filter_request::isPost('lastname')){
+			$this->lastname = magixcjquery_form_helpersforms::inputClean($_POST['lastname']);
 		}
-		if(isset($_POST['prenom'])){
-			$this->prenom = magixcjquery_form_helpersforms::inputClean($_POST['prenom']);
+		if(magixcjquery_filter_request::isPost('firstname')){
+			$this->firstname = magixcjquery_form_helpersforms::inputClean($_POST['firstname']);
 		}
-		if(isset($_POST['email'])){
+		if(magixcjquery_filter_request::isPost('email')){
 			$this->email = magixcjquery_form_helpersforms::inputClean($_POST['email']);
 		}
-		if(isset($_POST['tel'])){
-			$this->tel = magixcjquery_form_helpersforms::inputClean($_POST['tel']);
+		if(magixcjquery_filter_request::isPost('phone')){
+			$this->phone = magixcjquery_form_helpersforms::inputClean($_POST['phone']);
 		}
-		if(isset($_POST['adresse'])){
-			$this->adresse = magixcjquery_form_helpersforms::inputClean($_POST['adresse']);
+		if(magixcjquery_filter_request::isPost('adress')){
+			$this->adress = magixcjquery_form_helpersforms::inputClean($_POST['adress']);
 		}
-		if(isset($_POST['message'])){
-			$this->message = magixcjquery_form_helpersforms::inputClean($_POST['message']);
+		if(magixcjquery_filter_request::isPost('content')){
+			$this->content = magixcjquery_form_helpersforms::inputClean($_POST['content']);
 		}
+        $this->template = new frontend_controller_plugins();
 	}
-	/**
-	 * Construction du titre pour la récupération des mails
-	 */
-	protected function subject(){
-		if(isset($this->moreinfo)){
-			$subject = 'demande sur '.$this->programme;
-		}else{
-			$subject = 'demande d\'informations';
-		}
-		return $subject;
-	}
-	/**
-	 * Construction du corps du message
-	 */
-	protected function body_message(){
-		return
-		'<html><body>'.
-		'<table>'.
-		'<tr>'.
-			'<td><strong>Nom: </strong>'.$this->nom.'</td>'.
-		'</tr>'.
-		'<tr>'.
-			'<td><strong>Prénom: </strong>'.$this->prenom.'</td>'.
-		'</tr>'.
-		'<tr>'.
-			'<td><strong>Email: </strong>'.$this->email.'</td>'.
-		'</tr>'.
-		'<tr>'.
-			'<td><strong>Tel: </strong>'.$this->tel.'</td>'.
-		'</tr>'.
-		'<tr>'.
-			'<td><strong>Adresse: </strong>'.$this->adresse.'</td>'.
-		'</tr>'.
-		'<tr>'.
-			'<td><strong>Demande: </strong>'.$this->programme.'</td>'.
-		'</tr>'.
-		'<tr>'.
-			'<td><strong>Message: </strong>'.str_replace(array("\n"), array('<br />'), $this->message).'</td>'.
-		'</tr>'.
-		'</table>'
-		.'</body></html>';
-	}
+
+    /**
+     * Retourne le message de notification
+     * @param $type
+     * @param null $subContent
+     * @return string
+     */
+    private function setNotify($type,$subContent=null){
+        $this->template->configLoad();
+        switch($type){
+            case 'warning':
+                $warning = array(
+                    'empty' =>  $this->template->getConfigVars('fields_empty'),
+                    'mail'  =>  $this->template->getConfigVars('mail_format')
+                );
+                $message = $warning[$subContent];
+                break;
+            case 'success':
+                $message = $this->template->getConfigVars('message_send_success');
+                break;
+            case 'error':
+                $error = array(
+                    'installed'   =>  $this->template->getConfigVars('installed'),
+                    'configured'  =>  $this->template->getConfigVars('configured')
+                );
+                $message = sprintf('plugin_error','contact',$error[$subContent]);
+                break;
+        }
+
+        return array(
+            'type'      => $type,
+            'content'   => $message
+        );
+    }
+
+    /**
+     * getNotify
+     * @param $type
+     * @param null $subContent
+     */
+    private function getNotify($type,$subContent=null){
+        $this->template->assign('message',$this->setNotify($type,$subContent));
+        $this->template->display('notify/message.tpl');
+    }
+
+    /**
+     * @access private
+     * setBodyMail
+     */
+    private function setBodyMail(){
+
+        return array(
+            'lastname'    =>  $this->lastname,
+            'firstname'   =>  $this->firstname,
+            'email'       =>  $this->email,
+            'phone'       =>  $this->phone,
+            'adress'      =>  $this->adress,
+            'title'       =>  $this->title,
+            'content'     =>  $this->content
+        );
+
+    }
+
+    /**
+     * @return string
+     */
+    private function setTitleMail(){
+        $subject = $this->template->getConfigVars('subject_contact');
+        if(isset($this->title)){
+            $title   = $this->title;
+        }else{
+            $title   = 'contact';
+        }
+        $website = $this->template->getConfigVars('website');
+        return sprintf($subject, $title,$website);
+    }
+
+    /**
+     * @access private
+     * @return string
+     */
+    private function getBodyMail(){
+        $this->template->assign('data',$this->setBodyMail());
+        return $this->template->fetch('admin.tpl');
+    }
 
 	/**
 	 * Envoi du mail 
@@ -167,10 +181,12 @@ class plugins_contact_public extends database_plugins_contact{
 	protected function send_email($create){
 		if(isset($this->email)){
             $create->configLoad();
-			if(empty($this->nom) OR empty($this->prenom) OR empty($this->email)){
-				$create->display('empty.tpl');
+			if(empty($this->lastname)
+                OR empty($this->firstname)
+                OR empty($this->email)){
+                $this->getNotify('warning','empty');
 			}elseif(!magixcjquery_filter_isVar::isMail($this->email)){
-				$create->display('mail.tpl');
+                $this->getNotify('warning','mail');
 			}else{
 				if($create->getLanguage()){
 					if(parent::c_show_table() != 0){
@@ -182,20 +198,20 @@ class plugins_contact_public extends database_plugins_contact{
 							//Initialisation du contenu du message
 							foreach ($lotsOfRecipients as $recipient){
 								$message = $core_mail->body_mail(
-									self::subject(),
+									self::setTitleMail(),
 									array($this->email),
 									array($recipient['mail_contact']),
-									self::body_message(),
+									self::getBodyMail(),
 									false
 								);
 								$core_mail->batch_send_mail($message);
 							}
-							$create->display('success.tpl');
+							$this->getNotify('success');
 						}else{
-							$create->display('error_email_config.tpl');
+                            $this->getNotify('error','configured');
 						}
 					}else{
-						$create->display('error_install.tpl');
+                        $this->getNotify('error','installed');
 					}
 				}
 			}

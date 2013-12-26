@@ -404,13 +404,14 @@ class frontend_controller_plugins{
         }
     }
 
-	/**
-	 * Charge les variables du fichier de configuration
-	 * @param string $varname
-	 * @param boolean $search_parents
-	 */
+    /**
+     * Charge les variables du fichier de configuration
+     * @param string $varname
+     * @param boolean $search_parents
+     * @return string
+     */
 	public function getConfigVars($varname = null, $search_parents = true){
-		frontend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
+		return frontend_model_smarty::getInstance()->getConfigVars($varname, $search_parents);
 	}
 
     /**
@@ -459,11 +460,14 @@ class frontend_controller_plugins{
 	public function testInstall(){
 		frontend_model_smarty::getInstance()->testInstall();
 	}
-	/**
-	 * @access private
-	 * execute ou instance la class du plugin
-	 * @param void $className
-	 */
+
+    /**
+     * @access private
+     * execute ou instance la class du plugin
+     * @param $module
+     * @return
+     * @internal param void $className
+     */
 	private function get_call_class($module){
 		try{
 			$class =  new $module;
