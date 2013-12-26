@@ -22,6 +22,13 @@
         <li{if $smarty.get.tab eq "tags"} class="active"{/if}>
             <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;tab=tags">Tags</a>
         </li>
+        {if $plugin != null}
+            {foreach $plugin as $key => $value}
+                <li{if $smarty.get.plugin eq $key} class="active"{/if}>
+                    <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key}">{$key|ucfirst}</a>
+                </li>
+            {/foreach}
+        {/if}
     </ul>
     <div class="mc-message clearfix"></div>
     {include file="news/forms/edit.tpl"}

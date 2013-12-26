@@ -86,7 +86,7 @@ class backend_controller_news extends backend_db_news{
 	 * @var intéger
 	 */
 
-	public $idnews,$delete_news,$delete_image,$name_tag,$delete_tag,$action,$tab,$getlang;
+	public $idnews,$delete_news,$delete_image,$name_tag,$delete_tag,$action,$tab,$getlang,$plugin;
 	/**
 	 * Recherche dans les news
 	 */
@@ -165,6 +165,10 @@ class backend_controller_news extends backend_db_news{
 		if(magixcjquery_filter_request::isPost('news_search')){
 			$this->news_search = magixcjquery_form_helpersforms::inputClean($_POST['news_search']);
 		}
+        //plugin
+        if(magixcjquery_filter_request::isGet('plugin')){
+            $this->plugin = magixcjquery_form_helpersforms::inputClean($_GET['plugin']);
+        }
 	}
     /**
      * @access private
@@ -387,7 +391,6 @@ class backend_controller_news extends backend_db_news{
         $create->assign('date_register',$data['date_register'],true);
         $create->assign('published',$data['published'],true);
         $create->assign('tags',$data['WORD_LIST'],true);
-        $create->display('news/edit.tpl');
 	}
 
     /**
@@ -594,6 +597,7 @@ class backend_controller_news extends backend_db_news{
 	public function run(){
 		$header= new magixglobal_model_header();
         $create = new backend_controller_template();
+        $plugin = new backend_controller_plugins();
         $create->addConfigFile(array(
                 'news'
             ),array('news_'),false
@@ -620,6 +624,7 @@ class backend_controller_news extends backend_db_news{
                 }elseif($this->action == 'edit'){
                     if(isset($this->edit)){
                         $data = parent::s_news_data($this->edit);
+                        $create->assign('plugin',$plugin->menu_item_plugin('news'));
                         if(magixcjquery_filter_request::isGet('json_urinews')){
                             $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
                             $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
@@ -645,7 +650,15 @@ class backend_controller_news extends backend_db_news{
                         }elseif(isset($this->delete_tag)){
                             $this->remove_tag();
                         }else{
-                            $this->load_edit_data($create,$data);
+                            if(isset($this->plugin)){
+                                // Chargement du plugin dans les actualités (edition)
+                                $this->load_edit_data($create,$data);
+                                $param_arr = array($this->plugin,$this->getlang,$this->edit);
+                                $plugin->extend_module($this->plugin,'news',$param_arr);
+                            }else{
+                                $this->load_edit_data($create,$data);
+                                $create->display('news/edit.tpl');
+                            }
                         }
                     }else{
                         if(isset($this->published)){

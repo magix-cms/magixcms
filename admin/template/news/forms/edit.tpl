@@ -17,6 +17,8 @@
     <label for="name_tag">Tags</label>
     <input type="text" class="form-control" id="name_tag" class="tags" value="{$tags}" />
 </div>
+{elseif $smarty.get.plugin}
+    {block name="forms"}{/block}
 {else}
 <form id="forms_news_edit" method="post" action="">
     <div class="row">
