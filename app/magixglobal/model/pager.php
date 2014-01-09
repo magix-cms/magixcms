@@ -66,7 +66,7 @@ class magixglobal_model_pager{
         $total['perPage']   = $perPage;
 
         if ($total['items'] >= $total['perPage']) {
-            $total['page'] = ceil(round($total['items']/$total['perPage'],0));
+            $total['page'] = ceil($total['items']/$total['perPage']);
 
             // Si je ne suis pas sur la première page, je retourne les liens first et previous
             if ($currentPage > 1) {

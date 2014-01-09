@@ -1182,8 +1182,7 @@ class backend_controller_catalog extends backend_db_catalog{
             );
             $pagination = null;
             if ($dataPager != null) {
-                $pagination = '<div class="pagination">';
-                $pagination .= '<ul>';
+                $pagination = '<ul class="pagination">';
                 foreach ($dataPager as $row) {
                     switch ($row['name']){
                         case 'first':
@@ -1209,7 +1208,6 @@ class backend_controller_catalog extends backend_db_catalog{
                     $pagination .= '</li>';
                 }
                 $pagination .= '</ul>';
-                $pagination .= '</div>';
             }
             unset($total);
             unset($limit);
