@@ -85,9 +85,13 @@ var MC_news = (function ($, undefined) {
      * @param iso
      */
     function jsonPages(baseadmin,iso,getlang){
+        var getpage = $('.pagination li.active').text();
+        if(getpage.length == 0){
+            getpage = 1;
+        }
         $.nicenotify({
             ntype: "ajax",
-            uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=list&json_list_news=true',
+            uri: '/'+baseadmin+'/news.php?getlang='+getlang+'&action=list&json_list_news=true&page='+getpage,
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){

@@ -121,12 +121,16 @@ class backend_db_news{
      * @param $select_role
      * @return void
      */
-	protected function s_count_max_news($select_role){
+	protected function s_count_max_news($idlang,$select_role){
         $sql = 'SELECT count(n.idnews) as total
 		FROM mc_news AS n
 		JOIN mc_admin_member AS m ON(m.idadmin=n.idadmin)
-		WHERE m.id_role IN('.$select_role.')';
-		return magixglobal_model_db::layerDB()->select($sql);
+		WHERE n.idlang = :idlang AND m.id_role IN('.$select_role.')';
+		return magixglobal_model_db::layerDB()->selectOne($sql,
+            array(
+            ':idlang'	=>	$idlang
+            )
+        );
 	}
 
     /**

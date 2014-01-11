@@ -183,6 +183,7 @@ class backend_controller_news extends backend_db_news{
      * offset for pager in pagination
      * @param $max
      * @return int
+     * @deprecated
      */
     private function offset_pager($max){
         $pagination = new magixcjquery_pager_pagination();
@@ -193,11 +194,12 @@ class backend_controller_news extends backend_db_news{
      * Construction de la pagination
      * @param $max
      * @return string
+     * @deprecated
      */
     private function news_pager($max){
         $role = new backend_model_role();
         $pagination = new magixcjquery_pager_pagination();
-        $request = parent::s_count_max_news($role->sql_arg());
+        $request = parent::s_count_max_news($this->getlang,$role->sql_arg());
         $setConfig = array(
             'url'=>'/admin/news.php?getlang='.$this->getlang.'&amp;action=list&amp;',
             'getPage'=> $this->getpage,
@@ -215,12 +217,70 @@ class backend_controller_news extends backend_db_news{
     }
 
     /**
-     * Retourne la liste des news au format JSON
-     * @param $max
+     * Retourne la pagination pour les actualités
+     * @param $limit
+     * @return null|string
      */
-    private function json_list_news($max){
+    private function news_pagination($limit){
         $role = new backend_model_role();
-        $offset = $this->offset_pager($max);
+        $db = parent::s_count_max_news($this->getlang,$role->sql_arg());
+        $total = $db['total'];
+        // *** Set pagination
+        $dataPager = null;
+        if (isset($total) AND isset($limit)) {
+            $lib_rewrite = new magixglobal_model_rewrite();
+            $basePath = '/'.PATHADMIN.'/news.php?getlang='.$this->getlang.'&amp;action=list&amp;';
+            $dataPager = magixglobal_model_pager::setPaginationData(
+                $total,
+                $limit,
+                $basePath,
+                $this->getpage,
+                '='
+            );
+            $pagination = null;
+            if ($dataPager != null) {
+                $pagination = '<ul class="pagination">';
+                foreach ($dataPager as $row) {
+                    switch ($row['name']){
+                        case 'first':
+                            $name = '<<';
+                            break;
+                        case 'previous':
+                            $name = '<';
+                            break;
+                        case 'next':
+                            $name = '>';
+                            break;
+                        case 'last':
+                            $name = '>>';
+                            break;
+                        default:
+                            $name = $row['name'];
+                    }
+                    $classItem = ($name == $this->getpage) ? ' class="active"' : null;
+                    $pagination .= '<li'.$classItem.'>';
+                    $pagination .= '<a href="'.$row['url'].'" title="'.$name.'" >';
+                    $pagination .= $name;
+                    $pagination .= '</a>';
+                    $pagination .= '</li>';
+                }
+                $pagination .= '</ul>';
+            }
+            unset($total);
+            unset($limit);
+        }
+        return $pagination;
+    }
+
+    /**
+     * Retourne la liste des news au format JSON
+     * @param $limit
+     */
+    private function json_list_news($limit){
+        $role = new backend_model_role();
+        $pager = new magixglobal_model_pager();
+        $max = $limit;
+        $offset= $pager->setPaginationOffset($limit,$this->getpage);
         $limit = $max;
         if(parent::s_news_list($this->getlang,$role->sql_arg(),$limit,$max,$offset) != null){
             foreach (parent::s_news_list($this->getlang,$role->sql_arg(),$limit,$max,$offset) as $key){
@@ -615,6 +675,7 @@ class backend_controller_news extends backend_db_news{
                         $header->json_header("UTF-8");
                         $this->json_list_news($max);
                     }else{
+                        $create->assign('pagination',$this->news_pagination($max));
                         $create->display('news/list.tpl');
                     }
                 }elseif($this->action == 'add'){

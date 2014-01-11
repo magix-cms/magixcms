@@ -10,6 +10,7 @@
     </p>
     <div class="mc-message clearfix"></div>
     <div id="list_news"></div>
+    {$pagination}
 {/block}
 {block name="modal"}
     <div id="window-dialog"></div>
