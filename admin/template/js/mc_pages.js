@@ -214,7 +214,7 @@ var MC_pages = (function ($, undefined) {
                             .append(
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-key")
+                                    .addClass("fa fa-key")
                             ),
                             $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
                             $(document.createElement("th")).append(Globalize.localize( "content", iso )),
@@ -222,26 +222,26 @@ var MC_pages = (function ($, undefined) {
                             $(document.createElement("th")).append("Metas Description"),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-move")
+                                    .addClass("fa fa-arrows")
                             ),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-group")
+                                    .addClass("fa fa-group")
                             ),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-eye-open")
+                                    .addClass("fa fa-eye")
                             ),
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-edit")
+                                    .addClass("fa fa-edit")
                             )
                             ,
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-trash")
+                                    .addClass("fa fa-trash-o")
                             )
                         )
                     ),
@@ -254,26 +254,26 @@ var MC_pages = (function ($, undefined) {
                 if(j !== null){
                     $.each(j, function(i,item) {
                         if(item.content_page != 0){
-                            var content_page = $(document.createElement("span")).addClass("icon-check");
+                            var content_page = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var content_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var content_page = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.seo_title_page != 0){
-                            var seo_title_page = $(document.createElement("span")).addClass("icon-check");
+                            var seo_title_page = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var seo_title_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var seo_title_page = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.seo_desc_page != 0){
-                            var seo_desc_page = $(document.createElement("span")).addClass("icon-check");
+                            var seo_desc_page = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var seo_desc_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var seo_desc_page = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         var child = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&get_page_p='+item.idpage)
                                 .attr("title", Globalize.localize( "management_child_pages", iso )+" "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-group")
+                                $(document.createElement("span")).addClass("fa fa-group")
                             )
                         );
                         var move = $(document.createElement("td")).append(
@@ -281,7 +281,7 @@ var MC_pages = (function ($, undefined) {
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&edit='+item.idpage)
                                 .attr("title", Globalize.localize( "move_page", iso )+" "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-move")
+                                $(document.createElement("span")).addClass("fa fa-arrows")
                             )
                         );
                         if(item.sidebar_page == '0'){
@@ -291,7 +291,7 @@ var MC_pages = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
-                                        $(document.createElement("span")).addClass("icon-eye-close")
+                                        $(document.createElement("span")).addClass("fa fa-eye-slash")
                                     )
                             )
                         }else if(item.sidebar_page == '1'){
@@ -301,7 +301,7 @@ var MC_pages = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
-                                        $(document.createElement("span")).addClass("icon-eye-open")
+                                        $(document.createElement("span")).addClass("fa fa-eye")
                                     )
                             )
                         }
@@ -310,7 +310,7 @@ var MC_pages = (function ($, undefined) {
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-edit")
+                                $(document.createElement("span")).addClass("fa fa-edit")
                             )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -320,7 +320,7 @@ var MC_pages = (function ($, undefined) {
                                 .attr("data-delete", item.idpage)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-trash")
+                                $(document.createElement("span")).addClass("fa fa-trash-o")
                             )
                         );
                         tbody.append(
@@ -380,31 +380,31 @@ var MC_pages = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             )
                         )
                     )
@@ -488,7 +488,7 @@ var MC_pages = (function ($, undefined) {
                             .append(
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-key")
+                                    .addClass("fa fa-key")
                             ),
                             $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
                             $(document.createElement("th")).append(Globalize.localize( "content", iso )),
@@ -496,22 +496,22 @@ var MC_pages = (function ($, undefined) {
                             $(document.createElement("th")).append("Metas Description"),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-move")
+                                    .addClass("fa fa-arrows")
                             ),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-eye-open")
+                                    .addClass("fa fa-eye-open")
                             ),
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-edit")
+                                    .addClass("fa fa-edit")
                             )
                             ,
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-trash")
+                                    .addClass("fa fa-trash-o")
                             )
                         )
                     ),
@@ -524,26 +524,26 @@ var MC_pages = (function ($, undefined) {
                 if(j !== null){
                     $.each(j, function(i,item) {
                         if(item.content_page != 0){
-                            var content_page = $(document.createElement("span")).addClass("icon-check");
+                            var content_page = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var content_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var content_page = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.seo_title_page != 0){
-                            var seo_title_page = $(document.createElement("span")).addClass("icon-check");
+                            var seo_title_page = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var seo_title_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var seo_title_page = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.seo_desc_page != 0){
-                            var seo_desc_page = $(document.createElement("span")).addClass("icon-check");
+                            var seo_desc_page = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var seo_desc_page = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var seo_desc_page = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         var move = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=move&edit='+item.idpage)
                                 .attr("title", Globalize.localize( "move_page", iso )+" :"+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-move")
+                                $(document.createElement("span")).addClass("fa fa-arrows")
                             )
                         );
                         if(item.sidebar_page == '0'){
@@ -553,7 +553,7 @@ var MC_pages = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
-                                    $(document.createElement("span")).addClass("icon-eye-close")
+                                    $(document.createElement("span")).addClass("fa fa-eye-close")
                                 )
                             )
                         }else if(item.sidebar_page == '1'){
@@ -563,7 +563,7 @@ var MC_pages = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
-                                    $(document.createElement("span")).addClass("icon-eye-open")
+                                    $(document.createElement("span")).addClass("fa fa-eye-open")
                                 )
                             )
                         }
@@ -572,7 +572,7 @@ var MC_pages = (function ($, undefined) {
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-edit")
+                                $(document.createElement("span")).addClass("fa fa-edit")
                             )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -582,7 +582,7 @@ var MC_pages = (function ($, undefined) {
                                 .attr("data-delete", item.idpage)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-trash")
+                                $(document.createElement("span")).addClass("fa fa-trash-o")
                             )
                         );
                         tbody.append(
@@ -640,28 +640,28 @@ var MC_pages = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             )
                         )
                     )

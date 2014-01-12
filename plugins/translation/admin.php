@@ -234,8 +234,6 @@ class plugins_translation_admin{
             }elseif(isset($this->tab)){
                 $create->display('about.tpl');
             }
-        }else{
-            $create->display('index.tpl');
         }
     }
 

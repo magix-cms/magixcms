@@ -5,7 +5,7 @@
     <h1>{#list_of_news#|ucfirst}</h1>
     <p>
         <a class="btn btn-primary" href="#" id="open-add">
-            <span class="icon-plus"></span> {#add_a_page#|ucfirst}
+            <span class="fa fa-plus"></span> {#add_a_page#|ucfirst}
         </a>
     </p>
     <div class="mc-message clearfix"></div>

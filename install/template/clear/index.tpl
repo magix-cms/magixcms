@@ -10,11 +10,11 @@
     <div class="mc-message clearfix"></div>
     <div class="mc-info clearfix">
         <div class="col-sm-6 alert alert-info">
-            <span class="icon-info-sign"></span> {#info_finish#}
+            <span class="fa fa-info-circle"></span> {#info_finish#}
         </div>
     </div>
     <a href="#" class="btn btn-lg btn-block btn-primary" id="process_cache">
-        <span class="icon-cog"></span> {#btn_finish#}
+        <span class="fa fa-gear"></span> {#btn_finish#}
     </a>
     {block name="main:pager"}
         <ul class="pager">

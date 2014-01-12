@@ -10,13 +10,13 @@
         <form id="forms-log" method="post" action="{geturl}/{baseadmin}/login.php">
             <p class="input-group">
                 <span class="input-group-addon">
-                    <span class="icon-envelope"></span>
+                    <span class="fa fa-envelope"></span>
                 </span>
                 <input type="text" class="form-control" placeholder="{#placeholder_login#|ucfirst}" id="acmail" name="acmail" value="" />
             </p>
             <p class="input-group">
                 <span class="input-group-addon">
-                    <span class="icon-key"></span>
+                    <span class="fa fa-key"></span>
                 </span>
                 <input type="password" class="form-control" placeholder="{#placeholder_password#|ucfirst}" id="acpass" name="acpass" value="" />
             </p>

@@ -1,9 +1,9 @@
 <ul class="nav">
     {* -- START PAGES -- *}
-    <li class="nav-header"><span class="icon-file-alt"></span> Pages</li>
+    <li class="nav-header"><span class="fa fa-file-text-o"></span> Pages</li>
     <li>
         <a href="#home" class="showit{if {script_name} eq "home"} open{/if}">
-            <span class="icon-expand-alt"></span> {#home#|ucfirst}
+            <span class="fa fa-plus-square-o"></span> {#home#|ucfirst}
         </a>
         <div class="collapse-item{if {script_name} eq "home"} on{/if}" id="home">
             <div class="lang-group">
@@ -13,7 +13,7 @@
                     {$langActive = ''}
                 {/if}
                 <a class="badge {$langActive}" href="/{baseadmin}/home.php?action=list">
-                    <span class="icon-list-ul"></span> {#list#|ucfirst}
+                    <span class="fa fa-list-ul"></span> {#list#|ucfirst}
                 </a>
             </div>
         </div>
@@ -21,7 +21,7 @@
     {if $config_cms eq 1}
         <li>
             <a href="#cms" class="showit{if {script_name} eq "cms"} open{/if}">
-                <span class="icon-expand-alt"></span> Pages
+                <span class="fa fa-plus-square-o"></span> Pages
             </a>
             <div class="collapse-item{if {script_name} eq "cms"} on{/if}" id="cms">
                 <div class="lang-group">
@@ -42,10 +42,10 @@
 {if $config_news eq 1}
     <ul class="nav">
         {* -- START NEWS -- *}
-        <li class="nav-header"><span class="icon-rss"></span> {#news#|upper}</li>
+        <li class="nav-header"><span class="fa fa-rss"></span> {#news#|upper}</li>
         <li>
             <a href="#news" class="showit{if {script_name} eq "news"} open{/if}">
-                <span class="icon-expand-alt"></span> {#article#|ucfirst}
+                <span class="fa fa-plus-square-o"></span> {#article#|ucfirst}
             </a>
             <div class="collapse-item{if {script_name} eq "news"} on{/if}" id="news">
                 <div class="lang-group">
@@ -66,10 +66,10 @@
 {if $config_catalog eq 1}
     <ul class="nav">
         {* -- START CATALOG -- *}
-        <li class="nav-header"><span class="icon-shopping-cart"></span> {#catalog#|upper}</li>
+        <li class="nav-header"><span class="fa fa-shopping-cart"></span> {#catalog#|upper}</li>
         <li>
             <a href="#catalog-category" class="showit{if {script_name} eq "catalog:category" OR {script_name} eq "catalog:subcategory"} open{/if}">
-                <span class="icon-expand-alt"></span> {#category#|ucfirst}
+                <span class="fa fa-plus-square-o"></span> {#category#|ucfirst}
             </a>
             <div class="collapse-item{if {script_name} eq "catalog:category" OR {script_name} eq "catalog:subcategory"} on{/if}" id="catalog-category">
                 <div class="lang-group">
@@ -86,7 +86,7 @@
         </li>
         <li>
             <a href="#catalog-product" class="showit{if {script_name} eq "catalog:product"} open{/if}">
-                <span class="icon-expand-alt"></span> {#products#|ucfirst}
+                <span class="fa fa-plus-square-o"></span> {#products#|ucfirst}
             </a>
             <div class="collapse-item{if {script_name} eq "catalog:product"} on{/if}" id="catalog-product">
                 <div class="lang-group">
@@ -107,7 +107,7 @@
 {if $config_plugins eq 1}
     <ul class="nav">
         {* -- START PLUGINS -- *}
-        <li class="nav-header"><span class="icon-puzzle-piece"></span> Plugins</li>
+        <li class="nav-header"><span class="fa fa-puzzle-piece"></span> Plugins</li>
         {widget_plugins_nav}
         {* -- END NEWS -- *}
     </ul>

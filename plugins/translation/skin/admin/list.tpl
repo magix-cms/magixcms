@@ -6,7 +6,7 @@
     <h2>Core</h2>
     <p>
         <a class="btn btn-default" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;section=core">
-            <span class="icon-file-alt"></span> Local
+            <span class="fa fa-file-text-o"></span> Local
         </a>
     </p>
     <h2>Plugins</h2>

@@ -193,8 +193,6 @@ a:hover > .badge {
 * lang-group
 */
 .lang-group {
-    margin-bottom: 10px;
-    margin-top: 5px;
     margin-left: 15px;
 }
 .lang-group a:first-child{
@@ -262,16 +260,16 @@ tbody.ui-sortable > .ui-sortable-helper{
 * jmShowIt
 */
 /* metas */
-.showit.open > .icon-plus:before,
-.view-block.open > .icon-plus:before,
-.view-metas.open > .icon-plus:before{
-    content: "\f068";
+.showit.open > .fa-plus:before,
+.view-block.open > .fa-plus:before,
+.view-metas.open > .fa-plus:before{
+    content:"\f068";
 }
 /* Colleft */
-.showit.open > .icon-expand-alt:before,
-.view-block.open > .icon-expand-alt:before,
-.view-metas.open > .icon-expand-alt:before{
-    content: "\f117";
+.showit.open > .fa-plus-square-o:before,
+.view-block.open > .fa-plus-square-o:before,
+.view-metas.open > .fa-plus-square-o:before{
+    content:"\f147";
 }
 .collapse-item,
 .collapse-block,

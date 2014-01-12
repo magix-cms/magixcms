@@ -5,7 +5,7 @@
     <h1>{#listing_product#|ucfirst}</h1>
     <p>
         <a class="btn btn-primary" href="#" id="open-add">
-            <span class="icon-plus"></span> {#add_a_product#|ucfirst}
+            <span class="fa fa-plus"></span> {#add_a_product#|ucfirst}
         </a>
     </p>
     <div class="mc-message clearfix"></div>

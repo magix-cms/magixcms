@@ -165,16 +165,16 @@ $(function(){
     //Unlock input text
     $('.unlocked').on('click',function(event){
         event.preventDefault();
-        var lock = $('span.icon-lock',this);
-        var unlock = $('span.icon-unlock',this);
+        var lock = $('span.fa-lock',this);
+        var unlock = $('span.fa-unlock',this);
         if (lock.length != 0) {
             $(this).parent().prev().removeAttr("readonly");
             $(this).parent().prev().removeAttr("disabled");
-            lock.removeClass('icon-lock').addClass('icon-unlock');
+            lock.removeClass('fa-lock').addClass('fa-unlock');
         } else {
             $(this).parent().prev().attr("readonly","readonly");
             $(this).parent().prev().attr("disabled","disabled");
-            unlock.removeClass('icon-unlock').addClass('icon-lock');
+            unlock.removeClass('fa-unlock').addClass('fa-lock');
         }
     });
     function selectCurrentIso(id,adminurl){

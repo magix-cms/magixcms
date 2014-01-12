@@ -8,7 +8,7 @@
         </span>
         <span class="col-lg-2 col-sm-2">
             <a class="btn btn-primary btn-large post-preview" href="#">
-                <span class="icon-zoom-in"></span>
+                <span class="fa fa-search-plus"></span>
             </a>
         </span>
     </div>

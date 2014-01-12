@@ -1,7 +1,7 @@
 <h3>{#concat#}</h3>
 <div class="mc-info clearfix">
     <div class="col-sm-10 alert alert-info">
-        <span class="icon-info-sign"></span> {#p_concatenating#}
+        <span class="fa fa-info-sign"></span> {#p_concatenating#}
     </div>
 </div>
 <form id="forms_config_concat" class="form-inline" method="post" action="">
@@ -18,12 +18,12 @@
 <h3>{#type_cache#}</h3>
 <div class="mc-info clearfix">
     <div class="col-sm-10 alert alert-info">
-        <span class="icon-info-sign"></span> {#alert_info_cache_type#}
+        <span class="fa fa-info-sign"></span> {#alert_info_cache_type#}
     </div>
 </div>
 <div class="mc-info clearfix">
     <div class="col-sm-10 alert alert-warn">
-        <span class="icon-warning-sign"></span> {#alert_warn_cache_type#}
+        <span class="fa fa-warning-sign"></span> {#alert_warn_cache_type#}
     </div>
 </div>
 <form id="forms_config_cache" class="form-inline" method="post" action="">

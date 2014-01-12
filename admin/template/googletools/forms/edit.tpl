@@ -1,6 +1,6 @@
 <div class="mc-info clearfix">
     <div class="col-sm-7 alert alert-info">
-        <span class="icon-info-sign"></span> {#alert_info_analytics#}
+        <span class="fa fa-info-sign"></span> {#alert_info_analytics#}
     </div>
 </div>
 <form id="forms_googletools_analytics_edit" class="forms-googletools form-inline" method="post" action="">
@@ -16,7 +16,7 @@
 </form>
 <div class="mc-info clearfix">
     <div class="col-sm-7 alert alert-info">
-        <span class="icon-info-sign"></span> {#alert_info_webmaster_tools#}
+        <span class="fa fa-info-sign"></span> {#alert_info_webmaster_tools#}
     </div>
 </div>
 <form id="forms_googletools_webmaster_edit" class="forms-googletools form-inline" method="post" action="">
@@ -32,7 +32,7 @@
 </form>
 <div class="mc-info clearfix">
     <div class="col-sm-7 alert alert-info">
-        <span class="icon-info-sign"></span> {#alert_info_googleplus#}
+        <span class="fa fa-info-sign"></span> {#alert_info_googleplus#}
     </div>
 </div>
 <form id="forms_googletools_plus_edit" class="forms-googletools form-inline" method="post" action="">

@@ -37,7 +37,7 @@
                     <input type="text" class="form-control" id="pathslibelle" name="pathslibelle" readonly="readonly" size="30" value="{$pathslibelle}" />
                 <span class="input-group-addon">
                         <a class="unlocked" href="#">
-                            <span class="icon-lock"></span>
+                            <span class="fa fa-lock"></span>
                         </a>
                     </span>
                 </div>

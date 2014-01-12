@@ -5,7 +5,7 @@
     <h1>{#listing_category#|ucfirst}</h1>
     <p>
         <a class="btn btn-primary" href="#" id="open-add">
-            <span class="icon-plus"></span> {#add_a_category#|ucfirst}
+            <span class="fa fa-plus"></span> {#add_a_category#|ucfirst}
         </a>
     </p>
     <div class="mc-message clearfix"></div>

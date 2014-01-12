@@ -153,23 +153,23 @@ var MC_catalog = (function ($, undefined) {
                                     .append(
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-key")
+                                                .addClass("fa fa-key")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-picture")
+                                                .addClass("fa fa-picture-o")
                                         ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-edit")
+                                                    .addClass("fa fa-edit")
                                             ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-trash")
+                                                    .addClass("fa fa-trash-o")
                                             )
                                     )
                             ),
@@ -182,21 +182,21 @@ var MC_catalog = (function ($, undefined) {
                 if(j !== null){
                     $.each(j, function(i,item) {
                         if(item.c_content != 0){
-                            var c_content = $(document.createElement("span")).addClass("icon-check");
+                            var c_content = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var c_content = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var c_content = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.img != 0){
-                            var img = $(document.createElement("span")).addClass("icon-check");
+                            var img = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var img = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var img = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.clibelle)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-edit")
+                                    $(document.createElement("span")).addClass("fa fa-edit")
                                 )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -206,7 +206,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-delete", item.idclc)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.clibelle)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-trash")
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
                                 )
                         );
                         tbody.append(
@@ -257,22 +257,22 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 )
                             )
                     )
@@ -545,13 +545,13 @@ var MC_catalog = (function ($, undefined) {
                                     .append(
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-key")
+                                                .addClass("fa fa-key")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-trash")
+                                                    .addClass("fa fa-trash-o")
                                             )
                                     )
                             ),
@@ -571,7 +571,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-delete", item.idproduct)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-trash")
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
                                 )
                         );
                         tbody.append(
@@ -614,13 +614,13 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 )
                             )
                     )
@@ -711,23 +711,23 @@ var MC_catalog = (function ($, undefined) {
                                     .append(
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-key")
+                                                .addClass("fa fa-key")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-picture")
+                                                .addClass("fa fa-picture-o")
                                         ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-edit")
+                                                    .addClass("fa fa-edit")
                                             ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-trash")
+                                                    .addClass("fa fa-trash-o")
                                             )
                                     )
                             ),
@@ -740,21 +740,21 @@ var MC_catalog = (function ($, undefined) {
                 if(j !== null){
                     $.each(j, function(i,item) {
                         if(item.s_content != 0){
-                            var s_content = $(document.createElement("span")).addClass("icon-check");
+                            var s_content = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var s_content = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var s_content = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.img != 0){
-                            var img = $(document.createElement("span")).addClass("icon-check");
+                            var img = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var img = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var img = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.slibelle)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-edit")
+                                    $(document.createElement("span")).addClass("fa fa-edit")
                                 )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -764,7 +764,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-delete", item.idcls)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.slibelle)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-trash")
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
                                 )
                         );
                         tbody.append(
@@ -815,22 +815,22 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 )
                             )
                     )
@@ -1108,13 +1108,13 @@ var MC_catalog = (function ($, undefined) {
                                     .append(
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-key")
+                                                .addClass("fa fa-key")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-trash")
+                                                    .addClass("fa fa-trash-o")
                                             )
                                     )
                             ),
@@ -1134,7 +1134,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-delete", item.idproduct)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-trash")
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
                                 )
                         );
                         tbody.append(
@@ -1177,13 +1177,13 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 )
                             )
                     )
@@ -1374,38 +1374,38 @@ var MC_catalog = (function ($, undefined) {
                                     .append(
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-key")
+                                                .addClass("fa fa-key")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "name", iso )),
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-picture")
+                                                .addClass("fa fa-picture-o")
                                         ),
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-money")
+                                                .addClass("fa fa-money")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                                         $(document.createElement("th")).append("Rédacteur"),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-copy")
+                                                    .addClass("fa fa-copy")
                                             ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-move")
+                                                    .addClass("fa fa-arrows")
                                             ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-edit")
+                                                    .addClass("fa fa-edit")
                                             ),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-trash")
+                                                    .addClass("fa fa-trash-o")
                                             )
                                     )
                             ),
@@ -1418,21 +1418,21 @@ var MC_catalog = (function ($, undefined) {
                 if(j !== null){
                     $.each(j, function(i,item) {
                         if(item.content != 0){
-                            var content = $(document.createElement("span")).addClass("icon-check");
+                            var content = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var content = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var content = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.img != 0){
-                            var img = $(document.createElement("span")).addClass("icon-check");
+                            var img = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var img = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var img = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.titlecatalog)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-edit")
+                                    $(document.createElement("span")).addClass("fa fa-edit")
                                 )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -1442,7 +1442,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-delete", item.idcatalog)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-trash")
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
                                 )
                         );
                         var copy = $(document.createElement("td")).append(
@@ -1452,7 +1452,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-copy", item.idcatalog)
                                 .attr("title", Globalize.localize( "copy", iso )+": "+item.titlecatalog)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-copy")
+                                    $(document.createElement("span")).addClass("fa fa-copy")
                                 )
                         );
                         var move = $(document.createElement("td")).append(
@@ -1462,7 +1462,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-move", item.idcatalog)
                                 .attr("title", Globalize.localize( "move", iso )+": "+item.titlecatalog)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-move")
+                                    $(document.createElement("span")).addClass("fa fa-arrows")
                                 )
                         );
                         tbody.append(
@@ -1496,22 +1496,22 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 )
                             )
                     )
@@ -1880,7 +1880,7 @@ var MC_catalog = (function ($, undefined) {
                                     .append(
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-key")
+                                                .addClass("fa fa-key")
                                         ),
                                         $(document.createElement("th")).append(
                                             Globalize.localize( "category", iso )
@@ -1891,7 +1891,7 @@ var MC_catalog = (function ($, undefined) {
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-trash")
+                                                    .addClass("fa fa-trash-o")
                                             )
                                     )
                             ),
@@ -1907,7 +1907,7 @@ var MC_catalog = (function ($, undefined) {
                             var slibelle = item.slibelle;
                             var remove_slibelle = ' '+item.slibelle;
                         }else{
-                            var slibelle = $(document.createElement("span")).addClass("icon-minus");
+                            var slibelle = $(document.createElement("span")).addClass("fa fa-minus");
                             var remove_slibelle = '';
                         }
                         var remove = $(document.createElement("td")).append(
@@ -1917,7 +1917,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-delete", item.idproduct)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.clibelle+remove_slibelle)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-trash")
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
                                 )
                         );
                         tbody.append(
@@ -1940,16 +1940,16 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 )
                             )
                     )
@@ -2234,7 +2234,7 @@ var MC_catalog = (function ($, undefined) {
                                     .append(
                                         $(document.createElement("th")).append(
                                             $(document.createElement("span"))
-                                                .addClass("icon-key")
+                                                .addClass("fa fa-key")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
                                         $(document.createElement("th")).append(Globalize.localize( "category", iso )),
@@ -2242,7 +2242,7 @@ var MC_catalog = (function ($, undefined) {
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
-                                                    .addClass("icon-trash")
+                                                    .addClass("fa fa-trash-o")
                                             )
                                     )
                             ),
@@ -2260,7 +2260,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.slibelle)
                                 .append(item.slibelle);
                         }else{
-                            var slibelle = $(document.createElement("span")).addClass("icon-minus");
+                            var slibelle = $(document.createElement("span")).addClass("fa fa-minus");
                         }
                         var remove = $(document.createElement("td")).append(
                             $(document.createElement("a"))
@@ -2269,7 +2269,7 @@ var MC_catalog = (function ($, undefined) {
                                 .attr("data-delete", item.idrelproduct)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
                                 .append(
-                                    $(document.createElement("span")).addClass("icon-trash")
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
                                 )
                         );
                         tbody.append(
@@ -2303,19 +2303,19 @@ var MC_catalog = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("icon-minus")
+                                    $(document.createElement("span")).addClass("fa fa-minus")
                                 )
                             )
                     )

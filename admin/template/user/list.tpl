@@ -5,7 +5,7 @@
     <h1>{#h1_user_list#}</h1>
     <p>
         <a class="btn btn-primary" href="#" id="open-add">
-            <span class="icon-plus"></span> {#add_user#}
+            <span class="fa fa-plus"></span> {#add_user#}
         </a>
     </p>
     <div class="mc-message clearfix"></div>

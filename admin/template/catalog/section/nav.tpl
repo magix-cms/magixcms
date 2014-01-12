@@ -2,9 +2,9 @@
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bar"></span>
+            <span class="fa fa-bar"></span>
+            <span class="fa fa-bar"></span>
         </button>
         <a class="navbar-brand" href="#">{#catalog#|ucfirst}</a>
     </div>
@@ -21,14 +21,14 @@
             {if $smarty.get.section eq 'category'}
             <span class="input-group">
                 <span class="input-group-addon">
-                    <span class="icon-search"></span>
+                    <span class="fa fa-search"></span>
                 </span>
                 <input type="text" id="name_category" name="name_category" placeholder="Search" class="form-control">
             </span>
             {elseif $smarty.get.section eq 'product'}
             <span class="input-group">
                 <span class="input-group-addon">
-                    <span class="icon-search"></span>
+                    <span class="fa fa-search"></span>
                 </span>
                 <input type="text" id="name_product" name="name_product" placeholder="Search" class="form-control">
             </span>

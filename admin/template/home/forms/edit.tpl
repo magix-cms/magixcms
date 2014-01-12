@@ -21,7 +21,7 @@
     </div>
     <p>
         <a href="#metas" class="btn btn-default view-metas">
-            <span class="icon-plus"></span> {#display_metas#|ucfirst}
+            <span class="fa fa-plus"></span> {#display_metas#|ucfirst}
         </a>
     </p>
     <div class="collapse-metas" id="metas">

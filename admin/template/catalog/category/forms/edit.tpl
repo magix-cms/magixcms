@@ -15,7 +15,7 @@
 {elseif $smarty.get.tab eq "subcat"}
 <p class="btn-row">
     <a class="btn btn-primary" href="#" id="open-add">
-        <span class="icon-plus"></span> {#add_a_subcategory#|ucfirst}
+        <span class="fa fa-plus"></span> {#add_a_subcategory#|ucfirst}
     </a>
 </p>
 <div id="list_subcategory"></div>
@@ -44,7 +44,7 @@
                 <input type="text" class="form-control" id="pathclibelle" name="pathclibelle" readonly="readonly" size="30" value="{$pathclibelle}" />
                 <span class="input-group-addon">
                         <a class="unlocked" href="#">
-                            <span class="icon-lock"></span>
+                            <span class="fa fa-lock"></span>
                         </a>
                     </span>
                 </div>

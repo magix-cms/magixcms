@@ -17,7 +17,7 @@
     <![endif]-->
 {block name="styleSheet"}
     {capture name="styleSheet"}/{baseadmin}/min/?g=css{/capture}
-    {capture name="styleSheetIe"}/{baseadmin}/min/?f={baseadmin}/template/css/font-awesome-ie7.min.css,{baseadmin}/template/css/ui-bootstrap/jquery.ui.1.10.3.ie.css{/capture}
+    {capture name="styleSheetIe"}/{baseadmin}/min/?f={baseadmin}/template/css/ui-bootstrap/jquery.ui.1.10.3.ie.css{/capture}
     {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat={$concat} media="screen"}
     <!--[if IE 7]>
     {headlink rel="stylesheet" href=$smarty.capture.styleSheetIe concat={$concat} media="screen"}

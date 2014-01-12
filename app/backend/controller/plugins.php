@@ -192,19 +192,19 @@ class backend_controller_plugins{
 							if($v->version->support->ticket['href'] != false){
 								$r .= '<tr>
 									<td>Tickets:</td>
-									<td><a class="targetblank" href="'.$v->version->support->ticket['href'].'"><span class="icon-bullhorn"></span> Signaler un bug</a></td>
+									<td><a class="targetblank" href="'.$v->version->support->ticket['href'].'"><span class="fa fa-bullhorn"></span> Signaler un bug</a></td>
 								</tr>';
 							}
 							if($v->version->support->svn['href'] != false){
 								$r .= '<tr>
 									<td class="small-icon">SVN:</td>
-									<td><a class="targetblank" href="'.$v->version->support->svn['href'].'"><span class="icon icon-svn"></span></a></td>
+									<td><a class="targetblank" href="'.$v->version->support->svn['href'].'"><span class="icon fa fa-svn"></span></a></td>
 								</tr>';
 							}
 							if($v->version->support->git['href'] != false){
 								$r .= '<tr>
 									<td>GIT:</td>
-									<td><a class="targetblank" href="'.$v->version->support->git['href'].'"><span class="icon-github icon-large"></span></a></td>
+									<td><a class="targetblank" href="'.$v->version->support->git['href'].'"><span class="fa fa-github fa fa-large"></span></a></td>
 								</tr>';
 							}
 							$r .= '</table>';
@@ -270,7 +270,7 @@ class backend_controller_plugins{
 		if(file_exists($this->directory_plugins().$plugin.DIRECTORY_SEPARATOR.'icon.png')){
 			$icon = '<img src="/plugins/'.$plugin.'/icon.png" width="16" height="16" alt="icon '.$plugin.'" />';
 		}else{
-			$icon = '<span class="icon-file"></span>';
+			$icon = '<span class="fa fa-file"></span>';
 		}
 		return $icon;
 	}*/
@@ -350,7 +350,7 @@ class backend_controller_plugins{
                 ),
                 'icon'=> array(
                     'type'=>'font',
-                    'name'=>'icon-flag'
+                    'name'=>'fa fa-flag'
                 )
             );
         }
@@ -416,7 +416,7 @@ class backend_controller_plugins{
                                     $setConfig = array(
                                         'icon'=>array(
                                             'type'=>'font',
-                                            'name'=>'icon-folder-close'
+                                            'name'=>'fa-folder'
                                         )
                                     );
                                 }
@@ -481,7 +481,7 @@ class backend_controller_plugins{
                                         if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
-                                            $list .= '<span class="icon-expand-alt"></span> '.$name;
+                                            $list .= '<span class="fa fa-plus-square-o"></span> '.$name;
                                             $list .= '</a>';
                                             $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';
                                             $list .= '<div class="lang-group">';
@@ -510,7 +510,7 @@ class backend_controller_plugins{
                                         if($lang === 'list'){
                                             $list .= '<li>';
                                             $list .= '<a href="#plugin-'.$d.'" class="showit'.$class_open.'">';
-                                            $list .= '<span class="icon-expand-alt"></span> ';
+                                            $list .= '<span class="fa fa-plus-square-o"></span> ';
                                             $list .= $name;
                                             $list .= '</a>';
                                             $list .= '<div class="collapse-item'.$class_on.'" id="plugin-'.$d.'">';

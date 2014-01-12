@@ -119,31 +119,31 @@ var MC_news = (function ($, undefined) {
                             .append(
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-key")
+                                    .addClass("fa fa-key")
                             ),
                             $(document.createElement("th")).append(Globalize.localize( "heading", iso )),
                             $(document.createElement("th")).append(Globalize.localize( "content", iso )),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-picture")
+                                    .addClass("fa fa-picture-o")
                             ),
                             $(document.createElement("th")).append(Globalize.localize( "redactor", iso )),
                             $(document.createElement("th")).append(Globalize.localize( "date_register", iso )),
                             $(document.createElement("th")).append(Globalize.localize( "date_publisher", iso )),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-eye-open")
+                                    .addClass("fa fa-eye")
                             ),
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-edit")
+                                    .addClass("fa fa-edit")
                             )
                             ,
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-trash")
+                                    .addClass("fa fa-trash-o")
                             )
                         )
                     ),
@@ -157,19 +157,19 @@ var MC_news = (function ($, undefined) {
                     $.each(j, function(i,item) {
 
                         if(item.n_content != 0){
-                            var content = $(document.createElement("span")).addClass("icon-check");
+                            var content = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var content = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var content = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.n_image != 0){
-                            var image = $(document.createElement("span")).addClass("icon-check");
+                            var image = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
-                            var image = $(document.createElement("span")).addClass("icon-warning-sign");
+                            var image = $(document.createElement("span")).addClass("fa fa-warning");
                         }
                         if(item.date_publish != "0000-00-00 00:00:00"){
                             var date_publish = item.date_publish;
                         }else{
-                            var date_publish = $(document.createElement("span")).addClass("icon-minus");
+                            var date_publish = $(document.createElement("span")).addClass("fa fa-minus");
                         }
                         if(item.published == '0'){
                             var active = $(document.createElement("td")).append(
@@ -178,7 +178,7 @@ var MC_news = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idnews)
                                     .attr("title", item.n_title).append(
-                                    $(document.createElement("span")).addClass("icon-eye-close")
+                                    $(document.createElement("span")).addClass("fa fa-eye-slash")
                                 )
                             )
                         }else if(item.published == '1'){
@@ -188,7 +188,7 @@ var MC_news = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idnews)
                                     .attr("title", item.n_title).append(
-                                    $(document.createElement("span")).addClass("icon-eye-open")
+                                    $(document.createElement("span")).addClass("fa fa-eye")
                                 )
                             )
                         }
@@ -197,7 +197,7 @@ var MC_news = (function ($, undefined) {
                                 .attr("href", '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.n_title)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-edit")
+                                $(document.createElement("span")).addClass("fa fa-edit")
                             )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -207,7 +207,7 @@ var MC_news = (function ($, undefined) {
                                 .attr("data-delete", item.idnews)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.n_title)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-trash")
+                                $(document.createElement("span")).addClass("fa fa-trash-o")
                             )
                         );
                         tbody.append(
@@ -240,34 +240,34 @@ var MC_news = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             )
                         )
                     )

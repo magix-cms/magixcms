@@ -2,9 +2,9 @@
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bar"></span>
+            <span class="fa fa-bar"></span>
+            <span class="fa fa-bar"></span>
         </button>
         <a class="navbar-brand" href="#">CMS</a>
     </div>
@@ -58,7 +58,7 @@
         <form action="" class="navbar-form navbar-right">
             <span class="input-group">
                 <span class="input-group-addon">
-                    <span class="icon-search"></span>
+                    <span class="fa fa-search"></span>
                 </span>
                 <input type="text" id="title_search" name="title_search" placeholder="Search" class="form-control">
             </span>

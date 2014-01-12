@@ -7,7 +7,7 @@
             </div>
             <div class="col-sm-8">
                 <a href="#" class="btn btn-primary" id="sitemap_index">
-                    <span class="icon-sitemap"></span> {#file_creation#|ucfirst}
+                    <span class="fa fa-sitemap"></span> {#file_creation#|ucfirst}
                 </a>
             </div>
         </div>
@@ -57,7 +57,7 @@
             </span>
             <span class="col-sm-2">
                 <a href="#" id="pinguer" class="btn btn-sm googleping">
-                    <span class="icon-plus"></span>
+                    <span class="fa fa-plus"></span>
                 </a>
             </span>
         </div>
@@ -67,7 +67,7 @@
             </span>
             <span class="col-sm-2">
                 <a href="#" id="compressed" class="btn btn-sm googleping">
-                    <span class="icon-plus"></span>
+                    <span class="fa fa-plus"></span>
                 </a>
             </span>
         </div>

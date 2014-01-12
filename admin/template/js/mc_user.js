@@ -168,7 +168,7 @@ var MC_user = (function ($, undefined) {
                             .append(
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-key")
+                                    .addClass("fa fa-key")
                             ),
                             $(document.createElement("th")).append(Globalize.localize( "nickname", iso )),
                             $(document.createElement("th")).append("Mail"),
@@ -176,13 +176,13 @@ var MC_user = (function ($, undefined) {
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-edit")
+                                    .addClass("fa fa-edit")
                             )
                             ,
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-trash")
+                                    .addClass("fa fa-trash-o")
                             )
                         )
                     ),
@@ -199,7 +199,7 @@ var MC_user = (function ($, undefined) {
                                 .attr("href", '/'+baseadmin+'/users.php?action=edit&edit='+item.idadmin)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.pseudo)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-edit")
+                                $(document.createElement("span")).addClass("fa fa-edit")
                             )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -209,7 +209,7 @@ var MC_user = (function ($, undefined) {
                                 .attr("data-delete", item.idadmin)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.pseudo)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-trash")
+                                $(document.createElement("span")).addClass("fa fa-trash-o")
                             )
                         );
                         tbody.append(
@@ -238,22 +238,22 @@ var MC_user = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             )
                         )
                     )

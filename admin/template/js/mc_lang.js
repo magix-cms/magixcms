@@ -108,7 +108,7 @@ var MC_lang = (function ($, undefined) {
                             .append(
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-key")
+                                    .addClass("fa fa-key")
                             ),
                             $(document.createElement("th"))
                             .append(
@@ -120,18 +120,18 @@ var MC_lang = (function ($, undefined) {
                             $(document.createElement("th")).append(Globalize.localize( "language", iso )),
                             $(document.createElement("th")).append(Globalize.localize( "default", iso )),
                             $(document.createElement("th")).append(
-                                $(document.createElement("span")).addClass("icon-eye-open")
+                                $(document.createElement("span")).addClass("fa fa-eye")
                             ),
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-edit")
+                                    .addClass("fa fa-edit")
                             )
                             ,
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-trash")
+                                    .addClass("fa fa-trash-o")
                             )
                         )
                     ),
@@ -144,9 +144,9 @@ var MC_lang = (function ($, undefined) {
                 if(j !== null){
                     $.each(j, function(i,item) {
                         if(item.default_lang != 0){
-                            var default_lang = $(document.createElement("span")).addClass("icon-check");
+                            var default_lang = $(document.createElement("span")).addClass("fa fa-check-square-o");
                         }else{
-                            var default_lang = $(document.createElement("span")).addClass("icon-check-empty");
+                            var default_lang = $(document.createElement("span")).addClass("fa fa-square-o");
                         }
                         if(item.active_lang == '0'){
                             var active = $(document.createElement("td")).append(
@@ -155,7 +155,7 @@ var MC_lang = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idlang)
                                     .attr("title", Globalize.localize( "activate_language", iso )+": "+item.iso).append(
-                                    $(document.createElement("span")).addClass("icon-eye-close")
+                                    $(document.createElement("span")).addClass("fa fa-eye-slash")
                                 )
                             )
                         }else if(item.active_lang == '1'){
@@ -165,7 +165,7 @@ var MC_lang = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idlang)
                                     .attr("title", Globalize.localize( "activate_language", iso )+": "+item.iso).append(
-                                    $(document.createElement("span")).addClass("icon-eye-open")
+                                    $(document.createElement("span")).addClass("fa fa-eye")
                                 )
                             )
                         }
@@ -174,7 +174,7 @@ var MC_lang = (function ($, undefined) {
                                 .attr("href", '/'+baseadmin+'/lang.php?action=edit&edit='+item.idlang)
                                 .attr("title", "Editer "+item.iso)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-edit")
+                                $(document.createElement("span")).addClass("fa fa-edit")
                             )
                         );
                         var remove = $(document.createElement("td")).append(
@@ -184,7 +184,7 @@ var MC_lang = (function ($, undefined) {
                                 .attr("data-delete", item.idlang)
                                 .attr("title", Globalize.localize( "remove", iso )+": "+item.iso)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-trash")
+                                $(document.createElement("span")).addClass("fa fa-trash-o")
                             )
                         );
                         tbody.append(

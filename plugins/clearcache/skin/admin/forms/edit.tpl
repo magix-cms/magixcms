@@ -5,7 +5,7 @@
     </div>
     <div class="col-sm-1">
         <a href="#" id="public_caches" class="clear-cache">
-            <span class="icon-trash"></span>
+            <span class="fa fa-trash-o"></span>
         </a>
     </div>
 </div>
@@ -15,7 +15,7 @@
     </div>
     <div class="col-sm-1">
         <a href="#" id="public_minify" class="clear-cache">
-            <span class="icon-trash"></span>
+            <span class="fa fa-trash-o"></span>
         </a>
     </div>
 </div>
@@ -26,7 +26,7 @@
     </div>
     <div class="col-sm-1">
         <a href="#" id="admin_caches" class="clear-cache">
-            <span class="icon-trash"></span>
+            <span class="fa fa-trash-o"></span>
         </a>
     </div>
 </div>
@@ -36,7 +36,7 @@
     </div>
     <div class="col-sm-1">
         <a href="#" id="admin_minify" class="clear-cache">
-            <span class="icon-trash"></span>
+            <span class="fa fa-trash-o"></span>
         </a>
     </div>
 </div>

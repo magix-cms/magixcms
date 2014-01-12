@@ -6,7 +6,7 @@
     <div class="mc-message clearfix"></div>
     <p>
         <a class="btn btn-primary" href="#" id="open-add">
-            <span class="icon-plus"></span> {#add_a_page#|ucfirst}
+            <span class="fa fa-plus"></span> {#add_a_page#|ucfirst}
         </a>
     </p>
     <div id="list_page_p"></div>

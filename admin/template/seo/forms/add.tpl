@@ -1,6 +1,6 @@
 <p>
     <a href="#metas" class="btn btn-default view-metas">
-        <span class="icon-plus"></span> Ajouter une réécriture
+        <span class="fa fa-plus"></span> Ajouter une réécriture
     </a>
 </p>
 <div class="collapse-metas" id="metas">
@@ -23,13 +23,13 @@
                 </div>
                 <ul class="list-inline">
                     <li>
-                        <a href="#" id="add-category" class="btn btn-link"><span class="icon-plus"></span> {#category#}</a>
+                        <a href="#" id="add-category" class="btn btn-link"><span class="fa fa-plus"></span> {#category#}</a>
                     </li>
                     <li>
-                        <a href="#" id="add-subcategory" class="btn btn-link"><span class="icon-plus"></span> {#subcategory#}</a>
+                        <a href="#" id="add-subcategory" class="btn btn-link"><span class="fa fa-plus"></span> {#subcategory#}</a>
                     </li>
                     <li>
-                        <a href="#" id="add-product" class="btn btn-link"><span class="icon-plus"></span> {#products#}</a>
+                        <a href="#" id="add-product" class="btn btn-link"><span class="fa fa-plus"></span> {#products#}</a>
                     </li>
                 </ul>
             </div>

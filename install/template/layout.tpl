@@ -11,21 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {headmeta meta="keywords" content=""}
     {headmeta meta="robots" content="noindex,nofollow"}
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/install/template/img/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/install/template/img/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/install/template/img/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/install/template/img/ico/apple-touch-icon-57-precomposed.png">
     <link rel="icon" type="image/png" href="/install/template/img/favicon.png" />
     <!--[if IE]>
     <link rel="shortcut icon" type="image/x-icon" href="/install/template/img/favicon.ico" />
     <![endif]-->
     {block name="styleSheet"}
-    {capture name="styleSheet"}/min/?f=install/template/css/bootstrap/bootstrap.min.css,install/template/css/font-awesome.css,install/template/css/main.css{/capture}
-    {capture name="styleSheetIe"}/min/?f=install/template/css/font-awesome-ie7.min.css{/capture}
+    {capture name="styleSheet"}/min/?f=install/template/css/bootstrap/bootstrap.min.css,install/template/css/font-awesome/font-awesome.min.css,install/template/css/main.css{/capture}
     {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat={$concat} media="screen"}
-    <!--[if IE 7]>
-    {headlink rel="stylesheet" href=$smarty.capture.styleSheetIe concat={$concat} media="screen"}
-    <![endif]-->
     {/block}
     {headmeta meta="description" content="Magix CMS | Install"}
     <title>Magix CMS | Install</title>

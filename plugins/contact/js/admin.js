@@ -162,14 +162,14 @@ var MC_plugins_contact = (function ($, undefined) {
                             .append(
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-key")
+                                    .addClass("fa fa-key")
                             ),
                             $(document.createElement("th")).append("email")
                             ,
                             $(document.createElement("th"))
                                 .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-trash")
+                                    .addClass("fa fa-trash-o")
                             )
                         )
                     ),
@@ -188,7 +188,7 @@ var MC_plugins_contact = (function ($, undefined) {
                                 .attr("data-delete", item.idcontact)
                                 .attr("title", "Supprimer "+": "+item.mail_contact)
                                 .append(
-                                $(document.createElement("span")).addClass("icon-trash")
+                                $(document.createElement("span")).addClass("fa fa-trash-o")
                             )
                         );
                         tbody.append(
@@ -206,13 +206,13 @@ var MC_plugins_contact = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("icon-minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             )
                         )
                     )

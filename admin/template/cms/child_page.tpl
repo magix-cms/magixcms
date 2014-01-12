@@ -5,7 +5,7 @@
 <h1>{#list_of_child_pages#|ucfirst}</h1>
 <p>
     <a class="btn btn-primary" href="#" id="open-add">
-        <span class="icon-plus"></span> {#add_a_page#|ucfirst}
+        <span class="fa fa-plus"></span> {#add_a_page#|ucfirst}
     </a>
 </p>
 <div id="list_child"></div>

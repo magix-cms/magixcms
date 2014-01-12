@@ -42,7 +42,7 @@ return array(
     ),
     'css' => array(
         '//'.PATHADMIN.'/template/css/bootstrap/bootstrap.min.css',
-        '//'.PATHADMIN.'/template/css/font-awesome.css',
+        '//'.PATHADMIN.'/template/css/font-awesome/font-awesome.min.css',
         '//'.PATHADMIN.'/template/css/ui-bootstrap/jquery-ui-1.10.3.custom.css',
         '//'.PATHADMIN.'/template/css/fancybox/jquery.fancybox.css',
         '//'.PATHADMIN.'/template/css/morris.css',

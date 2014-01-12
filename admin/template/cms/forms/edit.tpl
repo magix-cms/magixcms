@@ -18,7 +18,7 @@
                 <input type="text" class="form-control" id="uri_page" name="uri_page" readonly="readonly" size="30" value="{$uri_page}" />
                 <span class="input-group-addon">
                     <a class="unlocked" href="#">
-                        <span class="icon-lock"></span>
+                        <span class="fa fa-lock"></span>
                     </a>
                 </span>
             </div>
@@ -42,7 +42,7 @@
     </div>
     <p>
         <a href="#metas" class="btn btn-default view-metas">
-            <span class="icon-plus"></span> {#display_metas#|ucfirst}
+            <span class="fa fa-plus"></span> {#display_metas#|ucfirst}
         </a>
     </p>
     <div class="collapse-metas" id="metas">

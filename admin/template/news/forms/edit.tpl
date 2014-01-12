@@ -52,7 +52,7 @@
                 <input type="text" class="form-control" id="n_uri" name="n_uri" readonly="readonly" size="30" value="{$n_uri}" />
                 <span class="input-group-addon">
                     <a class="unlocked" href="#">
-                        <span class="icon-lock"></span>
+                        <span class="fa fa-lock"></span>
                     </a>
                 </span>
             </div>

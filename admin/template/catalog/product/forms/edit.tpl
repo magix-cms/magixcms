@@ -37,7 +37,7 @@
             <div class="input-group">
                 <input class="form-control" id="titleproduct" type="text" value="">
                 <span class="input-group-addon">
-                    <span class="icon-search"></span>
+                    <span class="fa fa-search"></span>
                 </span>
             </div>
         </div>
@@ -71,7 +71,7 @@
                     <input type="text" class="form-control" id="urlcatalog" name="urlcatalog" readonly="readonly" size="30" value="{$urlcatalog}" />
                     <span class="input-group-addon">
                         <a class="unlocked" href="#">
-                            <span class="icon-lock"></span>
+                            <span class="fa fa-lock"></span>
                         </a>
                     </span>
                     </div>
