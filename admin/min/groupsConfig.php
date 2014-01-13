@@ -18,7 +18,7 @@ return array(
         '//libjs/vendor/jquery.form.3.40.min.js',
         '//libjs/vendor/jquery.validate.1.11.1.min.js',
         '//libjs/vendor/additional-methods.1.11.1.min.js',
-        '//'.PATHADMIN.'/template/js/vendor/bootstrap.3.0.2.min.js',
+        '//'.PATHADMIN.'/template/js/vendor/bootstrap.3.0.3.min.js',
         '//'.PATHADMIN.'/template/js/vendor/holder.js'
     ),
 	'jimagine' =>   array(
