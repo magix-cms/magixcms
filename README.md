@@ -61,6 +61,13 @@ error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
 <pre>
 error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
 </pre>
+
+#### Remove bug minify with Bootstrap and Less (apache)
+<pre>
+    <IfModule mpm_winnt_module>
+       ThreadStackSize 8388608
+    </IfModule>
+</pre>
 ### Required Library
 
     Smarty 3 (http://www.smarty.net/download)
