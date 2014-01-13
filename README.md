@@ -64,9 +64,11 @@ error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
 
 #### Remove bug minify with Bootstrap and Less (apache)
 <pre>
+    <code>
     <IfModule mpm_winnt_module>
        ThreadStackSize 8388608
     </IfModule>
+    </code>
 </pre>
 ### Required Library
 
