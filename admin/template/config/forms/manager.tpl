@@ -16,7 +16,7 @@
     <div class="mc-info clearfix">
         <p class="col-sm-10 alert alert-info">
             <span class="fa fa-info-sign"></span> {#info_css_editor#}:
-            /skin/default/css/bootstrap/bootstrap.css,/skin/default/css/main.css
+            /skin/default/css/bootstrap/bootstrap.min.css,/skin/default/css/main.css
         </p>
     </div>
     <p>

@@ -5,6 +5,6 @@ tinymce.addI18n('fr',{
     'category': 'Catégorie',
     'subcategory': 'Sous catégorie',
     'title' : 'Titre',
-    'description' : 'Rechercher un produit dans le catalogue pour insérer un lien',
+    'mc_catalog description' : 'Rechercher un produit dans le catalogue pour insérer un lien',
     'link' : 'Liens'
 });

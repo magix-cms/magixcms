@@ -3,6 +3,6 @@ tinymce.addI18n('fr',{
 	'search' : 'Rechercher',
 	'category' : 'Catégorie',
     'title' : 'Titre',
-    'description' : 'Rechercher une page CMS pour insérer un lien',
+    'mc_pages description' : 'Rechercher une page CMS pour insérer un lien',
     'link' : 'Liens'
 });

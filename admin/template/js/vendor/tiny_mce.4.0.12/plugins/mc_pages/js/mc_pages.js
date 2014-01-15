@@ -191,7 +191,7 @@ $(function(){
         "title": mc_pages.translate('mc_pages Title'),
         "category": mc_pages.translate('category'),
         "search": mc_pages.translate('search'),
-        "description": mc_pages.translate('description')
+        "description": mc_pages.translate('mc_pages description')
     };
     //Use jQuery's get method to retrieve the contents of our template file, then render the template.
     $.get('view/forms.html' , function (template) {

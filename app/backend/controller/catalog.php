@@ -1848,6 +1848,8 @@ class backend_controller_catalog extends backend_db_catalog{
                 }
                 print '['.implode(',',$json).']';
             }
+        }else{
+            print '{}';
         }
     }
 	/**

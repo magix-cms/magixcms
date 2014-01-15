@@ -202,7 +202,7 @@ $(function(){
         "category": mc_catalog.translate('category'),
         "subcategory": mc_catalog.translate('subcategory'),
         "search": mc_catalog.translate('search'),
-        "description": mc_catalog.translate('description')
+        "description": mc_catalog.translate('mc_catalog description')
     };
     //Use jQuery's get method to retrieve the contents of our template file, then render the template.
     $.get('view/forms.html' , function (template) {

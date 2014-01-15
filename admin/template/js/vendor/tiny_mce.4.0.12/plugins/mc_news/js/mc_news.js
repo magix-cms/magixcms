@@ -177,7 +177,7 @@ $(function(){
         "title": mc_news.translate('mc_news Title'),
         "date_register": mc_news.translate('date_register'),
         "search": mc_news.translate('search'),
-        "description": mc_news.translate('description')
+        "description": mc_news.translate('mc_news description')
     };
     //Use jQuery's get method to retrieve the contents of our template file, then render the template.
     $.get('view/forms.html' , function (template) {

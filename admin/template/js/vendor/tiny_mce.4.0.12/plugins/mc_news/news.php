@@ -74,7 +74,7 @@ if(file_exists($baseadmin)){
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="/libjs/jquery-1.10.2.min.js"><\/script>')</script>
   <script type="text/javascript" src="/libjs/vendor/jquery.form.3.40.min.js"></script>
-  <script src="/<?php print PATHADMIN; ?>/template/js/vendor/bootstrap.3.0.2.min.js"></script>
+  <script src="/<?php print PATHADMIN; ?>/template/js/vendor/bootstrap.3.0.3.min.js"></script>
   <script src="js/vendor/mustache.js"></script>
   <script type="text/javascript">
     var baseAdmin = <?php print '"'.PATHADMIN.'"'; ?>

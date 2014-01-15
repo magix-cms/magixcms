@@ -648,7 +648,9 @@ class backend_controller_news extends backend_db_news{
 				}
 				print '['.implode(',',$json).']';
 			}
-		}
+		}else{
+            print '{}';
+        }
 	}
 	/**
 	 * Execute le module dans l'administration
