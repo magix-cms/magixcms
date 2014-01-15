@@ -8,7 +8,7 @@
                 {#p_lead_upgrade#}
             </p>
             <p>
-                Magix CMS 2.3.6 => 2.4.1
+                Magix CMS 2.3.6 => 2.4.2
             </p>
             <a class="btn btn-lg btn-success" id="upgrade_db" href="#">
                 {#p_start_upgrade#}

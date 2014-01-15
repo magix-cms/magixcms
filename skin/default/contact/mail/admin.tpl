@@ -7,15 +7,15 @@
             <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
             <table cellpadding="0" cellspacing="0" border="0" align="center">
                 <tr>
-                    <td width="600" style="background: #222222;padding:5px;" valign="top">
+                    <td width="800" style="background: #222222;padding:5px;" valign="top">
                         <!-- Gmail/Hotmail image display fix -->
                         <a href="http://www.magix-cms.com" target ="_blank" title="Magix CMS">
-                            <img class="image_fix" src="http://www.magix-cms.com/skin/magixcms2/img/logo-magix_cms.png" alt="Magix CMS" title="Magix CMS" width="269" height="50" />
+                            <img class="image_fix" src="{geturl}/skin/default/img/logo-magix_cms.png" alt="Magix CMS" title="Magix CMS" width="269" height="50" />
                         </a>
                     </td>
                 </tr>
                 <tr>
-                    <td width="600" style="background: #FFFFFF;padding:5px;" valign="top">
+                    <td width="800" style="background: #FFFFFF;padding:5px;" valign="top">
                         <ul>
                             <li>{$data.lastname}</li>
                             <li>{$data.firstname}</li>

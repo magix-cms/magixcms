@@ -1,3 +1,30 @@
+#### 2.4.2
+    * Upgrade Responsive FileManager 9.2.1 => 9.3.2
+    * Formatage du mail avec smarty (plugin contact)
+    * Mise a jour du plugin contact (templating mail)
+    * Ajout de la traduction FR pour la mise a jour d'un plugin
+    * Note bug minify (apache)
+    * Upgrade bootstrap 3.0.2 => 3.0.3
+    * Upgrade Font Awesome 3.1.0 => 4.0.3
+        * Change path for Font Awesome (backend & install)
+        * Add Font Awesome Less (backend & install)
+        * Adapt JS and tpl with Font Awesome (backend & install)
+    * Change pagination process news (backend)
+    * Fix #107 remove round
+    * Système de plugin dédié aux actualités
+        * Modifications du skin news pour les plugins (backend)
+        * Modifications de la classe news pour les plugins (backend)
+    * Nouvelle structure plugin contact
+        * Système de notification pour le plugin contact
+        * Fix bug getConfigVars (Frontend)
+    * Mise a jour de tinyMCE 4.0.10 => 4.0.12
+        * Upgrade Morris.js
+        * Upgrade Raphael.js
+    * Fix widget cms display (classes CSS)
+    * Fix #105 Ajout des Widgets de tableaux de données
+    * Fix #104 Bug affichage des produits dans une sous catégorie
+    * Fix #103 BO: Edition de produit : affichage/encodage prix du produit
+
 #### 2.4.1
     * Add Less Bootstrap in install
     * Fix #99 edit content sub category backend

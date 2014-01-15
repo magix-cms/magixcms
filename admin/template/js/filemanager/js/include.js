@@ -1,4 +1,4 @@
-var version="9.2.1";
+var version="9.3.2";
 var active_contextmenu=true;
 if (loading_bar) {   
 if (!(/MSIE (\d+\.\d+);/.test(navigator.userAgent))){ 
@@ -54,7 +54,7 @@ $(document).ready(function(){
 			    var old_name=$trigger.find('h4').text().trim();
 			    bootbox.prompt($('#lang_duplicate').val(),$('#cancel').val(),$('#ok').val(), function(name) {
 				if (name !== null){
-				    name=clean_filename(name);
+				    name=fix_filename(name);
 				    if (name!=old_name) {
 					var _this=$trigger.find('.rename-file');
 					execute_action('duplicate_file',_this.attr('data-path'),_this.attr('data-thumb'),name,_this,'apply_file_duplicate');
@@ -167,7 +167,7 @@ $(document).ready(function(){
 	$('.filters label').find('i').removeClass('icon-white');
 	$('#ff-item-type-all').addClass("btn-inverse");
 	$('#ff-item-type-all').find('i').addClass('icon-white');
-	var val=clean_filename($(this).val());
+	var val=fix_filename($(this).val());
 	$(this).val(val);
 	delay(function(){
 	    if (js_script) {
@@ -188,12 +188,12 @@ $(document).ready(function(){
     });
     
     $('#filter').on('click',function(){
-	var val=clean_filename($('#filter-input').val());
+	var val=fix_filename($('#filter-input').val());
 	window.location.href=$('#current_url').val()+"&filter="+val;
     });
     
     $('#info').on('click',function(){
-	bootbox.alert('<center><img src="img/logo.png" alt="responsive filemanager"/><br/><br/><p><strong>RESPONSIVE filemanager v.'+version+'</strong><br/><a href="http://www.responsivefilemanager.com">responsivefilemanager.com</a></p><br/><p>Copyright © <a href="http://www.tecrail.com" alt="tecrail">Tecrail</a> - Alberto Peripolli. All rights reserved.</p><br/><p>License<br/><small><a rel="license" href="http://responsivefilemanager.com/license.php"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.</small></p></center>');
+	bootbox.alert('<center><img src="img/logo.png" alt="responsive filemanager"/><br/><br/><p><strong>RESPONSIVE filemanager v.'+version+'</strong><br/><a href="http://www.responsivefilemanager.com">responsivefilemanager.com</a></p><br/><p>Copyright © <a href="http://www.tecrail.com" alt="tecrail">Tecrail</a> - Alberto Peripolli. All rights reserved.</p><br/><p>License<br/><small><img alt="Creative Commons License" style="border-width:0" src="http://responsivefilemanager.com/license.php" /><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.</small></p></center>');
 	});
     
     $('#uploader-btn').on('click',function(){
@@ -242,11 +242,18 @@ $(document).ready(function(){
     
     $('ul.grid').on('click','.preview',function(){
 	var _this = $(this);
-	$('#full-img').attr('src',_this.attr('data-url'));
+	$('#full-img').attr('src',decodeURIComponent(_this.attr('data-url')));
 	if(_this.hasClass('disabled')==false){
 	    show_animation();
 	}
 	return true;
+    });
+    
+    $('body').on('keypress',function(e){
+	var c = String.fromCharCode(e.which);
+	if (c=="'" || c=='"' || c=="\\" || c=='/') {
+	    return false;
+	}
     });
     
     $('ul.grid').on('click','.rename-file',function(){
@@ -257,7 +264,7 @@ $(document).ready(function(){
 	var old_name=$.trim(file_title.text());
 	bootbox.prompt($('#rename').val(),$('#cancel').val(),$('#ok').val(), function(name) {
 	    if (name !== null){
-		name=clean_filename(name);
+		name=fix_filename(name);
 		if (name!=old_name) {                                             
 		    execute_action('rename_file',_this.attr('data-path'),_this.attr('data-thumb'),name,file_container,'apply_file_rename');
 		}
@@ -273,7 +280,7 @@ $(document).ready(function(){
 	var old_name=$.trim(file_title.text());
 	bootbox.prompt($('#rename').val(),$('#cancel').val(),$('#ok').val(), function(name) {
 	    if (name !== null){
-		name=clean_filename(name).replace('.','');
+		name=fix_filename(name).replace('.','');
 		if (name!=old_name) {                                             
 		    execute_action('rename_folder',_this.attr('data-path'),_this.attr('data-thumb'),name,file_container,'apply_folder_rename');
 		}
@@ -305,7 +312,7 @@ $(document).ready(function(){
     $('.new-folder').on('click',function(){
 	bootbox.prompt($('#insert_folder_name').val(),$('#cancel').val(),$('#ok').val(), function(name) {
 	    if (name !== null) {
-		name=clean_filename(name).replace('.','');
+		name=fix_filename(name).replace('.','');
 		var folder_path=$('#sub_folder').val()+$('#fldr_value').val()+ name;
 		var folder_path_thumb=$('#cur_dir_thumb').val()+ name;
 		$.ajax({
@@ -446,12 +453,23 @@ function apply(file,external){
     var ext=file.split('.').pop();
     ext=ext.toLowerCase();
     var fill='';
+    var ext_audio=new Array('ogg','mp3','wav');
+    var ext_video=new Array('mp4','ogg','webm');
     if($.inArray(ext, ext_img) > -1){
         fill='<img src="'+base_url+path+file+'" alt="'+alt_name+'" />';
     }else{
-	fill='<a href="'+base_url+path+file+'" title="'+alt_name+'">'+alt_name+'</a>';
+	if($.inArray(ext, ext_video) > -1){
+	    fill='<video controls source src="'+base_url+path+file+'" type="video/'+ext+'">'+alt_name+'</video>';
+	}else{
+	    if($.inArray(ext, ext_audio) > -1 ){
+		if (ext=='mp3') { ext='mpeg'; }
+		fill='<audio controls src="'+base_url+path+file+'" type="audio/'+ext+'">'+alt_name+'</audio>';
+	    }else{
+		fill='<a href="'+base_url+path+file+'" title="'+alt_name+'">'+alt_name+'</a>';
+	    }
+	}
+	
     }
-    
     parent.tinymce.activeEditor.insertContent(fill);
     parent.tinymce.activeEditor.windowManager.close();
 }
@@ -481,6 +499,7 @@ function apply_img(file,external){
     if (external!=""){
 	var target = $('#'+external, window_parent.document);
 	$(target).val(base_url+path+file);
+	$(target).trigger( "change" );
 	close_window();
     }
     else
@@ -501,13 +520,36 @@ function apply_video(file,external){
 	apply_any(path, file);
 }
 
-function apply_none(file,external){
+function apply_none(file,external){	
 	var _this=$('li[data-name="'+file+'"]').find('.preview');
 	
-	$('#full-img').attr('src',_this.attr('data-url'));
-	if(_this.hasClass('disabled')==false){
-	    show_animation();
-	    $('#previewLightbox').lightbox();
+	if (_this.html()!="" && _this.html()!==undefined) {
+	    
+	    $('#full-img').attr('src',decodeURIComponent(_this.attr('data-url')));
+	    if(_this.hasClass('disabled')==false){
+		show_animation();
+		$('#previewLightbox').lightbox();
+	    }
+	}else{
+	    var _this=$('li[data-name="'+file+'"]').find('.modalAV');
+
+	    $('#previewAV').removeData("modal");
+	    $('#previewAV').modal({
+		backdrop: 'static',
+		keyboard: false
+	    });
+	    if (_this.hasClass('audio')) {
+		$(".body-preview").css('height','80px');
+	    }else{
+		$(".body-preview").css('height','345px');
+	    }
+	    
+	    $.ajax({
+		url: decodeURIComponent(_this.attr('data-url')),
+		success: function(data) {
+		    $(".body-preview").html(data);
+		}
+	    });
 	}
 	return;
 }
@@ -532,11 +574,21 @@ function close_window() {
 
 function apply_file_duplicate(container,name){
     var li_container=container.parent().parent().parent().parent();
+
     li_container.after("<li class='"+li_container.attr('class')+"' data-name='"+li_container.attr('data-name')+"'>"+li_container.html()+"</li>");
-    apply_file_rename(li_container.next(),name);
+    var cont=li_container.next();
+    apply_file_rename(cont.find('figure'),name);
+    var form=cont.find('.download-form');
+    var new_form_id='form'+new Date().getTime();
+    form.attr('id',new_form_id);
+    form.find('.tip-right').attr('onclick',"$('#"+new_form_id+"').submit();");
 }
 
 function apply_file_rename(container,name) {
+    
+    container.attr('data-name',name);
+    container.parent().attr('data-name',name);
+    
     container.find('h4').find('a').text(name);
     //select link
     var link=container.find('a.link');
@@ -544,14 +596,21 @@ function apply_file_rename(container,name) {
     var old_name=file.substring(file.lastIndexOf('/') + 1);
     var extension=file.substring(file.lastIndexOf('.') + 1);
     link.each(function(){
-	$(this).attr('data-file',name+"."+extension);
+	$(this).attr('data-file',encodeURIComponent(name+"."+extension));
 	});
+    
+    //thumbnails
+    container.find('img').each(function(){
+	var src =$(this).attr('src');
+	$(this).attr('src',src.replace(old_name,name+"."+extension));
+	$(this).attr('alt',name+" thumbnails");
+    });
     
     //preview link
     var link2=container.find('a.preview');
     var file= link2.attr('data-url');
     if (typeof file !=="undefined" && file) {
-	link2.attr('data-url',file.replace(old_name,name+"."+extension));
+	link2.attr('data-url',file.replace(encodeURIComponent(old_name),encodeURIComponent(name+"."+extension)));
     }
     
     //li data-name
@@ -575,14 +634,21 @@ function apply_file_rename(container,name) {
 }
 
 function apply_folder_rename(container,name) {
+    
+    container.attr('data-name',name);
+    container.find('figure').attr('data-name',name);
+    
     var old_name=container.find('h4').find('a').text();
-    container.find('h4').find('a').text(name);
+    container.find('h4 > a').text(name);
     
     //select link
     var link=container.find('.folder-link');
     var url=link.attr('href');
     var fldr=$('#fldr_value').val();
-    link.attr('href',url.replace('fldr='+fldr+old_name,'fldr='+fldr+name));
+    var new_url=url.replace('fldr='+fldr+encodeURIComponent(old_name),'fldr='+fldr+encodeURIComponent(name));
+    link.each(function(){
+	$(this).attr('href',new_url);
+    });
     
     //rename link && delete link
     var link2=container.find('a.delete-folder');
@@ -629,19 +695,25 @@ function replaceDiacritics(s)
     return s;
 }
 
-function clean_filename(stri) {
+function fix_filename(stri) {
     if (stri!=null) {
-	strii=replaceDiacritics(stri);
-	strii=strii.replace(/[^A-Za-z0-9\.\-\[\]\ \_]+/g, '');
-	
-	return $.trim(strii);	
+	if ($('#transliteration').val()=="true") {
+	    stri=replaceDiacritics(stri);
+	    stri=stri.replace(/[^A-Za-z0-9\.\-\[\]\ \_]+/g, '');
+	}
+	stri=stri.replace('"','');
+	stri=stri.replace("'",'');
+	stri=stri.replace("/",'');
+	stri=stri.replace("\\",'');
+	stri=stri.replace(/<\/?[^>]+(>|$)/g, "");
+	return $.trim(stri);
     }
     return null;
 }
 
 function execute_action(action,file1,file2,name,container,function_name){
     if (name!==null) {
-	name=clean_filename(name);
+	name=fix_filename(name);
 	$.ajax({
 	    type: "POST",
 	    url: "execute.php?action="+action,

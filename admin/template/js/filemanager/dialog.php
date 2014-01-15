@@ -15,7 +15,7 @@ if (isset($_GET['fldr'])
     && !empty($_GET['fldr'])
     && strpos($_GET['fldr'],'../')===FALSE
     && strpos($_GET['fldr'],'./')===FALSE)
-    $subdir = trim($_GET['fldr'],"/") ."/";
+    $subdir = urldecode(trim($_GET['fldr'],"/") ."/");
 else
     $subdir = '';
     
@@ -89,15 +89,15 @@ if(!isset($_SESSION["view_type"])){ $view=$default_view; $_SESSION["view_type"] 
 if(isset($_GET['view'])){ $view=$_GET['view']; $_SESSION["view_type"] = $view; }
 $view=$_SESSION["view_type"];
 
-if(isset($_GET["filter"])) $filter=fix_filename($_GET["filter"]);
+if(isset($_GET["filter"])) $filter=fix_filename($_GET["filter"],$transliteration);
 else $filter='';
 
 if(!isset($_SESSION['sort_by'])) $_SESSION['sort_by']='';
-if(isset($_GET["sort_by"])) $sort_by=$_SESSION['sort_by']=fix_filename($_GET["sort_by"]);
+if(isset($_GET["sort_by"])) $sort_by=$_SESSION['sort_by']=fix_filename($_GET["sort_by"],$transliteration);
 else $sort_by=$_SESSION['sort_by'];
 
 if(!isset($_SESSION['descending'])) $_SESSION['descending']=false;
-if(isset($_GET["descending"])) $descending=$_SESSION['descending']=fix_filename($_GET["descending"])==="true";
+if(isset($_GET["descending"])) $descending=$_SESSION['descending']=fix_filename($_GET["descending"],$transliteration)==="true";
 else $descending=$_SESSION['descending'];
 
 
@@ -169,11 +169,13 @@ $get_params = http_build_query(array(
 	<script type="text/javascript" src="jPlayer/jquery.jplayer.min.js"></script>
 	<script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
 	<script type="text/javascript" src="js/jquery.queryloader2.min.js"></script>
-	<? if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) { ?>
+	<?php
+	if($aviary_active){
+	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) { ?>
 	    <script type="text/javascript" src="https://dme0ih8comzn4.cloudfront.net/js/feather.js"></script>
-	<? }else{ ?>
+	<?php }else{ ?>
 	    <script type="text/javascript" src="http://feather.aviary.com/js/feather.js "></script>
-	<? } ?>
+	<?php }} ?>
 	
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -265,6 +267,7 @@ $get_params = http_build_query(array(
 	<input type="hidden" id="lang_extract" value="<?php echo lang_Extract; ?>" />
 	<input type="hidden" id="lang_file_info" value="<?php echo fix_strtoupper(lang_File_info); ?>" />
 	<input type="hidden" id="lang_edit_image" value="<?php echo lang_Edit_image; ?>" />
+	<input type="hidden" id="transliteration" value="<?php echo $transliteration?"true":"false"; ?>" />
 <?php if($upload_files){ ?>
 <!----- uploader div start ------->
 
@@ -519,10 +522,10 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 		    $file=$file_array['file'];
 			if($file == '.' || (isset($file_array['extension']) && $file_array['extension']!=lang_Type_dir) || ($file == '..' && $subdir == '') || in_array($file, $hidden_folders) || ($filter!='' && $file!=".." && strpos($file,$filter)===false))
 			    continue;
-			$new_name=fix_filename($file);
+			$new_name=fix_filename($file,$transliteration);
 			if($file!='..' && $file!=$new_name){
 			    //rename
-			    rename_folder($current_path.$subdir.$new_name,$new_name);
+			    rename_folder($current_path.$subdir.$new_name,$new_name,$transliteration);
 			    $file=$new_name;
 			}
 			//add in thumbs folder if not exist 
@@ -541,7 +544,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			?>
 			<li data-name="<?php echo $file ?>" <?php if($file=='..') echo 'class="back"'; else echo 'class="dir"'; ?>>
 				<figure data-name="<?php echo $file ?>" class="<?php if($file=="..") echo "back-"; ?>directory" data-type="<?php if($file!=".."){ echo "dir"; } ?>">
-				    <a class="folder-link" href="dialog.php?<?php echo $get_params.$src."&".uniqid() ?>">
+				    <a class="folder-link" href="dialog.php?<?php echo $get_params.rawurlencode($src)."&".uniqid() ?>">
 				    <div class="img-precontainer">
 					<div class="img-container directory"><span></span>
 					<img class="directory-img"  src="img/<?php echo $icon_theme; ?>/folder<?php if($file==".."){ echo "_back"; }?>.jpg" alt="folder" />
@@ -562,7 +565,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			<?php }else{ ?>
 				    </a>
 				    <div class="box">
-					<h4 class="<?php if($ellipsis_title_after_first_row){ echo "ellipsis"; } ?>"><a class="folder-link" data-file="<?php echo $file ?>" href="dialog.php?<?php echo $get_params.$src."&".uniqid() ?>"><?php echo $file; ?></a></h4>
+					<h4 class="<?php if($ellipsis_title_after_first_row){ echo "ellipsis"; } ?>"><a class="folder-link" data-file="<?php echo $file ?>" href="dialog.php?<?php echo $get_params.rawurlencode($src)."&".uniqid() ?>"><?php echo $file; ?></a></h4>
 				    </div>
 				    <input type="hidden" class="name" value=""/>
 				    <input type="hidden" class="date" value="<?php echo $file_array['date']; ?>"/>
@@ -595,8 +598,8 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			    
 			    $filename=substr($file, 0, '-' . (strlen($file_array['extension']) + 1));
 			    
-			    if($file!=fix_filename($file)){
-				$file1=fix_filename($file);
+			    if($file!=fix_filename($file,$transliteration)){
+				$file1=fix_filename($file,$transliteration);
 				$file_path1=($current_path.$subfolder.$subdir.$file1);
 				if(file_exists($file_path1)){
 				    $i = 1;
@@ -609,9 +612,9 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 				}
 				
 				$filename=substr($file1, 0, '-' . (strlen($file_array['extension']) + 1));
-				rename_file($file_path,fix_filename($filename));
+				rename_file($file_path,fix_filename($filename,$transliteration));
 				$file=$file1;
-				$file_array['extension']=fix_filename($file_array['extension']);
+				$file_array['extension']=fix_filename($file_array['extension'],$transliteration);
 				$file_path=$file_path1;
 			    }
 			    
@@ -624,7 +627,7 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 			    $src_thumb="";
 			    $extension_lower=fix_strtolower($file_array['extension']);
 			    if(in_array($extension_lower, $ext_img)){
-				$src = $base_url . $cur_dir . $file;
+				$src = $base_url . $cur_dir . rawurlencode($file);
 				$mini_src = $src_thumb = $thumbs_path.$subdir. $file;
 				//add in thumbs folder if not exist
 				if(!file_exists($src_thumb)){
