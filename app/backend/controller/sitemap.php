@@ -435,11 +435,13 @@ class backend_controller_sitemap extends backend_db_sitemap{
         		$data['idproduct'],
         		true
 	        );
-			$sitemap->writeMakeNodeImage(
-				magixcjquery_html_helpersHtml::getUrl().$uri,
-				$data['imgcatalog'],
-				magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/product/'
-			);
+            if($data['imgcatalog'] != null){
+                $sitemap->writeMakeNodeImage(
+                    magixcjquery_html_helpersHtml::getUrl().$uri,
+                    $data['imgcatalog'],
+                    magixcjquery_html_helpersHtml::getUrl().'/upload/catalogimg/product/'
+                );
+            }
 		}
 	}
 

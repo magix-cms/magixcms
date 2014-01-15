@@ -1,4 +1,5 @@
 #### 2.4.2
+    * Fix #108 Chemin des images produits incorrect dans le sitemap images
     * Upgrade Responsive FileManager 9.2.1 => 9.3.2
     * Formatage du mail avec smarty (plugin contact)
     * Mise a jour du plugin contact (templating mail)
