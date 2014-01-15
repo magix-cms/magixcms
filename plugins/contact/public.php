@@ -170,7 +170,7 @@ class plugins_contact_public extends database_plugins_contact{
      */
     private function getBodyMail(){
         $this->template->assign('data',$this->setBodyMail());
-        return $this->template->fetch('admin.tpl');
+        return $this->template->fetch('mail/admin.tpl');
     }
 
 	/**
