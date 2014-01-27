@@ -55,7 +55,7 @@
             <div class="form-group">
                 <div class="col-lg-12 col-sm-12">
                     <label for="s_content" class="inlinelabel">{#label_content#|ucfirst} :</label>
-                    <textarea name="s_content" id="s_content" class="form-control mceEditor">{$s_content}</textarea>
+                    <textarea name="s_content" id="s_content" class="form-control mceEditor">{$s_content|escape}</textarea>
                 </div>
             </div>
         </div>

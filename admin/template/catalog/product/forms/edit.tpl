@@ -94,7 +94,7 @@
             <div class="form-group">
                 <div class="col-lg-12 col-sm-12">
                     <label for="desccatalog" class="inlinelabel">{#label_content#|ucfirst} :</label>
-                    <textarea name="desccatalog" id="desccatalog" class="form-control mceEditor">{$desccatalog}</textarea>
+                    <textarea name="desccatalog" id="desccatalog" class="form-control mceEditor">{$desccatalog|escape}</textarea>
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@
         <div class="form-group">
             <div class="col-lg-12">
                 <label for="content">{#label_content#|ucfirst} :</label>
-                <textarea name="content" id="content" class="form-control mceEditor">{$content}</textarea>
+                <textarea name="content" id="content" class="form-control mceEditor">{$content|escape}</textarea>
             </div>
         </div>
     </div>

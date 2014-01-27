@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="/min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,skin/{template}/css/fancybox/jquery.fancybox.css,skin/{template}/css/main.css"/>
     {/block}
     {if {module type="news"} eq true}
-        <link rel="alternate" type="application/rss+xml" href="{geturl}/rss.xml" title="RSS">
+        <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
     {/if}
     {capture name="scriptHtml5"}{strip}
         /min/?f=

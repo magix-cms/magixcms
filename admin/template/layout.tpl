@@ -17,16 +17,22 @@
     <![endif]-->
 {block name="styleSheet"}
     {capture name="styleSheet"}/{baseadmin}/min/?g=css{/capture}
-    {capture name="styleSheetIe"}/{baseadmin}/min/?f={baseadmin}/template/css/ui-bootstrap/jquery.ui.1.10.3.ie.css{/capture}
+    {capture name="styleSheetIe"}{strip}
+     /{baseadmin}/min/?f={baseadmin}/template/css/ui-bootstrap/jquery.ui.1.10.3.ie.css
+    {/strip}{/capture}
     {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat={$concat} media="screen"}
     <!--[if IE 7]>
     {headlink rel="stylesheet" href=$smarty.capture.styleSheetIe concat={$concat} media="screen"}
     <![endif]-->
 {/block}
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    {capture name="scriptHtml5"}{strip}
+    /{baseadmin}/min/?f=
+    libjs/html5shiv.js,
+    libjs/respond.min.js
+    {/strip}{/capture}
     <!--[if lt IE 9]>
-    <script src="/libjs/html5shiv.js" type="text/javascript"></script>
-    <script src="/libjs/respond.min.js" type="text/javascript"></script>
+        {script src=$smarty.capture.scriptHtml5 concat=$concat type="javascript"}
     <![endif]-->
     {block name="install"}
     {/block}
