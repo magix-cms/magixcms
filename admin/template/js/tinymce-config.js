@@ -46,22 +46,27 @@
             });
         },
         style_formats: [
-            {title: 'TargetBlank', selector: 'a', classes: 'targeblank'},
-            {title: 'Lightbox simple', selector: 'a', classes: 'img-zoom',
-                attributes: {
-                    'data-fancybox-group': 'lightbox'
-                }
-            },
-            {title: 'Lightbox galery', selector: 'a', classes: 'img-gallery',
-                attributes: {
-                    'data-fancybox-group': 'lightbox'
-                }
-            },
-            {title: 'Image float left', selector: 'img', classes: 'pull-left img-float'},
-            {title: 'Image float right', selector: 'img', classes: 'pull-right img-float'},
-            {title: 'Image rounded', selector: 'img', classes: 'img-rounded'},
-            {title: 'Image circle', selector: 'img', classes: 'img-circle'},
-            {title: 'Image thumbnail', selector: 'img', classes: 'img-thumbnail'}
+            {title: 'Link', items: [
+                {title: 'TargetBlank', selector: 'a', classes: 'targeblank'},
+            ]},
+            {title: 'Image', items: [
+                {title: 'Lightbox simple', selector: 'a', classes: 'img-zoom',
+                    attributes: {
+                        'data-fancybox-group': 'lightbox'
+                    }
+                },
+                {title: 'Lightbox galery', selector: 'a', classes: 'img-gallery',
+                    attributes: {
+                        'data-fancybox-group': 'lightbox'
+                    }
+                },
+                {title: 'Image Responsive', selector: 'img', classes: 'img-responsive'},
+                {title: 'Image float left', selector: 'img', classes: 'pull-left img-float'},
+                {title: 'Image float right', selector: 'img', classes: 'pull-right img-float'},
+                {title: 'Image rounded', selector: 'img', classes: 'img-rounded'},
+                {title: 'Image circle', selector: 'img', classes: 'img-circle'},
+                {title: 'Image thumbnail', selector: 'img', classes: 'img-thumbnail'}
+            ]}
         ],
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,

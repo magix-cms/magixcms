@@ -45,7 +45,7 @@
             <span class="fa fa-plus"></span> {#display_metas#|ucfirst}
         </a>
     </p>
-    <div class="collapse-metas" id="metas">
+    <div class="collapse-metas row" id="metas">
         <div class="form-group">
             <div class="col-lg-12 col-sm-12">
                 <label for="seo_title_page">{#label_title#|ucfirst} :</label>

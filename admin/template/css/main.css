@@ -1,6 +1,4 @@
 body {
-    padding-top: 60px;
-    position:relative;
     background-color: #FFFFFF;
 }
 h1{
@@ -260,6 +258,11 @@ tbody.ui-sortable > .ui-sortable-helper{
 * jmShowIt
 */
 /* metas */
+.view-metas,
+.view-block{
+    margin-top:10px;
+}
+
 .showit.open > .fa-plus:before,
 .view-block.open > .fa-plus:before,
 .view-metas.open > .fa-plus:before{
@@ -275,6 +278,7 @@ tbody.ui-sortable > .ui-sortable-helper{
 .collapse-block,
 .collapse-metas{
     display:none;
+    margin-bottom: 5px;
 }
 .collapse-item.on,
 .collapse-block.on,
@@ -379,4 +383,8 @@ ul.autocomplete-list-row li span{
 /* Editor */
 .mceEditor{
     min-height: 200px
+}
+div.mce-fullscreen{
+    top:60px;
+    z-index: 1000;
 }
