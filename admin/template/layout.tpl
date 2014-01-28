@@ -48,6 +48,9 @@
 <div id="main-content" class="container">
     {block name="main:before"}{/block}
     <main id="main" class="row">
+        {function cleanTextarea}
+            {$field|escape:'html':'UTF-8':FALSE}
+        {/function}
         {block name="aside"}
             <aside id="sidebar" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-left well">
                 {block name='aside:content'}

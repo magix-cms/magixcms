@@ -70,7 +70,7 @@
         <div class="form-group">
             <div class="col-lg-12 col-sm-12">
                 <label for="n_content">{#label_content#|ucfirst} :</label>
-                <textarea name="n_content" id="n_content" class="form-control mceEditor">{$n_content|escape}</textarea>
+                <textarea name="n_content" id="n_content" class="form-control mceEditor">{cleanTextarea field=$n_content}</textarea>
             </div>
         </div>
     </div>

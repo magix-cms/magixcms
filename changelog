@@ -1,4 +1,10 @@
+#### 2.4.3
+    * Fix bug chargement du contenu dans tinyMCE (add escape in backend)
+    * Fix #102 Range format tinyMCE
+    
 #### 2.4.2
+    * Add variable transliteration filemanager config
+    * Fix bug translate internal plugin tinyMCE
     * Fix #108 Chemin des images produits incorrect dans le sitemap images
     * Upgrade Responsive FileManager 9.2.1 => 9.3.2
     * Formatage du mail avec smarty (plugin contact)
