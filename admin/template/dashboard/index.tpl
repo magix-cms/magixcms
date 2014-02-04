@@ -13,18 +13,18 @@
             </p>
             <ul class="list-inline">
                 <li>
-                    <a href="#">
+                    <a class="targetblank" href="http://www.magix-cms.com">
                         <span class="fa fa-external-link"></span> {#website#|ucfirst}
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <span class="fa fa-info-circle"></span> Documentation
+                    <a class="targetblank" href="http://www.magix-cms.com/fr/catalogue/">
+                        <span class="fa fa-info-circle"></span> {#integrator#|ucfirst}
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <span class="fa fa-wrench"></span> API
+                    <a class="targetblank" href="http://www.magix-cms.com/fr/catalogue/6-qu-est-ce-qu-un-plugin/">
+                        <span class="fa fa-wrench"></span> {#developer#|ucfirst}
                     </a>
                 </li>
                 <li>
