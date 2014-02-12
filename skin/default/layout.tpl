@@ -74,7 +74,7 @@
             ********}
             {capture name="scriptVendor"}{strip}
                 /min/?f=
-                skin/{template}/js/vendor/bootstrap.js,
+                skin/{template}/js/vendor/bootstrap.min.js,
                 skin/{template}/js/vendor/jquery.fancybox.min.js
             {/strip}{/capture}
             {script src=$smarty.capture.scriptVendor concat=$concat type="javascript"}

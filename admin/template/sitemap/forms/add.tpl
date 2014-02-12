@@ -57,7 +57,7 @@
             </span>
             <span class="col-sm-2">
                 <a href="#" id="pinguer" class="btn btn-sm googleping">
-                    <span class="fa fa-plus"></span>
+                    <span class="fa fa-lg fa-plus-circle"></span>
                 </a>
             </span>
         </div>
@@ -67,7 +67,7 @@
             </span>
             <span class="col-sm-2">
                 <a href="#" id="compressed" class="btn btn-sm googleping">
-                    <span class="fa fa-plus"></span>
+                    <span class="fa fa-lg fa-plus-circle"></span>
                 </a>
             </span>
         </div>

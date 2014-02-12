@@ -1,7 +1,7 @@
 {extends file="layout.tpl"}
 {block name='body:id'}module-login{/block}
 {block name="body:container"}
-<div class="container">
+<main class="container">
     <div class="box-login">
         <h2 class="text-center">
             <img src="/{baseadmin}/template/img/logo-magix_cms.png" alt="Magix CMS" />
@@ -22,11 +22,11 @@
             </p>
             <p>
                 <input type="hidden" id="hashtoken" name="hashtoken" value="{$hashpass}" />
-                <input type="submit" class="btn btn-primary" value="{#login#|ucfirst}" />
+                <input type="submit" class="btn btn-block btn-primary" value="{#login#|ucfirst}" />
             </p>
         </form>
     </div>
-</div>
+</main>
 {block name='javascript'}
     {include file="section/js.tpl"}
 {/block}

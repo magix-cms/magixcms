@@ -13,6 +13,7 @@ h3 {
 h4{
     font-size: 18.5px;
 }
+
 /* Dashboard */
 .module-dashboard h4{
     font-size: 14.5px;
@@ -93,7 +94,7 @@ a:hover > .badge {
 */
 .box-login {
     max-width: 300px;
-    margin: 0 auto 20px;
+    margin: 3% auto;
     background-color: #FFFFFF;
     background-image: linear-gradient(to top, #E6E6E6, #FFFFFF);
     background-repeat: repeat-x;

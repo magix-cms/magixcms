@@ -2,7 +2,7 @@
 {block name='body:id'}module-dashboard{/block}
 {block name="article:content"}
     <div class="row">
-        <div class="col-sm-6 col-lg-6">
+        <div class="col-md-6 col-sm-6">
             <h2><span class="fa fa-certificate"></span> {#h2_install_analyse#}</h2>
             <div class="alert alert-info">
                 <span class="fa fa-info-circle"></span> {#alert_magixcms_version#}
@@ -34,7 +34,7 @@
                 </li>
             </ul>
             <div class="row">
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-user"></span> {#users#|ucfirst}</h3>
                     {foreach $array_stats_user as $key => $value nocache}
                         <p>
@@ -42,7 +42,7 @@
                         </p>
                     {/foreach}
                 </div>
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-flag"></span> {#languages#|ucfirst}</h3>
                     <ul class="list-inline">
                         {foreach $array_lang as $key => $value nocache}
@@ -55,10 +55,10 @@
             </div>
 
         </div>
-        <div class="col-sm-6 col-lg-6">
+        <div class="col-md-6 col-sm-6">
             <h2><span class="fa fa-bolt"></span> {#h2_quick_links#}</h2>
             <div class="row">
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-file-text-o"></span> Pages</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -74,7 +74,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-home"></span> {#home#|ucfirst}</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-shopping-cart"></span> {#catalog#|ucfirst}</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -115,7 +115,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-rss"></span> {#news#|ucfirst}</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -135,13 +135,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-lg-6">
+        <div class="col-md-6 col-sm-6">
             <h2>
                 <span class="fa fa-bar-chart"></span> {#h2_statistics_pages#|ucfirst}
             </h2>
             <div id="graphPages"></div>
         </div>
-        <div class="col-sm-6 col-lg-6">
+        <div class="col-md-6 col-sm-6">
             <h2><span class="fa fa-external-link"></span> {#h2_links#|ucfirst}</h2>
             <ul class="list-unstyled">
                 <li>

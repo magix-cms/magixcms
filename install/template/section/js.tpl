@@ -6,4 +6,4 @@
     };
     var iso = "{iso}";
 </script>
-{script src="/min/?f=install/template/js/vendor/bootstrap.3.0.2.min.js,install/template/js/cultures/{iso}.js,install/template/js/setting.js,install/template/js/mc_install.js" type="javascript"}
+{script src="/min/?f=install/template/js/vendor/bootstrap.min.js,install/template/js/cultures/{iso}.js,install/template/js/setting.js,install/template/js/mc_install.js" type="javascript"}

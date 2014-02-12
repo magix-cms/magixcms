@@ -1,5 +1,9 @@
 /*  Header
     ****/
+.navbar-brand{
+    height: auto;
+}
+
 #nav-lang {
     right: 0;
     left: auto;

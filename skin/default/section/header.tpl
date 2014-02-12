@@ -10,20 +10,20 @@
                 </button>
 
                 {* Language Nav *}
-                <ul id="lang-box" class="nav pull-right">
+                <ul id="lang-box" class="nav navbar-right">
                     <li>
                         <a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" title="{#choose_language#|ucfirst}">
-                            <span class="glyphicon glyphicon-flag pull-left">&nbsp;</span>
-                            <span class="visible-md visible-lg pull-left">
+                            <span class="glyphicon glyphicon-flag navbar-left">&nbsp;</span>
+                            <span class="visible-md visible-lg navbar-left">
                                 {#choose_language#|ucfirst}
                             </span>
                         </a>
                         {widget_lang_display
-                        htmlStructure=[
-                        'container' => [
-                        'before' => '<ul id="nav-lang" class="dropdown-menu">'
-                        ]
-                        ]
+                            htmlStructure=[
+                                'container' => [
+                                'before' => '<ul id="nav-lang" class="dropdown-menu">'
+                                ]
+                            ]
                         }
                     </li>
                 </ul>
