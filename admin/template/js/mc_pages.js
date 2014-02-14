@@ -893,6 +893,7 @@ var MC_pages = (function ($, undefined) {
         },
         runMove:function(baseadmin,getlang,edit){
             move(baseadmin,getlang,edit);
+            autoCompleteSearch(baseadmin,getlang);
         }
     };
 })(jQuery);

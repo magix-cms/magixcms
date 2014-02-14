@@ -1,16 +1,15 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
             <span class="sr-only">Toggle navigation</span>
-            <span class="fa fa-bar"></span>
-            <span class="fa fa-bar"></span>
-            <span class="fa fa-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">CMS</a>
+        <a class="navbar-brand" href="/{baseadmin}/cms.php">CMS</a>
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="/{baseadmin}/cms.php">{#statistics#|ucfirst}</a></li>
             {if $smarty.get.getlang}
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -55,13 +54,13 @@
                 </li>
             {/if}
         </ul>
-        <form action="" class="navbar-form navbar-right">
-            <span class="input-group">
-                <span class="input-group-addon">
-                    <span class="fa fa-search"></span>
-                </span>
-                <input type="text" id="title_search" name="title_search" placeholder="Search" class="form-control">
-            </span>
+        {if $smarty.get.getlang}
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group has-feedback">
+                <input type="text" id="title_search" name="title_search" placeholder="{#search#}" class="form-control">
+                <span class="fa fa-search form-control-feedback"></span>
+            </div>
         </form>
+        {/if}
     </div>
 </nav>

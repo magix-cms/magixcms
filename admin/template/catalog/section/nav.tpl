@@ -2,36 +2,31 @@
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
             <span class="sr-only">Toggle navigation</span>
-            <span class="fa fa-bar"></span>
-            <span class="fa fa-bar"></span>
-            <span class="fa fa-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">{#catalog#|ucfirst}</a>
+        <a class="navbar-brand" href="/{baseadmin}/catalog.php">{#catalog#|ucfirst}</a>
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-            <li{if !$smarty.get.section} class="active" {/if}><a href="/{baseadmin}/catalog.php">{#statistics#|ucfirst}</a></li>
             {if $smarty.get.getlang}
             <li{if $smarty.get.section eq 'category'} class="active" {/if}><a href="/{baseadmin}/catalog.php?section=category&amp;getlang={$smarty.get.getlang}">{#categories#|ucfirst}</a></li>
             <li{if $smarty.get.section eq 'product'} class="active" {/if}><a href="/{baseadmin}/catalog.php?section=product&amp;getlang={$smarty.get.getlang}">{#products#|ucfirst}</a></li>
             {/if}
         </ul>
         {if $smarty.get.section}
-        <form action="" class="navbar-form navbar-right">
+        <form action="" class="navbar-form navbar-right" role="search">
             {if $smarty.get.section eq 'category'}
-            <span class="input-group">
-                <span class="input-group-addon">
-                    <span class="fa fa-search"></span>
-                </span>
-                <input type="text" id="name_category" name="name_category" placeholder="Search" class="form-control">
-            </span>
+            <div class="form-group has-feedback">
+                <input type="text" id="name_category" name="name_category" placeholder="{#search#}" class="form-control">
+                <span class="fa fa-search form-control-feedback"></span>
+            </div>
             {elseif $smarty.get.section eq 'product'}
-            <span class="input-group">
-                <span class="input-group-addon">
-                    <span class="fa fa-search"></span>
-                </span>
-                <input type="text" id="name_product" name="name_product" placeholder="Search" class="form-control">
-            </span>
+            <div class="form-group has-feedback">
+                <input type="text" id="name_product" name="name_product" placeholder="{#search#}" class="form-control">
+                <span class="fa fa-search form-control-feedback"></span>
+            </div>
             {/if}
         </form>
         {/if}

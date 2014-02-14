@@ -1,5 +1,5 @@
 <p>
-    <a href="#metas" class="btn btn-default view-metas">
+    <a href="#metas" class="btn btn-primary view-metas">
         <span class="fa fa-plus"></span> Ajouter une réécriture
     </a>
 </p>

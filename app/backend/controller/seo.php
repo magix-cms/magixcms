@@ -120,7 +120,9 @@ class backend_controller_seo extends backend_db_seo{
 				',"level":'.json_encode($key['level']).'}';
 			}
 			print '['.implode(',',$json).']';
-		}
+		}else{
+            print '{}';
+        }
 	}
 
     /**
