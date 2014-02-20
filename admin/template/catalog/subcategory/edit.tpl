@@ -14,9 +14,9 @@
             <a href="/{baseadmin}/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;tab=product">{#products#|ucfirst}</a>
         </li>
         {if $plugin != null}
-            {foreach $plugin as $key => $value}
-                <li{if $smarty.get.plugin eq $key} class="active"{/if}>
-                    <a href="/{baseadmin}/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key}">{$key|ucfirst}</a>
+            {foreach $plugin as $key}
+                <li{if $smarty.get.plugin eq $key.url} class="active"{/if}>
+                    <a href="/{baseadmin}/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key.url}">{$key.name|ucfirst}</a>
                 </li>
             {/foreach}
         {/if}

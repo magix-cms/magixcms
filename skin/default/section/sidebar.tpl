@@ -1,41 +1,57 @@
     {* # CMS *}
     {if $smarty.server.SCRIPT_NAME == '/cms.php' OR $smarty.server.SCRIPT_NAME == '/index.php'}
         {* ## Navigation *}
-        {widget_cms_nav
+        {$parent = ($smarty.get.getidpage_p) ? $smarty.get.getidpage_p : $smarty.get.getidpage}
+        {widget_cms_data
             conf = [
                 'context' => 'all',
                 'level' => 'all'
             ]
-            htmlAttribut=[
-                'id_container' => 'secondary-nav',
-                'class_container' => 'nav nav-pills nav-stacked',
-                'class_current'     => 'active'
-            ]
+            assign="sidebarData"
         }
+        {* select data with conf 'select' => [$smarty.get.strLangue => $parent] *}
+        {if $sidebarData}
+            <div id="nav-sidebar">
+                {include file="cms/loop/sidebar.tpl" data=$sidebarData parent=$parent}
+            </div>
+        {/if}
     {/if}
     {* # Catalog *}
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
         {* ## Navigation *}
-        {widget_catalog_nav
+        {widget_catalog_data
             conf = [
-                'context' => ['category' => 'subcategory']
-            ]
-            htmlAttribut=[
-                'id_container' => 'secondary-nav',
-                'class_container' => 'nav nav-pills nav-stacked',
-                'class_current'     => 'active'
-            ]
+            'context' => ['category' => 'subcategory'],
+            'select'    => [{$smarty.get.strLangue} => {$smarty.get.idclc}]
+        ]
+        assign="sidebarData"
         }
+        {$listingData = [ 'main' => $sidebarData[0], 'listing' => $sidebarData[0].subdata, 'active' => $smarty.get.getidpage]}
+        {if $listingData}
+            <div id="nav-sidebar">
+                {include file="catalog/loop/sidebar.tpl" main=$listingData.main listing=$listingData.listing active=$listingData.active}
+            </div>
+        {/if}
     {/if}
     {* # News *}
     {if $smarty.server.SCRIPT_NAME == '/news.php'}
         {* ## Navigation *}
-        {widget_news_nav
-            htmlAttribut=[
-                'id_container' => 'secondary-nav',
-                'class_container' => 'nav nav-pills nav-stacked',
-                'class_current'     => 'active'
+        {widget_news_data
+            conf= [
+            'level'     => 'tag'
             ]
-            prepend="<p class='lead'>{#news_by_theme#}</p>"
+            assign="sidebarData"
         }
+        {$listingData = [
+            'main' => [
+                'name' => {#news_by_theme#|ucfirst}
+            ],
+            'listing' => $sidebarData,
+            'active' => $smarty.get.tag
+        ]}
+        {if $listingData}
+            <div id="nav-sidebar">
+                {include file="news/loop/tag.tpl" main=$listingData.main listing=$listingData.listing active=$listingData.active}
+            </div>
+        {/if}
     {/if}

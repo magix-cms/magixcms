@@ -20,11 +20,11 @@
         <a href="/{baseadmin}/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;tab=galery">{#galery#|ucfirst}</a>
     </li>
     {if $plugin != null}
-    {foreach $plugin as $key => $value}
-        <li{if $smarty.get.plugin eq $key} class="active"{/if}>
-            <a href="/admin/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key}">{$key|ucfirst}</a>
-        </li>
-    {/foreach}
+        {foreach $plugin as $key}
+            <li{if $smarty.get.plugin eq $key.url} class="active"{/if}>
+                <a href="/{baseadmin}/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key.url}">{$key.name|ucfirst}</a>
+            </li>
+        {/foreach}
     {/if}
 </ul>
 <div class="mc-message clearfix"></div>

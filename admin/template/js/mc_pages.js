@@ -500,7 +500,7 @@ var MC_pages = (function ($, undefined) {
                             ),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                    .addClass("fa fa-eye-open")
+                                    .addClass("fa fa-eye")
                             ),
                             $(document.createElement("th"))
                                 .append(
@@ -553,7 +553,7 @@ var MC_pages = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
-                                    $(document.createElement("span")).addClass("fa fa-eye-close")
+                                    $(document.createElement("span")).addClass("fa fa-eye-slash")
                                 )
                             )
                         }else if(item.sidebar_page == '1'){
@@ -563,7 +563,7 @@ var MC_pages = (function ($, undefined) {
                                     .attr("href", "#")
                                     .attr("data-active", item.idpage)
                                     .attr("title", item.title_page).append(
-                                    $(document.createElement("span")).addClass("fa fa-eye-open")
+                                    $(document.createElement("span")).addClass("fa fa-eye")
                                 )
                             )
                         }

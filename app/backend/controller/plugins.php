@@ -974,21 +974,38 @@ class backend_controller_plugins{
             $makefiles = new magixcjquery_files_makefiles();
             $dir = $makefiles->scanRecursiveDir($this->directory_plugins());
             if($dir != null){
-                $data = null;
+                $data = '';
                 foreach($dir as $d){
                     if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
                         $pluginPath = $this->directory_plugins().$d;
                         if($makefiles->scanDir($pluginPath) != null){
                             if(class_exists('plugins_'.$d.'_admin')){
                                 if(method_exists('plugins_'.$d.'_admin',$methodName)){
-                                    $data[] = $d;
+                                    if(method_exists('plugins_'.$d.'_admin','setConfig')){
+                                        $class_name = $this->execute_plugins('plugins_'.$d.'_admin');
+                                        $setConfig = $class_name->setConfig();
+                                        if(array_key_exists('url',$setConfig)){
+                                            if(isset($setConfig['url']['name'])){
+                                                $data['name'] = $setConfig['url']['name'];
+                                            }else{
+                                                $data['name'] = $d;
+                                            }
+                                        }
+                                        $data['url'] = $d;
+
+                                    }else{
+                                        $data['url'] = $d;
+                                        $data['name'] = null;
+                                    }
+                                    $arrData[]= $data;
                                 }
                             }
                         }
                     }
                 }
-                if(is_array($data)){
-                    $arr_item = array_flip($data);
+
+                if(is_array($arrData)){
+                    $arr_item = $arrData;
                 }else{
                     $arr_item = null;
                 }
