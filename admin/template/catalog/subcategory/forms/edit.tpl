@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <p>
+        <p class="btn-row">
             <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
         </p>
     </form>
