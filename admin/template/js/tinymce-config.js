@@ -27,7 +27,7 @@
         toolbar3: 'table | hr removeformat | fullscreen | visualblocks | loremipsum | inserttime | styleselect | template | youtube | mc_pages mc_news mc_catalog codehighlight',
         menubar: false,
         toolbar_items_size: 'small',
-        image_advtab: true ,
+        image_advtab: true,
         external_filemanager_path: '/'+baseadmin+'/template/js/filemanager/',
         filemanager_title: "Responsive Filemanager",
         external_plugins: {

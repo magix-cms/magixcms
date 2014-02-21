@@ -61,11 +61,11 @@ $current_language = $auth->getLanguage();
     /*session_name('adminlang');
     ini_set('session.hash_function',1);
     session_start();*/
-    /*if (isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
-        return true;
-    }else{
-        return false;
-    }
+/*if (isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
+    return true;
+}else{
+    return false;
+}
 }*/
 $auth->mcAuth();
 session_write_close();
@@ -80,13 +80,14 @@ $current_path = "../../../../media/"; // relative path from filemanager folder t
 //thumbs folder can't put inside upload folder
 $thumbs_base_path = "../../../../upload/pagehtml/"; // relative path from filemanager folder to thumbs folder (with final /)
 
-//------------------------------------------------------------------------------
-// YOU CAN COPY AND CHANGE THESE VARIABLES IN FOLDERS config.php FILES
-//------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------
+// YOU CAN COPY AND CHANGE THESE VARIABLES INTO FOLDERS config.php FILES TO CUSTOMIZE EACH FOLDER OPTIONS
+//--------------------------------------------------------------------------------------------------------
 
 $MaxSizeUpload=100; //Mb
 
-$default_language= "en_EN"; //default language file name
+$default_language="en_EN"; //default language file name
 $icon_theme="ico"; //ico or ico_dark you can cusatomize just putting a folder inside filemanager/img
 $show_folder_size=true; //Show or not show folder size in list view feature in filemanager (is possible, if there is a large folder, to greatly increase the calculations)
 $show_sorting_bar=true; //Show or not show sorting feature in filemanager
@@ -134,6 +135,7 @@ $delete_folders=true;
 $upload_files=true;
 $rename_files=true;
 $rename_folders=true;
+$duplicate_files=true;
 
 //**********************
 //Allowed extensions (lowercase insert)
@@ -154,7 +156,7 @@ $aviary_active=true;
 $aviary_key="dvh8qudbp6yx2bnp";
 $aviary_secret="m6xaym5q42rpw433";
 $aviary_version=3;
-$aviary_language= 'en';
+$aviary_language='en';
 
 
 //The filter and sorter are managed through both javascript and php scripts because if you have a lot of
@@ -173,7 +175,7 @@ $hidden_files = array('config.php');
 /*******************
  * JAVA upload 
  *******************/
-$java_upload=false;
+$java_upload=true;
 $JAVAMaxSizeUpload=200; //Gb
 
 
@@ -189,9 +191,9 @@ $JAVAMaxSizeUpload=200; //Gb
 // path_from_filemanager/test/test1/
 // PS if there isn't write permission in your destination folder you must set it
 $fixed_image_creation                   = false; //activate or not the creation of one or more image resized with fixed path from filemanager folder
-$fixed_path_from_filemanager            = array('',''); //fixed path of the image folder from the current position on upload folder
-$fixed_image_creation_name_to_prepend   = array('',''); //name to prepend on filename
-$fixed_image_creation_to_append         = array('',''); //name to appendon filename
+$fixed_path_from_filemanager            = array('../test/','../test1/'); //fixed path of the image folder from the current position on upload folder
+$fixed_image_creation_name_to_prepend   = array('','test_'); //name to prepend on filename
+$fixed_image_creation_to_append         = array('_test',''); //name to appendon filename
 $fixed_image_creation_width             = array(300,400); //width of image (you can leave empty if you set height)
 $fixed_image_creation_height            = array(200,''); //height of image (you can leave empty if you set width)
 
@@ -201,9 +203,10 @@ $fixed_image_creation_height            = array(200,''); //height of image (you 
 // just simply add a value in the array
 // The image creation path is always relative so if i'm inside source/test/test1 and I upload an image, the path start from here
 $relative_image_creation                = false; //activate or not the creation of one or more image resized with relative path from upload folder
-$relative_path_from_current_pos         = array('',''); //relative path of the image folder from the current position on upload folder
-$relative_image_creation_name_to_prepend= array('',''); //name to prepend on filename
-$relative_image_creation_name_to_append = array('',''); //name to append on filename
+$relative_path_from_current_pos         = array('thumb/','thumb/'); //relative path of the image folder from the current position on upload folder
+$relative_image_creation_name_to_prepend= array('','test_'); //name to prepend on filename
+$relative_image_creation_name_to_append = array('_test',''); //name to append on filename
 $relative_image_creation_width          = array(300,400); //width of image (you can leave empty if you set height)
 $relative_image_creation_height         = array(200,''); //height of image (you can leave empty if you set width)
+
 ?>

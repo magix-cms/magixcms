@@ -1,3 +1,8 @@
+<div class="mc-info clearfix">
+    <p class="col-sm-10 alert alert-info">
+        {#tinyMCE_version#} : <strong>{$smarty.const.VERSION_EDITOR}</strong>
+    </p>
+</div>
 <h2>{#filemanager_editor#}</h2>
 <form id="forms_editor_edit" method="post" class="form-inline" action="">
     <div class="form-group">

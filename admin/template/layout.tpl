@@ -8,7 +8,7 @@
     {headmeta meta="contentType" content="html" charset="utf8"}
     <meta name="dcterms.language" content="{iso}" />
     <meta name="dcterms.creator" content="Magix CMS" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {headmeta meta="keywords" content=""}
     {headmeta meta="robots" content="noindex,nofollow"}
     <link rel="icon" type="image/png" href="/{baseadmin}/template/img/favicon.png" />

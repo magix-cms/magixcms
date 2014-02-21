@@ -2031,32 +2031,41 @@ var MC_catalog = (function ($, undefined) {
                 $('#load_catalog_product_galery').empty();
                 var div = $(document.createElement('div'))
                         .attr('id','list_product_galery')
-                        .addClass('row'),
-                    ul = $(document.createElement('ul'))
-                        .addClass('list-unstyled list-inline list-picture');
+                        .addClass('row')
+                ;
+
                 $.nicenotify.initbox(j,{
                     display:false
                 });
+                if($.isEmptyObject(j) === false){
+                    setContener = $(document.createElement('ul'))
+                        .addClass('list-unstyled list-inline list-picture');
+                }else{
+                    setContener = $(document.createElement('div'));
+                }
                 div.append(
                     $(document.createElement('div'))
-                        .addClass('container')
-                    .append(
-                    ul
-                ));
+                        .addClass('col-md-12').append(
+                            setContener
+                        )
+                    );
+
                 div.appendTo('#load_catalog_product_galery');
 
                 if(j === undefined){
                     console.log(j);
                 }
-                if(j !== null){
+
+                if($.isEmptyObject(j) === false){
+
                     $.each(j, function(i,item) {
                         var Width = $('.list-picture img').width(),col;
                         if(Width > 150){
-                            col = 'col-lg-3 col-md-3 col-sm-3 col-xs-7';
+                            col = 'col-md-3 col-sm-3 col-xs-7';
                         }else{
-                            col = 'col-lg-2 col-md-2 col-sm-2 col-xs-6';
+                            col = 'col-md-2 col-sm-2 col-xs-6';
                         }
-                        ul.append(
+                        setContener.append(
                             $(document.createElement("li")).addClass(col).append(
                                 $(document.createElement("div")).append(
                                     $(document.createElement("a"))
@@ -2076,6 +2085,25 @@ var MC_catalog = (function ($, undefined) {
                             )
                         );
                     });
+                }else{
+                    setContener.append(
+                        $(document.createElement("img"))
+                            .attr('data-src','holder.js/140x140/text:Thumnails')
+                            .addClass('ajax-image img-thumbnail')
+                    );
+
+                    if($('.ajax-image').length != 0){
+                        Holder.run({
+                            themes: {
+                                "simple":{
+                                    background:"white",
+                                    foreground:"gray",
+                                    size:12
+                                }
+                            },
+                            images: ".ajax-image"
+                        });
+                    }
                 }
             }
         });

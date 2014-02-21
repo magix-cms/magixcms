@@ -1,7 +1,7 @@
-var version="9.3.2";
+var version="9.3.4";
 var active_contextmenu=true;
-if (loading_bar) {   
-if (!(/MSIE (\d+\.\d+);/.test(navigator.userAgent))){ 
+if(loading_bar){   
+if(!(/MSIE (\d+\.\d+);/.test(navigator.userAgent))){ 
     window.addEventListener('DOMContentLoaded', function() {
         $("body").queryLoader2({ 'backgroundColor':'none','minimumTime':100,'percentage':true});
     });
@@ -14,7 +14,7 @@ if (!(/MSIE (\d+\.\d+);/.test(navigator.userAgent))){
 $(document).ready(function(){
     if (active_contextmenu) {
 	$.contextMenu({
-	    selector: 'figure:not(.back-directory), .list-view2 figure:not(.back-directory) ',
+	    selector:'figure:not(.back-directory), .list-view2 figure:not(.back-directory)',
 	    autoHide:true,
 	    build: function($trigger) {
 		$trigger.addClass('selected');
@@ -25,6 +25,10 @@ $(document).ready(function(){
 			    var m ="";
 			    m+=$('#base_url').val()+$('#cur_dir').val();
 			    add=$trigger.find('a.link').attr('data-file');
+			    if (add!="" && add!=null) {
+				m+=add;
+			    }
+			    add=$trigger.find('h4 a.folder-link').attr('data-file');
 			    if (add!="" && add!=null) {
 				m+=add;
 			    }
@@ -484,6 +488,7 @@ function apply_link(file,external){
     if (external!=""){
 	var target = $('#'+external,window_parent.document);
 	$(target).val(base_url+path+file);
+	$(target).trigger( "change" );
 	close_window();
     }
     else
@@ -513,7 +518,8 @@ function apply_video(file,external){
     var base_url = $('#base_url').val();
     if (external!=""){
 	var target = $('#'+external,window_parent.document);
-	$(target).val(base_url+base_url+path+file);
+	$(target).val(base_url+path+file);
+	$(target).trigger( "change" );
 	close_window();
     }
     else
