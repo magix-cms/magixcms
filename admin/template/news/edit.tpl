@@ -24,8 +24,8 @@
         </li>
         {if $plugin != null}
             {foreach $plugin as $key => $value}
-                <li{if $smarty.get.plugin eq $key} class="active"{/if}>
-                    <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key}">{$key|ucfirst}</a>
+                <li{if $smarty.get.plugin eq $key.url} class="active"{/if}>
+                    <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key.url}">{$key.name|ucfirst}</a>
                 </li>
             {/foreach}
         {/if}
