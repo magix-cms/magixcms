@@ -65,11 +65,12 @@ class backend_db_sessions{
 	 * @param $userid
 	 * @return void
 	 */
-	function delCurrent($userid){
-		$sql = 'DELETE FROM mc_admin_session WHERE userid = :userid';
+	function delCurrent($id_admin){
+		$sql = 'DELETE FROM mc_admin_session
+		WHERE id_admin = :id_admin';
 		magixglobal_model_db::layerDB()->delete($sql,
 			array(
-				':userid'=> $userid
+				':id_admin'=> $id_admin
 				
 		)); 
 	}
@@ -79,17 +80,18 @@ class backend_db_sessions{
 	 * @param $ip (IP)
 	 * @return void
 	 */
-	function insertNewSessionId($userid,$ip,$browser,$keyuniqid){
-		$sql = 'INSERT INTO mc_admin_session (sid, userid, ip, browser, keyuniqid) VALUE (:sid,:userid, :ip, :browser, :keyuniqid)';
-		magixglobal_model_db::layerDB()->insert($sql,
-			array(
-			':sid'=> session_id(),
-			':userid'=> $userid,
-			':ip'=> $ip,
-			':browser' => $browser,
-			':keyuniqid' => $keyuniqid
-		)); 
-	}
+    function insertNewSessionId($id_admin,$ip_session,$browser_admin,$keyuniqid_admin){
+        $sql = 'INSERT INTO mc_admin_session (id_admin_session,id_admin,ip_session,browser_admin,keyuniqid_admin)
+		VALUE (:id_admin_session,:id_admin,:ip_session,:browser_admin,:keyuniqid_admin)';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':id_admin_session'=> session_id(),
+                ':id_admin'=> $id_admin,
+                ':ip_session'=> $ip_session,
+                ':browser_admin' => $browser_admin,
+                ':keyuniqid_admin' => $keyuniqid_admin
+            ));
+    }
 	/**
 	 * delete lastest modified max 2 days
 	 * @param $limit
@@ -97,7 +99,8 @@ class backend_db_sessions{
 	 */
 	function delLast_modified($limit){
 		$sql = 'DELETE FROM mc_admin_session
-		WHERE TO_DAYS(DATE_FORMAT(NOW(), "%Y%m%d")) - TO_DAYS(DATE_FORMAT(last_modified, "%Y%m%d")) > :limit';
+		WHERE TO_DAYS(DATE_FORMAT(NOW(), "%Y%m%d")) - TO_DAYS(DATE_FORMAT(last_modified_session, "%Y%m%d"))
+		> :limit';
 		magixglobal_model_db::layerDB()->delete($sql,
 		array(':limit'=>$limit));
 	}
@@ -106,19 +109,21 @@ class backend_db_sessions{
 	 * @param $sid
 	 * @return void
 	 */
-	function delete_session_sid($sid){
-		$sql = 'DELETE FROM mc_admin_session WHERE sid = :sid';
+	function delete_session_sid($id_admin_session){
+		$sql = 'DELETE FROM mc_admin_session
+		WHERE id_admin_session = :id_admin_session';
 		magixglobal_model_db::layerDB()->delete($sql,
-		array(':sid'=>$sid));
+		array(':id_admin_session'=>$id_admin_session));
 	}
 	/**
 	 * récupère la session utilisateur via la session actuelle
 	 * @return void
 	 */
 	function getsid(){
-		$sql = 'SELECT sid,userid FROM mc_admin_session WHERE sid = :sid';
+		$sql = 'SELECT id_admin_session,id_admin
+		FROM mc_admin_session WHERE id_admin_session = :id_admin_session';
 		return magixglobal_model_db::layerDB()->selectOne($sql,
-		array(':sid'=>session_id()));
+		array(':id_admin_session'=>session_id()));
 	}
 }
 ?>

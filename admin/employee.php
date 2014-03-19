@@ -58,12 +58,12 @@ require('../lib/mcbackend.php');
 /**
  * Autoload Frontend
  */
-$members = new backend_controller_admin();
+$members = new backend_controller_login();
 $members->securePage();
 $members->closeSession();
-if(magixcjquery_filter_request::isSession('useradmin')){
+if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
 	backend_controller_config::load_attribute_config();
-	$user = new backend_controller_user();
+	$user = new backend_controller_employee();
 	$user->run();
 }
 ?>

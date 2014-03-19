@@ -1,3 +1,9 @@
+#### 2.5.0
+Beta
+    * Fix #112 Erreur URL de modification des traductions de plugins
+    * Fix #111 Encodage des prix dans le catalogue
+    * Fix #84 Status et permissions utilisateurs
+
 #### 2.4.3
     * Fix bug chargement du contenu dans tinyMCE (add escape in backend)
     * Fix #102 Range format tinyMCE

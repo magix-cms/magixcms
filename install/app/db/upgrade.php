@@ -64,5 +64,26 @@ class app_db_upgrade{
             )
         );
     }
+
+    /**
+     * @return array
+     *
+     */
+    protected function s_old_member(){
+        $query = 'SELECT keyuniqid, pseudo,email,cryptpass
+        FROM mc_admin_member';
+        return magixglobal_model_db::layerDB()->select($query);
+    }
+    /**
+     * Transfère le compte member dans le compte définitif suivant la clé unique
+     * @param $keyuniqid
+     */
+    protected function transfertProfil($keyuniqid){
+        $sql = array(
+            'INSERT INTO mc_admin_employee (keyuniqid_admin,pseudo_admin,email_admin,passwd_admin)
+            SELECT keyuniqid, pseudo,email,cryptpass FROM mc_admin_member WHERE keyuniqid ='.magixglobal_model_db::layerDB()->escape_string("$keyuniqid"),
+            'DROP TABLE mc_admin_member');
+        magixglobal_model_db::layerDB()->transaction($sql);
+    }
 }
 ?>

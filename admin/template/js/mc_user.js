@@ -43,7 +43,7 @@ var MC_user = (function ($, undefined) {
     function graph(baseadmin){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/'+baseadmin+'/users.php?json_graph=true',
+            uri: '/'+baseadmin+'/employee.php?json_graph=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
@@ -81,28 +81,28 @@ var MC_user = (function ($, undefined) {
             onsubmit: true,
             event: 'submit',
             rules: {
-                pseudo: {
+                pseudo_admin: {
                     required: true,
                     minlength: 2
                 },
-                email: {
+                email_admin: {
                     required: true,
                     email: true
                 },
-                cryptpass: {
+                passwd_admin: {
                     //password: "#pseudo",
                     required: true,
                     minlength: 4
                 },
-                cryptpass_confirm: {
+                passwd_confirm: {
                     required: true,
-                    equalTo: "#cryptpass"
+                    equalTo: "#passwd_admin"
                 }
             },
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/'+baseadmin+'/users.php?action=add',
+                    uri: '/'+baseadmin+'/employee.php?action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
@@ -140,7 +140,7 @@ var MC_user = (function ($, undefined) {
     function jsonUser(baseadmin,iso){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/'+baseadmin+'/users.php?action=list&json_list_user=true',
+            uri: '/'+baseadmin+'/employee.php?action=list&json_list_user=true',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
@@ -196,7 +196,7 @@ var MC_user = (function ($, undefined) {
                     $.each(j, function(i,item) {
                         var edit = $(document.createElement("td")).append(
                             $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/users.php?action=edit&edit='+item.idadmin)
+                                .attr("href", '/'+baseadmin+'/employee.php?action=edit&edit='+item.idadmin)
                                 .attr("title", Globalize.localize( "edit", iso )+": "+item.pseudo)
                                 .append(
                                 $(document.createElement("span")).addClass("fa fa-edit")
@@ -218,7 +218,7 @@ var MC_user = (function ($, undefined) {
                                 $(document.createElement("td")).append(item.idadmin),
                                 $(document.createElement("td")).append(
                                     $(document.createElement("a"))
-                                    .attr("href", '/'+baseadmin+'/users.php?action=edit&edit='+item.idadmin)
+                                    .attr("href", '/'+baseadmin+'/employee.php?action=edit&edit='+item.idadmin)
                                     .attr("title", Globalize.localize( "edit", iso )+": "+item.pseudo)
                                     .append(
                                         item.pseudo
@@ -268,7 +268,7 @@ var MC_user = (function ($, undefined) {
      * @param edit
      */
     function update(baseadmin,edit){
-        var url = '/'+baseadmin+'/users.php?action=edit&edit='+edit;
+        var url = '/'+baseadmin+'/employee.php?action=edit&edit='+edit;
         var formsUpdateData = $('#forms_user_data_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -352,9 +352,9 @@ var MC_user = (function ($, undefined) {
                         $(this).dialog('close');
                         $.nicenotify({
                             ntype: "ajax",
-                            uri: '/'+baseadmin+'/users.php?action=remove',
+                            uri: '/'+baseadmin+'/employee.php?action=remove',
                             typesend: 'post',
-                            noticedata : {delele_user:elem},
+                            noticedata : {delete_employee:elem},
                             successParams:function(e){
                                 $.nicenotify.initbox(e,{
                                     display:true

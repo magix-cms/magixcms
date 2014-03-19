@@ -44,56 +44,37 @@
  * @name user
  *
  */
-class backend_controller_user extends backend_db_admin{
-	/**
-	 * Pseudo
-	 * @var string
-	 */
-	public $pseudo;
-	/**
-	 * Email
-	 * @var string
-	 */
-	public $email;
-	/**
-	 * Cryptpass
-	 * @var string
-	 */
-	public $cryptpass;
-	/**
-	 * perms (permission)
-	 * @var string
-	 */
-	public $id_role;
-	/**
-	 * deluser
-	 * @var string
-	 */
-	public $delele_user;
-	/**
-	 * edit
-	 * @var string
-	 */
+class backend_controller_employee extends backend_db_employee{
+    public $lastname_admin,$firstname_admin,$pseudo_admin,$email_admin,$passwd_admin,$active_admin,$delete_employee;
 	public $edit,$action;
 	/**
 	 * Constructor
 	 */
 	function __construct(){
-		if(magixcjquery_filter_request::isPost('pseudo')){
-			$this->pseudo = magixcjquery_form_helpersforms::inputClean($_POST['pseudo']);
+        if(magixcjquery_filter_request::isPost('lastname_admin')){
+            $this->lastname_admin = magixcjquery_form_helpersforms::inputClean($_POST['lastname_admin']);
+        }
+        if(magixcjquery_filter_request::isPost('firstname_admin')){
+            $this->firstname_admin = magixcjquery_form_helpersforms::inputClean($_POST['firstname_admin']);
+        }
+		if(magixcjquery_filter_request::isPost('pseudo_admin')){
+			$this->pseudo_admin = magixcjquery_form_helpersforms::inputClean($_POST['pseudo_admin']);
 		}
-		if(magixcjquery_filter_request::isPost('email')){
-			$this->email = magixcjquery_form_helpersforms::inputClean($_POST['email']);
+		if(magixcjquery_filter_request::isPost('email_admin')){
+			$this->email_admin = magixcjquery_form_helpersforms::inputClean($_POST['email_admin']);
 		}
-		if(magixcjquery_filter_request::isPost('cryptpass')){
-			$this->cryptpass = magixcjquery_form_helpersforms::inputClean(sha1($_POST['cryptpass']));
+		if(magixcjquery_filter_request::isPost('passwd_admin')){
+			$this->passwd_admin = magixcjquery_form_helpersforms::inputClean(sha1($_POST['passwd_admin']));
 		}
 		if(magixcjquery_filter_request::isPost('id_role')){
 			$this->id_role = magixcjquery_filter_isVar::isPostNumeric($_POST['id_role']);
 		}
-		if(magixcjquery_filter_request::isPost('delele_user')){
-			$this->delele_user = magixcjquery_filter_isVar::isPostNumeric($_POST['delele_user']);
+		if(magixcjquery_filter_request::isPost('delete_employee')){
+			$this->delete_employee = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_employee']);
 		}
+        if(magixcjquery_filter_request::isPost('active_admin')){
+            $this->active_admin = magixcjquery_filter_isVar::isPostNumeric($_POST['active_admin']);
+        }
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
 		}
@@ -110,9 +91,9 @@ class backend_controller_user extends backend_db_admin{
      */
     private function role_select($create,$idadmin=null){
         $create->configLoad('local_'.backend_model_language::current_Language().'.conf');
-        $role = new backend_model_role();
+
         if($idadmin != null){
-            $user_role = parent::s_user_role($idadmin);
+            $user_role = parent::s_role_data($idadmin);
             foreach($user_role as $key){
                 $id_user_role[]=$key['id_role'];
                 $role_user_name[]=$key['role_name'];
@@ -121,10 +102,10 @@ class backend_controller_user extends backend_db_admin{
         }else{
             $user_role_conb = null;
         }
-        if(parent::s_role($role->sql_arg()) != null){
+        if(parent::s_all_role() != null){
             $id_role = '';
             $role_name = '';
-            foreach(parent::s_role($role->sql_arg()) as $key){
+            foreach(parent::s_all_role() as $key){
                 $id_role[]=$key['id_role'];
                 $role_name[]=$key['role_name'];
             }
@@ -151,11 +132,10 @@ class backend_controller_user extends backend_db_admin{
      * Retourne au format JSON la liste des utilisateurs
      */
     private function json_list_user(){
-        $role = new backend_model_role();
-        if(parent::s_users($role->sql_arg()) != null){
-            foreach (parent::s_users($role->sql_arg()) as $key){
-                $json[]= '{"idadmin":'.json_encode($key['idadmin']).',"pseudo":'.json_encode($key['pseudo'])
-                .',"email":'.json_encode($key['email']).',"role_name":'.json_encode($key['role_name'])
+        if(parent::s_listing_employee() != null){
+            foreach (parent::s_listing_employee() as $key){
+                $json[]= '{"idadmin":'.json_encode($key['id_admin']).',"pseudo":'.json_encode($key['pseudo_admin'])
+                .',"email":'.json_encode($key['email_admin']).',"role_name":'.json_encode($key['role_name'])
                 .'}';
             }
             print '['.implode(',',$json).']';
@@ -167,13 +147,18 @@ class backend_controller_user extends backend_db_admin{
      * @param $create
      */
     private function insert_user($create){
-		if(isset($this->pseudo) AND isset($this->cryptpass)){
-			parent::i_new_user(
-                $this->id_role,
-                $this->pseudo,
-                $this->email,
-                $this->cryptpass,
-                magixglobal_model_cryptrsa::uuid_generator()
+		if(isset($this->pseudo_admin) AND isset($this->passwd_admin)){
+			parent::i_new_employee(
+                magixglobal_model_cryptrsa::uuid_generator(),
+                $this->lastname_admin,
+                $this->firstname_admin,
+                $this->pseudo_admin,
+                $this->email_admin,
+                $this->passwd_admin
+            );
+            parent::i_employee_profile(
+                magixglobal_model_db::layerDB()->lastInsert(),
+                $this->id_role
             );
             $create->display('user/request/success_add.tpl');
 		}
@@ -184,19 +169,49 @@ class backend_controller_user extends backend_db_admin{
      * @param $create
      */
     private function update_user_data($create){
-        if(isset($this->pseudo) AND isset($this->email)){
-            parent::u_user_data($this->edit,$this->pseudo,$this->email,$this->id_role);
+        if(isset($this->pseudo_admin) AND isset($this->pseudo_admin)){
+            parent::u_edit_employee_infos(
+                $this->edit,
+                $this->lastname_admin,
+                $this->firstname_admin,
+                $this->pseudo_admin,
+                $this->email_admin
+            );
             $create->display('user/request/success_update.tpl');
         }
     }
-
+    /**
+     * @access private
+     * Modification d'un statut d'un utilisateur
+     * @param $active_admin
+     */
+    private function edit_active_employee($active_admin){
+        if(isset($active_admin)){
+            parent::u_statut_employee(
+                $this->edit,
+                $active_admin
+            );
+        }
+    }
+    /**
+     * @param $create
+     */
+    private function update_user_role($create){
+        if(isset($this->id_role)){
+            parent::u_employee_profile(
+                $this->edit,
+                $this->id_role
+            );
+            $create->display('user/request/success_update.tpl');
+        }
+    }
     /**
      * Mise à jour du mot de passe utilisateur
      * @param $create
      */
     private function update_user_password($create){
-        if(isset($this->cryptpass)){
-            parent::u_user_password($this->edit,$this->cryptpass);
+        if(isset($this->passwd_admin)){
+            parent::u_edit_employee_passwd($this->edit,$this->passwd_admin);
             $create->display('user/request/success_update.tpl');
         }
     }
@@ -204,8 +219,8 @@ class backend_controller_user extends backend_db_admin{
 	 * Suppression d'utilisateur
 	 */
 	private function remove_user(){
-		if(isset($this->delele_user)){
-			parent::d_user($this->delele_user);
+		if(isset($this->delete_employee)){
+			parent::d_employee($this->delete_employee);
 		}
 	}
     /**
@@ -232,9 +247,9 @@ class backend_controller_user extends backend_db_admin{
      * @param $create
      */
     private function load_data($create){
-        $data = parent::s_member_data($this->edit);
+        $data = parent::s_edit_employee($this->edit);
         $assign_exclude = array(
-            'cryptpass','keyuniqid'
+            'passwd_admin','keyuniqid_admin'
         );
         foreach($data as $key => $val){
             if( !(array_search($key,$assign_exclude) ) ){
@@ -255,7 +270,7 @@ class backend_controller_user extends backend_db_admin{
         );
         if(isset($this->action)){
             if($this->action === 'add'){
-                if(isset($this->email)){
+                if(isset($this->email_admin)){
                     $this->insert_user($create);
                 }
             }elseif($this->action === 'list'){
@@ -272,9 +287,11 @@ class backend_controller_user extends backend_db_admin{
                     $create->display('user/list.tpl');
                 }
             }elseif($this->action === 'edit'){
-                if(isset($this->email)){
+                if(isset($this->email_admin)){
                     $this->update_user_data($create);
-                }elseif(isset($this->cryptpass)){
+                }elseif(isset($this->id_role)){
+                    $this->update_user_role($create);
+                }elseif(isset($this->passwd_admin)){
                     $this->update_user_password($create);
                 }else{
                     $this->load_data($create);
@@ -282,7 +299,7 @@ class backend_controller_user extends backend_db_admin{
                     $create->display('user/edit.tpl');
                 }
             }elseif($this->action === 'remove'){
-                if(isset($this->delele_user)){
+                if(isset($this->delete_employee)){
                     $this->remove_user();
                 }
             }

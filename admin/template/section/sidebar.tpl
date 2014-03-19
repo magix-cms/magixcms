@@ -18,7 +18,7 @@
             </div>
         </div>
     </li>
-    {if $config_cms eq 1}
+    {if {employee_access class_name="backend_controller_cms"} eq 1 AND $config_cms eq 1}
         <li>
             <a href="#cms" class="showit{if {script_name} eq "cms"} open{/if}">
                 <span class="fa fa-plus-square-o"></span> Pages
@@ -39,7 +39,7 @@
     {/if}
     {* -- END PAGES -- *}
 </ul>
-{if $config_news eq 1}
+{if {employee_access class_name="backend_controller_news"} eq 1 AND $config_news eq 1}
     <ul class="nav">
         {* -- START NEWS -- *}
         <li class="nav-header"><span class="fa fa-rss"></span> {#news#|upper}</li>

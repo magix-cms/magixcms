@@ -44,32 +44,42 @@ var MC_install = (function ($, undefined) {
      * Création de la base de données
      */
     function upgrade(){
-        $('#upgrade_db').on('click',function(event){
-            event.preventDefault();
-            var btn = $(this);
-            $.nicenotify({
-                ntype: "ajax",
-                uri: '/install/upgrade.php?action=add',
-                typesend: 'post',
-                noticedata: {process:"start"},
-                beforeParams:function(){
-                    var loader = $(document.createElement("span")).addClass("loader").append(
-                        $(document.createElement("img"))
-                            .attr('src','/install/template/img/small_loading.gif')
-                            .attr('width','20px')
-                            .attr('height','20px')
-                    );
-                    $('#upgrade_table').html(loader);
-                    btn.remove();
-                },
-                successParams:function(data){
-                    $('#upgrade_table').empty();
-                    $.nicenotify.initbox(data,{
-                        display:true
-                    });
+        $("#forms_upgrade_version").validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                version: {
+                    required: true
                 }
-            });
-        })
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/install/upgrade.php?action=add',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform: true,
+                    beforeParams:function(){
+                        var btn = $('#upgrade_db');
+                        var loader = $(document.createElement("span")).addClass("loader").append(
+                            $(document.createElement("img"))
+                                .attr('src','/install/template/img/small_loading.gif')
+                                .attr('width','20px')
+                                .attr('height','20px')
+                        );
+                        $('#upgrade_table').html(loader);
+                        btn.remove();
+                    },
+                    successParams:function(data){
+                        $('#upgrade_table').empty();
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
     }
 
     /**
@@ -423,28 +433,28 @@ var MC_install = (function ($, undefined) {
             onsubmit: true,
             event: 'submit',
             rules: {
-                pseudo: {
+                pseudo_admin: {
                     required: true,
                     minlength: 2
                 },
-                email: {
+                email_admin: {
                     required: true,
                     email: true
                 },
-                cryptpass: {
+                passwd_admin: {
                     //password: "#pseudo",
                     required: true,
                     minlength: 4
                 },
-                cryptpass_confirm: {
+                passwd_confirm: {
                     required: true,
-                    equalTo: "#cryptpass"
+                    equalTo: "#passwd_admin"
                 }
             },
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/install/user.php?action=add',
+                    uri: '/install/employee.php?action=add',
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,

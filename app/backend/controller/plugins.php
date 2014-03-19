@@ -248,7 +248,9 @@ class backend_controller_plugins{
 	private function nameplugin(){
 		if(isset($this->nameplugin) != null){
 			return magixcjquery_filter_isVar::isPostAlpha($_GET['name']);
-		}
+		}elseif(isset($this->plugin) != null){
+            return magixcjquery_filter_isVar::isPostAlpha($_GET['plugin']);
+        }
 	}
 	/**
 	 * @access private
@@ -583,6 +585,7 @@ class backend_controller_plugins{
 							$firebug = new magixcjquery_debug_magixfire();
 							$firebug->magixFireLog($this->nameplugin().': '.$access);
                             $firebug->magixFireLog($this->path_dir_i18n());
+                            $firebug->magixFireLog($role_data);
 						}
                         $this->configLoad();
                         if($access != null OR $access != ''){
@@ -726,49 +729,6 @@ class backend_controller_plugins{
         }else{
             return backend_model_smarty::getInstance()->fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
         }
-    }
-
-    /**
-     * @deprecated
-     * Assign une variable pour smarty
-     * @param $assign
-     * @param $fetch
-     * @throws Exception
-     * @return void
-    @internal param void $page
-     */
-    public function append_assign($assign,$fetch){
-        if($assign){
-            backend_model_smarty::getInstance()->assign($assign,$fetch);
-        }else{
-            throw new Exception('Unable to assign a variable in template');
-        }
-    }
-
-    /**
-     * @deprecated
-     * Affiche le template du plugin
-     * @param void $page
-     * @param null $cache_id
-     * @param null $compile_id
-     * @return void
-     */
-    public function append_display($page,$cache_id = null,$compile_id = null){
-        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->nameplugin().'/skin/admin/');
-        backend_model_smarty::getInstance()->display($page,$cache_id,$compile_id);
-    }
-
-    /**
-     * @deprecated
-     * Retourne le résultat du template plugin
-     * @param void $page
-     * @param null $cache_id
-     * @param null $compile_id
-     * @return string
-     */
-    public function append_fetch($page,$cache_id = null,$compile_id = null){
-        backend_model_smarty::getInstance()->addTemplateDir($this->directory_plugins().$this->nameplugin().'/skin/admin/');
-        backend_model_smarty::getInstance()->fetch($page,$cache_id,$compile_id);
     }
 
     /**
@@ -946,6 +906,7 @@ class backend_controller_plugins{
         if(file_exists($this->directory_plugins().$pluginName.DIRECTORY_SEPARATOR.'admin.php')){
             if(class_exists('plugins_'.$pluginName.'_admin')){
                 if(method_exists('plugins_'.$pluginName.'_admin',$methodName)){
+                    $this->configLoad();
                     call_user_func_array(
                         array(
                             $this->get_call_class('plugins_'.$pluginName.'_admin'),
@@ -953,11 +914,22 @@ class backend_controller_plugins{
                         ),
                         $param_arr
                     );
+
                 }
             }
         }
     }
-
+    public function arrayChangeKeys($arraySource, $keys)
+    {
+        $newArray = array();
+        foreach($arraySource as $key => $value)
+        {
+            $k = (array_key_exists($key, $keys)) ? $keys[$key] : $key;
+            $v = ((is_array($value))) ? $this->arrayChangeKeys($value, $keys) : $value;
+            $newArray[$k] = $v;
+        }
+        return $newArray;
+    }
     /**
      * Scanne les plugins et vérifie si la fonction d'execution exist afin de l'intégrer dans le module
      * @access private
@@ -975,6 +947,7 @@ class backend_controller_plugins{
             $dir = $makefiles->scanRecursiveDir($this->directory_plugins());
             if($dir != null){
                 $data = '';
+                $arrData = '';
                 foreach($dir as $d){
                     if(file_exists($this->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
                         $pluginPath = $this->directory_plugins().$d;

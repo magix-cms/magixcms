@@ -231,7 +231,7 @@ class backend_controller_catalog extends backend_db_catalog{
 			$this->desccatalog = (string) magixcjquery_form_helpersforms::inputCleanQuote($_POST['desccatalog']);
 		}
 		if(magixcjquery_filter_request::isPost('price')){
-			$this->price = magixcjquery_filter_isVar::isPostFloat($_POST['price']);
+			$this->price = magixcjquery_form_helpersforms::inputClean($_POST['price']);
 		}
         // Remove
         if(magixcjquery_filter_request::isPost('delete_catalog')){
@@ -306,8 +306,8 @@ class backend_controller_catalog extends backend_db_catalog{
         if(magixcjquery_filter_request::isGet('plugin')){
             $this->plugin = magixcjquery_form_helpersforms::inputClean($_GET['plugin']);
         }
-        if(magixcjquery_filter_request::isSession('useridadmin')){
-            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
         }
         //JQUERY CALLBACK
         if(magixcjquery_filter_request::isGet('callback')){
@@ -1042,7 +1042,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $urlcatalog = magixcjquery_url_clean::rplMagixString($this->titlecatalog,array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
                 }
                 if(!empty($this->price)){
-                    $price = number_format($this->price,2,'.',',');
+                    $price = number_format(str_replace(",",".",$this->price),2,'.','');
                 }else{
                     $price = null;
                 }
@@ -1141,7 +1141,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $img = 0;
                 }
                 if($key['price'] != null){
-                    $price = number_format($key['price'],0,',','.');
+                    $price = number_format($key['price'],2,',','.');
                 }else{
                     $price = 0;
                 }
@@ -1152,7 +1152,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"price":'.json_encode($price).
                     ',"img":'.json_encode($img).
                     ',"iso":'.json_encode($key['iso']).
-                    ',"pseudo":'.json_encode($key['pseudo']).'}';
+                    ',"pseudo":'.json_encode($key['pseudo_admin']).'}';
             }
             print '['.implode(',',$json_data).']';
         }else{

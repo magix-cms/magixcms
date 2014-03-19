@@ -58,10 +58,10 @@ if(file_exists($baseadmin)){
 /**
  * Autoload Frontend
  */
-$members = new backend_controller_admin();
+$members = new backend_controller_login();
 $members->securePage();
 $members->closeSession();
-if(magixcjquery_filter_request::isSession('useradmin')){
+if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
 	backend_controller_config::load_attribute_config();
 	$sitemap = new backend_controller_sitemap();
 	$sitemap->run();

@@ -49,14 +49,14 @@ class backend_model_role {
      * Constructor
      */
     public function __construct(){
-        if(magixcjquery_filter_request::isSession('useridadmin')){
-            $this->useridadmin = $_SESSION['useridadmin'];
+        if(magixcjquery_filter_request::isSession('id_admin')){
+            $this->id_admin = $_SESSION['id_admin'];
         }
-        if(magixcjquery_filter_request::isSession('useradmin')){
-            $this->useradmin = $_SESSION['useradmin'];
+        if(magixcjquery_filter_request::isSession('email_admin')){
+            $this->email_admin = $_SESSION['email_admin'];
         }
-        if(magixcjquery_filter_request::isSession('userkeyid')){
-            $this->userkeyid = $_SESSION['userkeyid'];
+        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
+            $this->keyuniqid_admin = $_SESSION['keyuniqid_admin'];
         }
     }
 
@@ -64,9 +64,9 @@ class backend_model_role {
      * @return mixed
      */
     public function data(){
-        if(isset($this->useridadmin)){
-            $admin = new backend_db_admin();
-            $data = $admin->s_member_data($this->useridadmin);
+        if(isset($this->keyuniqid_admin)){
+            $admin = new backend_db_employee();
+            $data = $admin->s_data_session($this->keyuniqid_admin);
             $role['id']   = $data['id_role'];
             $role['name'] = $data['role_name'];
             return $role;

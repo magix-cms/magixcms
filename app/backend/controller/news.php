@@ -96,8 +96,8 @@ class backend_controller_news extends backend_db_news{
 	 * 
 	 */
 	public function __construct(){
-        if(magixcjquery_filter_request::isSession('useridadmin')){
-            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
         }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
@@ -196,7 +196,7 @@ class backend_controller_news extends backend_db_news{
      * @return string
      * @deprecated
      */
-    private function news_pager($max){
+    /*private function news_pager($max){
         $role = new backend_model_role();
         $pagination = new magixcjquery_pager_pagination();
         $request = parent::s_count_max_news($this->getlang,$role->sql_arg());
@@ -214,7 +214,7 @@ class backend_controller_news extends backend_db_news{
         return $pagination->setPagerData(
             $request['total'],$max,$setConfig
         );
-    }
+    }*/
 
     /**
      * Retourne la pagination pour les actualités
@@ -223,7 +223,7 @@ class backend_controller_news extends backend_db_news{
      */
     private function news_pagination($limit){
         $role = new backend_model_role();
-        $db = parent::s_count_max_news($this->getlang,$role->sql_arg());
+        $db = parent::s_count_max_news($this->getlang);
         $total = $db['total'];
         // *** Set pagination
         $dataPager = null;
@@ -282,8 +282,8 @@ class backend_controller_news extends backend_db_news{
         $max = $limit;
         $offset= $pager->setPaginationOffset($limit,$this->getpage);
         $limit = $max;
-        if(parent::s_news_list($this->getlang,$role->sql_arg(),$limit,$max,$offset) != null){
-            foreach (parent::s_news_list($this->getlang,$role->sql_arg(),$limit,$max,$offset) as $key){
+        if(parent::s_news_list($this->getlang,$limit,$max,$offset) != null){
+            foreach (parent::s_news_list($this->getlang,$limit,$max,$offset) as $key){
                 if ($key['n_content'] != null){
                     $content = 1;
                 }else{
@@ -296,7 +296,7 @@ class backend_controller_news extends backend_db_news{
                 }
                 $json[]= '{"idnews":'.json_encode($key['idnews']).',"n_image":'.json_encode($image)
                 .',"n_title":'.json_encode($key['n_title']).',"n_content":'.json_encode($content)
-                .',"pseudo":'.json_encode($key['pseudo']).',"date_register":'.json_encode($key['date_register'])
+                .',"pseudo":'.json_encode($key['pseudo_admin']).',"date_register":'.json_encode($key['date_register'])
                 .',"date_publish":'.json_encode($key['date_publish']).',"published":'.json_encode($key['published'])
                 .'}';
             }

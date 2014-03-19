@@ -52,6 +52,6 @@ require('../lib/mcinstall.php');
  * Autoload Frontend
  */
 app_Autoloader::register();
-$init = new app_controller_user();
+$init = new app_controller_employee();
 $init->run();
 ?>

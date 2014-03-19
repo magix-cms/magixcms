@@ -45,7 +45,7 @@ var MC_plugins_translation = (function ($, undefined) {
             if(section === 'core'){
                 var url = '/'+baseadmin+'/plugins.php?name=translation&getlang='+getlang+'&action=edit&section='+section;
             }else if(section === 'plugin'){
-                var url = '/'+baseadmin+'/plugins.php?name=translation&getlang='+getlang+'&action=edit&section='+section+'&plugin='+plugin;
+                var url = '/'+baseadmin+'/plugins.php?name=translation&getlang='+getlang+'&action=edit&section='+section+'&pluginame='+plugin;
             }
             $.nicenotify({
                 ntype: "submit",

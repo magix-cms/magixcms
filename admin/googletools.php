@@ -58,10 +58,10 @@ if(file_exists($baseadmin)){
 /**
  * Autoload backend
  */
-$members = new backend_controller_admin();
+$members = new backend_controller_login();
 $members->securePage();
 $members->closeSession();
-if(magixcjquery_filter_request::isSession('useradmin')){
+if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
 	backend_controller_config::load_attribute_config();
 	$tools = new backend_controller_googletools();
 	$tools->run();

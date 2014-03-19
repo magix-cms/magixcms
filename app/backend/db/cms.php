@@ -52,12 +52,12 @@ class backend_db_cms{
      * @param $select_role
      * @return array
      */
-	protected function s_parent_p($getlang,$select_role){
+	protected function s_parent_p($getlang){
     	$sql = 'SELECT cms.*,lang.iso
         FROM mc_cms_pages AS cms
-        JOIN mc_admin_member AS m ON(m.idadmin=cms.idadmin)
+        LEFT JOIN mc_admin_employee AS m ON(m.id_admin=cms.idadmin)
         JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
-        WHERE cms.idlang = :getlang AND cms.idcat_p = 0 AND m.id_role IN('.$select_role.')
+        WHERE cms.idlang = :getlang AND cms.idcat_p = 0
         ORDER BY cms.order_page';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getlang' => $getlang
@@ -68,12 +68,12 @@ class backend_db_cms{
 	 * Sélectionne les pages enfants du parent
 	 * @param integer $get_page_p
 	 */
-	protected function s_child_page($get_page_p,$select_role){
+	protected function s_child_page($get_page_p){
 		$sql = 'SELECT cms.*,lang.iso
     	FROM mc_cms_pages AS cms
-    	JOIN mc_admin_member AS m ON(m.idadmin=cms.idadmin)
+    	LEFT JOIN mc_admin_employee AS m ON(m.id_admin=cms.idadmin)
     	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
-    	WHERE cms.idcat_p = :get_page_p AND m.id_role IN('.$select_role.')
+    	WHERE cms.idcat_p = :get_page_p
     	ORDER BY cms.order_page';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':get_page_p' => $get_page_p
@@ -151,12 +151,12 @@ class backend_db_cms{
 	 * @param integer $getlang_p
 	 */
 	protected function s_child_lang_current_page($getlang_p){
-    	$sql = 'SELECT relang.idrel_lang,p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
+    	$sql = 'SELECT relang.idrel_lang,p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo_admin,subp.uri_page as uri_category
 		FROM mc_cms_rel_lang AS relang
 		LEFT JOIN mc_cms_pages p ON(relang.idlang_p=p.idpage)
 		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin )
+		JOIN mc_admin_employee AS m ON ( p.idadmin = m.id_admin )
 		WHERE relang.idpage = :getlang_p';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':getlang_p' => $getlang_p
@@ -195,7 +195,7 @@ class backend_db_cms{
 		FROM mc_cms_pages AS p
 		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin )
+		JOIN mc_admin_employee AS m ON ( p.idadmin = m.idadmin )
     	WHERE p.idpage = :idlang_p';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idlang_p' => $idlang_p
@@ -239,7 +239,7 @@ class backend_db_cms{
 		FROM mc_cms_pages AS p
 		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
+		JOIN mc_admin_employee AS m ON ( p.idadmin = m.idadmin ) 
 		WHERE p.title_page LIKE :searchpage';
 		return magixglobal_model_db::layerDB()->select($sql,array(
             ':searchpage'=>'%'.$searchpage.'%'
@@ -326,7 +326,7 @@ class backend_db_cms{
 		FROM mc_cms_pages AS p
 		LEFT JOIN mc_cms_pages AS parent ON ( parent.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
+		JOIN mc_admin_employee AS m ON ( p.idadmin = m.id_admin )
 		WHERE p.idlang = :idlang AND p.title_page LIKE :title_search';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idlang'=>$getlang,
@@ -352,11 +352,11 @@ class backend_db_cms{
      * @param integer $idlang
      */
 	protected function s_cat_p_lang($title_p_lang,$idlang){
-		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo,subp.uri_page as uri_category
+		$sql = 'SELECT p.idpage, p.title_page, p.content_page,p.idlang,p.idcat_p, p.uri_page,p.seo_title_page,p.seo_desc_page, lang.iso, m.pseudo_admin,subp.uri_page as uri_category
 		FROM mc_cms_pages AS p
 		LEFT JOIN mc_cms_pages AS subp ON ( subp.idpage = p.idcat_p )
 		JOIN mc_lang AS lang ON ( p.idlang = lang.idlang )
-		JOIN mc_admin_member AS m ON ( p.idadmin = m.idadmin ) 
+		JOIN mc_admin_employee AS m ON ( p.idadmin = m.id_admin )
 		WHERE p.idlang = :idlang AND p.title_page LIKE "%'.$title_p_lang.'%"';
 		return magixglobal_model_db::layerDB()->select($sql,array(
 			':idlang'=>$idlang

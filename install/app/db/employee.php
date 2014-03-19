@@ -36,54 +36,48 @@
  * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
  * Copyright: MAGIX CMS
  * Date: 25/02/13
- * Time: 22:18
+ * Time: 23:12
  * License: Dual licensed under the MIT or GPL Version
  */
-class app_controller_user extends app_db_user{
-    /**
-     * Constructor
-     */
-    function __construct(){
-        if(magixcjquery_filter_request::isPost('pseudo')){
-            $this->pseudo = magixcjquery_form_helpersforms::inputClean($_POST['pseudo']);
-        }
-        if(magixcjquery_filter_request::isPost('email')){
-            $this->email = magixcjquery_form_helpersforms::inputClean($_POST['email']);
-        }
-        if(magixcjquery_filter_request::isPost('cryptpass')){
-            $this->cryptpass = magixcjquery_form_helpersforms::inputClean(sha1($_POST['cryptpass']));
-        }
-        if(magixcjquery_filter_request::isGet('action')){
-            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
-        }
-    }
-
+class app_db_employee{
     /**
      * Insert un nouvel utilisateur
+     * @param $keyuniqid_admin
+     * @param $lastname_admin
+     * @param $firstname_admin
+     * @param $pseudo_admin
+     * @param $email_admin
+     * @param $passwd_admin
      */
-    private function insert_user(){
-        if(isset($this->pseudo) AND isset($this->cryptpass)){
-            parent::i_new_user(
-                1,
-                $this->pseudo,
-                $this->email,
-                $this->cryptpass,
-                magixglobal_model_cryptrsa::uuid_generator()
-            );
-            app_model_smarty::getInstance()->display('user/request/success_add.tpl');
-        }
+    protected function i_new_employee($keyuniqid_admin,$lastname_admin,$firstname_admin,$pseudo_admin,$email_admin,$passwd_admin){
+        $sql = 'INSERT INTO mc_admin_employee (keyuniqid_admin,lastname_admin,firstname_admin,pseudo_admin,email_admin,passwd_admin,active_admin,last_change_admin)
+        VALUE (:keyuniqid_admin,:lastname_admin,:firstname_admin,:pseudo_admin,:email_admin,:passwd_admin,1,NOW())';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':keyuniqid_admin'  => $keyuniqid_admin,
+                ':lastname_admin'   => $lastname_admin,
+                ':firstname_admin'  => $firstname_admin,
+                ':pseudo_admin'     => $pseudo_admin,
+                ':email_admin'      => $email_admin,
+                ':passwd_admin'     => $passwd_admin
+            )
+        );
     }
     /**
-     *  @access public
+     * @access protected
+     * Insertion d'un employee dans la table des accès
+     * @param $id_admin
+     * @param $id_role
      */
-    public function run(){
-        if(isset($this->action)){
-            if($this->action === 'add'){
-                $this->insert_user();
-            }
-        }else{
-            app_model_smarty::getInstance()->display('user/index.tpl');
-        }
+    protected function i_employee_profile($id_admin,$id_role){
+        $sql = 'INSERT INTO mc_admin_access_rel (id_admin,id_role)
+        VALUE (:id_admin,:id_role)';
+        magixglobal_model_db::layerDB()->insert($sql,
+            array(
+                ':id_admin' => $id_admin,
+                ':id_role'  => $id_role
+            )
+        );
     }
 }
 ?>

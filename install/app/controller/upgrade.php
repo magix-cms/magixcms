@@ -35,8 +35,8 @@
 /**
  * Author: Gerits Aurelien <aurelien[at]magix-cms[point]com>
  * Copyright: MAGIX CMS
- * Date: 6/03/13
- * Time: 23:14
+ * Date: 19/03/14
+ * Time: 23:53
  * License: Dual licensed under the MIT or GPL Version
  */
 class app_controller_upgrade extends app_db_upgrade{
@@ -44,7 +44,7 @@ class app_controller_upgrade extends app_db_upgrade{
     /**
      * @var string
      */
-    public $action,$process;
+    public $action,$process,$version;
 
     /**
      *  @access public construct
@@ -53,8 +53,8 @@ class app_controller_upgrade extends app_db_upgrade{
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
-        if(magixcjquery_filter_request::isPost('process')){
-            $this->process = magixcjquery_form_helpersforms::inputClean($_POST['process']);
+        if(magixcjquery_filter_request::isPost('version')){
+            $this->version = magixcjquery_form_helpersforms::inputClean($_POST['version']);
         }
     }
 
@@ -62,8 +62,8 @@ class app_controller_upgrade extends app_db_upgrade{
      * @access private
      * load sql file
      */
-    private function load_sql_file(){
-        return magixglobal_model_system::base_path().'install'.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'update.2.4.2.sql';
+    private function load_sql_file($version){
+        return magixglobal_model_system::base_path().'install'.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'update.'.$version.'.sql';
     }
 
     /**
@@ -71,12 +71,23 @@ class app_controller_upgrade extends app_db_upgrade{
      * @access private
      */
     private function database(){
-        if(isset($this->process)){
-            if(file_exists($this->load_sql_file())){
-                if(magixglobal_model_db::create_new_sqltable($this->load_sql_file())){
-                    $data = parent::s_catalog_img();
-                    foreach($data as $key){
-                        parent::u_catalog_product_image($key['imgcatalog'],$key['idcatalog']);
+        if(isset($this->version)){
+            if(file_exists($this->load_sql_file($this->version))){
+                if(magixglobal_model_db::create_new_sqltable($this->load_sql_file($this->version))){
+                    if($this->version === '2.4.2'){
+                        $data = parent::s_catalog_img();
+                        if($data != null){
+                            foreach($data as $key){
+                                parent::u_catalog_product_image($key['imgcatalog'],$key['idcatalog']);
+                            }
+                        }
+                    }elseif($this->version === '2.5.0'){
+                        $data = parent::s_old_member();
+                        if($data != null){
+                            foreach($data as $key){
+                                parent::transfertProfil($key['keyuniqid']);
+                            }
+                        }
                     }
                     app_model_smarty::getInstance()->display('upgrade/request/success_table.tpl');
                 }
@@ -90,7 +101,7 @@ class app_controller_upgrade extends app_db_upgrade{
     public function run(){
         if(isset($this->action)){
             if($this->action === 'add'){
-                if(isset($this->process)){
+                if(isset($this->version)){
                     $this->database();
                 }
             }

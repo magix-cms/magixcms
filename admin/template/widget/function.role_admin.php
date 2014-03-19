@@ -40,9 +40,9 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 function smarty_function_role_admin($params, $template){
-    if(isset($_SESSION['useridadmin']) AND isset($_SESSION['useradmin']) AND isset($_SESSION['userkeyid'])){
-        $admin = new backend_db_admin();
-        $data = $admin->s_member_data($_SESSION['useridadmin']);
+    if(isset($_SESSION['id_admin']) AND isset($_SESSION['email_admin']) AND isset($_SESSION['keyuniqid_admin'])){
+        $admin = new backend_db_employee();
+        $data = $admin->s_data_session($_SESSION['keyuniqid_admin']);
         if(isset($params['items'])){
             if(is_array($params['items'])){
                 if(array_key_exists($data['role_name'],$params['items'])){
@@ -54,6 +54,7 @@ function smarty_function_role_admin($params, $template){
                 }
             }
         }
+
     }
 }
 ?>

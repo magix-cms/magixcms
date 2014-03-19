@@ -7,12 +7,24 @@
             <p class="lead">
                 {#p_lead_upgrade#}
             </p>
-            <p>
-                Magix CMS 2.3.6 => 2.4.2
-            </p>
-            <a class="btn btn-lg btn-success" id="upgrade_db" href="#">
-                {#p_start_upgrade#}
-            </a>
+            <form id="forms_upgrade_version" method="post" action="">
+                <p>
+                    <select id="version" name="version">
+                        <option value="">
+                            Choisissez la version
+                        </option>
+                        <option value="2.4.2">
+                            Magix CMS 2.3.6 => 2.4.2
+                        </option>
+                        <option value="2.5.0">
+                            Magix CMS 2.4.2 => 2.5.0
+                        </option>
+                    </select>
+                </p>
+                <p>
+                    <input type="submit" class="btn btn-lg btn-success" value="{#p_start_upgrade#}" />
+                </p>
+            </form>
             <div class="mc-message mc-success clearfix"></div>
             <div id="upgrade_table"></div>
         </div>

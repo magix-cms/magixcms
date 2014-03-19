@@ -7,11 +7,7 @@
     {call name=breadcrumb data=$breadcrumb active=$smarty.config.administrator}
 {/block}
     <div class="mc-message clearfix"></div>
-    <div class="row">
-    <div class="col-sm-8">
     {include file="user/forms/add.tpl"}
-    </div>
-    </div>
     {block name="main:pager"}
         <ul class="pager">
             <li class="previous">

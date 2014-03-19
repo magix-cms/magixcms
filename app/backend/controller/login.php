@@ -44,62 +44,45 @@
  * @name ADMIN
  *
  */
-class backend_controller_admin extends backend_db_admin{
-	/**
-	 *
-	 *
-	 * @var string
-	 */
-	public $acmail;
-	/**
-	 *
-	 *
-	 * @var string
-	 */
-	public $acsclose;
-	/**
-	 *
-	 *
-	 * @var param
-	 */
-	public $smarty;
-	/**
-	 * instance lang setting conf
-	 *
-	 * @var string
-	 */
-	public $lang;
-	/**
-	 * input type hidden 
-	 * @access protected
-	 *
-	 * @var string
-	 */
-	public $hashtoken;
-	/**
-	 * private var password re-genere
-	 *
-	 * @var string
-	 * @access private
-	 */
-	protected $acpass;
+class backend_controller_login extends backend_db_employee{
+    //SESSION
+    /**
+     * @var $logout
+     */
+    public $logout;
+    /**
+     * input type hidden
+     * @access protected
+     *
+     * @var string
+     */
+    protected $hashtoken;
+    /**
+     * @var $email_admin,$passwd_admin
+     */
+    public $email_admin,$lo_email_admin,$passwd_admin;
 	/**
 	 * protected var for dbLayer
 	 *
 	 * @var void
 	 */
 	function __construct(){
-		if(magixcjquery_filter_request::isPost('acpass')){
-		    $this->acpass = (string) sha1(magixcjquery_form_helpersforms::inputClean($_POST['acpass']));
+		if(magixcjquery_filter_request::isPost('passwd_admin')){
+		    $this->passwd_admin = sha1(magixcjquery_form_helpersforms::inputClean($_POST['passwd_admin']));
           }
 		if(magixcjquery_filter_request::isPost('hashtoken')){
           	$this->hashtoken = magixcjquery_filter_var::escapeHTML($_POST['hashtoken']);
         }
-        if (magixcjquery_filter_request::isGet('acsclose')) {
-        	$this->acsclose = magixcjquery_filter_isVar::isPostAlpha($_GET['acsclose']);
+        if (magixcjquery_filter_request::isGet('logout')) {
+        	$this->logout = magixcjquery_filter_isVar::isPostAlpha($_GET['logout']);
         }
-		if(magixcjquery_filter_request::isPost('acmail')){
-         	 $this->acmail = magixcjquery_filter_isVar::isMail($_POST['acmail']); 
+		if(magixcjquery_filter_request::isPost('email_admin')){
+         	 $this->email_admin = magixcjquery_filter_isVar::isMail($_POST['email_admin']);
+        }
+
+        //LOSTPASSWORD
+        if(magixcjquery_filter_request::isPost('lo_email_admin')){
+            $this->lo_email_admin = magixcjquery_filter_isVar::isMail($_POST['lo_email_admin']);
         }
 	}
 	/**
@@ -145,7 +128,7 @@ class backend_controller_admin extends backend_db_admin{
 		$token = isset($_SESSION['mc_auth_token']) ? $_SESSION['mc_auth_token'] : magixglobal_model_cryptrsa::tokenId();
 		$tokentools = $this->hashPassCreate($token);
 		backend_controller_template::assign('hashpass',$tokentools);
-		if (isset($this->acpass) AND isset($this->acmail) AND isset($this->hashtoken)) {
+        if (isset($this->email_admin) AND isset($this->passwd_admin) AND isset($this->hashtoken)) {
 			if(strcasecmp($this->hashtoken,$tokentools) == 0){
 				if($debug == true){
 					$firebug = new magixcjquery_debug_magixfire();
@@ -160,7 +143,9 @@ class backend_controller_admin extends backend_db_admin{
 					$firebug->magixFireLog($_SESSION);
 					$firebug->magixFireGroupEnd();
 				}
-				if(count(parent::s_auth_exist($this->acmail,$this->acpass)) == true){
+                $auth_exist = parent::s_auth_exist($this->email_admin,$this->passwd_admin);
+
+				if(count($auth_exist['id_admin']) == true){
 					$session = new backend_model_sessions();
                     $lang = new backend_model_language();
 					$string = $_SERVER['HTTP_USER_AGENT'];
@@ -170,32 +155,32 @@ class backend_controller_admin extends backend_db_admin{
 					//Fermeture de la première session, ses données sont sauvegardées.
 					session_write_close();
 					$this->start_session();
-					$const_url = parent::s_member_data_by_mail($this->acmail);
-					if (!isset($_SESSION['useradmin']) AND !isset($_SESSION['userkeyid'])) {
+                    $data = parent::s_data_session($auth_exist['keyuniqid_admin']);
+                    if (!isset($_SESSION['email_admin']) AND !isset($_SESSION['keyuniqid_admin'])) {
 						$lang = new backend_model_language();
-                        $session->openSession($const_url['idadmin'],session_regenerate_id(true), $const_url['keyuniqid']);
+                        $session->openSession($data['id_admin'],session_regenerate_id(true), $data['keyuniqid_admin']);
 						//session_regenerate_id(true);
-                        $_SESSION['useridadmin'] = $const_url['idadmin'];
-		    			$_SESSION['useradmin'] = $this->acmail;
-		    			$_SESSION['userkeyid'] = $const_url['keyuniqid'];
+                        $_SESSION['id_admin'] = $data['id_admin'];
+		    			$_SESSION['email_admin'] = $data['email_admin'];
+		    			$_SESSION['keyuniqid_admin'] = $data['keyuniqid_admin'];
                         $_SESSION['adminLanguage'] = $lang->run();
 						if($debug == true){
 							$firebug = new magixcjquery_debug_magixfire();
-							$firebug->magixFireGroup('usersession');
+							$firebug->magixFireGroup('adminsession');
 							$firebug->magixFireDump('User session',$_SESSION);
 							$firebug->magixFireGroupEnd();
 						}
 		    			magixglobal_model_redirect::backend_redirect_login(false);	
 					}else{
-						$session->openSession($const_url['idadmin'],null, $const_url['keyuniqid']);
-                        $_SESSION['useridadmin'] = $const_url['idadmin'];
-                        $_SESSION['useradmin'] = $this->acmail;
-                        $_SESSION['userkeyid'] = $const_url['keyuniqid'];
+						$session->openSession($data['id_admin'],null, $data['keyuniqid_admin']);
+                        $_SESSION['id_admin'] = $data['id_admin'];
+                        $_SESSION['email_admin'] = $data['email_admin'];
+                        $_SESSION['keyuniqid_admin'] = $data['keyuniqid_admin'];
                         $_SESSION['adminLanguage'] = $lang->run();
 						if($debug == true){
 							$firebug = new magixcjquery_debug_magixfire();
-							$firebug->magixFireGroup('usersession');
-							$firebug->magixFireDump('User session',$_SESSION);
+                            $firebug->magixFireGroup('adminsession');
+                            $firebug->magixFireDump('User session',$_SESSION);
 							$firebug->magixFireGroupEnd();
 						}
 						magixglobal_model_redirect::backend_redirect_login(false);	
@@ -217,8 +202,8 @@ class backend_controller_admin extends backend_db_admin{
 	public function securePage(){
 		//ini_set("session.cookie_lifetime",3600);
 		$this->start_session();
-		if (!isset($_SESSION["useradmin"]) || empty($_SESSION['useradmin'])){
-			if (!isset($this->acmail)) {
+        if (!isset($_SESSION["email_admin"]) || empty($_SESSION['email_admin'])){
+			if (!isset($this->email_admin)) {
 				magixglobal_model_redirect::backend_redirect_login(true);
 			}
 		}elseif(!backend_model_sessions::compareSessionId()){
@@ -230,8 +215,8 @@ class backend_controller_admin extends backend_db_admin{
 	* @return header
 	*/
 	public function closeSession(){
-		if (isset($this->acsclose)) {
-			if (isset($_SESSION['useradmin']) AND isset($_SESSION['userkeyid'])){	
+		if (isset($this->logout)) {
+            if (isset($_SESSION['email_admin']) AND isset($_SESSION['keyuniqid_admin'])){
 				$session = new backend_model_sessions();
 				$session->closeSession();
 				session_unset();

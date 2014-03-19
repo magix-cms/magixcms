@@ -43,7 +43,7 @@ class plugins_translation_admin{
     /**
      * @var string
      */
-    public $action,$tab,$section,$getlang,$plugin,$config_var,$config_value;
+    public $action,$tab,$section,$getlang,$pluginame,$config_var,$config_value;
     //private $result = array();
     /**
      *
@@ -58,8 +58,8 @@ class plugins_translation_admin{
         if(magixcjquery_filter_request::isGet('section')){
             $this->section = magixcjquery_form_helpersforms::inputClean($_GET['section']);
         }
-        if(magixcjquery_filter_request::isGet('plugin')){
-            $this->plugin = magixcjquery_form_helpersforms::inputClean($_GET['plugin']);
+        if(magixcjquery_filter_request::isGet('pluginame')){
+            $this->pluginame = magixcjquery_form_helpersforms::inputClean($_GET['pluginame']);
         }
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
@@ -155,7 +155,7 @@ class plugins_translation_admin{
                     break;
                 case 'plugin':
                     $file = $this->setConfigFile(
-                        'plugins/'.$this->plugin.'/i18n/',
+                        'plugins/'.$this->pluginame.'/i18n/',
                         'public_local_'.$iso['iso'].'.conf'
                     );
                     break;
@@ -178,7 +178,7 @@ class plugins_translation_admin{
                     $filename = 'local_'.$iso['iso'].'.conf';
                     break;
                 case 'plugin':
-                    $path = 'plugins/'.$this->plugin.'/i18n/';
+                    $path = 'plugins/'.$this->pluginame.'/i18n/';
                     $filename = 'public_local_'.$iso['iso'].'.conf';
                     break;
             }

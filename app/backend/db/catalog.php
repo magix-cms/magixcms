@@ -402,11 +402,11 @@ class backend_db_catalog{
         $limit = $limit ? ' LIMIT '.$max : '';
         $offset = !empty($offset) ? ' OFFSET '.$offset: '';
         $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.price, cl.idlang, cl.imgcatalog,
-        lang.iso, m.pseudo
+        lang.iso, m.pseudo_admin
 		FROM mc_catalog AS cl
 		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
-		JOIN mc_admin_member as m ON ( cl.idadmin = m.idadmin )
-		WHERE cl.idlang = :idlang AND m.id_role IN('.$select_role.')
+		LEFT JOIN mc_admin_employee AS m ON(m.id_admin = cl.idadmin)
+		WHERE cl.idlang = :idlang
 		ORDER BY cl.'.$sort.' DESC'.$limit.$offset;
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':idlang'	=>	$idlang

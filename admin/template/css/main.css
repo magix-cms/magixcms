@@ -18,9 +18,7 @@ h4{
 .module-dashboard h4{
     font-size: 14.5px;
 }
-#article{
-    margin-left:10px;
-}
+
 /*
 * FORMS
 */
@@ -151,29 +149,11 @@ a:hover > .badge {
 #admin-language{
     margin-right:5px;
 }
-/*.sidebar-nav {
-    padding: 9px 0;
-}
-.sidebar-nav ul ul{
-    list-style: none;
-}*/
 
-#sidebar {
-    max-width: 220px;
-}
 @media (max-width: 485px) {
     @media (min-width: 485px) {
-        #sidebar {
-            max-width: 460px;
-            margin-left:10px;
-        }
         .nav{
             display:table-cell;
-        }
-    }
-    @media (max-width: 400px) {
-        #sidebar {
-            margin-left:25px;
         }
     }
 }

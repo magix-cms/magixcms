@@ -66,8 +66,8 @@ class backend_controller_cms extends backend_db_cms{
 	 * function construct class
 	 */
 	function __construct(){
-        if(magixcjquery_filter_request::isSession('useridadmin')){
-            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
         }
 		if(magixcjquery_filter_request::isPost('idlang')){
 			$this->idlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['idlang']);
@@ -150,8 +150,8 @@ class backend_controller_cms extends backend_db_cms{
 	 */
 	private function json_parent_p(){
         $role = new backend_model_role();
-		if(parent::s_parent_p($this->getlang,$role->sql_arg()) != null){
-			foreach (parent::s_parent_p($this->getlang,$role->sql_arg()) as $key){
+		if(parent::s_parent_p($this->getlang) != null){
+			foreach (parent::s_parent_p($this->getlang) as $key){
                 if($key['content_page'] != null){
                     $content = 1;
                 }else{
@@ -186,8 +186,8 @@ class backend_controller_cms extends backend_db_cms{
 	 */
 	private function json_child_page(){
         $role = new backend_model_role();
-		if(parent::s_child_page($this->get_page_p,$role->sql_arg()) != null){
-			foreach (parent::s_child_page($this->get_page_p,$role->sql_arg()) as $key){
+		if(parent::s_child_page($this->get_page_p) != null){
+			foreach (parent::s_child_page($this->get_page_p) as $key){
                 if($key['content_page'] != null){
                     $content = 1;
                 }else{
@@ -422,7 +422,7 @@ class backend_controller_cms extends backend_db_cms{
 					',"idcat_p":'.json_encode($s['idcat_p']).',"iso":'.json_encode($s['iso']).
 					',"uricms":'.json_encode($uricms).',"uri_category":'.json_encode($s['uri_category']).
 					',"seo_title_page":'.$metatitle.',"seo_desc_page":'.$metadescription.
-					',"pseudo":'.json_encode($s['pseudo']).'}';
+					',"pseudo":'.json_encode($s['pseudo_admin']).'}';
 				}
 				print '['.implode(',',$search).']';
 			}

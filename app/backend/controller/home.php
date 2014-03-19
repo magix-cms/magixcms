@@ -80,8 +80,8 @@ class backend_controller_home extends backend_db_home{
 	 *
 	 */
 	function __construct(){
-        if(magixcjquery_filter_request::isSession('useridadmin')){
-            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['useridadmin']);
+        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['keyuniqid_admin']);
         }
 		if(magixcjquery_filter_request::isGet('edit')){
 			$this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);

@@ -22,7 +22,7 @@
                 <a href="/install/config.php">&larr; {#previous#}</a>
             </li>
             <li class="next">
-                <a href="/install/user.php">{#next#} &rarr;</a>
+                <a href="/install/employee.php">{#next#} &rarr;</a>
             </li>
         </ul>
     {/block}

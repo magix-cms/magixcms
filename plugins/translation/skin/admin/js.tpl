@@ -1,7 +1,7 @@
 {script src="/{baseadmin}/min/?f=plugins/{$pluginName}/js/admin.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
     var section = "{$smarty.get.section}";
-    var plugin = "{$smarty.get.plugin}";
+    var plugin = "{$smarty.get.pluginame}";
     $(function(){
         if (typeof MC_plugins_translation == "undefined")
         {

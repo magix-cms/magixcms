@@ -30,7 +30,7 @@ body {
 }
 /* Main marketing message and sign up button */
 .jumbotron {
-    margin: 60px 0;
+    margin: 40px 0;
     text-align: center;
     background-color: #ffffff;
 }
@@ -44,12 +44,12 @@ body {
 }
 
 .container-center{
-    margin: 60px 0;
+    margin: 40px 0;
     text-align: center;
 }
 /* Supporting marketing content */
 .marketing {
-    margin: 60px 0;
+    margin: 40px 0;
 }
 .marketing p + h4 {
     margin-top: 28px;

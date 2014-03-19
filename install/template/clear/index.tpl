@@ -4,7 +4,7 @@
 {block name="main:breadcrumb"}
     {$breadcrumb = ['index.php' => $smarty.config.start,'analysis.php' => $smarty.config.analysis,
     'config.php' => $smarty.config.configuration,'database.php' => $smarty.config.database,
-    'user.php' => $smarty.config.administrator]}
+    'employee.php' => $smarty.config.administrator]}
     {call name=breadcrumb data=$breadcrumb active=$smarty.config.finish}
 {/block}
     <div class="mc-message clearfix"></div>
@@ -19,7 +19,7 @@
     {block name="main:pager"}
         <ul class="pager">
             <li class="previous">
-                <a href="/install/user.php">&larr; {#previous#}</a>
+                <a href="/install/employee.php">&larr; {#previous#}</a>
             </li>
         </ul>
     {/block}

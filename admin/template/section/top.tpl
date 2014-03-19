@@ -27,19 +27,19 @@
                             </li>
                             <li>
                                 <a href="/{baseadmin}/config.php?section=imagesize">
-                                    <span class="fa fa-picture"></span> {#image_sizes#|ucfirst}
+                                    <span class="fa fa-picture-o"></span> {#image_sizes#|ucfirst}
                                 </a>
                             </li>
                             <li>
                                 <a href="/{baseadmin}/config.php?section=cache">
-                                    <span class="fa fa-folder-open-alt"></span> {#cache_management#|ucfirst}
+                                    <span class="fa fa-folder-open"></span> {#cache_management#|ucfirst}
                                 </a>
                             </li>
                         </ul>
                     </li>
                 {/if}
                 <li{if {script_name} eq "users"} class="active"{/if}>
-                    <a href="/{baseadmin}/users.php?action=list">
+                    <a href="/{baseadmin}/employee.php?action=list">
                         <span class="fa fa-user"></span> {#users#|ucfirst}
                     </a>
                 </li>
@@ -91,7 +91,7 @@
                         FR
                     </option>
                 </select>
-                <a href="{geturl}/admin/dashboard.php?acsclose" class="navbar-link">
+                <a href="{geturl}/admin/dashboard.php?logout" class="navbar-link">
                     <span class="fa fa-off"></span> Logout
                 </a>
             </p>

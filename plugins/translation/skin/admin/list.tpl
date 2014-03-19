@@ -13,7 +13,7 @@
     <ul class="list-inline">
     {foreach $array_plugin_i18n as $key => $value nocache}
     <li>
-        <a class="btn btn-default" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;section=plugin&amp;plugin={$value}">
+        <a class="btn btn-default" href="/{baseadmin}/plugins.php?name=translation&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;section=plugin&amp;pluginame={$value}">
         {$value}
         </a>
     </li>

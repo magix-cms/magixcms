@@ -80,15 +80,15 @@ class backend_db_news{
      * @param null $offset
      * @return array
      */
-    protected function s_news_list($getlang,$select_role,$limit=false,$max=null,$offset=null){
+    protected function s_news_list($getlang,$limit=false,$max=null,$offset=null){
         $limit = $limit ? ' LIMIT '.$max : '';
         $offset = !empty($offset) ? ' OFFSET '.$offset: '';
         $sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_image,n.n_content,lang.iso,n.idlang,
-        n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
+        n.date_register,n.n_uri,m.pseudo_admin,n.date_publish,n.published
         FROM mc_news AS n
         JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-        JOIN mc_admin_member AS m ON(m.idadmin=n.idadmin)
-        WHERE n.idlang = :getlang AND m.id_role IN('.$select_role.')
+        JOIN mc_admin_employee AS m ON ( n.idadmin = m.id_admin )
+        WHERE n.idlang = :getlang
         ORDER BY n.idnews DESC'.$limit.$offset;
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':getlang'	=>	$getlang
@@ -118,14 +118,13 @@ class backend_db_news{
     /**
      * @access protected
      * Retourne le nombre maximum de news
-     * @param $select_role
+     * @param $idlang
      * @return void
      */
-	protected function s_count_max_news($idlang,$select_role){
+	protected function s_count_max_news($idlang){
         $sql = 'SELECT count(n.idnews) as total
 		FROM mc_news AS n
-		JOIN mc_admin_member AS m ON(m.idadmin=n.idadmin)
-		WHERE n.idlang = :idlang AND m.id_role IN('.$select_role.')';
+		WHERE n.idlang = :idlang';
 		return magixglobal_model_db::layerDB()->selectOne($sql,
             array(
             ':idlang'	=>	$idlang
@@ -148,7 +147,7 @@ class backend_db_news{
                 GROUP BY tag.idnews
             )rel ON ( rel.idnews = n.idnews )
         JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
-        JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
+        JOIN mc_admin_employee AS m ON ( n.idadmin = m.id_admin )
         WHERE n.idnews = :edit';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':edit'=>$edit
@@ -275,10 +274,10 @@ class backend_db_news{
 	 * 
 	 */
 	protected function c_news_user(){
-		$sql = 'SELECT count(n.idnews) as usernews, m.pseudo
+		$sql = 'SELECT count(n.idnews) as usernews, m.pseudo_admin
 				FROM mc_news AS n
-				LEFT JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
-				LEFT JOIN mc_admin_member AS m ON ( n.idadmin = m.idadmin )
+				JOIN mc_lang AS lang ON ( n.idlang = lang.idlang )
+				JOIN mc_admin_employee AS m ON ( n.idadmin = m.id_admin )
 				GROUP BY n.idadmin';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}

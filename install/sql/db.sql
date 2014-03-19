@@ -1,11 +1,14 @@
-CREATE TABLE IF NOT EXISTS `mc_admin_member` (
-  `idadmin` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `id_role` smallint(3) unsigned NOT NULL DEFAULT '1',
-  `pseudo` varchar(20) NOT NULL,
-  `email` varchar(40) NOT NULL,
-  `cryptpass` varchar(50) NOT NULL,
-  `keyuniqid` varchar(50) NOT NULL,
-  PRIMARY KEY (`idadmin`)
+CREATE TABLE IF NOT EXISTS `mc_admin_employee` (
+  `id_admin` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `keyuniqid_admin` varchar(50) NOT NULL,
+  `lastname_admin` varchar(50) DEFAULT NULL,
+  `firstname_admin` varchar(50) DEFAULT NULL,
+  `pseudo_admin` varchar(50) NOT NULL,
+  `email_admin` varchar(150) NOT NULL,
+  `passwd_admin` varchar(80) NOT NULL,
+  `last_change_admin` timestamp NULL DEFAULT NULL,
+  `active_admin` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_admin`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_admin_role_user` (
@@ -20,15 +23,34 @@ INSERT INTO `mc_admin_role_user` VALUES
 (NULL, 'author'),
 (NULL, 'contributor');
 
+CREATE TABLE IF NOT EXISTS `mc_admin_access_rel` (
+  `id_access_rel` int(7) unsigned NOT NULL AUTO_INCREMENT,
+  `id_admin` smallint(5) unsigned NOT NULL,
+  `id_role` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id_access_rel`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `mc_admin_session` (
-  `sid` varchar(150) NOT NULL,
-  `userid` smallint(5) unsigned NOT NULL,
-  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ip` varchar(20) NOT NULL,
-  `browser` varchar(50) DEFAULT NULL,
-  `keyuniqid` varchar(50) NOT NULL,
-  KEY `userid` (`userid`)
+  `id_admin_session` varchar(150) NOT NULL,
+  `id_admin` smallint(5) unsigned NOT NULL,
+  `keyuniqid_admin` varchar(50) NOT NULL,
+  `ip_session` varchar(25) NOT NULL,
+  `browser_admin` varchar(50) NOT NULL,
+  `last_modified_session` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_admin_session`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `mc_admin_access` (
+  `id_access` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `id_role` smallint(5) unsigned NOT NULL,
+  `class_name` varchar(50) NOT NULL,
+  `plugins` varchar(50) DEFAULT NULL,
+  `view_access` smallint(2) unsigned NOT NULL DEFAULT '0',
+  `add_access` smallint(2) unsigned NOT NULL DEFAULT '0',
+  `edit_access` smallint(2) unsigned NOT NULL DEFAULT '0',
+  `delete_access` smallint(2) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_access`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
   `idlang` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
@@ -233,7 +255,7 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'webmaster', '', 'string', 'google webmasterTools'),
 (NULL, 'analytics', '', 'string', 'google analytics'),
 (NULL, 'editor', 'openFilemanager', 'string', 'tinymce'),
-(NULL, 'magix_version', '2.4.1', 'string', 'Version Magix CMS'),
+(NULL, 'magix_version', '2.5.0', 'string', 'Version Magix CMS'),
 (NULL, 'content_css', NULL, 'string', NULL),
 (NULL, 'concat', '0' , 'string', NULL),
 (NULL, 'cache', 'none' , 'string', NULL),

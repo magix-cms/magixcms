@@ -43,7 +43,7 @@ class fileManagerAuth{
         return backend_model_language::current_Language();
     }
     public function mcAuth(){
-        $members = new backend_controller_admin();
+        $members = new backend_controller_login();
         $members->securePage();
         $members->closeSession();
     }

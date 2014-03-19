@@ -45,10 +45,11 @@ class backend_db_dashboard{
      * @return array
      */
     protected function c_users(){
-        $sql='SELECT r.role_name AS ROLE_USER,COUNT(m.idadmin) AS COUNT_USER
-        FROM mc_admin_member AS m
-        JOIN mc_admin_role_user as r USING(id_role)
-        GROUP BY r.id_role';
+        $sql='SELECT role.role_name AS ROLE_USER,COUNT(emp.id_admin) AS COUNT_USER
+        FROM mc_admin_employee AS emp
+        JOIN mc_admin_access_rel as access ON(access.id_admin = emp.id_admin)
+        JOIN mc_admin_role_user as role ON(role.id_role = access.id_role)
+        GROUP BY role.id_role';
         return magixglobal_model_db::layerDB()->select($sql);
     }
 }
