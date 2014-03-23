@@ -38,10 +38,22 @@
                         </ul>
                     </li>
                 {/if}
-                <li{if {script_name} eq "users"} class="active"{/if}>
-                    <a href="/{baseadmin}/employee.php?action=list">
-                        <span class="fa fa-user"></span> {#users#|ucfirst}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-users"></span> {#users#|ucfirst} <b class="caret"></b>
                     </a>
+                    <ul class="dropdown-menu">
+                        <li{if {script_name} eq "employee"} class="active"{/if}>
+                            <a href="/{baseadmin}/employee.php?action=list">
+                                <span class="fa fa-user"></span> {#users#|ucfirst}
+                            </a>
+                        </li>
+                        <li{if {script_name} eq "access"} class="active"{/if}>
+                            <a href="/{baseadmin}/access.php?action=list">
+                                <span class="fa fa-key"></span> {#roles#|ucfirst}
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 {if {role_admin items='administrator'}}
                     <li{if {script_name} eq "theming"} class="active"{/if}>

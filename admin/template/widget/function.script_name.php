@@ -17,7 +17,8 @@
  */
 function smarty_function_script_name($params, $template){
     $array_files = array(
-        "users"=>"users",
+        "employee"=>"users",
+        "access"=>"access",
         "theming"=>"theming",
         "lang"=>"lang",
         "home"=>"home",

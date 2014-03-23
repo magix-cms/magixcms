@@ -89,36 +89,36 @@ class backend_db_employee{
      * @return array
      */
     protected function s_stats_user(){
-        $sql ='SELECT admin.pseudo,admin.email,IF(rel_home.home_count>0,rel_home.home_count,0) AS HOME,
+        $sql ='SELECT admin.pseudo_admin,admin.email_admin,IF(rel_home.home_count>0,rel_home.home_count,0) AS HOME,
         IF(rel_news.news_count>0,rel_news.news_count,0) AS NEWS,
         IF(rel_pages.pages_count>0,rel_pages.pages_count,0) AS PAGES,
         IF(rel_product.product_count>0,rel_product.product_count,0) AS PRODUCT
-        FROM mc_admin_member AS admin
+        FROM mc_admin_employee AS admin
         LEFT OUTER JOIN (
-            SELECT admin.idadmin, count( h.idhome ) AS home_count
+            SELECT admin.id_admin, count( h.idhome ) AS home_count
             FROM mc_page_home AS h
-            JOIN mc_admin_member AS admin ON ( h.idadmin = admin.idadmin )
+            JOIN mc_admin_employee AS admin ON ( h.idadmin = admin.id_admin )
             GROUP BY h.idadmin
-            )rel_home ON ( rel_home.idadmin = admin.idadmin )
+            )rel_home ON ( rel_home.id_admin = admin.id_admin )
         LEFT OUTER JOIN (
-            SELECT admin.idadmin, count( n.idnews ) AS news_count
+            SELECT admin.id_admin, count( n.idnews ) AS news_count
             FROM mc_news AS n
-            JOIN mc_admin_member AS admin ON ( n.idadmin = admin.idadmin )
+            JOIN mc_admin_employee AS admin ON ( n.idadmin = admin.id_admin )
             GROUP BY n.idadmin
-            )rel_news ON ( rel_news.idadmin = admin.idadmin )
+            )rel_news ON ( rel_news.id_admin = admin.id_admin )
         LEFT OUTER JOIN (
-            SELECT admin.idadmin,count(cms.idadmin) AS pages_count
+            SELECT admin.id_admin,count(cms.idadmin) AS pages_count
             FROM mc_cms_pages AS cms
-            JOIN mc_admin_member AS admin ON(cms.idadmin = admin.idadmin)
+            JOIN mc_admin_employee AS admin ON(cms.idadmin = admin.id_admin)
             GROUP BY cms.idadmin
-            )rel_pages ON ( rel_pages.idadmin = admin.idadmin )
+            )rel_pages ON ( rel_pages.id_admin = admin.id_admin )
         LEFT OUTER JOIN (
-            SELECT admin.idadmin,count( catalog.idcatalog ) AS product_count
+            SELECT admin.id_admin,count( catalog.idcatalog ) AS product_count
             FROM mc_catalog AS catalog
-            JOIN mc_admin_member AS admin ON ( catalog.idadmin = admin.idadmin )
+            JOIN mc_admin_employee AS admin ON ( catalog.idadmin = admin.id_admin )
             GROUP BY catalog.idadmin
-            )rel_product ON ( rel_product.idadmin = admin.idadmin )
-        GROUP BY admin.idadmin';
+            )rel_product ON ( rel_product.id_admin = admin.id_admin )
+        GROUP BY admin.id_admin';
         return magixglobal_model_db::layerDB()->select($sql);
     }
 

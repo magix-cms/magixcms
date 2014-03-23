@@ -1,44 +1,48 @@
 <?php
-# -- BEGIN LICENSE BLOCK ----------------------------------
-#
-# This file is part of SC BOX.
-# SC BOX, The content management system optimized for users
-# Copyright (C) 2012 sc-box.com <support@sc-box.com>
-#
-# OFFICIAL TEAM :
-#
-#   * Gerits Aurelien (Author - Developer) <aurelien@sc-box.com>
-#   * Lesire Samuel (Design) <samuel@sc-box.com>
-#
-# Redistributions of files must retain the above copyright notice.
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+/*
+ # -- BEGIN LICENSE BLOCK ----------------------------------
+ #
+ # This file is part of MAGIX CMS.
+ # MAGIX CMS, The content management system optimized for users
+ # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
+ #
+ # OFFICIAL TEAM :
+ #
+ #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
+ #
+ # Redistributions of files must retain the above copyright notice.
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# -- END LICENSE BLOCK -----------------------------------
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # -- END LICENSE BLOCK -----------------------------------
 
-# DISCLAIMER
+ # DISCLAIMER
 
-# Do not edit or add to this file if you wish to upgrade SC Box to newer
-# versions in the future. If you wish to customize SC Box for your
-# needs please refer to http://www.sc-box.com for more information.
-
+ # Do not edit or add to this file if you wish to upgrade MAGIX CMS to newer
+ # versions in the future. If you wish to customize MAGIX CMS for your
+ # needs please refer to http://www.magix-cms.com for more information.
+ */
 /**
- * @author Gerits Aurelien <aurelien@sc-box.com>
- * @copyright  2012 SC BOX
- * @version  Release: $Revision$
- *  Date: 11/08/12
- *  Time: 01:12
- * @license Dual licensed under the MIT or GPL Version 3 licenses.
+ * MAGIX CMS
+ * @category   Controller
+ * @package    backend
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2014 Gerits Aurelien,
+ * http://www.magix-cms.com, http://www.magix-cjquery.com
+ * @license    Dual licensed under the MIT or GPL Version 3 licenses.
+ * @version    1.0
+ * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
+ * @name role
+ *
  */
 class backend_db_access{
 
@@ -59,7 +63,7 @@ class backend_db_access{
      * @return mixed
      */
     protected function s_edit_profile($edit){
-        $sql='SELECT * FROM mc_admin_profile
+        $sql='SELECT * FROM mc_admin_role_user
         WHERE id_role = :edit';
         return magixglobal_model_db::layerDB()->selectOne($sql,
             array(
@@ -71,14 +75,14 @@ class backend_db_access{
     /**
      * Insertion d'un profile utilisateur
      * @param $idlang
-     * @param $name_profile
+     * @param $role_name
      */
-    protected function i_new_profile($name_profile){
-        $sql = 'INSERT INTO mc_admin_profile (name_profile)
-        VALUE (:name_profile)';
-        component_routing_db::layer()->insert($sql,
+    protected function i_new_profile($role_name){
+        $sql = 'INSERT INTO mc_admin_role_user (role_name)
+        VALUE (:role_name)';
+        magixglobal_model_db::layerDB()->insert($sql,
             array(
-                ':name_profile'=> $name_profile
+                ':role_name'=> $role_name
             )
         );
     }
@@ -86,14 +90,14 @@ class backend_db_access{
     /**
      * Edition d'un profile utilisateur
      * @param $edit
-     * @param $name_profile
+     * @param $role_name
      */
-    protected function u_edit_profile($edit,$name_profile){
-        $sql = 'UPDATE mc_admin_profile SET name_profile=:name_profile
+    protected function u_edit_profile($edit,$role_name){
+        $sql = 'UPDATE mc_admin_role_user SET role_name=:role_name
 		WHERE id_role = :edit';
-        component_routing_db::layer()->update($sql,array(
+        magixglobal_model_db::layerDB()->update($sql,array(
             ':edit'=> $edit,
-            ':name_profile'=> $name_profile
+            ':role_name'=> $role_name
         ));
     }
     //access
@@ -142,7 +146,7 @@ class backend_db_access{
     protected function i_access($edit,$class_name,$plugins,$view_access,$add_access,$edit_access,$delete_access){
         $sql = 'INSERT INTO mc_admin_access (id_role,class_name,plugins,view_access,add_access,edit_access,delete_access)
         VALUE (:id_role,:class_name,:plugins,:view_access,:add_access,:edit_access,:delete_access)';
-        component_routing_db::layer()->insert($sql,
+        magixglobal_model_db::layerDB()->insert($sql,
             array(
                 ':id_role'=> $edit,
                 ':class_name'=> $class_name,
@@ -164,7 +168,7 @@ class backend_db_access{
     protected function u_edit_access($id_access,$access_type,$access_value){
         $sql = 'UPDATE mc_admin_access SET '.$access_type.'=:access_value
 		WHERE id_access = :id_access';
-        component_routing_db::layer()->update($sql,array(
+        magixglobal_model_db::layerDB()->update($sql,array(
             ':id_access'=> $id_access,
             ':access_value'=> $access_value
         ));

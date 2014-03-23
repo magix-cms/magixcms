@@ -31,16 +31,16 @@ CREATE TABLE IF NOT EXISTS `mc_admin_access` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `mc_admin_access` (`id_access`, `id_role`, `class_name`, `plugins`, `view_access`, `add_access`, `edit_access`, `delete_access`) VALUES
-(1, 1, 'backend_controller_employee', NULL, 1, 1, 1, 1),
-(2, 1, 'backend_controller_access', NULL, 1, 1, 1, 1),
-(3, 1, 'backend_controller_home', NULL, 1, 1, 1, 1),
-(4, 1, 'backend_controller_cms', NULL, 1, 1, 1, 1),
-(5, 1, 'backend_controller_configuration', NULL, 1, 1, 1, 1),
-(6, 1, 'backend_controller_lang', NULL, 1, 1, 1, 1),
-(7, 1, 'backend_controller_news', NULL, 1, 1, 1, 1);
+(NULL, 1, 'backend_controller_employee', NULL, 1, 1, 1, 1),
+(NULL, 1, 'backend_controller_access', NULL, 1, 1, 1, 1),
+(NULL, 1, 'backend_controller_home', NULL, 1, 1, 1, 1),
+(NULL, 1, 'backend_controller_cms', NULL, 1, 1, 1, 1),
+(NULL, 1, 'backend_controller_config', NULL, 1, 1, 1, 1),
+(NULL, 1, 'backend_controller_lang', NULL, 1, 1, 1, 1),
+(NULL, 1, 'backend_controller_news', NULL, 1, 1, 1, 1);
 
 INSERT INTO `mc_admin_access_rel` (`id_access_rel`, `id_admin`, `id_role`) VALUES
-(1, 1, 1);
+(NULL, 1, 1);
 
 TRUNCATE TABLE `mc_admin_session` ;
 

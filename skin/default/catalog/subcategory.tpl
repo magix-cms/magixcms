@@ -6,7 +6,22 @@
 {block name="article:content"}
     <h1>{$subcat.name}</h1>
     {$subcat.content}
-    {widget_catalog_display
-    pattern = 'product'
+    {* Modele with catalog display *}
+    {*{widget_catalog_display
+        pattern = 'product'
+    }*}
+    {* Modele with catalog data *}
+    {widget_catalog_data
+        conf =[
+            'context'   =>  'product',
+            'sort'      => 'product'
+        ]
+        assign='productData'
     }
+    {*<pre>{$productData|print_r}</pre>*}
+    <div id="listing-product" class="product-list">
+        <div class="row">
+            {include file="catalog/loop/product.tpl" data=$productData}
+        </div>
+    </div>
 {/block}

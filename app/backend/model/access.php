@@ -48,7 +48,7 @@ class backend_model_access extends backend_db_employee{
         'backend_controller_access'         =>  'access',
         'backend_controller_home'           =>  'home',
         'backend_controller_cms'            =>  'pages',
-        'backend_controller_configuration'  =>  'configuration',
+        'backend_controller_config'  =>  'configuration',
         'backend_controller_lang'           =>  'lang'
     );
 

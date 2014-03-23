@@ -47,7 +47,7 @@ class frontend_model_catalog extends frontend_db_catalog {
      * @return array|null
      * @todo revoir le nommage de 'current', lui préférant 'active'
      */
-    public function setItemData ($row,$current)
+    public function setItemData ($row,$current,$newrow = false)
     {
         $ModelImagepath     =   new magixglobal_model_imagepath();
         $ModelTemplate      =   new frontend_model_template();
@@ -127,6 +127,13 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['name']      = $row['titlecatalog'];
                 $data['price']     = $row['price'];
                 $data['content']   = $row['desccatalog'];
+                if($newrow != false){
+                    if(is_array($newrow)){
+                        foreach($newrow as $key => $value){
+                            $data[$key] = $row[$value];
+                        }
+                    }
+                }
 
             // *** Subcategory
             } elseif (isset($row['slibelle'])) {
@@ -236,14 +243,15 @@ class frontend_model_catalog extends frontend_db_catalog {
             return $data;
         }
     }
+
     /**
      * Retourne les données sql sur base des paramètres passés en paramète
      * @param array $custom
      * @param array $current
+     * @param bool $class
      * @return array|null
-     *
      */
-    public static function getData($custom,$current)
+    public static function getData($custom,$current,$class = false)
     {
         if (!(is_array($custom))) {
             return null;
@@ -316,6 +324,12 @@ class frontend_model_catalog extends frontend_db_catalog {
 
         if (isset($custom['limit'])) {
             $conf['limit']  =   $custom['limit'];
+        }
+        if (isset($custom['sort'])) {
+            $conf['sort']  =   $custom['sort'];
+        }
+        if (isset($custom['plugins'])) {
+            $conf['plugins']  =   $custom['plugins'];
         }
 
         // custom values: display
@@ -395,7 +409,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data_2 = parent::s_product(
                         $v_1['idclc'],
                         null,
-                        $conf['limit']
+                        $conf['limit'],
+                        $conf['sort']
                     );
                     if ($data_2 != null) {
                         $data[$k1]['subdata']   =   $data_2;
@@ -436,7 +451,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $data_2 =   parent::s_product(
                         $v_1['idclc'],
                         $v_1['idcls'],
-                        $conf['limit']
+                        $conf['limit'],
+                        $conf['sort']
                     );
                     if ($data_2 != null) {
                         $data[$k1]['subdata']   =   $data_2;
@@ -448,11 +464,19 @@ class frontend_model_catalog extends frontend_db_catalog {
 
             if (isset($current['product']['id']) AND empty($custom['select'])) {
                 // Product[in_product]
-                $data   =   parent::s_product_in_product(
-                    $current['product']['id'],
-                    $conf['id'],
-                    $conf['type']
-                );
+                if($class && class_exists($class)){
+                    $data   =   $class::s_product_in_product(
+                        $current['product']['id'],
+                        $conf['id'],
+                        $conf['type']
+                    );
+                }else{
+                    $data   =   parent::s_product_in_product(
+                        $current['product']['id'],
+                        $conf['id'],
+                        $conf['type']
+                    );
+                }
 
             } elseif ( (isset($current['category']['id']) OR isset($current['subcategory']['id'])) AND empty($custom['select'])) {
                 // Product[in_category OR in_subcategory]
@@ -463,25 +487,45 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $catId  =   null;
                     $subcatId  =   (isset($current['subcategory']['id'])) ? $current['subcategory']['id'] : null;
                 }
-                $data   =   parent::s_product(
-                    $catId,
-                    $subcatId
-                );
+                if($class && class_exists($class)){
+                    $data   =   $class::s_product(
+                        $catId,
+                        $subcatId
+                    );
+                }else{
+                    $data   =   parent::s_product(
+                        $catId,
+                        $subcatId
+                    );
+                }
+
             } else {
                 // All products in lang
-                $data   =   parent::s_product(
-                    $conf['id'],
-                    0
-                );
+                if($class && class_exists($class)){
+                    $data   =   $class::s_product(
+                        $conf['id'],
+                        0
+                    );
+                }else{
+                    $data   =   parent::s_product(
+                        $conf['id'],
+                        0
+                    );
+                }
 
             }
         } elseif ($conf['context'][1] == 'last-product' OR $conf['context'][1] == 'last-product-cat') {
             // Product[last]
             // @TODO: mise en place des paramètre 'exclude'
-            $data   =   parent::s_product($conf['id'],null,$conf['limit']);
+            if($class && class_exists($class)){
+                $data   =   $class::s_product($conf['id'],null,$conf['limit'],$conf['sort']);
+            }else{
+                $data   =   parent::s_product($conf['id'],null,$conf['limit'],$conf['sort']);
+            }
+
 
         } elseif ($conf['context'][1] == 'last-product-subcat') {
-            $data   =   parent::s_product(null,$conf['id'],$conf['limit']);
+            $data   =   parent::s_product(null,$conf['id'],$conf['limit'],$conf['sort']);
 
         } elseif($conf['context'][1] == 'product-gallery') {
             // Product Gallery

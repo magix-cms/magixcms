@@ -37,7 +37,7 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2010 - 2011 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
@@ -50,7 +50,7 @@
  * Type:     function
  * Name:     microgalery
  * Date:     January 11 2013
- * Date:     January 11 2013
+ * Update:     March 20 2014
  * Purpose:  
  * Output:
  * @author   Gerits Aurelien

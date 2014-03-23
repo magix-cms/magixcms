@@ -236,9 +236,17 @@ class frontend_db_catalog
      * @param int $limit
      * @return array
      */
-    protected static function s_product($idclc=null,$idcls=0,$limit=null)
+    protected static function s_product($idclc=null,$idcls=0,$limit=null,$sort='product')
     {
-        $order_clause = 'ORDER BY p.orderproduct ASC';
+        switch($sort){
+            case 'product':
+                $order_clause = 'ORDER BY p.orderproduct ASC';
+                break;
+            case 'name':
+                $order_clause = 'ORDER BY catalog.titlecatalog ASC';
+                break;
+        }
+
         if (isset($idclc) OR isset($idcls)) {
             $where_clause      = 'WHERE ';
             $where_clause     .= (isset($idclc)) ? 'p.idclc = '.$idclc : '';
@@ -247,7 +255,14 @@ class frontend_db_catalog
         } else {
             // @TODO devrait recevoir la langue en paramète
             $where_clause = 'WHERE lang.iso = \''.frontend_model_template::current_Language().'\'';
-            $order_clause = 'ORDER BY p.idproduct DESC';
+            switch($sort){
+                case 'product':
+                    $order_clause = 'ORDER BY p.idproduct DESC';
+                    break;
+                case 'name':
+                    $order_clause = 'ORDER BY catalog.titlecatalog ASC';
+                    break;
+            }
         }
         $limit_clause = null;
         if (is_int($limit)) {

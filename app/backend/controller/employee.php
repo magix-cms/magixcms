@@ -36,12 +36,12 @@
  * MAGIX CMS
  * @category   Controller 
  * @package    backend
- * @copyright  MAGIX CMS Copyright (c) 2008 - 2013 Gerits Aurelien,
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2014 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    5.0
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
- * @name user
+ * @name employee
  *
  */
 class backend_controller_employee extends backend_db_employee{

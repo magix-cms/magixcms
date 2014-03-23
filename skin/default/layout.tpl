@@ -17,7 +17,12 @@
     <link rel="icon" type="image/png" href="{geturl}/skin/{template}/img/favicon.png" />
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
     {block name="styleSheet"}
-        <link rel="stylesheet" href="/min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,skin/{template}/css/fancybox/jquery.fancybox.css,skin/{template}/css/main.css"/>
+        {capture name="styleSheet"}{strip}
+            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,
+            skin/{template}/css/fancybox/jquery.fancybox.css,
+            skin/{template}/css/main.css
+        {/strip}{/capture}
+        {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
     {/block}
     {if {module type="news"} eq true}
         <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
