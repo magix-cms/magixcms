@@ -41,22 +41,39 @@
  */
 class backend_model_access extends backend_db_employee{
     /**
-     * @var array
-     */
-    protected static $default_access = array(
-        'backend_controller_employee'       =>  'employee',
-        'backend_controller_access'         =>  'access',
-        'backend_controller_home'           =>  'home',
-        'backend_controller_cms'            =>  'pages',
-        'backend_controller_config'  =>  'configuration',
-        'backend_controller_lang'           =>  'lang'
-    );
-
-    /**
      * @return array
      */
     public static function default_access(){
         return self::$default_access;
+    }
+    public function listPlugins(){
+        $pathplugins = new backend_controller_plugins();
+        /**
+         * Si le dossier est accessible en lecture
+         */
+        if(!is_readable($pathplugins->directory_plugins())){
+            throw new exception('Plugin dir is not minimal permission');
+        }
+        $makefiles = new magixcjquery_files_makefiles();
+        $dir = $makefiles->scanRecursiveDir($pathplugins->directory_plugins());
+        if($dir != null){
+            plugins_Autoloader::register();
+            $list = '';
+            foreach($dir as $d){
+                if(file_exists($pathplugins->directory_plugins().$d.DIRECTORY_SEPARATOR.'admin.php')){
+                    $pluginPath = $pathplugins->directory_plugins().$d;
+                    if($makefiles->scanDir($pluginPath) != null){
+                        //Nom de la classe pour le test de la méthode
+                        $class = 'plugins_'.$d.'_admin';
+                        //Si la méthode run existe on ajoute le plugin dans le menu
+                        if(method_exists($class,'run')){
+                            $plugin[$class]= $d;
+                        }
+                    }
+                }
+            }
+            return $plugin;
+        }
     }
     /*
      * Retourne un tableau des données de sessions

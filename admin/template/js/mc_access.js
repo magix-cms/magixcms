@@ -120,16 +120,16 @@ var MC_access = (function ($, undefined) {
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             )
                         )
                     )
@@ -253,8 +253,10 @@ var MC_access = (function ($, undefined) {
         });
     }
     function updateInputAccess(access_type,baseadmin,edit){
-        $("."+access_type).on('change', function () {
+        $(document).on('change',"."+access_type, function () {
+
             var id_access = $(this).parents().find('.id_access').html();
+            //alert($(this).parents().html());
             if(id_access != undefined){
                 if (this.checked) {
                     // do stuff for a checked box
@@ -279,7 +281,7 @@ var MC_access = (function ($, undefined) {
             }
         });
     }
-    function jsonAccess(iso,url,edit){
+    function jsonAccess(iso,baseadmin,edit){
         //$("[id^=view_access_]")
         $.nicenotify({
             ntype: "ajax",
@@ -303,7 +305,13 @@ var MC_access = (function ($, undefined) {
                         .append(
                         $(document.createElement("tr"))
                             .append(
-                            $(document.createElement("th")).append(Globalize.localize( "class_name", iso )),
+                                $(document.createElement("th")).append(
+                                    $(document.createElement("span"))
+                                        .addClass("fa fa-key")
+                                ),
+                            $(document.createElement("th")).append(
+                                Globalize.localize( "class_name", iso )
+                            ),
                             $(document.createElement("th")).append('Plugin'),
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
@@ -335,10 +343,10 @@ var MC_access = (function ($, undefined) {
                 }
                 if(j !== null){
                     $.each(j, function(i,item) {
-                        if(item.plugins != null){
-                            plugin_name = item.plugins;
+                        if(item.plugins != 0){
+                            plugin_name = $(document.createElement("span")).addClass("fa fa-check-circle");
                         }else{
-                            plugin_name = $(document.createElement("span")).addClass("fa fa-minus");
+                            plugin_name = $(document.createElement("span")).addClass("fa fa-minus-circle");
                         }
                         if(item.view_access == '1'){
                             var view_checked = $(document.createElement("input"))
@@ -399,7 +407,9 @@ var MC_access = (function ($, undefined) {
                         tbody.append(
                             $(document.createElement("tr"))
                                 .append(
-
+                                $(document.createElement("td")).append(
+                                    $(document.createElement("span")).addClass("id_access").append(item.id_access)
+                                ),
                                 $(document.createElement("td")).append(item.class_name),
                                 $(document.createElement("td")).append(plugin_name),
                                 $(document.createElement("td")).append(
@@ -417,34 +427,34 @@ var MC_access = (function ($, undefined) {
                             )
                         )
                     });
-                    updateInputAccess('view_access',url,edit);
-                    updateInputAccess('add_access',url,edit);
-                    updateInputAccess('edit_access',url,edit);
-                    updateInputAccess('delete_access',url,edit);
+                    updateInputAccess('view_access',baseadmin,edit);
+                    updateInputAccess('add_access',baseadmin,edit);
+                    updateInputAccess('edit_access',baseadmin,edit);
+                    updateInputAccess('delete_access',baseadmin,edit);
                 }else{
                     tbody.append(
                         $(document.createElement("tr"))
                             .append(
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             ),
                             $(document.createElement("td")).append(
-                                $(document.createElement("span")).addClass("typicn minus")
+                                $(document.createElement("span")).addClass("fa fa-minus")
                             )
                         )
                     )

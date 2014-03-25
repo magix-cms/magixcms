@@ -59,7 +59,7 @@ class backend_controller_access extends backend_db_access{
      * @var $name_profile
      */
     public $role_name;
-    public $class_name,$plugins,$view_access,$add_access,$edit_access,$delete_access;
+    public $id_module,$plugins,$view_access,$add_access,$edit_access,$delete_access;
 
     /**
      * edit access
@@ -84,8 +84,8 @@ class backend_controller_access extends backend_db_access{
         }
         //access
 
-        if(magixcjquery_filter_request::isPost('class_name')){
-            $this->class_name = magixcjquery_form_helpersforms::inputClean($_POST['class_name']);
+        if(magixcjquery_filter_request::isPost('id_module')){
+            $this->id_module = magixcjquery_filter_isVar::isPostNumeric($_POST['id_module']);
         }
         if(magixcjquery_filter_request::isPost('plugins')){
             $this->plugins = magixcjquery_form_helpersforms::inputClean($_POST['plugins']);
@@ -129,7 +129,7 @@ class backend_controller_access extends backend_db_access{
     private function load_data_profile($create){
         if(isset($this->edit)){
             $data = parent::s_edit_profile($this->edit);
-            $select = backend_model_access::default_access();
+            $select = parent::s_module();
             $create->assign('role_name',$data['role_name']);
             $create->assign('selectAccess',$select);
         }
@@ -145,14 +145,16 @@ class backend_controller_access extends backend_db_access{
             foreach(parent::s_edit_access($this->edit) as $value){
                 $json[]= '{"id_access":'.json_encode($value['id_access']).
                     ',"class_name":'.json_encode($value['class_name']).
-                    ',"plugins":'.json_encode($value['plugins']).
                     ',"view_access":'.json_encode($value['view_access']).
                     ',"add_access":'.json_encode($value['add_access']).
                     ',"edit_access":'.json_encode($value['edit_access']).
                     ',"delete_access":'.json_encode($value['delete_access']).
+                    ',"plugins":'.json_encode($value['plugins']).
                     '}';
             }
             print $http_json->encode($json,array('[',']'));
+        }else{
+            print '{}';
         }
     }
 
@@ -190,9 +192,9 @@ class backend_controller_access extends backend_db_access{
      * Ajout des permissions d'accès pour le profil
      * @param $class_name
      */
-    private function add_new_access($class_name){
-        if(isset($class_name)){
-            if(!empty($class_name)){
+    private function add_new_access($id_module){
+        if(isset($id_module)){
+            if(!empty($id_module)){
                 if(empty($this->plugins)){
                     $plugins = null;
                 }else{
@@ -218,12 +220,11 @@ class backend_controller_access extends backend_db_access{
                 }else{
                     $delete_access = $this->delete_access;
                 }
-                $verify = parent::v_add_access($this->edit,$class_name);
-                if($verify['class_name'] == null){
+                $verify = parent::v_add_access($this->edit,$id_module);
+                if($verify['id_module'] == null){
                     parent::i_access(
                         $this->edit,
-                        $class_name,
-                        $plugins,
+                        $id_module,
                         $view_access,
                         $add_access,
                         $edit_access,
@@ -273,10 +274,10 @@ class backend_controller_access extends backend_db_access{
         $create->assign('all_access',$all_access);
         //if($access['view'] == 1)
         if($this->action == 'add'){
-            if(isset($this->name_profile)){
-                $this->add_profile($this->name_profile);
-            }elseif(isset($this->class_name)){
-                $this->add_new_access($this->class_name);
+            if(isset($this->role_name)){
+                $this->add_profile($this->role_name);
+            }elseif(isset($this->id_module)){
+                $this->add_new_access($this->id_module);
             }else{
                 $create->display('access/add.tpl');
             }
@@ -310,6 +311,10 @@ class backend_controller_access extends backend_db_access{
                 $create->display('access/edit.tpl');
             }
         }else{
+            $access = new backend_model_access();
+            print "<pre>";
+            print_r($access->listPlugins());
+            print "</pre>";
             $create->display('access/list.tpl');
         }
     }

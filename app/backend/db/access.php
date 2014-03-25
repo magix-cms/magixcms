@@ -107,8 +107,10 @@ class backend_db_access{
      * @return mixed
      */
     protected function s_edit_access($edit){
-        $sql='SELECT * FROM mc_admin_access
-        WHERE id_role = :edit';
+        $sql='SELECT access.*,module.class_name,module.plugins
+        FROM mc_admin_access AS access
+        JOIN mc_module as module ON(access.id_module = module.id_module)
+        WHERE access.id_role = :edit';
         return magixglobal_model_db::layerDB()->select($sql,
             array(
                 ':edit'=> $edit
@@ -119,16 +121,19 @@ class backend_db_access{
     /**
      * Vérification d'accès utilisateurs pour le profil
      * @param $edit
-     * @param $class_name
+     * @param $id_module
      * @return mixed
      */
-    protected function v_add_access($edit,$class_name){
-        $sql='SELECT * FROM mc_admin_access
-        WHERE id_role = :edit AND class_name = :class_name';
+    protected function v_add_access($edit,$id_module){
+        $sql='SELECT access.id_access,access.id_role,access.view_access,
+        access.add_access,access.edit_access,access.delete_access,module.class_name,module.id_module
+        FROM mc_admin_access AS access
+        JOIN mc_module AS module ON(access.id_module = module.id_module)
+        WHERE access.id_role = :edit AND module.id_module = :id_module';
         return magixglobal_model_db::layerDB()->selectOne($sql,
             array(
                 ':edit'=> $edit,
-                ':class_name'=> $class_name,
+                ':id_module'=> $id_module,
             )
         );
     }
@@ -136,21 +141,19 @@ class backend_db_access{
     /**
      * Insertion d'accès utilisateurs pour le profil
      * @param $edit
-     * @param $class_name
-     * @param $plugins
+     * @param $id_module
      * @param $view_access
      * @param $add_access
      * @param $edit_access
      * @param $delete_access
      */
-    protected function i_access($edit,$class_name,$plugins,$view_access,$add_access,$edit_access,$delete_access){
-        $sql = 'INSERT INTO mc_admin_access (id_role,class_name,plugins,view_access,add_access,edit_access,delete_access)
-        VALUE (:id_role,:class_name,:plugins,:view_access,:add_access,:edit_access,:delete_access)';
+    protected function i_access($edit,$id_module,$view_access,$add_access,$edit_access,$delete_access){
+        $sql = 'INSERT INTO mc_admin_access (id_role,id_module,view_access,add_access,edit_access,delete_access)
+        VALUE (:id_role,:id_module,:view_access,:add_access,:edit_access,:delete_access)';
         magixglobal_model_db::layerDB()->insert($sql,
             array(
                 ':id_role'=> $edit,
-                ':class_name'=> $class_name,
-                ':plugins'=> $plugins,
+                ':id_module'=> $id_module,
                 ':view_access'=> $view_access,
                 ':add_access'=> $add_access,
                 ':edit_access'=> $edit_access,
@@ -172,6 +175,12 @@ class backend_db_access{
             ':id_access'=> $id_access,
             ':access_value'=> $access_value
         ));
+    }
+    //module
+    protected function s_module(){
+        $sql='SELECT module.*
+        FROM mc_module AS module';
+        return magixglobal_model_db::layerDB()->select($sql);
     }
 }
 ?>
