@@ -143,7 +143,8 @@ class backend_controller_access extends backend_db_access{
         $http_json = new magixglobal_model_json();
         if(parent::s_edit_access($this->edit) != null){
             foreach(parent::s_edit_access($this->edit) as $value){
-                $json[]= '{"id_access":'.json_encode($value['id_access']).
+                $json[]= '{"id_role":'.json_encode($value['id_role']).
+                    ',"id_access":'.json_encode($value['id_access']).
                     ',"class_name":'.json_encode($value['class_name']).
                     ',"view_access":'.json_encode($value['view_access']).
                     ',"add_access":'.json_encode($value['add_access']).
@@ -196,7 +197,7 @@ class backend_controller_access extends backend_db_access{
         if(isset($id_module)){
             if(!empty($id_module)){
                 if(empty($this->plugins)){
-                    $plugins = null;
+                    $plugins = 0;
                 }else{
                     $plugins = $this->plugins;
                 }

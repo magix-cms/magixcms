@@ -55,7 +55,7 @@ class backend_db_cms{
 	protected function s_parent_p($getlang){
     	$sql = 'SELECT cms.*,lang.iso
         FROM mc_cms_pages AS cms
-        LEFT JOIN mc_admin_employee AS m ON(m.id_admin=cms.idadmin)
+        JOIN mc_admin_employee AS m ON(m.id_admin=cms.idadmin)
         JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
         WHERE cms.idlang = :getlang AND cms.idcat_p = 0
         ORDER BY cms.order_page';
@@ -71,7 +71,7 @@ class backend_db_cms{
 	protected function s_child_page($get_page_p){
 		$sql = 'SELECT cms.*,lang.iso
     	FROM mc_cms_pages AS cms
-    	LEFT JOIN mc_admin_employee AS m ON(m.id_admin=cms.idadmin)
+    	JOIN mc_admin_employee AS m ON(m.id_admin=cms.idadmin)
     	JOIN mc_lang AS lang ON(cms.idlang = lang.idlang)
     	WHERE cms.idcat_p = :get_page_p
     	ORDER BY cms.order_page';

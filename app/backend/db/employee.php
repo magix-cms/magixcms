@@ -426,8 +426,10 @@ class backend_db_employee{
      * @return mixed
      */
     public function s_all_access_profile($id_role){
-        $sql='SELECT * FROM mc_admin_access
-        WHERE id_role = :id_role';
+        $sql='SELECT access.* ,module.*
+        FROM mc_admin_access AS access
+        JOIN mc_module as module ON(access.id_module = module.id_module)
+        WHERE access.id_role = :id_role';
         return magixglobal_model_db::layerDB()->select($sql,
             array(
                 ':id_role'=> $id_role

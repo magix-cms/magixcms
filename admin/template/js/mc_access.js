@@ -47,7 +47,13 @@ var MC_access = (function ($, undefined) {
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
-                //$('#load_jsonProfiles').html('<img src="/framework/img/square-circle.gif" />');
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#load_json_profiles').html(loader);
             },
             successParams:function(j){
                 $('#load_json_profiles').empty();
@@ -289,7 +295,13 @@ var MC_access = (function ($, undefined) {
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){
-                //$('#load_jsonProfiles').html('<img src="/framework/img/square-circle.gif" />');
+                var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                    $(document.createElement("img"))
+                        .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
+                        .attr('width','20px')
+                        .attr('height','20px')
+                );
+                $('#load_json_access').html(loader);
             },
             successParams:function(j){
                 $('#load_json_access').empty();
@@ -348,61 +360,92 @@ var MC_access = (function ($, undefined) {
                         }else{
                             plugin_name = $(document.createElement("span")).addClass("fa fa-minus-circle");
                         }
-                        if(item.view_access == '1'){
+                        if(item.id_role != '1'){
+                            if(item.view_access == '1'){
+                                var view_checked = $(document.createElement("input"))
+                                    .addClass("view_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "view_access")
+                                    .attr("value", item.view_access)
+                                    .attr("checked", "checked");
+                            }else{
+                                var view_checked = $(document.createElement("input"))
+                                    .addClass("view_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "view_access")
+                                    .attr("value", item.view_access);
+                            }
+                            if(item.add_access == '1'){
+                                var add_checked = $(document.createElement("input"))
+                                    .addClass("add_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "add_access")
+                                    .attr("value", item.add_access)
+                                    .attr("checked", "checked");
+                            }else{
+                                var add_checked = $(document.createElement("input"))
+                                    .addClass("add_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "add_access")
+                                    .attr("value", item.add_access);
+                            }
+                            if(item.edit_access == '1'){
+                                var edit_checked = $(document.createElement("input"))
+                                    .addClass("edit_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "edit_access")
+                                    .attr("value", item.edit_access)
+                                    .attr("checked", "checked");
+                            }else{
+                                var edit_checked = $(document.createElement("input"))
+                                    .addClass("edit_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "edit_access")
+                                    .attr("value", item.edit_access);
+                            }
+                            if(item.delete_access == '1'){
+                                var delete_checked = $(document.createElement("input"))
+                                    .addClass("delete_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "delete_access")
+                                    .attr("value", item.delete_access)
+                                    .attr("checked", "checked");
+                            }else{
+                                var delete_checked = $(document.createElement("input"))
+                                    .addClass("delete_access")
+                                    .attr("type", "checkbox")
+                                    .attr("name", "delete_access")
+                                    .attr("value", item.delete_access);
+                            }
+                        }else{
                             var view_checked = $(document.createElement("input"))
                                 .addClass("view_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "view_access")
                                 .attr("value", item.view_access)
-                                .attr("checked", "checked");
-                        }else{
-                            var view_checked = $(document.createElement("input"))
-                                .addClass("view_access")
-                                .attr("type", "checkbox")
-                                .attr("name", "view_access")
-                                .attr("value", item.view_access);
-                        }
-                        if(item.add_access == '1'){
+                                .attr("checked", "checked")
+                                .attr("disabled", "disabled");
                             var add_checked = $(document.createElement("input"))
                                 .addClass("add_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "add_access")
                                 .attr("value", item.add_access)
-                                .attr("checked", "checked");
-                        }else{
-                            var add_checked = $(document.createElement("input"))
-                                .addClass("add_access")
-                                .attr("type", "checkbox")
-                                .attr("name", "add_access")
-                                .attr("value", item.add_access);
-                        }
-                        if(item.edit_access == '1'){
+                                .attr("checked", "checked")
+                                .attr("disabled", "disabled");
                             var edit_checked = $(document.createElement("input"))
                                 .addClass("edit_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "edit_access")
                                 .attr("value", item.edit_access)
-                                .attr("checked", "checked");
-                        }else{
-                            var edit_checked = $(document.createElement("input"))
-                                .addClass("edit_access")
-                                .attr("type", "checkbox")
-                                .attr("name", "edit_access")
-                                .attr("value", item.edit_access);
-                        }
-                        if(item.delete_access == '1'){
+                                .attr("checked", "checked")
+                                .attr("disabled", "disabled");
                             var delete_checked = $(document.createElement("input"))
                                 .addClass("delete_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "delete_access")
                                 .attr("value", item.delete_access)
-                                .attr("checked", "checked");
-                        }else{
-                            var delete_checked = $(document.createElement("input"))
-                                .addClass("delete_access")
-                                .attr("type", "checkbox")
-                                .attr("name", "delete_access")
-                                .attr("value", item.delete_access);
+                                .attr("checked", "checked")
+                                .attr("disabled", "disabled");
                         }
                         tbody.append(
                             $(document.createElement("tr"))
@@ -466,11 +509,11 @@ var MC_access = (function ($, undefined) {
         $('#selectAll').on('click',function(event) {  //on click
             if(this.checked) { // check select status
                 $('.checkbox-access').each(function() { //loop through each checkbox
-                    this.checked = true;  //select all checkboxes with class "checkbox1"
+                    this.checked = true;  //select all checkboxes with class "checkbox-access"
                 });
             }else{
                 $('.checkbox-access').each(function() { //loop through each checkbox
-                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    this.checked = false; //deselect all checkboxes with class "checkbox-access"
                 });
             }
         });

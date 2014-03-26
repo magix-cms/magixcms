@@ -160,7 +160,7 @@ class backend_controller_home extends backend_db_home{
                     $content = 0;
                 }
 				$json[]= '{"idhome":'.json_encode($key['idhome']).',"iso":'.json_encode(magixcjquery_string_convert::upTextCase($key['iso']))
-				.',"subject":'.json_encode($key['subject']).',"pseudo":'.json_encode($key['pseudo']).',"content":'.json_encode($content).',"metatitle":'.json_encode($metatitle).
+				.',"subject":'.json_encode($key['subject']).',"pseudo":'.json_encode($key['pseudo_admin']).',"content":'.json_encode($content).',"metatitle":'.json_encode($metatitle).
 				',"metadescription":'.json_encode($metadescription).'}';
 			}
 			print '['.implode(',',$json).']';

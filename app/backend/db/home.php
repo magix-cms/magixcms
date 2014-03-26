@@ -57,10 +57,10 @@ class backend_db_home{
      * @return array
      */
     protected function s_list_home(){
-		$sql = 'SELECT h.idhome,h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang,m.pseudo
+		$sql = 'SELECT h.idhome,h.subject,h.content,h.metatitle,h.metadescription,lang.iso,h.idlang,m.pseudo_admin
         FROM mc_page_home AS h
         JOIN mc_lang AS lang ON(h.idlang = lang.idlang)
-        JOIN mc_admin_member AS m ON(h.idadmin = m.idadmin)';
+        JOIN mc_admin_employee AS m ON(h.idadmin=m.id_admin)';
 		return magixglobal_model_db::layerDB()->select($sql);
 	}
 
