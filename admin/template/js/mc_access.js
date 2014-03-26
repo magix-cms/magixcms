@@ -462,6 +462,19 @@ var MC_access = (function ($, undefined) {
             }
         });
     }
+    function checkAll(){
+        $('#selectAll').on('click',function(event) {  //on click
+            if(this.checked) { // check select status
+                $('.checkbox-access').each(function() { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox1"
+                });
+            }else{
+                $('.checkbox-access').each(function() { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                });
+            }
+        });
+    }
     return {
         //Fonction Public        
         run:function (iso,baseadmin) {
@@ -473,6 +486,7 @@ var MC_access = (function ($, undefined) {
             }
         },
         runEdit:function (iso,baseadmin,edit){
+            checkAll();
             if($('#forms_role_update').length != 0 && $('#forms_access_add').length != 0){
                 update(iso,baseadmin,edit);
                 addAccess(iso,baseadmin,edit);

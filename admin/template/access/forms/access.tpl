@@ -10,19 +10,24 @@
             {/foreach}
         </select>
     </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" id="selectAll" /> Select All
+        </label>
+    </div>
     <label class="checkbox-inline">
-        <input type="checkbox" name="view_access" id="view_access" value="1" /> Voir
+        <input type="checkbox" name="view_access" id="view_access" class="checkbox-access" value="1" /> Voir
     </label>
     <label class="checkbox-inline">
-        <input type="checkbox" name="add_access" id="add_access" value="1" /> Ajouter
+        <input type="checkbox" name="add_access" id="add_access" class="checkbox-access" value="1" /> Ajouter
     </label>
     <label class="checkbox-inline">
-        <input type="checkbox" name="edit_access" id="edit_access" value="1" /> Editer
+        <input type="checkbox" name="edit_access" id="edit_access" class="checkbox-access" value="1" /> Editer
     </label>
     <label class="checkbox-inline">
-        <input type="checkbox" name="delete_access" id="delete_access" value="1" /> Supprimer
+        <input type="checkbox" name="delete_access" id="delete_access" class="checkbox-access" value="1" /> Supprimer
     </label>
-    <div>
+    <div class="input-btn">
         <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
     </div>
 </form>
