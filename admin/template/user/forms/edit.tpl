@@ -42,5 +42,16 @@
                 <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
             </div>
         </form>
+        {if {role_admin items='administrator'}}
+        <h3>Status du profil</h3>
+        <form id="forms_user_data_active" method="post" action="">
+            <label class="radio-inline">
+                <input type="radio" name="active_admin" class="active_admin" {if $active_admin eq "0"}checked="checked" {/if}value="0" /> Désactiver
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="active_admin" class="active_admin" {if $active_admin eq "1"}checked="checked" {/if}value="1" /> Activer
+            </label>
+        </form>
+        {/if}
     </div>
 </div>

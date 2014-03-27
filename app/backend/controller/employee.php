@@ -293,6 +293,8 @@ class backend_controller_employee extends backend_db_employee{
                     $this->update_user_role($create);
                 }elseif(isset($this->passwd_admin)){
                     $this->update_user_password($create);
+                }elseif(isset($this->active_admin)){
+                    $this->edit_active_employee($this->active_admin);
                 }else{
                     $this->load_data($create);
                     $create->assign('role_select',$this->role_select($create,$this->edit));

@@ -371,6 +371,34 @@ var MC_user = (function ($, undefined) {
             return false;
         });
     }
+    function updateInputActive(baseadmin,edit){
+        $(document).on('change',".active_admin", function () {
+            var active = $(this).val();
+            //console.log(id_access);
+            if(active != undefined){
+                if (this.checked) {
+                    // do stuff for a checked box
+                    var access_value = 1;
+                } else {
+                    // do stuff for an unchecked box
+                    var access_value = 0;
+                }
+                $.nicenotify({
+                    ntype: "ajax",
+                    uri: '/'+baseadmin+'/employee.php?action=edit&edit='+edit,
+                    typesend: 'post',
+                    noticedata: "active_admin="+active,
+                    beforeParams:function(){},
+                    successParams:function(e){
+                        $.nicenotify.initbox(e,{
+                            display:false
+                        });
+                    }
+                });
+                return false;
+            }
+        });
+    }
     return {
         //Fonction Public
         runCharts:function(baseadmin){
@@ -383,6 +411,7 @@ var MC_user = (function ($, undefined) {
         },
         runEdit:function(baseadmin,edit){
             update(baseadmin,edit);
+            updateInputActive(baseadmin,edit);
         }
     };
 })(jQuery);

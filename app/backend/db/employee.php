@@ -224,8 +224,10 @@ class backend_db_employee{
      * @return mixed
      */
     protected function s_edit_employee($edit){
-        $sql='SELECT * FROM mc_admin_employee
-        WHERE id_admin = :edit';
+        $sql='SELECT emp.*,access_rel.id_role
+        FROM mc_admin_employee emp
+        JOIN mc_admin_access_rel as access_rel ON(access_rel.id_admin = emp.id_admin)
+        WHERE emp.id_admin = :edit';
         return magixglobal_model_db::layerDB()->selectOne($sql,array(
             ':edit'=>$edit
         ));

@@ -63,7 +63,7 @@
         {* -- END NEWS -- *}
     </ul>
 {/if}
-{if $config_catalog eq 1}
+{if {employee_access class_name="backend_controller_catalog"} eq 1 AND $config_catalog eq 1}
     <ul class="nav">
         {* -- START CATALOG -- *}
         <li class="nav-header"><span class="fa fa-shopping-cart"></span> {#catalog#|upper}</li>

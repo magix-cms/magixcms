@@ -260,9 +260,9 @@ var MC_access = (function ($, undefined) {
     }
     function updateInputAccess(access_type,baseadmin,edit){
         $(document).on('change',"."+access_type, function () {
-
-            var id_access = $(this).parents().find('.id_access').html();
-            //alert($(this).parents().html());
+            //var id_access = $(this).parent().find('.id_access').html();
+            var id_access = $(this).data('id');
+            //console.log(id_access);
             if(id_access != undefined){
                 if (this.checked) {
                     // do stuff for a checked box
@@ -317,10 +317,6 @@ var MC_access = (function ($, undefined) {
                         .append(
                         $(document.createElement("tr"))
                             .append(
-                                $(document.createElement("th")).append(
-                                    $(document.createElement("span"))
-                                        .addClass("fa fa-key")
-                                ),
                             $(document.createElement("th")).append(
                                 Globalize.localize( "class_name", iso )
                             ),
@@ -366,6 +362,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("view_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "view_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.view_access)
                                     .attr("checked", "checked");
                             }else{
@@ -373,6 +370,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("view_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "view_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.view_access);
                             }
                             if(item.add_access == '1'){
@@ -380,6 +378,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("add_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "add_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.add_access)
                                     .attr("checked", "checked");
                             }else{
@@ -387,6 +386,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("add_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "add_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.add_access);
                             }
                             if(item.edit_access == '1'){
@@ -394,6 +394,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("edit_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "edit_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.edit_access)
                                     .attr("checked", "checked");
                             }else{
@@ -401,6 +402,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("edit_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "edit_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.edit_access);
                             }
                             if(item.delete_access == '1'){
@@ -408,6 +410,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("delete_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "delete_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.delete_access)
                                     .attr("checked", "checked");
                             }else{
@@ -415,6 +418,7 @@ var MC_access = (function ($, undefined) {
                                     .addClass("delete_access")
                                     .attr("type", "checkbox")
                                     .attr("name", "delete_access")
+                                    .attr("data-id", item.id_access)
                                     .attr("value", item.delete_access);
                             }
                         }else{
@@ -422,6 +426,7 @@ var MC_access = (function ($, undefined) {
                                 .addClass("view_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "view_access")
+                                .attr("data-id", item.id_access)
                                 .attr("value", item.view_access)
                                 .attr("checked", "checked")
                                 .attr("disabled", "disabled");
@@ -429,6 +434,7 @@ var MC_access = (function ($, undefined) {
                                 .addClass("add_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "add_access")
+                                .attr("data-id", item.id_access)
                                 .attr("value", item.add_access)
                                 .attr("checked", "checked")
                                 .attr("disabled", "disabled");
@@ -436,6 +442,7 @@ var MC_access = (function ($, undefined) {
                                 .addClass("edit_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "edit_access")
+                                .attr("data-id", item.id_access)
                                 .attr("value", item.edit_access)
                                 .attr("checked", "checked")
                                 .attr("disabled", "disabled");
@@ -443,16 +450,14 @@ var MC_access = (function ($, undefined) {
                                 .addClass("delete_access")
                                 .attr("type", "checkbox")
                                 .attr("name", "delete_access")
+                                .attr("data-id", item.id_access)
                                 .attr("value", item.delete_access)
                                 .attr("checked", "checked")
                                 .attr("disabled", "disabled");
                         }
                         tbody.append(
                             $(document.createElement("tr"))
-                                .append(
-                                $(document.createElement("td")).append(
-                                    $(document.createElement("span")).addClass("id_access").append(item.id_access)
-                                ),
+                            .append(
                                 $(document.createElement("td")).append(item.class_name),
                                 $(document.createElement("td")).append(plugin_name),
                                 $(document.createElement("td")).append(

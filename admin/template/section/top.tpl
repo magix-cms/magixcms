@@ -10,7 +10,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                {if {role_admin items='administrator'}}
+                {if {employee_access type="view_access" class_name="backend_controller_config"} eq 1}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="fa fa-cogs"></span> Configuration <b class="caret"></b>
@@ -43,16 +43,20 @@
                         <span class="fa fa-users"></span> {#users#|ucfirst} <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
+                        {if {employee_access type="view_access" class_name="backend_controller_employee"} eq 1}
                         <li{if {script_name} eq "employee"} class="active"{/if}>
                             <a href="/{baseadmin}/employee.php?action=list">
                                 <span class="fa fa-user"></span> {#users#|ucfirst}
                             </a>
                         </li>
+                        {/if}
+                        {if {employee_access type="view_access" class_name="backend_controller_access"} eq 1}
                         <li{if {script_name} eq "access"} class="active"{/if}>
                             <a href="/{baseadmin}/access.php?action=list">
                                 <span class="fa fa-key"></span> {#roles#|ucfirst}
                             </a>
                         </li>
+                        {/if}
                     </ul>
                 </li>
                 {if {role_admin items='administrator'}}
