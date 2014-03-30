@@ -80,8 +80,8 @@ class app_db_upgrade{
      */
     protected function transfertProfil($keyuniqid){
         $sql = array(
-            'INSERT INTO mc_admin_employee (keyuniqid_admin,pseudo_admin,email_admin,passwd_admin)
-            SELECT keyuniqid, pseudo,email,cryptpass FROM mc_admin_member WHERE keyuniqid ='.magixglobal_model_db::layerDB()->escape_string("$keyuniqid"),
+            'INSERT INTO mc_admin_employee (keyuniqid_admin,pseudo_admin,email_admin,passwd_admin,active_admin)
+            SELECT keyuniqid, pseudo,email,cryptpass,"1" FROM mc_admin_member WHERE keyuniqid ='.magixglobal_model_db::layerDB()->escape_string("$keyuniqid"),
             'DROP TABLE mc_admin_member');
         magixglobal_model_db::layerDB()->transaction($sql);
     }
