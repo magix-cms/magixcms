@@ -1,0 +1,8 @@
+body{
+    padding:10px;
+}
+a:focus,a:active{outline:0;}
+a img{border:none;}
+textarea{
+    max-height:200px;
+}

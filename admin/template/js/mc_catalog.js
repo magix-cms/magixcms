@@ -122,7 +122,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function jsonListCategory(baseadmin,iso,section,getlang){
+    function jsonListCategory(baseadmin,iso,section,getlang,access){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=list&json_list_category=true',
@@ -191,24 +191,37 @@ var MC_catalog = (function ($, undefined) {
                         }else{
                             var img = $(document.createElement("span")).addClass("fa fa-warning");
                         }
-                        var edit = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
-                                .attr("title", Globalize.localize( "edit", iso )+": "+item.clibelle)
-                                .append(
-                                    $(document.createElement("span")).addClass("fa fa-edit")
-                                )
-                        );
-                        var remove = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .addClass("delete-pages")
-                                .attr("href", "#")
-                                .attr("data-delete", item.idclc)
-                                .attr("title", Globalize.localize( "remove", iso )+": "+item.clibelle)
-                                .append(
-                                    $(document.createElement("span")).addClass("fa fa-trash-o")
-                                )
-                        );
+                        if(access.edit == '1'){
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idclc)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.clibelle)
+                                    .append(
+                                        $(document.createElement("span")).addClass("fa fa-edit")
+                                    )
+                            );
+                        }else{
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
+                        if(access.delete == '1'){
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("delete-pages")
+                                    .attr("href", "#")
+                                    .attr("data-delete", item.idclc)
+                                    .attr("title", Globalize.localize( "remove", iso )+": "+item.clibelle)
+                                    .append(
+                                        $(document.createElement("span")).addClass("fa fa-trash-o")
+                                    )
+                            );
+                        }else{
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
+
                         tbody.append(
                             $(document.createElement("tr"))
                                 .attr("id","order_pages_"+item.idclc)
@@ -286,7 +299,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function addCategory(baseadmin,iso,section,getlang){
+    function addCategory(baseadmin,iso,section,getlang,access){
         var formsAdd = $("#forms_catalog_category_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -308,7 +321,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListCategory(baseadmin,iso,section,getlang);
+                        jsonListCategory(baseadmin,iso,section,getlang,access);
                     }
                 });
                 return false;
@@ -340,7 +353,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function removeCategory(baseadmin,iso,section,getlang){
+    function removeCategory(baseadmin,iso,section,getlang,access){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -363,7 +376,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonListCategory(section,getlang);
+                                jsonListCategory(section,getlang,access);
                             }
                         });
                     },
@@ -680,7 +693,7 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function jsonListSubCategory(baseadmin,iso,section,getlang,edit){
+    function jsonListSubCategory(baseadmin,iso,section,getlang,edit,access){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab=subcat&json_list_subcategory=true',
@@ -749,24 +762,36 @@ var MC_catalog = (function ($, undefined) {
                         }else{
                             var img = $(document.createElement("span")).addClass("fa fa-warning");
                         }
-                        var edit = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
-                                .attr("title", Globalize.localize( "edit", iso )+": "+item.slibelle)
-                                .append(
-                                    $(document.createElement("span")).addClass("fa fa-edit")
-                                )
-                        );
-                        var remove = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .addClass("delete-pages")
-                                .attr("href", "#")
-                                .attr("data-delete", item.idcls)
-                                .attr("title", Globalize.localize( "remove", iso )+": "+item.slibelle)
-                                .append(
-                                    $(document.createElement("span")).addClass("fa fa-trash-o")
-                                )
-                        );
+                        if(access.edit == '1'){
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/catalog.php?section=sub'+section+'&getlang='+getlang+'&action=edit&edit='+item.idcls)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.slibelle)
+                                    .append(
+                                        $(document.createElement("span")).addClass("fa fa-edit")
+                                    )
+                            );
+                        }else{
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
+                        if(access.delete == '1'){
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("delete-pages")
+                                    .attr("href", "#")
+                                    .attr("data-delete", item.idcls)
+                                    .attr("title", Globalize.localize( "remove", iso )+": "+item.slibelle)
+                                    .append(
+                                        $(document.createElement("span")).addClass("fa fa-trash-o")
+                                    )
+                            );
+                        }else{
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
                         tbody.append(
                             $(document.createElement("tr"))
                                 .attr("id","order_pages_"+item.idcls)
@@ -845,7 +870,7 @@ var MC_catalog = (function ($, undefined) {
      * @param getlang
      * @param edit
      */
-    function addSubCategory(baseadmin,iso,section,getlang,edit){
+    function addSubCategory(baseadmin,iso,section,getlang,edit,access){
         var formsAdd = $("#forms_catalog_subcategory_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -867,7 +892,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListSubCategory(baseadmin,iso,section,getlang,edit);
+                        jsonListSubCategory(baseadmin,iso,section,getlang,edit,access);
                     }
                 });
                 return false;
@@ -901,7 +926,7 @@ var MC_catalog = (function ($, undefined) {
      * @param edit
      * @param tab
      */
-    function removeSubCategory(baseadmin,iso,section,getlang,edit,tab){
+    function removeSubCategory(baseadmin,iso,section,getlang,edit,tab,access){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -924,7 +949,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonListSubCategory(baseadmin,iso,section,getlang,edit);
+                                jsonListSubCategory(baseadmin,iso,section,getlang,edit,access);
                             }
                         });
                     },
@@ -2368,11 +2393,11 @@ var MC_catalog = (function ($, undefined) {
         runCharts:function(){
             graph(baseadmin);
         },
-        runListCategory:function(baseadmin,iso,section,getlang){
+        runListCategory:function(baseadmin,iso,section,getlang,access){
             autoCompleteCategory(baseadmin,section,getlang);
-            jsonListCategory(baseadmin,iso,section,getlang);
-            addCategory(baseadmin,iso,section,getlang);
-            removeCategory(baseadmin,iso,section,getlang);
+            jsonListCategory(baseadmin,iso,section,getlang,access);
+            addCategory(baseadmin,iso,section,getlang,access);
+            removeCategory(baseadmin,iso,section,getlang,access);
         },
         runEditCategory:function(baseadmin,iso,section,getlang,edit){
             autoCompleteCategory(baseadmin,section,getlang);
@@ -2380,9 +2405,9 @@ var MC_catalog = (function ($, undefined) {
                 JsonUrlCategory(baseadmin,section,getlang,edit);
                 updateCategory(baseadmin,section,getlang,edit,'text');
             }else if($('#list_subcategory').length != 0){
-                jsonListSubCategory(baseadmin,iso,section,getlang,edit);
-                addSubCategory(baseadmin,iso,section,getlang,edit);
-                removeSubCategory(baseadmin,iso,section,getlang,edit,'subcat');
+                jsonListSubCategory(baseadmin,iso,section,getlang,edit,access);
+                addSubCategory(baseadmin,iso,section,getlang,edit,access);
+                removeSubCategory(baseadmin,iso,section,getlang,edit,'subcat',access);
             }else if($('#load_catalog_category_img').length != 0){
                 getImageCategory(baseadmin,section,getlang,edit);
                 updateCategory(baseadmin,section,getlang,edit,'image');

@@ -3,7 +3,7 @@
 {block name="article:content"}
 {include file="catalog/section/nav.tpl"}
     <h1>{#editing_the_category#|ucfirst} : {$clibelle}</h1>
-
+    {if $access.edit eq 1}
     <ul class="nav nav-tabs clearfix">
         <li{if !$smarty.get.tab && !$smarty.get.plugin} class="active"{/if}>
             <a href="/{baseadmin}/catalog.php?section={$smarty.get.section}&amp;getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}">{#text#|ucfirst}</a>
@@ -28,6 +28,13 @@
     </ul>
     <div class="mc-message clearfix"></div>
     {include file="catalog/category/forms/edit.tpl"}
+    {else}
+        <div class="mc-message clearfix">
+            <div class="alert alert-danger">
+                <span class="fa fa-warning"></span> {#request_acces_denied#}
+            </div>
+        </div>
+    {/if}
 {/block}
 {block name="modal"}
     <div id="window-dialog"></div>

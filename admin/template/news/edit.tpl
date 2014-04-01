@@ -12,6 +12,7 @@
             </a>
         </span>
     </div>
+    {if $access.edit eq 1}
     <ul class="nav nav-tabs clearfix">
         <li{if !$smarty.get.tab} class="active"{/if}>
             <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}">{#text#|ucfirst}</a>
@@ -32,6 +33,13 @@
     </ul>
     <div class="mc-message clearfix"></div>
     {include file="news/forms/edit.tpl"}
+    {else}
+        <div class="mc-message clearfix">
+            <div class="alert alert-danger">
+                <span class="fa fa-warning"></span> {#request_acces_denied#}
+            </div>
+        </div>
+    {/if}
 {/block}
 {block name="modal"}
     <div id="window-dialog"></div>

@@ -34,6 +34,7 @@
                 </li>
             </ul>
             <div class="row">
+                {if {employee_access type="view_access" class_name="backend_controller_employee"} eq 1}
                 <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-user"></span> {#users#|ucfirst}</h3>
                     {foreach $array_stats_user as $key => $value nocache}
@@ -42,6 +43,8 @@
                         </p>
                     {/foreach}
                 </div>
+                {/if}
+                {if {employee_access type="view_access" class_name="backend_controller_lang"} eq 1 AND $config_lang eq 1}
                 <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-flag"></span> {#languages#|ucfirst}</h3>
                     <ul class="list-inline">
@@ -52,12 +55,14 @@
                         {/foreach}
                     </ul>
                 </div>
+                {/if}
             </div>
 
         </div>
         <div class="col-md-6 col-sm-6">
             <h2><span class="fa fa-bolt"></span> {#h2_quick_links#}</h2>
             <div class="row">
+                {if {employee_access class_name="backend_controller_cms"} eq 1 AND $config_cms eq 1}
                 <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-file-text-o"></span> Pages</h3>
                     <ul class="list-unstyled">
@@ -74,6 +79,8 @@
                         </li>
                     </ul>
                 </div>
+                {/if}
+                {if {employee_access class_name="backend_controller_home"} eq 1}
                 <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-home"></span> {#home#|ucfirst}</h3>
                     <ul class="list-unstyled">
@@ -84,8 +91,10 @@
                         </li>
                     </ul>
                 </div>
+                {/if}
             </div>
             <div class="row">
+                {if {employee_access class_name="backend_controller_catalog"} eq 1 AND $config_catalog eq 1}
                 <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-shopping-cart"></span> {#catalog#|ucfirst}</h3>
                     <ul class="list-unstyled">
@@ -115,6 +124,8 @@
                         </li>
                     </ul>
                 </div>
+                {/if}
+                {if {employee_access class_name="backend_controller_news"} eq 1 AND $config_news eq 1}
                 <div class="col-md-6 col-sm-6">
                     <h3><span class="fa fa-rss"></span> {#news#|ucfirst}</h3>
                     <ul class="list-unstyled">
@@ -131,6 +142,7 @@
                         </li>
                     </ul>
                 </div>
+                {/if}
             </div>
         </div>
     </div>

@@ -52,10 +52,10 @@ class backend_db_rss{
      */
     protected function s_news($idlang){
     	$sql = 'SELECT n.idnews,n.keynews,n.n_title,n.n_image,n.n_content,lang.iso,n.idlang,
-        n.date_register,n.n_uri,m.pseudo,n.date_publish,n.published
+        n.date_register,n.n_uri,m.pseudo_admin,n.date_publish,n.published
         FROM mc_news AS n
         JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-        JOIN mc_admin_member AS m ON(m.idadmin=n.idadmin)
+        JOIN mc_admin_employee AS m ON ( n.idadmin = m.id_admin )
 		WHERE n.published = 1 AND n.idlang = :idlang
 		ORDER BY n.idnews DESC';
 		return magixglobal_model_db::layerDB()->select($sql,array(

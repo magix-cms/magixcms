@@ -1,5 +1,6 @@
 <ul class="nav">
     {* -- START PAGES -- *}
+    {if {employee_access class_name="backend_controller_home"} eq 1}
     <li class="nav-header"><span class="fa fa-file-text-o"></span> Pages</li>
     <li>
         <a href="#home" class="showit{if {script_name} eq "home"} open{/if}">
@@ -18,6 +19,7 @@
             </div>
         </div>
     </li>
+    {/if}
     {if {employee_access class_name="backend_controller_cms"} eq 1 AND $config_cms eq 1}
         <li>
             <a href="#cms" class="showit{if {script_name} eq "cms"} open{/if}">

@@ -19,7 +19,7 @@
                     {if $smarty.get.edit}
                     MC_catalog.runEditCategory(baseadmin,iso,section,getlang,edit);
                     {else}
-                        MC_catalog.runListCategory(baseadmin,iso,section,getlang);
+                        MC_catalog.runListCategory(baseadmin,iso,section,getlang,access);
                     {/if}
                 {/if}
             {elseif $smarty.get.section eq 'subcategory'}

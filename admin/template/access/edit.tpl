@@ -8,7 +8,7 @@
         {include file="access/forms/access.tpl"}
     </div>
     <div class="col-md-7">
-        <h3>Modifier les permissions</h3>
+        <h3>{#change_access#}</h3>
         <div id="load_json_access"></div>
     </div>
 {/block}
