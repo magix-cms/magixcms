@@ -109,10 +109,10 @@ class backend_model_access extends backend_db_employee{
         $array_access = parent::s_all_access_profile($id_role);
         foreach($array_access as $key){
             $class_name[$key['class_name']]= array(
-                'view_access'=>$key['view_access'],
-                'add_access'=>$key['add_access'],
-                'edit_access'=>$key['edit_access'],
-                'delete_access'=>$key['delete_access']
+                'view_access'   =>  $key['view_access'],
+                'add_access'    =>  $key['add_access'],
+                'edit_access'   =>  $key['edit_access'],
+                'delete_access' =>  $key['delete_access']
             );
         }
         return $class_name;

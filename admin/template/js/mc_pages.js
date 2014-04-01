@@ -183,7 +183,7 @@ var MC_pages = (function ($, undefined) {
      * @param baseadmin
      * @param getlang
      */
-    function jsonListParent(baseadmin,iso,getlang){
+    function jsonListParent(baseadmin,iso,getlang,access){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&json_page_p=true',
@@ -268,6 +268,16 @@ var MC_pages = (function ($, undefined) {
                         }else{
                             var seo_desc_page = $(document.createElement("span")).addClass("fa fa-warning");
                         }
+                        if(access.edit == '1'){
+                            var titlePage = $(document.createElement("a"))
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
+                                .append(
+                                    item.title_page
+                                );
+                        }else{
+                            var titlePage = item.title_page
+                        }
                         var child = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&get_page_p='+item.idpage)
@@ -305,24 +315,36 @@ var MC_pages = (function ($, undefined) {
                                     )
                             )
                         }
-                        var edit = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-edit")
-                            )
-                        );
-                        var remove = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .addClass("delete-pages")
-                                .attr("href", "#")
-                                .attr("data-delete", item.idpage)
-                                .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-trash-o")
-                            )
-                        );
+                        if(access.edit == '1'){
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
+                                    .append(
+                                        $(document.createElement("span")).addClass("fa fa-edit")
+                                    )
+                            );
+                        }else{
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
+                        if(access.delete == '1'){
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("delete-pages")
+                                    .attr("href", "#")
+                                    .attr("data-delete", item.idpage)
+                                    .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
+                                    .append(
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
+                                )
+                            );
+                        }else{
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
                         tbody.append(
                             $(document.createElement("tr"))
                                 .attr("id","order_pages_"+item.idpage)
@@ -332,12 +354,7 @@ var MC_pages = (function ($, undefined) {
                                     item.idpage
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("a"))
-                                        .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                        .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
-                                        .append(
-                                            item.title_page
-                                        )
+                                    titlePage
                                 ),
                                 $(document.createElement("td")).append(content_page),
                                 $(document.createElement("td")).append(seo_title_page),
@@ -457,7 +474,7 @@ var MC_pages = (function ($, undefined) {
      * @param getParent
      * @param baseadmin
      */
-    function jsonListChild(baseadmin,iso,getlang,getParent){
+    function jsonListChild(baseadmin,iso,getlang,getParent,access){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=list&get_page_p='+getParent+'&json_child_p=true',
@@ -523,6 +540,16 @@ var MC_pages = (function ($, undefined) {
                 }
                 if(j !== null){
                     $.each(j, function(i,item) {
+                        if(access.edit == '1'){
+                            var titlePage = $(document.createElement("a"))
+                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
+                                .append(
+                                    item.title_page
+                                );
+                        }else{
+                            var titlePage = item.title_page
+                        }
                         if(item.content_page != 0){
                             var content_page = $(document.createElement("span")).addClass("fa fa-check");
                         }else{
@@ -567,24 +594,36 @@ var MC_pages = (function ($, undefined) {
                                 )
                             )
                         }
-                        var edit = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-edit")
-                            )
-                        );
-                        var remove = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .addClass("delete-pages")
-                                .attr("href", "#")
-                                .attr("data-delete", item.idpage)
-                                .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-trash-o")
-                            )
-                        );
+                        if(access.edit == '1'){
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
+                                    .append(
+                                    $(document.createElement("span")).addClass("fa fa-edit")
+                                )
+                            );
+                        }else{
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
+                        if(access.delete == '1'){
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("delete-pages")
+                                    .attr("href", "#")
+                                    .attr("data-delete", item.idpage)
+                                    .attr("title", Globalize.localize( "remove", iso )+": "+item.title_page)
+                                    .append(
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
+                                )
+                            );
+                        }else{
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
                         tbody.append(
                             $(document.createElement("tr"))
                                 .attr("id","order_pages_"+item.idpage)
@@ -594,12 +633,7 @@ var MC_pages = (function ($, undefined) {
                                     item.idpage
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("a"))
-                                        .attr("href", '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=edit&edit='+item.idpage)
-                                        .attr("title", Globalize.localize( "edit", iso )+": "+item.title_page)
-                                        .append(
-                                            item.title_page
-                                        )
+                                    titlePage
                                 ),
                                 $(document.createElement("td")).append(content_page),
                                 $(document.createElement("td")).append(seo_title_page),
@@ -677,7 +711,7 @@ var MC_pages = (function ($, undefined) {
      * @param baseadmin
      * @param iso
      */
-    function remove(baseadmin,iso,getlang,getParent){
+    function remove(baseadmin,iso,getlang,getParent,access){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -701,9 +735,9 @@ var MC_pages = (function ($, undefined) {
                                     display:true
                                 });
                                 if(getParent != 0){
-                                    jsonListChild(baseadmin,iso,getlang,getParent);
+                                    jsonListChild(baseadmin,iso,getlang,getParent,access);
                                 }else{
-                                    jsonListParent(baseadmin,iso,getlang);
+                                    jsonListParent(baseadmin,iso,getlang,access);
                                 }
                             }
                         });
@@ -750,9 +784,9 @@ var MC_pages = (function ($, undefined) {
                                         display:false
                                     });
                                     if(getParent != 0){
-                                        jsonListChild(baseadmin,iso,getlang,getParent);
+                                        jsonListChild(baseadmin,iso,getlang,getParent,access);
                                     }else{
-                                        jsonListParent(baseadmin,iso,getlang);
+                                        jsonListParent(baseadmin,iso,getlang,access);
                                     }
                                 }
                             });
@@ -773,9 +807,9 @@ var MC_pages = (function ($, undefined) {
                                         display:false
                                     });
                                     if(getParent != 0){
-                                        jsonListChild(baseadmin,iso,getlang,getParent);
+                                        jsonListChild(baseadmin,iso,getlang,getParent,access);
                                     }else{
-                                        jsonListParent(baseadmin,iso,getlang);
+                                        jsonListParent(baseadmin,iso,getlang,access);
                                     }
                                 }
                             });
@@ -872,15 +906,15 @@ var MC_pages = (function ($, undefined) {
         runCharts:function(baseadmin){
             graph(baseadmin);
         },
-        runParents:function (baseadmin,iso,getlang) {
+        runParents:function (baseadmin,iso,getlang,access) {
             add(baseadmin,iso,getlang,0);
-            jsonListParent(baseadmin,iso,getlang);
+            jsonListParent(baseadmin,iso,getlang,access);
             updateActive(baseadmin,iso,getlang,0);
             remove(baseadmin,iso,getlang,0);
             autoCompleteSearch(baseadmin,getlang);
         },
-        runChild:function(baseadmin,iso,getlang,getParent){
-            jsonListChild(baseadmin,iso,getlang,getParent);
+        runChild:function(baseadmin,iso,getlang,getParent,access){
+            jsonListChild(baseadmin,iso,getlang,getParent,access);
             add(baseadmin,iso,getlang,getParent);
             updateActive(baseadmin,iso,getlang,getParent);
             remove(baseadmin,iso,getlang,getParent);

@@ -12,8 +12,16 @@
         </a>
     </span>
 </div>
-<div class="mc-message clearfix"></div>
+{if $access.edit eq 1}
 {include file="cms/forms/edit.tpl"}
+    <div class="mc-message clearfix"></div>
+{else}
+<div class="mc-message clearfix">
+    <div class="alert alert-danger">
+        <span class="fa fa-warning"></span> access denied
+    </div>
+</div>
+{/if}
 {/block}
 {block name="modal"}
     <div id="window-dialog"></div>

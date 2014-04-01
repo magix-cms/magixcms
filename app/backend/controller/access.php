@@ -58,7 +58,7 @@ class backend_controller_access extends backend_db_access{
     /**
      * @var $name_profile
      */
-    public $role_name;
+    public $role_name,$delete_role;
     public $id_module,$plugins,$view_access,$add_access,$edit_access,$delete_access;
 
     /**
@@ -105,7 +105,9 @@ class backend_controller_access extends backend_db_access{
         if(magixcjquery_filter_request::isPost('id_access')){
             $this->id_access = magixcjquery_form_helpersforms::inputClean($_POST['id_access']);
         }
-
+        if(magixcjquery_filter_request::isPost('delete_role')){
+            $this->delete_role = magixcjquery_form_helpersforms::inputClean($_POST['delete_role']);
+        }
     }
 
     /**
@@ -259,6 +261,16 @@ class backend_controller_access extends backend_db_access{
         }
     }
     /**
+     * Suppression d'un rôle
+     */
+    private function remove_role($delete_role){
+        if(isset($delete_role)){
+            if($delete_role != '1'){
+                parent::d_role($delete_role);
+            }
+        }
+    }
+    /**
      * execution du module d'accès
      */
     public function run(){
@@ -311,11 +323,15 @@ class backend_controller_access extends backend_db_access{
                 $this->load_data_profile($create);
                 $create->display('access/edit.tpl');
             }
+        }elseif($this->action == 'remove'){
+            if(isset($this->delete_role)){
+                $this->remove_role($this->delete_role);
+            }
         }else{
             $access = new backend_model_access();
-            print "<pre>";
+            /*print "<pre>";
             print_r($access->listPlugins());
-            print "</pre>";
+            print "</pre>";*/
             $create->display('access/list.tpl');
         }
     }

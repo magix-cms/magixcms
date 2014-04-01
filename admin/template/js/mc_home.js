@@ -81,7 +81,7 @@ var MC_home = (function ($, undefined) {
      * Liste des pages
      * @param iso
      */
-    function jsonHome(baseadmin,iso){
+    function jsonHome(baseadmin,iso,access){
         $.nicenotify({
             ntype: "ajax",
             uri: '/'+baseadmin+'/home.php?action=list&json_list_home=true',
@@ -157,24 +157,36 @@ var MC_home = (function ($, undefined) {
                         }else{
                             var metadescription = $(document.createElement("span")).addClass("fa fa-warning");
                         }
-                        var edit = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/home.php?action=edit&edit='+item.idhome)
-                                .attr("title", Globalize.localize( "edit", iso )+": "+item.iso)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-edit")
-                            )
-                        );
-                        var remove = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .addClass("delete-home")
-                                .attr("href", "#")
-                                .attr("data-delete", item.idhome)
-                                .attr("title", Globalize.localize( "remove", iso )+": "+item.iso)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-trash-o")
-                            )
-                        );
+                        if(access.edit == '1'){
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/home.php?action=edit&edit='+item.idhome)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.iso)
+                                    .append(
+                                    $(document.createElement("span")).addClass("fa fa-edit")
+                                )
+                            );
+                        }else{
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
+                        if(access.delete == '1'){
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("delete-home")
+                                    .attr("href", "#")
+                                    .attr("data-delete", item.idhome)
+                                    .attr("title", Globalize.localize( "remove", iso )+": "+item.iso)
+                                    .append(
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
+                                )
+                            );
+                        }else{
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
                         tbody.append(
                             $(document.createElement("tr"))
                                 .append(
@@ -242,7 +254,7 @@ var MC_home = (function ($, undefined) {
      * Ajout d'une nouvelle page
      * @param iso
      */
-    function add(baseadmin,iso){
+    function add(baseadmin,iso,access){
         var formsAddHome = $("#forms_home_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -267,7 +279,7 @@ var MC_home = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonHome(baseadmin,iso);
+                        jsonHome(baseadmin,iso,access);
                     }
                 });
                 return false;
@@ -335,7 +347,7 @@ var MC_home = (function ($, undefined) {
      * @param baseadmin
      * @param iso
      */
-    function remove(baseadmin,iso){
+    function remove(baseadmin,iso,access){
         $(document).on('click','.delete-home',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -358,7 +370,7 @@ var MC_home = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonHome(baseadmin,iso);
+                                jsonHome(baseadmin,iso,access);
                             }
                         });
                     },
@@ -375,10 +387,10 @@ var MC_home = (function ($, undefined) {
         runCharts:function(baseadmin){
             graph(baseadmin);
         },
-        runList:function(baseadmin,iso){
-            jsonHome(baseadmin,iso);
-            add(baseadmin,iso);
-            remove(baseadmin,iso);
+        runList:function(baseadmin,iso,access){
+            jsonHome(baseadmin,iso,access);
+            add(baseadmin,iso,access);
+            remove(baseadmin,iso,access);
         },
         runEdit:function(baseadmin,edit){
             update(baseadmin,edit);

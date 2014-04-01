@@ -176,7 +176,22 @@ class backend_db_access{
             ':access_value'=> $access_value
         ));
     }
+
+    /**
+     * @param $id_role
+     */
+    protected function d_role($id_role){
+        $sql = array(
+            'DELETE FROM mc_admin_access_rel
+             WHERE id_role ='.$id_role,
+            'DELETE FROM mc_admin_role_user
+             WHERE id_role ='.$id_role);
+        magixglobal_model_db::layerDB()->transaction($sql);
+    }
     //module
+    /**
+     * @return array
+     */
     protected function s_module(){
         $sql='SELECT module.*
         FROM mc_module AS module';

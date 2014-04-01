@@ -95,6 +95,18 @@ var MC_access = (function ($, undefined) {
                 }
                 if(j !== null){
                     $.each(j, function(i,item) {
+                        if(item.id_role !== "1"){
+                            var remove = $(document.createElement("a"))
+                                .addClass("delete-role")
+                                .attr("href", "#")
+                                .attr("data-delete", item.id_role)
+                                .attr("title", Globalize.localize( "remove", iso )+": "+item.role_name)
+                                .append(
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
+                                );
+                        }else{
+                            var remove = $(document.createElement("span")).addClass("fa fa-minus");
+                        }
                         tbody.append(
                             $(document.createElement("tr"))
                                 .append(
@@ -109,14 +121,7 @@ var MC_access = (function ($, undefined) {
                                     )
                                 ),
                                 $(document.createElement("td")).append(
-                                    $(document.createElement("a"))
-                                        .addClass("del-access-role")
-                                        .attr("href", "#")
-                                        .attr("data-delete", item.id_role)
-                                        .attr("title", Globalize.localize( "remove", iso )+": "+item.role_name)
-                                        .append(
-                                        $(document.createElement("span")).addClass("fa fa-trash-o")
-                                    )
+                                    remove
                                 )
                             )
                         )
@@ -510,6 +515,47 @@ var MC_access = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Suppression d'un rôle
+     * @param baseadmin
+     * @param iso
+     */
+    function remove(baseadmin,iso){
+        $(document).on('click','.delete-role',function(event){
+            event.preventDefault();
+            var elem = $(this).data("delete");
+            $("#window-dialog:ui-dialog").dialog( "destroy" );
+            $('#window-dialog').dialog({
+                modal: true,
+                resizable: false,
+                height:180,
+                width:350,
+                title: Globalize.localize( "delete_item", iso ),
+                buttons: {
+                    'Delete': function() {
+                        $(this).dialog('close');
+                        $.nicenotify({
+                            ntype: "ajax",
+                            uri: '/'+baseadmin+'/access.php?action=remove',
+                            typesend: 'post',
+                            noticedata : {delete_role:elem},
+                            successParams:function(e){
+                                $.nicenotify.initbox(e,{
+                                    display:true
+                                });
+                                jsonProfiles(iso,baseadmin);
+                            }
+                        });
+                    },
+                    Cancel: function() {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            return false;
+        });
+    }
     function checkAll(){
         $('#selectAll').on('click',function(event) {  //on click
             if(this.checked) { // check select status
@@ -523,6 +569,7 @@ var MC_access = (function ($, undefined) {
             }
         });
     }
+
     return {
         //Fonction Public        
         run:function (iso,baseadmin) {
@@ -532,6 +579,7 @@ var MC_access = (function ($, undefined) {
             if($('#forms_role_add').length != 0){
                 add(iso,baseadmin);
             }
+            remove(baseadmin,iso);
         },
         runEdit:function (iso,baseadmin,edit){
             checkAll();

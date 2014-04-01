@@ -1,7 +1,6 @@
 {extends file="layout.tpl"}
 {block name='body:id'}module-user{/block}
 {block name="article:content"}
-    {*{include file="access/section/nav.tpl"}*}
     <h1>{#h1_access_list#}</h1>
     <div class="mc-message clearfix"></div>
     <div class="col-md-5">
