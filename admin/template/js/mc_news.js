@@ -84,7 +84,7 @@ var MC_news = (function ($, undefined) {
      * @param baseadmin
      * @param iso
      */
-    function jsonPages(baseadmin,iso,getlang){
+    function jsonPages(baseadmin,iso,getlang,access){
         var getpage = $('.pagination li.active').text();
         if(getpage.length == 0){
             getpage = 1;
@@ -192,24 +192,36 @@ var MC_news = (function ($, undefined) {
                                 )
                             )
                         }
-                        var edit = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
-                                .attr("title", Globalize.localize( "edit", iso )+": "+item.n_title)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-edit")
-                            )
-                        );
-                        var remove = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .addClass("delete-news")
-                                .attr("href", "#")
-                                .attr("data-delete", item.idnews)
-                                .attr("title", Globalize.localize( "remove", iso )+": "+item.n_title)
-                                .append(
-                                $(document.createElement("span")).addClass("fa fa-trash-o")
-                            )
-                        );
+                        if(access.edit == '1'){
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/news.php?getlang='+getlang+'&action=edit&edit='+item.idnews)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.n_title)
+                                    .append(
+                                    $(document.createElement("span")).addClass("fa fa-edit")
+                                )
+                            );
+                        }else{
+                                var edit = $(document.createElement("td")).append(
+                                    $(document.createElement("span")).addClass("fa fa-minus")
+                                );
+                            }
+                        if(access.delete == '1'){
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("delete-news")
+                                    .attr("href", "#")
+                                    .attr("data-delete", item.idnews)
+                                    .attr("title", Globalize.localize( "remove", iso )+": "+item.n_title)
+                                    .append(
+                                    $(document.createElement("span")).addClass("fa fa-trash-o")
+                                )
+                            );
+                        }else{
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
                         tbody.append(
                             $(document.createElement("tr"))
                                 .append(
@@ -282,7 +294,7 @@ var MC_news = (function ($, undefined) {
      * @param baseadmin
      * @param iso
      */
-    function add(baseadmin,iso,getlang){
+    function add(baseadmin,iso,getlang,access){
         var formsAddNews = $("#forms_news_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -304,7 +316,7 @@ var MC_news = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonPages(baseadmin,iso,getlang);
+                        jsonPages(baseadmin,iso,getlang,access);
                     }
                 });
                 return false;
@@ -337,7 +349,7 @@ var MC_news = (function ($, undefined) {
      * @param getlang
      * @param iso
      */
-    function updateActive(baseadmin,iso,getlang){
+    function updateActive(baseadmin,iso,getlang,access){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
             var id = $(this).data("active");
@@ -362,7 +374,7 @@ var MC_news = (function ($, undefined) {
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonPages(baseadmin,iso,getlang);
+                                    jsonPages(baseadmin,iso,getlang,access);
                                 }
                             });
                             return false;
@@ -381,7 +393,7 @@ var MC_news = (function ($, undefined) {
                                     $.nicenotify.initbox(j,{
                                         display:false
                                     });
-                                    jsonPages(baseadmin,iso,getlang);
+                                    jsonPages(baseadmin,iso,getlang,access);
                                 }
                             });
                             return false;
@@ -398,7 +410,7 @@ var MC_news = (function ($, undefined) {
      * @param getlang
      * @param iso
      */
-    function remove(baseadmin,iso,getlang){
+    function remove(baseadmin,iso,getlang,access){
         $(document).on('click','.delete-news',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -421,7 +433,7 @@ var MC_news = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonPages(baseadmin,iso,getlang);
+                                jsonPages(baseadmin,iso,getlang,access);
                             }
                         });
                     },
@@ -616,11 +628,11 @@ var MC_news = (function ($, undefined) {
         runCharts:function(baseadmin){
             graph(baseadmin);
         },
-        runList:function(baseadmin,iso,getlang){
-            add(baseadmin,iso,getlang);
-            jsonPages(baseadmin,iso,getlang);
-            updateActive(baseadmin,iso,getlang);
-            remove(baseadmin,iso,getlang);
+        runList:function(baseadmin,iso,getlang,access){
+            add(baseadmin,iso,getlang,access);
+            jsonPages(baseadmin,iso,getlang,access);
+            updateActive(baseadmin,iso,getlang,access);
+            remove(baseadmin,iso,getlang,access);
         },
         runEdit:function(baseadmin,iso,getlang,edit){
             $('#name_tag').tagsInput({

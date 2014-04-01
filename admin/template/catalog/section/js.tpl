@@ -2,6 +2,11 @@
 {script src="/{baseadmin}/min/?g=tinymce,charts" concat={$concat} type="javascript"}
 {script src="/{baseadmin}/min/?f={baseadmin}/template/js/tinymce-config.js,/libjs/vendor/jquery.relatedselects.min.js,{baseadmin}/template/js/mc_catalog.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
+    var access = new Array;
+    access["view"]="{$access.view}";
+    access["add"]="{$access.add}";
+    access["edit"]="{$access.edit}";
+    access["delete"]="{$access.delete}";
     var section = "{$smarty.get.section}";
     $(function(){
         if (typeof MC_catalog == "undefined")
@@ -28,7 +33,7 @@
                     {if $smarty.get.edit}
                         MC_catalog.runEditProduct(baseadmin,iso,section,getlang,edit);
                     {else}
-                        MC_catalog.runListProduct(baseadmin,iso,section,getlang);
+                        MC_catalog.runListProduct(baseadmin,iso,section,getlang,access);
                 {/if}
             {/if}
             {elseif !$smarty.get.section}

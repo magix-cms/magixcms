@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_home extends backend_db_home{
+    protected $model_access;
 	/**
 	 * gethome
 	 * @var getedit (get edit)
@@ -80,6 +81,9 @@ class backend_controller_home extends backend_db_home{
 	 *
 	 */
 	function __construct(){
+        if(class_exists('backend_model_access')){
+            $this->model_access = new backend_model_access();
+        }
         if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
         }
@@ -266,6 +270,8 @@ class backend_controller_home extends backend_db_home{
                 'home'
             ),array('home_'),false
         );
+        $access = $this->model_access->module_access("backend_controller_home");
+        $create->assign('access',$access);
         if(isset($this->action)){
             if($this->action == 'list'){
                 if(magixcjquery_filter_request::isGet('json_list_home')){

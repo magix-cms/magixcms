@@ -1285,7 +1285,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function addProduct(baseadmin,iso,section,getlang){
+    function addProduct(baseadmin,iso,section,getlang,access){
         var formsAdd = $("#forms_catalog_product_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -1307,7 +1307,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListProduct(baseadmin,iso,section,getlang);
+                        jsonListProduct(baseadmin,iso,section,getlang,access);
                     }
                 });
                 return false;
@@ -1339,7 +1339,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function jsonListProduct(baseadmin,iso,section,getlang){
+    function jsonListProduct(baseadmin,iso,section,getlang,access){
         var getpage = $('.pagination li.active').text();
         if(getpage.length == 0){
             getpage = 1;
@@ -1427,24 +1427,36 @@ var MC_catalog = (function ($, undefined) {
                         }else{
                             var img = $(document.createElement("span")).addClass("fa fa-warning");
                         }
-                        var edit = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
-                                .attr("title", Globalize.localize( "edit", iso )+": "+item.titlecatalog)
-                                .append(
-                                    $(document.createElement("span")).addClass("fa fa-edit")
-                                )
-                        );
-                        var remove = $(document.createElement("td")).append(
-                            $(document.createElement("a"))
-                                .addClass("delete-pages")
-                                .attr("href", "#")
-                                .attr("data-delete", item.idcatalog)
-                                .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
-                                .append(
-                                    $(document.createElement("span")).addClass("fa fa-trash-o")
-                                )
-                        );
+                        if(access.edit == '1'){
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .attr("href", '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                    .attr("title", Globalize.localize( "edit", iso )+": "+item.titlecatalog)
+                                    .append(
+                                        $(document.createElement("span")).addClass("fa fa-edit")
+                                    )
+                            );
+                        }else{
+                            var edit = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
+                        if(access.delete == '1'){
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("a"))
+                                    .addClass("delete-pages")
+                                    .attr("href", "#")
+                                    .attr("data-delete", item.idcatalog)
+                                    .attr("title", Globalize.localize( "remove", iso )+": "+item.titlecatalog)
+                                    .append(
+                                        $(document.createElement("span")).addClass("fa fa-trash-o")
+                                    )
+                            );
+                        }else{
+                            var remove = $(document.createElement("td")).append(
+                                $(document.createElement("span")).addClass("fa fa-minus")
+                            );
+                        }
                         var copy = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .addClass("copy-pages")
@@ -1637,7 +1649,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function copyProduct(baseadmin,iso,section,getlang){
+    function copyProduct(baseadmin,iso,section,getlang,access){
         $(document).on('click','.copy-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("copy");
@@ -1660,7 +1672,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(baseadmin,iso,section,getlang);
+                                jsonListProduct(baseadmin,iso,section,getlang,access);
                             }
                         });
                     },
@@ -1678,7 +1690,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function moveProduct(baseadmin,iso,section,getlang){
+    function moveProduct(baseadmin,iso,section,getlang,access){
         $(document).on('click','.move-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("move");
@@ -1701,7 +1713,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(baseadmin,iso,section,getlang);
+                                jsonListProduct(baseadmin,iso,section,getlang,access);
                             }
                         });
                     },
@@ -1719,7 +1731,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function removeProduct(baseadmin,iso,section,getlang){
+    function removeProduct(baseadmin,iso,section,getlang,access){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -1742,7 +1754,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(baseadmin,iso,section,getlang);
+                                jsonListProduct(baseadmin,iso,section,getlang,access);
                             }
                         });
                     },
@@ -2393,13 +2405,13 @@ var MC_catalog = (function ($, undefined) {
                 removeSubCategoryProduct(baseadmin,iso,section,getlang,edit,'product');
             }
         },
-        runListProduct:function(baseadmin,iso,section,getlang){
+        runListProduct:function(baseadmin,iso,section,getlang,access){
             autoCompleteCatalog(baseadmin,section,getlang);
-            jsonListProduct(baseadmin,iso,section,getlang);
-            addProduct(baseadmin,iso,section,getlang);
-            copyProduct(baseadmin,iso,section,getlang);
-            moveProduct(baseadmin,iso,section,getlang);
-            removeProduct(baseadmin,iso,section,getlang);
+            jsonListProduct(baseadmin,iso,section,getlang,access);
+            addProduct(baseadmin,iso,section,getlang,access);
+            copyProduct(baseadmin,iso,section,getlang,access);
+            moveProduct(baseadmin,iso,section,getlang,access);
+            removeProduct(baseadmin,iso,section,getlang,access);
         },
         runEditProduct:function(baseadmin,iso,section,getlang,edit){
             autoCompleteCatalog(baseadmin,section,getlang);

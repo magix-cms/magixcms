@@ -46,6 +46,7 @@
  *
  */
 class backend_controller_catalog extends backend_db_catalog{
+    protected $model_access;
 	/**
 	 * ####### Categorie et sous categorie ########
 	 */
@@ -182,6 +183,12 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * Constructor
 	 */
 	public function __construct(){
+        if(class_exists('backend_model_access')){
+            $this->model_access = new backend_model_access();
+        }
+        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
+            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
+        }
         //Catégories
 		if(magixcjquery_filter_request::isPost('clibelle')){
 			$this->clibelle = magixcjquery_form_helpersforms::inputClean($_POST['clibelle']);
@@ -306,9 +313,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if(magixcjquery_filter_request::isGet('plugin')){
             $this->plugin = magixcjquery_form_helpersforms::inputClean($_GET['plugin']);
         }
-        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
-            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
-        }
+
         //JQUERY CALLBACK
         if(magixcjquery_filter_request::isGet('callback')){
             $this->callback = (string) magixcjquery_form_helpersforms::inputClean($_GET['callback']);
@@ -1864,6 +1869,8 @@ class backend_controller_catalog extends backend_db_catalog{
                 'catalog'
             ),array('catalog_'),false
         );
+        $access = $this->model_access->module_access("backend_controller_catalog");
+        $create->assign('access',$access);
         if(isset($this->section)){
             if($this->section === 'category'){
                 if(isset($this->getlang)){

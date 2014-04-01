@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_news extends backend_db_news{
+    protected $model_access;
 	/**
 	 * 
 	 * @var integer
@@ -96,6 +97,9 @@ class backend_controller_news extends backend_db_news{
 	 * 
 	 */
 	public function __construct(){
+        if(class_exists('backend_model_access')){
+            $this->model_access = new backend_model_access();
+        }
         if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
         }
@@ -664,6 +668,8 @@ class backend_controller_news extends backend_db_news{
                 'news'
             ),array('news_'),false
         );
+        $access = $this->model_access->module_access("backend_controller_news");
+        $create->assign('access',$access);
         if(magixcjquery_filter_request::isGet('getlang')){
             if(isset($this->action)){
                 if($this->action == 'list'){
