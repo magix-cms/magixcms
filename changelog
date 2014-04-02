@@ -1,5 +1,17 @@
 #### 2.5.0
+Stable
+    * Upgrade tinyMCE 4.0.16 => 4.0.21
+    * Fix bug rss (request list news)
+    * Work #84 update access news, catalog, home (backend)
+    * Work #84 access add list news, catalog, home (backend)
+    * Upgrade Bootstrap 3.1.0 => 3.1.1 (frontend & backend)
+
 Beta
+    * Work #84 access add list cms, home (backend)
+    * Edit transfertProfil for upgrade 2.5.0
+    * Add checkAll in role/access
+    * Fix #65 user data - firstname and lastname (backend)
+    * Work Add params sort in widget data (catalog - frontend)
     * Fix #112 Erreur URL de modification des traductions de plugins
     * Fix #111 Encodage des prix dans le catalogue
     * Fix #84 Status et permissions utilisateurs
