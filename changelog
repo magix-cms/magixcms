@@ -1,5 +1,6 @@
 #### 2.5.0
 Stable
+    * Upgrade bootstrap Bootstrap 3.1.0 => 3.1.1 in install
     * Upgrade tinyMCE 4.0.16 => 4.0.21
     * Fix bug rss (request list news)
     * Work #84 update access news, catalog, home (backend)
