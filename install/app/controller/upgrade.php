@@ -87,6 +87,7 @@ class app_controller_upgrade extends app_db_upgrade{
                             foreach($data as $key){
                                 parent::transfertProfil($key['keyuniqid']);
                             }
+                            parent::dropTable("mc_admin_member");
                         }
                     }
                     app_model_smarty::getInstance()->display('upgrade/request/success_table.tpl');
