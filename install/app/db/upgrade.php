@@ -91,7 +91,7 @@ class app_db_upgrade{
      * @param $table
      */
     protected function dropTable($table){
-        $sql = 'DROP TABLE '.$table;
+        $sql = array('DROP TABLE '.$table);
         magixglobal_model_db::layerDB()->transaction($sql);
     }
 }
