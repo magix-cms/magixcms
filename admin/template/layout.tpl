@@ -49,7 +49,7 @@
 <main id="main" class="container">
     {block name="main:before"}{/block}
     {function cleanTextarea}
-        {$field|escape:'html':'UTF-8':FALSE}
+        {$field|escape:'html':'UTF-8':TRUE}
     {/function}
     {block name="aside"}
         <aside id="sidebar" class="col-md-2 col-sm-3 col-xs-12 pull-left well">

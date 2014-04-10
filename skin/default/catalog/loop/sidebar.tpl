@@ -1,20 +1,22 @@
-{if $main}
-    <p class="h2">
-        {if $main.url}<a href="{$main.url}" title="{#show_page#|ucfirst}">{/if}
-            {$main.name|ucfirst}
-        {if $main.url}</a>{/if}
-    </p>
-{/if}
-{if isset($listing.id)}
-    {$listing = [$listing]}
-{/if}
+{$listing = $data}
 {if is_array($listing) && !empty($listing)}
     <ul class="nav nav-pills nav-stacked">
-        {foreach $listing as $item}
-            <li{if $item.id == $active} class="active"{/if}>
-                <a href="{$item.url}" title="{#show_page#|ucfirst}">
-                    {$item.name|ucfirst}
+        {foreach $listing as $key => $value}
+            <li{if $smarty.get.idclc == $value.id} class="active"{/if}>
+                <a href="{$value.url}" title="{#show_page#|ucfirst}">
+                    {$value.name|ucfirst}
                 </a>
+                {if $value.subdata != null}
+                    <ul>
+                        {foreach $value.subdata as $subkey => $item}
+                            <li>
+                                <a href="{$item.url}" title="{#show_page#|ucfirst}">
+                                    {$item.name|ucfirst}
+                                </a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                {/if}
             </li>
         {/foreach}
     </ul>

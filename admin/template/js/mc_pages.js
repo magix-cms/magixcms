@@ -81,7 +81,7 @@ var MC_pages = (function ($, undefined) {
      * @param getParent
      * @param iso
      */
-    function add(baseadmin,iso,getlang,getParent){
+    function add(baseadmin,iso,getlang,getParent,access){
         if(getParent != 0){
             var idforms = $("#forms_cms_add_child");
             var url = '/'+baseadmin+'/cms.php?getlang='+getlang+'&action=add&get_page_p='+getParent;
@@ -111,9 +111,9 @@ var MC_pages = (function ($, undefined) {
                         });
                         $('#forms-add').dialog('close');
                         if(getParent != 0){
-                            jsonListChild(baseadmin,iso,getlang,getParent)
+                            jsonListChild(baseadmin,iso,getlang,getParent,access)
                         }else{
-                            jsonListParent(baseadmin,iso,getlang);
+                            jsonListParent(baseadmin,iso,getlang,access);
                         }
                     }
                 });
@@ -758,7 +758,7 @@ var MC_pages = (function ($, undefined) {
      * @param baseadmin
      * @param iso
      */
-    function updateActive(baseadmin,iso,getlang,getParent){
+    function updateActive(baseadmin,iso,getlang,getParent,access){
         $(document).on("click","a.active-pages",function(event){
             event.preventDefault();
             var id = $(this).data("active");
@@ -907,17 +907,17 @@ var MC_pages = (function ($, undefined) {
             graph(baseadmin);
         },
         runParents:function (baseadmin,iso,getlang,access) {
-            add(baseadmin,iso,getlang,0);
+            add(baseadmin,iso,getlang,0,access);
             jsonListParent(baseadmin,iso,getlang,access);
-            updateActive(baseadmin,iso,getlang,0);
-            remove(baseadmin,iso,getlang,0);
+            updateActive(baseadmin,iso,getlang,0,access);
+            remove(baseadmin,iso,getlang,0,access);
             autoCompleteSearch(baseadmin,getlang);
         },
         runChild:function(baseadmin,iso,getlang,getParent,access){
             jsonListChild(baseadmin,iso,getlang,getParent,access);
-            add(baseadmin,iso,getlang,getParent);
-            updateActive(baseadmin,iso,getlang,getParent);
-            remove(baseadmin,iso,getlang,getParent);
+            add(baseadmin,iso,getlang,getParent,access);
+            updateActive(baseadmin,iso,getlang,getParent,access);
+            remove(baseadmin,iso,getlang,getParent,access);
             autoCompleteSearch(baseadmin,getlang);
         },
         runEdit:function(baseadmin,getlang,edit){

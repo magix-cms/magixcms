@@ -20,16 +20,14 @@
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
         {* ## Navigation *}
         {widget_catalog_data
-            conf = [
-            'context' => ['category' => 'subcategory'],
-            'select'    => [{$smarty.get.strLangue} => {$smarty.get.idclc}]
+        conf = [
+        'context' => ['category' => 'subcategory']
         ]
         assign="sidebarData"
         }
-        {$listingData = [ 'main' => $sidebarData[0], 'listing' => $sidebarData[0].subdata, 'active' => $smarty.get.getidpage]}
-        {if $listingData}
+        {if $sidebarData}
             <div id="nav-sidebar">
-                {include file="catalog/loop/sidebar.tpl" main=$listingData.main listing=$listingData.listing active=$listingData.active}
+                {include file="catalog/loop/sidebar.tpl" data=$sidebarData}
             </div>
         {/if}
     {/if}
