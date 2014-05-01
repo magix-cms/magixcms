@@ -236,9 +236,12 @@ class frontend_db_catalog
      * @param int $limit
      * @return array
      */
-    protected static function s_product($idclc=null,$idcls=0,$limit=null,$sort='product')
+    protected static function s_product($idclc=null,$idcls=0,$limit=null,$sort='id')
     {
         switch($sort){
+            case 'id':
+                $order_clause = 'ORDER BY p.idproduct DESC';
+                break;
             case 'product':
                 $order_clause = 'ORDER BY p.orderproduct ASC';
                 break;
@@ -255,14 +258,6 @@ class frontend_db_catalog
         } else {
             // @TODO devrait recevoir la langue en paramète
             $where_clause = 'WHERE lang.iso = \''.frontend_model_template::current_Language().'\'';
-            switch($sort){
-                case 'product':
-                    $order_clause = 'ORDER BY p.idproduct DESC';
-                    break;
-                case 'name':
-                    $order_clause = 'ORDER BY catalog.titlecatalog ASC';
-                    break;
-            }
         }
         $limit_clause = null;
         if (is_int($limit)) {

@@ -33,10 +33,10 @@
     {/if}
     {* # News *}
     {if $smarty.server.SCRIPT_NAME == '/news.php'}
-        {* ## Navigation *}
+        {* ## Navigation tags *}
         {widget_news_data
             conf= [
-            'level'     => 'tag'
+                'level'     => 'tag'
             ]
             assign="sidebarData"
         }

@@ -75,14 +75,16 @@
     </form>
 {/block}
 {block name='aside:content' append}
-    {widget_news_display
-    conf    =   [
-    'level' => 'last-news',
-    'limit' => 3
-    ]
-    pattern = 'sidebar'
-    prepend = "<h2 class='lead'>{#last_news#|ucfirst}</h2>"
-}
+    {widget_news_data
+        conf =[
+        'context' =>  'last-news',
+        'limit' => 3
+        ]
+        assign='newsData'
+    }
+    <div class="news-list-last sidebar-list row">
+        {include file="news/loop/sidebar.tpl" data=$newsData}
+    </div>
 {/block}
 {block name="foot" append}
     {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}

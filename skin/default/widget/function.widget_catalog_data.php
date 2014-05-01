@@ -149,7 +149,7 @@ function smarty_function_widget_catalog_data ($params, $template)
             if ($row[$deep] != null AND $pass_trough != 1) {
                 $i[$deep]++;
 
-                // Construit doonées de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
+                // Construit les données de l'item en array avec clée nominative unifiée ('name' => 'monname,'descr' => '<p>ma descr</p>,...)
                 $itemData       =       $ModelCatalog->setItemData($row[$deep],$current['catalog'],$newrow);
 
                 // Récupération des sous-données (enfants)

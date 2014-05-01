@@ -393,7 +393,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                                 $data_3 =   parent::s_product(
                                     $v_2['idclc'],
                                     $v_2['idcls'],
-                                    $conf['limit']
+                                    $conf['limit'],
+                                    $conf['sort']
                                 );
                                 if ($data_3 != null) {
                                     $data[$k1]['subdata'][$k2]['subdata']   =   $data_3;
@@ -490,12 +491,16 @@ class frontend_model_catalog extends frontend_db_catalog {
                 if($class && class_exists($class)){
                     $data   =   $class::s_product(
                         $catId,
-                        $subcatId
+                        $subcatId,
+                        null,
+                        $conf['sort']
                     );
                 }else{
                     $data   =   parent::s_product(
                         $catId,
-                        $subcatId
+                        $subcatId,
+                        null,
+                        $conf['sort']
                     );
                 }
 
@@ -504,12 +509,16 @@ class frontend_model_catalog extends frontend_db_catalog {
                 if($class && class_exists($class)){
                     $data   =   $class::s_product(
                         $conf['id'],
-                        0
+                        0,
+                        null,
+                        $conf['sort']
                     );
                 }else{
                     $data   =   parent::s_product(
                         $conf['id'],
-                        0
+                        0,
+                        null,
+                        $conf['sort']
                     );
                 }
 
