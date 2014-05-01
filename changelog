@@ -1,3 +1,21 @@
+#### 2.5.1
+Stable
+    * Add widget data in home, news sidebar
+    * Add example widget data catalog gallery
+    * Add example widget catalog data subcategory
+        * Add example widget catalog data product
+    * Add example used widget data news & data category
+        * Add css defined news-list and product-list
+    * Change order_clause catalog s_product (fronted)
+        * Add last-product loop with widget data catalog
+        * Add tags loop with widget data news
+        * Add last-news loop with widget data news
+        * Add category loop with widget data catalog
+    * Upgrade tinyMCE 4.0.21 => 4.0.25
+    * Fix #115 Boucle des catégories dans la sidebar incorrect
+    * Fix #114 Refresh des pages CMS incorrect
+    * Fix bug drop old table (upgrade)
+
 #### 2.5.0
 Stable
     * Upgrade bootstrap Bootstrap 3.1.0 => 3.1.1 in install

@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="targetblank" href="https://github.com/gtraxx/magixcms">
+                    <a class="targetblank" href="https://github.com/magix-cms/magixcms">
                         <span class="fa fa-github"></span> Github
                     </a>
                 </li>
