@@ -12,16 +12,14 @@
     }*}
     {* Modele with catalog data *}
     {widget_catalog_data
-        conf =[
-            'context'   =>  'product',
-            'sort'      => 'product'
-        ]
-        assign='productData'
+    conf =[
+    'context'   =>  'product',
+    'sort'      => 'product'
+    ]
+    assign='productData'
     }
     {*<pre>{$productData|print_r}</pre>*}
     <div id="listing-product" class="product-list">
-        <div class="row">
-            {include file="catalog/loop/product.tpl" data=$productData}
-        </div>
+        {include file="catalog/loop/product.tpl" data=$productData}
     </div>
 {/block}
