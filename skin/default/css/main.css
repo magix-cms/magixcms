@@ -79,19 +79,43 @@
 #article > h1:first-child {
     margin-top: 0;
 }
-
 /*  Content List
     ***********/
-.news-list > .thumbnail > img {
-    float: left;
-    margin: 10px 20px 10px 10px;
+
+/*  News List
+    ***********/
+
+.news-list > .media{
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 4px;
+}
+.news-list > .media > .media-body > .media-heading {
+    margin: 5px 0 5px;
+}
+.news-list .media-link-object{
+    min-width: 290px;
+}
+.news-list .media-link-object img{
+    margin: 0 auto;
 }
 
-.news-list > .thumbnail > .caption > h3 {
-    margin-top: 0;
+/* Product List
+    ***********/
+
+.product-list > .thumbnail{
+    min-height: 330px;
+    border: none;
+    border-radius: 0;
 }
-
-
+.product-list > .thumbnail > .caption > h3 {
+    font-size: 20px;
+}
+.product-list > .thumbnail .caption {
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
 /*  Extend Bootstrap
     ****************/
 .img-responsive {
