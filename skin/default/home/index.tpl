@@ -9,12 +9,14 @@
 {/block}
 
 {block name='aside:content' append}
-    {widget_news_display
-        conf    =   [
-            'level' => 'last-news',
-            'limit' => 3
+    {widget_news_data
+        conf =[
+        'context' =>  'last-news',
+        'limit' => 3
         ]
-        pattern = 'sidebar'
-        prepend = "<h2 class='lead'>{#last_news#}</h2>"
+        assign='newsData'
     }
+    <div class="news-list-last sidebar-list row">
+        {include file="news/loop/sidebar.tpl" data=$newsData}
+    </div>
     {/block}

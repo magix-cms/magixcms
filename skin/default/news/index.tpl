@@ -23,12 +23,15 @@
 {/block}
 
 {block name='aside:content' append}
-    {widget_catalog_display
-    conf = [
-    'context' => 'last-product',
-    'limit' => 4
-    ]
-    pattern = 'sidebar'
-    prepend = "<p class='lead'>{#last_products#}</p>"
+    {widget_catalog_data
+        conf =[
+        'context' =>  'last-product',
+        'sort' => 'product',
+        'limit' => 4
+        ]
+        assign='productData'
     }
+    <div class="news-list-last sidebar-list row">
+        {include file="catalog/loop/last-product.tpl" data=$productData}
+    </div>
 {/block}
