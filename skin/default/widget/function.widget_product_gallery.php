@@ -108,8 +108,8 @@ function smarty_function_widget_product_gallery($params, $template)
             }
 
             $items['html'] .= $pattern['item']['item']['before'];
-            $items['html'] .= '<a href="'.$item['data']['img_src']['medium'].'" rel="productGallery" title="Agrandir"'.$pattern['item']['img']['classLink'].'>';
-                $items['html'] .= '<img src="'.$item['data']['img_src']['small'].'" alt="Galery" />';
+            $items['html'] .= '<a href="'.$item['data']['imgSrc']['medium'].'" rel="productGallery" title="Agrandir"'.$pattern['item']['img']['classLink'].'>';
+                $items['html'] .= '<img src="'.$item['data']['imgSrc']['small'].'" alt="Galery" />';
             $items['html'] .= '</a>';
             $items['html'] .= $pattern['item']['item']['after'];
         }

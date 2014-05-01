@@ -28,14 +28,28 @@
                     </p>
                 </form>
             </div>
+            {widget_catalog_data
+                conf =[
+                'context'   =>  'product-gallery'
+                ]
+                assign='galeryProductData'
+            }
+            {if $galeryProductData != null}
             <div id="product-gallery">
+                {* Example widget_catalog_display for gallery
                 {widget_product_gallery
-                title= "<h2>{#gallery#|ucfirst}</h2>"
+                    title= "<h2>{#gallery#|ucfirst}</h2>"
                 }
+                *}
+
+                <h2>{#gallery#|ucfirst}</h2>
+                {include file="catalog/loop/gallery.tpl" data=$galeryProductData}
             </div>
+            {/if}
         </div>
         <div class="col-xs12 col-md-8">
             {$product.content}
+            {* Example widget_catalog_display for similar_products
             {widget_catalog_display
             title   =   "<h2>{#similar_products#|ucfirst}</h2>"
             pattern =   [
@@ -44,7 +58,17 @@
                     'after'     =>  '</div></div>'
                 ]
             ]
+            }*}
+            {widget_catalog_data
+                assign='productRel'
             }
+            {if $productRel != null}
+            <h2>{#similar_products#|ucfirst}</h2>
+            {$classCat =  "thumbcat-{$cat.id}"}
+            <div id="listing-product" class="product-list">
+                {include file="catalog/loop/product.tpl" data=$productRel classCat=$classCat}
+            </div>
+            {/if}
         </div>
     </div>
 {/block}

@@ -6,7 +6,10 @@
 {/if}
 {if is_array($data) && !empty($data)}
     {foreach $data as $item}
-        <div{if $classCol} class="{$classCol}" {/if}>
+        {if $classCat && is_bool($classCat)}
+            {$classCat =  "thumbcat-{$item.id}"}
+        {/if}
+        <div{if $classCol} class="{$classCol}{if $classCat} {$classCat}{/if}" {/if}>
             <div class="caption">
                 <a class="img" href="{$item.url}" title="{#show_page#|ucfirst}">
                     {if $item.imgSrc.medium}
