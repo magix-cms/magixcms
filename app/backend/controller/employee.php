@@ -231,7 +231,7 @@ class backend_controller_employee extends backend_db_employee{
         if(parent::s_stats_user() != null){
             foreach (parent::s_stats_user() as $key){
                 $stat[]= array(
-                    'x'=>magixcjquery_string_convert::upTextCase($key['pseudo']),
+                    'x'=>magixcjquery_string_convert::upTextCase($key['pseudo_admin']),
                     'y'=>$key['HOME'],
                     'z'=>$key['NEWS'],
                     'a'=>$key['PAGES'],
