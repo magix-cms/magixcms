@@ -1,5 +1,5 @@
 {script src="/{baseadmin}/min/?g=adminjs,jimagine,globalize" concat={$concat} type="javascript"}
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/vendor/modernizr.2.7.1.js,{baseadmin}/template/js/cultures/{iso}.js" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/vendor/modernizr.2.8.1.js,{baseadmin}/template/js/cultures/{iso}.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
     $.nicenotify.notifier = {
         box:"",
