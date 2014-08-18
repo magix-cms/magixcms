@@ -298,6 +298,30 @@ var MC_user = (function ($, undefined) {
                 return false;
             }
         });
+        var formsUpdateRole = $('#forms_user_data_role').validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                id_role: {
+                    required: true
+                }
+            },
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: url,
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform:false,
+                    successParams:function(data){
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
         var formsUpdatePassword = $('#forms_user_password_edit').validate({
             onsubmit: true,
             event: 'submit',
@@ -327,7 +351,9 @@ var MC_user = (function ($, undefined) {
                 return false;
             }
         });
+
         $('#forms_user_data_edit').formsUpdateData;
+        $('#forms_user_data_role').formsUpdateRole;
         $('#forms_user_password_edit').formsUpdatePassword;
     }
 

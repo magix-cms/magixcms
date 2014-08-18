@@ -135,6 +135,8 @@ class JUpload {
 		$classparams['allow_subdirs'] = false;
 		if (!isset($classparams['spaces_in_subdirs']))
 		$classparams['spaces_in_subdirs'] = false;
+		if (!isset($classparams['convert_spaces']))         // set to true to convert spaces in filenames to _
+		$classparams['convert_spaces'] = false;
 		if (!isset($classparams['allow_zerosized']))
 		$classparams['allow_zerosized'] = false;
 		if (!isset($classparams['duplicate']))
@@ -332,7 +334,7 @@ class JUpload {
 		@unlink($this->classparams['destdir'].'/'.$this->classparams['tmp_prefix'].session_id());
 		@unlink($this->classparams['destdir'].'/'.$this->classparams['tmp_prefix'].'tmp'.session_id());
 		// reset session var
-		$_SESSION[$this->classparams['var_prefix'].'size'] = 0;
+		$_SESSION['RF'][$this->classparams['var_prefix'].'size'] = 0;
 		return;
 	}
 
@@ -363,6 +365,9 @@ class JUpload {
 	 */
 	private function dstfinal(&$name, &$subdir) {
 		$name = preg_replace('![`$\\\\/|]!', '_', $name);
+		if ($this->classparams['convert_spaces']) {
+            $name = str_replace(' ', '_', $name);
+		}
 		if ($this->classparams['allow_subdirs'] && ($subdir != '')) {
 			$subdir = trim(preg_replace('!\\\\!','/',$subdir),'/');
 			$subdir = preg_replace('![`$|]!', '_', $subdir);
@@ -529,13 +534,13 @@ private function receive_uploaded_files() {
 	}
 	// we check for the session *after* handling possible error log
 	// because an error could have happened because the session-id is missing.
-	if (!isset($_SESSION[$this->classparams['var_prefix'].'size'])) {
+	if (!isset($_SESSION['RF'][$this->classparams['var_prefix'].'size'])) {
 		$this->abort('Invalid session (in afterupload, POST, check of size)');
 	}
-	if (!isset($_SESSION[$this->classparams['var_prefix'].'files'])) {
+	if (!isset($_SESSION['RF'][$this->classparams['var_prefix'].'files'])) {
 		$this->abort('Invalid session (in afterupload, POST, check of files)');
 	}
-	$this->files = $_SESSION[$this->classparams['var_prefix'].'files'];
+	$this->files = $_SESSION['RF'][$this->classparams['var_prefix'].'files'];
 	if (!is_array($this->files)) {
 		$this->abort('Invalid session (in afterupload, POST, is_array(files))');
 	}
@@ -625,7 +630,7 @@ if ($this->classparams['demo_mode']) {
 if ($jupart) {
 	// got a chunk of a multi-part upload
 	$len = filesize($tmpname);
-	$_SESSION[$this->classparams['var_prefix'].'size'] += $len;
+	$_SESSION['RF'][$this->classparams['var_prefix'].'size'] += $len;
 	if ($len > 0) {
 		$src = fopen($tmpname, 'rb');
 		$dst = fopen($dstname, ($jupart == 1) ? 'wb' : 'ab');
@@ -654,7 +659,7 @@ if ($jupart) {
 		// This is the last chunk. Check total lenght and
 		// rename it to it's final name.
 		$dlen = filesize($dstname);
-		if ($dlen != $_SESSION[$this->classparams['var_prefix'].'size'])
+		if ($dlen != $_SESSION['RF'][$this->classparams['var_prefix'].'size'])
 		$this->abort('file size mismatch');
 		if ($this->appletparams['sendMD5Sum'] == 'true' ) {
 			if ($md5sums[$cnt] != md5_file($dstname))
@@ -677,7 +682,7 @@ if ($jupart) {
 			unlink($dstname);
 		}
 		// reset session var
-		$_SESSION[$this->classparams['var_prefix'].'size'] = 0;
+		$_SESSION['RF'][$this->classparams['var_prefix'].'size'] = 0;
 	}
 } else {
 	// Got a single file upload. Trivial.
@@ -701,7 +706,7 @@ $cnt++;
 }
 
 echo $this->appletparams['stringUploadSuccess']."\n";
-$_SESSION[$this->classparams['var_prefix'].'files'] = $this->files;
+$_SESSION['RF'][$this->classparams['var_prefix'].'files'] = $this->files;
 session_write_close();
 exit;
 }
@@ -727,15 +732,15 @@ private function page_start() {
 		}
 		if (isset($_GET['afterupload'])) {
 			$this->logDebug('page_start', 'afterupload is set');
-			if (!isset($_SESSION[$this->classparams['var_prefix'].'files'])) {
-				$this->abort('Invalid session (in afterupload, GET, check of $_SESSION): files array is not set');
+			if (!isset($_SESSION['RF'][$this->classparams['var_prefix'].'files'])) {
+				$this->abort('Invalid session (in afterupload, GET, check of $_SESSION["RF"]): files array is not set');
 			}
-			$this->files = $_SESSION[$this->classparams['var_prefix'].'files'];
+			$this->files = $_SESSION['RF'][$this->classparams['var_prefix'].'files'];
 			if (!is_array($this->files)) {
 				$this->abort('Invalid session (in afterupload, GET, check of is_array(files)): files is not an array');
 			}
 			// clear session data ready for new upload
-			$_SESSION[$this->classparams['var_prefix'].'files'] = array();
+			$_SESSION['RF'][$this->classparams['var_prefix'].'files'] = array();
 
 			// start intercepting the content of the calling page, to display the upload result.
 			ob_start(array(& $this, 'interceptAfterUpload'));
@@ -746,8 +751,8 @@ private function page_start() {
 				session_regenerate_id(true);
 			}
 			$this->files = array();
-			$_SESSION[$this->classparams['var_prefix'].'size'] = 0;
-			$_SESSION[$this->classparams['var_prefix'].'files'] = $this->files;
+			$_SESSION['RF'][$this->classparams['var_prefix'].'size'] = 0;
+			$_SESSION['RF'][$this->classparams['var_prefix'].'files'] = $this->files;
 			// start intercepting the content of the calling page, to display the applet tag.
 			ob_start(array(& $this, 'interceptBeforeUpload'));
 		}

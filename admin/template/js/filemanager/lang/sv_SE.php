@@ -55,5 +55,43 @@ define('lang_Extract','packa upp här'); // extract here
 define('lang_File_info','fil information'); // file info
 define('lang_Edit_image','editera bild'); // edit image
 define('lang_Duplicate','Duplicera'); // Duplicate
+define('lang_Folders', 'Folders'); // Folders
+define('lang_Copy','Kopiera'); // Copy
+define('lang_Cut','Klipp ut'); // Cut
+define('lang_Paste','Klistra in'); // Paste
+define('lang_CB', 'Urklipp'); //CB,  clipboard
+define('lang_Paste_Here','Klistra in i denna mapp'); // Paste to this directory
+define('lang_Paste_Confirm','Är du säker på att du vill klistra in i denna mapp? Befintliga filer och mappar kan bli överskrivna.'); // Are you sure you want to paste to this directory? This will overwrite existing files/folders if encountered any.
+define('lang_Paste_Failed','Misslyckades med att klistra in fil(er)'); // Failed to paste file(s)
+define('lang_Clear_Clipboard','Rensa urklipp'); // Clear clipboard
+define('lang_Clear_Clipboard_Confirm','Är du säker på att du vill rensa urklipp?'); // Are you sure you want to clear the clipboard?
+define('lang_Files_ON_Clipboard','Det finns filer i urklipp.'); // There are files on the clipboard.
+define('lang_Copy_Cut_Size_Limit','De valda filerna/mapparna är för stora för att %s. Gräns: %d MB per operation'); // The selected files/folders are too big to %s. Limit: %d MB/operation      %s = cut or copy
+define('lang_Copy_Cut_Count_Limit','För många filer/mappar är valda för att de ska kunna %s. Gräns: #d filer per operation'); // You selected too many files/folders to %s. Limit: %d files/operation     %s = cut or copy
+define('lang_Copy_Cut_Not_Allowed','Du har ej behörighet att %s filer.'); // You are not allowed to %s files.        %s(1) = cut or copy, %s(2) = files or folders
+define('lang_Aviary_No_Save', 'Misslyckades med att spara bild'); // Could not save image
+define('lang_Zip_No_Extract', 'Misslyckades med att packa upp. Filen kan eventuellt vara korrupt.'); // Could not extract. File might be corrupt.
+define('lang_Zip_Invalid', 'Filtypen stöds ej. Stödja filtyper: zip, gz och tar.'); // This extension is not supported. Valid: zip, gz, tar.
+define('lang_Dir_No_Write', 'Det går ej att skriva till den valda sökvägen.'); // The directory you selected is not writable.
+define('lang_Function_Disabled', 'Funktionen för att %s är inaktiverad.'); // The %s function has been disabled by the server.       %s = cut or copy
+define('lang_File_Permission', 'File permission');
+define('lang_File_Permission_Not_Allowed', 'Changing %s permissions are not allowed.'); // %s = files or folders
+define('lang_File_Permission_Recursive', 'Apply recursively?');
+define('lang_File_Permission_Wrong_Mode', "The supplied permission mode is incorrect.");
+define('lang_User', 'User');
+define('lang_Group', 'Group');
+define('lang_Yes', 'Yes');
+define('lang_No', 'No');
+define('lang_Lang_Not_Found', 'Could not find language.');
+define('lang_Lang_Change', 'Change the language');
+define('lang_File_Not_Found', 'Could not find the file.');
+define('lang_File_Open_Edit_Not_Allowed', 'You are not allowed to %s this file.'); // %s = open or edit
+define('lang_Edit', 'Edit');
+define('lang_Edit_File', "Edit file's content");
+define('lang_File_Save_OK', "File successfully saved.");
+define('lang_File_Save_Error', "There was an error while saving the file.");
+define('lang_New_File','New File');
+define('lang_No_Extension','You have to add a file extension.'); 
+define('lang_Valid_Extensions','Valid extensions: %s'); // %s = txt,log etc.
 
 ?>

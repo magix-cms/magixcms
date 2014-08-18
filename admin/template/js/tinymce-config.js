@@ -19,7 +19,7 @@
         entity_encoding : "raw",
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
+            'searchreplace visualblocks code fullscreen colorpicker textpattern wordcount directionality',
             'insertdatetime media table contextmenu paste textcolor template youtube codehighlight mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
         ],
         toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | fontsizeselect | forecolor backcolor',
@@ -47,7 +47,7 @@
         },
         style_formats: [
             {title: 'Link', items: [
-                {title: 'TargetBlank', selector: 'a', classes: 'targeblank'},
+                {title: 'TargetBlank', selector: 'a', classes: 'targetblank'},
             ]},
             {title: 'Image', items: [
                 {title: 'Lightbox simple', selector: 'a', classes: 'img-zoom',
@@ -71,7 +71,7 @@
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,
         schema: "html5",
-        end_container_on_empty_block: false,
+        //end_container_on_empty_block: false,
         /*fix_list_elements : true*/
         content_css : content_css
     });

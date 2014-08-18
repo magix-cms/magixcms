@@ -55,4 +55,43 @@ define('lang_Extract','kibontás ide');
 define('lang_File_info','fájl info');
 define('lang_Edit_image','kép szerkesztése');
 define('lang_Duplicate','Klónozás');
+define('lang_Folders', 'Mappák');
+define('lang_Copy','Másolás');
+define('lang_Cut','Kivágás');
+define('lang_Paste','Beillesztés');
+define('lang_CB', 'VL'); // clipboard
+define('lang_Paste_Here','Beillesztés ebbe a mappába.');
+define('lang_Paste_Confirm','Biztos vagy benne, hogy ebbe a mappába szeretnéd beilleszteni a fájlokat? A létező fájlok/mappák felül lesznek írva.');
+define('lang_Paste_Failed','A beillesztés sikertelen!');
+define('lang_Clear_Clipboard','Vágólap törlése');
+define('lang_Clear_Clipboard_Confirm','Biztos törlöd a vágólap tartalmát?');
+define('lang_Files_ON_Clipboard','Fájlok találhatóak a vágólapon.');
+define('lang_Copy_Cut_Size_Limit','A kiválasztott fájlok/mappák túl nagyok a %shoz. Limit: %d MB/művelet'); // %s = cut or copy
+define('lang_Copy_Cut_Count_Limit','Túl sok fájlt választottál ki a %shoz. Limit: %d fájl/művelet'); // %s = cut or copy
+define('lang_Copy_Cut_Not_Allowed','A %s nem engedélyezett.'); // %s(1) = cut or copy, %s(2) = files or folders
+define('lang_Aviary_No_Save', 'A kép mentése sikertelen.');
+define('lang_Zip_No_Extract', 'Kicsomagolás sikertelen. Lehet, hogy korrupt a fájl.');
+define('lang_Zip_Invalid', 'Ez a kiterjesztés nem támogatott. Támogatott: zip, gz, tar.');
+define('lang_Dir_No_Write', 'A kiválasztott mappa nem írható.');
+define('lang_Function_Disabled', 'A %s funkciót letiltotta a szerver.'); // %s = cut or copy
+define('lang_File_Permission', 'Engedélyek');
+define('lang_File_Permission_Not_Allowed', 'A %s jogainak a megváltoztatása nem engedélyezett.'); // %s = files or folders
+define('lang_File_Permission_Recursive', 'Rekurzív beállítás az almappákra?');
+define('lang_File_Permission_Wrong_Mode', "A beírt engedély nem megfelelő.");
+define('lang_User', 'Felhasználó');
+define('lang_Group', 'Csoport');
+define('lang_Yes', 'Igen');
+define('lang_No', 'Nem');
+define('lang_Lang_Not_Found', 'A nyelv nem található.');
+define('lang_Lang_Change', 'Nyelv megváltoztatása');
+define('lang_File_Not_Found', 'A fájl nem található.');
+define('lang_File_Open_Edit_Not_Allowed', 'Nincs jogod %s a fájlt.'); // %s = open or edit
+define('lang_Edit', 'Szerkesztés');
+define('lang_Edit_File', "Fájl szerkesztése");
+define('lang_File_Save_OK', "Fájl sikeresen mentve.");
+define('lang_File_Save_Error', "Hiba történt a fájl mentése közben.");
+define('lang_New_File','Új fájl');
+define('lang_No_Extension','Meg kell adnod a fájl kiterjesztését.'); 
+define('lang_Valid_Extensions','Elfogadott kiterjesztések: %s'); // %s = txt,log etc.
+
 ?>

@@ -55,4 +55,43 @@ define('lang_Extract','bura çıxart');
 define('lang_File_info','fayl məlumatı');
 define('lang_Edit_image','şəkli redaktə et');
 define('lang_Duplicate','Dublikat');
+define('lang_Folders', 'Folders');
+define('lang_Copy','Copy');
+define('lang_Cut','Cut');
+define('lang_Paste','Paste');
+define('lang_CB', 'CB'); // clipboard
+define('lang_Paste_Here','Paste to this directory');
+define('lang_Paste_Confirm','Are you sure you want to paste to this directory? This will overwrite existing files/folders if encountered any.');
+define('lang_Paste_Failed','Failed to paste file(s)');
+define('lang_Clear_Clipboard','Clear clipboard');
+define('lang_Clear_Clipboard_Confirm','Are you sure you want to clear the clipboard?');
+define('lang_Files_ON_Clipboard','There are files on the clipboard.');
+define('lang_Copy_Cut_Size_Limit','The selected files/folders are too big to %s. Limit: %d MB/operation'); // %s = cut or copy
+define('lang_Copy_Cut_Count_Limit','You selected too many files/folders to %s. Limit: %d files/operation'); // %s = cut or copy
+define('lang_Copy_Cut_Not_Allowed','You are not allowed to %s files.'); // %s(1) = cut or copy, %s(2) = files or folders
+define('lang_Aviary_No_Save', 'Could not save image');
+define('lang_Zip_No_Extract', 'Could not extract. File might be corrupt.');
+define('lang_Zip_Invalid', 'This extension is not supported. Valid: zip, gz, tar.');
+define('lang_Dir_No_Write', 'The directory you selected is not writable.');
+define('lang_Function_Disabled', 'The %s function has been disabled by the server.'); // %s = cut or copy
+define('lang_File_Permission', 'File permission');
+define('lang_File_Permission_Not_Allowed', 'Changing %s permissions are not allowed.'); // %s = files or folders
+define('lang_File_Permission_Recursive', 'Apply recursively?');
+define('lang_File_Permission_Wrong_Mode', "The supplied permission mode is incorrect.");
+define('lang_User', 'User');
+define('lang_Group', 'Group');
+define('lang_Yes', 'Yes');
+define('lang_No', 'No');
+define('lang_Lang_Not_Found', 'Could not find language.');
+define('lang_Lang_Change', 'Change the language');
+define('lang_File_Not_Found', 'Could not find the file.');
+define('lang_File_Open_Edit_Not_Allowed', 'You are not allowed to %s this file.'); // %s = open or edit
+define('lang_Edit', 'Edit');
+define('lang_Edit_File', "Edit file's content");
+define('lang_File_Save_OK', "File successfully saved.");
+define('lang_File_Save_Error', "There was an error while saving the file.");
+define('lang_New_File','New File');
+define('lang_No_Extension','You have to add a file extension.'); 
+define('lang_Valid_Extensions','Valid extensions: %s'); // %s = txt,log etc.
+
 ?>

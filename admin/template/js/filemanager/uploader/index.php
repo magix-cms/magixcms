@@ -2,7 +2,7 @@
 
 include '../config/config.php';
 if(!$java_upload) die('forbidden');
-if($_SESSION["verify"] != "RESPONSIVEfilemanager") die('forbidden');
+if($_SESSION['RF']["verify"] != "RESPONSIVEfilemanager") die('forbidden');
 
 //Let's load the 'interesting' stuff ...  ;-)
 include 'jupload.php';
@@ -114,6 +114,12 @@ $classParameters = array(
         'destdir' => $path  //Where to store the files on the web
         //'errormail' => 'me@my.domain.org',
     );
+
+// If convert spaces is enabled, pass that option on to the uploader
+if (!empty($convert_spaces)) {
+    $classParameters['convert_spaces'] = true;
+    $classParameters['spaces_in_subdirs'] = false;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Instantiate and initialize JUpload : integration of the applet in your web site.
