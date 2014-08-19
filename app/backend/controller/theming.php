@@ -141,13 +141,15 @@ class backend_controller_theming extends backend_db_theming{
             $themePath = self::directory_skin().$d;
             if($makefiles->scanDir($themePath) != null){
                 if(file_exists($themePath.'/screenshot.png')){
-                    $img = magixcjquery_html_helpersHtml::getUrl().'/skin/'.$d.'/screenshot.png';
+                    $img = 'src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/'.$d.'/screenshot.png"';
+                    $srcData = '';
                 }else{
-                    $img = magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png';
+                    $img = 'src="'.magixcjquery_html_helpersHtml::getUrl().'/skin/default/screenshot.png"';
+                    $srcData = ' data-src="holder.js/260x180"';
                 }
                 $template .= '<li class="col-sm-4">';
                 $template .= '<div class="thumbnail">';
-                $template .= '<img src="'.$img.'" data-src="holder.js/260x180" alt="'.$btn_title.'">';
+                $template .= '<img '.$img.$srcData.' alt="'.$btn_title.'">';
                 $template .= '<div class="caption">';
                 $template .= '<h3>'.$d.'</h3>';
                 $template .= '<p><a data-skin="'.$d.'" class="skin-tpl btn btn-large btn-block'.$btn_class.'" href="#">'.$btn_title.'</a></p>';
