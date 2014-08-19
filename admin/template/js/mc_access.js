@@ -148,6 +148,12 @@ var MC_access = (function ($, undefined) {
             }
         });
     }
+
+    /**
+     * Ajour de nouvelles données
+     * @param iso
+     * @param baseadmin
+     */
     function add(iso,baseadmin){
         var formsAdd = $('#forms_role_add').validate({
             onsubmit: true,
@@ -196,6 +202,13 @@ var MC_access = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Mise a jour des données
+     * @param iso
+     * @param baseadmin
+     * @param edit
+     */
     function update(iso,baseadmin,edit){
         $("#forms_role_update").validate({
             onsubmit: true,
@@ -219,7 +232,7 @@ var MC_access = (function ($, undefined) {
                     },
                     successParams:function(e){
                         $.nicenotify.initbox(e,{
-                            display:false
+                            display:true
                         });
                         //$('#scmodule-home-add').find('.mini-loader').remove();
                         $('#scmodule-access-edit :submit').show();

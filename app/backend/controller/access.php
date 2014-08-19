@@ -50,7 +50,7 @@ class backend_controller_access extends backend_db_access{
     /**
      * @var admin_model_access
      */
-    protected $model_access;
+    protected $model_access,$message;
     /**
      * @var bool
      */
@@ -69,6 +69,7 @@ class backend_controller_access extends backend_db_access{
      * Constructor
      */
     public function __construct(){
+        $this->message = new backend_model_message();
         if(class_exists('backend_model_access')){
             $this->model_access = new backend_model_access();
         }
@@ -172,6 +173,7 @@ class backend_controller_access extends backend_db_access{
 
             }else{
                 parent::i_new_profile($role_name);
+                $this->message->getNotify('add');
             }
         }
     }
@@ -187,6 +189,7 @@ class backend_controller_access extends backend_db_access{
 
             }else{
                 parent::u_edit_profile($this->edit,$role_name);
+                $this->message->getNotify('update');
             }
         }
     }
