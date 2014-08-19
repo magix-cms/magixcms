@@ -13,11 +13,11 @@
 
 return array(
 	'adminjs' =>    array(
-        '//libjs/jquery-1.10.2.min.js',
+        '//libjs/jquery-1.11.1.min.js',
         '//libjs/jquery-ui-1.10.3.custom.min.js',
-        '//libjs/vendor/jquery.form.3.40.min.js',
-        '//libjs/vendor/jquery.validate.1.11.1.min.js',
-        '//libjs/vendor/additional-methods.1.11.1.min.js',
+        '//libjs/vendor/jquery.form.3.51.min.js',
+        '//libjs/vendor/jquery.validate.1.13.0.min.js',
+        '//libjs/vendor/additional-methods.1.13.0.min.js',
         '//'.PATHADMIN.'/template/js/vendor/bootstrap.min.js',
         '//'.PATHADMIN.'/template/js/vendor/holder.js'
     ),
