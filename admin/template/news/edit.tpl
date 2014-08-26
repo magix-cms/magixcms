@@ -14,7 +14,7 @@
     </div>
     {if $access.edit eq 1}
     <ul class="nav nav-tabs clearfix">
-        <li{if !$smarty.get.tab} class="active"{/if}>
+        <li{if !$smarty.get.tab && !$smarty.get.plugin} class="active"{/if}>
             <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}">{#text#|ucfirst}</a>
         </li>
         <li{if $smarty.get.tab eq "image"} class="active"{/if}>
@@ -24,7 +24,7 @@
             <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;tab=tags">Tags</a>
         </li>
         {if $plugin != null}
-            {foreach $plugin as $key => $value}
+            {foreach $plugin as $key}
                 <li{if $smarty.get.plugin eq $key.url} class="active"{/if}>
                     <a href="/admin/news.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key.url}">{$key.name|ucfirst}</a>
                 </li>

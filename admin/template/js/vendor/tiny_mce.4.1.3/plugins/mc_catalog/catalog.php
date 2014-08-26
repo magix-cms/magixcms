@@ -71,10 +71,7 @@ if(file_exists($baseadmin)){
         <div id="template-container" class="row"></div>
         <div id="list-catalog-search" class="row"></div>
     </div>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="/libjs/jquery-1.10.2.min.js"><\/script>')</script>
-  <script type="text/javascript" src="/libjs/vendor/jquery.form.3.40.min.js"></script>
-  <script src="/<?php print PATHADMIN; ?>/template/js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/<?php print PATHADMIN; ?>/min/?g=adminjs"></script>
   <script src="js/vendor/mustache.js"></script>
   <script type="text/javascript">
     var baseAdmin = <?php print '"'.PATHADMIN.'"'; ?>
