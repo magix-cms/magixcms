@@ -41,17 +41,42 @@
  * @license Dual licensed under the MIT or GPL Version 3 licenses.
  */
 class backend_model_message{
-    protected $template;
+    /**
+     * @var backend_controller_template
+     */
+    protected $template,$plugins;
+
+    /**
+     *
+     */
     public function __construct(){
         $this->template = new backend_controller_template();
+        $this->plugins = new backend_controller_plugins();
     }
+
     /**
      * Retourne le message de notification
      * @param $type
+     * @param array $option
      */
-    public function getNotify($type){
-        $this->template->assign('message',$type);
-        $this->template->display('message.tpl');
+    public function getNotify($type,$option = array('template'=>'message.tpl','plugin'=>'false')){
+        if(array_key_exists('template',$option)){
+            $skin = $option['template'];
+        }else{
+            $skin = 'message.tpl';
+        }
+        if(array_key_exists('plugin',$option)){
+            $plugin = $option['plugin'];
+        }else{
+            $plugin = 'false';
+        }
+        if($plugin === 'true'){
+            $this->plugins->assign('message',$type);
+            $this->plugins->display($skin);
+        }else{
+            $this->template->assign('message',$type);
+            $this->template->display($skin);
+        }
     }
 }
 ?>

@@ -9,7 +9,7 @@
     {else}
         <div class="mc-message clearfix">
             <div class="alert alert-danger">
-                <span class="fa fa-warning"></span> {#request_acces_denied#}
+                <span class="fa fa-warning"></span> {#request_access_denied#}
             </div>
         </div>
     {/if}

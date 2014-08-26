@@ -59,7 +59,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	/**
 	 * Les variables globales
 	 */
-	public $action,$tab,$getlang;
+	public $action,$tab,$getlang,$message;
 
     /**
      * Les variables du plugin contact
@@ -69,6 +69,7 @@ class plugins_contact_admin extends database_plugins_contact{
 	 * Construct class
 	 */
 	public function __construct(){
+        $this->message = new backend_model_message();
         if(magixcjquery_filter_request::isPost('mail_contact')){
             $this->mail_contact = magixcjquery_form_helpersforms::inputClean($_POST['mail_contact']);
         }
@@ -103,15 +104,14 @@ class plugins_contact_admin extends database_plugins_contact{
     /**
      * @access private
      * Insertion d'un contact pour le formulaire
-     * @param $create
      */
-    private function add($create){
+    private function add(){
 		if(isset($this->mail_contact)){
 			if(empty($this->mail_contact)){
-				$create->display('request/empty.tpl');
+                $this->message->getNotify('empty');
 			}else {
 				parent::i_contact($this->getlang,$this->mail_contact);
-                $create->display('request/success_add.tpl');
+                $this->message->getNotify('add');
 			}
 		}
 	}
@@ -176,7 +176,7 @@ class plugins_contact_admin extends database_plugins_contact{
                             $create->display('list.tpl');
                         }
                     }elseif($this->action == 'add'){
-                        $this->add($create);
+                        $this->add();
                     }elseif($this->action == 'remove'){
                         if(isset($this->delete_contact)){
                             $this->remove();
