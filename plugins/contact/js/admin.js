@@ -134,7 +134,7 @@ var MC_plugins_contact = (function ($, undefined) {
     function jsonContact(baseadmin,getlang){
         $.nicenotify({
             ntype: "ajax",
-            uri: '/'+baseadmin+'/plugins.php?name=contact&getlang='+getlang+'&action=list&json_list_contact=true',
+            uri: '/'+baseadmin+'/plugins.php?name=contact&getlang='+getlang+'&action=json',
             typesend: 'get',
             datatype: 'json',
             beforeParams:function(){

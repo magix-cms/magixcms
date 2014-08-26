@@ -24,12 +24,12 @@
 				</authors>
 				<version>
 					<date_create>10/04/2010</date_create>
-					<date_update>12/01/2014</date_update>
-					<number>2.4</number>
+					<date_update>26/08/2014</date_update>
+					<number>2.5</number>
 					<phase>Stable</phase>
 					<support>
-                        <ticket href="https://github.com/gtraxx/magixcms/issues"></ticket>
-                        <git href="https://github.com/gtraxx/magixcms"></git>
+                        <ticket href="https://github.com/magix-cms/magixcms/issues"></ticket>
+                        <git href="https://github.com/magix-cms/magixcms"></git>
 					</support>
 				</version>
 			</infos>

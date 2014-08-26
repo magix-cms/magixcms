@@ -45,7 +45,7 @@
  * Administration du module contact de base
  *
  */
-class plugins_contact_admin extends database_plugins_contact{
+class plugins_contact_admin extends DBContact{
 	/**
 	 * 
 	 * @var idadmin
@@ -83,7 +83,7 @@ class plugins_contact_admin extends database_plugins_contact{
             $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
         }
         if(magixcjquery_filter_request::isGet('getlang')){
-            $this->getlang = (integer) magixcjquery_filter_isVar::isPostNumeric($_GET['getlang']);
+            $this->getlang = magixcjquery_form_helpersforms::inputNumeric($_GET['getlang']);
         }
 	}
 
@@ -129,8 +129,8 @@ class plugins_contact_admin extends database_plugins_contact{
      * Retourne les statistiques des contacts au format JSON
      */
     private function json_graph(){
-        if(parent::s_stats_contact() != null){
-            foreach (parent::s_stats_contact() as $key){
+        if(parent::select(array('type'=>'statistics')) != null){
+            foreach (parent::select(array('type'=>'statistics')) as $key){
                 $stat[]= array(
                     'x'=>magixcjquery_string_convert::upTextCase($key['iso']),
                     'y'=>$key['CONTACT']
@@ -143,9 +143,9 @@ class plugins_contact_admin extends database_plugins_contact{
     /**
      * Retourne la liste des contacts au format JSON
      */
-    private function json_list_contact(){
-        if(parent::s_contact($this->getlang) != null){
-            foreach (parent::s_contact($this->getlang) as $key){
+    private function jsonList(){
+        if(parent::select(array('type'=>'list','getlang'=>$this->getlang)) != null){
+            foreach (parent::select(array('type'=>'list','getlang'=>$this->getlang)) as $key){
                 $json[]= '{"idcontact":'.json_encode($key['idcontact']).',"mail_contact":'.json_encode($key['mail_contact']).'}';
             }
             print '['.implode(',',$json).']';
@@ -163,18 +163,16 @@ class plugins_contact_admin extends database_plugins_contact{
         if(self::install_table($create) == true){
             if(magixcjquery_filter_request::isGet('getlang')){
                 if(isset($this->action)){
-                    if($this->action == 'list'){
-                        if(magixcjquery_filter_request::isGet('json_list_contact')){
-                            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-                            $header->pragma();
-                            $header->cache_control("nocache");
-                            $header->getStatus('200');
-                            $header->json_header("UTF-8");
-                            $this->json_list_contact();
-                        }else{
-                            $create->display('list.tpl');
-                        }
+                    if($this->action == 'json'){
+                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->pragma();
+                        $header->cache_control("nocache");
+                        $header->getStatus('200');
+                        $header->json_header("UTF-8");
+                        $this->jsonList();
+                    }elseif($this->action == 'list'){
+                        $create->display('list.tpl');
                     }elseif($this->action == 'add'){
                         $this->add();
                     }elseif($this->action == 'remove'){
@@ -265,7 +263,7 @@ class plugins_contact_admin extends database_plugins_contact{
        	}
 	}
 }
-class database_plugins_contact{
+class DBContact{
 	/**
 	 * Vérifie si les tables du plugin sont installé
 	 * @access protected
@@ -276,36 +274,37 @@ class database_plugins_contact{
 		return magixglobal_model_db::layerDB()->showTable($table);
 	}
     /*######################## Statistiques ##############################*/
-    /**
-     * @return array
-     */
-    protected function s_stats_contact(){
-        $sql = 'SELECT lang.iso, IF( c.contact_count >0, c.contact_count, 0 ) AS CONTACT
-        FROM mc_lang AS lang
-        LEFT OUTER JOIN (
-            SELECT lang.idlang, lang.iso, count( c.idcontact ) AS contact_count
-            FROM mc_plugins_contact AS c
-            JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-            GROUP BY c.idlang
-            )c ON ( c.idlang = lang.idlang )
-        GROUP BY lang.idlang';
-        return magixglobal_model_db::layerDB()->select($sql);
-    }
 	/**
 	 * @access protected
 	 * Retourne les contacts enregistrés pour le formulaire
 	 */
 
-    protected function s_contact($getlang){
-        $sql = 'SELECT c.*
-        FROM mc_plugins_contact AS c
-        JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
-        WHERE c.idlang = :getlang';
-        return magixglobal_model_db::layerDB()->select($sql,array(
-            ':getlang'=>$getlang
-        ));
+    protected function select($data){
+        if(is_array($data)){
+            if($data['type'] === 'statistics'){
+                $sql = 'SELECT lang.iso, IF( c.contact_count > 0, c.contact_count, 0 ) AS CONTACT
+                FROM mc_lang AS lang
+                LEFT OUTER JOIN (
+                    SELECT lang.idlang, lang.iso, count( c.idcontact ) AS contact_count
+                    FROM mc_plugins_contact AS c
+                    JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+                    GROUP BY c.idlang
+                    )c ON ( c.idlang = lang.idlang )
+                GROUP BY lang.idlang';
+                return magixglobal_model_db::layerDB()->select($sql);
+            }elseif($data['type'] === 'list'){
+                $sql = 'SELECT c.*
+                FROM mc_plugins_contact AS c
+                JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+                WHERE c.idlang = :getlang';
+                return magixglobal_model_db::layerDB()->select($sql,
+                    array(
+                        ':getlang'  =>  $data['getlang']
+                    )
+                );
+            }
+        }
     }
-
     /**
      * @access protected
      * Insertion d'un nouveau contact de l'administration
