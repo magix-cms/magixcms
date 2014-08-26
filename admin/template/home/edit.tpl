@@ -4,8 +4,8 @@
     {include file="home/section/nav.tpl"}
     <h1>{#editing_the_page#|ucfirst} : {$subject}</h1>
     {if $access.edit eq 1}
+        {include file="home/forms/edit.tpl"}
         <div class="mc-message clearfix"></div>
-    {include file="home/forms/edit.tpl"}
     {else}
         <div class="mc-message clearfix">
             <div class="alert alert-danger">

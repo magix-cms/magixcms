@@ -24,15 +24,15 @@
             <span class="fa fa-plus"></span> {#display_metas#|ucfirst}
         </a>
     </p>
-    <div class="collapse-metas" id="metas">
+    <div class="collapse-metas row" id="metas">
         <div class="form-group">
-            <div class="col-lg-12">
+            <div class="col-lg-12 col-sm-12">
                 <label for="metatitle">{#label_title#|ucfirst} :</label>
                 <textarea class="form-control" id="metatitle" name="metatitle" cols="70" rows="3">{$metatitle}</textarea>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-lg-12">
+            <div class="col-lg-12 col-sm-12">
                 <label for="metadescription">Description :</label>
                 <textarea class="form-control" id="metadescription" name="metadescription" cols="70" rows="3">{$metadescription}</textarea>
             </div>
