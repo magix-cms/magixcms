@@ -46,7 +46,7 @@
  *
  */
 class backend_controller_catalog extends backend_db_catalog{
-    protected $model_access;
+    protected $model_access,$message;
 	/**
 	 * ####### Categorie et sous categorie ########
 	 */
@@ -185,6 +185,9 @@ class backend_controller_catalog extends backend_db_catalog{
 	public function __construct(){
         if(class_exists('backend_model_access')){
             $this->model_access = new backend_model_access();
+        }
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
         }
         if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
@@ -402,7 +405,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $pathclibelle,
                     $this->getlang
                 );
-                $create->display('catalog/request/success_add.tpl');
+                $this->message->getNotify('add');
             }
         }
     }
@@ -471,7 +474,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->c_content,
                     $this->edit
                 );
-                $create->display('catalog/request/success_update.tpl');
+                $this->message->getNotify('update');
             }
         }
     }
@@ -681,7 +684,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if(isset($this->delete_category)){
             $verify = parent::v_catalog_subcategory($this->delete_category);
             if($verify['COUNT_SUB_CAT'] != 0){
-                $create->display('catalog/request/child-exist.tpl');
+                $this->message->getNotify('child_exist');
             }else{
                 parent::d_category($this->delete_category);
             }
@@ -730,7 +733,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $pathslibelle,
                     $this->edit
                 );
-                $create->display('catalog/request/success_add.tpl');
+                $this->message->getNotify('add');
             }
         }
     }
@@ -803,7 +806,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->s_content,
                     $this->edit
                 );
-                $create->display('catalog/request/success_update.tpl');
+                $this->message->getNotify('update');
             }
         }
     }
@@ -1029,7 +1032,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->getlang,
                     $this->idadmin
                 );
-                $create->display('catalog/request/success_add.tpl');
+                $this->message->getNotify('add');
             }
         }
     }
@@ -1064,7 +1067,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->edit,
                     $this->idadmin
                 );
-                $create->display('catalog/request/success_update.tpl');
+                $this->message->getNotify('update');
             }
         }
     }
@@ -1762,7 +1765,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $this->edit,
                     $this->idproduct
                 );
-                $create->display('catalog/request/success_add.tpl');
+                $this->message->getNotify('add');
             }
         }
     }

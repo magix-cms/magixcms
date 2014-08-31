@@ -46,7 +46,7 @@
  */
 class backend_controller_cms extends backend_db_cms{
 
-    protected $model_access;
+    protected $model_access,$message;
 	public 
     $idadmin,
 	$idpage,
@@ -70,6 +70,9 @@ class backend_controller_cms extends backend_db_cms{
 	function __construct(){
         if(class_exists('backend_model_access')){
             $this->model_access = new backend_model_access();
+        }
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
         }
         if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
@@ -270,7 +273,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->title_page, 
 					$uri_page
 				);
-                backend_controller_template::display('cms/request/success_add.tpl');
+                $this->message->getNotify('add');
 			}
 		}
 	}
@@ -295,7 +298,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->title_page, 
 					$uri_page
 				);
-				$create->display('cms/request/success_add.tpl');
+                $this->message->getNotify('add');
 			}
 		}
 	}
@@ -374,7 +377,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->seo_desc_page,
 					$this->edit
 				);
-				backend_controller_template::display('cms/request/success_update.tpl');
+                $this->message->getNotify('update');
 			}
 		}
 	}
@@ -465,7 +468,7 @@ class backend_controller_cms extends backend_db_cms{
 					$this->edit, 
 					$idlang_p
 				);
-				backend_controller_template::display('request/success_conf.tpl');
+                $this->message->getNotify('add');
 			}
 		}
 	}
@@ -490,7 +493,7 @@ class backend_controller_cms extends backend_db_cms{
 			if($verify['childpages'] == 0){
 				parent::d_page($this->delpage);
 			}else{
-				backend_controller_template::display('cms/request/child-exist.tpl');
+                $this->message->getNotify('child_exist');
 			}
 		}
 	}
@@ -613,9 +616,9 @@ class backend_controller_cms extends backend_db_cms{
 					$idcat_p = 0;
 				}
 				parent::u_move_page($this->idlang, $idcat_p, $this->edit);
-                $create->display('cms/request/success_update.tpl');
+                $this->message->getNotify('update');
 			}else{
-                $create->display('cms/request/child-exist.tpl');
+                $this->message->getNotify('child_exist');
 			}
 		}
 	}

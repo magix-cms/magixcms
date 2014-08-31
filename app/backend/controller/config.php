@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_config extends backend_db_config{
+    protected $message;
 	/**
 	 * @access public
 	 * @var string
@@ -82,6 +83,9 @@ class backend_controller_config extends backend_db_config{
 	 * function construct
 	 */
 	function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         //Config
 		if(magixcjquery_filter_request::isPost('lang')){
 			$this->lang = magixcjquery_filter_isVar::isPostNumeric($_POST['lang']);
@@ -266,7 +270,7 @@ class backend_controller_config extends backend_db_config{
     private function update_manager_setting($create){
         if(isset($this->manager_setting)){
             parent::u_setting_value('editor',$this->manager_setting);
-            $create->display('config/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
 
@@ -282,7 +286,7 @@ class backend_controller_config extends backend_db_config{
                 $content_css = $this->content_css;
             }
             parent::u_setting_value('content_css',$content_css);
-            $create->display('config/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
 
@@ -325,7 +329,7 @@ class backend_controller_config extends backend_db_config{
                 $this->img_resizing,
                 $this->id_size_img
             );
-            $create->display('config/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
 
@@ -362,7 +366,7 @@ class backend_controller_config extends backend_db_config{
     private function update_concat_data($create){
         if(isset($this->concat)){
             parent::u_setting_value('concat',$this->concat);
-            $create->display('config/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
 
@@ -373,7 +377,7 @@ class backend_controller_config extends backend_db_config{
     private function update_cache_data($create){
         if(isset($this->cache)){
             parent::u_setting_value('cache',$this->cache);
-            $create->display('config/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
 
