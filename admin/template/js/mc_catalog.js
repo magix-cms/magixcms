@@ -376,7 +376,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:true
                                 });
-                                jsonListCategory(section,getlang,access);
+                                jsonListCategory(baseadmin,iso,section,getlang,access);
                             }
                         });
                     },
