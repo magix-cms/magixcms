@@ -45,7 +45,7 @@
  *
  */
 class backend_controller_news extends backend_db_news{
-    protected $model_access;
+    protected $model_access,$message;
 	/**
 	 * 
 	 * @var integer
@@ -99,6 +99,9 @@ class backend_controller_news extends backend_db_news{
 	public function __construct(){
         if(class_exists('backend_model_access')){
             $this->model_access = new backend_model_access();
+        }
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
         }
         if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
@@ -316,7 +319,7 @@ class backend_controller_news extends backend_db_news{
     private function insert_news_data(){
         if(isset($this->n_title)){
             if(empty($this->n_title)){
-                backend_controller_template::display('news/request/empty.tpl');
+                $this->message->getNotify('empty');
             }else{
                 parent::i_news(
                     $this->extract_random_idnews(20),
@@ -325,7 +328,7 @@ class backend_controller_news extends backend_db_news{
                     $this->n_title,
                     magixcjquery_url_clean::rplMagixString($this->n_title)
                 );
-                backend_controller_template::display('news/request/success_add.tpl');
+                $this->message->getNotify('add');
             }
         }
     }
@@ -483,10 +486,10 @@ class backend_controller_news extends backend_db_news{
 	 * @access private
 	 * POST le formulaire de mise à jour des données
 	 */
-	private function update_news_data($create){
+	private function update_news_data(){
 		if(isset($this->n_title)){
 			if(empty($this->n_title)){
-				$create->display('news/request/empty.tpl');
+                $this->message->getNotify('empty');
 			}else{
 				switch($this->published){
 					case 0:
@@ -520,7 +523,7 @@ class backend_controller_news extends backend_db_news{
                         'iso'=>$data['iso']
                     )
                 );
-                $create->display('news/request/success_update.tpl');
+                $this->message->getNotify('update');
 			}
 		}
 	}
@@ -713,7 +716,7 @@ class backend_controller_news extends backend_db_news{
                         }elseif(isset($this->n_image)){
                             $this->update_news_image();
                         }elseif(isset($this->n_title)){
-                            $this->update_news_data($create);
+                            $this->update_news_data();
                         }elseif(isset($this->name_tag)){
                             $this->add_reltag();
                         }elseif(isset($this->delete_tag)){

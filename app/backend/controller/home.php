@@ -45,7 +45,7 @@
  *
  */
 class backend_controller_home extends backend_db_home{
-    protected $model_access;
+    protected $model_access,$message;
 	/**
 	 * gethome
 	 * @var getedit (get edit)
@@ -83,6 +83,9 @@ class backend_controller_home extends backend_db_home{
 	function __construct(){
         if(class_exists('backend_model_access')){
             $this->model_access = new backend_model_access();
+        }
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
         }
         if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
@@ -194,10 +197,10 @@ class backend_controller_home extends backend_db_home{
      * Insertion d'une page d'accueil
      * @param $create
      */
-    private function insert_new_page($create){
+    private function insert_new_page(){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				$create->display('home/request/empty.tpl');
+                $this->message->getNotify('empty');
 			}else{
 				if(parent::s_lang_home($this->idlang) == null){
 					parent::i_new_home(
@@ -205,9 +208,9 @@ class backend_controller_home extends backend_db_home{
 						$this->idlang,
 						$this->idadmin
 					);
-					$create->display('home/request/success_add.tpl');
+                    $this->message->getNotify('add');
 				}else{
-					$create->display('home/request/element_exist.tpl');
+                    $this->message->getNotify('lang_exist');
 				}
 			}
 		}
@@ -217,10 +220,10 @@ class backend_controller_home extends backend_db_home{
      * Mise à jour de la page d'accueil
      * @param $create
      */
-    private function update_data_page($create){
+    private function update_data_page(){
 		if(isset($this->subject)){
 			if(empty($this->subject)){
-				$create->display('home/request/empty.tpl');
+                $this->message->getNotify('empty');
 			}else{
                 parent::u_home(
                     $this->subject,
@@ -230,7 +233,7 @@ class backend_controller_home extends backend_db_home{
                     $this->idadmin,
                     $this->edit
                 );
-                $create->display('home/request/success_update.tpl');
+                $this->message->getNotify('update');
 			}
 		}
 	}
@@ -289,12 +292,12 @@ class backend_controller_home extends backend_db_home{
                 }
             }elseif($this->action == 'add'){
                 if(isset($this->subject)){
-                    $this->insert_new_page($create);
+                    $this->insert_new_page();
                 }
             }elseif($this->action == 'edit'){
                 if(magixcjquery_filter_request::isGet('edit')){
                     if(isset($this->subject)){
-                        $this->update_data_page($create);
+                        $this->update_data_page();
                     }else{
                         $this->load_data_page($create);
                         $create->display('home/edit.tpl');

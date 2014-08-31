@@ -100,6 +100,16 @@
 {capture name="alert_message"}
     {#request_child_exist#}
 {/capture}
+{case 'no_images' break}
+{capture name="alert_type"}{strip}
+    warning
+{/strip}{/capture}
+{capture name="icon"}{strip}
+    warning
+{/strip}{/capture}
+{capture name="alert_message"}
+    {#request_no_images#}
+{/capture}
 {********* Error *********}
     {** error_login **}
 {case 'error_login' break}
@@ -133,7 +143,7 @@
     {#request_access_denied#}
 {/capture}
 {/switch}
-<p class="col-sm-6 alert alert-{$smarty.capture.alert_type} fade in">
+<p class="{if $message neq 'error_login' AND $message neq 'error_hash'}col-sm-6{/if} alert alert-{$smarty.capture.alert_type} fade in">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <span class="fa fa-{$smarty.capture.icon} fa-lg"></span> {$smarty.capture.alert_message}
 </p>

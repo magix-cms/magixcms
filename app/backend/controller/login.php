@@ -56,7 +56,7 @@ class backend_controller_login extends backend_db_employee{
      *
      * @var string
      */
-    protected $hashtoken;
+    protected $hashtoken,$message;
     /**
      * @var $email_admin,$passwd_admin
      */
@@ -67,6 +67,9 @@ class backend_controller_login extends backend_db_employee{
 	 * @var void
 	 */
 	function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
 		if(magixcjquery_filter_request::isPost('passwd_admin')){
 		    $this->passwd_admin = sha1(magixcjquery_form_helpersforms::inputClean($_POST['passwd_admin']));
           }
@@ -186,12 +189,10 @@ class backend_controller_login extends backend_db_employee{
 						magixglobal_model_redirect::backend_redirect_login(false);	
 					}
 				}else{
-                    $fetch = backend_controller_template::fetch('login/request/error.tpl');
-					backend_controller_template::assign('login_message',$fetch);
+                    $this->message->getNotify('error_login',array('method'=>'fetch','assignFetch'=>'login_message'));
 				}
 			}else{
-                $fetch = backend_controller_template::fetch('login/request/hash.tpl');
-                backend_controller_template::assign('login_message',$fetch);
+                $this->message->getNotify('error_hash',array('method'=>'fetch','assignFetch'=>'login_message'));
 			}
 		}
 	}

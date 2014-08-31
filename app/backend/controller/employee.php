@@ -45,12 +45,16 @@
  *
  */
 class backend_controller_employee extends backend_db_employee{
+    protected $message;
     public $lastname_admin,$firstname_admin,$pseudo_admin,$email_admin,$passwd_admin,$active_admin,$delete_employee;
 	public $edit,$action;
 	/**
 	 * Constructor
 	 */
 	function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isPost('lastname_admin')){
             $this->lastname_admin = magixcjquery_form_helpersforms::inputClean($_POST['lastname_admin']);
         }
@@ -146,7 +150,7 @@ class backend_controller_employee extends backend_db_employee{
      * Insert un nouvel utilisateur
      * @param $create
      */
-    private function insert_user($create){
+    private function insert_user(){
 		if(isset($this->pseudo_admin) AND isset($this->passwd_admin)){
 			parent::i_new_employee(
                 magixglobal_model_cryptrsa::uuid_generator(),
@@ -160,7 +164,7 @@ class backend_controller_employee extends backend_db_employee{
                 magixglobal_model_db::layerDB()->lastInsert(),
                 $this->id_role
             );
-            $create->display('user/request/success_add.tpl');
+            $this->message->getNotify('add');
 		}
 	}
 
@@ -168,7 +172,7 @@ class backend_controller_employee extends backend_db_employee{
      * Mise à jour des données utilisateur
      * @param $create
      */
-    private function update_user_data($create){
+    private function update_user_data(){
         if(isset($this->pseudo_admin) AND isset($this->pseudo_admin)){
             parent::u_edit_employee_infos(
                 $this->edit,
@@ -177,7 +181,7 @@ class backend_controller_employee extends backend_db_employee{
                 $this->pseudo_admin,
                 $this->email_admin
             );
-            $create->display('user/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
     /**
@@ -196,23 +200,23 @@ class backend_controller_employee extends backend_db_employee{
     /**
      * @param $create
      */
-    private function update_user_role($create){
+    private function update_user_role(){
         if(isset($this->id_role)){
             parent::u_employee_profile(
                 $this->edit,
                 $this->id_role
             );
-            $create->display('user/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
     /**
      * Mise à jour du mot de passe utilisateur
      * @param $create
      */
-    private function update_user_password($create){
+    private function update_user_password(){
         if(isset($this->passwd_admin)){
             parent::u_edit_employee_passwd($this->edit,$this->passwd_admin);
-            $create->display('user/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
 	/**
@@ -271,7 +275,7 @@ class backend_controller_employee extends backend_db_employee{
         if(isset($this->action)){
             if($this->action === 'add'){
                 if(isset($this->email_admin)){
-                    $this->insert_user($create);
+                    $this->insert_user();
                 }
             }elseif($this->action === 'list'){
                 if(magixcjquery_filter_request::isGet('json_list_user')){
@@ -288,11 +292,11 @@ class backend_controller_employee extends backend_db_employee{
                 }
             }elseif($this->action === 'edit'){
                 if(isset($this->email_admin)){
-                    $this->update_user_data($create);
+                    $this->update_user_data();
                 }elseif(isset($this->id_role)){
-                    $this->update_user_role($create);
+                    $this->update_user_role();
                 }elseif(isset($this->passwd_admin)){
-                    $this->update_user_password($create);
+                    $this->update_user_password();
                 }elseif(isset($this->active_admin)){
                     $this->edit_active_employee($this->active_admin);
                 }else{

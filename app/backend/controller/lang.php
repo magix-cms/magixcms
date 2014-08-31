@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_lang extends backend_db_lang{
+    protected $message;
 	/**
 	 * string
 	 * @var iso
@@ -71,6 +72,9 @@ class backend_controller_lang extends backend_db_lang{
 	 * Constructor
 	 */
 	function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
             $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['keyuniqid_admin']);
         }
@@ -129,18 +133,18 @@ class backend_controller_lang extends backend_db_lang{
 				if($this->default_lang == null){
 					$langdefault = '0';
 					parent::i_new_lang($this->iso,$this->language,$langdefault);
-                    $create->display('lang/request/success_add.tpl');
+                    $this->message->getNotify('add');
 				}else{
 					if($verify_default['deflanguage'] == '1'){
-                        $create->display('lang/request/default_exist.tpl');
+                        $this->message->getNotify('lang_default');
 					}else{
 						$langdefault = $this->default_lang;
 						parent::i_new_lang($this->iso,$this->language,$langdefault);
-                        $create->display('lang/request/success_add.tpl');
+                        $this->message->getNotify('add');
 					}
 				}
 			}else{
-                $create->display('lang/request/element-exist.tpl');
+                $this->message->getNotify('lang_exist');
 			}
 		}
 	}
@@ -165,7 +169,7 @@ class backend_controller_lang extends backend_db_lang{
 		if(isset($this->delete_lang)){
 			$count = parent::count_idlang_by_module($this->delete_lang);
 			if($count['ctotal'] != 0){
-                $create->display('lang/request/element_exist.tpl');
+                $this->message->getNotify('lang_exist');
 			}else{
 				parent::d_lang($this->delete_lang);
 			}
@@ -185,14 +189,14 @@ class backend_controller_lang extends backend_db_lang{
 			}
 			if($this->default_lang != null){
 				if($verify_default['deflanguage'] == '1'){
-					backend_controller_template::display('lang/request/default_exist.tpl');
+                    $this->message->getNotify('lang_default');
 				}else{
 					parent::u_lang($this->iso,$this->language,$langdefault,$this->edit);
-					backend_controller_template::display('lang/request/success_update.tpl');
+                    $this->message->getNotify('update');
 				}
 			}else{
 				parent::u_lang($this->iso,$this->language,$langdefault,$this->edit);
-				backend_controller_template::display('lang/request/success_update.tpl');
+                $this->message->getNotify('update');
 			}
 		}
 	}

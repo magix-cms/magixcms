@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_sitemap extends backend_db_sitemap{
+    protected $message;
 	/**
 	 * Constante PATHPLUGINS
 	 * Défini le chemin vers le dossier des plugins
@@ -60,6 +61,9 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	 * Constructor
 	 */
 	public function  __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isPost('xml_type')) {
             $this->xml_type = magixcjquery_form_helpersforms::inputClean($_POST['xml_type']);
         }
@@ -592,7 +596,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 	private function googlePing($create){
 		$sitemap = new magixcjquery_xml_sitemap();
 		$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml');
-        $create->display('sitemap/request/success_ping.tpl');
+        $this->message->getNotify('pinguer');
 	}
 	/**
 	 * Compression GZ + ping Google
@@ -605,7 +609,7 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			$this->compressed();
 			$sitemap->sendSitemapGoogle(substr(magixcjquery_html_helpersHtml::getUrl(),7),'sitemap.xml.gz');
 		}
-        $create->display('sitemap/request/success_ping.tpl');
+        $this->message->getNotify('pinguer');
 	}
 	/**
 	 * @access private
@@ -615,20 +619,20 @@ class backend_controller_sitemap extends backend_db_sitemap{
 		$this->createXMLIndexFile();
 		$this->writeIndex();
 		$this->endXMLWriter();
-        $create->display('sitemap/request/success_add.tpl');
+        $this->message->getNotify('add');
 	}
 	/**
 	 * @access private
 	 * Execute l'écriture dans le fichier XML
 	 */
 	private function module($create,$idlang){
-			$this->createXMLFile($idlang);
-			$this->writeNews($idlang);
-			$this->writeCms($idlang);
-			$this->writeCatalog($idlang);
-			$this->writeplugin($idlang);
-			$this->endXMLWriter();
-        $create->display('sitemap/request/success_add.tpl');
+        $this->createXMLFile($idlang);
+        $this->writeNews($idlang);
+        $this->writeCms($idlang);
+        $this->writeCatalog($idlang);
+        $this->writeplugin($idlang);
+        $this->endXMLWriter();
+        $this->message->getNotify('add');
 	}
 	/**
 	 * @access private
@@ -640,9 +644,9 @@ class backend_controller_sitemap extends backend_db_sitemap{
 			$this->createXMLImgFile($idlang);
 			$this->writeImagesCatalog($idlang);
 			$this->endXMLWriter();
-            $create->display('sitemap/request/success_add.tpl');
+            $this->message->getNotify('add');
 		}else{
-            $create->display('sitemap/request/no-image.tpl');
+            $this->message->getNotify('no_images');
 		}
 	}
 	/**

@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_theming extends backend_db_theming{
+    protected $message;
     /**
      * constante
      * @var string
@@ -59,6 +60,9 @@ class backend_controller_theming extends backend_db_theming{
      * function construct
      */
     function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isPost('theme')){
             $this->ptheme = magixcjquery_form_helpersforms::inputClean($_POST['theme']);
         }
@@ -168,7 +172,7 @@ class backend_controller_theming extends backend_db_theming{
     private function update(){
         if(isset($this->ptheme)){
             parent::u_change_theme($this->ptheme);
-            backend_controller_template::display('theming/request/success_update.tpl');
+            $this->message->getNotify('update');
         }
     }
 

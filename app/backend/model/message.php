@@ -59,7 +59,7 @@ class backend_model_message{
      * @param $type
      * @param array $option
      */
-    public function getNotify($type,$option = array('template'=>'message.tpl','plugin'=>'false')){
+    public function getNotify($type,$option = array('template'=>'message.tpl','method'=>'display','assignFetch'=>'','plugin'=>'false')){
         if(array_key_exists('template',$option)){
             $skin = $option['template'];
         }else{
@@ -70,12 +70,34 @@ class backend_model_message{
         }else{
             $plugin = 'false';
         }
-        if($plugin === 'true'){
-            $this->plugins->assign('message',$type);
-            $this->plugins->display($skin);
+        if(array_key_exists('method',$option)){
+            $method = $option['method'];
         }else{
-            $this->template->assign('message',$type);
-            $this->template->display($skin);
+            $method = 'display';
+        }
+        if(array_key_exists('assignFetch',$option)){
+            $assignFetch = $option['assignFetch'];
+        }else{
+            $assignFetch = '';
+        }
+        if($plugin === 'true'){
+            if($method === 'fetch'){
+                $this->plugins->assign('message',$type);
+                $fetch = $this->plugins->$method($skin);
+                $this->plugins->assign($assignFetch,$fetch);
+            }elseif($method === 'display'){
+                $this->plugins->assign('message',$type);
+                $this->plugins->$method($skin);
+            }
+        }else{
+            if($method === 'fetch'){
+                $this->template->assign('message',$type);
+                $fetch = $this->template->$method($skin);
+                $this->template->assign($assignFetch,$fetch);
+            }elseif($method === 'display'){
+                $this->template->assign('message',$type);
+                $this->template->$method($skin);
+            }
         }
     }
 }

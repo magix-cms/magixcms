@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_googletools extends backend_db_config{
+    protected $message;
 	/**
 	 * @access public
 	 * string
@@ -72,6 +73,9 @@ class backend_controller_googletools extends backend_db_config{
 	 * Function construct
 	 */
 	function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
 		if(magixcjquery_filter_request::isPost('webmaster')){
 			$this->webmaster = magixcjquery_form_helpersforms::inputClean($_POST['webmaster']);
 		}
@@ -163,7 +167,7 @@ class backend_controller_googletools extends backend_db_config{
                 parent::u_setting_value('robots',$this->robots);
                 break;
         }
-        $create->display('googletools/request/success_update.tpl');
+        $this->message->getNotify('update');
     }
 
 	/**

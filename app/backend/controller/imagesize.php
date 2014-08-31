@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_imagesize extends database_imagesize{
+    protected $message;
     /**
      * @var bool
      */
@@ -58,6 +59,9 @@ class backend_controller_imagesize extends database_imagesize{
      * Constructeur
      */
     public function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
 		if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
 			$this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
 			$this->height = magixcjquery_filter_isVar::isPostNumeric($_POST['height']);
@@ -127,8 +131,8 @@ class backend_controller_imagesize extends database_imagesize{
 	 */
 	private function update_img(){
 		if(isset($this->id_size_img)){
-			parent::u_size_img_config($this->width, $this->height,$this->img_resizing, $this->id_size_img);	
-			backend_controller_template::display('config/request/update_imgsize.tpl');
+			parent::u_size_img_config($this->width, $this->height,$this->img_resizing, $this->id_size_img);
+            $this->message->getNotify('update');
 		}
 	}
 

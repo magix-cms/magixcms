@@ -440,7 +440,7 @@ class backend_controller_config extends backend_db_config{
             if(isset($this->action)){
                 if($this->action == 'edit'){
                     $this->update_config();
-                    $create->display('config/request/success_update.tpl');
+                    $this->message->getNotify('update');
                 }
             }else{
                 $create->assign('array_radio_config',$this->load_data_config());

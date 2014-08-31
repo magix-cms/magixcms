@@ -45,6 +45,7 @@
  *
  */
 class backend_controller_seo extends backend_db_seo{
+    protected $message;
 	/**
 	 * 
 	 * @var intéger
@@ -77,7 +78,9 @@ class backend_controller_seo extends backend_db_seo{
 	public $delete_metas;
     public $action,$tab,$getlang;
 	public function __construct(){
-
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
 		if(magixcjquery_filter_request::isPost('attribute')){
 			$this->attribute = magixcjquery_form_helpersforms::inputClean($_POST['attribute']);
 		}
@@ -208,10 +211,10 @@ class backend_controller_seo extends backend_db_seo{
 	 * insertion de la réécriture des métas
 	 * @access private
 	 */
-	private function add($create){
+	private function add(){
 		if(isset($this->strrewrite)){
 			if(empty($this->attribute) OR empty($this->idmetas)){
-                $create->display('seo/request/empty.tpl');
+                $this->message->getNotify('empty');
 			}elseif(parent::v_rewrite_meta(
                 $this->getlang,
                 $this->attribute,
@@ -225,9 +228,9 @@ class backend_controller_seo extends backend_db_seo{
 					$this->idmetas,
 					$this->level
 				);
-                $create->display('seo/request/success_add.tpl');
+                $this->message->getNotify('add');
 			}else{
-                $create->display('seo/request/element_exist.tpl');
+                $this->message->getNotify('lang_exist');
 			}
 		}
 	}
@@ -236,11 +239,11 @@ class backend_controller_seo extends backend_db_seo{
 	 * Mise à jour de la réécriture suivant l'identifiant
 	 * @access private
 	 */
-	private function update($create){
+	private function update(){
 		if(isset($this->edit)){
 			if(isset($this->strrewrite)){
 				if(empty($this->attribute) OR empty($this->idmetas)){
-                    $create->display('seo/request/empty.tpl');
+                    $this->message->getNotify('empty');
 				}else{
 					parent::u_rewrite_metas(
                         $this->getlang,
@@ -250,7 +253,7 @@ class backend_controller_seo extends backend_db_seo{
                         $this->level,
                         $this->edit
                     );
-                    $create->display('seo/request/success_update.tpl');
+                    $this->message->getNotify('update');
 				}
 			}
 		}
@@ -405,13 +408,13 @@ class backend_controller_seo extends backend_db_seo{
                     }
                 }elseif($this->action == 'add'){
                     if(isset($this->strrewrite)){
-                        $this->add($create);
+                        $this->add();
                     }
                 }elseif($this->action == 'edit'){
                     if(isset($this->edit)){
                         $data = parent::s_rewrite_data($this->edit);
                         if(isset($this->strrewrite)){
-                            $this->update($create);
+                            $this->update();
                         }else{
                             $this->load_rewrite($create,$data);
                             $this->select_attribute($create,$data['attribute']);
