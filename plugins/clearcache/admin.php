@@ -46,6 +46,7 @@
  *
  */
 class plugins_clearcache_admin{
+    protected $message;
 	/**
 	 * @access public
 	 * @var POST clear
@@ -56,6 +57,9 @@ class plugins_clearcache_admin{
 	 * Constructor
 	 */
 	function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -109,9 +113,8 @@ class plugins_clearcache_admin{
     /**
      * Execute le suppression du/des caches
      * @access private
-     * @param $create
      */
-    private function removeCache($create){
+    private function removeCache(){
 		switch($this->clear){
 			case "public_caches":
                 $this->cacheDir('public','templates_c');
@@ -131,7 +134,7 @@ class plugins_clearcache_admin{
                 break;
 
 		}
-        $create->display('success_update.tpl');
+        $this->message->getNotify('update');
 	}
 
     /**
@@ -160,7 +163,7 @@ class plugins_clearcache_admin{
             if($this->action == 'remove'){
                 if(isset($this->clear)){
                     //Si on veut supprimer les caches
-                    $this->removeCache($create);
+                    $this->removeCache();
                 }
             }
         }else{
