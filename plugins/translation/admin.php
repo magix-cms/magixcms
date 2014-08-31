@@ -40,6 +40,7 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 class plugins_translation_admin{
+    protected $message;
     /**
      * @var string
      */
@@ -49,6 +50,9 @@ class plugins_translation_admin{
      *
      */
     function __construct(){
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -68,7 +72,7 @@ class plugins_translation_admin{
             $this->config_var = magixcjquery_form_helpersforms::arrayClean($_POST['config_var']);
         }
         if(magixcjquery_filter_request::isPost('config_value')){
-            $this->config_value = magixcjquery_form_helpersforms::arrayClean($_POST['config_value']);
+            $this->config_value = $_POST['config_value'];
         }
     }
 
@@ -202,9 +206,9 @@ class plugins_translation_admin{
                 }
                 // Close the file handle.
                 fclose($fh);
-                $create->display('request/success_update.tpl');
+                $this->message->getNotify('update');
             }else{
-                $create->display('request/error_writable.tpl');
+                $this->message->getNotify('error_writable');
             }
         }
     }

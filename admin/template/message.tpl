@@ -110,6 +110,16 @@
 {capture name="alert_message"}
     {#request_no_images#}
 {/capture}
+{case 'error_writable' break}
+{capture name="alert_type"}{strip}
+    warning
+{/strip}{/capture}
+{capture name="icon"}{strip}
+    warning
+{/strip}{/capture}
+{capture name="alert_message"}
+    {#request_error_writable#}
+{/capture}
 {********* Error *********}
     {** error_login **}
 {case 'error_login' break}

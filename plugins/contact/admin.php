@@ -69,7 +69,9 @@ class plugins_contact_admin extends DBContact{
 	 * Construct class
 	 */
 	public function __construct(){
-        $this->message = new backend_model_message();
+        if(class_exists('backend_model_message')){
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isPost('mail_contact')){
             $this->mail_contact = magixcjquery_form_helpersforms::inputClean($_POST['mail_contact']);
         }
