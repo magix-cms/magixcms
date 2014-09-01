@@ -71,6 +71,7 @@
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,
         schema: "html5",
+        extended_valid_elements: 'span[class]',
         //end_container_on_empty_block: false,
         /*fix_list_elements : true*/
         content_css : content_css
