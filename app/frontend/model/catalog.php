@@ -177,6 +177,13 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['id']          = $row['idcls'];
                 $data['name']        = $row['slibelle'];
                 $data['content']     = ($row['s_content'] != '') ? $row['s_content'] : null;
+                if($newrow != false){
+                    if(is_array($newrow)){
+                        foreach($newrow as $key => $value){
+                            $data[$key] = $row[$value];
+                        }
+                    }
+                }
 
              // *** Category
             } elseif(isset($row['clibelle'])) {
@@ -217,6 +224,14 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['id']         =    $row['idclc'];
                 $data['name']       =    $row['clibelle'];
                 $data['content']    =    ($row['c_content'] != '') ? $row['c_content'] : null;
+
+                if($newrow != false){
+                    if(is_array($newrow)){
+                        foreach($newrow as $key => $value){
+                            $data[$key] = $row[$value];
+                        }
+                    }
+                }
 
                 // *** Micro-gallery (product page)
             } elseif(isset($row['idmicro'])) {
@@ -369,20 +384,36 @@ class frontend_model_catalog extends frontend_db_catalog {
         $data = null;
         if ($conf['context'][1] == 'category' OR $conf['context'][1] == 'all') {
             // Category
-            $data = parent::s_category(
-                $conf['lang'],
-                $conf['id'],
-                $conf['type'],
-                $conf['limit']
-            );
+            if($class && class_exists($class)){
+                $data = $class::s_category(
+                    $conf['lang'],
+                    $conf['id'],
+                    $conf['type'],
+                    $conf['limit']
+                );
+            }else{
+                $data = parent::s_category(
+                    $conf['lang'],
+                    $conf['id'],
+                    $conf['type'],
+                    $conf['limit']
+                );
+            }
             if (($conf['context'][2] == 'subcategory' OR $conf['context'][1] == 'all') AND $data != null) {
                 foreach ($data as $k1 => $v_1)
                 {
                     // Category > subcategory
-                    $data_2 =   parent::s_sub_category_in_cat(
-                        $v_1['idclc'],
-                        $conf['limit']
-                    );
+                    if($class && class_exists($class)){
+                        $data_2 =   $class::s_sub_category_in_cat(
+                            $v_1['idclc'],
+                            $conf['limit']
+                        );
+                    }else{
+                        $data_2 =   parent::s_sub_category_in_cat(
+                            $v_1['idclc'],
+                            $conf['limit']
+                        );
+                    }
                     if ($data_2 != null) {
                         $data[$k1]['subdata']   =   $data_2;
                         if (($conf['context'][3] == 'product' OR $conf['context'][1] == 'all') AND $data_2 != null) {
@@ -390,12 +421,21 @@ class frontend_model_catalog extends frontend_db_catalog {
                             foreach ($data_2 as $k2 => $v_2)
                             {
                                 // Category > subcategory > Product
-                                $data_3 =   parent::s_product(
-                                    $v_2['idclc'],
-                                    $v_2['idcls'],
-                                    $conf['limit'],
-                                    $conf['sort']
-                                );
+                                if($class && class_exists($class)){
+                                    $data_3 =   parent::s_product(
+                                        $v_2['idclc'],
+                                        $v_2['idcls'],
+                                        $conf['limit'],
+                                        $conf['sort']
+                                    );
+                                }else{
+                                    $data_3 =   parent::s_product(
+                                        $v_2['idclc'],
+                                        $v_2['idcls'],
+                                        $conf['limit'],
+                                        $conf['sort']
+                                    );
+                                }
                                 if ($data_3 != null) {
                                     $data[$k1]['subdata'][$k2]['subdata']   =   $data_3;
                                 }
@@ -421,40 +461,76 @@ class frontend_model_catalog extends frontend_db_catalog {
         } elseif($conf['context'][1] == 'subcategory') {
             if ($custom['select'] == 'current' AND isset($current['subcategory']['id'])) {
                 // Subcategory[current]
-                $data       =   parent::s_subcategory(
-                    $conf['lang'],
-                    $current['subcategory']['id'],
-                    $conf['type'],
-                    $conf['limit']
-                );
+                if($class && class_exists($class)){
+                    $data       =   $class::s_subcategory(
+                        $conf['lang'],
+                        $current['subcategory']['id'],
+                        $conf['type'],
+                        $conf['limit']
+                    );
+                }else{
+                    $data       =   parent::s_subcategory(
+                        $conf['lang'],
+                        $current['subcategory']['id'],
+                        $conf['type'],
+                        $conf['limit']
+                    );
+                }
+
 
             } elseif (isset($current['category']['id']) AND empty($custom['select'])) {
                 // Subcategory[in_cat]
-                $data   =   parent::s_sub_category_in_cat(
-                    $current['category']['id'],
-                    $conf['limit']
-                );
+                if($class && class_exists($class)){
+                    $data   =   $class::s_sub_category_in_cat(
+                        $current['category']['id'],
+                        $conf['limit']
+                    );
+                }else{
+                    $data   =   parent::s_sub_category_in_cat(
+                        $current['category']['id'],
+                        $conf['limit']
+                    );
+                }
 
             } else {
                 // Subcategory
-                $data   =   parent::s_subcategory(
-                    $conf['lang'],
-                    $conf['id'],
-                    $conf['type'],
-                    $conf['limit']
-                );
+                if($class && class_exists($class)){
+                    $data   =   $class::s_subcategory(
+                        $conf['lang'],
+                        $conf['id'],
+                        $conf['type'],
+                        $conf['limit']
+                    );
+                }else{
+                    $data   =   parent::s_subcategory(
+                        $conf['lang'],
+                        $conf['id'],
+                        $conf['type'],
+                        $conf['limit']
+                    );
+                }
+
             }
 
             if ($conf['context'][2] == 'product' AND $data != null) {
                 foreach ($data as $k1 => $v_1)
                 {
                     // Subcategory > product
-                    $data_2 =   parent::s_product(
-                        $v_1['idclc'],
-                        $v_1['idcls'],
-                        $conf['limit'],
-                        $conf['sort']
-                    );
+                    if($class && class_exists($class)){
+                        $data_2 =   $class::s_product(
+                            $v_1['idclc'],
+                            $v_1['idcls'],
+                            $conf['limit'],
+                            $conf['sort']
+                        );
+                    }else{
+                        $data_2 =   parent::s_product(
+                            $v_1['idclc'],
+                            $v_1['idcls'],
+                            $conf['limit'],
+                            $conf['sort']
+                        );
+                    }
                     if ($data_2 != null) {
                         $data[$k1]['subdata']   =   $data_2;
                     }

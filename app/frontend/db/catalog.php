@@ -139,7 +139,7 @@ class frontend_db_catalog
         }
         $limit_clause = null;
         if (is_int($limit)){
-            $limit_clause = 'LIMIT '.$limit;
+            $limit_clause = ' LIMIT '.$limit;
         }
         $select = "SELECT
                 c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, c.img_c,
@@ -177,7 +177,7 @@ class frontend_db_catalog
         }
         $limit_clause = null;
         if (is_int($limit)) {
-            $limit_clause = 'LIMIT '.$limit;
+            $limit_clause = ' LIMIT '.$limit;
         }
         $select = "SELECT
               c.idlang, c.clibelle, c.pathclibelle, c.idclc,
@@ -186,9 +186,10 @@ class frontend_db_catalog
           FROM mc_catalog_s AS s
 		  JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
 		  JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-		  WHERE lang.iso = :iso {$filter}
-		  {$limit_clause}
+		  WHERE lang.iso = :iso
+		  {$filter}
 		  ORDER BY sorder
+		  {$limit_clause}
 		";
         return magixglobal_model_db::layerDB()->select(
             $select,
@@ -208,7 +209,7 @@ class frontend_db_catalog
     {
         $limit_clause = null;
         if (is_int($limit)) {
-            $limit_clause = 'LIMIT '.$limit;
+            $limit_clause = ' LIMIT '.$limit;
         }
         $select = "SELECT
                 c.idlang, c.clibelle, c.pathclibelle, c.idclc,
@@ -218,8 +219,8 @@ class frontend_db_catalog
             JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
             JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
             WHERE c.idclc = :idclc
-            {$limit_clause}
             ORDER BY sorder
+            {$limit_clause}
 		";
         return magixglobal_model_db::layerDB()->select(
             $select,
