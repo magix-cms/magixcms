@@ -142,7 +142,8 @@
 {capture name="alert_message"}
     {#request_hash#}
 {/capture}
-{case 'error_hash' break}
+    {** access_denied **}
+{case 'access_denied' break}
 {capture name="alert_type"}{strip}
     danger
 {/strip}{/capture}
