@@ -37,7 +37,7 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2014 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
@@ -50,13 +50,13 @@
  * Type:     function
  * Name:     google_tools
  * Date:     Décember 18, 2009
- * Update:   11 Octobre, 2010
+ * Update:   09 Septembre, 2014
  * Purpose:  
  * Examples: {google_tools tools="webmaster"}
  * Output:   
  * @link 
  * @author   Gerits Aurelien
- * @version  1.2
+ * @version  1.5
  * @param array
  * @param Smarty
  * @return string
@@ -82,7 +82,6 @@ $tools = <<<EOT
 
   ga('create', '$analytics', 'auto');
   ga('send', 'pageview');
-
 </script>
 EOT;
 		}else{
