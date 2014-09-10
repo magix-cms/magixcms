@@ -97,24 +97,25 @@ class frontend_db_news{
      * @param integer $offset
      */
     protected function s_news($iso,$limit=null,$offset=null,$sort_id=null,$sort_type=null){
-        $where = null;
+        $filter = null;
         if ($sort_id != null){
-            $where .= ' AND n.idnews';
-            $where .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
-            $where .= $sort_id;
-            $where .= ') ';
+            $filter = ' AND n.idnews';
+            $filter .= ($sort_type != 'exclude') ? ' IN (' : ' NOT IN (';
+            $filter .= $sort_id;
+            $filter .= ') ';
         }
         $limit_clause = isset($limit) ? ' LIMIT '.$limit : '';
         $offset_clause = isset($offset) ? ' OFFSET '.$offset: '';
 
         $sql = "SELECT n.idnews,n.n_title,n.n_content,n.n_image,n.n_uri,n.idlang,n.date_register,n.date_publish,n.keynews,lang.iso
-				FROM mc_news as n
-				JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
-				WHERE n.published = 1 AND lang.iso = :iso
-				{$where}
-				ORDER BY n.date_register DESC
-				{$limit_clause}
-				{$offset_clause}";
+                FROM mc_news as n
+                JOIN mc_lang AS lang ON(n.idlang = lang.idlang)
+                WHERE n.published = 1 AND lang.iso = :iso
+                {$filter}
+                ORDER BY n.date_register DESC
+                {$limit_clause}
+                {$offset_clause}";
+
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':iso'=>$iso
         ));

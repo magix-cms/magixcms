@@ -1,17 +1,5 @@
-var version = "9.6.1";
+var version = "9.7.1";
 var active_contextmenu = true;
-if (loading_bar){   
-	if (!(/MSIE (\d+\.\d+);/.test(navigator.userAgent))){ 
-	    window.addEventListener('DOMContentLoaded', function() {
-	        $("body").queryLoader2({ 'backgroundColor':'none','minimumTime':100,'percentage':true});
-	    });
-	}
-	else {
-	    $(document).ready(function () {
-	        $("body").queryLoader2({ 'backgroundColor':'none','minimumTime':100,'percentage':true});
-	    });
-	}
-}
 $(document).ready(function(){
 	// Right click menu
     if (active_contextmenu) {
@@ -537,7 +525,6 @@ $(document).ready(function(){
 
 	// Drag & Drop
 	$('li.dir, li.file').draggable({ 
-		revert: true, 
 		distance: 20,
 		cursor: "move",
 
@@ -562,13 +549,13 @@ $(document).ready(function(){
 		}
 	});
 
-	$('li.dir').droppable({
-      accept: "ul.grid li",
-      activeClass: "ui-state-highlight",  
-  	hoverClass: "ui-state-highlight",
-	drop: function(event, ui){
-		drag_n_drop_paste(ui.draggable.find('figure'), $(this).find('figure'));
-	}
+	$('li.dir,li.back').droppable({
+    accept: "ul.grid li",
+    activeClass: "ui-state-highlight",  
+  	hoverClass: "ui-state-hover",
+		drop: function(event, ui){
+			drag_n_drop_paste(ui.draggable.find('figure'), $(this).find('figure'));
+		}
 	});
 
 	// file permissions window
@@ -925,26 +912,31 @@ function paste_to_this_dir(dnd) {
 // because of feedback and on error bahhhhh...
 function drag_n_drop_paste($trigger, dnd){
 	if (!$trigger.hasClass('directory')){
-    	var thumb_path = $trigger.find('.rename-file').attr('data-thumb');
-    	var full_path = $trigger.find('.rename-file').attr('data-path');
-    }
-    else {
-    	var thumb_path = $trigger.find('.rename-folder').attr('data-thumb');
-    	var full_path = $trigger.find('.rename-folder').attr('data-path');
-    }
+  	var thumb_path = $trigger.find('.rename-file').attr('data-thumb');
+  	var full_path = $trigger.find('.rename-file').attr('data-path');
+  }
+  else {
+  	var thumb_path = $trigger.find('.rename-folder').attr('data-thumb');
+  	var full_path = $trigger.find('.rename-folder').attr('data-path');
+  }
 
-    $.ajax({
-	type: "POST",
-	url: "ajax_calls.php?action=copy_cut",
-	data: { path: full_path, path_thumb: thumb_path, sub_action: 'cut' }
-    }).done(function( msg ) {
+	$.ajax({
+		type: "POST",
+		url: "ajax_calls.php?action=copy_cut",
+		data: { path: full_path, path_thumb: thumb_path, sub_action: 'cut' }
+	}).done(function( msg ) {
 		if (msg!=""){
-		    bootbox.alert(msg);
+		  bootbox.alert(msg);
 		}
 		else {
-		   if (typeof dnd != 'undefined'){
-				var folder_path = dnd.find('.rename-folder').attr('data-path');
-				var folder_path_thumb = dnd.find('.rename-folder').attr('data-thumb');
+		  if (typeof dnd != 'undefined'){
+		  	if(dnd.hasClass('back-directory')){
+		  		var folder_path=dnd.find('.path').val();
+		  		var folder_path_thumb=dnd.find('.path_thumb').val();
+		  	}else{
+		  		var folder_path = dnd.find('.rename-folder').attr('data-path');
+					var folder_path_thumb = dnd.find('.rename-folder').attr('data-thumb');	
+		  	}				
 			}
 			else {
 				var folder_path = $('#sub_folder').val()+$('#fldr_value').val();
@@ -952,9 +944,9 @@ function drag_n_drop_paste($trigger, dnd){
 			}
 
 			$.ajax({
-			type: "POST",
-			url: "execute.php?action=paste_clipboard",
-			data: {path: folder_path, path_thumb: folder_path_thumb}
+				type: "POST",
+				url: "execute.php?action=paste_clipboard",
+				data: {path: folder_path, path_thumb: folder_path_thumb}
 			}).done(function( msg ) {
 				if (msg!=""){
 					bootbox.alert(msg);
@@ -962,11 +954,11 @@ function drag_n_drop_paste($trigger, dnd){
 				else {
 					$('#clipboard').val('0');
 					toggle_clipboard(false);
-					setTimeout(function(){window.location.href = $('#refresh').attr('href') + '&' + new Date().getTime();},300);
+					$trigger.parent().remove();
 				}
 			});
 		}
-    });
+	});
 }
 
 function toggle_clipboard(lever) {
@@ -1025,8 +1017,9 @@ function encodeURL(url){
 
 function apply(file,external){
   if ($('#popup').val()==1) var window_parent=window.opener; else var window_parent=window.parent;
-  var path = $('#cur_dir').val();    
+  var path = $('#cur_dir').val();
   //path = path.replace('\\', '/');
+  var subdir = $('#subdir').val();
   var base_url = $('#base_url').val();
   var alt_name=file.substr(0, file.lastIndexOf('.'));
   var ext=file.split('.').pop();
@@ -1034,7 +1027,8 @@ function apply(file,external){
   var fill='';
   var ext_audio=new Array('ogg','mp3','wav');
   var ext_video=new Array('mp4','ogg','webm');
-  var url= encodeURL(base_url+path+file);
+  var is_return_relative_url = $('#return_relative_url').val();
+  var url= encodeURL((is_return_relative_url == 1 ? subdir : base_url+path)+file);
 
   if (external!=""){
 		if ($('#crossdomain').val()==1){
@@ -1048,6 +1042,9 @@ function apply(file,external){
     } else {
 			var target = $('#'+external, window_parent.document);
 			target.val(url).trigger('change');
+			if(typeof window_parent.responsive_filemanager_callback == 'function'){
+				window_parent.responsive_filemanager_callback(external);
+			}
 			close_window();
 		}
   }else{
@@ -1100,8 +1097,11 @@ function apply_link(file,external){
   if ($('#popup').val()==1) var window_parent=window.opener; else var window_parent=window.parent;
   var path = $('#cur_dir').val();
   path = path.replace('\\', '/');
+  var subdir = $('#subdir').val();
+  subdir = subdir.replace('\\', '/');
   var base_url = $('#base_url').val();
-  var url= encodeURL(base_url+path+file);
+  var is_return_relative_url = $('#return_relative_url').val();
+  var url= encodeURL((is_return_relative_url == 1 ? subdir : base_url+path)+file);
 
 	if (external!=""){    	
 		if ($('#crossdomain').val()==1){
@@ -1115,6 +1115,9 @@ function apply_link(file,external){
 	  } else {
 			var target = $('#'+external, window_parent.document);
 			target.val(url).trigger('change');
+			if(typeof window_parent.responsive_filemanager_callback == 'function'){
+				window_parent.responsive_filemanager_callback(external);
+			}
 			close_window();
 		}
 	}else{
@@ -1126,8 +1129,11 @@ function apply_img(file,external){
   if ($('#popup').val()==1) var window_parent=window.opener; else var window_parent=window.parent;
   var path = $('#cur_dir').val();
   path = path.replace('\\', '/');
+  var subdir = $('#subdir').val();
+  subdir = subdir.replace('\\', '/');
   var base_url = $('#base_url').val();
-  var url= encodeURL(base_url+path+file);
+  var is_return_relative_url = $('#return_relative_url').val();
+  var url= encodeURL((is_return_relative_url == 1 ? subdir : base_url+path)+file);
 
   if (external!=""){
 		if ($('#crossdomain').val()==1){
@@ -1141,6 +1147,9 @@ function apply_img(file,external){
       } else {
 			var target = $('#'+external, window_parent.document);
 			target.val(url).trigger('change');
+			if(typeof window_parent.responsive_filemanager_callback == 'function'){
+				window_parent.responsive_filemanager_callback(external);
+			}
 			close_window();
 		}
   }else{
@@ -1152,8 +1161,11 @@ function apply_video(file,external){
   if ($('#popup').val()==1) var window_parent=window.opener; else var window_parent=window.parent;
   var path = $('#cur_dir').val();
   path = path.replace('\\', '/');
+  var subdir = $('#subdir').val();
+  subdir = subdir.replace('\\', '/');
   var base_url = $('#base_url').val();
-  var url= encodeURL(base_url+path+file);
+  var is_return_relative_url = $('#return_relative_url').val();
+  var url= encodeURL((is_return_relative_url == 1 ? subdir : base_url+path)+file);
 
   if (external!=""){
 		if ($('#crossdomain').val()==1){
@@ -1167,6 +1179,9 @@ function apply_video(file,external){
     } else {
 			var target = $('#'+external, window_parent.document);
 			target.val(url).trigger('change');
+			if(typeof window_parent.responsive_filemanager_callback == 'function'){
+				window_parent.responsive_filemanager_callback(external);
+			}
 			close_window();
 		}
   }else{
@@ -1176,34 +1191,42 @@ function apply_video(file,external){
 
 function apply_none(file,external){	
 	var _this=$('li[data-name="'+file+'"]').find('.preview');
-	
-	if (_this.html()!="" && _this.html()!==undefined) {
-	    
+
+	if (_this.html()!="" && _this.html()!==undefined){
 	  $('#full-img').attr('src',decodeURIComponent(_this.attr('data-url')));
 	  if (_this.hasClass('disabled')==false){
 			show_animation();
 			$('#previewLightbox').lightbox();
 	  }
 	}else {
-	  var _this=$('li[data-name="'+file+'"]').find('.modalAV');
-
-	  $('#previewAV').removeData("modal");
-	  $('#previewAV').modal({
-			backdrop: 'static',
-			keyboard: false
-	  });
-	  if (_this.hasClass('audio')) {
-			$(".body-preview").css('height','80px');
-	  }else {
-			$(".body-preview").css('height','345px');
-	  }
-	    
-	  $.ajax({
-			url: decodeURIComponent(_this.attr('data-url')),
-			success: function(data) {
-		  	$(".body-preview").html(data);
-			}
-	  });
+	  var _this=$('li[data-name="'+file+'"]').find('a.file-preview-btn');
+	  if (_this.html()!="" && _this.html()!==undefined){
+      $.ajax({
+          url: _this.attr('data-url'),
+          success: function(data) {
+						bootbox.alert(data);
+    			}
+      });
+		}else{
+			var _this=$('li[data-name="'+file+'"]').find('.modalAV');
+		  $('#previewAV').removeData("modal");
+		  $('#previewAV').modal({
+				backdrop: 'static',
+				keyboard: false
+		  });
+		  if (_this.hasClass('audio')) {
+				$(".body-preview").css('height','80px');
+		  }else {
+				$(".body-preview").css('height','345px');
+		  }
+		    
+		  $.ajax({
+				url: decodeURIComponent(_this.attr('data-url')),
+				success: function(data) {
+			  	$(".body-preview").html(data);
+				}
+		  });
+		}
 	}
 	return;
 }

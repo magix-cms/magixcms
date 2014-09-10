@@ -173,10 +173,9 @@ class frontend_model_news extends frontend_db_news {
             }
         } elseif(isset($custom['exclude'])) {
             if (is_array($custom['exclude'])) {
-                if (array_key_exists($current['lang']['iso'],$custom['exclude'])) {
+                if (array_key_exists($data['conf']['lang'],$custom['exclude'])) {
                     $data['conf']['id']     =   $custom['exclude'][$data['conf']['lang']];
                     $data['conf']['type']   =   'exclude';
-
                 }
             }
         }
