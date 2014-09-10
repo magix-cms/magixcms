@@ -45,9 +45,10 @@ class frontend_model_news extends frontend_db_news {
      * Formate les valeurs principales d'un élément suivant la ligne passées en paramètre
      * @param $row
      * @param $current
+     * @param bool $newrow
      * @return array|null
      */
-    public function setItemData($row,$current)
+    public function setItemData($row,$current,$newrow = false)
     {
         $ModelImagepath     =   new magixglobal_model_imagepath();
         $ModelDateformat    =   new magixglobal_model_dateformat();
@@ -126,16 +127,26 @@ class frontend_model_news extends frontend_db_news {
             $data['date']['register']      = $ModelDateformat->SQLDate($row['date_register']);
             $data['date']['publish']       = $ModelDateformat->SQLDate($row['date_publish']);
             $data['content']     = $row['n_content'];
+            // Plugin
+            if($newrow != false){
+                if(is_array($newrow)){
+                    foreach($newrow as $key => $value){
+                        $data[$key] = $row[$value];
+                    }
+                }
+            }
         }
         return $data;
     }
-     /**
+
+    /**
      * Retourne les données sql sur base des paramètres passés en paramète
      * @param array $custom
      * @param array $current
+     * @param bool $class
      * @return array|null
      */
-    public function getData($custom,$current)
+    public function getData($custom,$current,$class = false)
     {
         if (!(is_array($custom)))
             return null;
@@ -198,44 +209,89 @@ class frontend_model_news extends frontend_db_news {
                     break;
             }
         }
-
+        // Plugin
+        if (isset($custom['plugins'])) {
+            $data['plugins']  =   $custom['plugins'];
+        }
         // *** Run - load data
         if ($data['conf']['level'] == 'last-news') {
             if (isset($data['conf']['type'])) {
+                if($class && class_exists($class)){
+                    $data['src'] = $class::s_news_in_tag(
+                        $data['conf']['lang'],
+                        $data['conf']['id'],
+                        $data['conf']['type'],
+                        $data['conf']['limit']
+                    );
+                }else{
+                    $data['src'] = parent::s_news_in_tag(
+                        $data['conf']['lang'],
+                        $data['conf']['id'],
+                        $data['conf']['type'],
+                        $data['conf']['limit']
+                    );
+                }
+
+            } else {
+                if($class && class_exists($class)){
+                    $data['src'] = $class::s_news(
+                        $data['conf']['lang'],
+                        $data['conf']['limit'],
+                        0,
+                        null
+                    );
+                }else{
+                    $data['src'] = parent::s_news(
+                        $data['conf']['lang'],
+                        $data['conf']['limit'],
+                        0,
+                        null
+                    );
+                }
+            }
+        } elseif ($data['conf']['level'] == 'tag') {
+            if($class && class_exists($class)){
+                $data['src'] = $class::s_tag_all(
+                    $data['conf']['lang']
+                );
+            }else{
+                $data['src'] = parent::s_tag_all(
+                    $data['conf']['lang']
+                );
+            }
+        } elseif (isset($data['conf']['id'])) {
+            if($class && class_exists($class)){
+                $data['src'] = $class::s_news_in_tag(
+                    $data['conf']['lang'],
+                    $data['conf']['id'],
+                    $data['conf']['type'],
+                    $data['conf']['limit']
+                );
+            }else{
                 $data['src'] = parent::s_news_in_tag(
                     $data['conf']['lang'],
                     $data['conf']['id'],
                     $data['conf']['type'],
                     $data['conf']['limit']
                 );
-
-            } else {
+            }
+        }else {
+            if($class && class_exists($class)){
+                $data['src'] = $class::s_news(
+                    $data['conf']['lang'],
+                    $data['conf']['limit'],
+                    $data['conf']['offset']
+                );
+                $data['src']['total'] = array_shift($class::s_news_lang_total($data['conf']['lang']));
+            }else{
                 $data['src'] = parent::s_news(
                     $data['conf']['lang'],
                     $data['conf']['limit'],
-                    0,
-                    null
+                    $data['conf']['offset']
                 );
+                $data['src']['total'] = array_shift(parent::s_news_lang_total($data['conf']['lang']));
             }
-        } elseif ($data['conf']['level'] == 'tag') {
-                $data['src'] = parent::s_tag_all(
-                    $data['conf']['lang']
-                );
-        } elseif (isset($data['conf']['id'])) {
-            $data['src'] = parent::s_news_in_tag(
-                $data['conf']['lang'],
-                $data['conf']['id'],
-                $data['conf']['type'],
-                $data['conf']['limit']
-            );
 
-        }else {
-            $data['src'] = parent::s_news(
-                $data['conf']['lang'],
-                $data['conf']['limit'],
-                $data['conf']['offset']
-            );
-            $data['src']['total'] = array_shift(parent::s_news_lang_total($data['conf']['lang']));
             $data['src']['limit'] = $data['conf']['limit'];
 
         }

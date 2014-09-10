@@ -127,6 +127,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['name']      = $row['titlecatalog'];
                 $data['price']     = $row['price'];
                 $data['content']   = $row['desccatalog'];
+                // Plugin
                 if($newrow != false){
                     if(is_array($newrow)){
                         foreach($newrow as $key => $value){
@@ -177,6 +178,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['id']          = $row['idcls'];
                 $data['name']        = $row['slibelle'];
                 $data['content']     = ($row['s_content'] != '') ? $row['s_content'] : null;
+                // Plugin
                 if($newrow != false){
                     if(is_array($newrow)){
                         foreach($newrow as $key => $value){
@@ -224,7 +226,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['id']         =    $row['idclc'];
                 $data['name']       =    $row['clibelle'];
                 $data['content']    =    ($row['c_content'] != '') ? $row['c_content'] : null;
-
+                // Plugin
                 if($newrow != false){
                     if(is_array($newrow)){
                         foreach($newrow as $key => $value){

@@ -1,3 +1,39 @@
+#### 2.5.2
+Stable
+    * Ajout des données de plugin dédié dans les actualités (news)
+    * Upgrade Swift Mailer 5.0.0 => 5.2.1
+    * Upgrade responsivefilemanager 9.7.1
+    * Fix #119 exclusion dans les news
+    * Clean google tools widget
+    * Upgrade analytics ga => analytics universal
+    * Add access message
+    * Fix meta default root catalog
+    * Fix limit catégorie et sous catégorie (sql)
+    * Fix #120 surcharge catégorie et sous catégorie
+    * file manager convert all spaces on files
+    * Add notify in clearcache plugin
+    * Fix notify in contact plugin
+    * Fix notify in access (backend)
+    * Add new system notify in full backend
+    * Add new system notify in catalog, pages, config
+    * Fix bug remove category catalog (backend)
+    * Upgrade font awesome 4.1.0 => 4.2.0
+    * Fix bug input search icon position (backend)
+    * Fix input metas home (backend)
+    * Clean and new structure plugin contact
+    * Remove advanced button bootstrap (backend)
+    * Model message system  (getNotify)
+    * Upgrade tinymce 4.1.3 => 4.1.5
+    * Upgrade bootstrap 3.1.1 => 3.2
+    * Fix #117 tabs news plugin
+    * Fix #118 bug in plugins tinymce for magixcms
+    * Fix bug theming data-src (backend)
+    * Ajout du système de message pré formaté (backend)
+    * Upgrade jquery, jquery validation, jquery form
+    * Replace modernizr 2.7.1 => 2.8.1
+    * Fix bug replace old key pseudo employee (backend)
+    * Fix bug escape content update cms (backend)
+
 #### 2.5.1
 Stable
     * Add widget data in home, news sidebar

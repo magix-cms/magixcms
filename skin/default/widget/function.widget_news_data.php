@@ -57,7 +57,9 @@ function smarty_function_widget_news_data($params, $template)
     // Set and load data
     $current    =   $ModelSystem->setCurrentId();
     $conf       =   (is_array($params['conf'])) ? $params['conf'] : array();
-    $data       =   $ModelNews->getData($conf,$current);
+    $override   =   $params['conf']['plugins']['override'] ? $params['conf']['plugins']['override'] : '';
+    $data       =   $ModelNews->getData($conf,$current,$override);
+    $newrow     =   (is_array($params['conf']['plugins']['item'])) ? $params['conf']['plugins']['item'] : array();
 
     // Set Pagination
     $pagination =   array();
@@ -80,7 +82,7 @@ function smarty_function_widget_news_data($params, $template)
         foreach ($data as $row)
         {
             if (isset($row['idnews'])) {
-                $items[]    =   $ModelNews->setItemData($row,$current);
+                $items[]    =   $ModelNews->setItemData($row,$current,$newrow);
 
             } elseif (isset($row['name_tag'])) {
                 $items[]    =   array(
