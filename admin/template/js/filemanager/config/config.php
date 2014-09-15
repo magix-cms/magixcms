@@ -282,5 +282,4 @@ $relative_image_creation_height         = array(200,''); //height of image (you 
 #                          4 / crop= resize and crop;
  */
 $relative_image_creation_option         = array('crop','crop'); //set the type of the crop
-
 ?>

@@ -293,7 +293,7 @@ $get_params = http_build_query(array(
 		    }
 		}
 	</style>
-	<link href="css/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />	
+	<link href="css/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />
 	<link href="css/bootstrap-modal.min.css" rel="stylesheet" type="text/css" />
 	<link href="jPlayer/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css">
 	<!--[if lt IE 8]><style>
@@ -315,7 +315,7 @@ $get_params = http_build_query(array(
 	<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
 	<script type="text/javascript" src="js/modernizr.custom.js"></script>
 	<script type="text/javascript" src="js/bootbox.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap-modal.min.js"></script>   
+	<script type="text/javascript" src="js/bootstrap-modal.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap-modalmanager.min.js"></script>
 	<script type="text/javascript" src="jPlayer/jquery.jplayer.min.js"></script>
 	<?php
@@ -332,7 +332,8 @@ $get_params = http_build_query(array(
 	<![endif]-->
 	<script src="js/jquery.ui.position.min.js" type="text/javascript"></script>
 	<script src="js/jquery-ui-1.10.4.custom.js" type="text/javascript"></script>
-	<script src="js/jquery.contextMenu.min.js" type="text/javascript"></script>    
+	<script src="js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
+	<script src="js/jquery.contextMenu.min.js" type="text/javascript"></script>
 	
 	<script>
 	    var ext_img=new Array('<?php echo implode("','", $ext_img)?>');
@@ -852,7 +853,6 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 				    $show_original_mini=true;
 				}
 			    }
-			    
 			    $is_icon_thumb=false;
 			    $is_icon_thumb_mini=false;
 			    $no_thumb=false;
@@ -1007,12 +1007,10 @@ $files=array_merge(array($prev_folder),array($current_folder),$sorted);
 
     <?php if ($lazy_loading_enabled) { ?>
         <script src="js/jquery.lazyload.min.js" type="text/javascript"></script>
+        <script src="js/jquery.scrollstop.min.js" type="text/javascript"></script>
 
         <script>
-            $(function() {
-                $(".lazy-loaded").lazyload();
-            });
-
+            lazyLoad();
         </script>
     <?php } ?>
 </body>
