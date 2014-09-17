@@ -84,10 +84,15 @@ class backend_controller_ajax{
                 if (in_array($getExtension, $extensions)) {
                     $pos = strpos($fileinfo->getPathname(),PATHADMIN);
                     $len = strlen($pos);
+                    if(stripos($_SERVER['HTTP_USER_AGENT'],'win')){
+                        $url = '/'.PATHADMIN.'/template/'.$dir.'/'.$fileinfo->getFilename();
+                    }else{
+                        $url = DIRECTORY_SEPARATOR.substr($fileinfo->getPathname(),$pos);
+                    }
                     $files[] = $delimiter.'{'
                         . 'title:"'. $fileinfo->getBasename('.'.$getExtension)
                         . '", url:"'
-                        . DIRECTORY_SEPARATOR.substr($fileinfo->getPathname(),$pos)
+                        . $url
                         . '"}';
                 }
             }
