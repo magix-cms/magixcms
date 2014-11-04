@@ -7,7 +7,7 @@
 {if is_array($data) && !empty($data)}
     {foreach $data as $item}
         <div{if $classCol} class="{$classCol}" {/if}>
-            <a class="img-gallery" rel="productGallery" href="{$item.imgSrc.medium}" title="{#show_page#|ucfirst}">
+            <a class="img-gallery" rel="productGallery" href="{$item.imgSrc.medium}" title="{$product.name|ucfirst}">
                 {if $item.imgSrc.medium}
                     <img class="img-thumbnail img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
                 {else}

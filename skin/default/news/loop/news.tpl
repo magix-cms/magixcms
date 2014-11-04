@@ -10,7 +10,7 @@
             {$classCat =  "thumbcat-{$item.id}"}
         {/if}
         <div class="media">
-            <a class="media-link-object pull-left" href="{$item.uri}" title="{#show_page#|ucfirst}: {$item.name|ucfirst}">
+            <a class="media-link-object pull-left" href="{$item.uri}" title="{$item.name|ucfirst}">
                 {if $item.imgSrc.small}
                     <img class="media-object" src="{$item.imgSrc.small}" alt="{$item.name|ucfirst}"/>
                 {else}
@@ -28,7 +28,7 @@
                         {$item.name|ucfirst}
                     </a>
                 </h4>
-                {capture name="linkMore"}<br /><a class="link" href="{$item.uri}" title="{#show_page#|ucfirst}">{#read_more#|ucfirst}</a>{/capture}
+                {capture name="linkMore"}<br /><a class="link" href="{$item.uri}" title="{$item.name|ucfirst}">{#read_more#|ucfirst}</a>{/capture}
                 {$trunLength = ($smarty.capture.linkMore|strlen + 230)}
                 <p>
                     {$item.content|strip_tags|truncate:$trunLength:"... {$smarty.capture.linkMore}"}

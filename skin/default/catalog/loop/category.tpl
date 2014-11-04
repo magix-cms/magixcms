@@ -8,7 +8,7 @@
 	{foreach $data as $item}
 		<div{if $classCol} class="{$classCol}" {/if}>
 			<div class="caption">
-                <a class="img" href="{$item.url}" title="{#show_page#|ucfirst}">
+                <a class="img" href="{$item.url}" title="{$item.name|ucfirst}">
                     {if $item.imgSrc.medium}
                         <img class="img-responsive" src="{$item.imgSrc.medium}" alt="{$item.name|ucfirst}"/>
                     {else}
@@ -16,7 +16,7 @@
                     {/if}
                 </a>
 				<h3>
-					<a href="{$item.url}" title="{#show_page#|ucfirst}">
+					<a href="{$item.url}" title="{$item.name|ucfirst}">
 						{$item.name|ucfirst}
 					</a>
 				</h3>

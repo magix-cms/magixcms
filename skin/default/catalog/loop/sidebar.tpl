@@ -10,7 +10,7 @@
                     <ul>
                         {foreach $value.subdata as $subkey => $item}
                             <li>
-                                <a href="{$item.url}" title="{#show_page#|ucfirst}">
+                                <a href="{$item.url}" title="{$item.name|ucfirst}">
                                     {$item.name|ucfirst}
                                 </a>
                             </li>
