@@ -1151,7 +1151,14 @@ var MC_catalog = (function ($, undefined) {
                 }
                 if(j !== null){
                     $.each(j, function(i,item) {
-
+                        var edit = $(document.createElement("td")).append(
+                            $(document.createElement("a"))
+                                .attr("href", '/'+baseadmin+'/catalog.php?section=product&getlang='+getlang+'&action=edit&edit='+item.idcatalog)
+                                .attr("title", Globalize.localize( "edit", iso )+": "+item.titlecatalog)
+                                .append(
+                                $(document.createElement("td")).append(item.titlecatalog)
+                            )
+                        );
                         var remove = $(document.createElement("td")).append(
                             $(document.createElement("a"))
                                 .addClass("delete-pages")
@@ -1170,7 +1177,7 @@ var MC_catalog = (function ($, undefined) {
                                     $(document.createElement("td")).append(
                                         item.idproduct
                                     ),
-                                    $(document.createElement("td")).append(item.titlecatalog)
+                                    edit
                                     ,
                                     remove
                                 )

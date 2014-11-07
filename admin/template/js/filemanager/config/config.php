@@ -16,6 +16,7 @@
 //    |   |   |- plugins
 //    |   |   |   |- responsivefilemanager
 //    |   |   |   |   |- plugin.min.js
+
 $baseadmin = '../../../baseadmin.php';
 
 if(file_exists($baseadmin)){
@@ -60,11 +61,11 @@ if (function_exists('mb_internal_encoding')){
     mb_internal_encoding('UTF-8');
 }
 $base_url =
-	// Get HTTP/HTTPS
-	((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && !in_array(strtolower($_SERVER['HTTPS']),array('off','no'))) ? 'https' : 'http').
-	'://'.
-	// Get domain portion
-	$_SERVER['HTTP_HOST']; // DON'T TOUCH (base url (only domain) of site (without final /)).
+    // Get HTTP/HTTPS
+    ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && !in_array(strtolower($_SERVER['HTTPS']),array('off','no'))) ? 'https' : 'http').
+    '://'.
+    // Get domain portion
+    $_SERVER['HTTP_HOST']; // DON'T TOUCH (base url (only domain) of site (without final /)).
 $upload_dir = '/media/'; // path from base_url to base of upload folder (with start and final /)
 $current_path = "../../../../media/"; // relative path from filemanager folder to upload folder (with final /)
 //thumbs folder can't put inside upload folder
@@ -109,7 +110,8 @@ $icon_theme 		= "ico"; //ico or ico_dark you can cusatomize just putting a folde
 $show_folder_size	= TRUE; //Show or not show folder size in list view feature in filemanager (is possible, if there is a large folder, to greatly increase the calculations)
 $show_sorting_bar	= TRUE; //Show or not show sorting feature in filemanager
 $transliteration 	= FALSE; //active or deactive the transliteration (mean convert all strange characters in A..Za..z0..9 characters)
-$convert_spaces  	= FALSE; //convert all spaces on files name and folders name with _
+$convert_spaces  	= FALSE; //convert all spaces on files name and folders name with $replace_with variable
+$replace_with  	    = "_"; //convert all spaces on files name and folders name this value
 
 // -1: There is no lazy loading at all, 0: Always lazy-load images, 0+: The minimum number of the files in a directory
 // when lazy loading should be turned on.
@@ -178,13 +180,22 @@ $edit_text_files 	= TRUE; // eg.: txt, log etc.
 $create_text_files 	= TRUE; // only create files with exts. defined in $editable_text_file_exts
 
 // you can preview these type of files if $preview_text_files is true
-$previewable_text_file_exts = array('txt', 'log', 'xml');
+$previewable_text_file_exts = array('txt', 'log', 'xml','html','css','htm','js');
+$previewable_text_file_exts_no_prettify = array('txt', 'log');
 
 // you can edit these type of files if $edit_text_files is true (only text based files)
 // you can create these type of files if $create_text_files is true (only text based files)
 // if you want you can add html,css etc. 
 // but for security reasons it's NOT RECOMMENDED!
-$editable_text_file_exts = array('txt', 'log', 'xml');
+$editable_text_file_exts = array('txt', 'log', 'xml','html','css','htm','js');
+
+// Preview with Google Documents
+$googledoc_enabled = TRUE;
+$googledoc_file_exts = array('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx');
+
+// Preview with Viewer.js
+$viewerjs_enabled = TRUE;
+$viewerjs_file_exts = array('pdf', 'odt', 'odp', 'ods');
 
 // defines size limit for paste in MB / operation
 // set 'FALSE' for no limit
@@ -282,4 +293,9 @@ $relative_image_creation_height         = array(200,''); //height of image (you 
 #                          4 / crop= resize and crop;
  */
 $relative_image_creation_option         = array('crop','crop'); //set the type of the crop
+
+
+// Remember text filter after close filemanager for future session
+$remember_text_filter = FALSE;
+
 ?>

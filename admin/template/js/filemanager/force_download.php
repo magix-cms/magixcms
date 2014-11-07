@@ -22,11 +22,11 @@ if(!in_array(fix_strtolower($info['extension']), $ext)){
 
 $img_size = (string)(filesize($path.$name)); // Get the image size as string
 
-$mime_type = get_file_mime_type( $name ); // Get the correct MIME type depending on the file.
+$mime_type = get_file_mime_type( $path.$name ); // Get the correct MIME type depending on the file.
 
 header('Pragma: private');
 header('Cache-control: private, must-revalidate');
-header("Content-Type: $mime_type"); // Set the correct MIME type
+header("Content-Type: " . $mime_type); // Set the correct MIME type
 header("Content-Length: " . $img_size );
 header('Content-Disposition: attachment; filename="'.($name).'"');
 readfile($path.$name);

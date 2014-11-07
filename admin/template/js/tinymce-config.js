@@ -47,7 +47,7 @@
         },
         style_formats: [
             {title: 'Link', items: [
-                {title: 'TargetBlank', selector: 'a', classes: 'targetblank'},
+                {title: 'TargetBlank', selector: 'a', classes: 'targetblank'}
             ]},
             {title: 'Image', items: [
                 {title: 'Lightbox simple', selector: 'a', classes: 'img-zoom',
@@ -66,6 +66,67 @@
                 {title: 'Image rounded', selector: 'img', classes: 'img-rounded'},
                 {title: 'Image circle', selector: 'img', classes: 'img-circle'},
                 {title: 'Image thumbnail', selector: 'img', classes: 'img-thumbnail'}
+            ]},
+            {title: 'Table', items: [
+                {title: 'Table', selector: 'table', classes: 'table'},
+                {title: 'Table Condensed', selector: 'table', classes: 'table-condensed'},
+                {title: 'Table Bordered', selector: 'table', classes: 'table-bordered'},
+                {title: 'Table Hover', selector: 'table', classes: 'table-hover'},
+                {title: 'Table Striped', selector: 'table', classes: 'table-striped'},
+                {title: 'TR', items: [
+                    {title : 'Active', selector : 'tr', classes : 'active'},
+                    {title : 'Success', selector : 'tr', classes : 'success'},
+                    {title : 'Warning', selector : 'tr', classes : 'warning'},
+                    {title : 'Danger', selector : 'tr', classes : 'danger'},
+                    {title : 'Info', selector : 'tr', classes : 'info'}
+                ]},
+                {title: 'TD', items: [
+                    {title : 'Active', selector : 'td', classes : 'active'},
+                    {title : 'Success', selector : 'td', classes : 'success'},
+                    {title : 'Warning', selector : 'td', classes : 'warning'},
+                    {title : 'Danger', selector : 'td', classes : 'danger'},
+                    {title : 'Info', selector : 'td', classes : 'info'}
+                ]},
+                {title: "Blocks", items: [
+                    {title: "Div responsive", block: "div", classes: 'table-responsive'}
+                ]}
+            ]},
+            {title: 'Helper classes', items: [
+                {title: "Blocks", items: [
+                    {title: "Div center", block: "div", classes: 'center-block'},
+                    {title: "Div clearfix", block: "div", classes: 'clearfix'}
+                ]},
+                {title: "Paragraph", items: [
+                    {title: "Text Muted", block: "p", classes: 'text-muted'},
+                    {title: "Text Primary", block: "p", classes: 'text-primary'},
+                    {title: "Text Success", block: "p", classes: 'text-success'},
+                    {title: "Text Info", block: "p", classes: 'text-info'},
+                    {title: "Text Warning", block: "p", classes: 'text-warning'},
+                    {title: "Text Danger", block: "p", classes: 'text-danger'},
+                    {title: "Bg Primary", block: "p", classes: 'bg-primary'},
+                    {title: "Bg Success", block: "p", classes: 'bg-success'},
+                    {title: "Bg Info", block: "p", classes: 'bg-info'},
+                    {title: "Bg Warning", block: "p", classes: 'bg-warning'},
+                    {title: "Bg Danger", block: "p", classes: 'bg-danger'}
+                ]}
+            ]},
+            {title: 'Alert', items: [
+                {title: "Blocks", items: [
+                    {title: "Alert success", block: "div", classes: 'alert alert-success'},
+                    {title: "Alert info", block: "div", classes: 'alert alert-info'},
+                    {title: "Alert warning", block: "div", classes: 'alert alert-warning'},
+                    {title: "Alert danger", block: "div", classes: 'alert danger-info'}
+                ]},
+                {title: "Paragraph", items: [
+                    {title: "Alert success", block: "p", classes: 'alert alert-success'},
+                    {title: "Alert info", block: "p", classes: 'alert alert-info'},
+                    {title: "Alert warning", block: "p", classes: 'alert alert-warning'},
+                    {title: "Alert danger", block: "p", classes: 'alert danger-info'}
+                ]},
+                {title: "Link", items: [
+                    {title: 'Alert link', selector: 'a', classes: 'alert-link'}
+                ]}
+
             ]}
         ],
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
