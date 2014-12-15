@@ -9,7 +9,7 @@
     {if $smarty.server.SCRIPT_NAME == '/cms.php'}
         {if $smarty.get.getidpage_p}
             <li>
-                <a href="{geturl}/{$parent.url}" title="{#show_page#|firststring}: {$parent.name}">
+                <a href="{geturl}{$parent.url}" title="{#show_page#|firststring}: {$parent.name}">
                     {$parent.name}
                 </a>
             </li>
@@ -23,21 +23,21 @@
         {if $smarty.get.idclc}
                 {* ## Root *}
             <li>
-                <a href="{geturl}/{getlang}/{#nav_catalog_uri#}" title="{#show_catalog#|firststring}">
+                <a href="{geturl}/{getlang}/{#nav_catalog_uri#}/" title="{#show_catalog#|firststring}">
                     {#catalog#|firststring}
                 </a>
             </li>
             {if $smarty.get.idcls OR $smarty.get.idproduct}
                 {* ## Catégories *}
                 <li>
-                    <a href="{geturl}/{$cat.url}/" title="{#show_category#|firststring}}: {$cat.name}">
+                    <a href="{geturl}{$cat.url}" title="{#show_category#|firststring}: {$cat.name}">
                         {$cat.name}
                     </a>
                     </li>
                 {if $smarty.get.idcls AND $smarty.get.idproduct}
                     {* ## Sous-catégories *}
                     <li>
-                        <a href="{geturl}/{$subcat.url}/" title="{#show_subcategory#|firststring}}: {$subcat.name}">
+                        <a href="{geturl}{$subcat.url}" title="{#show_subcategory#|firststring}: {$subcat.name}">
                             {$subcat.name}
                         </a>
                             </li>

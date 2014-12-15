@@ -3,7 +3,7 @@
     <ul class="nav nav-pills nav-stacked">
         {foreach $listing as $key => $value}
             <li{if $smarty.get.idclc == $value.id} class="active"{/if}>
-                <a href="{$value.url}" title="{#show_page#|ucfirst}">
+                <a href="{$value.url}" title="{$value.name|ucfirst}">
                     {$value.name|ucfirst}
                 </a>
                 {if $value.subdata != null}
