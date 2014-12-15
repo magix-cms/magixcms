@@ -2101,14 +2101,7 @@ var MC_catalog = (function ($, undefined) {
                 }
 
                 if($.isEmptyObject(j) === false){
-
                     $.each(j, function(i,item) {
-                        var Width = $('.list-picture img').width(),col;
-                        if(Width > 150){
-                            col = 'col-md-3 col-sm-3 col-xs-7';
-                        }else{
-                            col = 'col-md-2 col-sm-2 col-xs-6';
-                        }
                         setContener.append(
                             $(document.createElement("li")).addClass(col).append(
                                 $(document.createElement("div")).append(
@@ -2124,11 +2117,19 @@ var MC_catalog = (function ($, undefined) {
                                 $(document.createElement("div")).append(
                                     $(document.createElement("img"))
                                         .attr('src','/upload/catalogimg/galery/mini/'+item.imgcatalog)
+                                        .addClass('img-responsive')
                                     //.addClass('img-polaroid')
                                 )
                             )
                         );
                     });
+                    var Width = $('.list-picture img').width(),col;
+                    if(Width > 150){
+                        col = 'col-md-3 col-sm-3 col-xs-6';
+                    }else{
+                        col = 'col-md-2 col-sm-2 col-xs-6';
+                    }
+                    $('.list-picture li').addClass(col);
                 }else{
                     setContener.append(
                         $(document.createElement("img"))
