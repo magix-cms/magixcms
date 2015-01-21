@@ -60,7 +60,7 @@
                 {#pn_contact_message#|ucfirst} :
             </label>
             <div class="col-md-6">
-                <textarea id="content" name="content" rows="5" class="form-control" ></textarea>
+                <textarea id="content" name="content" rows="5" class="form-control"></textarea>
             </div>
         </div>
         <div class="form-group">

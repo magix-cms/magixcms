@@ -124,19 +124,62 @@ Header set Access-Control-Allow-Origin "*"
   # the `X-UA-Compatible` response header should be send only for
   # HTML documents and not for the other resources.
   <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|woff2?|xloc|xml|xpi)$">
-  Header unset X-UA-Compatible
-</FilesMatch>
-# ----------------------------------------------------------------------
-# | File access |
-# ----------------------------------------------------------------------
-# Block access to directories without a default document.
-#
-# You should leave the following uncommented, as you shouldn't allow
-# anyone to surf through every directory on your server (which may
-# includes rather private places such as the CMS's directories).
-<IfModule mod_autoindex.c>
-  Options -Indexes
+    Header unset X-UA-Compatible
+  </FilesMatch>
+  # ----------------------------------------------------------------------
+  # | File access |
+  # ----------------------------------------------------------------------
+  # Block access to directories without a default document.
+  #
+  # You should leave the following uncommented, as you shouldn't allow
+  # anyone to surf through every directory on your server (which may
+  # includes rather private places such as the CMS's directories).
+  <IfModule mod_autoindex.c>
+    Options -Indexes
+  </IfModule>
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Block access to files that can expose sensitive information.
+  #
+  # By default, block access to backup and source files that may be
+  # left by some text editors and can pose a security risk when anyone
+  # has access to them.
+  #
+  # http://feross.org/cmsploit/
+  #
+  # (!) Update the `<FilesMatch>` regular expression from below to
+  # include any files that might end up on your production server and
+  # can expose sensitive information about your website. These files may
+  # include: configuration files, files that contain metadata about the
+  # project (e.g.: project dependencies), build scripts, etc..
+  <FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$">
+    # Apache < 2.3
+    <IfModule !mod_authz_core.c>
+      Order allow,deny
+      Deny from all
+      Satisfy All
+    </IfModule>
+    # Apache ≥ 2.3
+    <IfModule mod_authz_core.c>
+      Require all denied
+    </IfModule>
+  </FilesMatch>
 </IfModule>
+# ----------------------------------------------------------------------
+# | Reducing MIME type security risks |
+# ----------------------------------------------------------------------
+# Prevent some browsers from MIME-sniffing the response.
+#
+# This reduces exposure to drive-by download attacks and cross-origin
+# data leaks, and should be left uncommented, especially if the server
+# is serving user-uploaded content or content that could potentially be
+# treated as executable by the browser.
+#
+# http://www.slideshare.net/hasegawayosuke/owasp-hasegawa
+# http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
+# http://msdn.microsoft.com/en-us/library/ie/gg622941.aspx
+# https://mimesniff.spec.whatwg.org/
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
 </IfModule>
 # END Compress text files
 ###### Config Global
