@@ -10,23 +10,24 @@
                 </button>
 
                 {* Language Nav *}
-                <ul id="lang-box" class="nav navbar-right">
-                    <li>
-                        <a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" title="{#choose_language#|ucfirst}">
-                            <span class="glyphicon glyphicon-flag navbar-left">&nbsp;</span>
-                            <span class="visible-md visible-lg navbar-left">
-                                {#choose_language#|ucfirst}
-                            </span>
-                        </a>
-                        {widget_lang_display
-                            htmlStructure=[
-                                'container' => [
-                                'before' => '<ul id="nav-lang" class="dropdown-menu">'
-                                ]
+                <div class="nav navbar-right lang-header">
+                    {widget_lang_display
+                        htmlStructure=[
+                            'container' => [
+                                'before' => '<ul class="lang-nav list-inline">',
+                                'after' => '</ul>'
+                            ],
+                            'item'=>[
+                                'before' => '',
+                                'after' => ''
+                            ],
+                            'iso'=>[
+                                'before' => ' ',
+                                'after' => ' '
                             ]
-                        }
-                    </li>
-                </ul>
+                        ]
+                    }
+                </div>
 
                 {* Brand && Headline *}
                 <a id="navbar-brand" class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
