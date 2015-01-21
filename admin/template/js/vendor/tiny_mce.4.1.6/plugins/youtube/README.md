@@ -16,17 +16,34 @@ Official link in french :
 ![tinyMCE plugin YouTube](http://blog.aurelien-gerits.be/wp-content/uploads/2013/09/youtube-tinymce-2.0.png "tinyMCE plugin YouTube")
 
 ###Installation
- * Download skin
- * Unzip archive
- * Move folder bootstrap in tinyMCE (tiny_mce/plugins/)
+ * Download the dist/youtube.zip archive
+ * Unzip archive in tinyMCE plugin directory (tiny_mce/plugins/)
 
-###Language
+###Configuration
+ ```html
+<script type="text/javascript">
+tinymce.init({
+	selector: "textarea",
+	plugins: [
+			"advlist autolink lists link image charmap print preview anchor",
+			"searchreplace visualblocks code fullscreen",
+			"insertdatetime media table contextmenu paste youtube"
+			],
+	toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image| youtube"
+	});
+</script>
+```
+
+###Languages
  * English
  * French
  * Russian
  * Spanish
  * German
  * Italian
+ * Brazilian
+ * Hungarian
+ * Polish
  
  You can send me translations in other languages
  
