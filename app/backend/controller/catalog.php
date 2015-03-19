@@ -1073,17 +1073,59 @@ class backend_controller_catalog extends backend_db_catalog{
     }
 
     /**
+     * @param $file
+     * @param $newfile
+     * @return mixed
+     */
+    private function copyImage($dir, $file, $newfile){
+        if (copy($dir.$file, $dir.$newfile)) {
+            return $newfile;
+        }
+    }
+    /**
      * Copie un produit
      */
     private function copy_product(){
+        $initImg = new backend_model_image();
         if(isset($this->copy)){
+            $data = parent::s_catalog_data($this->copy);
+            if($data['imgcatalog'] != null){
+                $fileextends = $initImg->image_analyze(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR.$data['imgcatalog']);
+                $imgcatalog = $this->copyImage(self::dirImgProduct().'product'.DIRECTORY_SEPARATOR,$data['imgcatalog'],magixglobal_model_cryptrsa::random_generic_ui().$fileextends);
+                $this->copyImage(self::dirImgProduct().'medium'.DIRECTORY_SEPARATOR,$data['imgcatalog'],$imgcatalog);
+                $this->copyImage(self::dirImgProduct().'mini'.DIRECTORY_SEPARATOR,$data['imgcatalog'],$imgcatalog);
+            }else{
+                $imgcatalog = null;
+            }
+            // Insertion de la copie du produit
             parent::i_catalog_product_copy(
-                $this->copy,
-                $this->idadmin
+                $data['idlang'],
+                $data['idadmin'],
+                $data['titlecatalog'],
+                $data['urlcatalog'],
+                $data['desccatalog'],
+                $data['price'],
+                $imgcatalog
             );
+            //Récupère l'identifiant du produit dupliqué
+            $lastidcatalog = parent::s_catalog_last_insert();
+            if($lastidcatalog){
+                $dataGalery = parent::s_product_galery($this->copy);
+                if($dataGalery != null){
+                    foreach($dataGalery as $item){
+                        $fileextends = $initImg->image_analyze(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR.$item['imgcatalog']);
+                        $imggalery = $this->copyImage(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR,$item['imgcatalog'],magixglobal_model_cryptrsa::random_generic_ui().$fileextends);
+                        $this->copyImage(self::dirImgProductGalery().'mini'.DIRECTORY_SEPARATOR,$item['imgcatalog'],$imggalery);
+                        $this->i_product_galery($imggalery,$lastidcatalog['idcatalog']);
+                    }
+                }
+            }
         }
     }
 
+    /**
+     *
+     */
     private function move_product(){
         if(isset($this->move) AND isset($this->idlang)){
             parent::u_move_product($this->move,$this->idlang);

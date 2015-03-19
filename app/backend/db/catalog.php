@@ -450,7 +450,7 @@ class backend_db_catalog{
      * @return array
      */
     protected function s_catalog_data($edit){
-        $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.idlang, cl.price,cl.imgcatalog, lang.iso
+        $sql = 'SELECT cl.*, lang.iso
 		FROM mc_catalog AS cl
 		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
 		WHERE cl.idcatalog = :edit';
@@ -459,6 +459,21 @@ class backend_db_catalog{
         ));
     }
 
+    /**
+     * Retourne les données du dernier produit inséré
+     * @return array
+     */
+    protected function s_catalog_last_insert(){
+        $sql = 'SELECT cl.*, lang.iso
+            FROM mc_catalog AS cl
+            JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
+            WHERE cl.idcatalog = :edit';
+        return magixglobal_model_db::layerDB()->selectOne($sql,
+            array(
+                ':edit'=> magixglobal_model_db::layerDB()->lastInsert()
+            )
+        );
+    }
     /**
      * Retourne les catégories/ou sous catégories du produit
      * @param $edit
@@ -541,15 +556,18 @@ class backend_db_catalog{
      * @param $edit
      * @param $idadmin
      */
-    protected function i_catalog_product_copy($edit,$idadmin){
-        $sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,imgcatalog,price)
-		SELECT idlang,:idadmin,urlcatalog,titlecatalog,desccatalog,imgcatalog,price
-		FROM mc_catalog
-		WHERE idcatalog = :edit';
+    protected function i_catalog_product_copy($idlang,$idadmin,$titlecatalog,$urlcatalog,$desccatalog,$price,$imgcatalog){
+        $sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,imgcatalog)
+        VALUE(:idlang,:idadmin,:urlcatalog,:titlecatalog,:desccatalog,:price,:imgcatalog)';
         magixglobal_model_db::layerDB()->insert($sql,
             array(
-                ':edit'		=>	$edit,
-                ':idadmin'	=>	$idadmin
+                ':idlang'			=>	$idlang,
+                ':idadmin'			=>	$idadmin,
+                ':titlecatalog'		=>	$titlecatalog,
+                ':urlcatalog'		=>	$urlcatalog,
+                ':desccatalog'		=>	$desccatalog,
+                ':price'		    =>	$price,
+                ':imgcatalog'		=>	$imgcatalog
             ));
     }
 
@@ -699,7 +717,7 @@ class backend_db_catalog{
      * @return array
      */
 	protected function s_product_galery($edit){
-		$sql = 'SELECT img.idmicro,img.imgcatalog
+		$sql = 'SELECT img.idmicro,img.imgcatalog,img.idcatalog
 		FROM mc_catalog_galery as img WHERE idcatalog = :edit';
 		return magixglobal_model_db::layerDB()->select($sql,array(
             ':edit'	=>	$edit
@@ -707,7 +725,7 @@ class backend_db_catalog{
 	}
 
     protected function s_product_galery_data($edit){
-        $sql = 'SELECT img.idmicro,img.imgcatalog
+        $sql = 'SELECT img.idmicro,img.imgcatalog,img.idcatalog
 		FROM mc_catalog_galery as img WHERE idmicro = :edit';
         return magixglobal_model_db::layerDB()->selectOne($sql,array(
             ':edit'	=>	$edit
