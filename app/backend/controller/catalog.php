@@ -384,8 +384,8 @@ class backend_controller_catalog extends backend_db_catalog{
      * @return array
      */
     private function array_list_category(){
-        if(parent::s_catalog_category($this->getlang) != null){
-            foreach (parent::s_catalog_category($this->getlang) as $key){
+        if(parent::s_catalog_list_category_data($this->getlang) != null){
+            foreach (parent::s_catalog_list_category_data($this->getlang) as $key){
                 $id[]=$key['idclc'];
                 $clibelle[]=$key['clibelle'];
             }

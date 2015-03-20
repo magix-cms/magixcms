@@ -1,3 +1,12 @@
+#### 2.5.3
+* Upgrade responsivefilemanager 9.9.2
+* Upgrade tinymce 4.1.6 => 4.1.9
+* Fix #125 order category in product
+* Change permission on plugin contact
+* Fix bug duplicate product + images + galery
+* Htaccess HBP5 adaptation
+* Add open graph + twitter meta protocol
+
 #### 2.5.2
 Stable
     * Change : redefined title attribute (loop) - frontend

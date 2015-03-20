@@ -94,6 +94,22 @@ class backend_db_catalog{
     }
 
     /**
+     * Retourne la liste des catégories dans un produit
+     * @param $getlang
+     * @return array
+     */
+    protected function s_catalog_list_category_data($getlang){
+        $sql = 'SELECT c.*,lang.iso
+        FROM mc_catalog_c AS c
+    	JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+    	WHERE c.idlang = :getlang
+    	ORDER BY c.clibelle ASC';
+        return magixglobal_model_db::layerDB()->select($sql,array(
+            ':getlang'=>$getlang
+        ));
+    }
+
+    /**
      * @param $idlang
      * @param $clibelle
      * @return array
