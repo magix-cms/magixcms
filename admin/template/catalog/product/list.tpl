@@ -9,6 +9,7 @@
         </a>
     </p>
     <div class="mc-message clearfix"></div>
+    {$pagination}
     <div id="list_catalog_product"></div>
     {$pagination}
 {/block}

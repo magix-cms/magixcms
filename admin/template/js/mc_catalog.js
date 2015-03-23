@@ -1317,7 +1317,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function addProduct(baseadmin,iso,section,getlang,access){
+    function addProduct(baseadmin,iso,section,getlang,access,getpage){
         var formsAdd = $("#forms_catalog_product_add").validate({
             onsubmit: true,
             event: 'submit',
@@ -1339,7 +1339,7 @@ var MC_catalog = (function ($, undefined) {
                             display:true
                         });
                         $('#forms-add').dialog('close');
-                        jsonListProduct(baseadmin,iso,section,getlang,access);
+                        jsonListProduct(baseadmin,iso,section,getlang,access,getpage);
                     }
                 });
                 return false;
@@ -1371,9 +1371,12 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function jsonListProduct(baseadmin,iso,section,getlang,access){
-        var getpage = $('.pagination li.active').text();
+    function jsonListProduct(baseadmin,iso,section,getlang,access,getpage){
+        /*var getpage = $('.pagination li.active').text();
         if(getpage.length == 0){
+            getpage = 1;
+        }*/
+        if(getpage == ""){
             getpage = 1;
         }
         $.nicenotify({
@@ -1681,7 +1684,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function copyProduct(baseadmin,iso,section,getlang,access){
+    function copyProduct(baseadmin,iso,section,getlang,access,getpage){
         $(document).on('click','.copy-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("copy");
@@ -1704,7 +1707,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(baseadmin,iso,section,getlang,access);
+                                jsonListProduct(baseadmin,iso,section,getlang,access,getpage);
                             }
                         });
                     },
@@ -1722,7 +1725,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function moveProduct(baseadmin,iso,section,getlang,access){
+    function moveProduct(baseadmin,iso,section,getlang,access,getpage){
         $(document).on('click','.move-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("move");
@@ -1745,7 +1748,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(baseadmin,iso,section,getlang,access);
+                                jsonListProduct(baseadmin,iso,section,getlang,access,getpage);
                             }
                         });
                     },
@@ -1763,7 +1766,7 @@ var MC_catalog = (function ($, undefined) {
      * @param section
      * @param getlang
      */
-    function removeProduct(baseadmin,iso,section,getlang,access){
+    function removeProduct(baseadmin,iso,section,getlang,access,getpage){
         $(document).on('click','.delete-pages',function(event){
             event.preventDefault();
             var elem = $(this).data("delete");
@@ -1786,7 +1789,7 @@ var MC_catalog = (function ($, undefined) {
                                 $.nicenotify.initbox(e,{
                                     display:false
                                 });
-                                jsonListProduct(baseadmin,iso,section,getlang,access);
+                                jsonListProduct(baseadmin,iso,section,getlang,access,getpage);
                             }
                         });
                     },
@@ -2438,13 +2441,13 @@ var MC_catalog = (function ($, undefined) {
                 removeSubCategoryProduct(baseadmin,iso,section,getlang,edit,'product');
             }
         },
-        runListProduct:function(baseadmin,iso,section,getlang,access){
+        runListProduct:function(baseadmin,iso,section,getlang,access,getpage){
             autoCompleteCatalog(baseadmin,section,getlang);
-            jsonListProduct(baseadmin,iso,section,getlang,access);
-            addProduct(baseadmin,iso,section,getlang,access);
-            copyProduct(baseadmin,iso,section,getlang,access);
-            moveProduct(baseadmin,iso,section,getlang,access);
-            removeProduct(baseadmin,iso,section,getlang,access);
+            jsonListProduct(baseadmin,iso,section,getlang,access,getpage);
+            addProduct(baseadmin,iso,section,getlang,access,getpage);
+            copyProduct(baseadmin,iso,section,getlang,access,getpage);
+            moveProduct(baseadmin,iso,section,getlang,access,getpage);
+            removeProduct(baseadmin,iso,section,getlang,access,getpage);
         },
         runEditProduct:function(baseadmin,iso,section,getlang,edit){
             autoCompleteCatalog(baseadmin,section,getlang);

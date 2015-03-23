@@ -33,7 +33,8 @@
                     {if $smarty.get.edit}
                         MC_catalog.runEditProduct(baseadmin,iso,section,getlang,edit);
                     {else}
-                        MC_catalog.runListProduct(baseadmin,iso,section,getlang,access);
+                        var getpage = "{$smarty.get.page}";
+                        MC_catalog.runListProduct(baseadmin,iso,section,getlang,access,getpage);
                 {/if}
             {/if}
             {elseif !$smarty.get.section}
