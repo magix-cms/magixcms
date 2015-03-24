@@ -37,7 +37,7 @@
  * @category   extends 
  * @package    Smarty
  * @subpackage function
- * @copyright  MAGIX CMS Copyright (c) 2010 Gerits Aurelien, 
+ * @copyright  MAGIX CMS Copyright (c) 2008 - 2015 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com
  * @license    Dual licensed under the MIT or GPL Version 3 licenses.
  * @version    plugin version
@@ -50,6 +50,7 @@
  * Type:     function
  * Name:     static_metas
  * Date:     January, 2010
+ * Update:   24/03/2015
  * Purpose:  Ajoute une métas statique
  * Examples: {static_metas param=""}
  * Output:   
@@ -67,14 +68,14 @@ function smarty_function_static_metas($params, $template){
 	 	trigger_error("config: missing 'param' parameter");
 		return;
 	}
-	if($param == null){
-		if(empty($dynamic)){
-			$seo = magixglobal_model_system::extract_domain();
-		}else{
-			$seo = $dynamic;
-		}
-	}elseif($param != null){
-		$seo = $param;
-	}
+    if(empty($dynamic)){
+        if($param != null) {
+            $seo = $param;
+        }else{
+            $seo = magixglobal_model_system::extract_domain();
+        }
+    }else{
+        $seo = $dynamic;
+    }
 	return magixcjquery_form_helpersforms::inputClean($seo);
 }
