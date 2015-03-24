@@ -1,0 +1,124 @@
+//HoverEffectIdeas less for bootstrap
+//
+// Variables
+// --------------------------------------------------
+
+
+//== Colors
+@figcaption-color-title : #fff;
+@figure-bg:#3498db;
+@effect-apollo-bg: #3498db;
+@figure-font-size-h3:            ceil((@font-size-base * 1.3));
+// Common style
+.thumbnail{
+  > figure{
+    position: relative;
+    overflow: hidden;
+    margin: 10px 1%;
+    height: auto;
+    background: @figure-bg;
+    text-align: center;
+    cursor: pointer;
+    > img{
+      position: relative;
+      display: block;
+      min-height: 100%;
+      max-width: 100%;
+      opacity: 0.8;
+    }
+    > figcaption{
+      color: @figcaption-color-title;
+      //text-transform: uppercase;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      &:before,
+      &:after {
+        pointer-events: none;
+      }
+      > a{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        text-indent: 200%;
+        white-space: nowrap;
+        font-size: 0;
+        opacity: 0;
+      }
+      h3{
+        margin:0;
+      }
+    }
+  }
+}
+/*-----------------*/
+/***** Apollo *****/
+/*-----------------*/
+figure.effect-apollo{
+  background:@effect-apollo-bg;
+  > img {
+    opacity: 0.95;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: scale3d(1.05,1.05,1);
+    transform: scale3d(1.05,1.05,1);
+  }
+  figcaption {
+    &:before{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.5);
+      content: '';
+      -webkit-transition: -webkit-transform 0.6s;
+      transition: transform 0.6s;
+      -webkit-transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,-100%,0);
+      transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,-100%,0);
+    }
+    p {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      margin: 3em;
+      padding: 0 1em;
+      max-width: 150px;
+      border-right: 4px solid #fff;
+      text-align: right;
+      opacity: 0;
+      -webkit-transition: opacity 0.35s;
+      transition: opacity 0.35s;
+    }
+    h3 {
+      text-align: left;
+      margin: 10px 0 0 10px;
+      font-size: @figure-font-size-h3;
+    }
+  }
+  &:hover{
+    img {
+      opacity: 0.6;
+      -webkit-transform: scale3d(1,1,1);
+      transform: scale3d(1,1,1);
+    }
+    figcaption{
+      &:before {
+        -webkit-transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,100%,0);
+        transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,100%,0);
+      }
+    }
+    p {
+      opacity: 1;
+      -webkit-transition-delay: 0.1s;
+      transition-delay: 0.1s;
+    }
+  }
+}
