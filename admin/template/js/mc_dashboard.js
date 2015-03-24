@@ -87,6 +87,7 @@ var MC_dashboard = (function ($, undefined) {
                 //var obj = $.parseJSON($graph);
                 //console.log($graph);
                 new Morris.Bar({
+                    resize: true,
                     element: 'graphPages',
                     data: $graph,
                     xkey: 'x',

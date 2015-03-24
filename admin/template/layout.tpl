@@ -59,7 +59,7 @@
         </aside>
     {/block}
     {block name='article'}
-        <article id="article" class="col-md-10 col-sm-9 pull-left">
+        <article id="article" class="col-md-10 col-sm-9 col-xs-12 pull-left">
             {block name='article:content'}
             {/block}
         </article>

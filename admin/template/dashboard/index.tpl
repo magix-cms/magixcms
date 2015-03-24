@@ -2,7 +2,7 @@
 {block name='body:id'}module-dashboard{/block}
 {block name="article:content"}
     <div class="row">
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <h2><span class="fa fa-certificate"></span> {#h2_install_analyse#}</h2>
             <div class="alert alert-info">
                 <span class="fa fa-info-circle"></span> {#alert_magixcms_version#}
@@ -35,7 +35,7 @@
             </ul>
             <div class="row">
                 {if {employee_access type="view_access" class_name="backend_controller_employee"} eq 1}
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3><span class="fa fa-user"></span> {#users#|ucfirst}</h3>
                     {foreach $array_stats_user as $key => $value nocache}
                         <p>
@@ -45,7 +45,7 @@
                 </div>
                 {/if}
                 {if {employee_access type="view_access" class_name="backend_controller_lang"} eq 1 AND $config_lang eq 1}
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3><span class="fa fa-flag"></span> {#languages#|ucfirst}</h3>
                     <ul class="list-inline">
                         {foreach $array_lang as $key => $value nocache}
@@ -59,11 +59,11 @@
             </div>
 
         </div>
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <h2><span class="fa fa-bolt"></span> {#h2_quick_links#}</h2>
             <div class="row">
                 {if {employee_access class_name="backend_controller_cms"} eq 1 AND $config_cms eq 1}
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3><span class="fa fa-file-text-o"></span> Pages</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -81,7 +81,7 @@
                 </div>
                 {/if}
                 {if {employee_access class_name="backend_controller_home"} eq 1}
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3><span class="fa fa-home"></span> {#home#|ucfirst}</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -95,7 +95,7 @@
             </div>
             <div class="row">
                 {if {employee_access class_name="backend_controller_catalog"} eq 1 AND $config_catalog eq 1}
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3><span class="fa fa-shopping-cart"></span> {#catalog#|ucfirst}</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -126,7 +126,7 @@
                 </div>
                 {/if}
                 {if {employee_access class_name="backend_controller_news"} eq 1 AND $config_news eq 1}
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3><span class="fa fa-rss"></span> {#news#|ucfirst}</h3>
                     <ul class="list-unstyled">
                         <li>
@@ -147,13 +147,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <h2>
                 <span class="fa fa-bar-chart"></span> {#h2_statistics_pages#|ucfirst}
             </h2>
             <div id="graphPages"></div>
         </div>
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             <h2><span class="fa fa-external-link"></span> {#h2_links#|ucfirst}</h2>
             <ul class="list-unstyled">
                 <li>

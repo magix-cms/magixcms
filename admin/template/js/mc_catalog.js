@@ -65,6 +65,7 @@ var MC_catalog = (function ($, undefined) {
                 });
                 var $graph = data;
                 new Morris.Bar({
+                    resize: true,
                     element: 'graph',
                     data: $graph,
                     xkey: 'x',

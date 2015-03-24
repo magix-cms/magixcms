@@ -64,6 +64,7 @@ var MC_seo = (function ($, undefined) {
                 //var obj = $.parseJSON($graph);
                 //console.log($graph);
                 new Morris.Bar({
+                    resize: true,
                     element: 'graph',
                     data: $graph,
                     xkey: 'x',
