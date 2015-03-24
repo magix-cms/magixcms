@@ -10,25 +10,10 @@
                 </button>
 
                 {* Language Nav *}
+                {widget_lang_data assign="dataLangNav"}
                 <div class="nav navbar-right lang-header">
-                    {widget_lang_display
-                        htmlStructure=[
-                            'container' => [
-                                'before' => '<ul class="lang-nav list-inline">',
-                                'after' => '</ul>'
-                            ],
-                            'item'=>[
-                                'before' => '',
-                                'after' => ''
-                            ],
-                            'iso'=>[
-                                'before' => ' ',
-                                'after' => ' '
-                            ]
-                        ]
-                    }
+                    {include file="section/loop/lang.tpl" data=$dataLangNav type="nav"}
                 </div>
-
                 {* Brand && Headline *}
                 <a id="navbar-brand" class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
                         <img src="/skin/{template}/img/logo-magix_cms.png" alt="{#logo_img_alt#|ucfirst}" />

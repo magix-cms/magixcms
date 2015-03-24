@@ -26,7 +26,7 @@
         {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
     {/block}
     {if {module type="news"} eq true}
-        <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
+    <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
     {/if}
     {capture name="scriptHtml5"}{strip}
         /min/?f=
@@ -36,6 +36,9 @@
     <!--[if lt IE 9]>
         {script src=$smarty.capture.scriptHtml5 concat=$concat type="javascript"}
     <![endif]-->
+    {* Language link hreflang *}
+    {widget_lang_data assign="dataLangHead"}
+    {include file="section/loop/lang.tpl" data=$dataLangHead type="head"}
     {google_tools tools='analytics'}
 </head>
 <body id="{block name='body:id'}layout{/block}">
