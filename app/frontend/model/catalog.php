@@ -601,7 +601,7 @@ class frontend_model_catalog extends frontend_db_catalog {
                 }
 
             }
-        } elseif ($conf['context'][1] == 'last-product' OR $conf['context'][1] == 'last-product-cat') {
+        } elseif ($conf['context'][1] == 'last-product') {
             // Product[last]
             // @TODO: mise en place des paramètre 'exclude'
             if($class && class_exists($class)){
@@ -610,9 +610,68 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data   =   parent::s_product($conf['id'],null,$conf['limit'],$conf['sort']);
             }
 
+        }else if($conf['context'][1] == 'last-product-cat'){
+            if(isset($custom['select']) OR $custom['exclude']){
+                if($class && class_exists($class)) {
+                    $data = $class::fetchAllProduct(
+                        array(
+                            'context' => $conf['context'][1],
+                            'limit' => $conf['limit'],
+                            'selectmode' => $conf['type'],
+                            'selectmodeid' => $conf['id'],
+                            'sort' => $conf['sort']
+                        )
+                    );
+                }else{
+                    $data = parent::fetchAllProduct(
+                        array(
+                            'context' => $conf['context'][1],
+                            'limit' => $conf['limit'],
+                            'selectmode' => $conf['type'],
+                            'selectmodeid' => $conf['id'],
+                            'sort' => $conf['sort']
+                        )
+                    );
+                }
+            }else{
+                if($class && class_exists($class)) {
+                    $data = $class::s_product($conf['id'], null, $conf['limit'], $conf['sort']);
+                }else{
+                    $data = parent::s_product($conf['id'], null, $conf['limit'], $conf['sort']);
+                }
+            }
 
         } elseif ($conf['context'][1] == 'last-product-subcat') {
-            $data   =   parent::s_product(null,$conf['id'],$conf['limit'],$conf['sort']);
+            if(isset($custom['select']) OR $custom['exclude']){
+                if($class && class_exists($class)) {
+                    $data = $class::fetchAllProduct(
+                        array(
+                            'context' => $conf['context'][1],
+                            'limit' => $conf['limit'],
+                            'selectmode' => $conf['type'],
+                            'selectmodeid' => $conf['id'],
+                            'sort' => $conf['sort']
+                        )
+                    );
+                }else{
+                    $data = parent::fetchAllProduct(
+                        array(
+                            'context' => $conf['context'][1],
+                            'limit' => $conf['limit'],
+                            'selectmode' => $conf['type'],
+                            'selectmodeid' => $conf['id'],
+                            'sort' => $conf['sort']
+                        )
+                    );
+                }
+            }else{
+                if($class && class_exists($class)) {
+                    $data = $class::s_product(null,$conf['id'],$conf['limit'],$conf['sort']);
+                }else{
+                    $data = parent::s_product(null,$conf['id'],$conf['limit'],$conf['sort']);
+                }
+
+            }
 
         } elseif($conf['context'][1] == 'product-gallery') {
             // Product Gallery

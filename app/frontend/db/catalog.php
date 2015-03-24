@@ -282,6 +282,72 @@ class frontend_db_catalog
 		";
         return magixglobal_model_db::layerDB()->select($select);
     }
+
+    /**
+     * Fonction multiple de sélection de produit
+     * @param $data
+     * @return array
+     */
+    protected static function fetchAllProduct($data){
+        $iso = frontend_model_template::current_Language();
+        switch($data['sort']){
+            case 'id':
+                $order_clause = 'ORDER BY p.idproduct DESC';
+                break;
+            case 'product':
+                $order_clause = 'ORDER BY p.orderproduct ASC';
+                break;
+            case 'name':
+                $order_clause = 'ORDER BY catalog.titlecatalog ASC';
+                break;
+        }
+        $limit_clause = null;
+        $where_clause = 'WHERE lang.iso = :iso';
+        if (is_int($data['limit'])) {
+            $limit_clause = 'LIMIT '.$data['limit'];
+        }
+        if(is_array($data)){
+            switch($data['context']){
+                case 'last-product-cat':
+                    if($data['selectmode']){
+                        $where_clause .= ' AND p.idclc';
+                        $where_clause .= ($data['selectmode'] != 'exclude') ?' IN (' : ' NOT IN (';
+                        $where_clause .= $data['selectmodeid'];
+                        $where_clause .= ') ';
+                    }
+                    break;
+                case 'last-product-subcat':
+                    if($data['selectmode']){
+                        $where_clause .= ' AND p.idcls';
+                        $where_clause .= ($data['selectmode'] != 'exclude') ?' IN (' : ' NOT IN (';
+                        $where_clause .= $data['selectmodeid'];
+                        $where_clause .= ') ';
+                    }
+                    break;
+            }
+            $select = "SELECT
+                p.idproduct,p.idclc, p.idcls,
+                catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
+                c.pathclibelle,
+                s.pathslibelle,
+                catalog.imgcatalog,
+                lang.iso
+            FROM mc_catalog_product AS p
+            LEFT JOIN mc_catalog AS catalog ON ( catalog.idcatalog = p.idcatalog )
+            LEFT JOIN mc_catalog_c AS c ON ( c.idclc = p.idclc )
+            LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
+            JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+            {$where_clause}
+            {$order_clause}
+            {$limit_clause}";
+            return magixglobal_model_db::layerDB()->select(
+                $select,
+                array(
+                    ':iso'	=>	$iso
+                )
+            );
+        }
+    }
     /**
      * Select all product related to idproduct
      * @access protected
