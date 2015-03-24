@@ -1,17 +1,139 @@
+# ----------------------------------------------------------------------
+# | Cross-origin images |
+# ----------------------------------------------------------------------
+# Send the CORS header for images when browsers request it.
+<IfModule mod_setenvif.c>
+    <IfModule mod_headers.c>
+        <FilesMatch "\.(bmp|cur|gif|ico|jpe?g|png|svgz?|webp)$">
+            SetEnvIf Origin ":" IS_CORS
+            Header set Access-Control-Allow-Origin "*" env=IS_CORS
+        </FilesMatch>
+    </IfModule>
+</IfModule>
+# ----------------------------------------------------------------------
+# | Cross-origin web fonts |
+# ----------------------------------------------------------------------
+# Allow cross-origin access to web fonts.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(eot|otf|tt[cf]|woff2?)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>
+# ----------------------------------------------------------------------
+# | Document modes |
+# ----------------------------------------------------------------------
+# Force Internet Explorer 8/9/10 to render pages in the highest mode
+# available in the various cases when it may not.
+<IfModule mod_headers.c>
+  Header set X-UA-Compatible "IE=edge"
+  # `mod_headers` cannot match based on the content-type, however,
+  # the `X-UA-Compatible` response header should be send only for
+  # HTML documents and not for the other resources.
+  <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|woff2?|xloc|xml|xpi)$">
+    Header unset X-UA-Compatible
+  </FilesMatch>
+  # ----------------------------------------------------------------------
+  # | File access |
+  # ----------------------------------------------------------------------
+  # Block access to directories without a default document.
+  <IfModule mod_autoindex.c>
+    Options -Indexes
+  </IfModule>
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Block access to files that can expose sensitive information.
+  #
+  <FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$">
+    # Apache < 2.3
+    <IfModule !mod_authz_core.c>
+      Order allow,deny
+      Deny from all
+      Satisfy All
+    </IfModule>
+    # Apache ≥ 2.3
+    <IfModule mod_authz_core.c>
+      Require all denied
+    </IfModule>
+  </FilesMatch>
+</IfModule>
+# ----------------------------------------------------------------------
+# | Rewrite engine |
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    # (1)
+    RewriteEngine On
+    # (2)
+    # Options +FollowSymlinks
+    # (3)
+    # Options +SymLinksIfOwnerMatch
+    # (4)
+    # RewriteBase /
+    # (5)
+    # RewriteOptions <options>
+    # (6)
+</IfModule>
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+</IfModule>
+# ----------------------------------------------------------------------
+# | Expires headers                                                    |
+# ----------------------------------------------------------------------
 # BEGIN Expire headers
 <IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresDefault "access plus 1 seconds"
-  ExpiresByType image/x-icon "access plus 2592000 seconds"
-  ExpiresByType image/jpeg "access plus 2592000 seconds"
-  ExpiresByType image/png "access plus 2592000 seconds"
-  ExpiresByType image/gif "access plus 2592000 seconds"
-  ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
-  ExpiresByType text/css "access plus 604800 seconds"
-  ExpiresByType text/javascript "access plus 216000 seconds"
-  ExpiresByType application/x-javascript "access plus 216000 seconds"
-  ExpiresByType text/html "access plus 7200 seconds"
-  ExpiresByType application/xhtml+xml "access plus 7200 seconds"
+  ExpiresActive on
+      ExpiresDefault                                      "access plus 1 month"
+    # CSS
+      ExpiresByType text/css                              "access plus 1 year"
+    # Data interchange
+      ExpiresByType application/atom+xml                  "access plus 1 hour"
+      ExpiresByType application/rdf+xml                   "access plus 1 hour"
+      ExpiresByType application/rss+xml                   "access plus 1 hour"
+      ExpiresByType application/json                      "access plus 0 seconds"
+      ExpiresByType application/ld+json                   "access plus 0 seconds"
+      ExpiresByType application/schema+json               "access plus 0 seconds"
+      ExpiresByType application/vnd.geo+json              "access plus 0 seconds"
+      ExpiresByType application/xml                       "access plus 0 seconds"
+      ExpiresByType text/xml                              "access plus 0 seconds"
+    # Favicon (cannot be renamed!) and cursor images
+      ExpiresByType image/vnd.microsoft.icon              "access plus 1 week"
+      ExpiresByType image/x-icon                          "access plus 1 week"
+    # HTML
+      ExpiresByType text/html                             "access plus 0 seconds"
+    # JavaScript
+      ExpiresByType application/javascript                "access plus 1 year"
+      ExpiresByType application/x-javascript              "access plus 1 year"
+      ExpiresByType text/javascript                       "access plus 1 year"
+    # Manifest files
+      ExpiresByType application/manifest+json             "access plus 1 year"
+      ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
+      ExpiresByType text/cache-manifest                   "access plus 0 seconds"
+    # Media files
+      ExpiresByType audio/ogg                             "access plus 1 month"
+      ExpiresByType image/bmp                             "access plus 1 month"
+      ExpiresByType image/gif                             "access plus 1 month"
+      ExpiresByType image/jpeg                            "access plus 1 month"
+      ExpiresByType image/png                             "access plus 1 month"
+      ExpiresByType image/svg+xml                         "access plus 1 month"
+      ExpiresByType image/webp                            "access plus 1 month"
+      ExpiresByType video/mp4                             "access plus 1 month"
+      ExpiresByType video/ogg                             "access plus 1 month"
+      ExpiresByType video/webm                            "access plus 1 month"
+    # Web fonts
+      # Embedded OpenType (EOT)
+      ExpiresByType application/vnd.ms-fontobject         "access plus 1 month"
+      ExpiresByType font/eot                              "access plus 1 month"
+      # OpenType
+      ExpiresByType font/opentype                         "access plus 1 month"
+      # TrueType
+      ExpiresByType application/x-font-ttf                "access plus 1 month"
+      # Web Open Font Format (WOFF) 1.0
+      ExpiresByType application/font-woff                 "access plus 1 month"
+      ExpiresByType application/x-font-woff               "access plus 1 month"
+      ExpiresByType font/woff                             "access plus 1 month"
+      # Web Open Font Format (WOFF) 2.0
+      ExpiresByType application/font-woff2                "access plus 1 month"
+    # Other
+      ExpiresByType text/x-cross-domain-policy            "access plus 1 week"
 </IfModule>
 # END Expire headers
 # BEGIN Cache-Control Headers
@@ -80,151 +202,61 @@
 	</IfModule>
 </IfModule>
 # ----------------------------------------------------------------------
-# | Cross-origin images |
-# ----------------------------------------------------------------------
-# Send the CORS header for images when browsers request it.
-#
-# https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
-# https://blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
-<IfModule mod_setenvif.c>
-<IfModule mod_headers.c>
-<FilesMatch "\.(bmp|cur|gif|ico|jpe?g|png|svgz?|webp)$">
-SetEnvIf Origin ":" IS_CORS
-Header set Access-Control-Allow-Origin "*" env=IS_CORS
-</FilesMatch>
-</IfModule>
-</IfModule>
-# ----------------------------------------------------------------------
-# | Cross-origin web fonts |
-# ----------------------------------------------------------------------
-# Allow cross-origin access to web fonts.
-<IfModule mod_headers.c>
-<FilesMatch "\.(eot|otf|tt[cf]|woff2?)$">
-Header set Access-Control-Allow-Origin "*"
-</FilesMatch>
-</IfModule>
-# ----------------------------------------------------------------------
-# | Document modes |
-# ----------------------------------------------------------------------
-# Force Internet Explorer 8/9/10 to render pages in the highest mode
-# available in the various cases when it may not.
-#
-# https://hsivonen.fi/doctype/#ie8
-#
-# (!) Starting with Internet Explorer 11, document modes are deprecated.
-# If your business still relies on older web apps and services that were
-# designed for older versions of Internet Explorer, you might want to
-# consider enabling `Enterprise Mode` throughout your company.
-#
-# http://msdn.microsoft.com/en-us/library/ie/bg182625.aspx#docmode
-# http://blogs.msdn.com/b/ie/archive/2014/04/02/stay-up-to-date-with-enterprise-mode-for-internet-explorer-11.aspx
-<IfModule mod_headers.c>
-  Header set X-UA-Compatible "IE=edge"
-  # `mod_headers` cannot match based on the content-type, however,
-  # the `X-UA-Compatible` response header should be send only for
-  # HTML documents and not for the other resources.
-  <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|woff2?|xloc|xml|xpi)$">
-    Header unset X-UA-Compatible
-  </FilesMatch>
-  # ----------------------------------------------------------------------
-  # | File access |
-  # ----------------------------------------------------------------------
-  # Block access to directories without a default document.
-  #
-  # You should leave the following uncommented, as you shouldn't allow
-  # anyone to surf through every directory on your server (which may
-  # includes rather private places such as the CMS's directories).
-  <IfModule mod_autoindex.c>
-    Options -Indexes
-  </IfModule>
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Block access to files that can expose sensitive information.
-  #
-  # By default, block access to backup and source files that may be
-  # left by some text editors and can pose a security risk when anyone
-  # has access to them.
-  #
-  # http://feross.org/cmsploit/
-  #
-  # (!) Update the `<FilesMatch>` regular expression from below to
-  # include any files that might end up on your production server and
-  # can expose sensitive information about your website. These files may
-  # include: configuration files, files that contain metadata about the
-  # project (e.g.: project dependencies), build scripts, etc..
-  <FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$">
-    # Apache < 2.3
-    <IfModule !mod_authz_core.c>
-      Order allow,deny
-      Deny from all
-      Satisfy All
-    </IfModule>
-    # Apache ≥ 2.3
-    <IfModule mod_authz_core.c>
-      Require all denied
-    </IfModule>
-  </FilesMatch>
-</IfModule>
-# ----------------------------------------------------------------------
 # | Reducing MIME type security risks |
 # ----------------------------------------------------------------------
-# Prevent some browsers from MIME-sniffing the response.
-#
-# This reduces exposure to drive-by download attacks and cross-origin
-# data leaks, and should be left uncommented, especially if the server
-# is serving user-uploaded content or content that could potentially be
-# treated as executable by the browser.
-#
-# http://www.slideshare.net/hasegawayosuke/owasp-hasegawa
-# http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
-# http://msdn.microsoft.com/en-us/library/ie/gg622941.aspx
-# https://mimesniff.spec.whatwg.org/
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
 </IfModule>
 # END Compress text files
 ###### Config Global
-## Prevent character encoding issues from server overrides
-## If you still have problems, use the second line instead
-	AddDefaultCharset Off
-############################################
-## default index file
-    DirectoryIndex index.php
+# ----------------------------------------------------------------------
+# | Character encodings                                                |
+# ----------------------------------------------------------------------
+AddDefaultCharset utf-8
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Serve the following file types with the media type `charset`
+# parameter set to `UTF-8`.
+<IfModule mod_mime.c>
+    AddCharset utf-8 .atom \
+                     .bbaw \
+                     .css \
+                     .geojson \
+                     .js \
+                     .json \
+                     .jsonld \
+                     .rdf \
+                     .rss \
+                     .topojson \
+                     .vtt \
+                     .webapp \
+                     .xloc \
+                     .xml
+</IfModule>
 <IfModule mod_php5.c>
 ############################################
-## send error if no index file
-    #Options -Indexes
-############################################
 ## adjust memory limit
-    php_value memory_limit 128M
-    php_value max_execution_time 18000
+    #php_value memory_limit 128M
+    #php_value max_execution_time 18000
 ############################################
 ## disable magic quotes for php request vars
-    php_flag magic_quotes_gpc off  
+    #php_flag magic_quotes_gpc off
 ############################################
 ## disable automatic session start
 ## before autoload was initialized
-    php_flag session.auto_start off
+    #php_flag session.auto_start off
 ###########################################
 # disable user agent verification to not break multiple image upload
-    php_flag suhosin.session.cryptua off 
+    #php_flag suhosin.session.cryptua off
 ###########################################
 # turn off compatibility with PHP4 when dealing with objects 
-    php_flag zend.ze1_compatibility_mode Off
+    #php_flag zend.ze1_compatibility_mode Off
 </IfModule>
-<IfModule mod_rewrite.c>
-############################################
-## enable rewrites
-    #Options +FollowSymLinks
-    RewriteEngine on
-############################################
-## always send 404 on missing files in these folders
-#RewriteCond %{REQUEST_URI} !^/(skin)/
-#RewriteRule ^([^/]+\.html) /$1.phtml [L]
-</IfModule>
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
+## default index file
+    DirectoryIndex index.php
 #RewriteCond %{HTTP_HOST} ^localhost
+# ----------------------------------------------------------------------
+# | REWRITE
+# ----------------------------------------------------------------------
 ##################### Public ##########################
 RewriteRule ^([a-zA-Z]{1,3})/(.*) 											/$2?strLangue=$1		[QSA,L]
 RewriteRule ^(?:actualites|news|nieuws)/{0,1}$   /news.php				[QSA,L]

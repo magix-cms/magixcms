@@ -49,6 +49,24 @@
  * @param array
  * @param Smarty
  * @return string
+ * <ul id="share-box" class="nav navbar-nav navbar-right">
+    <li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <span class="glyphicon glyphicon-share">&nbsp;</span>
+    <span class="dropdown-text">
+    {#share#|ucfirst}
+    </span>
+    </a>
+    {widget_share_display
+    htmlStructure=[
+    'container' => [
+    'before' => '<ul id="share-nav" class="dropdown-menu">',
+    'after' => '</ul>'
+    ]
+    ]
+    }
+    </li>
+    </ul>
  */
 function smarty_function_widget_share_display($params, $template){
 

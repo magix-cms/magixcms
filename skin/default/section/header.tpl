@@ -41,6 +41,9 @@
             </div>
 
             {* Share tools *}
+            {widget_share_data
+                assign="shareData"
+            }
             <ul id="share-box" class="nav navbar-nav navbar-right">
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -49,17 +52,11 @@
                         {#share#|ucfirst}
                     </span>
                     </a>
-                    {widget_share_display
-                    htmlStructure=[
-                    'container' => [
-                    'before' => '<ul id="share-nav" class="dropdown-menu">',
-                    'after' => '</ul>'
-                    ]
-                    ]
-                    }
+                    <ul id="share-nav" class="dropdown-menu">
+                        {include file="section/loop/share.tpl" data=$shareData}
+                    </ul>
                 </li>
             </ul>
-
             {* Primary Nav *}
             <nav id="nav-primary-collapse" class="collapse navbar-collapse">
                 <ul id="nav-primary" class="nav navbar-nav">
