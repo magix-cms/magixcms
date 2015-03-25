@@ -1,4 +1,14 @@
 //HoverEffectIdeas less for bootstrap
+/*
+*
+apollo
+sadie
+zoe
+goliath
+ming
+julia
+steve
+*/
 // Common style
 .thumbnail{
   > figure{
@@ -6,7 +16,6 @@
     overflow: hidden;
     margin: 10px 1%;
     height: auto;
-    background: @figure-bg;
     text-align: center;
     cursor: pointer;
     > img{
@@ -14,7 +23,7 @@
       display: block;
       //min-height: 100%;
       max-width: 100%;
-      opacity: 0.8;
+      opacity: @figure-img-opacity;
     }
     > figcaption{
       color: @figcaption-color-title;
@@ -48,11 +57,81 @@
     }
   }
 }
+/*---------------*/
+/***** Sadie *****/
+/*---------------*/
+figure.effect-sadie {
+  figcaption {
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: @effect-sadie-bg-base;
+      background: -webkit-linear-gradient(top, @effect-sadie-bg-gradient 0%, @effect-sadie-bg-base 75%);
+      background: linear-gradient(to bottom, @effect-sadie-bg-gradient 0%, @effect-sadie-bg-base 75%);
+      content: '';
+      opacity: 0;
+      -webkit-transform: translate3d(0,50%,0);
+      transform: translate3d(0,50%,0);
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    h3{
+      position: absolute;
+      font-size: @figure-font-size-h3;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      color: @effect-sadie-h3-color;
+      -webkit-transition: -webkit-transform 0.35s, color 0.35s;
+      transition: transform 0.35s, color 0.35s;
+      -webkit-transform: translate3d(0,-50%,0);
+      transform: translate3d(0,-50%,0);
+    }
+    p{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 2em;
+      width: 100%;
+      opacity: 0;
+      -webkit-transform: translate3d(0,10px,0);
+      transform: translate3d(0,10px,0);
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    &:hover{
+      opacity: 1;
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+      p{
+        opacity: 1;
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+      }
+    }
+  }
+  &:hover{
+    figcaption {
+      &:before {
+        opacity: 1;
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+      }
+    }
+    h3{
+      color: #fff;
+      -webkit-transform: translate3d(0,-50%,0) translate3d(0,-40px,0);
+      transform: translate3d(0,-50%,0) translate3d(0,-40px,0);
+    }
+  }
+}
 /*-----------------*/
 /***** Apollo *****/
 /*-----------------*/
 figure.effect-apollo{
-  background:@effect-apollo-bg;
   > img {
     opacity: 0.95;
     -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
@@ -94,6 +173,7 @@ figure.effect-apollo{
     }
   }
   &:hover{
+    background:@effect-apollo-bg;
     img {
       opacity: 0.6;
       -webkit-transform: scale3d(1,1,1);
@@ -109,6 +189,316 @@ figure.effect-apollo{
       opacity: 1;
       -webkit-transition-delay: 0.1s;
       transition-delay: 0.1s;
+    }
+  }
+}
+/*---------------*/
+/***** Zoe *****/
+/*---------------*/
+figure.effect-zoe{
+  figcaption{
+    top: auto;
+    bottom: 0;
+    padding: 5px;
+    height: 22%;
+    background: @effect-zoe-bg-base;
+    color: @effect-zoe-h3-color;
+    opacity: @effect-zoe-figcaption-opacity;
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+    p {
+      position: absolute;
+      bottom: 8em;
+      padding: 2em;
+      color: @effect-zoe-p-color;
+      text-transform: none;
+      font-size: @effect-zoe-font-size-p;
+      opacity: 0;
+      -webkit-backface-visibility: hidden; /* Fix for Chrome 37.0.2062.120 (Mac) */
+      -webkit-transition: opacity 0.35s;
+      transition: opacity 0.35s;
+      -webkit-backface-visibility: hidden; /* Fix for Chrome 37.0.2062.120 (Mac) */
+    }
+    h3{
+      color: @effect-zoe-h3-color;
+      font-size: @figure-font-size-h3;
+      display: inline-block;
+      -webkit-transition: -webkit-transform 0.35s;
+      transition: transform 0.35s;
+      -webkit-transform: translate3d(0,200%,0);
+      transform: translate3d(0,200%,0);
+    }
+  }
+  &:hover{
+    img{
+      opacity: 0.5;
+    }
+    p {
+      opacity: 1;
+    }
+    figcaption{
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+    }
+    h3{
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+      -webkit-transition-delay: 0.05s;
+      transition-delay: 0.05s;
+    }
+  }
+}
+/*-----------------*/
+/***** Goliath *****/
+/*-----------------*/
+figure.effect-goliath {
+  >img{
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  figcaption {
+    h3 {
+      font-size: @figure-font-size-h3;
+      -webkit-transition: -webkit-transform 0.35s;
+      transition: transform 0.35s;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 15px;
+      text-align: left;
+    }
+    p {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 10px;
+      text-transform: none;
+      font-size: @effect-goliath-font-size-p;
+      opacity: 0;
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+      -webkit-transform: translate3d(0, 50px, 0);
+      transform: translate3d(0, 50px, 0);
+    }
+  }
+  &:hover{
+    background: @effect-goliath-bg-hover;
+    img{
+      -webkit-transform: translate3d(0,-80px,0);
+      transform: translate3d(0,-80px,0);
+    }
+    h3{
+      -webkit-transform: translate3d(0,-100px,0);
+      transform: translate3d(0,-100px,0);
+    }
+    p{
+      opacity: 1;
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+    }
+  }
+}
+/*---------------*/
+/***** Ming *****/
+/*---------------*/
+figure.effect-ming {
+  >img{
+    opacity: 1;
+    -webkit-transition: opacity 0.35s;
+    transition: opacity 0.35s;
+  }
+  figcaption{
+    &:before{
+      position: absolute;
+      top: @effect-ming-figcaption-size-top;
+      right: @effect-ming-figcaption-size-right;
+      bottom: @effect-ming-figcaption-size-bottom;
+      left: @effect-ming-figcaption-size-left;
+      border: @effect-ming-figcaption-border;
+      box-shadow: 0 0 0 30px rgba(255,255,255,0.2);
+      content: '';
+      opacity: 0;
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+      -webkit-transform: scale3d(1.4,1.4,1);
+      transform: scale3d(1.4,1.4,1);
+    }
+    h3{
+      font-size: @figure-font-size-h3;
+      margin: 20% 0 10px 0;
+      -webkit-transition: -webkit-transform 0.35s;
+      transition: transform 0.35s;
+    }
+    p{
+      padding: @effect-ming-padding-p;
+      opacity: 0;
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+      -webkit-transform: scale(1.5);
+      transform: scale(1.5);
+    }
+  }
+  &:hover{
+    background: @effect-ming-bg-hover;
+    h3{
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    figcaption{
+      background-color: rgba(58,52,42,0);
+      &:before{
+        opacity: 1;
+        -webkit-transform: scale3d(1,1,1);
+        transform: scale3d(1,1,1);
+      }
+    }
+    p{
+      opacity: 1;
+      -webkit-transform: scale3d(1,1,1);
+      transform: scale3d(1,1,1);
+    }
+    img{
+      opacity: 0.4;
+    }
+  }
+}
+/*---------------*/
+/***** Julia *****/
+/*---------------*/
+figure.effect-julia {
+  >img{
+    max-width: none;
+    height: auto;
+    -webkit-transition: opacity 1s, -webkit-transform 1s;
+    transition: opacity 1s, transform 1s;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  figcaption{
+    text-align: left;
+    >h3{
+      font-size: @figure-font-size-h3;
+      margin: 10px;
+      position: relative;
+      padding: 5px;
+    }
+    >p {
+      display: inline-block;
+      margin: 10px;
+      padding: 5px;
+      background: @effect-julia-p-bg;
+      color: @effect-julia-p-color;
+      text-transform: none;
+      font-weight: 500;
+      font-size: @effect-julia-font-size-p;
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+      -webkit-transform: translate3d(-360px,0,0);
+      transform: translate3d(-360px,0,0);
+      -webkit-transition-delay: 0.15s;
+      transition-delay: 0.15s;
+    }
+  }
+  &:hover{
+    background: @effect-julia-bg-hover;
+    img{
+      opacity: 0.4;
+      -webkit-transform: scale3d(1.1,1.1,1);
+      transform: scale3d(1.1,1.1,1);
+    }
+    p{
+      opacity: 1;
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+    }
+  }
+}
+/*-----------------*/
+/***** Steve *****/
+/*-----------------*/
+figure.effect-steve {
+  z-index: auto;
+  overflow: visible;
+  &:before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    content: '';
+    -webkit-transition: opacity 0.35s;
+    transition: opacity 0.35s;
+    box-shadow: 0 -30px 30px -30px rgba(0,0,0,0.8);
+    opacity: 0;
+    figcaption {
+      h3 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        content: '';
+        -webkit-transition: opacity 0.35s;
+        transition: opacity 0.35s;
+      }
+    }
+  }
+  figcaption {
+    z-index: 1;
+    h3{
+      background: @effect-steve-h3-bg;
+      color: @effect-steve-h3-color;
+      position: relative;
+      margin-top: 10%;
+      padding: 0;
+      &:before{
+        box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+      }
+    }
+    p{
+      background: @effect-steve-p-bg;
+      color: @effect-steve-p-color;
+      margin-top: 10px;
+      padding: 5px;
+      font-weight: 800;
+      opacity: 0;
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+      -webkit-transform: scale3d(0.9,0.9,1);
+      transform: scale3d(0.9,0.9,1);
+    }
+  }
+  >img {
+    opacity: 1;
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-transform: perspective(1000px) translate3d(0,0,0);
+    transform: perspective(1000px) translate3d(0,0,0);
+  }
+  &:hover{
+    &:before{
+      opacity: 1;
+      h3{
+        opacity: 0;
+      }
+    }
+    img {
+      -webkit-transform: perspective(1000px) translate3d(0,0,21px);
+      transform: perspective(1000px) translate3d(0,0,21px);
+    }
+    p {
+      opacity: 1;
+      -webkit-transform: scale3d(1,1,1);
+      transform: scale3d(1,1,1);
     }
   }
 }
