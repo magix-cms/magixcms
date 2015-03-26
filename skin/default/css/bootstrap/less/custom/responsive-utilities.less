@@ -45,22 +45,40 @@ Structure Exemple to center 3 columns
 </div>
 
 **/
-.calc-margin(@n, @i, @max, @cm: 1) when (@cm <= @max) {
-  @col-width: (100%/@n)*@cm;
-  @offset: (100% - (@i*@col-width))/2;
-  .col-xs-@{cm}, .col-sm-@{cm}, .col-md-@{cm}, .col-lg-@{cm}{
-    &:first-child{
+/**
+Require bootstrap variable @grid-columns
+
+http://codepen.io/disalvo_webdev/pen/XJOBdK/
+**/
+
+.center-columns(@n, @i: 1) when (@i =< (@n - 1)) {
+  .center-column-@{i} {
+    @col-width: (100%/@n)*@i;
+    @offset: (100% - @col-width)/2;
+    margin: 0 0 30px;
+    &:last-child{
+      margin-bottom: 0;
+    }
+    >div:first-child{
       margin-left: @offset;
     }
   }
-  .calc-margin(@n, @i, @max, (@cm + 1));
-}
-.center-columns(@n, @i: 1) when (@i =< (@n - 1)) {
-  .center-column-@{i} {
-    @r: mod(@n,@i);
-    @max: (@n - @r)/@i;
-    .calc-margin(@n, @i, @max);
-  }
   .center-columns(@n, (@i + 1));
 }
+
 .center-columns(@grid-columns);
+
+.center-column {
+  margin: 0 auto 30px;
+  &:last-child{
+    margin-bottom: 0;
+  }
+  >div{
+    float: none;
+    clear: both;
+    margin: 0 auto 30px;
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}
