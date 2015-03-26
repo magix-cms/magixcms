@@ -47,12 +47,12 @@
     {if $smarty.get.tag OR $smarty.get.uri_get_news}
         {if $smarty.get.tag}
             {* Tag *}
-            {capture name="ogUrl"}{geturl}{$tag.url}{/capture}
+            {capture name="ogUrl"}{geturl}/{#nav_news_uri#}/tag/{$smarty.get.tag}/{/capture}
             {* /Tag *}
         {elseif $smarty.get.uri_get_news}
             {* News *}
-            {$data = $product}
-            {capture name="ogUrl"}{geturl}{$data.url}{/capture}
+            {$data = $news}
+            {capture name="ogUrl"}{geturl}{$data.uri}{/capture}
             {capture name="ogType"}article{/capture}
             {* /News *}
         {/if}

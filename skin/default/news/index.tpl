@@ -1,6 +1,6 @@
 {extends file="layout.tpl"}
 {block name="title"}{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_news#]}{/block}
-{block name="description"}{seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>#seo_t_static_news#]}}{/block}
+{block name="description"}{seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>#seo_t_static_news#]}{/block}
 {block name='body:id'}news{/block}
 
 {block name="article:content"}
