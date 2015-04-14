@@ -1,0 +1,19 @@
+// Set background text and text color for selected text
+.text-select(@bg-color, @color: #fff) {
+  ::-moz-selection {
+    color: @color;
+    background: @bg-color;
+  }
+  ::selection {
+    color: @color;
+    background: @bg-color;
+  }
+}
+// Auto-creation of transition values
+.auto-transition(@time,@prop: all,@fct: ease,@delay: 0s) {
+  .transition(@prop @time @fct @delay);
+}
+// Set font weight
+.text-weight(@weight){
+  font-weight: @weight;
+}
