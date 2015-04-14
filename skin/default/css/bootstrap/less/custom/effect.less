@@ -8,52 +8,55 @@ goliath
 ming
 julia
 steve
+igor
 */
 // Common style
-.thumbnail{
-  > figure{
+
+figure.thumbnail {
+  position: relative;
+  overflow: hidden;
+  /*margin: 10px 1%;*/
+  height: auto;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  > img {
     position: relative;
-    overflow: hidden;
-    margin: 10px 1%;
-    height: auto;
-    text-align: center;
-    cursor: pointer;
-    > img{
-      position: relative;
-      display: block;
-      //min-height: 100%;
-      max-width: 100%;
-      opacity: @figure-img-opacity;
+    display: block;
+    //min-height: 100%;
+    max-width: 100%;
+    opacity: @figure-img-opacity;
+  }
+  > figcaption {
+    color: @figcaption-color-title;
+    //text-transform: uppercase;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    &:before,
+    &:after {
+      pointer-events: none;
     }
-    > figcaption{
-      color: @figcaption-color-title;
-      //text-transform: uppercase;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
+    > a {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      &:before,
-      &:after {
-        pointer-events: none;
-      }
-      > a{
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1000;
-        text-indent: 200%;
-        white-space: nowrap;
-        font-size: 0;
-        opacity: 0;
-      }
-      h3{
-        margin:0;
-      }
+      z-index: 50;
+      text-indent: 200%;
+      white-space: nowrap;
+      font-size: 0;
+      opacity: 0;
+    }
+    h3 {
+      margin: 0;
     }
   }
 }
@@ -117,8 +120,8 @@ figure.effect-sadie {
     figcaption {
       &:before {
         opacity: 1;
-        -webkit-transform: translate3d(0,0,0);
-        transform: translate3d(0,0,0);
+        -webkit-transform: translate3d(0,1px,0);
+        transform: translate3d(0,1px,0);
       }
     }
     h3{
@@ -200,7 +203,7 @@ figure.effect-zoe{
     top: auto;
     bottom: 0;
     padding: 5px;
-    height: 22%;
+    height: 20%;
     background: @effect-zoe-bg-base;
     color: @effect-zoe-h3-color;
     opacity: @effect-zoe-figcaption-opacity;
@@ -209,13 +212,15 @@ figure.effect-zoe{
     -webkit-transform: translate3d(0,100%,0);
     transform: translate3d(0,100%,0);
     p {
-      position: absolute;
-      bottom: 8em;
+      /*position: absolute;*/
+      /*bottom: 8em;*/
       padding: 2em;
       color: @effect-zoe-p-color;
       text-transform: none;
       font-size: @effect-zoe-font-size-p;
       opacity: 0;
+        display: table-cell;
+        vertical-align: middle;
       -webkit-backface-visibility: hidden; /* Fix for Chrome 37.0.2062.120 (Mac) */
       -webkit-transition: opacity 0.35s;
       transition: opacity 0.35s;
@@ -230,6 +235,14 @@ figure.effect-zoe{
       -webkit-transform: translate3d(0,200%,0);
       transform: translate3d(0,200%,0);
     }
+      .desc{
+          bottom: 100%;
+          display: table;
+          height: 400%;
+          left: 0;
+          position: absolute;
+          width: 100%;
+      }
   }
   &:hover{
     img{
@@ -374,7 +387,7 @@ figure.effect-ming {
 /*---------------*/
 figure.effect-julia {
   >img{
-    max-width: none;
+    max-width: 100%/*none*/;
     height: auto;
     -webkit-transition: opacity 1s, -webkit-transform 1s;
     transition: opacity 1s, transform 1s;
@@ -383,6 +396,7 @@ figure.effect-julia {
   }
   figcaption{
     text-align: left;
+      padding: 2em;
     >h3{
       font-size: @figure-font-size-h3;
       margin: 10px;
@@ -400,8 +414,8 @@ figure.effect-julia {
       font-size: @effect-julia-font-size-p;
       -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
       transition: opacity 0.35s, transform 0.35s;
-      -webkit-transform: translate3d(-360px,0,0);
-      transform: translate3d(-360px,0,0);
+      -webkit-transform: translate3d(-480px,0,0);
+      transform: translate3d(-480px,0,0);
       -webkit-transition-delay: 0.15s;
       transition-delay: 0.15s;
     }
@@ -454,12 +468,13 @@ figure.effect-steve {
   }
   figcaption {
     z-index: 1;
+      padding: 2em;
     h3{
       background: @effect-steve-h3-bg;
       color: @effect-steve-h3-color;
       position: relative;
       margin-top: 10%;
-      padding: 0;
+      padding: 0.25em;
       &:before{
         box-shadow: 0 1px 10px rgba(0,0,0,0.5);
       }
@@ -499,6 +514,104 @@ figure.effect-steve {
       opacity: 1;
       -webkit-transform: scale3d(1,1,1);
       transform: scale3d(1,1,1);
+    }
+  }
+}
+/*-----------------*/
+/***** Igor *****/
+/*-----------------*/
+figure.effect-igor {
+  background-color: transparent;
+  -webkit-transition: all 0.7s ease;
+  transition: all 0.7s ease;
+  img{
+    -webkit-transition: all 0.7s ease;
+    transition: all 0.7s ease;
+    opacity: 1;
+    position: relative;
+    top: 0;
+  }
+  figcaption {
+    height: 100%;
+    .desc{
+      display: table;
+      position: relative;
+      height: 100%;
+      width: 100%;
+      top: 100%;
+      -webkit-transition: all 0.6s ease;
+      transition: all 0.6s ease;
+      opacity: 0;
+      border-bottom: @effect-igor-h3-bg-size solid @effect-igor-h3-bg;
+      z-index: 0;
+    }
+    p {
+      padding: 2em;
+      color: @effect-igor-p-color;
+      text-transform: none;
+      font-size: @effect-igor-font-size-p;
+      display: table-cell;
+      vertical-align: middle;
+      opacity: 0;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 1);
+      .semiBold;
+      -webkit-backface-visibility: hidden; /* Fix for Chrome 37.0.2062.120 (Mac) */
+      -webkit-transition: all 0.6s ease;
+      transition: all 0.6s ease;
+    }
+    h3 {
+      font-size: @figure-font-size-h3-base;
+      color: @effect-igor-h3-base;
+      bottom: 0;
+      left: 0;
+      padding: 15px 20px;
+      position: absolute;
+      transition: all 0.45s ease 0.15s;
+      z-index: 1;
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  &:hover {
+    background-color: @effect-igor-hover-bg;
+    img {
+      opacity: 0.5;
+      top: -20px;
+    }
+    .desc {
+      top: 0;
+      opacity: 1;
+    }
+    p{
+      opacity: 1;
+    }
+    h3{
+      font-size: @figure-font-size-h3-igor;
+      color: @effect-igor-h3-color;
+    }
+  }
+}
+/*--------------*/
+/***** Tony *****/
+/*--------------*/
+figure.effect-tony {
+  >img{
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 2;
+  }
+  figcaption {
+
+  }
+  &:hover{
+    img{
+      -webkit-transform: translate3d(-100%,0,0);
+      transform: translate3d(-100%,0,0);
     }
   }
 }
