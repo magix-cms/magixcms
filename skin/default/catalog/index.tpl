@@ -4,7 +4,7 @@
 {block name='body:id'}catalog{/block}
 
 {block name="article:content"}
-    <h1>{#catalog_root_h1#}</h1>
+    <h1>{#catalog_root_h1#|ucfirst}</h1>
     {widget_catalog_data
         conf =[
         'context' =>  'category'

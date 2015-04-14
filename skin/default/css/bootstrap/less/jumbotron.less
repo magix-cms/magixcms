@@ -13,6 +13,7 @@
   .h1 {
     color: @jumbotron-heading-color;
   }
+
   p {
     margin-bottom: (@jumbotron-padding / 2);
     font-size: @jumbotron-font-size;
@@ -35,14 +36,15 @@
   @media screen and (min-width: @screen-sm-min) {
     padding: (@jumbotron-padding * 1.6) 0;
 
-    .container & {
+    .container &,
+    .container-fluid & {
       padding-left:  (@jumbotron-padding * 2);
       padding-right: (@jumbotron-padding * 2);
     }
 
     h1,
     .h1 {
-      font-size: (@font-size-base * 4.5);
+      font-size: @jumbotron-heading-font-size;
     }
   }
 }

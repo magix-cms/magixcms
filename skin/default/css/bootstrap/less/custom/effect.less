@@ -92,6 +92,7 @@ figure.effect-sadie {
       transition: transform 0.35s, color 0.35s;
       -webkit-transform: translate3d(0,-50%,0);
       transform: translate3d(0,-50%,0);
+      .text-overflow();
     }
     p{
       position: absolute;
@@ -173,6 +174,7 @@ figure.effect-apollo{
       text-align: left;
       margin: 10px 0 0 10px;
       font-size: @figure-font-size-h3;
+      .text-overflow();
     }
   }
   &:hover{
@@ -234,6 +236,7 @@ figure.effect-zoe{
       transition: transform 0.35s;
       -webkit-transform: translate3d(0,200%,0);
       transform: translate3d(0,200%,0);
+      .text-overflow();
     }
       .desc{
           bottom: 100%;
@@ -283,6 +286,7 @@ figure.effect-goliath {
       left: 0;
       padding: 15px;
       text-align: left;
+      .text-overflow();
     }
     p {
       position: absolute;
@@ -345,6 +349,7 @@ figure.effect-ming {
       margin: 20% 0 10px 0;
       -webkit-transition: -webkit-transform 0.35s;
       transition: transform 0.35s;
+      .text-overflow();
     }
     p{
       padding: @effect-ming-padding-p;
@@ -360,9 +365,6 @@ figure.effect-ming {
     h3{
       -webkit-transform: scale(0.9);
       transform: scale(0.9);
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
     }
     figcaption{
       background-color: rgba(58,52,42,0);
@@ -402,6 +404,7 @@ figure.effect-julia {
       margin: 10px;
       position: relative;
       padding: 5px;
+      .text-overflow();
     }
     >p {
       display: inline-block;
@@ -475,6 +478,7 @@ figure.effect-steve {
       position: relative;
       margin-top: 10%;
       padding: 0.25em;
+      .text-overflow();
       &:before{
         box-shadow: 0 1px 10px rgba(0,0,0,0.5);
       }
@@ -570,9 +574,7 @@ figure.effect-igor {
       z-index: 1;
       width: 100%;
       text-align: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      .text-overflow();
     }
   }
   &:hover {

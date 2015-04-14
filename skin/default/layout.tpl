@@ -71,8 +71,12 @@
             {/block}
         </main>
 
-        <footer id="footer" class="container well">
-            {include file="section/footer.tpl"}
+        <footer id="footer">
+            <div class="container">
+                <div class="row">
+                    {include file="section/footer.tpl"}
+                </div>
+            </div>
         </footer>
 
         {block name="foot"}

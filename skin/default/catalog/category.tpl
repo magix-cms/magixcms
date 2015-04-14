@@ -4,7 +4,7 @@
 {block name='body:id'}catalog-cat{/block}
 
 {block name="article:content"}
-    <h1>{$cat.name}</h1>
+    <h1>{$cat.name|ucfirst}</h1>
     {$cat.content}
     {widget_catalog_data
     conf =[

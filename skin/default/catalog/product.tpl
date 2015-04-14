@@ -4,7 +4,7 @@
 {block name='body:id'}catalog-product{/block}
 
 {block name="article:content"}
-    <h1>{$product.name}</h1>
+    <h1>{$product.name|ucfirst}</h1>
     <div class="row">
         <div id="product-info" class="col-xs-12 col-md-4 text-center">
             <div class="well well-lg">

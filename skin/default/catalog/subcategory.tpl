@@ -4,7 +4,7 @@
 {block name='body:id'}catalog-subcat{/block}
 
 {block name="article:content"}
-    <h1>{$subcat.name}</h1>
+    <h1>{$subcat.name|ucfirst}</h1>
     {$subcat.content}
     {* Modele with catalog display *}
     {*{widget_catalog_display

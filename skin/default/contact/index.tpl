@@ -87,7 +87,12 @@
     </div>
 {/block}
 {block name="foot" append}
-    {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {capture name="scriptContact"}{strip}
+        /min/?f=
+        {if {getlang} eq 'fr'}libjs/vendor/localization/messages_{getlang}.js,{/if}
+        plugins/contact/js/public.0.3.js
+    {/strip}{/capture}
+    {script src=$smarty.capture.scriptContact concat=$concat type="javascript"}
     <script type="text/javascript">
         $.nicenotify.notifier = {
             box:"",

@@ -11,7 +11,7 @@
 
                 {* Language Nav *}
                 {widget_lang_data assign="dataLangNav"}
-                <div class="nav navbar-right lang-header">
+                <div class="pull-right lang-header">
                     {include file="section/loop/lang.tpl" data=$dataLangNav type="nav"}
                 </div>
                 {* Brand && Headline *}

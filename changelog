@@ -1,4 +1,15 @@
 #### 2.5.3
+* Add new less customize (body,footer)
+* Upgrade bootstrap 3.3.0 => 3.3.4 (skin)
+* Add Center Columns less
+    * Add news effect in effect.less
+    * Fix new html structure with effect
+* Add effect.less for custom media
+* Add exclude and select in last-product-cat
+* Add new widget lang data
+* Add new widget share data
+* Fix bug widget static meta with use configvar
+* Fix bug responsive admin
 * Upgrade responsivefilemanager 9.9.2
 * Upgrade tinymce 4.1.6 => 4.1.9
 * Fix #125 order category in product
