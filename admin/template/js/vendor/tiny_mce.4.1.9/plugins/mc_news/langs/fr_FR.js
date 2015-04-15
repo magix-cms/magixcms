@@ -1,4 +1,4 @@
-tinymce.addI18n('fr',{
+tinymce.addI18n('fr_FR',{
 	'mc_news Title' : "Rechercher une News",
 	'search' : 'Rechercher',
     'date_register': 'Date',

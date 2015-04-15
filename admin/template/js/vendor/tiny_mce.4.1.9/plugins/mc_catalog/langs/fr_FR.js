@@ -1,4 +1,4 @@
-tinymce.addI18n('fr',{
+tinymce.addI18n('fr_FR',{
 	'mc_catalog Title' : "Rechercher dans le catalogue",
 	'search' : 'Rechercher',
     'product': 'Produit',

@@ -1,4 +1,4 @@
-tinymce.addI18n('fr',{
+tinymce.addI18n('fr_FR',{
 	'mc_pages Title' : "Rechercher une page",
 	'search' : 'Rechercher',
 	'category' : 'Catégorie',

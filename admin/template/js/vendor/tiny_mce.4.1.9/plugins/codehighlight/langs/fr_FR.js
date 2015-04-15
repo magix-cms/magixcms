@@ -1,4 +1,4 @@
-tinymce.addI18n('fr',{
+tinymce.addI18n('fr_FR',{
 	'codehighlight Title' : "Insérer un code utilisant Syntaxhighlighter 3",
     'highlight_options' : 'Highlighter Options',
     'paste' : 'Coller le code',
