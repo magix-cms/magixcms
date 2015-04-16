@@ -126,13 +126,18 @@
                 {title: "Link", items: [
                     {title: 'Alert link', selector: 'a', classes: 'alert-link'}
                 ]}
-
-            ]}
+            ]},
+            {title: 'Embed', items: [
+                {title: "Blocks", items: [
+                    {title: "Media 16:9", block: "div", classes: 'embed-responsive embed-responsive-16by9'},
+                    {title: "Media 4:3", block: "div", classes: 'embed-responsive embed-responsive-4by3'}
+                ]}
+            ]},
         ],
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,
         schema: "html5",
-        extended_valid_elements: 'span[class]',
+        extended_valid_elements: 'span[class|style],iframe[src|width|height|name|align|class]',
         //end_container_on_empty_block: false,
         /*fix_list_elements : true*/
         content_css : content_css
