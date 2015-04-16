@@ -52,7 +52,7 @@
         {$field|escape:'html':'UTF-8':TRUE}
     {/function}
     {block name="aside"}
-        <aside id="sidebar" class="col-md-2 col-sm-3 col-xs-12 pull-left well">
+        <aside id="sidebar" class="col-md-2 col-sm-3 col-xs-12 pull-left">
             {block name='aside:content'}
                 {include file="section/sidebar.tpl"}
             {/block}

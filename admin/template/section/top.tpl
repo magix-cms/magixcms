@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-static-top">
+<div class="navbar navbar-dark navbar-static-top">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="{geturl}/{baseadmin}/">Magix CMS</a>
