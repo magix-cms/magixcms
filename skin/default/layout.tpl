@@ -19,7 +19,8 @@
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
     {block name="styleSheet"}
         {capture name="styleSheet"}{strip}
-            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,
+            /min/?f=skin/{template}/css/font-awesome/font-awesome.min.css,
+            skin/{template}/css/bootstrap/bootstrap.min.css,
             skin/{template}/css/fancybox/jquery.fancybox.css,
             skin/{template}/css/main.css
         {/strip}{/capture}
