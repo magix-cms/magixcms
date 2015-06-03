@@ -41,7 +41,8 @@
     function convertUrl(url, iframe) {
         var id = youtubeId(url);
         if (url && id) {
-            url = "https://www.youtube.com/" + (iframe ? "embed/" : "v/") + youtubeId(url);
+            //url = "https://www.youtube.com/" + (iframe ? "embed/" : "v/") + youtubeId(url);
+            url = "https://www.youtube.com/" + "embed/" + youtubeId(url);
         }
         return url;
     }
