@@ -43,63 +43,73 @@
     {google_tools tools='analytics'}
 </head>
 <body id="{block name='body:id'}layout{/block}">
-        <header id="header">
-            {include file="section/header.tpl"}
-        </header>
+    <section id="toolbar">
+        {include file="section/toolbar.tpl"}
+    </section>
 
-        {include file="section/breadcrumb.tpl"}
-
-        <main id="content" class="container">
-            {block name="main:before"}
-
-            {/block}
-                {block name='article'}
-                    <article id="article" class="col-sm-8 col-md-9 pull-left">
-                        {block name='article:content'}
-                        {/block}
-                    </article>
-                {/block}
-                {block name="aside"}
-                    <aside id="aside" class="col-sm-4 col-md-3 pull-left">
-                        <div class="well">
-                            {block name='aside:content'}
-                                {include file="section/sidebar.tpl"}
-                            {/block}
-                        </div>
-                    </aside>
-                {/block}
-            {block name="main:after"}
-            {/block}
-        </main>
-
-        <footer id="footer">
-            <div class="container">
-                <div class="row">
-                    {include file="section/footer.tpl"}
-                </div>
-            </div>
-        </footer>
-
-        {block name="foot"}
-        {*  Magix Js
-            ********}
-            {script src="/min/?g=publicjs,jimagine" concat=$concat type="javascript"}
-        {*  Vendor Js
-            ********}
-            {capture name="scriptVendor"}{strip}
-                /min/?f=
-                skin/{template}/js/vendor/bootstrap.min.js,
-                skin/{template}/js/vendor/jquery.fancybox.min.js
-            {/strip}{/capture}
-            {script src=$smarty.capture.scriptVendor concat=$concat type="javascript"}
-        {*  Skin js
-            *******}
-            {capture name="scriptSkin"}{strip}
-                /min/?f=
-                skin/{template}/js/form.js,
-                skin/{template}/js/global.js
-            {/strip}{/capture}
-            {script src=$smarty.capture.scriptSkin concat=$concat type="javascript"}
+    <header>
+        {include file="section/header.tpl"}
+    </header>
+    {block name="breadcrumb"}
+        <div class="container">
+            {include file="section/breadcrumb.tpl"}
+        </div>
+    {/block}
+    {block name="main:previous"}
+    {/block}
+    {block name="main"}
+    <main id="content" class="container">
+        <div class="row">
+        {block name="main:before"}
         {/block}
+            {block name='article'}
+                <article id="article" class="col-xs-12 col-sm-8 col-md-9 pull-left">
+                    {block name='article:content'}
+                    {/block}
+                </article>
+            {/block}
+            {block name="aside"}
+                <aside id="aside" class="col-xs-12 col-sm-4 col-md-3 pull-left">
+                    {block name='aside:content'}
+                        {include file="section/sidebar.tpl"}
+                    {/block}
+                </aside>
+            {/block}
+        {block name="main:after"}
+        {/block}
+            </div>
+    </main>
+    {/block}
+    {block name="main:next"}
+    {/block}
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                {include file="section/footer.tpl"}
+            </div>
+        </div>
+    </footer>
+
+    {block name="foot"}
+    {*  Magix Js
+        ********}
+        {script src="/min/?g=publicjs,jimagine" concat=$concat type="javascript"}
+    {*  Vendor Js
+        ********}
+        {capture name="scriptVendor"}{strip}
+            /min/?f=
+            skin/{template}/js/vendor/bootstrap.min.js,
+            skin/{template}/js/vendor/jquery.fancybox.min.js
+        {/strip}{/capture}
+        {script src=$smarty.capture.scriptVendor concat=$concat type="javascript"}
+    {*  Skin js
+        *******}
+        {capture name="scriptSkin"}{strip}
+            /min/?f=
+            skin/{template}/js/form.js,
+            skin/{template}/js/global.js
+        {/strip}{/capture}
+        {script src=$smarty.capture.scriptSkin concat=$concat type="javascript"}
+    {/block}
 </body>
 </html>

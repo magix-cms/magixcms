@@ -1,3 +1,12 @@
+{* Share tools *}
+{widget_share_data
+assign="shareData"
+}
+<div class="share-box pull-right col-md-4">
+    <ul id="share-nav" class="list-inline">
+        {include file="section/loop/share.tpl" data=$shareData}
+    </ul>
+</div>
 {assign var=bread value=array()}
 
 {* Home *}
@@ -89,7 +98,7 @@
 {/if}
 {* /Plugins *}
 
-<ol id="breadcrumb" class="breadcrumb container hidden-xs">
+<ol id="breadcrumb" class="breadcrumb hidden-xs">
     {foreach from=$bread item=breadcrumb}
         <li>
             {if isset($breadcrumb.url)}
@@ -108,7 +117,7 @@
 {/if}
 {$length = $bread|count}
 
-<ol id="compact-breadcrumb" class="breadcrumb container hidden-sm hidden-md hidden-lg">
+<ol id="compact-breadcrumb" class="breadcrumb hidden-sm hidden-md hidden-lg">
     {foreach from=$bread item=breadcrumb key=i}
         {if $length > 3 && $i == 1 && $collapse}
             <li id="hellipsis">

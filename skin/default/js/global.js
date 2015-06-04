@@ -24,14 +24,61 @@ $(function()
     });
 
     // *** Fancybox gallery
-        // *** for one picture
-    $(".img-zoom").fancybox();
-        // *** for gallery pictures
-    $(".img-gallery").fancybox({
+
+    var titles = {
+            'fr': {'close':'Fermer','next':'Suivant','prev':'Précédent'},
+            'nl': {'close':'Dicht','next':'Volgende','prev':'Voorgaand'},
+            'en': {'close':'Close','next':'Next','prev':'Previous'}
+        },
+        lang = $('html').attr('lang'),
+        iso = lang ? lang : 'en';
+
+    // *** for one picture
+    $(".img-zoom").fancybox({
         helpers : {
-            title : null
+            title : 'outside'
+        },
+        tpl: {
+            closeBtn : '<a title="'+titles[iso]['close']+'" class="fancybox-item fancybox-close" href="javascript:;"></a>'
         }
     });
+
+    // *** for gallery pictures
+    $(".img-gallery").fancybox({
+        helpers : {
+            title : 'outside'
+        },
+        tpl: {
+            closeBtn : '<a title="'+titles[iso]['close']+'" class="fancybox-item fancybox-close" href="javascript:;"></a>',
+            next     : '<a title="'+titles[iso]['next']+'" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
+            prev     : '<a title="'+titles[iso]['prev']+'" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'
+        }
+    });
+
+    // *** Smooth Scroll to Top
+    var speed = 1000;
+    $('.toTop').click(function(e){
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, speed);
+        return false;
+    });
+
+    // *** Cross effect on mobile
+    var width = $(window).width();
+    if(width < 768) {
+        $('#carousel-testimonials').carousel({
+            interval: 9000
+        });
+
+        $('button.navbar-toggle').click(function(){
+            var target = $($(this).data('target'));
+            if($(this).hasClass('open') || $(target).hasClass('collapse in')){
+                $(this).removeClass('open');
+            }else{
+                $(this).addClass('open');
+            }
+        });
+    }
     /*
         // *** for gallery videos
     $(".video").fancybox({

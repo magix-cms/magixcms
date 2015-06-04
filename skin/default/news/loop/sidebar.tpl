@@ -2,9 +2,8 @@
     {$data = [$data]}
 {/if}
 {if is_array($data) && !empty($data)}
-    <p class="lead">{#last_news#|ucfirst}</p>
     {foreach $data as $item}
-    <a class="thumbnail text-center col-xs-6 col-sm-12" href="{$item.uri}" title="{$item.name|ucfirst}">
+    <a class="text-center col-xs-6 col-sm-12" href="{$item.uri}" title="{$item.name|ucfirst}">
         {if $item.imgSrc.small}
             <img class="img-responsive" src="{$item.imgSrc.small}" alt="{$item.name|ucfirst}"/>
         {else}

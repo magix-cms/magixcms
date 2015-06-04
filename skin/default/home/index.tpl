@@ -16,7 +16,10 @@
         ]
         assign='newsData'
     }
-    <div class="news-list-last sidebar-list row">
+    <div class="news-list-last sidebar-list">
+        <p class="lead">{#last_news#|ucfirst}</p>
+        <div class="row">
         {include file="news/loop/sidebar.tpl" data=$newsData}
+        </div>
     </div>
     {/block}

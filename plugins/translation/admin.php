@@ -198,7 +198,7 @@ class plugins_translation_admin{
                 // Loop through the data.
                 foreach ( $data as $key => $value ){
                     // If a value exists that should replace the current one, use it.
-                    if ( ! empty($replace_with[$key]) )
+                    //if ( ! empty($replace_with[$key]) )
                         $value = $replace_with[$key];
 
                     // Write to the file.

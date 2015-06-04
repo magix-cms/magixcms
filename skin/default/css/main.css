@@ -21,16 +21,6 @@
     margin-bottom: 0;
 }
 
-#share-nav {
-    right: 0;
-    left: auto;
-}
-
-    #share-nav > li > a > img {
-        margin-right: 10px;
-    }
-
-
 #breadcrumb {
     font-size: 11px;
     background-color: transparent;
