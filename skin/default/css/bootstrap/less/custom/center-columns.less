@@ -1,7 +1,7 @@
 /* --------------------------------------------------------
 Center Columns Framework
 
-version: 2.0
+version: 3.0
 demo page: http://codepen.io/disalvo_webdev/pen/XJOBdK/
 last modified: 09.04.2015 by Salvatore Di Salvo
 author: Salvatore Di Salvo
@@ -15,86 +15,86 @@ website: http://www.disalvo-infographiste.be
 
 // Global
 .set-global-center {
-    .center-column,.center-column-xs,.center-column-sm,.center-column-md,.center-column-lg {
-        margin-top: 0;
-        margin-bottom: 30px;
-        > div {
-            margin-top: 0;
-            margin-bottom: 30px;
-        }
-        &:last-child, > div:last-child {
-            margin-bottom: 0;
-        }
+  .center-column,.center-column-xs,.center-column-sm,.center-column-md,.center-column-lg {
+    margin-top: 0;
+    margin-bottom: 30px;
+    > div {
+      margin-top: 0;
+      margin-bottom: 30px;
     }
+    &:last-child, > div:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 // Center
 .set-center-columns {
-    .center(@index) {
-        // initial
-        @global: ~".center-column-@{index}";
-        @item: ~".center-column-xs-@{index}, .center-column-sm-@{index}, .center-column-md-@{index}, .center-column-lg-@{index}";
-        .center((@index + 1), @global, @item);
+  .center(@index) {
+    // initial
+    @global: ~".center-column-@{index}";
+    @item: ~".center-column-xs-@{index}, .center-column-sm-@{index}, .center-column-md-@{index}, .center-column-lg-@{index}";
+    .center((@index + 1), @global, @item);
+  }
+  .center(@index, @globalList, @list) when (@index =< ( @grid-columns - 1)) {
+    // general; "=<" isn't a typo
+    @global: ~".center-column-@{index}";
+    @item: ~".center-column-xs-@{index}, .center-column-sm-@{index}, .center-column-md-@{index}, .center-column-lg-@{index}";
+    .center((@index + 1), ~"@{globalList}, @{global}", ~"@{list}, @{item}");
+  }
+  .center(@index, @globalList, @list) when (@index > ( @grid-columns - 1)) {
+    // terminal
+    @{globalList} {
+      margin: 0 0 30px;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
-    .center(@index, @globalList, @list) when (@index =< ( @grid-columns - 1)) {
-        // general; "=<" isn't a typo
-        @global: ~".center-column-@{index}";
-        @item: ~".center-column-xs-@{index}, .center-column-sm-@{index}, .center-column-md-@{index}, .center-column-lg-@{index}";
-        .center((@index + 1), ~"@{globalList}, @{global}", ~"@{list}, @{item}");
+    @{list} {
+      margin: 0 0 30px;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
-    .center(@index, @globalList, @list) when (@index > ( @grid-columns - 1)) {
-        // terminal
-        @{globalList} {
-            margin: 0 0 30px;
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-        @{list} {
-            margin: 0 0 30px;
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-    }
-    .center(1); // kickstart it
+  }
+  .center(1); // kickstart it
 }
 
 // Equid
 .set-equid-columns {
-    .equid(@nb) when ( @nb =< ( @grid-columns - 1 ) ) {
-        // Common styles for all sizes of grid columns, widths 1-12
-        .equid-col(@index, @nb) {
-            // initial
-            @global: ~".center-column-@{index}-@{nb}";
-            @item: ~".center-column-xs-@{index}-@{nb}, .center-column-sm-@{index}-@{nb}, .center-column-md-@{index}-@{nb}, .center-column-lg-@{index}-@{nb}";
-            .equid-col((@index + 1), @nb, @global, @item);
-        }
-        .equid-col(@index, @nb, @globalList, @list) when ( @index =< ( @grid-columns - 1 ) ) {
-            // general; "=<" isn't a typo
-            @global: ~".center-column-@{index}-@{nb}";
-            @item: ~".center-column-xs-@{index}-@{nb}, .center-column-sm-@{index}-@{nb}, .center-column-md-@{index}-@{nb}, .center-column-lg-@{index}-@{nb}";
-            .equid-col((@index + 1), @nb, ~"@{globalList}, @{global}", ~"@{list}, @{item}");
-        }
-        .equid-col(@index, @nb, @globalList, @list) when (@index > ( @grid-columns - 1 ) ) {
-            // terminal
-            @{globalList} {
-                margin: 0 0 30px;
-                &:last-child {
-                    margin-bottom: 0;
-                }
-            }
-            @{list} {
-                margin: 0 0 30px;
-                &:last-child {
-                    margin-bottom: 0;
-                }
-            }
-        }
-        .equid-col(1, @nb); // kickstart it
-        .equid((@nb + 1));
+  .equid(@nb) when ( @nb =< ( @grid-columns - 1 ) ) {
+    // Common styles for all sizes of grid columns, widths 1-12
+    .equid-col(@index, @nb) {
+      // initial
+      @global: ~".center-column-@{index}-@{nb}";
+      @item: ~".center-column-xs-@{index}-@{nb}, .center-column-sm-@{index}-@{nb}, .center-column-md-@{index}-@{nb}, .center-column-lg-@{index}-@{nb}";
+      .equid-col((@index + 1), @nb, @global, @item);
     }
-    .equid(1);
+    .equid-col(@index, @nb, @globalList, @list) when ( @index =< ( @grid-columns - 1 ) ) {
+      // general; "=<" isn't a typo
+      @global: ~".center-column-@{index}-@{nb}";
+      @item: ~".center-column-xs-@{index}-@{nb}, .center-column-sm-@{index}-@{nb}, .center-column-md-@{index}-@{nb}, .center-column-lg-@{index}-@{nb}";
+      .equid-col((@index + 1), @nb, ~"@{globalList}, @{global}", ~"@{list}, @{item}");
+    }
+    .equid-col(@index, @nb, @globalList, @list) when (@index > ( @grid-columns - 1 ) ) {
+      // terminal
+      @{globalList} {
+        margin: 0 0 30px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      @{list} {
+        margin: 0 0 30px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    .equid-col(1, @nb); // kickstart it
+    .equid((@nb + 1));
+  }
+  .equid(1);
 }
 
 
@@ -103,64 +103,64 @@ website: http://www.disalvo-infographiste.be
 \*---------------------*/
 
 // Global center for unique column on his row
-.center-column, .center-column > div{
-    float: none;
-    clear: both;
-    margin-right: auto;
-    margin-left: auto;
+.center-column, .center-column > div, .center-column > fieldset {
+  float: none;
+  clear: both;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 // Global center for group of column
 .global-center(@n, @i: 1) when (@i =< (@n - 1)) {
-    .center-column-@{i} {
-        @offset: percentage( 0.5 - ( @i / ( @n * 2 ) ) );
-        margin: 0 0 30px;
-        &:last-child {
-            margin-bottom: 0;
-        }
-        > div:first-child {
-            margin-left: @offset;
-        }
+  .center-column-@{i} {
+    @offset: percentage( 0.5 - ( @i / ( @n * 2 ) ) );
+    margin: 0 0 30px;
+    &:last-child {
+      margin-bottom: 0;
     }
-    .global-center(@n, (@i + 1));
+    > div:first-child {
+      margin-left: @offset;
+    }
+  }
+  .global-center(@n, (@i + 1));
 }
 
 // Global equidistant center for group of column
 .global-equid-columns(@n, @i, @j: 2) when (@j < @n) {
-    .center-column-@{i}-@{j} {
-        @offset: percentage(( 1 - ( @i / @n ) )/( 2*(@j+1) ));
-        overflow: hidden;
-        margin: 0 0 30px;
-        &:last-child {
-            margin-bottom: 0;
-        }
-        > div {
-            margin: 0 @offset;
-            &:first-child {
-                margin-left: @offset*2;
-            }
-            &:last-child {
-                margin-right: @offset*2;
-            }
-        }
+  .center-column-@{i}-@{j} {
+    @offset: percentage(( 1 - ( @i / @n ) )/( 2*(@j+1) ));
+    overflow: hidden;
+    margin: 0 0 30px;
+    &:last-child {
+      margin-bottom: 0;
     }
-    .global-equid-columns(@n, @i, (@j + 1));
+    > div {
+      margin: 0 @offset;
+      &:first-child {
+        margin-left: @offset*2;
+      }
+      &:last-child {
+        margin-right: @offset*2;
+      }
+    }
+  }
+  .global-equid-columns(@n, @i, (@j + 1));
 }
 
 // Global equidistant center loop
 .global-equid(@n, @i: 2) when (@i < @n) {
-    .global-equid-columns(@n, @i);
-    .equid-columns(@n, (@i + 1));
+  .global-equid-columns(@n, @i);
+  .equid-columns(@n, (@i + 1));
 }
 
 // Responsive center for unique column on his row
 .global-center-class(@class){
-    .center-column-@{class}, .center-column-@{class} > div {
-        float: none;
-        clear: both;
-        margin-right: auto;
-        margin-left: auto;
-    }
+  .center-column-@{class}, .center-column-@{class} > div {
+    float: none;
+    clear: both;
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
 
@@ -170,24 +170,24 @@ website: http://www.disalvo-infographiste.be
 
 // Calculate offset needed to center the group of columns
 .calc-offset-column(@index, @class) when (@index > 0) {
-    .center-column-@{class}-@{index} {
-        @offset: percentage( 0.5 - ( @index / ( @grid-columns * 2 ) ) );
-        > div:first-child{
-            margin-left: @offset;
-        }
+  .center-column-@{class}-@{index} {
+    @offset: percentage( 0.5 - ( @index / ( @grid-columns * 2 ) ) );
+    > div:first-child{
+      margin-left: @offset;
     }
+  }
 }
 
 // Basic looping in LESS
 .loop-center-columns(@index, @class) when (@index > 0) {
-    .calc-offset-column(@index, @class);
-    // next iteration
-    .loop-center-columns((@index - 1), @class);
+  .calc-offset-column(@index, @class);
+  // next iteration
+  .loop-center-columns((@index - 1), @class);
 }
 
 // Create centering rules for specific class
 .centering-columns(@class) {
-    .loop-center-columns((@grid-columns - 1), @class);
+  .loop-center-columns((@grid-columns - 1), @class);
 }
 
 
@@ -197,36 +197,82 @@ website: http://www.disalvo-infographiste.be
 
 // Calculate offset needed to center the group of columns
 .calc-offset-equid-column(@index, @class, @nb){
-    .center-column-@{class}-@{index}-@{nb} {
-        @offset: percentage(( 1 - ( @index / @grid-columns ) )/( 2*(@nb+1) ));
-        > div{
-            margin: 0 @offset;
-            &:first-child{
-                margin-left: @offset*2;
-            }
-            &:last-child{
-                margin-right: @offset*2;
-            }
-        }
+  .center-column-@{class}-@{index}-@{nb} {
+    @offset: percentage(( 1 - ( @index / @grid-columns ) )/( 2*(@nb+1) ));
+    > div{
+      margin: 0 @offset;
+      &:first-child{
+        margin-left: @offset*2;
+      }
+      &:last-child{
+        margin-right: @offset*2;
+      }
     }
+  }
 }
 
 // Second Basic looping in LESS
 .equid-columns(@index, @class, @nb: (@grid-columns - 1)) when (@nb > 0){
-    .calc-offset-equid-column(@index, @class, @nb);
-    .equid-columns(@index, @class, (@nb - 1));
+  .calc-offset-equid-column(@index, @class, @nb);
+  .equid-columns(@index, @class, (@nb - 1));
 }
 
 // Basic looping in LESS
 .loop-equid-columns(@index, @class) when (@index > 0) {
-    .equid-columns(@index, @class);
-    // next iteration
-    .loop-equid-columns((@index - 1), @class);
+  .equid-columns(@index, @class);
+  // next iteration
+  .loop-equid-columns((@index - 1), @class);
 }
 
 // Create centering rules for specific class
 .equidistant-columns(@class) {
-    .loop-equid-columns((@grid-columns - 1), @class);
+  .loop-equid-columns((@grid-columns - 1), @class);
+}
+
+
+/*--------------------------*\
+----- CENTERING GALLERY -----
+\*--------------------------*/
+
+// Calculate offset needed to center the group of columns
+.calc-offset-center-gallery(@index, @class, @nb){
+  .center-gallery-@{class}-@{index} {
+    @maxPerRow: (@grid-columns - mod(@grid-columns,@index))/@index;
+    @offset: percentage( 0.5 - ( (@index * @nb) / ( @grid-columns * 2 ) ) );
+    > div:nth-child(@{maxPerRow}n+1):nth-last-child(@{nb}) {
+      margin-left: @offset;
+    }
+  }
+  .equid-gallery-@{class}-@{index} {
+    @maxPerRow: (@grid-columns - mod(@grid-columns,@index))/@index;
+    @offset: percentage(( 1 - ( @index * @nb / @grid-columns ) )/( 2*(@nb+1) ));
+    > div:nth-child(@{maxPerRow}n+1):nth-last-child(@{nb}) {
+      margin-left: @offset*2;
+      margin-right: @offset;
+      &~ div {
+        margin: 0 @offset;
+      }
+    }
+  }
+}
+
+// Second Basic looping in LESS
+.center-gallery(@index, @class, @nb) when (@nb > 0){
+  .calc-offset-center-gallery(@index, @class, @nb);
+  .center-gallery(@index, @class, (@nb - 1));
+}
+
+// Basic looping in LESS
+.loop-center-gallery(@index, @class) when (@index > 0) {
+  @maxOffset: ( ( @grid-columns - ( mod(@grid-columns,@index) ) ) / @index ) - 1;
+  .center-gallery(@index, @class, @maxOffset);
+  // next iteration
+  .loop-center-gallery((@index - 1), @class);
+}
+
+// Create centering rules for specific class
+.centered-gallery(@class) {
+  .loop-center-gallery((@grid-columns/2), @class);
 }
 
 
@@ -259,6 +305,7 @@ website: http://www.disalvo-infographiste.be
 .global-center-class(xs);
 .centering-columns(xs);
 .equidistant-columns(xs);
+.centered-gallery(xs);
 
 
 // Small grid
@@ -267,9 +314,10 @@ website: http://www.disalvo-infographiste.be
 // for the small device range, from phones to tablets.
 
 @media (min-width: @screen-sm-min) {
-    .global-center-class(sm);
-    .centering-columns(sm);
-    .equidistant-columns(sm);
+  .global-center-class(sm);
+  .centering-columns(sm);
+  .equidistant-columns(sm);
+  .centered-gallery(sm);
 }
 
 
@@ -279,9 +327,10 @@ website: http://www.disalvo-infographiste.be
 // for the desktop device range.
 
 @media (min-width: @screen-md-min) {
-    .global-center-class(md);
-    .centering-columns(md);
-    .equidistant-columns(md);
+  .global-center-class(md);
+  .centering-columns(md);
+  .equidistant-columns(md);
+  .centered-gallery(md);
 }
 
 
@@ -291,7 +340,8 @@ website: http://www.disalvo-infographiste.be
 // for the large desktop device range.
 
 @media (min-width: @screen-lg-min) {
-    .global-center-class(lg);
-    .centering-columns(lg);
-    .equidistant-columns(lg);
+  .global-center-class(lg);
+  .centering-columns(lg);
+  .equidistant-columns(lg);
+  .centered-gallery(lg);
 }
