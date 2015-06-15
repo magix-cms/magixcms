@@ -35,6 +35,33 @@
         {$classCol = 'col-xs-6 col-sm-6 col-md-4 col-lg-4'}
     {/if}
     {if is_array($data) && !empty($data)}
+        {if $effect eq "effect-bob"}
+            {foreach $data as $item}
+                <div{if $classCol} class="{$classCol}{/if}">
+                    <figure class="effect-bob thumbnail">
+                        <div class="round-div"></div>
+                        <div class="center-img">
+                            {if $item.imgSrc.medium}
+                                <img src="{$item.imgSrc.medium}" alt="{$item.name|ucfirst}"/>
+                            {else}
+                                <img src="{$item.imgSrc.default}" alt="{$item.name|ucfirst}"/>
+                            {/if}
+                        </div>
+                        <figcaption>
+                            <h3>{$item.name|ucfirst}</h3>
+                            <div class="desc">
+                                {if $item.content}
+                                    <p>
+                                        {$item.content|strip_tags|truncate:250:'...'}
+                                    </p>
+                                {/if}
+                            </div>
+                            <a href="{$item.url}" title="{$item.name|ucfirst}">{$item.name|ucfirst}</a>
+                        </figcaption>
+                    </figure>
+                </div>
+            {/foreach}
+        {else}
         {foreach $data as $item}
             <div{if $classCol} class="{$classCol}{/if}">
                 <figure class="{$effect} thumbnail">
@@ -57,5 +84,6 @@
                 </figure>
             </div>
         {/foreach}
+        {/if}
     {/if}
 {/if}

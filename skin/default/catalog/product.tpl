@@ -9,7 +9,7 @@
         <div id="product-info" class="col-xs-12 col-md-4 text-center">
             <div class="well well-lg">
                 {if $product.imgSrc.medium}
-                    <a href="{$product.imgSrc.large}" class="img-zoom" title="{#zoom_in#|ucfirst}">
+                    <a href="{$product.imgSrc.large}" class="img-zoom" title="{$product.name}">
                         <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" />
                     </a>
                 {else}
