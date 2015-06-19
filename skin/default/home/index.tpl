@@ -3,23 +3,28 @@
 {block name="description"}{static_metas param=$smarty.config.website_name dynamic=$home.seoDescr}{/block}
 {block name='body:id'}home{/block}
 
-{block name="article:content"}
-    <h1>{$home.name}</h1>
-    {$home.content}
+{block name="main:previous"}
 {/block}
-
-{block name='aside:content' append}
-    {widget_news_data
-        conf =[
-        'context' =>  'last-news',
-        'limit' => 3
-        ]
-        assign='newsData'
-    }
-    <div class="news-list-last sidebar-list">
-        <p class="lead">{#last_news#|ucfirst}</p>
+{block name="main"}
+    <main id="content" class="container">
         <div class="row">
-        {include file="news/loop/sidebar.tpl" data=$newsData}
+            {block name="main:before"}
+            {/block}
+            {block name='article'}
+                <article id="article" class="col-xs-12 col-sm-12 col-md-12">
+                    {block name='article:content'}
+                        <h1>{$home.name}</h1>
+                        {$home.content}
+                    {/block}
+                </article>
+            {/block}
+            {block name="aside"}
+            {/block}
+            {block name="main:after"}
+            {/block}
         </div>
-    </div>
-    {/block}
+    </main>
+{/block}
+{block name="main:next"}
+    {include file="home/brick/block-good-choice.tpl"}
+{/block}
