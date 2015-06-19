@@ -5,5 +5,18 @@
   padding: 40px 0;
   position: absolute;
   bottom: 0;
-  .size(100%,@footer-height);
+  @media (max-width: @screen-xs-max) {
+    .size(100%,@footer-height-xs);
+  }
+  @media (min-width: @screen-sm-min){
+    .size(100%,@footer-height);
+  }
+  /*
+  .start-at-small({
+      .size(100%,@footer-height);
+    });
+    .only-xtra-small({
+      .size(100%,@footer-height-xs);
+    });
+  */
 }

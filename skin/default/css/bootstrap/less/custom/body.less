@@ -5,5 +5,10 @@ html {
 }
 body {
   background-color: transparent;
-  margin-bottom: @footer-height;
+  @media (max-width: @screen-xs-max) {
+    margin-bottom: @footer-height-xs;
+  }
+  @media (min-width: @screen-sm-min){
+    margin-bottom: @footer-height;
+  }
 }

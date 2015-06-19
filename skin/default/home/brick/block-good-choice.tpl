@@ -1,3 +1,4 @@
+{if $smarty.config.good_choice != '0'}
 <div id="good-choice" class="clearfix">
     <div class="container">
         <div class="row">
@@ -28,3 +29,4 @@
         </div>
     </div>
 </div>
+{/if}
