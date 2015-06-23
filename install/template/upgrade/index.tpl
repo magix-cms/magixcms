@@ -16,8 +16,8 @@
                         <option value="2.4.2">
                             Magix CMS 2.3.6 => 2.4.2
                         </option>
-                        <option value="2.5.0">
-                            Magix CMS 2.4.2 => 2.5.0
+                        <option value="2.6.0">
+                            Magix CMS 2.4.2 => 2.6.0
                         </option>
                     </select>
                 </p>

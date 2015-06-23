@@ -29,6 +29,7 @@ Authors
 
  * Lesire Samuel (http://www.sire-sam.be)
  * Jean-Baptiste Demonte (http://jb.demonte.fr)
+ * Salvatore (http://www.disalvo-infographiste.be)
  
 Site officiel
 -----
@@ -38,8 +39,15 @@ Site officiel
 
 Ressources
 -----
- * https://github.com/sire-sam/Magix-CMS_Widget-Frontend
- * https://github.com/sire-sam/Magix-CMS_Templates
+ * https://github.com/Xarksass/CenterColumns
+ * https://github.com/gtraxx/tinymce-plugin-youtube
+ * https://github.com/gtraxx/tinymce-plugin-codehighlight
+ * https://github.com/gtraxx/jimagine
+ * https://github.com/trippo/ResponsiveFilemanager
+ * http://www.tinymce.com/
+ * http://getbootstrap.com/
+ * http://www.smarty.net
+ * http://magix-cjquery.com/
 
 Requirements
 ------------

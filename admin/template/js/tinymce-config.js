@@ -45,6 +45,9 @@
                 }
             });
         },
+        formats: {
+            strikethrough: {inline: 'del'}
+        },
         style_formats: [
             {title: 'Link', items: [
                 {title: 'TargetBlank', selector: 'a', classes: 'targetblank'}

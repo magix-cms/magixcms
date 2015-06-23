@@ -3,7 +3,7 @@
 {/if}
 {if !$effect}
     {if !$classCol}
-        {$classCol = 'thumbnail col-sm-6 col-md-4 col-lg-4'}
+        {$classCol = 'thumbnail col-xs-12 col-sm-6 col-md-4 col-lg-4'}
     {/if}
     {if is_array($data) && !empty($data)}
         {foreach $data as $item}
@@ -35,7 +35,7 @@
     {/if}
     {else}
     {if !$classCol}
-        {$classCol = 'col-xs-6 col-sm-6 col-md-4 col-lg-4'}
+        {$classCol = 'col-xs-12 col-sm-6 col-md-4 col-lg-4'}
     {/if}
     {if is_array($data) && !empty($data)}
         {if $effect eq "effect-bob"}

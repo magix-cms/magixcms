@@ -81,7 +81,7 @@ class app_controller_upgrade extends app_db_upgrade{
                                 parent::u_catalog_product_image($key['imgcatalog'],$key['idcatalog']);
                             }
                         }
-                    }elseif($this->version === '2.5.0'){
+                    }elseif($this->version === '2.6.0'){
                         $data = parent::s_old_member();
                         if($data != null){
                             foreach($data as $key){

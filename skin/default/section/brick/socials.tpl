@@ -82,8 +82,8 @@
     ]
 }{/strip}
     <meta property="og:site_name" content="{$meta['og:site_name']}" />
-    <meta name="twitter:site" content="{$meta['twitter:site']}" />
-    <meta name="twitter:card" content="{$meta['twitter:card']}" />
+    {if $meta['twitter:site'] ne '0'}<meta name="twitter:site" content="{$meta['twitter:site']}" />
+    <meta name="twitter:card" content="{$meta['twitter:card']}" />{/if}
     <meta property="og:title" content="{$meta['og:title']}" />
     <meta property="og:description" content="{$meta['og:description']}" />
     <meta property="og:url" content="{$meta['og:url']}" />

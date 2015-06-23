@@ -69,4 +69,4 @@ CHANGE `ip` `ip_session` VARCHAR(25) CHARACTER SET utf8 COLLATE utf8_general_ci 
 CHANGE `browser` `browser_admin` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
 CHANGE `keyuniqid` `last_modified_session` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ;
 
-UPDATE `mc_setting` SET `setting_value` = '2.5.3' WHERE `setting_id` = 'magix_version';
+UPDATE `mc_setting` SET `setting_value` = '2.6.0' WHERE `setting_id` = 'magix_version';

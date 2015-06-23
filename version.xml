@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- /*
- * MAGIX CMS Copyright (C) 2008 - 2014 Gerits Aurelien,
+ * MAGIX CMS Copyright (C) 2008 - 2015 Gerits Aurelien,
  * http://www.magix-cms.com, http://www.magix-cjquery.com, http://www.aurelien-gerits.be
  * Dual licensed under the MIT or GPL Version 3 licenses.
  *
-* Date: August 19 01:20 2014
+* Date: June 21 01:20 2015
  */-->
 <version>
-	<number>2.5.3</number>
+	<number>2.6.0</number>
 	<phase>Stable</phase>
 	<link>http://www.magix-cms.com</link>
 </version>

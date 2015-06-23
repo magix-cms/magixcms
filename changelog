@@ -1,3 +1,24 @@
+#### 2.6.0
+Stable
+* Fix Upgrade menu (install/upgrade)
+* Fix remove uppercase sidebar (admin)
+* Add new structure less
+* Add block good choice (skin)
+    * Add menu.less (dropdown menu skin)
+    * Add block.less (skin)
+* Add new effect in .less (skin)
+    * Add new loop condition for effect
+* Upgrade Center column 2.0 => 3.0 (skin)
+* Add new responsive utilities (skin)
+    * Add toolbar tpl (skin)
+    * Add new primary menu (skin)
+* Fix bug youtube url
+* Add font awesome in skin (default)
+* Add embed responsive in tinyMCE
+* Start new design for Admin
+* Add new less files (body, sidebar,footer)
+* Fix syntax lang files tinymce
+
 #### 2.5.3
 * Add new less customize (body,footer)
 * Upgrade bootstrap 3.3.0 => 3.3.4 (skin)

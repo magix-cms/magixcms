@@ -52,7 +52,7 @@
     </header>
     {block name="breadcrumb"}
         <div class="container">
-            {include file="section/breadcrumb.tpl"}
+            {include file="section/nav/breadcrumb.tpl"}
         </div>
     {/block}
     {block name="main:previous"}

@@ -5,7 +5,7 @@
     {if is_array($data) && !empty($data)}
         <p class="lead">{#last_products#}</p>
         {foreach $data as $item}
-            <a class="thumbnail text-center col-xs-6 col-sm-12" href="{$item.url}" title="{$item.name|ucfirst}">
+            <a class="thumbnail text-center col-xs-12 col-sm-12" href="{$item.url}" title="{$item.name|ucfirst}">
                 {if $item.imgSrc.small}
                     <img class="img-responsive" src="{$item.imgSrc.small}" alt="{$item.name|ucfirst}"/>
                 {else}
@@ -20,7 +20,7 @@
     {/if}
     {else}
     {if !$classCol}
-        {$classCol = 'col-xs-6 col-sm-6 col-md-4 col-lg-4'}
+        {$classCol = 'col-xs-12 col-sm-6 col-md-4 col-lg-4'}
     {/if}
     {if is_array($data) && !empty($data)}
         <p class="lead">{#last_products#}</p>
