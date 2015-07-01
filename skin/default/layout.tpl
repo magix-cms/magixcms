@@ -17,6 +17,7 @@
     {/if}
     <link rel="icon" type="image/png" href="{geturl}/skin/{template}/img/favicon.png" />
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
+    {*{block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic']}{/block}*}
     {block name="styleSheet"}
         {capture name="styleSheet"}{strip}
             /min/?f=skin/{template}/css/font-awesome/font-awesome.min.css,
