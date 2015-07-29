@@ -1,4 +1,3 @@
-<?php
 /*
  # -- BEGIN LICENSE BLOCK ----------------------------------
  #
@@ -33,20 +32,37 @@
  # needs please refer to http://www.magix-cms.com for more information.
  */
 
-/**
- * @author Gerits Aurelien <aurelien@magix-cms.com>
- * @copyright  2008 - 2012 Magix CMS
- * @version  Release: $Revision$
- *  Date: 29/11/12
- *  Time: 21:25
- * @license Dual licensed under the MIT or GPL Version 3 licenses.
- */
-/**
- * Nom du dossier courant
- */
-define('PATHADMIN', basename(dirname(realpath( __FILE__ ))));
-/**
- * Version de tinyMCE
- */
-define('VERSION_EDITOR', '4.2.2');
-?>
+tinymce.PluginManager.requireLangPack('mc_pages');
+tinymce.PluginManager.add('mc_pages', function(editor, url) {
+    function showDialog() {
+        var win, 
+        data = {}, 
+        dom = editor.dom;
+        // Open URL based window
+        //var i18Tab = [i18.translate('mc_pages Title'),i18.translate('search')];
+        win = editor.windowManager.open({
+            title: "mc_pages Title",
+            file: tinyMCE.baseURL + '/plugins/mc_pages/pages.php',
+            width: 500,
+            height: 400,
+            inline: 1,
+            resizable: true,
+            maximizable: true
+        });
+    }
+
+    // Add a button that opens a window
+    editor.addButton('mc_pages', {
+        //text: 'mc_pages',
+        icon: true,
+        image: url+'/img/search_page.png',
+        tooltip: "mc_pages Title",
+        onclick: showDialog,
+        onPostRender: function() {
+            var ctrl = this;
+            editor.on('NodeChange', function(e) {
+                ctrl.active(e.element.nodeName == 'IMG');
+            });
+        }
+    });
+});

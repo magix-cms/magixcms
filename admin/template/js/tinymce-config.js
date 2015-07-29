@@ -20,7 +20,7 @@
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen colorpicker textpattern wordcount directionality',
-            'insertdatetime media table contextmenu paste textcolor template youtube codehighlight mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
+            'insertdatetime media table contextmenu paste textcolor template youtube codehighlight fontawesome mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
         ],
         toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | fontsizeselect | forecolor backcolor',
         toolbar2: 'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | '+manager_tinymce_button+' image media | link unlink anchor | code | preview',
@@ -140,7 +140,7 @@
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,
         schema: "html5",
-        extended_valid_elements: 'span[class|style],iframe[src|width|height|name|align|class]',
+        extended_valid_elements: "span[class|style],iframe[src|width|height|name|align|class],span[class='fa']",
         //end_container_on_empty_block: false,
         /*fix_list_elements : true*/
         content_css : content_css
