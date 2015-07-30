@@ -39,13 +39,13 @@ gulp.task("css", function () {
 /**
  * Build distribuable package
  **/
-gulp.task("dist", ["clean", "css", "js", "plugin"], function () {
+gulp.task("dist", ["clean", "css", "plugin"], function () {
     return gulp
         .src([
             "img/**/*",
             "langs/**/*",
-            "js/main.js",
             "tmp/**/*",
+			"css/**/*",
             "LICENCE",
             "plugin.js",
             "README.md"
