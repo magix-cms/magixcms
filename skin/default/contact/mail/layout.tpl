@@ -29,7 +29,6 @@
 
             /* Hotmail header color reset
             Bring inline: Yes. */
-            h1, h2, h3, h4, h5, h6 {color: black !important;}
 
             h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
 
@@ -51,8 +50,13 @@
 
             /* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email and make sure to bring your styles inline.  Your link colors will be uniform across clients when brought inline.
             Bring inline: Yes. */
-            a {color: #428bca;}
+            a {color: #3778af;}
 
+            h1, h2, h3, h4, h5, h6, a, p, li {font-family: "Helvetica",Arial,sans-serif;color: #333333 !important;}
+            ul {padding: 0;list-style-type: none}
+            li {padding: 5px 0;}
+            .blue {color: #3778af;}
+            .green {color: #489944;}
 
             /***************************************************
             ****************************************************

@@ -1,0 +1,60 @@
+/*---------------*/
+/***** Zoe *****/
+/*---------------*/
+figure.effect-zoe{
+    figcaption{
+        top: auto;
+        bottom: 0;
+        padding: 5px;
+        height: 20%;
+        background: @zoe-bg-base;
+        color: @zoe-h3-color;
+        .opacity(@zoe-figcaption-opacity);
+        .auto-transition(0.35s);
+        -webkit-transform: translate3d(0,100%,0);
+        transform: translate3d(0,100%,0);
+        p {
+            /*position: absolute;*/
+            /*bottom: 8em;*/
+            padding: 2em;
+            color: @zoe-p-color;
+            text-transform: none;
+            font-size: @zoe-font-size-p;
+            .opacity(0);
+            display: table-cell;
+            vertical-align: middle;
+            .backface-visibility(hidden); /* Fix for Chrome 37.0.2062.120 (Mac) */
+            .opacity(0);
+            .auto-transition(0.35s);
+        }
+        h3 {
+            color: @zoe-h3-color;
+            font-size: @zoe-h3-font-size;
+            display: inline-block;
+            .translate3d(0, 200%, 0);
+            .auto-transition(0.35s);
+        }
+        .desc {
+            bottom: 100%;
+            display: table;
+            left: 0;
+            position: absolute;
+            .size(100%,400%);
+        }
+    }
+    &:hover {
+        img {
+            .opacity(0.5);
+        }
+        p {
+            .opacity(1);
+        }
+        figcaption {
+            .translate3d(0, 0, 0);
+        }
+        h3 {
+            .translate3d(0, 0, 0);
+            .transition-delay(0.05s);
+        }
+    }
+}

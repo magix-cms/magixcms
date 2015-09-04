@@ -1,0 +1,34 @@
+/*
+ * Rules for navigation
+ */
+#nav-primary-collapse {
+	.nav-primary {
+		margin-top: 10px;
+
+		li {
+			a {
+				padding: 15px 20px;
+				.only-small({ padding: 15px 15px; });
+			}
+		}
+	}
+}
+
+#nav-primary-fixed {
+	.nav-primary {
+		.pull-right;
+	}
+}
+
+.nav {
+	&-lang {
+		right: 0;
+		left: auto;
+	}
+
+	&-primary {
+		&-inner {
+			margin-bottom: 0;
+		}
+	}
+}

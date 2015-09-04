@@ -58,6 +58,22 @@ var MC_plugins_contact = (function ($, undefined) {
                     required: true,
                     email: true
                 },
+                adress: {
+                    required: true,
+                    minlength: 2
+                },
+                postcode: {
+                    required: true,
+                    minlength: 2
+                },
+                city: {
+                    required: true,
+                    minlength: 2
+                },
+                title: {
+                    required: true,
+                    minlength: 2
+                },
                 content: {
                     required: true,
                     minlength: 2

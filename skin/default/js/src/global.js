@@ -66,10 +66,6 @@ $(function()
     // *** Cross effect on mobile
     var width = $(window).width();
     if(width < 768) {
-        $('#carousel-testimonials').carousel({
-            interval: 9000
-        });
-
         $('button.navbar-toggle').click(function(){
             var target = $($(this).data('target'));
             if($(this).hasClass('open') || $(target).hasClass('collapse in')){

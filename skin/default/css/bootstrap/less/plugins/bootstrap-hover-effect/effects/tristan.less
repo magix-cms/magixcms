@@ -1,0 +1,46 @@
+/*-----------------*/
+/***** Tristan *****/
+/*-----------------*/
+figure.effect-tristan {
+	background-color: transparent;
+	border: none;
+	border-radius: 0;
+	padding: 0;
+	margin-bottom: 30px;
+
+	img {
+		.opacity(1);
+	}
+
+	figcaption {
+		position: static;
+		padding: 0;
+
+		h3 {
+			font-size: @tristan-h3-font-size;
+			margin: 0;
+		}
+
+		.desc p {
+			margin: 20px;
+			font-size: @tristan-p-font-size;
+			color: @tristan-p-color;
+		}
+
+		h3, button {
+			padding: 10px 15px;
+			.auto-transition(.35s);
+		}
+
+		a:last-child {
+			height: 200%;
+		}
+	}
+
+	&:hover {
+		h3, button {
+			background: @tristan-bg-hover-color;
+			.auto-transition(.35s);
+		}
+	}
+}

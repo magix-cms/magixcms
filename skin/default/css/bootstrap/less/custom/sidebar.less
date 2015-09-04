@@ -1,0 +1,46 @@
+/*
+ * Rules for sidebar
+ */
+#secondary-nav {
+    ul {
+        li {
+            &.active {
+                font-weight: bold;
+
+                ul {
+                    display: block !important;
+                }
+            }
+
+            ul {
+                list-style: none;
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+.sidebar-list {
+    .lead {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .thumbnail {
+        margin: 0;
+        padding: 10px;
+        border-width: 0 0 1px 0;
+        background-color: transparent;
+        border-radius: 0;
+
+        &:first-child {
+            border-bottom: 0;
+        }
+
+        .price,
+        .date {
+            display: block;
+            margin: 0 20%;
+        }
+    }
+}

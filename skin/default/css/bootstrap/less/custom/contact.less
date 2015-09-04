@@ -1,0 +1,64 @@
+/*
+ * Rules for contact
+ */
+#contact {
+	// Define selection style
+	.text-select(@main-color);
+
+	// Define content style
+	.normalize-content(@main-color);
+
+	main {
+		padding-bottom: 70px;
+	}
+
+	#sidebar {
+		font-size: 14px;
+
+		h3 {
+			color: @text-color;
+		}
+
+		p {
+			margin: 25px 0;
+			&.adresse {
+				/*font-size: 12px;*/
+				span.fa {
+					float: left;
+					height: 40px;
+				}
+			}
+			&.lead {
+				font-size: 14px;
+				+ p {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		span.fa {
+			font-size: 26px;
+			color: @main-color;
+			display: inline-block;
+			width: 26px;
+			margin-right: 10px;
+		}
+
+		// For add schedule
+		/*.schedule{
+			p{
+				margin: 15px 0;
+			}
+		}*/
+	}
+}
+
+#map {
+	margin-bottom: 20px;
+}
+
+@media (min-width: @screen-lg-min) {
+	.separator {
+		border-right: 2px dashed @main-color;
+	}
+}

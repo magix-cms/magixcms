@@ -1,70 +1,94 @@
 // Core variables and mixins
-@import "variables.less";
-@import "custom/mixins/variables.less";
-@import "mixins.less";
+@import (reference) "core/variables";
+@import "core/mixins";
+
+// Plugins variables
+@import (reference) "plugins/bootstrap-hover-effect/mixins";
+//@import (reference) "plugins/font-awesome/variables";
+
+// Custom variables
+@import (reference) "custom/mixins/variables";
+@import (reference) "custom/mixins/colors";
 
 // Reset and dependencies
-@import "normalize.less";
-@import "print.less";
-@import "glyphicons.less";
+@import "core/normalize";
+@import "core/print";
+@import "core/glyphicons";
 
 // Core CSS
-@import "scaffolding.less";
-@import "type.less";
-@import "code.less";
-@import "grid.less";
-@import "tables.less";
-@import "forms.less";
-@import "buttons.less";
+@import "core/scaffolding";
+@import "core/type";
+@import "core/code";
+@import "core/grid";
+@import "core/tables";
+@import "core/forms";
+@import "core/buttons";
 
 // Components
-@import "component-animations.less";
-@import "dropdowns.less";
-@import "button-groups.less";
-@import "input-groups.less";
-@import "navs.less";
-@import "navbar.less";
-@import "breadcrumbs.less";
-@import "pagination.less";
-@import "pager.less";
-@import "labels.less";
-@import "badges.less";
-@import "jumbotron.less";
-@import "thumbnails.less";
-@import "alerts.less";
-@import "progress-bars.less";
-@import "media.less";
-@import "list-group.less";
-@import "panels.less";
-@import "responsive-embed.less";
-@import "wells.less";
-@import "close.less";
+@import "core/component-animations";
+@import "core/dropdowns";
+@import "core/button-groups";
+@import "core/input-groups";
+@import "core/navs";
+@import "core/navbar";
+@import "core/breadcrumbs";
+@import "core/pagination";
+@import "core/pager";
+@import "core/labels";
+@import "core/badges";
+@import "core/jumbotron";
+@import "core/thumbnails";
+@import "core/alerts";
+@import "core/progress-bars";
+@import "core/media";
+@import "core/list-group";
+@import "core/panels";
+@import "core/responsive-embed";
+@import "core/wells";
+@import "core/close";
 
 // Components w/ JavaScript
-@import "modals.less";
-@import "tooltip.less";
-@import "popovers.less";
-@import "carousel.less";
+@import "core/modals";
+@import "core/tooltip";
+@import "core/popovers";
+@import "core/carousel";
 
 // Utility classes
-@import "utilities.less";
-@import "responsive-utilities.less";
+@import "core/utilities";
+@import "core/responsive-utilities";
 
-//custom Mixins
-@import "custom/mixins/vendor-prefixes.less";
-@import "custom/mixins/responsive-utilities.less";
-@import "custom/mixins/center-columns.less";
-@import "custom/mixins/sizes.less";
-@import "custom/mixins/type.less";
-@import "custom/mixins/effect.less";
-@import "custom/mixins/buttons.less";
-@import "custom/mixins/menu.less";
+// Custom Mixins
+@import (reference) "custom/mixins/media-queries";
+@import (reference) "custom/mixins/vendor-prefixes";
+@import "custom/mixins/responsive-utilities";
+@import "custom/mixins/sizes";
+@import "custom/mixins/fonts";
+@import "custom/mixins/type";
+@import "custom/mixins/images";
+@import "custom/mixins/buttons";
+@import "custom/mixins/socials";
+@import "custom/mixins/menu";
+@import "custom/mixins/forms";
+
+// Plugins
+@import "plugins/bootstrap-center-columns/bootstrap-center-columns";
+@import "plugins/bootstrap-hover-effect/bootstrap-hover-effect";
+//@import "plugins/font-awesome/font-awesome";
+
 // Custom
-@import "custom/body.less";
-@import "custom/breadcrumbs.less";
-@import "custom/navs.less";
-@import "custom/block.less";
-@import "custom/footer.less";
-@import "custom/header.less";
-@import "custom/product.less";
-@import "custom/news.less";
+@import "custom/body";
+@import "custom/breadcrumbs";
+@import "custom/sidebar";
+@import "custom/home";
+@import "custom/footer";
+@import "custom/header";
+@import "custom/block";
+@import "custom/navs";
+@import "custom/cms";
+@import "custom/product";
+@import "custom/news";
+@import "custom/contact";
+
+// Magix Plugins
+@import (optional) "custom/gmap";
+@import (optional) "custom/slider";

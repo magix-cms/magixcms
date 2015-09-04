@@ -1,0 +1,44 @@
+/*-----------------*/
+/***** Goliath *****/
+/*-----------------*/
+figure.effect-goliath {
+    > img {
+        .backface-visibility(hidden);
+        .auto-transition(0.35s);
+    }
+    figcaption {
+        h3 {
+            font-size: @goliath-h3-font-size;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 15px;
+            text-align: left;
+            .auto-transition(0.35s);
+        }
+        p {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 10px;
+            text-transform: none;
+            font-size: @goliath-p-font-size;
+            .opacity(0);
+            .auto-transition(0.35s);
+            .translate3d(0, 50px, 0);
+        }
+    }
+    &:hover {
+        background: @goliath-bg-hover;
+        img {
+            .translate3d(0, -80px, 0);
+        }
+        h3 {
+            .translate3d(0, -100px, 0);
+        }
+        p {
+            .opacity(1);
+            .translate3d(0, 0, 0);
+        }
+    }
+}

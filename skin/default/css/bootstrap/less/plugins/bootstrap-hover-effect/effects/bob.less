@@ -1,0 +1,58 @@
+/*-------------*/
+/***** Bob *****/
+/*-------------*/
+figure.effect-bob {
+    border: none;
+    border-radius: 0;
+    max-width: 100%;
+    position: relative;
+    left: -1px;
+    top: 0;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    margin: auto;
+    background: transparent;
+    .center-img {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+    img {
+        .size(263px,auto);
+        .only-medium( { width: 213px; } );
+        .only-small( { width: 345px; } );
+        .only-xtra-small( { width: 100%; } );
+        z-index: 90;
+    }
+    .round-div {
+        display: block;
+        .auto-transition(.3s);
+        position: absolute;
+        .square(140px);
+        border-radius: 200px;
+        border: 100px solid #ffffff;
+        border-image: none;
+        top: -73px;
+        left: -40px;
+        box-shadow: inset 5px 5px 8px rgba(0, 0, 0, .4);
+        box-sizing: content-box;
+        .only-medium( { .square(110px); top: -74px; left: -48px; } );
+        .only-small( { .square(160px); top: -110px; left: -58px; border-width: 150px; border-radius: 300px; } );
+        .only-xtra-small( { display: none; } );
+    }
+    figcaption {
+        clear: both;
+        color: @text-color;
+        position: relative;
+        z-index: 100;
+        h3 {
+            .text-overflow;
+            .h4;
+            line-height: 2;
+            color: @text-color;
+        }
+    }
+    &:hover .round-div {
+        .scale(1.2);
+    }
+}

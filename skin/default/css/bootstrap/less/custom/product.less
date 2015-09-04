@@ -1,0 +1,116 @@
+/*
+ * Rules for catalog root, category and subcategory root, product lists and product page
+ */
+/* --------------------------------------------------------
+                        Catalog
+---------------------------------------------------------- */
+#catalog,#catalog-cat,#catalog-subcat,#catalog-product{
+	// Define content style
+	//.normalize-content(@main-color);
+
+	section {
+		.container {
+			.direct-headings({ .main-title(@main-color) });
+		}
+		.direct-headings({ .main-title(@main-color) });
+	}
+}
+
+@media (max-width: @screen-xs-max) {
+	.product-list .col-xs-6{
+		//min-height: 295px;
+		width: 100%;
+		margin: 0 auto;
+		float: none;
+	}
+}
+
+@media (min-width: 511px) and (max-width: @screen-xs-max) {
+	.product-list {
+		.col-xs-6 {
+			width: 65%;
+			margin: 0 auto;
+			float: none;
+		}
+	}
+}
+
+#catalog, #catalog-cat, #catalog-subcat, #catalog-product {
+	#content {
+		padding-bottom: 70px;
+	}
+}
+
+.product-list {
+	.thumbnail{
+		min-height: 330px;
+		border: none;
+		border-radius: 0;
+
+		.caption {
+			border: 1px solid #DDDDDD;
+			border-radius: 4px;
+
+			h3 {
+				font-size: 20px;
+			}
+		}
+	}
+}
+
+/* --------------------------------------------------------
+                        Category
+---------------------------------------------------------- */
+
+/* --------------------------------------------------------
+                       Subcategory
+---------------------------------------------------------- */
+
+/* --------------------------------------------------------
+                         Product
+---------------------------------------------------------- */
+#catalog-product {
+	#article {
+		img {
+			width: 33.33333333333333%;
+			margin-left: 30px;
+		}
+	}
+
+	#similar-products {
+		padding: 60px 0;
+		background-color: @smooth-white;
+	}
+
+	#gallery {
+		padding: 40px 0 80px;
+		.img-thumbnail {
+			border-radius: 0;
+			border: none;
+			padding: 0;
+			background-color: transparent;
+			margin: 0 0 20px 0;
+		}
+	}
+}
+
+#interested-form {
+	margin: 50px 0 25px;
+	span {
+		margin: 0 8px;
+	}
+}
+
+@media (min-width: @screen-md-min) {
+	#gallery {
+		.img-thumbnail {
+			.scale(1);
+			.box-shadow(none);
+			.auto-transition(.5s);
+			&:hover {
+				.scale(1.1);
+				.box-shadow(0 2px 15px rgba(0, 0, 0, 0.8));
+			}
+		}
+	}
+}

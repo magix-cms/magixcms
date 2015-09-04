@@ -5,28 +5,30 @@
     <tr>
         <td valign="top">
             <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
-            <table cellpadding="0" cellspacing="0" border="0" align="center">
+            <table cellpadding="0" cellspacing="0" border="0" align="center" style="border: 1px solid #959595;">
                 <tr>
-                    <td width="800" style="background: #222222;padding:5px;" valign="top">
+                    <td width="800" style="background: #222;padding: 15px;/*border-bottom: 1px solid #333;*/" valign="top">
                         <!-- Gmail/Hotmail image display fix -->
-                        <a href="http://www.magix-cms.com" target ="_blank" title="Magix CMS">
-                            <img class="image_fix" src="{geturl}/skin/default/img/logo-magix_cms.png" alt="Magix CMS" title="Magix CMS" width="269" height="50" />
+                        <a href="{geturl}" target ="_blank" title="{#website#}" style="text-decoration: none;font-size: 46px;">
+                            <img src="{geturl}/skin/{template}/img/{#logo_img_small#}" alt="{#logo_img_alt#|ucfirst}" height="50" width="269"/>
                         </a>
                     </td>
                 </tr>
                 <tr>
-                    <td width="800" style="background: #FFFFFF;padding:5px;" valign="top">
-                        <ul>
-                            <li>{$data.lastname}</li>
-                            <li>{$data.firstname}</li>
-                            <li>{$data.email}</li>
+                    <td width="800" style="background: #ffffff;padding:15px;" valign="top">
+                        <h2>{#mail_from#|ucfirst} {$data.firstname}&nbsp;{$data.lastname}</h2>
+                        <p>{$data.content|replace:'\n':'<br />'}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="400" style="background: #ffffff;padding:15px;" valign="top">
+                        <h3>{#mail_from_coor#|ucfirst}</h3>
+                        <ul style="padding: 0;list-style-type: none">
+                            <li style="padding: 5px 0;">{$data.adress|ucfirst}, {$data.postcode} {$data.city}</li>
+                            <li style="padding: 5px 0;">{#mail_email#|ucfirst}&nbsp;: {$data.email}</li>
                             {if $data.phone != null}
-                                <li>{$data.phone}</li>
+                                <li style="padding: 5px 0;">{#mail_phone#|ucfirst}&nbsp;: {$data.phone}</li>
                             {/if}
-                            {if $data.adress != null}
-                                <li>{$data.adress}</li>
-                            {/if}
-                            <li>{$data.content|replace:'\n':'<br />'}</li>
                         </ul>
                     </td>
                 </tr>

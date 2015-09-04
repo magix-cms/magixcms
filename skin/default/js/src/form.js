@@ -59,6 +59,6 @@ $(document).ready(function(){
         success: function(label) {
             // set &nbsp; as text for IE
             label.remove();
-        }
+        } 
     });
 });

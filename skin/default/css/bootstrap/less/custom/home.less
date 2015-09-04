@@ -1,0 +1,34 @@
+/*
+ * Rules for home page
+ */
+#home {
+    article {
+        padding-bottom: 70px;
+    }
+
+    .content {
+        padding: 40px;
+        border-top: 2px solid @text-color;
+        border-bottom: 2px solid @text-color;
+    }
+}
+
+@media (max-width: @screen-xs-max) {
+	#main-cat {
+		.col-xs-6 {
+			width: 100%;
+			margin: 0 auto;
+			float: none;
+		}
+	}
+}
+
+@media (min-width: 511px) and (max-width: @screen-xs-max) {
+	#main-cat {
+		.col-xs-6 {
+			width: 65%;
+			margin: 0 auto;
+			float: none;
+		}
+	}
+}

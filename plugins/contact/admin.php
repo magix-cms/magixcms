@@ -223,6 +223,7 @@ class plugins_contact_admin extends DBContact{
             )
         );
     }
+
 	//SITEMAP
 	private function lastmod_dateFormat(){
 		$dateformat = new magixglobal_model_dateformat();

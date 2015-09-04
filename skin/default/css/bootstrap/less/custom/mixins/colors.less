@@ -1,0 +1,161 @@
+/*--------------------*\
+----- Theme Colors -----
+\*--------------------*/
+
+// --- Global Colors
+@light-gray:    #959595;
+@dark-white:    #e6e6e6;
+@smooth-white:  #f2f2f2;
+@dark-gradient: #222,#45484d;
+
+// --- Neutral Color
+@gray-color-darken:     darken(@gray-color-dark, 10%);
+@gray-color-dark:       #666666;
+@gray-color:            #808080;
+@gray-color-light:      #999999;
+@gray-color-lighten:    lighten(@gray-color-light, 10%);
+
+// --- Main Theme
+@main-color-darken:     darken(@main-color-dark, 10%);
+@main-color-dark:       darken(@main-color, 10%);
+@main-color:            #3b61a9;
+@main-color-light:      lighten(@main-color, 10%);
+@main-color-lighten:    lighten(@main-color-light, 10%);
+
+// --- Secondary Color
+@sd-color-darken:    darken(@sd-color-dark, 10%);
+@sd-color-dark:      #0071bc;
+@sd-color:           #148ecf;
+@sd-color-light:     #29abe2;
+@sd-color-lighten:   lighten(@sd-color-light, 10%);
+
+// --- Third Color
+@th-color-darken:   darken(@th-color-dark, 10%);
+@th-color-dark:     #f15a24;
+@th-color:          #f6852f;
+@th-color-light:    #fbb03b;
+@th-color-lighten:  lighten(@th-color-light, 10%);
+
+/*----------------------*\
+----- Theme Textures -----
+\*----------------------*/
+
+@main-texture:  	"@{patternpath}navy_blue.png";
+//@main-bg:  			#333 url("@{main-texture}") repeat top left;
+@main-bg:  			#333;
+@header-texture:	@main-texture;
+@menu-texture:  	@main-texture;
+@footer-texture:	@main-texture;
+
+/*---------------*\
+----- Toolbar -----
+\*---------------*/
+
+@toolbar-bg:		extract(@dark-gradient,1);
+
+
+/*------------*\
+----- Menu -----
+\*------------*/
+
+@menu-color: 		@main-color;
+@menu-bg: 			@smooth-white;
+@menu-active-color: @smooth-white;
+@menu-active-bg:	@main-color;
+
+
+/*------------------*\
+----- Breadcrumb -----
+\*------------------*/
+
+@cb-nav-border-color: #ddd;
+
+
+/*--------------*\
+----- Header -----
+\*--------------*/
+
+@header-bg: 		@smooth-white;
+
+
+/*--------------*\
+----- Header -----
+\*--------------*/
+
+@slider-h-color: 	@smooth-white;
+@slider-desc-color: @smooth-white;
+
+
+/*--------------*\
+----- Footer -----
+\*--------------*/
+
+@footer-bg: 		@main-bg;
+@footer-color: 		@dark-white;
+
+
+/*---------------*\
+----- Socials -----
+\*---------------*/
+
+@facebook:  #425fb0, #5c79ca;
+@twitter:   #1e87d9, #38a1f3;
+@viadeo:    #0a0a0a, #242424;
+@google:    #c8311b, #e24b35;
+@linkedin:  #2f6296, #497cb0;
+
+
+/*----------------*\
+----- CMS Page -----
+\*----------------*/
+
+@cms-h-color:   @text-color;
+@cms-brd-color: @main-color;
+
+
+/*-----------------------*\
+----- Category Colors -----
+\*-----------------------*/
+
+@cat-h-color:   @text-color;
+@cat-brd-color: @main-color;
+
+
+/*--------------------------*\
+----- Subcategory Colors -----
+\*--------------------------*/
+
+@sub-h-color:   @text-color;
+@sub-brd-color: @main-color;
+
+
+/*--------------------*\
+----- Product Page -----
+\*--------------------*/
+
+@prod-h-color:   @text-color;
+@prod-brd-color: @main-color;
+
+
+/*------------------------*\
+----- News Root Colors -----
+\*------------------------*/
+
+@news-h-color:   @text-color;
+@news-brd-color: @main-color;
+
+
+/*-----------------------*\
+----- Tag Page Colors -----
+\*-----------------------*/
+
+@tag-h-color:   @text-color;
+@tag-brd-color: @main-color;
+
+
+/*-----------------*\
+----- News Page -----
+\*-----------------*/
+
+@new-h-color:   @text-color;
+@new-brd-color: @main-color;

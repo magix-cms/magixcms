@@ -17,13 +17,12 @@
     {/if}
     <link rel="icon" type="image/png" href="{geturl}/skin/{template}/img/favicon.png" />
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
-    {*{block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic']}{/block}*}
+    {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300','Philosopher'=>'0']}{/block}
     {block name="styleSheet"}
         {capture name="styleSheet"}{strip}
             /min/?f=skin/{template}/css/font-awesome/font-awesome.min.css,
             skin/{template}/css/bootstrap/bootstrap.min.css,
-            skin/{template}/css/fancybox/jquery.fancybox.css,
-            skin/{template}/css/main.css
+            skin/{template}/css/fancybox/jquery.fancybox.min.css
         {/strip}{/capture}
         {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
     {/block}
@@ -44,52 +43,46 @@
     {google_tools tools='analytics'}
 </head>
 <body id="{block name='body:id'}layout{/block}">
-    <section id="toolbar">
-        {include file="section/toolbar.tpl"}
-    </section>
 
-    <header>
-        {include file="section/header.tpl"}
-    </header>
+    {include file="section/toolbar.tpl" adjust="clip"}
+
+    {include file="section/header.tpl" adjust="clip"}
+
     {block name="breadcrumb"}
-        <div class="container">
-            {include file="section/nav/breadcrumb.tpl"}
-        </div>
+        {include file="section/nav/breadcrumb.tpl"}
     {/block}
-    {block name="main:previous"}
-    {/block}
+
+    {block name="main:before"}{/block}
+
     {block name="main"}
     <main id="content" class="container">
         <div class="row">
-        {block name="main:before"}
-        {/block}
+            {block name="article:before"}{/block}
+
             {block name='article'}
-                <article id="article" class="col-xs-12 col-sm-8 col-md-9 pull-left">
-                    {block name='article:content'}
-                    {/block}
+                <article id="article" class="col-xs-12 col-sm-8 col-md-9">
+                    {block name='article:content'}{/block}
                 </article>
             {/block}
+
             {block name="aside"}
-                <aside id="aside" class="col-xs-12 col-sm-4 col-md-3 pull-left">
+                <aside id="aside" class="col-xs-12 col-sm-4 col-md-3">
                     {block name='aside:content'}
                         {include file="section/sidebar.tpl"}
                     {/block}
                 </aside>
             {/block}
-        {block name="main:after"}
-        {/block}
+
+            {block name="article:after"}{/block}
             </div>
     </main>
     {/block}
-    {block name="main:next"}
-    {/block}
-    <footer id="footer">
-        <div class="container">
-            <div class="row">
-                {include file="section/footer.tpl"}
-            </div>
-        </div>
-    </footer>
+
+    {block name="main:after"}{/block}
+
+    {include file="section/footer.tpl" adjust="clip"}
+
+    {include file="section/nav/btt.tpl"}
 
     {block name="foot"}
     {*  Magix Js
@@ -107,8 +100,8 @@
         *******}
         {capture name="scriptSkin"}{strip}
             /min/?f=
-            skin/{template}/js/form.js,
-            skin/{template}/js/global.js
+            skin/{template}/js/form.min.js,
+            skin/{template}/js/global.min.js
         {/strip}{/capture}
         {script src=$smarty.capture.scriptSkin concat=$concat type="javascript"}
     {/block}

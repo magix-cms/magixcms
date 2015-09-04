@@ -1,0 +1,49 @@
+// Common styles
+figure.thumbnail {
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    cursor: pointer;
+    .text-center;
+    .no-border;
+    .no-padding;
+
+    > img {
+        position: relative;
+        display: block;
+        max-width: 100%;
+        opacity: @he-img-opacity;
+    }
+
+    > figcaption {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: @he-text-color;
+        .backface-visibility(hidden);
+        .square(100%);
+
+        &:before,
+        &:after {
+            pointer-events: none;
+        }
+
+        > a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            text-indent: 200%;
+            white-space: nowrap;
+            font-size: 0;
+            opacity: 0;
+            .square(100%);
+        }
+
+        h3 {
+            color: @he-heading-color;
+            font-size: @he-h3-font-size;
+            .no-margin;
+        }
+    }
+}

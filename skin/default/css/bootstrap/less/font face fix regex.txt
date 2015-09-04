@@ -1,0 +1,2 @@
+url :           url\((?:(?!img)([A-Za-z\-./\#0-9\?_=&]+))*\)                                        => url("$1")
+font-family :   font-family:(?:(?!inherit|serif|sans-serif|monospace)([A-Za-z\-./\#0-9\?_=&]+))+    => font-family:"$1"
