@@ -87,6 +87,8 @@ error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
 Il faut ajouté le dossier smarty3 et magixcjquery dans le dossier lib,
 vous pouvez télécharger les dernières versions pour être compatible avec magix cms.
 
+Pour modifier un template, installé NODE.JS et LESS
+
 Licence
 ------------
 
