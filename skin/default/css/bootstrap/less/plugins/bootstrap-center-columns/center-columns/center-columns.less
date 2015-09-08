@@ -1,0 +1,105 @@
+/*---------------------*\
+----- COMMON STYLES -----
+\*---------------------*/
+
+// Center
+.set-center-columns {
+    .center(@index) {
+        @global: ~".center-column-@{index}";
+        @item: ~".center-column-xs-@{index}, .center-column-sm-@{index}, .center-column-md-@{index}, .center-column-lg-@{index}";
+        .center((@index + 1), @global, @item);
+    }
+    .center(@index, @globalList, @list) when (@index =< ( @grid-columns - 1)) {
+        @global: ~".center-column-@{index}";
+        @item: ~".center-column-xs-@{index}, .center-column-sm-@{index}, .center-column-md-@{index}, .center-column-lg-@{index}";
+        .center((@index + 1), ~"@{globalList}, @{global}", ~"@{list}, @{item}");
+    }
+    .center(@index, @globalList, @list) when (@index > ( @grid-columns - 1)) {
+        @{globalList} {
+            margin: 0 0 30px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        @{list} {
+            margin: 0 0 30px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .center(1);
+}
+
+/*----------------------*\
+----- CENTER COLUMNS -----
+\*----------------------*/
+
+// Calculate offset needed to center the group of columns
+.calc-offset-column(@index, @class) when (@index > 0) {
+    .center-column-@{class}-@{index} {
+        @offset: percentage(0.5 - ( @index / ( @grid-columns * 2 ) ));
+        > div:first-child {
+            margin-left: @offset;
+        }
+    }
+}
+
+// Basic looping in LESS
+.loop-center-columns(@index, @class) when (@index > 0) {
+    .calc-offset-column(@index, @class);
+    // next iteration
+    .loop-center-columns((@index - 1), @class);
+}
+
+// Create centering rules for specific class
+.centering-columns(@class) {
+    .loop-center-columns((@grid-columns - 1), @class);
+}
+/*----------------------------*\
+----- INIT CENTERING RULES -----
+\*----------------------------*/
+
+// Centering normalize
+//
+// Set common styles for small and large grid columns
+
+.set-center-columns();
+
+
+// Extra small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for extra small devices like smartphones.
+
+.centering-columns(xs);
+
+
+// Small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the small device range, from phones to tablets.
+
+@media (min-width: @screen-sm-min) {
+    .centering-columns(sm);
+}
+
+
+// Medium grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the desktop device range.
+
+@media (min-width: @screen-md-min) {
+    .centering-columns(md);
+}
+
+
+// Large grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the large desktop device range.
+
+@media (min-width: @screen-lg-min) {
+    .centering-columns(lg);
+}

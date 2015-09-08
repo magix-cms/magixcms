@@ -20,8 +20,7 @@
     {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300','Philosopher'=>'0']}{/block}
     {block name="styleSheet"}
         {capture name="styleSheet"}{strip}
-            /min/?f=skin/{template}/css/font-awesome/font-awesome.min.css,
-            skin/{template}/css/bootstrap/bootstrap.min.css,
+            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,
             skin/{template}/css/fancybox/jquery.fancybox.min.css
         {/strip}{/capture}
         {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
