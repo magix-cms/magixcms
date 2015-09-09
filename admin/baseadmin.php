@@ -48,5 +48,5 @@ define('PATHADMIN', basename(dirname(realpath( __FILE__ ))));
 /**
  * Version de tinyMCE
  */
-define('VERSION_EDITOR', '4.2.3');
+define('VERSION_EDITOR', '4.2.5');
 ?>
