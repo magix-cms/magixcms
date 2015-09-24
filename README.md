@@ -1,7 +1,7 @@
 [magixcms](http://www.magix-cms.com/)
 ===================================================
 
-![Logo Magix CMS](http://www.magix-cms.com/skin/magixcms2/img/logo-magix_cms.png "Logo Magix CMS")
+![Logo Magix CMS](http://www.magix-cms.com/skin/magixcms/img/logo-magix_cms.png "Logo Magix CMS")
 
 Presentation
 ------------
