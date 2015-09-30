@@ -143,8 +143,9 @@ class frontend_model_cms extends frontend_db_cms
                     'parent',
                     'child'
                 );
-                if (array_search($custom['context'],$allowed)) {
-                    $conf['context'][1]   =   $custom['context'];
+
+                if (in_array($custom['context'],$allowed)) {
+                    $conf['context'][1] = $custom['context'];
                 }
             }
         }

@@ -1,7 +1,7 @@
 [magixcms](http://www.magix-cms.com/)
 ===================================================
 
-![Logo Magix CMS](http://www.magix-cms.com/skin/magixcms2/img/logo-magix_cms.png "Logo Magix CMS")
+![Logo Magix CMS](http://www.magix-cms.com/skin/magixcms/img/logo-magix_cms.png "Logo Magix CMS")
 
 Presentation
 ------------
@@ -87,7 +87,13 @@ error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
 Il faut ajouté le dossier smarty3 et magixcjquery dans le dossier lib,
 vous pouvez télécharger les dernières versions pour être compatible avec magix cms.
 
-Pour modifier un template, installé NODE.JS et LESS
+### Required Application
+
+Pour modifier un template, installez NODE.JS et LESS
+
+ * https://nodejs.org
+ * http://lesscss.org
+
 
 Licence
 ------------
@@ -96,7 +102,7 @@ Licence
 This file is part of Magix CMS.
 Magix CMS, a CMS optimized for SEO
 
-Copyright (C) 2008 - 2013 magix-cms.com support[at]magix-cms[point]com
+Copyright (C) 2008 - 2015 magix-cms.com support[at]magix-cms[point]com
 
 OFFICIAL TEAM :
 
