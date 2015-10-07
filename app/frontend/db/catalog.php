@@ -324,6 +324,14 @@ class frontend_db_catalog
                         $where_clause .= ') ';
                     }
                     break;
+                case 'product':
+                    if($data['selectmode']){
+                        $where_clause .= ' AND p.idproduct';
+                        $where_clause .= ($data['selectmode'] != 'exclude') ?' IN (' : ' NOT IN (';
+                        $where_clause .= $data['selectmodeid'];
+                        $where_clause .= ') ';
+                    }
+                    break;
             }
             $select = "SELECT
                 p.idproduct,p.idclc, p.idcls,

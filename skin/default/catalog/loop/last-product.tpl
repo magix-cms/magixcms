@@ -26,7 +26,7 @@
         <p class="lead">{#last_products#}</p>
         {foreach $data as $item}
             <div{if $classCol} class="{$classCol}{/if}">
-                <figure class="{$effect} thumbnail">
+                <figure class="effect-{$effect} thumbnail">
                     {if $item.imgSrc.medium}
                         <img class="img-responsive" src="{$item.imgSrc.medium}" alt="{$item.name|ucfirst}"/>
                     {else}

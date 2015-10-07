@@ -14,12 +14,6 @@
                     <span class="copyright-info"><span class="fa fa-copyright"></span> 2015</span>
                     | {#footer_all_rights_reserved#|ucfirst}
                 </div>
-                {*<div class="footer-creator">
-                    {#footer_creator_info#|ucfirst}<br />
-                    <a class="targetblank" href="http://www.web-solution-way.com">
-                        Web Solution Way
-                    </a>
-                </div>*}
                 {include file="section/brick/powered.tpl"}
             </div>
             <div id="block-last-news" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">

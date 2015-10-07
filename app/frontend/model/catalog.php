@@ -584,21 +584,45 @@ class frontend_model_catalog extends frontend_db_catalog {
                 }
 
             } else {
-                // All products in lang
-                if($class && class_exists($class)){
-                    $data   =   $class::s_product(
-                        $conf['id'],
-                        0,
-                        null,
-                        $conf['sort']
-                    );
+                if(isset($custom['select']) OR $custom['exclude']){
+                    if($class && class_exists($class)) {
+                        $data = $class::fetchAllProduct(
+                            array(
+                                'context' => $conf['context'][1],
+                                'limit' => $conf['limit'],
+                                'selectmode' => $conf['type'],
+                                'selectmodeid' => $conf['id'],
+                                'sort' => $conf['sort']
+                            )
+                        );
+                    }else{
+                        $data = parent::fetchAllProduct(
+                            array(
+                                'context' => $conf['context'][1],
+                                'limit' => $conf['limit'],
+                                'selectmode' => $conf['type'],
+                                'selectmodeid' => $conf['id'],
+                                'sort' => $conf['sort']
+                            )
+                        );
+                    }
                 }else{
-                    $data   =   parent::s_product(
-                        $conf['id'],
-                        0,
-                        null,
-                        $conf['sort']
-                    );
+                    // All products in lang
+                    if($class && class_exists($class)){
+                        $data   =   $class::s_product(
+                            $conf['id'],
+                            0,
+                            null,
+                            $conf['sort']
+                        );
+                    }else{
+                        $data   =   parent::s_product(
+                            $conf['id'],
+                            0,
+                            null,
+                            $conf['sort']
+                        );
+                    }
                 }
 
             }
