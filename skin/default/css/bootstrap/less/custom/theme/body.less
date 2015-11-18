@@ -1,31 +1,10 @@
 /*
  * Common rules for all pages
  */
-html {
-	position: relative;
-	min-height: 100%;
-	background: #ffffff;
-}
-
-body {
-	background-color: transparent;
-	@media (max-width: @screen-xs-max) {
-		margin-bottom: @footer-height-xs;
-	}
-	@media (min-width: @screen-sm-min) {
-		margin-bottom: @footer-height;
-	}
-}
-
 // --- All headings
 .headings({
     .raleway;
 });
-
-// --- Lead paragraphe
-.lead {
-	.raleway;
-}
 
 // Set selection style
 .text-select(@main-color);

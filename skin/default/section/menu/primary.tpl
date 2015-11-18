@@ -240,8 +240,8 @@ assign="categoryList"
 {/if}
 
 {* --- Create Menu HTML --- *}
-<nav{if isset($id)} id="{$id}"{/if} class="collapse navbar-collapse{if isset($type)} menu-{$type}{/if}">
-    <ul class="nav-primary nav navbar-nav pull-right">{*root=['news' => false]*}
+<nav{if isset($id)} id="{$id}"{/if} class="collapse navbar-collapse{if isset($type)} menu-{$type}{/if}" >
+    <ul class="nav-primary nav navbar-nav pull-right" itemprop="SiteNavigationElement">{*root=['news' => false]*}
         {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=false}
     </ul>
 </nav>

@@ -25,8 +25,6 @@ nav.menu-default {
 
 nav.menu-dropdown {
     .nav-primary {
-        margin-right: 20px;
-
         li {
             a, a:visited {
                 padding: 10px 15px;
@@ -45,9 +43,18 @@ nav.menu-dropdown {
                 }
             }
         }
+
+		&.pull-right {
+			> li:last-child {
+				ul {
+					right: 0;
+				}
+			}
+		}
     }
 
     .dropdown {
+		min-width: 100%;
         display: block;
         position: absolute;
         padding: 5px 0;
@@ -85,21 +92,21 @@ nav.menu-dropdown {
         }
     }
 
-    .start-at-small({
-        .nav-primary .navbar-collapse {
-            display: none !important;
-        }
-    });
+	@media (min-width: @screen-sm-min) {
+		.nav-primary .navbar-collapse {
+			display: none !important;
+		}
+	}
 
-    .only-xtra-small({
-        .nav-primary {
-            margin: 35px 0 0;
-            float: none !important;
-            position: relative;
-            z-index: 201;
+	@media (max-width: @screen-xs-max) {
+		.nav-primary {
+			margin: 35px 0 0;
+			float: none !important;
+			position: relative;
+			z-index: 201;
 
-            > li {
-                position: relative;
+			> li {
+				position: relative;
 
 				a {
 					display: block;
@@ -118,75 +125,76 @@ nav.menu-dropdown {
 					}
 				}
 
-                .navbar-toggle {
-                    float: none;
-                    position: absolute;
-                    right: 15px;
-                    top: 0;
-                    margin: 0;
-                }
+				.navbar-toggle {
+					float: none;
+					position: absolute;
+					right: 15px;
+					top: 0;
+					margin: 0;
+				}
 
-                .navbar-collapse {
-                    border-top: 1px solid rgba(0, 0, 0, 0.1);
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-                }
+				.navbar-collapse {
+					border-top: 1px solid rgba(0, 0, 0, 0.1);
+					border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+				}
 
-                ul {
-                    list-style-type: none;
-                    margin: 10px 0;
+				ul {
+					list-style-type: none;
+					margin: 10px 0;
 
-                    li {
-                        float: none;
-                    }
-                }
-            }
-        }
-    });
+					li {
+						float: none;
+					}
+				}
+			}
+		}
+	}
 }
-.only-xtra-small({
-    #toggle-menu {
-        span {
-            background: #777;
-            .transform-origin(left center);
-        }
 
-        &.open {
-            span.icon-bar {
-                width: 21px;
+@media (max-width: @screen-xs-max) {
+	#toggle-menu {
+		span {
+			background: #777;
+			.transform-origin(left center);
+		}
 
-                &:first-child {
-                    -webkit-transform: rotate(45deg) translate(-1px, -1px);
-                    -ms-transform: rotate(45deg) translate(-1px, -1px); // IE9 only
-                    -o-transform: rotate(45deg) translate(-1px, -1px);
-                    transform: rotate(45deg) translate(-1px, -1px);
-                    & + span {
-                        .opacity(0);
-                    }
-                }
+		&.open {
+			span.icon-bar {
+				width: 21px;
 
-                &:last-child {
-                    -webkit-transform: rotate(-45deg) translate(-1px, 1px);
-                    -ms-transform: rotate(-45deg) translate(-1px, 1px); // IE9 only
-                    -o-transform: rotate(-45deg) translate(-1px, 1px);
-                    transform: rotate(-45deg) translate(-1px, 1px);
-                }
-            }
-        }
-    }
+				&:first-child {
+					-webkit-transform: rotate(45deg) translate(-1px, -1px);
+					-ms-transform: rotate(45deg) translate(-1px, -1px); // IE9 only
+					-o-transform: rotate(45deg) translate(-1px, -1px);
+					transform: rotate(45deg) translate(-1px, -1px);
+					& + span {
+						.opacity(0);
+					}
+				}
 
-    // Toggle menu button
-    .navbar-toggle {
-        margin-top: 25px;
-        z-index: 225;
+				&:last-child {
+					-webkit-transform: rotate(-45deg) translate(-1px, 1px);
+					-ms-transform: rotate(-45deg) translate(-1px, 1px); // IE9 only
+					-o-transform: rotate(-45deg) translate(-1px, 1px);
+					transform: rotate(-45deg) translate(-1px, 1px);
+				}
+			}
+		}
+	}
 
-        span {
-            .auto-transition(.45s);
-        }
+	// Toggle menu button
+	.navbar-toggle {
+		margin-top: 25px;
+		z-index: 225;
 
-        &.open {
-            span {
-                .rotate(45deg);
-            }
-        }
-    }
-});
+		span {
+			.auto-transition(.45s);
+		}
+
+		&.open {
+			span {
+				.rotate(45deg);
+			}
+		}
+	}
+}

@@ -77,3 +77,26 @@ blockquote {
         }
     }
 }
+
+
+/*--------------*\
+----- Listes -----
+\*--------------*/
+.link-bar {
+	text-align: center;
+	.list-unstyled;
+	.list-inline;
+	.normalize-link(@main-color);
+
+	li {
+		border-right: 1px solid #959595;
+
+		a {
+			padding: 5px;
+		}
+
+		&:last-child {
+			border-right: none;
+		}
+	}
+}
