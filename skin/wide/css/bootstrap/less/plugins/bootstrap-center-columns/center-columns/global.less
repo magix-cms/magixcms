@@ -1,0 +1,147 @@
+/*---------------------*\
+----- COMMON STYLES -----
+\*---------------------*/
+
+// Global
+.set-global-center {
+    .center-column,
+    .center-column-xs,
+    .center-column-sm,
+    .center-column-md,
+    .center-column-lg {
+        margin-top: 0;
+        margin-bottom: 30px;
+        > div {
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        &:last-child,
+        > div:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+/*---------------------*\
+----- GLOBAL CENTER -----
+\*---------------------*/
+
+// Global center for unique column on his row
+.center-column,
+.center-column > div,
+.center-column > fieldset {
+    float: none;
+    clear: both;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+// Global center for group of column
+.global-center(@n, @i: 1) when (@i =< (@n - 1)) {
+    .center-column-@{i} {
+        @offset: percentage(0.5 - ( @i / ( @n * 2 ) ));
+        margin: 0 0 30px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        > div:first-child {
+            margin-left: @offset;
+        }
+    }
+    .global-center(@n, (@i + 1));
+}
+
+// Global equidistant center for group of column
+.global-equid-columns(@n, @i, @j: 2) when (@j < @n) {
+    .center-column-@{i}-@{j} {
+        @offset: percentage(( 1 - ( @i / @n ) )/( 2*(@j+1) ));
+        overflow: hidden;
+        margin: 0 0 30px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        > div {
+            margin: 0 @offset;
+            &:first-child {
+                margin-left: @offset*2;
+            }
+            &:last-child {
+                margin-right: @offset*2;
+            }
+        }
+    }
+    .global-equid-columns(@n, @i, (@j + 1));
+}
+
+// Global equidistant center loop
+.global-equid(@n, @i: 2) when (@i < @n) {
+    .global-equid-columns(@n, @i);
+    .equid-columns(@n, (@i + 1));
+}
+
+// Responsive center for unique column on his row
+.global-center-class(@class) {
+    .center-column-@{class},
+    .center-column-@{class} > div {
+        float: none;
+        clear: both;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+/*----------------------------*\
+----- INIT CENTERING RULES -----
+\*----------------------------*/
+
+// Centering normalize
+//
+// Set common styles for small and large grid columns
+
+.set-global-center();
+
+
+// Centering Globals
+//
+// Centering and Equidistant centering
+// for all size of device
+
+.global-center(@grid-columns);
+.global-equid(@grid-columns);
+
+// Extra small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for extra small devices like smartphones.
+
+.global-center-class(xs);
+
+
+// Small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the small device range, from phones to tablets.
+
+@media (min-width: @screen-sm-min) {
+    .global-center-class(sm);
+}
+
+
+// Medium grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the desktop device range.
+
+@media (min-width: @screen-md-min) {
+    .global-center-class(md);
+}
+
+
+// Large grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the large desktop device range.
+
+@media (min-width: @screen-lg-min) {
+    .global-center-class(lg);
+}

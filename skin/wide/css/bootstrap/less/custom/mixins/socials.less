@@ -1,0 +1,55 @@
+/*
+ * Social share buttons
+ */
+
+/* --- set the background of the social share buttons
+ *
+ * @style: flat or gradient
+ * @hover: dark, light or same
+ *
+ */
+.share-buttons(@style: flat, @hover: dark) {
+    @socials: facebook, twitter, viadeo, google, linkedin;
+
+    .soc-bg (@style, @colors) when (@style = flat) {
+        background-color: extract(@colors,2);
+    }
+    .soc-bg (@style, @colors) when (@style = gradient) {
+        #gradient .directional(extract(@colors,1), extract(@colors,2));
+    }
+
+    .style (@style, @hover, @colors) when (@hover = same) {
+        &, &:hover {
+            .soc-bg (@style, @colors);
+        }
+    }
+    .style (@style, @hover, @colors) when (@hover = dark) {
+        @dark: darken(extract(@colors,1),10%), darken(extract(@colors,2),10%);
+        &{
+            .soc-bg (@style, @colors);
+        }
+        &:hover {
+            .soc-bg (@style, @dark);
+        }
+    }
+    .style (@style, @hover, @colors) when (@hover = light) {
+        @light: lighten(extract(@colors,1),10%), lighten(extract(@colors,2),10%);
+        &{
+            .soc-bg (@style, @colors);
+        }
+        &:hover {
+            .soc-bg (@style, @light);
+        }
+    }
+
+    .share {
+        .socials(@socials, @n) when (@n > 0) {
+            @social: extract(@socials,@n);
+            &-@{social} a {
+                .style(@style, @hover, @@social);
+            }
+            .socials(@socials, (@n - 1));
+        }
+        .socials(@socials, length(@socials));
+    }
+}

@@ -1,0 +1,169 @@
+/*
+ * Rules for footer
+ */
+#footer {
+	background: @footer-bg;
+	color: @footer-color;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	position: absolute;
+	bottom: 0;
+	font-weight: lighter;
+	.start-at-small({ .size(100%, @footer-height); });
+	.only-xtra-small({ .size(100%, @footer-height-xs); });
+
+	// Global footer rules
+	h4 {
+		font-size: 18px;
+		margin: 20px 0;
+		color: #e6e6e6;
+		border-bottom: 1px solid @light-gray;
+		padding-bottom: 10px;
+		.raleway;
+		font-weight: lighter;
+	}
+
+	a {
+		color: @footer-color;
+	}
+
+	#block {
+		&-about,
+		&-contact {
+			.normalize-link(@main-color);
+		}
+
+		// --- Block About
+		&-about {
+			.footer {
+				&-copyright {
+					color: #959595;
+
+					.footer-website {
+						margin: 20px 0 0 0;
+						padding-bottom: 0;
+						font-size: 28px;
+						border-bottom: none;
+						.only-small({ font-size: 22px; margin: 17px 0 3px; });
+					}
+
+					.copyright-info {
+						color: @footer-color;
+					}
+
+					a {
+						.img-responsive {
+							margin: 20px 0 15px;
+						}
+					}
+				}
+
+				&-certify {
+					margin: 15px 0;
+				}
+
+				&-creator {
+					margin-top: 20px;
+					color: #959595;
+					.normalize-link(@main-color, same, underline, lighter, "Raleway");
+
+					a {
+						font-size: 21px;
+					}
+				}
+			}
+		}
+
+		&-last-news {
+			padding-bottom: 100px;
+
+			.news-list {
+				border-top: 2px solid @text-color;
+				border-bottom: 2px solid @text-color;
+				padding: 40px 0 30px;
+			}
+
+			h3 {
+				font-weight: lighter;
+				margin-bottom: 20px;
+				a {
+					color: @text-color;
+				}
+			}
+
+			h4 {
+				margin-bottom: 30px;
+			}
+
+			img {
+				border: 1px solid @footer-color;
+			}
+
+			.media {
+				position: relative;
+
+				.media-body.caption {
+					position: static;
+				}
+
+				time {
+					position: absolute;
+					bottom: 0;
+					left: 15px;
+					color: @light-gray;
+				}
+
+				a {
+					position: absolute;
+					top: 0;
+					left: 0;
+					z-index: 50;
+					text-indent: 200%;
+					white-space: nowrap;
+					font-size: 0;
+					.square(100%);
+					.opacity(0);
+				}
+			}
+		}
+
+		// --- Block contact
+		&-contact {
+			color: @light-gray;
+			font-size: 12px;
+			.only-xtra-small({ padding: 0 30px; });
+
+			strong/*, .mailto a*/ {
+				font-weight: 600;
+			}
+
+			h4 + p {
+				font-size: 14px;
+			}
+		}
+	}
+
+	.contact-list-footer {
+		> li {
+			font-size: 22px;
+			color: @footer-color;
+			.only-small({ font-size: 20px; });
+
+			span {
+				width: 30px;
+				color: @footer-color;
+			}
+		}
+	}
+}
+
+@media (max-width: @screen-xs-max) {
+	#footer {
+		height: @footer-height-xs;
+	}
+
+	ul#nav-footer.link-bar {
+		margin: 15px 0;
+		display: block;
+	}
+}

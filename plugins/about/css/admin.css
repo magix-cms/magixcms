@@ -1,0 +1,44 @@
+#nav-informations {
+    margin-bottom: 25px;
+}
+
+#info_contact_form  label[for="company_adress"] + div .form-group {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#info_contact_form span.fa {
+    margin-left: 6px;
+}
+
+#info_contact_form .checkbox>label {
+    padding-left: 0;
+}
+
+#info_company_form .checkbox>label {
+    padding-left: 0;
+}
+
+#enable_op_form .toggle.btn {
+    margin-right: 8px;
+}
+
+#openingHours .checkbox>label {
+    padding-left: 0;
+}
+
+#openingHours td {
+    vertical-align: middle;
+}
+
+.form-group label {
+    margin-top: 0;
+}
+
+#info_contact_form .form-group label.toggle-label {
+    margin-top: 6px;
+}
+
+#info_company_form .form-group label.toggle-label {
+    margin-top: 6px;
+}

@@ -1,0 +1,79 @@
+/*
+ * Custom rules for text
+ */
+
+/*---------------------------*\
+----- Font weight classes -----
+\*---------------------------*/
+.semiBold {
+    font-weight: 600;
+}
+
+.extraBold {
+    font-weight: 800;
+}
+
+
+/*--------------------------*\
+-----  Headings styling  -----
+----- shortcut functions -----
+\*--------------------------*/
+
+// --- All headings
+.headings(@function) {
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        @function();
+    }
+}
+// --- Direct child headings
+.direct-headings(@function) {
+    > h1, > h2, > h3, > h4, > h5, > h6, > .h1, > .h2, > .h3, > .h4, > .h5, > .h6 {
+        @function();
+    }
+}
+
+// --- Main title page
+.main-title(@color) {
+    margin: 34px auto 0;
+    padding: 0 0 26px;
+    .text-center;
+    color: @text-color;
+    & + hr {
+        .size(15%, 1px);
+        margin: 0 auto 45px;
+        background-color: @color;
+    }
+}
+
+
+/*------------------*\
+----- Paragraphe -----
+\*------------------*/
+p {
+    .normalize-link(@main-color, same, underline, 600);
+}
+
+
+/*----------------------*\
+----- Citation style -----
+\*----------------------*/
+blockquote {
+    border-left: none;
+    padding-left: 100px;
+    position: relative;
+    &:before {
+        .philosopher;
+        content: "“";
+        color: #ccc;
+        font-size: 10em;
+        left: 0;
+        position: absolute;
+        top: -61px;
+    }
+    footer {
+        text-align: right;
+        &:after {
+            content: " —";
+        }
+    }
+}

@@ -2,6 +2,7 @@
 {block name="title"}{seo_rewrite config_param=['level'=>'3','idmetas'=>'1','default'=>$product.name] category=$cat.name subcategory=$subcat.name record=$product.name}{/block}
 {block name="description"}{seo_rewrite config_param=['level'=>'3','idmetas'=>'2','default'=>$product.name] category=$cat.name subcategory=$subcat.name record=$product.name}{/block}
 {block name='body:id'}catalog-product{/block}
+{block name="webType"}ItemPage{/block}
 
 {block name="article:content"}
     <h1>{$product.name|ucfirst}</h1>

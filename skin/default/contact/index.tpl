@@ -2,15 +2,16 @@
 {block name="title"}{seo_rewrite config_param=['level'=>'0','idmetas'=>'1','default'=>#seo_t_static_plugin_contact#]}{/block}
 {block name="description"}{seo_rewrite config_param=['level'=>'0','idmetas'=>'2','default'=>#seo_d_static_plugin_contact#]}{/block}
 {block name='body:id'}contact{/block}
+{block name="webType"}ContactPage{/block}
 
 {block name="slider"}{/block}
 
 {block name='article'}
     <article id="article" class="container">
         {block name='article:content'}
-            <h1>{#contact_root_h1#}</h1><hr/>
+            <h1 itemprop="name">{#contact_root_h1#}</h1><hr/>
             <div class="row">
-                <section id="form" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                <section id="form" class="col-xs-12 col-sm-8 col-md-8 col-lg-8" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-11 separator">
                             <div class="row">
@@ -43,15 +44,15 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <label for="adress">{#pn_contact_adress#|ucfirst}*&nbsp;:</label>
+                                                <label for="adress">{#pn_contact_adress#|ucfirst}&nbsp;:</label>
                                                 <input id="adress" type="text" name="adress" placeholder="{#ph_adress#|ucfirst}" value="" class="form-control" />
                                             </div>
                                             <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                                                <label for="postcode">{#pn_contact_postcode#|ucfirst}*&nbsp;:</label>
+                                                <label for="postcode">{#pn_contact_postcode#|ucfirst}&nbsp;:</label>
                                                 <input id="postcode" type="text" name="postcode" placeholder="{#ph_postcode#|ucfirst}" value="" class="form-control" />
                                             </div>
                                             <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                                                <label for="city">{#pn_contact_city#|ucfirst}*&nbsp;:</label>
+                                                <label for="city">{#pn_contact_city#|ucfirst}&nbsp;:</label>
                                                 <input id="city" type="text" name="city" placeholder="{#ph_city#|ucfirst}" value="" class="form-control" />
                                             </div>
                                         </div>

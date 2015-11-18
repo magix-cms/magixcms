@@ -1,0 +1,126 @@
+/*----------------------*\
+----- Header toolbar -----
+\*----------------------*/
+
+#toolbar {
+    background-color: @gray-color-dark;
+    padding: 7px 15px !important;
+    color: white;
+    font-size: 16px;
+    height: 45px;
+
+    #social-follow {
+        font-size: 18px;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        li {
+            display: inline-block;
+            margin-top: 4px;
+            float: left;
+            a {
+                color: white;
+                padding: 5px 10px;
+                &:hover {
+                    color: @main-color;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
+    .navbar-toggle {
+        padding: 5px 10px;
+        margin: -5px 0 0;
+
+        span {
+            background-color: transparent;
+        }
+    }
+
+    /*.lang-nav {
+        li {
+            border-right: 1px solid #fff;
+            &:last-child {
+                border: none;
+            }
+            &.active {
+                color: @main-color;
+            }
+        }
+        .lang-header {
+            margin-top: 5px;
+        }
+    }*/
+
+    #contact-infos {
+        li {
+	        margin-left: 8px;
+
+            span.fa {
+                margin-top: 2px;
+                vertical-align: text-top;
+	            margin-right: 8px;
+            }
+        }
+    }
+
+    .visible-xs {
+        ul li {
+            padding: 6px 5px 5px;
+            margin-right: 10px;
+	        margin-top: 0;
+
+	        &:last-child {
+		        margin-right: 0;
+	        }
+
+            span.fa {
+                margin-right: 8px;
+            }
+
+            &.toggle-menu {
+                padding: 0;
+                margin-right: 0;
+                span.fa {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: @screen-sm-min) {
+    #toolbar {
+
+        ul {
+            li {
+                a {
+                    padding: 5px;
+                }
+            }
+        }
+
+        #social-follow {
+            margin-left: 15px;
+        }
+
+        #contact-infos {
+            li {
+                //margin-right: 15px;
+                span.fa {
+                    margin-right: 4px;
+                }
+            }
+        }
+
+        .dropdown #menu-user {
+            span.fa {
+                margin-right: 12px;
+            }
+        }
+    }
+}

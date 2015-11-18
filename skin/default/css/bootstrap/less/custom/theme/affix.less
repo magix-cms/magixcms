@@ -1,0 +1,82 @@
+// --- Fixed header
+#header-fixed {
+    z-index: 202;
+    position: fixed;
+    top: -200px;
+    background: @header-bg;
+	border-bottom: 10px solid @main-color;
+    width: 100%;
+    padding: 12px 0;
+    .auto-transition(.4s);
+    .box-shadow(0 1px 2px rgba(0, 0, 0, .1));
+
+    .navbar-brand {
+        position: absolute;
+        padding: 0 15px;
+	    margin-top: -10px;
+
+	    img,
+	    .site-name {
+		    margin-top: 5px;
+	    }
+
+	    img {
+		    float: left;
+		    width: 75px;
+		    height: auto;
+	    }
+
+	    .site-name {
+		    font-size: 30px;
+		    line-height: 1;
+		    color: @smooth-white;
+		    display: inline-block;
+		    padding: 13px 0;
+		    margin-left: 15px;
+	    }
+    }
+
+    &.affix-top {
+        position: fixed;
+        top: -200px;
+    }
+
+    &.affix {
+        top: 0;
+    }
+}
+
+/*--------------------------*\
+----- Back to top button -----
+\*--------------------------*/
+
+#toTop, #toTop.affix-top {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 300;
+    width: 100%;
+    .auto-transition(1s);
+    &.affix {
+        visibility: visible;
+        opacity: 1;
+    }
+    a {
+        .square(80px);
+        display: block;
+        color: @light-gray;
+        margin: 0 auto;
+        .text-center;
+        .auto-transition(.35s);
+        span {
+            font-size: 4.5em;
+        }
+        &:hover, &:focus, &:active {
+            text-decoration: none;
+            border-color: @main-color;
+            color: @main-color;
+        }
+    }
+}

@@ -1,0 +1,91 @@
+/*
+ * Common rules for all pages
+ */
+html {
+	position: relative;
+	min-height: 100%;
+	background: #ffffff;
+}
+
+body {
+	background-color: transparent;
+	@media (max-width: @screen-xs-max) {
+		margin-bottom: @footer-height-xs;
+	}
+	@media (min-width: @screen-sm-min) {
+		margin-bottom: @footer-height;
+	}
+}
+
+// --- All headings
+.headings({
+    .raleway;
+});
+
+// --- Lead paragraphe
+.lead {
+	.raleway;
+}
+
+// Set selection style
+.text-select(@main-color);
+
+// Normalize content
+.normalize-content(@color) {
+	#article {
+		// Prevent collapse block
+		margin-bottom: 50px;
+		// Normalize the main title of the content
+		> h1:first-child {
+			.main-title(@color);
+		}
+		> hr {
+			width: 75%;
+			background-color: @light-gray;
+			float: none;
+			clear: both;
+		}
+		// Normalize link in content
+		> p, > ul li {
+			.normalize-link(@color, same, underline, 600);
+		}
+		// Normalize images in content
+		img {
+			.img-responsive;
+			display: inline-block;
+			&.pull-right {
+				margin: 0 0 15px 30px !important;
+			}
+			&.pull-left {
+				margin: 0 30px 15px 0 !important;
+			}
+			/*&,&.pull-right,&.pull-left{
+                .only-xtra-small( { width: 100%; margin: 0 0 15px !important; .no-padding; } );
+            }*/
+		}
+		@media (max-width: @screen-xs-max) {
+			p > img {
+				margin: 15px 0 15px 30px !important;
+			}
+
+			> img {
+				margin: 15px 0 15px 30px !important;
+			}
+		}
+		// Normalize small for datetime
+		small {
+			display: block;
+			margin-bottom: 15px;
+			color: @light-gray;
+		}
+		.description {
+			margin-bottom: 30px;
+		}
+		// Normalize heading in content
+		// @ToDo try to make it full auto with concatenation
+		/*@heading();
+        .headings({color: @color},'> ');
+        .heading();*/
+		.direct-headings({ color: @text-color });
+	}
+}

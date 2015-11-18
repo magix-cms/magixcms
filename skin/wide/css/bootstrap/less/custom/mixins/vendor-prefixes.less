@@ -1,0 +1,110 @@
+// Transformations - Scale3d
+.scale3d(@ratioX; @ratioY; @ratioZ) {
+	-webkit-transform: scale3d(@ratioX, @ratioY, @ratioZ);
+	-ms-transform: scale3d(@ratioX, @ratioY, @ratioZ); // IE9 only
+	-o-transform: scale3d(@ratioX, @ratioY, @ratioZ);
+	transform: scale3d(@ratioX, @ratioY, @ratioZ);
+}
+
+// Auto-creation of transition values
+.auto-transition(@time,@prop: all,@fct: ease,@delay: 0s) {
+	.transition(@prop @time @fct @delay);
+}
+
+// Set margin to 0
+.no-margin() {
+	margin: 0;
+}
+// Set padding to 0
+.no-padding() {
+	padding: 0;
+}
+// Set margin and padding to 0
+.no-martini() {
+	.no-margin();
+	.no-padding();
+}
+
+
+// Remove borders
+.no-border() {
+	border: none;
+	border-radius: 0;
+}
+
+// Set style to a circle
+.circle(@radius) {
+	.square(@radius * 2);
+	border-radius: @radius * 4;
+}
+
+// Set a element to be a block with at 100%
+.full-width() {
+	display: block;
+	width: 100%;
+}
+
+// Define style for a full width block
+.section-block(@color) {
+	.full-width;
+	background-color: @color;
+	margin-bottom: 30px;
+	padding: 50px 0 60px;
+}
+
+
+// Set background text and text color for selected text
+.text-select(@bg-color, @color: #fff) {
+	::-moz-selection {
+		color: @color;
+		background: @bg-color;
+	}
+	::selection {
+		color: @color;
+		background: @bg-color;
+	}
+}
+
+// Normalize link style for all state
+.normalize-link(@color, @hover-color: same, @decoration: underline, @weight: 400, @font: @font-family-sans-serif) {
+	a, a:visited, a:link, a:active {
+		font-family: @font;
+		font-weight: @weight;
+		color: @color;
+	}
+
+	.set-hover(@color, @hover-color, @decoration) when (@hover-color = same) {
+		a:hover {
+			text-decoration: @decoration;
+			color: @color;
+		}
+	};
+	.set-hover(@color, @hover-color, @decoration) {
+		a:hover {
+			text-decoration: @decoration;
+			color: @hover-color;
+		}
+	};
+	.set-hover(@color, @hover-color, @decoration);
+}
+
+
+// Center a content in both width and height size of its parent. Parent must be in display: table
+// Use parent value for item to init the main container
+// Use child value for item to init the content container
+// Exemple
+//  <div> Parent
+//      <p>content</p> Child
+//  </div>
+.center-content(@item) {
+	.behavior(@item) when (@item = parent) {
+		display: table;
+	}
+	.behavior(@item) when (@item = child) {
+		display: table-cell;
+		position: relative;
+		text-align: center;
+		vertical-align: middle;
+	}
+	.behavior(@item);
+}

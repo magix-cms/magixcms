@@ -1,0 +1,70 @@
+/*
+ * Additional responsive rules
+ */
+
+// --- Pull block right or left on different breakpoint
+@media (max-width: @screen-xs-max) {
+    .pull-xs-left {
+        float: left !important;
+    }
+
+    .pull-xs-right {
+        float: right !important;
+    }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    .pull-sm-left {
+        float: left !important;
+    }
+
+    .pull-sm-right {
+        float: right !important;
+    }
+}
+
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    .pull-md-left {
+        float: left !important;
+    }
+
+    .pull-md-right {
+        float: right !important;
+    }
+}
+
+@media (min-width: @screen-lg-min) {
+    .pull-lg-left {
+        float: left !important;
+    }
+
+    .pull-lg-right {
+        float: right !important;
+    }
+}
+
+
+// --- No gutter for columns
+.no-gutter {
+    & > div {
+        .no-padding()
+    }
+}
+
+@media(min-width: @screen-sm-min) {
+    .no-gutter-sm {
+        .no-gutter;
+    }
+}
+
+@media(min-width: @screen-md-min) {
+    .no-gutter-md {
+        .no-gutter;
+    }
+}
+
+@media(min-width: @screen-lg-min) {
+    .no-gutter-lg {
+        .no-gutter;
+    }
+}

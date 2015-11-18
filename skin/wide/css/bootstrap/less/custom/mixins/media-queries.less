@@ -1,0 +1,52 @@
+/*---------------------------------*\
+----- Breakpoint shortcut rules -----
+\*---------------------------------*/
+
+// --- Responsive easy access classes
+// --- Custom start and range
+.media-query(@start, @function, @end: none) {
+	.query(@start, @function, @end) when (@end = none) {
+		@media (min-width: @start) {
+			@function();
+		}
+	}
+	.query(@start, @function, @end) when (@start = 0) {
+		@media (max-width: @end) {
+			@function();
+		}
+	}
+	.query(@start, @function, @end) {
+		@media (min-width: @start) and (max-width: @end) {
+			@function();
+		}
+	}
+	.query(@start, @function, @end);
+}
+
+// --- Start at specific size
+// --- Start at Small screen / tablet
+.start-at-small(@function) {
+	.media-query(@screen-sm-min, @function);
+}
+// --- Start at Medium screen / desktop
+.start-at-medium(@function) {
+	.media-query(@screen-md-min, @function);
+}
+
+// --- Apply rules for range size only
+// --- Extra small screen / phone
+.only-xtra-small(@function) {
+	.media-query(0, @function, @screen-xs-max);
+}
+// --- Small screen / tablet
+.only-small(@function) {
+	.media-query(@screen-sm-min, @function, @screen-sm-max);
+}
+// --- Medium screen / desktop
+.only-medium(@function) {
+	.media-query(@screen-md-min, @function, @screen-md-max);
+}
+// --- Large screen / wide desktop
+.only-large(@function) {
+	.media-query(@screen-lg-min, @function);
+}

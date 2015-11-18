@@ -1,0 +1,44 @@
+/*---------------*/
+/***** Julia *****/
+/*---------------*/
+figure.effect-julia {
+    > img {
+        max-width: 100% /*none*/;
+        height: auto;
+        .auto-transition(1s);
+        .backface-visibility(hidden);
+    }
+    figcaption {
+        text-align: left;
+        padding: 2em;
+        > h3 {
+            font-size: @julia-h3-font-size;
+            margin: 10px;
+            position: relative;
+            padding: 5px;
+        }
+        p {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px;
+            background: @julia-p-bg;
+            color: @julia-p-color;
+            text-transform: none;
+            font-weight: 500;
+            font-size: @julia-p-font-size;
+            .translate3d(-480px, 0, 0);
+            .auto-transition(0.35s,all,ease,0.15s);
+        }
+    }
+    &:hover {
+        background: @julia-bg-hover;
+        img {
+            .opacity(0.4);
+            .scale3d(1.1, 1.1, 1);
+        }
+        p {
+            .opacity(1);
+            .translate3d(0, 0, 0);
+        }
+    }
+}

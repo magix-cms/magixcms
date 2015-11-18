@@ -1,0 +1,142 @@
+/*
+ * Custom rules for buttons
+ */
+
+// Custom buttons based on theme colors
+.btn-main-theme {
+	.button-variant(#fff, @main-color, @main-color-dark);
+}
+.btn-sd-theme {
+	.button-variant(#fff, @sd-color, @sd-color-dark);
+}
+.btn-th-theme {
+	.button-variant(#fff, @th-color, @th-color-dark);
+}
+.btn-gray-theme {
+	.button-variant(#fff, @gray-color, @gray-color-dark);
+}
+.btn-dark-theme {
+	.button-variant(#fff, extract(@dark-gradient, 2), extract(@dark-gradient, 1));
+}
+
+// --- Normal
+.btn {
+	&.btn{
+		&-main-theme {
+			.button-variant(#fff, @main-color, @main-color-dark);
+		}
+		&-sd-theme {
+			.button-variant(#fff, @sd-color, @sd-color-dark);
+		}
+		&-th-theme {
+			.button-variant(#fff, @th-color, @th-color-dark);
+		}
+		&-gray-theme {
+			.button-variant(#fff, @gray-color, @gray-color-dark);
+		}
+		&-dark-theme {
+			.button-variant(#fff, extract(@dark-gradient, 2), extract(@dark-gradient, 1));
+		}
+	}
+}
+
+// --- Flat
+.btn-flat {
+	border-radius: 0;
+
+	&.btn{
+		&-main-theme {
+			.button-variant(#fff, @main-color, @main-color);
+		}
+		&-sd-theme {
+			.button-variant(#fff, @sd-color, @sd-color);
+		}
+		&-th-theme {
+			.button-variant(#fff, @th-color, @th-color);
+		}
+		&-gray-theme {
+			.button-variant(#fff, @gray-color, @gray-color);
+		}
+		&-dark-theme {
+			.button-variant(#fff, extract(@dark-gradient, 2), extract(@dark-gradient, 2));
+		}
+	}
+}
+
+// --- Gradient
+.btn-gradient {
+	border-radius: 0;
+
+	&.btn{
+		&-main-theme {
+			.button-gradient-variant(#fff, @main-color-dark, @main-color-light);
+		}
+		&-sd-theme {
+			.button-gradient-variant(#fff, @sd-color-dark, @sd-color-light);
+		}
+		&-th-theme {
+			.button-gradient-variant(#fff, @th-color-dark, @th-color-light);
+		}
+		&-gray-theme {
+			.button-gradient-variant(#fff, @gray-color-dark, @gray-color-light);
+		}
+		&-dark-theme {
+			.button-gradient-variant(#fff, #222, #45484d);
+		}
+	}
+}
+
+// button-gradient-variant override
+.button-gradient-variant(@color; @bg-color-1; @bg-color-2;) {
+	color: @color;
+	#gradient .directional(@bg-color-1, @bg-color-2);
+	border: none;
+
+	@dark-bg-1: darken(@bg-color-1, 10%);
+	@dark-bg-2: darken(@bg-color-2, 10%);
+
+	&:focus,
+	&.focus {
+		color: @color;
+		#gradient .directional(@dark-bg-1, @dark-bg-2);
+	}
+	&:hover {
+		color: @color;
+		#gradient .directional(@dark-bg-1, @dark-bg-2);
+	}
+	&:active,
+	&.active,
+	.open > .dropdown-toggle& {
+		color: @color;
+		#gradient .directional(@dark-bg-1, @dark-bg-2);
+
+		&:hover,
+		&:focus,
+		&.focus {
+			color: @color;
+			#gradient .directional(darken(@bg-color-1, 17%), darken(@bg-color-2, 17%));
+		}
+	}
+	&:active,
+	&.active,
+	.open > .dropdown-toggle& {
+		background-image: none;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+			#gradient .directional(@bg-color-1, @bg-color-2);
+		}
+	}
+
+	.badge {
+		color: @bg-color-1;
+		background-color: @color;
+	}
+}

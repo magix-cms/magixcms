@@ -1,0 +1,61 @@
+/*-----------------*/
+/***** Apollo *****/
+/*-----------------*/
+figure.effect-apollo {
+	> img {
+		.opacity(0.95);
+		.auto-transition(0.35s);
+		-webkit-transform: scale3d(1.05, 1.05, 1);
+		transform: scale3d(1.05, 1.05, 1);
+	}
+	figcaption {
+		&:before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			.square(100%);
+			background: rgba(255, 255, 255, 0.5);
+			content: '';
+			.auto-transition(0.6s);
+			-webkit-transform: scale3d(1.9, 1.4, 1) rotate3d(0, 0, 1, 45deg) translate3d(0, -100%, 0);
+			transform: scale3d(1.9, 1.4, 1) rotate3d(0, 0, 1, 45deg) translate3d(0, -100%, 0);
+		}
+		p {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			margin: 3em;
+			padding: 0 1em;
+			max-width: 150px;
+			border-right: 4px solid #fff;
+			text-align: right;
+			.opacity(0);
+			.auto-transition(0.35s);
+		}
+		h3 {
+			.text-left;
+			margin: 10px 0 0 10px;
+			font-size: @apollo-h3-font-size;
+			.text-overflow();
+		}
+	}
+	&:hover {
+		background: @apollo-bg;
+		img {
+			opacity: 0.6;
+			-webkit-transform: scale3d(1, 1, 1);
+			transform: scale3d(1, 1, 1);
+		}
+		figcaption {
+			&:before {
+				-webkit-transform: scale3d(1.9, 1.4, 1) rotate3d(0, 0, 1, 45deg) translate3d(0, 100%, 0);
+				transform: scale3d(1.9, 1.4, 1) rotate3d(0, 0, 1, 45deg) translate3d(0, 100%, 0);
+			}
+		}
+		p {
+			opacity: 1;
+			-webkit-transition-delay: 0.1s;
+			transition-delay: 0.1s;
+		}
+	}
+}

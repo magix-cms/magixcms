@@ -1,0 +1,83 @@
+/*--------------------------*\
+----- CENTERING GALLERY -----
+\*--------------------------*/
+
+// Calculate offset needed to center the group of columns
+.calc-offset-equid-gallery(@index, @class, @nb) {
+    .equid-gallery-@{class}-@{index} {
+        @maxOffset: ( ( @grid-columns - ( mod(@grid-columns,@index) ) ) / @index ) - 1;
+        @maxPerRow: (@grid-columns - mod(@grid-columns,@index))/@index;
+        @offset: percentage(( 1 - ( @index * @nb / @grid-columns ) )/( 2*(@nb+1) ));
+
+        > div:nth-child(n):nth-last-child(n) when (@nb = @maxOffset) {
+            margin: auto;
+        }
+        > div:nth-child(@{maxPerRow}n+1):nth-last-child(@{nb}) {
+            margin-left: @offset*2;
+            margin-right: @offset;
+            & ~ div {
+                margin: 0 @offset;
+            }
+        }
+    }
+}
+
+// Second Basic looping in LESS
+.equid-gallery(@index, @class, @nb) when (@nb > 0) {
+    .calc-offset-equid-gallery(@index, @class, @nb);
+    .equid-gallery(@index, @class, (@nb - 1));
+}
+
+// Basic looping in LESS
+.loop-equid-gallery(@index, @class) when (@index > 0) {
+    @maxOffset: ( ( @grid-columns - ( mod(@grid-columns,@index) ) ) / @index ) - 1;
+    .equid-gallery(@index, @class, @maxOffset);
+    // next iteration
+    .loop-equid-gallery((@index - 1), @class);
+}
+
+// Create centering rules for specific class
+.centered-equid-gallery(@class) {
+    .loop-equid-gallery((@grid-columns/2), @class);
+}
+
+/*----------------------------*\
+----- INIT CENTERING RULES -----
+\*----------------------------*/
+
+// Extra small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for extra small devices like smartphones.
+
+.centered-equid-gallery(xs);
+
+
+// Small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the small device range, from phones to tablets.
+
+@media (min-width: @screen-sm-min) {
+    .centered-equid-gallery(sm);
+}
+
+
+// Medium grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the desktop device range.
+
+@media (min-width: @screen-md-min) {
+    .centered-equid-gallery(md);
+}
+
+
+// Large grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the large desktop device range.
+
+@media (min-width: @screen-lg-min) {
+    .centered-equid-gallery(lg);
+}

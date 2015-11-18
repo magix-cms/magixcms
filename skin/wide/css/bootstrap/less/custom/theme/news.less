@@ -1,0 +1,145 @@
+/*
+ * Rules for news root, tag root, news lists and news page
+ */
+/* --------------------------------------------------------
+                        News root
+---------------------------------------------------------- */
+.news-list {
+	.media {
+		border: 1px solid #DDDDDD;
+		border-radius: 4px;
+		margin-bottom: 20px;
+		padding: 4px;
+	}
+
+	.media-body {
+		.media-heading {
+			margin: 5px 0 5px;
+		}
+	}
+
+	.media-link-object {
+		min-width: 290px;
+	}
+
+	.media-link-object {
+		img {
+			margin: 0 auto;
+		}
+	}
+}
+
+#news,#news-tag {
+	// Define selection style
+	.text-select(@main-color);
+
+	#article {
+		margin-bottom: 50px;
+		> h1:first-child {
+			.main-title(@main-color);
+			.normalize-link(@text-color, same, underline, 400);
+			small {
+				color: @main-color;
+			}
+		}
+	}
+
+	.news-list {
+		margin-top: 15px;
+		.normalize-link(#333, same, none, 400);
+		div {
+			min-height: 201px;
+		}
+		> div {
+			margin-bottom: 35px;
+			position: relative;
+		}
+		a {
+			position: absolute;
+			top: 0;
+			left: 0;
+			.square(100%);
+			z-index: 50;
+			text-indent: 200%;
+			white-space: nowrap;
+			font-size: 0;
+			.opacity(0);
+		}
+		.media-left {
+			width: 50%;
+			display: block;
+			float: left;
+			padding-right: 10px;
+		}
+		.caption {
+			position: relative;
+			height: 100%;
+			display: block;
+			width: auto;
+			h4 {
+				margin: 0 0 20px;
+			}
+			time {
+				position: absolute;
+				bottom: 5px;
+				right: 20px;
+				color: @main-color;
+			}
+		}
+	}
+}
+
+/* --------------------------------------------------------
+                            Tag
+---------------------------------------------------------- */
+.tag-listing {
+	.center-container {
+		display: inline-block;
+		margin-left: 50%;
+	}
+	ul {
+		.no-padding;
+		margin: 5px 0 35px 0;
+		list-style-type: none;
+		overflow: hidden;
+		display: block;
+		width: 100%;
+		.text-center;
+		li {
+			display: inline-block;
+			margin-right: 15px;
+			margin-bottom: 15px;
+			&:last-child {
+				margin-right: 0;
+			}
+			a {
+				color: @text-color;
+				&:hover {
+					color: #fff;
+					text-decoration: none;
+					.btn-main-theme;
+				}
+				&.active {
+					color: #fff;
+					.btn-main-theme;
+				}
+			}
+		}
+	}
+}
+
+/* --------------------------------------------------------
+                            News
+---------------------------------------------------------- */
+#new-record {
+	// Define selection style
+	.text-select(@main-color);
+
+	// Define breadcrumb style
+	#breadcrumb, #compact-breadcrumb {
+		.normalize-link(@main-color);
+	}
+
+	// Define content style
+	//.normalize-content(@main-color);
+}

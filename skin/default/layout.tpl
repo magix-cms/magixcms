@@ -1,13 +1,13 @@
-{autoload_i18n}<!DOCTYPE html>
+{autoload_i18n}{widget_about_data}<!DOCTYPE html>
 <!--[if lt IE 7]> <html lang="{getlang}" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>    <html lang="{getlang}" class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html lang="{getlang}" class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="{getlang}" > <!--<![endif]-->
-<head {block name="ogp"}{include file="section/brick/ogp-protocol.tpl"}{/block}>
+<!--[if gt IE 8]><!--> <html lang="{getlang}"> <!--<![endif]-->
+<head id="meta" {block name="ogp"}{include file="section/brick/ogp-protocol.tpl"}{/block}>
     {* Document meta *}
     <meta charset="utf-8">
-    <title>{capture name="title"}{block name="title"}{/block}{/capture}{$smarty.capture.title}</title>
-    <meta name="description" content="{capture name="description"}{block name="description"}{/block}{/capture}{$smarty.capture.description}">
+    <title itemprop="headline">{capture name="title"}{block name="title"}{/block}{/capture}{$smarty.capture.title}</title>
+    <meta itemprop="description" name="description" content="{capture name="description"}{block name="description"}{/block}{/capture}{$smarty.capture.description}">
     <meta name="robots" content="{google_tools tools='robots'}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,14 +17,15 @@
     {/if}
     <link rel="icon" type="image/png" href="{geturl}/skin/{template}/img/favicon.png" />
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
-    {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300','Philosopher'=>'0']}{/block}
-    {block name="styleSheet"}
-        {capture name="styleSheet"}{strip}
-            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,
-            skin/{template}/css/fancybox/jquery.fancybox.min.css
-        {/strip}{/capture}
-        {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
-    {/block}
+    {* Google recommendation:
+     * Load the css rules in charge of the display of the content which is above the fold
+     * directly in the style tag in the head of the page. It have to be as light as possible.
+       {include file="section/brick/criticalcss.tpl"}
+     *}
+    {capture name="criticalSheet"}{strip}
+        /min/?f=skin/{template}/css/bootstrap/critical.min.css
+    {/strip}{/capture}
+    {headlink rel="stylesheet" href=$smarty.capture.criticalSheet concat=$concat media="screen"}
     {if {module type="news"} eq true}
     <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
     {/if}
@@ -41,11 +42,9 @@
     {include file="section/loop/lang.tpl" data=$dataLangHead type="head"}
     {google_tools tools='analytics'}
 </head>
-<body id="{block name='body:id'}layout{/block}">
+<body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">
 
-    {include file="section/toolbar.tpl" adjust="clip"}
-
-    {include file="section/header.tpl" adjust="clip"}
+    {include file="section/header.tpl" adjust="clip" toolbar=true}
 
     {block name="breadcrumb"}
         {include file="section/nav/breadcrumb.tpl"}
@@ -103,6 +102,14 @@
             skin/{template}/js/global.min.js
         {/strip}{/capture}
         {script src=$smarty.capture.scriptSkin concat=$concat type="javascript"}
+    {/block}
+    {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300','Philosopher'=>'0']}{/block}
+    {block name="styleSheet"}
+        {capture name="styleSheet"}{strip}
+            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,
+            skin/{template}/css/fancybox/jquery.fancybox.min.css
+        {/strip}{/capture}
+        {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
     {/block}
 </body>
 </html>

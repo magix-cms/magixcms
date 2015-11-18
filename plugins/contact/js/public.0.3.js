@@ -58,7 +58,7 @@ var MC_plugins_contact = (function ($, undefined) {
                     required: true,
                     email: true
                 },
-                adress: {
+                /*adress: {
                     required: true,
                     minlength: 2
                 },
@@ -69,7 +69,7 @@ var MC_plugins_contact = (function ($, undefined) {
                 city: {
                     required: true,
                     minlength: 2
-                },
+                },*/
                 title: {
                     required: true,
                     minlength: 2

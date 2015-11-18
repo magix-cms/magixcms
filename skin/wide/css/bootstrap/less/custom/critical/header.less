@@ -1,0 +1,162 @@
+/*
+ * Rules for the header
+ */
+// --- Main header
+#header {
+	padding: 10px 0 0;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	position: relative;
+	z-index: 202;
+	background: @header-bg;
+
+	.navbar-brand {
+		height: auto;
+	}
+}
+
+
+// --- Fixed header
+#header-fixed {
+	z-index: 202;
+	position: fixed;
+	top: -200px;
+	background: @header-bg;
+	width: 100%;
+	padding: 12px 0;
+	.auto-transition(.4s);
+	.box-shadow(0 1px 2px rgba(0, 0, 0, .1));
+
+	.navbar-brand {
+		position: absolute;
+		padding: 0 15px;
+	}
+
+	&.affix-top {
+		position: fixed;
+		top: -200px;
+	}
+
+	&.affix {
+		top: 0;
+	}
+}
+
+
+// --- Toolbar
+#toolbar {
+	background-color: @toolbar-bg;
+	padding: 7px 15px 10px;
+	color: white;
+	overflow: hidden;
+	font-size: 16px;
+
+	#social-follow {
+		font-size: 18px;
+		margin-left: 10px;
+	}
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+		li {
+			display: inline-block;
+			margin-top: 4px;
+			float: left;
+			a {
+				color: white;
+				padding: 5px;
+				&:hover {
+					color: @main-color;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+
+	.lang-nav {
+		display: none;
+		/*li {
+			border-right: 1px solid #fff;
+			&:last-child {
+				border: none;
+			}
+			&.active {
+				color: @main-color;
+			}
+		}*/
+	}
+
+	#contact-infos {
+		padding-right: 15px;
+
+		li {
+			margin-right: 15px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			span.fa {
+				margin-right: 4px;
+				vertical-align: baseline;
+			}
+		}
+	}
+}
+
+
+.media-query(0, {
+#header-fixed {
+	display: none;
+}
+}, @screen-sm-max);
+
+@media (max-width: @screen-xs-max) {
+	#header {
+		min-height: 85px;
+		padding: 0;
+		.navbar-brand {
+			img {
+				height: auto;
+				width: 180px;
+			}
+		}
+	}
+
+	#toolbar {
+		padding-bottom: 7px;
+		.lang-header {
+			margin-top: 5px;
+		}
+		ul {
+			margin: 0;
+			li, .navbar-toggle {
+				margin: 0;
+			}
+		}
+		.visible-xs {
+			ul li {
+				padding: 6px 5px 5px;
+				margin-right: 10px;
+				span.fa {
+					margin-right: 8px;
+				}
+				&.toggle-menu {
+					padding: 0;
+					margin-right: 0;
+					span.fa {
+						margin-right: 0;
+					}
+				}
+			}
+		}
+	}
+
+	#nav-primary-collapse {
+		clear: both;
+
+		.nav-primary {
+			float: none !important;
+		}
+	}
+}

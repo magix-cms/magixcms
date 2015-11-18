@@ -71,7 +71,7 @@
 {/if}
 
 {$meta = [
-    'og:site_name' => {#website_name#},
+    'og:site_name' => {$companyData.name},
     'twitter:site' => {#twitter_pseudo#},
     'twitter:card' => $smarty.capture.twCard,
     'og:title' => $smarty.capture.ogTitle,

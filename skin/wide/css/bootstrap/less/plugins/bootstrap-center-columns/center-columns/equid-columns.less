@@ -1,0 +1,122 @@
+/*---------------------*\
+----- COMMON STYLES -----
+\*---------------------*/
+
+// Equid
+.set-equid-columns {
+    .equid(@nb) when ( @nb =< ( @grid-columns - 1 ) ) {
+        // Common styles for all sizes of grid columns, widths 1-12
+        .equid-col(@index, @nb) {
+            @global: ~".center-column-@{index}-@{nb}";
+            @item: ~".center-column-xs-@{index}-@{nb}, .center-column-sm-@{index}-@{nb}, .center-column-md-@{index}-@{nb}, .center-column-lg-@{index}-@{nb}";
+            .equid-col((@index + 1), @nb, @global, @item);
+        }
+        .equid-col(@index, @nb, @globalList, @list) when ( @index =< ( @grid-columns - 1 ) ) {
+            @global: ~".center-column-@{index}-@{nb}";
+            @item: ~".center-column-xs-@{index}-@{nb}, .center-column-sm-@{index}-@{nb}, .center-column-md-@{index}-@{nb}, .center-column-lg-@{index}-@{nb}";
+            .equid-col((@index + 1), @nb, ~"@{globalList}, @{global}", ~"@{list}, @{item}");
+        }
+        .equid-col(@index, @nb, @globalList, @list) when (@index > ( @grid-columns - 1 ) ) {
+            @{globalList} {
+                margin: 0 0 30px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+            @{list} {
+                margin: 0 0 30px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .equid-col(1, @nb);
+        .equid((@nb + 1));
+    }
+    .equid(1);
+}
+
+/*---------------------------*\
+----- EQUIDISTANT COLUMNS -----
+\*---------------------------*/
+
+// Calculate offset needed to center the group of columns
+.calc-offset-equid-column(@index, @class, @nb) {
+    .center-column-@{class}-@{index}-@{nb} {
+        @offset: percentage(( 1 - ( @index / @grid-columns ) )/( 2*(@nb+1) ));
+        > div {
+            margin: 0 @offset;
+            &:first-child {
+                margin-left: @offset*2;
+            }
+            &:last-child {
+                margin-right: @offset*2;
+            }
+        }
+    }
+}
+
+// Second Basic looping in LESS
+.equid-columns(@index, @class, @nb: (@grid-columns - 1)) when (@nb > 0) {
+    .calc-offset-equid-column(@index, @class, @nb);
+    .equid-columns(@index, @class, (@nb - 1));
+}
+
+// Basic looping in LESS
+.loop-equid-columns(@index, @class) when (@index > 0) {
+    .equid-columns(@index, @class);
+    // next iteration
+    .loop-equid-columns((@index - 1), @class);
+}
+
+// Create centering rules for specific class
+.equidistant-columns(@class) {
+    .loop-equid-columns((@grid-columns - 1), @class);
+}
+/*----------------------------*\
+----- INIT CENTERING RULES -----
+\*----------------------------*/
+
+// Centering normalize
+//
+// Set common styles for small and large grid columns
+
+.set-equid-columns();
+
+
+// Extra small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for extra small devices like smartphones.
+
+.equidistant-columns(xs);
+
+
+// Small grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the small device range, from phones to tablets.
+
+@media (min-width: @screen-sm-min) {
+    .equidistant-columns(sm);
+}
+
+
+// Medium grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the desktop device range.
+
+@media (min-width: @screen-md-min) {
+    .equidistant-columns(md);
+}
+
+
+// Large grid
+//
+// Centering and Equidistant Centering of Unique Columns and Group of columns
+// for the large desktop device range.
+
+@media (min-width: @screen-lg-min) {
+    .equidistant-columns(lg);
+}

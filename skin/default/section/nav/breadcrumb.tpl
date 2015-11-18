@@ -103,15 +103,19 @@
         {/if}
         {* /Plugins *}
 
-        <ol id="breadcrumb" class="breadcrumb hidden-xs">
-            {foreach from=$bread item=breadcrumb}
-                <li>
+        <ol id="breadcrumb" class="breadcrumb hidden-xs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+            {foreach $bread as $breadcrumb}
+                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                     {if isset($breadcrumb.url)}
-                        <a href="{$breadcrumb.url}" title="{$breadcrumb.title|ucfirst}">
-                            {$breadcrumb.name|ucfirst}
+                        <a href="{$breadcrumb.url}" title="{$breadcrumb.title|ucfirst}" itemprop="item">
+                            <span itemprop="name">{$breadcrumb.name|ucfirst}
+                            <meta itemprop="position" content="{($breadcrumb@index + 1)}" />
                         </a>
                     {else}
-                        {$breadcrumb.name|ucfirst}
+                        <span itemprop="item">
+                            <span itemprop="name">{$breadcrumb.name|ucfirst}</span>
+                            <meta itemprop="position" content="{($breadcrumb@index + 1)}" />
+                        </span>
                     {/if}
                 </li>
             {/foreach}

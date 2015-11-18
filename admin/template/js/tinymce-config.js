@@ -140,7 +140,7 @@
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
         language : tinyLanguage,
         schema: "html5",
-        extended_valid_elements: "span[class|style],iframe[src|width|height|name|align|class],span[class='fa']",
+        extended_valid_elements: "span[class|style],iframe[src|width|height|name|align|class],strong[style]",
         //end_container_on_empty_block: false,
         /*fix_list_elements : true*/
         content_css : content_css
