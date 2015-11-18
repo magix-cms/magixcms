@@ -1,0 +1,538 @@
+# -- BEGIN LICENSE BLOCK ----------------------------------
+#
+# This file is part of magix cjQuery.
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# Magix cjQuery is a library written in PHP 5.
+# It can work with a layer of abstraction, to validate data, handle jQuery code in PHP.
+# Copyright (C)Magix cjQuery 2009 Gerits Aurelien
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# -- END LICENSE BLOCK -----------------------------------
+
+Stable 3.7
+    * Fix bug connection DB SET NAME UTF8 (PDO::MYSQL_ATTR_INIT_COMMAND)
+    * Compatibilité de SET NAME UTF8 avec les différents drivers PDO
+    * Suppression de lib firephp 1.0b1rc1
+    * Ajout de lib firephp 1.0b1rc6
+    * Adaptation dans magixfire pour firephp 1.0b1rc6
+    * Fix bug avec isDir SPL dans la fonction createDir (makefiles)
+    * Changements des paramètres de la réécriture d'url ou transformation d'url pour être plus flexible, mais garde la compatibilité avec les anciens paramètres.
+    * Fix bug class makefiles (isFile de SPL sous php5.3.x) renameFiles + createDir
+    * Fix bug charset config in HTML5
+    * Ajout de la fonction setPagerData avec une définition complète des éléments de pagination
+        - pagerData devient déprécier
+
+Stable 3.6
+    * Fix bug gestionnaires d'erreurs en cas de mauvais login mysql
+    * Fix bug magixFire Dump (not convert to string)
+    * Suppression de FirephpCore 0.3.2
+    * Suppression de firephp lib 1.0beta
+    * Ajout de firephp lib 1.0b1rc1
+    * Modification du paramètres rewrite pour la pagination
+    * Ajout de condition dans makefile -> createDir pour tester les permissions
+    * Fix bug rewrite params pagination
+
+Stable 3.5
+    * Fix bug constante INSIGHT_SERVER_PATH dans magixFire
+    * Ajout de la fonction showdatabase
+    * Ajout de nouvelle condition pour tester la connexion
+    * Ajout d'une fonction de nettoyage supplémentaire pour les url (suppression des accents + transformation en minuscule)
+    * Modification des paramètres pour la création d'url vers le fichier RSS (définition du chemin)
+    * Ajout de la fonction truncateTable dans magixdb
+    * Ajout de conditions pour la création de fichiers xml
+    * Ajout de la prise en charge de curl dans google ping
+
+Stable 3.4
+    * Ajout de "namepage" dans la configuration de la pagination
+    * Ajout des parenthèses dans la réécriture des urls
+    * Fix bug à la création d'un dossier (permissions recursive)
+    * Modification du formatage classique de la date du sitemap par un format W3C
+    * Upgrade FirePHP 0.3.2 => 1.0 BETA
+    * Adaptation de l'API de MagixFire avec FirePHP 1.0
+    * Préparation pour insight de FirePHP
+
+Stable 3.3
+    * Ajout de la classe script dans les helpers
+    * Modification des fonctions de sélection et d'insertion dans magixdb avec l'ajout d'un paramètre pour désactiver la fermeture du curseur.
+    * Ajout de la fonction nextRow() dans magixdb pour passer à l'élément suivant
+    * Ajout de la fonction de test pour les formulaires au format numérique.
+    * Correction de la fonction geturl avec ajout du paramètre "absolute"
+    * Ajout de la fonction tidyMakeClean dans la class clean du dossier url
+    * Fix bug portée des variables static dans dataobject
+    * Fix bug setMode PDO retourne valeur null
+    * Ajout de columnMeta() dans dataobject
+    * Ajout des fonctions alphaID et short_uniq_id dans string/convert.php
+    * Amélioration du système de debug de la pagination (ajout de débogue dans firephp)
+    * Ajout du calcul du nombre de page et limitation du nombre d'onglet.
+    * Correction du chemin dans dataobject vers le fichiers LOG
+
+Stable 3.2
+    * Ajout du système de Google sitemap image + sitemap index
+    * Début de l'ajout du système Google Image dans les sitemaps
+    * Fix bug avec le contrôle des urls "loc"
+
+Stable 3.1
+	* Modification de ID html sur la balise a des liens numérique en classe css
+	* Ajout de la fonction pour l'utilisation d'une URL direct (youtube)
+	* Correction de la fonction qui construit une galerie vidéo avec le code dans la source (code embed)
+	* Ajout des options de youtube pour les vidéos relative et les bordures
+	* Remplacement de la fonction v_direct_gallery par v_construct_object_gallery
+	* Suppression dans la class xml,sitemap,rss de la variable globale $_SERVER['DOCUMENT_ROOT'] => remplacement via une nouveau paramètre dans divers fonctions
+	
+Stable 3.0
+	* Fix Bug constante FILTER_FLAG_HOST_REQUIRED sur certain hébergement.
+	* Ajout d'une exception dans makefiles.php => renameFiles
+	* Fix bug dans la fonction isURL avec FILTER_VALIDATE_URL (Bug php 5.2.12) => application patch REGEX_URL_FORMAT
+	* Fix bug syntaxe &amp => &amp; dans url/clean.php (rplMagixString).
+	* Remplacement des virgules dans la réécriture.
+	* Remplacement des deux points dans la réécriture url/clean.php (rplMagixString).
+	* Ajout de la fonction pour retourner l'existence d'une table (magix db)
+	* Ajout d'une fonction pour récupérer le nom de la base de données (magix db)
+	* Condition supplémentaire pour la création de dossier (makefiles => createDir)
+	
+beta 2.9
+	* Ajout de la création de table simple (createTable) dans dataObject
+	* Ajout de la configuration des attributs dans dataobject (en cours de test)
+	* Fix bug écriture constante writeConstValue (makefiles.php)
+	* Nouvelle analyse du langage pour révision importante !!!!
+	
+beta 2.8 
+	* Ajout d'une fonction pour lister récursivement les fichiers et les dossiers
+	* Ajout de plusieurs fonctionnalités sur le parcourt de dossier
+    * Suppression récursive de fichier
+    * Affiche les dossiers et fichiers de manière recursive 
+        Voir les fonctions (une documentation sera disponible rapidement)
+    * Correction dans le remplacement des caractères ?#'" dans les urls + suppression du tirets à la fin d'une url
+    * Ajout de la fonction pour écrire et définir des constante dans un fichier (exemple fichier config.php magix db)
+    
+beta 2.7
+	* Suppression des classes inutile dans compjs
+	* Ajout de la classe minify avec jshrink, jsmin, packer
+	* Correction bug majeure dans la classe jsmin des sources
+	* Fix bug création fichier xml (permission lecture seule)
+	* Fix bug mineur creation root
+	
+beta 2.6
+	* Ajout de la fonction pour écrire et définir des constante dans un fichier (exemple fichier config.php magix db)
+	* Fix bug "instance de classe" dans divers fichiers.
+	* Correction erreur de syntaxe dans helpersHtml->escapeJS()
+	* Nouvel organisation avec la compression du javascript
+	* Ajout de jShrink dans le choix de la compression
+	* Suppression des dossiers jsmin et packer dans le dossier jquery
+	* Modifications des noms de classes dans la compression javascript
+	* Modifications des méthodes dans packer, jsmin
+	
+0.1alpha 2.5.5 BIS
+	* Ajout de la fonction escape_string pour échapper les chaînes de caractères dans une requête avec un simple quote.
+	* Ajout de la fonction escape_string dans l'interface de dblayer
+	* Ajout de la fonction escape_string dans la classe de dblayer
+	* Correction de variable d'instance pour le singleton de dataObject
+0.1alpha 2.5.5
+	* Fix bug format Atom dans magixcjquery_xml_rss => startWriteAtom, elementWriteAtom
+	* Correction paramètre url dans magixcjquery_xml_rss => elementWriteRSS
+	* Ajout de la classe headLink (meta link) dans le dossier "view"
+	* Fonction de définition des meta link (css, rss)
+0.1alpha 2.5.4
+	* Ajout de nouvelles métas (magixcjquery_view_helper_headMeta())
+	* Modification des accès aux méthodes de magixcjquery_view_helper_headMeta()(private,protected,public)
+	* Ajout et correction de plusieurs meta dans la classe magixcjquery_view_helper_headMeta()
+	* Organisation des fonctions et modifications des accès aux variables
+0.1alpha 2.5.3
+	* Correction trimText dans les fonctions de la classe magixcjquery_filter_join
+	* Ajout du dossier view et le sous dossiers helpers
+	* Ajout de la classe magixcjquery_view_helper_doctype pour la manipulation des doctypes
+	* Ajout de la classe magixcjquery_view_helper_headMeta pour la manipulation des métas
+0.1alpha 2.5.2
+	* Correction de la fonction setObject() => paramètres supplémentaire + suppression du switch
+	* Correction de magixcjquery_filter_isVar::isEmpty
+	* Ajout de la classe magixcjquery_filter_join pour les combinaisons de test en dehors des formulaires
+	       - getCleanAlpha
+	       - getCleanAlphaNum
+	       - getCleanInteger
+0.1alpha 2.5.1
+	* Ajout de la fonctionnalité table, trace + amélioration des fonctions général dans magixFire
+	* Ajout de la configuration des options et filtres objets dans magixFire
+	* Ajout des commentaires approprié pour chaque fonctions dans magixFire.
+	* Redéfinition des fonctions public et protégé (magixFire)
+	
+0.1alpha 2.5
+	* Correction standardisation des dates dans les sitemaps (sitemap.php)
+	* Correction entête balise stricte xmlns pour la validation Google
+	* Update + correction UI effects, accordion pour être compatible avec 0.1alpha2.5
+	* Update + correction de l'affichage des valeurs dans firebug pour être compatible avec 0.1alpha2.5
+	* Update + correction du formulaire de contact de démonstration 0.1alpha2.5
+0.1alpha 2.4.9
+	* Correction function static ucFirst
+	* Fix bug xml instance incorrect dans (sitemap.php)
+	jQuery
+    * Fix bug calcul ratio
+    * Fix bug instance incorrect
+    * Commentaire supplémentaire sur l'exemple dans le labo
+0.1alpha 2.4
+	* Ajout de la nouvelle version de magicjquery 0.alpha2.4
+	* Déplacement des fichiers rssreader et magicalhover dans le bon dossier.
+	* Correction de certaine instance de class incorrect du passage de la version 2.3.8b => 2.4
+	* Bug dans la class pager/pagination.php (correction des noms de fonctions) (passage=>2.4)
+	* Fix bug dans les fonctions jQuery de la librairie (nommage du $) upgrade obligatoire !!!
+	* Correction dans la fonction recursiveFileExists (files/makefiles.php) 
+	* Ajout de la classe (files/videoThumb.php) 
+	     - Début de la classe (pre alpha)
+	* Ajout de la classe (url/video.php) 
+	     - API YouTube pour la création de miniature des vidéos depuis le site officiel(Version Pre alpha).
+	* Fix bug variable private instance
+	*Fix bug (debug) non initialisé dans selectOne
+	* Fix bug dans la classe magixcjquery_string_convert
+           - downTextCase détection des caractères
+           - upTextCase détection des caractères
+	* Modification du comportement de pagerData pour le nom du paramètre de l'url (en attendant la nouvelle version)
+	*API video (youtube et dailymotion)
+        - récupération des miniatures
+        - création des fichiers pour la galerie vidéo
+        - détection du type de vidéo 
+    * Mise à jour de compatibilité alpha0.1 version 2.4
+	* Fix bug sur les instances
+	* modification function name pour initialisation de minify
+	* Modification du nom de fichier pour la class select.php
+	* Correction des instances dans la classe layer et DataObjects
+	* Modification de la porté des variables dans la classe Layer
+	* ajout de la fonction drivers (identification des drivers)
+	* Renforcement de la sécurité des objets (nouvelle instance, redéfinition de CallDbData)
+	* Fix bug dans la pagination (pas de creation)
+	* Surpression des fonctions replaceBackslash et replaceSlash dans hlpersHtml
+	* Ajout des fonctions unixSeparator et windowsSeparator dans hlpersHtml
+	* Ajout de la fonction cleanTruncate dans convert.php (Tronque une chaîne de caractères sans couper au milieu d'un mot)
+	* Ajout de inputCleanStrolower dans helpersforms (nettoie une chaîne et la converti en minuscule)
+	* Ajout de inputCleanTruncate dans helpersforms (nettoie une chaîne et la tronque sans couper au milieu d'un mot)
+		- Choix du délimiteur et de la longueur
+	* Ajout de la fonction lastInsertId de PDO dans l'interface + DataObjects
+	* Ajout de lastInsert dans la classe layer
+	- Début de la phase de teste + remodelage de la transaction en cours
+	* Fix bug récupération type d'image youtube
+	* Ajout de la fonction isPostFloat pour le test des chaînes numériques de type float (filter/isVar.php) 
+	* Ajout de la fonction isSession, isServer dans filter/request.php
+	* Fix bug instance incorrect dans xml/rss.php,xml/sitemap.php
+	* Fix bug nom de la class xml incorrect (introuvable dans autoload)
+	* Fix bug (remplacement des anciennes fonctions xml.php)
+	* Mise à jour de FirePHP vers la 0.3.1
+	* Fixbug instance incorrect dans la class.DataObjects.php (log=>magixcjquery_error_log)
+	* Suppression de la class firephp
+	* Ajout de la class magixcjquery_debug_magixfire
+	* Ajout de divers fonctionnalité intégrer dans firephp 0.3
+	* Ajout du temps d'exécution de certain script dans FireBug
+	* Possibilité de créer des groupes de log
+	* Possibilité d'afficher les exceptions dans FireBug
+0.1alpha 2.3.8 b
+	* Création du dossier pour la nouvelle version avec autoload corrigé
+	* Fix bug dans la fonction selectOne (paramètre impossible avec where) 
+	* Correction selectOne avec debugDumpParams 
+		!!! Attention à partir de la version 2.4 les classes changent de nom ainsi que certain dossier
+	* Modification de startWrite() => headSitemap() dans la class sitemap
+	* Correction divers dans class.DataObjects.php
+	* Meilleur prise en charge des objects + ajout de nouvelles fonctionnalités
+	* Modification de elementWrite() => writeMakeNode() dans la class sitemap
+	* Ajout convertion automatique des dates (lastmod) => ISO 8601 (w3c)
+	* Ajout de la création de sitemapindex => writeMakeNodeIndex()
+			- Création du fichier
+			- Ecriture dans le fichier
+	* Ajout du ping Google webmaster sendSitemapGoogle() pour soumettre les sitemaps
+	* Remplacement du trunk par la version 2.1.8b
+	* Ajout du tag correspondant.
+	* Nettoyage des dossiers
+0.1alpha 2.3.4
+	* Modification de l'autoload (+rapide et fiable)
+	* Modification dans l'ensemble des classes (nouveau nom + dossier)
+	* Correction des instances dans l'ensemble des classes
+	
+0.1alpha 2.3.8 b
+
+!!! Attention à partir de la version 2.4 les classes changent de nom ainsi que certain dossier
+
+	* Mofification de startWrite() => headSitemap() dans la class sitemap
+	* Mofification de elementWrite() => writeMakeNode() dans la class sitemap
+	* Ajout convertion automatique des dates (lastmod) => ISO 8601 (w3c)
+	* Ajout de la création de sitemapindex => writeMakeNodeIndex()
+			- Création du fichier
+			- Ecriture dans le fichier
+	* Ajout du ping Google webmaster sendSitemapGoogle() pour soumettre les sitemaps
+
+0.1alpha 2.3.8
+
+	* Amélioration de la création de fichier sitemap (extraction des fonctions communes)
+	* Refonte du système de création des fichiers RSS
+	* Ajout de la création de fichier de type RSS 2.0
+	    - Respect des standards sur plusieurs niveaux (RFC822)
+	    - Validation W3c du format
+	* Ajout de la création de fichier de type Atom
+
+0.1alpha 2.3.7 b
+
+	* Amélioration de magix_sitemap avec l'utilisation de singleton
+	* Ajout de la classe xml pour utilisé des fonctions dites "global" dans l'ensemble du dossier XML
+	* Correction de quelques bugs de création des fichiers XML (chmod + mask)
+
+0.1alpha 2.3.7
+
+	* Ajout de la classe "magix_sitemap" pour la génération de fichier sitemap.xml
+	    - Création du fichier xml
+	    - Écriture dans le fichier xml
+	    - validation du fichier pour la standardisation (Google, yahoo, ....)
+	    - Création du fichier au format GZ
+* Ajout de la classe dans l'autoload
+
+0.1alpha 2.3.6
+
+	* Fix bug classe magixConvertText::ucFirst caractères minuscule spéciaux incorrect
+	* Correction de la fonction cleanQuote (ajoutais au lieux de supprimer les antislash)
+	* Ajout de la fonction magixQuote (pour ajouter un antislash)
+
+0.1alpha 2.3.5
+
+	* Correction des définitions statiques dans les classes 
+	* Ajout de la fonction "intval" dans les filtres
+
+0.1alpha 2.3.4
+
+	* Correction variable en double + variable indéfinie
+	* Début du nettoyage de certaine classes
+	* Analyse de la syntaxe global du système 
+	
+0.1alpha 2.3.3
+
+	* amélioration de la fonction passTextGenerator() avec un argument supplémentaire pour les caractères spéciaux
+	* FixBug cleanQuote (FilterVar), fonction retourne un booléen au lieu de nettoyé la chaîne.
+	* Correction des fonctions utilisé dans rplMagixString (magixCleanUrl) avec la modification depuis la version 0.1alpha 2.3.0
+	
+0.1alpha 2.3.2
+	
+	* Fix bug isPostAlphaNumeric retourne une valeur vide (magixIsFilter)
+	* Fix bug isPostAlpha retourne une valeur vide (magixIsFilter)
+	* Ajout de isPostInt dans magixIsFilter pour les vérifier un intéger
+	* Ajout de la fonction de conversion des images en PNG (jpg et gif uniquement)
+	
+0.1alpha 2.3.1
+
+	* Ajout de la class magixUtilities (jQuery utilities)
+	* Ajout de la class easySelectors (jQuery Selectors)
+	* Correction dans la function jQueryDom (magixcjquery)
+	* Ajout des nouvelles class dans autoload
+	
+0.1alpha 2.3.0  Changement important !!!
+	
+	* Analyse de l'architecture
+	* Restructuration de l'architecture
+	* Déplacement de fonction dans des class approprié
+	* Création de la class FilterVar (html.filter) : Filtre pour le nettoyage de chaîne ou de variable
+	* Création de la class IsFilter (html.filter) : Filtre de teste avancé
+	* Ajout de nouvelle fonctions dans FilterVar
+		- nettoyage valeur email
+		- nettoyage valeur numerique
+		- nettoyage valeur flotante
+		- nettoyage valeur url (pas de conversion)
+		
+	* Ajout de nouvelle fonctions dans IsFilter
+	    - Ajout de teste valeur numérique
+	    - Ajout de teste valeur alphanumérique
+	    - Ajout de teste valeur alphabetique
+	
+0.1alpha 2.2.0
+
+	* Fixbug dans magixLayer selectOne, selectColumn et columnCount
+	* Ajout du systeme de debug PDO dans l'interface
+	* Création de la base de donnée games dans le dossier sql (extra/magixdb/games/sql)
+	* Correction de l'exemple avec magixDB et la base de donnée "games"
+	* Ajout de debugDumpParams dans les paramètres de magixLayer
+	
+0.1alpha 2.1.9
+	* Test avec minify + configuration des class
+	* Correction include dans la class.magixMinify.php 
+	* Test de configuration de minify
+	* Ajout de la fonction selectOne dans magixLayer (selection unique)
+	* Ajout de deux fonctions pour l'optimisation des tables
+            - Optimisation simple
+            - Optimisation multiple
+    * Ajout de la fonction getJson dans magixAjaxRequest
+	* Premier test d'encodage jSON
+	* Correction dans l'exemple "forms simple", hover corrigé + style redéfini
+	* Correction dans magixEffects, suppression des doubles quotes dans chaques fonctions
+	* Définission de la vitesse en format texte ou numérique.
+	* ajout du repertoire tags 2.1.8
+	* Ajout des fonctions dans l'interface Layer
+	* modification des fichiers inclus dans l'autoload
+	* suppression de minify et de ses class
+	* Ajout du tags 2.1.8
+	* FixBug boucle jAnim dans class.magixEffects.php
+	* Ajout de la fonction forSimpleValue dans jQuery_params
+	* Début de la class fireunit pour les test unitaire
+	* Création du tags 0.1alpha 2.1.9
+	* Suppression du trunk pour le remplacement des fichiers
+	* Creation du trunk sur base de la version 0.1 alpha 2.1.9
+	
+0.1alpha 2.1.8
+	* Fix Bug dans la class magixPacker => nom de class érroné
+	* Correction de la class magicalHover pour correspondre avec la 0.1v2 (nouveaux params)
+	* Correction des fonctions de conversion majuscule / minuscule et vice-versa afin de tester l'encodage de la chaine. (convertText)
+	
+0.1alpha 2.1.7
+	* Fix bug dans la class magixform
+	* Fix bug dans AjaxRequest (correction des fonctions + créations de nouveaux paramètres)
+	* Fix bug dans interfaces iAjaxRequest + inclusion dans la class principale
+	* Ajout de magixTraversing
+		=> Ajout des fonctions les plus utilisé
+	* Ajout de la fonction jFocus dans magixAttributes
+	* Correction global des fonctions + amélioration de l'automatisation des paramètres
+	
+0.1alpha 2.1.6
+
+	* Ajout de 2 fonctions dans magixLayer
+		=> selectColumn  !!Prudence fonctions expérimental
+		=> columnCount  !!Prudence fonctions expérimental
+	* Ajout d'un paramètre pour le détaille d'une commande préparée SQL
+
+0.1alpha 2.1.5
+
+	* Fix Bug sur la définition de "nid" ou DOM pour utiliser this de jQuery modification des fonctions '("'.$nid.'")'  => '('.$nid.')'
+	* Modification des exemples avec jQuery UI et les effets
+		=> Correction CSS
+		=> Ajoute divers situation avec l'utilisation global pour les effets Hover
+		=> Amélioration des performances (gains 0.19ms)
+	* Amélioration de la fonction animate() (UI) class.plugin.effects.php
+		=> Remplacement des paramètres durs par une boucle+tableau
+	* Ajout de l'interface pour magixEvent()
+
+0.1alpha 2.1.4
+
+	* Modification de la hiérarchie des exemples pour la class plugin effects
+	* Ajout + correction class plugin UI effects (bug boucle + contante)
+	
+0.1alpha 2.1.3
+
+	* Ajout des fonctions pour les options de animate() dans la class.plugin.effects.php
+	* Optimisation pour addClass dans class.plugin.effects.php
+	* Correction Bug jToggle dans class.magixEffects.php
+	* Ajout et correction dans la class.jQuery_params.php
+	
+0.1alpha 2.1.2	
+ 
+	* nettoyage du dossier images dans extra
+	* Ajout de la class jquery UI "effects"
+	* Ajout exemple pour "effects" dans le dossier UI effects
+	
+0.1alpha 2.1.1	 
+
+	* Ajout de jquery UI "accordion"
+	* Ajout de fonction dans jQuery_Params pour des boucles sans double quote
+	* Ajout du dossier UI dans "extra"
+	* Ajout du dossier + exemple pour accordion dans le dossier UI extra
+	
+0.1alpha 2.0.7
+ 
+	* Correction de la fonction pour utiliser le plugin magicalHover.
+	* Erreur javascript avec paramètre invalid
+	
+0.1alpha 2.0.6
+
+	* Correction de la fonction de réécriture d'url
+    * suppression du backslash
+    * Remplacement des quotes dans l'url
+    
+ 0.1alpha 2.0.5
+	* Correction de la boucle dans la fonction jAnim (appel fonction parente)
+
+0.1alpha 2.0.4
+
+	* Modification du nom de la class rssReader
+	* Ajout des fichiers JS spécifique aux plugins disponible.
+	* Ajout de la class magicalHover dans les plugins jQuery.
+
+0.1alpha 2.0.3
+	* Modification de la licence avec une clause spécifique aux auteurs.
+	* Création du dossier plugins dans jQuery
+
+0.1alpha 2.0.2
+
+-- magixPagination --
+	* Modification de la structure HTML de la pagination (suppression liste ul li)
+	* Ajout de la class "current" 
+	* Suppression de la class middle
+
+0.1 alpha 2.0.1
+
+	* Correction de la class magix_Rss => iniXmlRsswrite (modification des parametres)
+	
+0.1alpha1.9
+
+	* Ajout de la class RssReader (intégration de jQuery rssReader dans API)
+
+0.1alpha1.8
+
+	* Correction de la class RSS (XML) 
+									=> création du fichier impossible
+									=> Correction du formatage XML
+									=> Ajout de condition d'écriture sur disque
+
+0.1alpha1.7
+
+ 	* Ajout de fonctionnalité pour la création, la construction de fichier XML
+ 	* Création de la class RSS
+ 	* Correction bug majeur dans la class magixCleanUrl 
+ 														=> rplMagixString - refonte de la fonction
+ 	
+0.1alpha1.6
+
+	* correction de la class magixConvertText
+											    =>Correction sur l'execution de upTextCase
+											    =>Correction sur l'execution de downTextCase
+							
+0.1alpha1.5
+
+	* correction bug majeur class paginations 
+												=>Ajout de paramètre + modification des boucles
+	* Correction de la class HTML Filter
+												=>filtre incorrect
+												=> Ajout de condition sur la détection de la version courante de PHP
+
+0.1alpha1.4
+
+	* ajout des interfaces pour jQuery 
+	* correction bug majeur class paginations 
+												=> modification de l'écriture le l'URL
+	* Premier test de performance
+
+0.1alpha1.3
+
+	* Modification de la structure des dossiers
+	* Modification de la structure des class
+	* Réorganisation global, analyse de la structure
+
+0.1alpha1.2
+
+	* Correction de bug majeur dans la class de pagination avec déplacement de celle-ci dans un dossier spécifique
+	* Correction du nommage de la class DataObjects
+	* Correction de la class Files pour le parcours des dossiers et la création de miniature ainsi que du dossier les contenants.
+	* Création des interfaces pour jQuery + ajout de fonction pour les boucles de traitements multiple.
+	* Séparation des filtres du reste des class	
+									
+0.1alpha1.1
+	* Ajout du système de pagination
+	* Correction bug majeure dans la création des miniatures
+	* Correction bug majeur dans la class FILES
+												=>parcours de dossier incorrect
+
+0.1alpha1
+
+    * Ajout des fonctions de base de jQuery
+    * Ajout d'une abstraction de base de donnée
+    * Ajout des fonctions de contrôle pour le texte et HTML
+    * Ajout de fonctionnalité sur les fichiers avec la création de dossier, la suppression de dossier, la création de miniature, etc ...
+    * Ajout de FirePHP dans le système de débogue.
+    * Ajout du système de log pour l'abstraction de base de donnée
