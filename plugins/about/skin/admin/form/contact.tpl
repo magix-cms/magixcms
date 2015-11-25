@@ -1,7 +1,7 @@
 {*<h2>{#info_contact#|ucfirst}</h2>*}
 <form action="{$smarty.server.REQUEST_URI}" id="info_contact_form" method="post" class="form-horizontal forms_plugins_informations">
     <fieldset>
-        <legend>Coordonées de votre entreprise</legend>
+        <legend>Coordonnées de votre entreprise</legend>
         <div class="form-group">
             <label for="company_mail" class="col-sm-2 control-label">Adresse mail <span class="fa fa-envelope"></span></label>
             <div class="col-sm-7">
@@ -39,19 +39,19 @@
         <div class="form-group">
             <label for="company_phone" class="col-sm-2 control-label">Téléphone <span class="fa fa-phone"></span></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="company_phone" name="company_phone" {if $companyData.contact.phone}value="{$companyData.contact.phone}" {/if}placeholder="Num�ro de t�l�phone de votre entreprise">
+                <input type="text" class="form-control" id="company_phone" name="company_phone" {if $companyData.contact.phone}value="{$companyData.contact.phone}" {/if}placeholder="Numéro de téléphone de votre entreprise">
             </div>
         </div>
         <div class="form-group">
             <label for="company_mobile" class="col-sm-2 control-label">Mobile <span class="fa fa-mobile"></span></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="company_mobile" name="company_mobile" {if $companyData.contact.mobile}value="{$companyData.contact.mobile}" {/if}placeholder="Num�ro de mobile de votre entreprise">
+                <input type="text" class="form-control" id="company_mobile" name="company_mobile" {if $companyData.contact.mobile}value="{$companyData.contact.mobile}" {/if}placeholder="Numéro de mobile de votre entreprise">
             </div>
         </div>
         <div class="form-group">
             <label for="company_fax" class="col-sm-2 control-label">Fax <span class="fa fa-fax"></span></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="company_fax" name="company_fax" {if $companyData.contact.fax}value="{$companyData.contact.fax}" {/if}placeholder="Num�ro de fax de votre entreprise">
+                <input type="text" class="form-control" id="company_fax" name="company_fax" {if $companyData.contact.fax}value="{$companyData.contact.fax}" {/if}placeholder="Numéro de fax de votre entreprise">
             </div>
         </div>
         <div class="form-group">
@@ -60,7 +60,7 @@
                 <div class="row">
                     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
                         <label for="company_adress">Rue</label>
-                        <input id="company_adress" type="text" name="company_adress[street]" {if $companyData.contact.adress.street}value="{$companyData.contact.adress.street}" {/if}placeholder="Rue, avenue, ... + n� ou n�/boite" class="form-control" />
+                        <input id="company_adress" type="text" name="company_adress[street]" {if $companyData.contact.adress.street}value="{$companyData.contact.adress.street}" {/if}placeholder="Rue, avenue, ... + n° ou n°/boite" class="form-control" />
                     </div>
                     <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <label for="company_postcode">Code postal</label>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
                         <label for="company_city">Ville ou localité</label>
-                        <input id="company_city" type="text" name="company_adress[city]" {if $companyData.contact.adress.city}value="{$companyData.contact.adress.city}" {/if}placeholder="Ville ou localit�" class="form-control" />
+                        <input id="company_city" type="text" name="company_adress[city]" {if $companyData.contact.adress.city}value="{$companyData.contact.adress.city}" {/if}placeholder="Ville ou localité" class="form-control" />
                     </div>
                 </div>
             </div>
