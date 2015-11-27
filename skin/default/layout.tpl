@@ -1,10 +1,9 @@
 {autoload_i18n}{widget_about_data}<!DOCTYPE html>
-<!--[if lt IE 7]> <html lang="{getlang}" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>    <html lang="{getlang}" class="lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>    <html lang="{getlang}" class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="{getlang}"> <!--<![endif]-->
-<head id="meta" {block name="ogp"}{include file="section/brick/ogp-protocol.tpl"}{/block}>
-    {* Document meta *}
+<!--[if lt IE 7]><html lang="{getlang}" class="lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="{getlang}" class="lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="{getlang}" class="lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="{getlang}"><!--<![endif]-->
+<head id="meta" {block name="ogp"}{include file="section/brick/ogp-protocol.tpl"}{/block}>{* Document meta *}
     <meta charset="utf-8">
     <title itemprop="headline">{capture name="title"}{block name="title"}{/block}{/capture}{$smarty.capture.title}</title>
     <meta itemprop="description" name="description" content="{capture name="description"}{block name="description"}{/block}{/capture}{$smarty.capture.description}">
@@ -12,46 +11,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {block name="socials"}{include file="section/brick/socials.tpl" title=$smarty.capture.title description=$smarty.capture.description}{/block}
-    {if $googleTools_webmaster != '' }
-        <meta name="google-site-verification" content="{$googleTools_webmaster}">
-    {/if}
+{if $googleTools_webmaster != ''}
+    <meta name="google-site-verification" content="{$googleTools_webmaster}">
+{/if}
     <link rel="icon" type="image/png" href="{geturl}/skin/{template}/img/favicon.png" />
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
-    {* Google recommendation:
-     * Load the css rules in charge of the display of the content which is above the fold
-     * directly in the style tag in the head of the page. It have to be as light as possible.
-       {include file="section/brick/criticalcss.tpl"}
-     *}
     {capture name="criticalSheet"}{strip}
         /min/?f=skin/{template}/css/bootstrap/critical.min.css
     {/strip}{/capture}
-    {headlink rel="stylesheet" href=$smarty.capture.criticalSheet concat=$concat media="screen"}
-    {if {module type="news"} eq true}
+{strip}{headlink rel="stylesheet" href=$smarty.capture.criticalSheet concat=$concat media="screen"}
+{/strip}{if {module type="news"} eq true}
     <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
-    {/if}
-    {capture name="scriptHtml5"}{strip}
-        /min/?f=
-        skin/{template}/js/vendor/html5shiv.js,
-        skin/{template}/js/vendor/respond.min.js
-    {/strip}{/capture}
-    <!--[if lt IE 9]>
-        {script src=$smarty.capture.scriptHtml5 concat=$concat type="javascript"}
-    <![endif]-->
-    {* Language link hreflang *}
-    {widget_lang_data assign="dataLangHead"}
-    {include file="section/loop/lang.tpl" data=$dataLangHead type="head"}
-    {google_tools tools='analytics'}
-</head>
+{/if}
+{capture name="scriptHtml5"}{strip}
+    /min/?f=
+    skin/{template}/js/vendor/html5shiv.js,
+    skin/{template}/js/vendor/respond.min.js
+{/strip}{/capture}
+    {strip}<!--[if lt IE 9]>{script src=$smarty.capture.scriptHtml5 concat=$concat type="javascript"}<![endif]-->{/strip}
+    {strip}{* Language link hreflang *}{widget_lang_data assign="dataLangHead"}{include file="section/loop/lang.tpl" data=$dataLangHead type="head"}{google_tools tools='analytics'}
+{/strip}</head>
 <body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">
-
     {include file="section/header.tpl" adjust="clip" toolbar=true}
-
     {block name="breadcrumb"}
         {include file="section/nav/breadcrumb.tpl"}
     {/block}
-
     {block name="main:before"}{/block}
-
     {block name="main"}
     <main id="content" class="container">
         <div class="row">

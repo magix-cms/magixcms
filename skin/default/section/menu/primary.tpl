@@ -1,3 +1,4 @@
+{strip}
 {* Smarty switch to detect current element *}
 {switch $smarty.server.SCRIPT_NAME}
     {* Home *}
@@ -55,6 +56,15 @@
     {/foreach}
 {/if}
 
+{* --- Disable submenu links --- *}
+{if (isset($submenu) && $submenu) || $menu == 'dropdown'}
+    {$getPage = 'all'}
+    {$getCat = ['category' => 'subcategory']}
+{else}
+    {$getPage = 'parent'}
+    {$getCat = 'category'}
+{/if}
+
 {* --- Disable Gmap link --- *}
 {if !isset($gmap)}
     {$gmap = false}
@@ -75,12 +85,12 @@
 {* --- Menu Pages --- *}
 {if {#menu_pages#}}
     {widget_cms_data
-    conf = [
-    'select' => [{getlang} => {#menu_pages#}],
-'context' => 'all'
-]
-assign="pageList"
-}
+        conf = [
+            'select' => [{getlang} => {#menu_pages#}],
+            'context' => {$getPage}
+            ]
+        assign="pageList"
+    }
     {foreach $pageList as $page}
         {if $pageSection && $page.id == $pageSection}
             {$active = 1}
@@ -125,12 +135,12 @@ assign="pageList"
 {* --- Menu Catalog --- *}
 {if {#menu_catalog#}}
     {widget_catalog_data
-    conf = [
-    'context' => ['category' => 'subcategory'],
-    'select' => [{getlang} => {#menu_catalog#}]
-]
-assign="categoryList"
-}
+        conf = [
+            'context' => {$getCat},
+            'select' => [{getlang} => {#menu_catalog#}]
+            ]
+        assign="categoryList"
+    }
     {foreach $categoryList as $category}
         {if $parentCat && $categories.id == $parentCat}
             {$active = 1}
@@ -164,13 +174,6 @@ assign="categoryList"
         {$menu[] = $item}
     {/foreach}
 {elseif $root.catalog}
-    {widget_catalog_data
-    conf = [
-    'context' => 'category'
-    ]
-    assign="categoryList"
-    }
-
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
         {$active = 1}
     {else}
@@ -183,23 +186,32 @@ assign="categoryList"
     'title'     => {#catalog#},
     'active'    => {$active}
     ]}
-    {if $categoryList != null}
-        {assign var=submenu value=array()}
-        {foreach $categoryList as $category}
-            {if $parentCat && $categories.id == $parentCat}
-                {$subactive = 1}
-            {else}
-                {$subactive = 0}
-            {/if}
 
-            {$submenu[] = [
-            'name'      => {$category.name},
-            'url'       => {$category.url},
-            'title'     => {$category.name},
-            'active'    => {$subactive}
-            ]}
-        {/foreach}
-        {$item['subdata'] = $submenu}
+    {if isset($submenu) && $submenu}
+        {widget_catalog_data
+            conf = [
+                'context' => 'category'
+                ]
+            assign="categoryList"
+        }
+        {if $categoryList != null}
+            {assign var=submenu value=array()}
+            {foreach $categoryList as $category}
+                {if $parentCat && $categories.id == $parentCat}
+                    {$subactive = 1}
+                {else}
+                    {$subactive = 0}
+                {/if}
+
+                {$submenu[] = [
+                'name'      => {$category.name},
+                'url'       => {$category.url},
+                'title'     => {$category.name},
+                'active'    => {$subactive}
+                ]}
+            {/foreach}
+            {$item['subdata'] = $submenu}
+        {/if}
     {/if}
 
     {$menu[] = $item}
@@ -239,9 +251,9 @@ assign="categoryList"
     {$menu[] = $contact}
 {/if}
 
-{* --- Create Menu HTML --- *}
+{* --- Create Menu HTML --- *}{/strip}
 <nav{if isset($id)} id="{$id}"{/if} class="collapse navbar-collapse{if isset($type)} menu-{$type}{/if}" >
-    <ul class="nav-primary nav navbar-nav pull-right" itemprop="SiteNavigationElement">{*root=['news' => false]*}
+    <ul class="nav-primary nav navbar-nav pull-right">
         {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=false}
     </ul>
 </nav>

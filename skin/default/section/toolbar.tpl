@@ -1,53 +1,54 @@
-{if !isset($adjust)}
-    {assign var="adjust" value="clip"}
-{/if}
-<section id="toolbar"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
+{strip}
+    {if !isset($adjust)}
+        {assign var="adjust" value="clip"}
+    {/if}
+{/strip}
+    <section id="toolbar"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
     {if $adjust == 'clip'}
-    <div class="container">
-        <div class="row">
-            {/if}
-            {* Language Nav *}
-            {widget_lang_data assign="dataLangNav"}
+        <div class="container">
+            <div class="row">{/if}
+            {widget_lang_data assign="dataLangNav"}{* Language Nav *}
             {if $dataLangNav != null && count($dataLangNav) > 1}
                 <div class="pull-left lang-header">
                     {include file="section/loop/lang.tpl" data=$dataLangNav type="nav"}
                 </div>
             {elseif $companyData.socials != null}
-                {if $companyData.socials.facebook != null || $companyData.socials.google != null || $companyData.socials.linkedin != null}
-                    <div id="social-follow" class="pull-left">
-                        <div class="text-left">
-                            <ul>{if $companyData.socials.facebook != null}
-                                    <li>
-                                        <a itemprop="sameAs" href="{$companyData.socials.facebook}" title="{#fb_follow_title#|ucfirst}" role="link">
-                                            <span class="fa fa-facebook"></span><span class="sr-only">{#fb_follow_label#|ucfirst}</span>
-                                        </a>
-                                    </li>
-                                {/if}
-                                {if $companyData.socials.twitter != null}
-                                    <li>
-                                        <a itemprop="sameAs" href="{$companyData.socials.twitter}" title="{#tw_follow_title#|ucfirst}" role="link">
-                                            <span class="fa fa-twitter"></span><span class="sr-only">{#tw_follow_label#|ucfirst}</span>
-                                        </a>
-                                    </li>
-                                {/if}
-                                {if $companyData.socials.google != null}
-                                    <li>
-                                        <a itemprop="sameAs" href="{$companyData.socials.google}" title="{#gg_follow_title#|ucfirst}" role="link" rel="publisher">
-                                            <span class="fa fa-google-plus"></span><span class="sr-only">{#gg_follow_label#|ucfirst}</span>
-                                        </a>
-                                    </li>
-                                {/if}
-                                {if $companyData.socials.linkedin != null}
-                                    <li>
-                                        <a itemprop="sameAs" href="{$companyData.socials.linkedin}" title="{#lk_follow_title#|ucfirst}" role="link">
-                                            <span class="fa fa-linkedin"></span><span class="sr-only">{#lk_follow_label#|ucfirst}</span>
-                                        </a>
-                                    </li>
-                                {/if}
-                            </ul>
-                        </div>
+            {if $companyData.socials.facebook != null || $companyData.socials.google != null || $companyData.socials.linkedin != null}
+                <div id="social-follow" class="pull-left">
+                    <div class="text-left">
+                        <ul>
+                        {if $companyData.socials.facebook != null}
+                            <li>
+                                <a itemprop="sameAs" href="{$companyData.socials.facebook}" title="{#fb_follow_title#|ucfirst}" role="link">
+                                    <span class="fa fa-facebook"></span><span class="sr-only">{#fb_follow_label#|ucfirst}</span>
+                                </a>
+                            </li>
+                        {/if}
+                        {if $companyData.socials.twitter != null}
+                            <li>
+                                <a itemprop="sameAs" href="{$companyData.socials.twitter}" title="{#tw_follow_title#|ucfirst}" role="link">
+                                    <span class="fa fa-twitter"></span><span class="sr-only">{#tw_follow_label#|ucfirst}</span>
+                                </a>
+                            </li>
+                        {/if}
+                        {if $companyData.socials.google != null}
+                            <li>
+                                <a itemprop="sameAs" href="{$companyData.socials.google}" title="{#gg_follow_title#|ucfirst}" role="link" rel="publisher">
+                                    <span class="fa fa-google-plus"></span><span class="sr-only">{#gg_follow_label#|ucfirst}</span>
+                                </a>
+                            </li>
+                        {/if}
+                        {if $companyData.socials.linkedin != null}
+                            <li>
+                                <a itemprop="sameAs" href="{$companyData.socials.linkedin}" title="{#lk_follow_title#|ucfirst}" role="link">
+                                    <span class="fa fa-linkedin"></span><span class="sr-only">{#lk_follow_label#|ucfirst}</span>
+                                </a>
+                            </li>
+                        {/if}
+                        </ul>
                     </div>
-                {/if}
+                </div>
+            {/if}
             {/if}
             <div id="contact-infos" class="hidden-xs">
                 <div class="text-right">
@@ -114,8 +115,8 @@
                     </ul>
                 </div>
             {/if}
-            {if $adjust == 'clip'}
+                {if $adjust == 'clip'}
+            </div>
         </div>
-    </div>
     {/if}
-</section>
+    </section>

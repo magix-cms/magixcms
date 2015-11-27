@@ -164,10 +164,10 @@
 </IfModule>
 	FileETag None
 # END Turn ETags Off
-<IfModule mod_headers.c>
+# <IfModule mod_headers.c>
 # BEGIN Remove Last-Modified Header
-  Header unset Last-Modified
-</IfModule>
+# Header unset Last-Modified
+# </IfModule>
 # END Remove Last-Modified Header
 # BEGIN Compress text files
 <IfModule mod_deflate.c>
