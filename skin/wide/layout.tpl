@@ -1,4 +1,4 @@
-{autoload_i18n}<!DOCTYPE html>
+{autoload_i18n}{widget_about_data}<!DOCTYPE html>
 <!--[if lt IE 7]> <html lang="{getlang}" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>    <html lang="{getlang}" class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html lang="{getlang}" class="lt-ie9"> <![endif]-->
@@ -35,7 +35,7 @@
     {include file="section/loop/lang.tpl" data=$dataLangHead type="head"}
     {google_tools tools='analytics'}
 </head>
-<body id="{block name='body:id'}layout{/block}">
+<body itemscope itemtype="http://schema.org/{$companyData.type}" id="{block name='body:id'}layout{/block}">
 
     {include file="section/toolbar.tpl" adjust="clip"}
 
