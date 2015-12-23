@@ -6,7 +6,7 @@
 ---------------------------------------------------------- */
 #catalog,#catalog-cat,#catalog-subcat,#catalog-product{
 	// Define content style
-	//.normalize-content(@main-color);
+	.normalize-content(@main-color);
 
 	section {
 		.container {
@@ -17,8 +17,7 @@
 }
 
 @media (max-width: @screen-xs-max) {
-	.product-list .col-xs-6{
-		//min-height: 295px;
+	.product-list .col-xs-6 {
 		width: 100%;
 		margin: 0 auto;
 		float: none;
@@ -41,23 +40,6 @@
 	}
 }
 
-.product-list {
-	.thumbnail{
-		min-height: 330px;
-		border: none;
-		border-radius: 0;
-
-		.caption {
-			border: 1px solid #DDDDDD;
-			border-radius: 4px;
-
-			h3 {
-				font-size: 20px;
-			}
-		}
-	}
-}
-
 /* --------------------------------------------------------
                         Category
 ---------------------------------------------------------- */
@@ -70,21 +52,14 @@
                          Product
 ---------------------------------------------------------- */
 #catalog-product {
-	#article {
-		img {
-			width: 33.33333333333333%;
-			margin-left: 30px;
-		}
-	}
-
 	#similar-products {
-		padding: 60px 0;
-		background-color: @smooth-white;
+		padding: 20px 0 40px;
 	}
 
 	#gallery {
-		padding: 40px 0 80px;
-		.img-thumbnail {
+		padding: 20px 0 40px;
+
+		img {
 			border-radius: 0;
 			border: none;
 			padding: 0;

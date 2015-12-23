@@ -2,7 +2,7 @@
 {block name='body:id'}plugins-{$pluginName}{/block}
 {block name="article:content"}
     {include file="nav.tpl"}
-    <h1>About Plugin <small>- About</small></h1>
+    <h1>{$pluginName} Plugin <small>- {#plugin_about#}</small></h1>
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             {$pluginInfo}

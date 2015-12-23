@@ -1,0 +1,77 @@
+/*
+ * Rules for About page
+ */
+#about {
+	// Define content style
+	.normalize-content(@main-color);
+
+	#content {
+		padding-bottom: 70px;
+	}
+
+	figure {
+		padding: 25px 0 15px;
+		border-bottom: 1px solid rgb(204, 204, 204);
+		margin-bottom: 25px;
+		position: relative;
+
+		&:after {
+			position: absolute;
+			display: block;
+			content: " ";
+			top: 0;
+			left: 0;
+			.size(25%,100%);
+			margin-top: 1px;
+			border-bottom: 1px solid @main-color;
+		}
+
+		+ a {
+			display: block;
+			padding: 6px;
+			color: @text-color;
+
+			&.active {
+				color: @main-color;
+				font-weight: 600;
+			}
+
+			&:hover, &:focus, &:active {
+				color: @main-color;
+				text-decoration: none;
+			}
+		}
+	}
+
+	.child-nav {
+		.normalize-link(@text-color,@hover-color: @main-color,@decoration: none);
+		ul {
+			margin: 6px 0 0 6px;
+		}
+		li {
+			a {
+				display: block;
+				padding: 6px 12px;
+				border-left: 1px solid #ccc;
+			}
+
+			&:hover {
+				a {
+					padding: 6px 12px;
+					border-left-color: @main-color;
+				}
+			}
+
+			&.active {
+				a {
+					padding: 6px 12px 6px 10px;
+					margin-left: -1px;
+					border-width: 3px;
+					border-left-color: @main-color;
+					color: @main-color;
+					font-weight: 600;
+				}
+			}
+		}
+	}
+}

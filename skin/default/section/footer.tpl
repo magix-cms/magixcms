@@ -7,7 +7,7 @@
         <div class="row">
             {/if}
             <div id="block-about" class="col-xs-12 col-sm-4">
-                <div id="copyright" class="footer-copyright" itemprop="isPartOf" itemscope itemtype="http://schema.org/WebSite" itemref="org">
+                <div id="copyright" class="footer-copyright" itemprop="isPartOf" itemscope itemtype="http://schema.org/WebSite" itemref="navbar-brand">
                     <a href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
                         <img class="img-responsive" src="/skin/{template}/img/{#logo_img_small#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="164" height="48" />
                     </a>

@@ -7,13 +7,13 @@
                     <span class="fa fa-plus"></span>
                 </button>
             {/if}
-            <a href="{$item.url}" title="{$item.title|ucfirst}"{if $item.subdata} class="has-dropdown"{/if}>
-                {$item.name|ucfirst}
+            <a{if $microData} itemprop="url"{/if} href="{$item.url}" title="{$item.title|ucfirst}"{if $item.subdata} class="has-dropdown"{/if}>
+                <span{if $microData} itemprop="name"{/if}>{$item.name|ucfirst}</span>
             </a>
             {if $item.subdata}
-                <ul class="dropdown hidden-xs">
+                <ul class="dropdown hidden-xs"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
                     {foreach $item.subdata as $child}
-                        <li><a href="{$child.url}" title="{$child.title|ucfirst}">{$child.name|ucfirst}</a></li>
+                        <li{if $child.active}{$class_current}{/if}{if $microData} itemprop="name"{/if}><a{if $microData} itemprop="url"{/if} href="{$child.url}" title="{$child.title|ucfirst}">{$child.name|ucfirst}</a></li>
                     {/foreach}
                 </ul>
             {/if}

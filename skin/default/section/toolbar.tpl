@@ -3,7 +3,7 @@
         {assign var="adjust" value="clip"}
     {/if}
 {/strip}
-    <section id="toolbar"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
+    <section id="toolbar"{if $adjust == 'fluid'} class="section-block container-fluid"{/if} itemscope itemtype="http://schema.org/{$companyData.type}">
     {if $adjust == 'clip'}
         <div class="container">
             <div class="row">{/if}
@@ -12,11 +12,12 @@
                 <div class="pull-left lang-header">
                     {include file="section/loop/lang.tpl" data=$dataLangNav type="nav"}
                 </div>
-            {elseif $companyData.socials != null}
+            {/if}
+            {if $companyData.socials != null}
             {if $companyData.socials.facebook != null || $companyData.socials.google != null || $companyData.socials.linkedin != null}
                 <div id="social-follow" class="pull-left">
                     <div class="text-left">
-                        <ul>
+                        <ul id="socials-links">
                         {if $companyData.socials.facebook != null}
                             <li>
                                 <a itemprop="sameAs" href="{$companyData.socials.facebook}" title="{#fb_follow_title#|ucfirst}" role="link">
@@ -54,7 +55,7 @@
                 <div class="text-right">
                     <ul class="pull-right">
                         {if $companyData.contact.adress.street}
-                            <li{if $companyData.contact.fax} class="hidden-sm"{/if} itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                            <li id="address"{if $companyData.contact.fax} class="hidden-sm"{/if} itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                                 <span class="fa fa-map-marker"></span>
                                 <span itemprop="streetAddress">{$companyData.contact.adress.street}</span>,
                                 <span itemprop="postalCode">{$companyData.contact.adress.postcode}</span>
@@ -76,7 +77,7 @@
                             <li><span class="fa fa-mobile"></span>{$companyData.contact.mobile}</li>
                         {/if}
 
-                        <div itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
+                        <div id="contactPoint" itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
                             {if $companyData.contact.mail}
                                 <meta itemprop="email" content="{$companyData.contact.mail}"/>
                             {/if}
@@ -95,7 +96,7 @@
                             {/foreach}
                         </div>
                         {if $companyData.contact.mobile}
-                            <div itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
+                            <div id="contactPointMobile" itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
                                 <meta itemprop="telephone" content="{$companyData.contact.mobile}"/>
                                 <meta itemprop="contactType" content="customer support"/>
                                 {$av_langs = ','|explode:$companyData.contact.languages}

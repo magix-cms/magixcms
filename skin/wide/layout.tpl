@@ -12,7 +12,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {block name="socials"}{include file="section/brick/socials.tpl" title=$smarty.capture.title description=$smarty.capture.description}{/block}
-    {block name="knowledge"}{include file="section/brick/knowledge-graph.tpl" search=false}{/block}
     {if $googleTools_webmaster != '' }
         <meta name="google-site-verification" content="{$googleTools_webmaster}">
     {/if}

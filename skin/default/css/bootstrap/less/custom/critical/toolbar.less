@@ -5,13 +5,12 @@
 #toolbar {
     background-color: extract(@dark-gradient,1);
 
-    padding: 7px 15px !important;
-    color: white;
-    font-size: 16px;
-    height: 45px;
+	padding: 7px 3px 7px 8px;
+	color: @smooth-white;
+	font-size: 12px;
 
     #social-follow {
-        font-size: 18px;
+        font-size: 14px;
     }
 
     ul {
@@ -42,7 +41,7 @@
         }
     }
 
-    /*.lang-nav {
+    .lang-nav {
         li {
             border-right: 1px solid #fff;
             &:last-child {
@@ -55,7 +54,7 @@
         .lang-header {
             margin-top: 5px;
         }
-    }*/
+    }
 
     #contact-infos {
         li {
@@ -95,7 +94,7 @@
 
 @media (min-width: @screen-sm-min) {
     #toolbar {
-
+		padding: 7px 15px !important;
         ul {
             li {
                 a {
@@ -109,12 +108,10 @@
         }
 
         #contact-infos {
-            li {
-                //margin-right: 15px;
-                span.fa {
-                    margin-right: 4px;
-                }
-            }
+			li {
+				margin-left: 0;
+				margin-right: 15px;
+			}
         }
 
         .dropdown #menu-user {

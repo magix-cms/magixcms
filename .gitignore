@@ -19,3 +19,6 @@ plugins/gmap/
 plugins/soundcloud/
 plugins/slideshow/
 plugins/convdata/
+plugins/faq/
+plugins/advantage/
+/skin/default/home/brick/advantages.tpl

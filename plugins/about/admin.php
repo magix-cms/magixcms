@@ -65,7 +65,7 @@ class plugins_about_admin extends DBabout{
 	/**
 	 * @var bool, Sections edited
 	 */
-	public $edit_about = false, $edit_contact = false, $edit_socials = false, $edit_op = false, $refesh_lang, $switch_op, $send = array('openinghours' => '');
+	public $edit_about = false, $edit_contact = false, $edit_socials = false, $edit_op = false, $add_page = false, $refesh_lang, $switch_op, $send = array('openinghours' => ''), $page, $parent;
 
 	/**
 	 * @var array, type of website allowed
@@ -102,6 +102,8 @@ class plugins_about_admin extends DBabout{
 	 */
 	public $company = array(
 		'name' 		=> NULL,
+		'desc'	=> NULL,
+		'slogan'	=> NULL,
 		'type' 		=> NULL,
 		'eshop' 	=> '0',
 		'tva' 		=> NULL,
@@ -247,8 +249,8 @@ class plugins_about_admin extends DBabout{
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
-        if(magixcjquery_filter_request::isGet('tab')){
-            $this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
+        if(magixcjquery_filter_request::isGet('edit')){
+            $this->edit = magixcjquery_form_helpersforms::inputNumeric($_GET['edit']);
         }
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = magixcjquery_form_helpersforms::inputNumeric($_GET['getlang']);
@@ -260,6 +262,14 @@ class plugins_about_admin extends DBabout{
 		/* Global about edition */
 		if(magixcjquery_filter_request::isPost('company_name')){
 			$this->company['name'] = magixcjquery_form_helpersforms::inputClean($_POST['company_name']);
+			$this->edit_about = true;
+		}
+		if(magixcjquery_filter_request::isPost('company_desc')){
+			$this->company['desc'] = magixcjquery_form_helpersforms::inputClean($_POST['company_desc']);
+			$this->edit_about = true;
+		}
+		if(magixcjquery_filter_request::isPost('company_slogan')){
+			$this->company['slogan'] = magixcjquery_form_helpersforms::inputClean($_POST['company_slogan']);
 			$this->edit_about = true;
 		}
 		if(magixcjquery_filter_request::isPost('company_type')){
@@ -330,6 +340,46 @@ class plugins_about_admin extends DBabout{
 		if(magixcjquery_filter_request::isPost('openinghours')){
 			$this->edit_op = true;
 			$this->send['openinghours'] = magixcjquery_form_helpersforms::arrayClean($_POST['openinghours']);
+		}
+
+		/* Add about page */
+		if(magixcjquery_filter_request::isPost('subject')){
+			$this->page['title'] = magixcjquery_form_helpersforms::inputClean($_POST['subject']);
+			$this->add_page = true;
+		}
+		if(magixcjquery_filter_request::isPost('idlang')){
+			$this->page['idlang'] = magixcjquery_form_helpersforms::inputNumeric($_POST['idlang']);
+			$this->add_page = true;
+		}
+
+		/* Edit about Page */
+		if(magixcjquery_filter_request::isPost('idpage')){
+			$this->page['id'] = magixcjquery_form_helpersforms::inputNumeric($_POST['idpage']);
+		}
+		if(magixcjquery_filter_request::isPost('page_title')){
+			$this->page['title'] = magixcjquery_form_helpersforms::inputClean($_POST['page_title']);
+		}
+		if(magixcjquery_filter_request::isPost('page_content')){
+			$this->page['content'] = magixcjquery_form_helpersforms::inputCleanQuote($_POST['page_content']);
+		}
+		if(magixcjquery_filter_request::isPost('seo_title_page')){
+			$this->page['seo_title'] = magixcjquery_form_helpersforms::inputCleanQuote($_POST['seo_title_page']);
+		}
+		if(magixcjquery_filter_request::isPost('seo_desc_page')){
+			$this->page['seo_desc'] = magixcjquery_form_helpersforms::inputCleanQuote($_POST['seo_desc_page']);
+		}
+		if(magixcjquery_filter_request::isPost('parent')){
+			$this->page['parent'] = magixcjquery_form_helpersforms::inputCleanQuote($_POST['parent']);
+		}
+
+		# DELETE PAGE
+		if(magixcjquery_filter_request::isPost('delete')){
+			$this->delete = magixcjquery_form_helpersforms::inputNumeric($_POST['delete']);
+		}
+
+		/* Child page */
+		if(magixcjquery_filter_request::isGet('parent')){
+			$this->parent = magixcjquery_form_helpersforms::inputNumeric($_GET['parent']);
 		}
 
 		$this->template = new backend_controller_plugins();
@@ -429,6 +479,64 @@ class plugins_about_admin extends DBabout{
 	private function display_op()
 	{
 		parent::enable_op($this->enable_op);
+	}
+
+	/**
+	 * 
+	 */
+	private function addPage()
+	{
+		if (isset($this->page)) {
+
+			if( parent::getPageLang($this->page['idlang']) == null ) {
+				$this->page['uri_title'] = magixcjquery_url_clean::rplMagixString($this->page['title'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+				parent::i_page($this->page);
+				$this->notify('save');
+			} else {
+				$this->notify('already_exist');
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private function addChild()
+	{
+		if (isset($this->page)) {
+
+			if( $this->page['parent'] != null ) {
+				$parent = parent::getPage($this->page['parent']);
+				if ( $parent != null ){
+					$this->page['idlang'] = $parent['idlang'];
+					$this->page['uri_title'] = magixcjquery_url_clean::rplMagixString($this->page['title'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+					parent::i_child($this->page);
+					$this->notify('save');
+				}
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private function editPage()
+	{
+		if (isset($this->page)) {
+			$this->page['uri_title'] = magixcjquery_url_clean::rplMagixString($this->page['title'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
+			parent::u_page($this->page);
+
+			$this->notify('save');
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function del()
+	{
+		parent::d_page($this->delete);
+		$this->notify('delete');
 	}
 
 	/**
@@ -534,9 +642,39 @@ class plugins_about_admin extends DBabout{
 		if(self::install_table() == true){
 			if (isset($this->tab) && $this->tab == 'about')
 			{
-					$this->template->display('about.tpl');
+				$this->template->display('about.tpl');
 			}
-			elseif (!isset($this->tab) || $this->tab == 'index')
+			elseif (isset($this->tab) && $this->tab == 'page')
+			{
+				if($this->add_page) {
+					$this->addPage();
+				} elseif($this->action == 'edit' && $this->page['id']) {
+					$this->editPage();
+				} elseif($this->action == 'edit' && $this->edit) {
+					$this->template->assign('page',parent::getPage($this->edit));
+					$this->template->display('page/editPage.tpl');
+				} elseif($this->action == 'addchild' && $this->parent) {
+					$this->template->assign('parent',parent::getPage($this->parent));
+					$this->template->display('page/addPage.tpl');
+				} elseif($this->action == 'savechild' && $this->page['parent']) {
+					$this->addChild();
+				} elseif ($this->action == 'delete') {
+					if ( isset($this->delete) && is_numeric($this->delete) ) {
+						$this->del();
+					}
+				} elseif ($this->action == 'getlist') {
+					$this->template->assign('pages',parent::getLastPage());
+					$this->template->display('page/loop/list.tpl');
+				} elseif($this->action == 'getchild' && $this->parent) {
+					$this->template->assign('pages',parent::getChildPages($this->parent));
+					$this->template->display('page/parent.tpl');
+				} else {
+					$this->template->assign('languages',$this->getLang());
+					$this->template->assign('pages',parent::getPages());
+					$this->template->display('page/index.tpl');
+				}
+			}
+			elseif (!isset($this->tab) || (isset($this->tab) && $this->tab == 'index'))
 			{
 				if ($this->edit_about) {
 					$this->save('about');
@@ -559,6 +697,16 @@ class plugins_about_admin extends DBabout{
 		}
 	}
 
+	/**
+	 * @access public
+	 * Options de reecriture des métas
+	 */
+	public function seo_options(){
+		return $options_string = array(
+				'plugins'=>true
+		);
+	}
+
     /**
      * Set Configuration pour le menu
      * @return array
@@ -576,6 +724,48 @@ class plugins_about_admin extends DBabout{
 			)
         );
     }
+
+	//SITEMAP
+	/*private function lastmod_dateFormat(){
+		$dateformat = new magixglobal_model_dateformat();
+		return $dateformat->sitemap_lastmod_dateFormat();
+	}*/
+	/**
+	 * @access public
+	 * Options de reecriture des sitemaps NEWS
+	 */
+	/*public function sitemap_rewrite_options(){
+		return $options_string = array(
+				'index'=>true,
+				'level1'=>false,
+				'level2'=>false,
+				'records'=>false
+		);
+	}*/
+
+	/**
+	 * URL index du module suivant la langue
+	 * @param $idlang
+	 */
+	/*public function sitemap_uri_index($idlang){
+		$sitemap = new magixcjquery_xml_sitemap();
+		// Table des langues
+		$lang = new backend_db_block_lang();
+		// Retourne le code ISO
+		$db = $lang->s_data_iso($idlang);
+		if($db != null){
+			$sitemap->writeMakeNode(
+					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_plugins_root_url(
+							$db['iso'],
+							'about',
+							true)
+					,
+					$this->lastmod_dateFormat(),
+					'always',
+					0.7
+			);
+		}
+	}*/
 }
 class DBabout{
     /**
@@ -611,6 +801,16 @@ class DBabout{
 	/**
 	 * @return array
 	 */
+	protected function getLang()
+	{
+		$query = "SELECT `idlang`,`iso`,`language` FROM `mc_lang`";
+
+		return magixglobal_model_db::layerDB()->select($query);
+	}
+
+	/**
+	 * @return array
+	 */
 	protected function getAbout()
 	{
 		$query = "SELECT `info_name`,`value` FROM `mc_plugins_about`";
@@ -626,6 +826,72 @@ class DBabout{
 		$query = "SELECT `day_abbr`,`open_day`,`noon_time`,`open_time`,`close_time`,`noon_start`,`noon_end` FROM `mc_plugins_about_op`";
 
 		return magixglobal_model_db::layerDB()->select($query);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getPages()
+	{
+		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
+				 JOIN mc_lang as lang ON ab.idlang = lang.idlang
+				 WHERE ab.idpage_p = 0";
+
+		return magixglobal_model_db::layerDB()->select($query);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getChildPages($id)
+	{
+		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
+				 JOIN mc_lang as lang ON ab.idlang = lang.idlang
+				 WHERE ab.idpage_p = :id";
+
+		return magixglobal_model_db::layerDB()->select($query, array(':id' => $id));
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getLastPage()
+	{
+		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
+				 JOIN mc_lang as lang ON ab.idlang = lang.idlang ORDER BY ab.idpage DESC LIMIT 1";
+
+		return magixglobal_model_db::layerDB()->select($query);
+	}
+
+	/**
+	 * @param $id
+	 * @return array
+	 */
+	protected function getPage($id)
+	{
+		$query = "SELECT lang.iso, ab.idlang, ab.idpage as id, ab.idpage_p, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
+				 JOIN mc_lang as lang ON ab.idlang = lang.idlang
+				 WHERE ab.idpage = :id";
+
+		return magixglobal_model_db::layerDB()->selectOne($query,array(
+			':id' => $id
+		));
+	}
+
+	/**
+	 * Get about page from idlang
+	 *
+	 * @param $idlang
+	 * @return array
+	 */
+	protected function getPageLang($idlang)
+	{
+		$query = "SELECT * FROM `mc_plugins_about_page`
+				 WHERE idlang = :id";
+
+		return magixglobal_model_db::layerDB()->selectOne($query,array(
+				':id' => $idlang
+		));
 	}
 
 	/* EDITION */
@@ -645,14 +911,18 @@ class DBabout{
 		$query = "UPDATE `mc_plugins_about`
 					SET `value` = CASE `info_name`
 						WHEN 'name' THEN :nme
+						WHEN 'desc' THEN :dsc
+						WHEN 'slogan' THEN :slogan
 						WHEN 'type' THEN :tpe
 						WHEN 'eshop' THEN :eshop
 						WHEN 'tva' THEN :tva
 					END
-					WHERE `info_name` IN ('name','type','eshop','tva')";
+					WHERE `info_name` IN ('name','desc','slogan','type','eshop','tva')";
 
 		magixglobal_model_db::layerDB()->update($query,array(
 				':nme' 		=> $company['name'],
+				':dsc' 		=> $company['desc'],
+				':slogan' 	=> $company['slogan'],
 				':tpe' 		=> $company['type'],
 				':eshop' 	=> $company['eshop'],
 				':tva' 		=> $company['tva']
@@ -722,7 +992,7 @@ class DBabout{
 	 */
 	protected function up_openinghours($company)
 	{
-		foreach ($company['openinghours'] as $day => $opt) {
+		foreach ($company['specifications'] as $day => $opt) {
 			$query = "UPDATE `mc_plugins_about_op`
 					SET `open_day` = :open_day,
 					`noon_time` = CASE `open_day`
@@ -768,6 +1038,29 @@ class DBabout{
 	}
 
 	/**
+	 * @param $page
+	 */
+	protected function u_page($page)
+	{
+		$query = "UPDATE `mc_plugins_about_page` SET
+					title_page = :title,
+					uri_title = :uri,
+					content_page = :content,
+					seo_title_page = :seo_title,
+					seo_desc_page = :seo_desc
+					WHERE `idpage` = :id";
+
+		magixglobal_model_db::layerDB()->update($query,array(
+			':title' => $page['title'],
+			':uri' => $page['uri_title'],
+			':content' => $page['content'],
+			':seo_title' => $page['seo_title'],
+			':seo_desc' => $page['seo_desc'],
+			':id' => $page['id']
+		));
+	}
+
+	/**
 	 * @param $enable_op
 	 */
 	protected function enable_op($enable_op)
@@ -780,6 +1073,49 @@ class DBabout{
 		$query = "UPDATE `mc_plugins_about` SET `value` = :enable WHERE `info_name` = 'openinghours'";
 
 		magixglobal_model_db::layerDB()->update($query,array(':enable'=>$enable_op));
+	}
+
+	/**
+	 * @param $page
+	 */
+	protected function i_page($page)
+	{
+		$query = "INSERT INTO `mc_plugins_about_page` (`idlang`,`title_page`,`uri_title`) VALUES (:lang,:title,:uri)";
+		
+		magixglobal_model_db::layerDB()->insert($query, array(
+			':lang' => $page['idlang'],
+			':title' => $page['title'],
+			':uri' => $page['uri_title']
+		));
+	}
+
+	/**
+	 * @param $page
+	 */
+	protected function i_child($page)
+	{
+		$query = "INSERT INTO `mc_plugins_about_page` (`idlang`,`idpage_p`,`title_page`,`uri_title`,`content_page`,`seo_title_page`,`seo_desc_page`) VALUES (:lang,:parent,:title,:uri,:content,:seo_title,:seo_desc)";
+
+		magixglobal_model_db::layerDB()->insert($query, array(
+			':lang' => $page['idlang'],
+			':parent' => $page['parent'],
+			':title' => $page['title'],
+			':uri' => $page['uri_title'],
+			':content' => $page['content'],
+			':seo_title' => $page['seo_title'],
+			':seo_desc' => $page['seo_desc']
+		));
+	}
+
+	// DELETE
+	/**
+	 * @param $id
+	 */
+	protected function d_page($id)
+	{
+		$query = "DELETE FROM mc_plugins_about_page WHERE idpage = :id";
+
+		magixglobal_model_db::layerDB()->delete($query,array(':id'=>$id));
 	}
 }
 ?>

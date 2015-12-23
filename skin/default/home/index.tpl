@@ -13,7 +13,7 @@
             {block name="article:before"}{/block}
 
             {block name='article'}
-                <article id="article" class="col-xs-12 col-sm-12 col-md-12" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
+                <article id="article" class="col-xs-12" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
                     {block name='article:content'}
                         <h1 itemprop="name">{$home.name}</h1>
                         <div itemprop="text">
@@ -30,7 +30,7 @@
 {/block}
 
 {block name="main:after"}
-    {include file="home/brick/block-good-choice.tpl" orientation="top" icon='icons' links=true icon_size='0'}
+    {include file="home/brick/advantages.tpl" orientation="left" links=true}
     {include file="home/brick/main-cat.tpl"}
     {*{include file="home/brick/last-news.tpl"}*}
 {/block}

@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS `mc_plugins_about` (
 
 INSERT INTO `mc_plugins_about` (`idinfo`, `info_name`, `value`) VALUES
 (NULL, 'name', NULL),
+(NULL, 'desc', NULL),
+(NULL, 'slogan', NULL),
 (NULL, 'type', 'org'),
 (NULL, 'eshop', '0'),
 (NULL, 'tva', NULL),
@@ -48,3 +50,17 @@ INSERT INTO `mc_plugins_about_op` (`idday`, `day_abbr`, `open_day`, `noon_time`,
 (NULL, 'Fr', '0', '0', NULL, NULL, NULL, NULL),
 (NULL, 'Sa', '0', '0', NULL, NULL, NULL, NULL),
 (NULL, 'Su', '0', '0', NULL, NULL, NULL, NULL);
+
+CREATE TABLE IF NOT EXISTS `mc_plugins_about_page` (
+  `idpage` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',
+  `idpage_p` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `title_page` varchar(150) NOT NULL,
+  `uri_title` varchar(150) NOT NULL,
+  `content_page` text NOT NULL,
+  `seo_title_page` varchar(180) DEFAULT NULL,
+  `seo_desc_page` varchar(180) DEFAULT NULL,
+  `date_register` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_update` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`idpage`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

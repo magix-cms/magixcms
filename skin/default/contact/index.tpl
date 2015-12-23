@@ -9,7 +9,7 @@
 {block name='article'}
     <article id="article" class="container">
         {block name='article:content'}
-            <h1 itemprop="name">{#contact_root_h1#}</h1><hr/>
+            <h1 itemprop="name">{#contact_root_h1#}</h1>
             <div class="row">
                 <section id="form" class="col-xs-12 col-sm-8 col-md-8 col-lg-8" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
                     <div class="row">

@@ -1,3 +1,26 @@
+#### 2.6.5
+Stable
+
+* Add about dynamic page
+* Add general microdata
+* Fix bug library (root)
+* Fix bug utf-8 on About plugin (contact.tpl)
+* Update youtube tinymce 1.0.1 => 1.1.0
+* Change in global less (skin default)
+* Add global library (magixcjquery & smarty)
+* Add About plugin
+* Add product listing with select & exclude
+* change class name effect (product)
+* Readme change url logo
+* Fix #127 $allowed return false
+* Upgrade tinymce 4.2.3 => 4.2.5
+* Upgrade Center Column (skin)
+* Change structure for less skin (default)
+* Add Font Awesome plugin in tinymce
+* Fix bug with goliath effect
+* Fix bug ming effect
+* Add block google font (skin)
+
 #### 2.6.0
 Stable
 * Fix Upgrade menu (install/upgrade)

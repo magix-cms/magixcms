@@ -29,6 +29,12 @@
     {* Contact *}
 {case 'contact' break}
 {assign var="contact_current" value=1}
+    {* About *}
+{case 'about' break}
+{assign var="about_current" value=1}
+    {* FAQ *}
+{case 'faq' break}
+{assign var="faq_current" value=1}
     {* Gmap *}
 {case 'gmap' break}
 {assign var="gmap_current" value=1}
@@ -43,15 +49,20 @@
 {if !isset($root)}
     {$root = [
     'home'      => true,
+    'about'     => false,
     'catalog'   => true,
     'news'      => true,
     'contact'   => true
     ]}
 {else}
-    {$basic_root = ['home','catalog','news','contact']}
+    {$basic_root = ['home','about','catalog','news','contact']}
     {foreach $basic_root as $section}
         {if !isset($root[$section])}
-            {$root[$section] = true}
+            {if $section != 'about'}
+                {$root[$section] = true}
+            {else}
+                {$root[$section] = false}
+            {/if}
         {/if}
     {/foreach}
 {/if}
@@ -68,6 +79,11 @@
 {* --- Disable Gmap link --- *}
 {if !isset($gmap)}
     {$gmap = false}
+{/if}
+
+{* --- Disable FAQ link --- *}
+{if !isset($faq)}
+    {$faq = false}
 {/if}
 
 
@@ -121,12 +137,6 @@
             {/foreach}
             {$item['subdata'] = $submenu}
         {/if}
-        {$item['subdata'][] = [
-        'name'      => {#news#},
-        'url'       => "{geturl}/{getlang}/{#nav_news_uri#}/",
-        'title'     => {#show_news#},
-        'active'    => {$news_current}
-        ]}
         {$menu[] = $item}
     {/foreach}
 {/if}
@@ -142,7 +152,7 @@
         assign="categoryList"
     }
     {foreach $categoryList as $category}
-        {if $parentCat && $categories.id == $parentCat}
+        {if $parentCat && $category.id == $parentCat}
             {$active = 1}
         {else}
             {$active = 0}
@@ -197,7 +207,7 @@
         {if $categoryList != null}
             {assign var=submenu value=array()}
             {foreach $categoryList as $category}
-                {if $parentCat && $categories.id == $parentCat}
+                {if $parentCat && $category.id == $parentCat}
                     {$subactive = 1}
                 {else}
                     {$subactive = 0}
@@ -218,6 +228,50 @@
 {/if}
 
 
+{* --- Menu Pages --- *}
+{if {#menu_pages_2#}}
+    {widget_cms_data
+        conf = [
+            'select' => [{getlang} => {#menu_pages_2#}],
+            'context' => 'all'
+            ]
+        assign="pageList"
+    }
+    {foreach $pageList as $page}
+        {if $pageSection && $page.id == $pageSection}
+            {$active = 1}
+        {else}
+            {$active = 0}
+        {/if}
+        {$item = [
+        'name'      => {$page.name},
+        'url'       => {$page.url},
+        'title'     => {$page.name},
+        'active'    => {$active}
+        ]}
+        {$submenu = 0}
+        {if $page.subdata}
+            {assign var=submenu value=array()}
+            {foreach $page.subdata as $child}
+                {if $pageSection && $child.id == $activePage}
+                    {$subactive = 1}
+                {else}
+                    {$subactive = 0}
+                {/if}
+                {$submenu[] = [
+                'name'      => {$child.name},
+                'url'       => {$child.url},
+                'title'     => {$child.name},
+                'active'    => {$subactive}
+                ]}
+            {/foreach}
+            {$item['subdata'] = $submenu}
+        {/if}
+        {$menu[] = $item}
+    {/foreach}
+{/if}
+
+
 {* --- Menu News --- *}
 {if $root.news}
     {$menu[] = [
@@ -226,6 +280,48 @@
     'title'     => {#show_news#},
     'active'    => {$news_current}
     ]}
+{/if}
+
+
+{* --- Menu About --- *}
+{if $root.about && $about != null}
+    {$item = [
+    'name'      => {#about_label#},
+    'url'       => "{geturl}/{getlang}/about/",
+    'title'     => "{#about_title#} {#website_name#}",
+    'active'    => $about_current
+    ]}
+    {if $about.childs != null}
+        {assign var=submenu value=array()}
+        {foreach $about.childs as $child}
+            {if isset($smarty.get.pnum1) && $smarty.get.pnum1 == $child.id}
+                {$subactive = 1}
+            {else}
+                {$subactive = 0}
+            {/if}
+
+            {$submenu[] = [
+            'name'      => {$child.title},
+            'url'       => "{$child.uri}-{$child.id}/",
+            'title'     => {$child.title},
+            'active'    => {$subactive}
+            ]}
+        {/foreach}
+        {$item['subdata'] = $submenu}
+    {/if}
+    {$menu[] = $item}
+{/if}
+
+
+{* --- Menu FAQ --- *}
+{if $faq}
+    {$contact = [
+    'name'      => {#faq_label#},
+    'url'       => "{geturl}/{getlang}/faq/",
+    'title'     => {#faq_title#},
+    'active'    => $faq_current
+    ]}
+    {$menu[] = $contact}
 {/if}
 
 
@@ -238,22 +334,19 @@
     'active'    => $contact_current
     ]}
     {if $gmap}
-        {$contact['subdata'] = [
-        [
+        {$contact['subdata'][] = [
         'name'      => {#plan_acces#},
         'url'       => "{geturl}/{getlang}/gmap/",
         'title'     => {#plan_acces#},
         'active'    => $gmap_current
-        ]
-        ]
-        }
+        ]}
     {/if}
     {$menu[] = $contact}
 {/if}
-
-{* --- Create Menu HTML --- *}{/strip}
-<nav{if isset($id)} id="{$id}"{/if} class="collapse navbar-collapse{if isset($type)} menu-{$type}{/if}" >
+{/strip}
+{* --- Create Menu HTML --- *}
+<nav{if isset($id)} id="{$id}"{/if} class="collapse navbar-collapse{if isset($type)} menu-{$type}{if $type == 'tabs' && $arrow}-arrow{/if}{/if}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
     <ul class="nav-primary nav navbar-nav pull-right">
-        {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=false}
+        {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=false microData=$microData}
     </ul>
 </nav>

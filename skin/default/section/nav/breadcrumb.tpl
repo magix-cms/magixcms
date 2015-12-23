@@ -12,6 +12,7 @@
                 {include file="section/loop/share.tpl" data=$shareData}
             </ul>
         </div>
+        {strip}
         {assign var=bread value=array()}
 
         {* Home *}
@@ -98,11 +99,23 @@
                 {$bread[] = ['name' => {#contact_form#}]}
             {/if}
             {if $smarty.get.magixmod == 'gmap'}
+                {$bread[] = ['name' => {#contact_form#},'url' => "{geturl}/{getlang}/{#nav_contact_uri#}/",'title' => {#contact_label#}]}
                 {$bread[] = ['name' => {#plan_acces#}]}
+            {/if}
+            {if $smarty.get.magixmod == 'about'}
+                {if $smarty.get.pnum1}
+                    {$bread[] = ['name' => {$parent.title},'url' => "{geturl}/{getlang}/about/",'title' => "{#show_page#}: {$parent.title}"]}
+                    {$bread[] = ['name' => {$page.title}]}
+                {else}
+                    {$bread[] = ['name' => {$page.title}]}
+                {/if}
+            {/if}
+            {if $smarty.get.magixmod == 'faq'}
+                {$bread[] = ['name' => {#faq#}]}
             {/if}
         {/if}
         {* /Plugins *}
-
+        {/strip}
         <ol id="breadcrumb" class="breadcrumb hidden-xs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
             {foreach $bread as $breadcrumb}
                 <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">

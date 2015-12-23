@@ -5,7 +5,6 @@
 {/block}
 {block name="article:content"}
     {include file="nav.tpl"}
-    {*<h1>Informations à propos de votre entreprise</h1>*}
     {include file="tabs.tpl"}
     <!-- Notifications Messages -->
     <div class="mc-message clearfix"></div>

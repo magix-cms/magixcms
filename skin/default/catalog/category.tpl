@@ -8,22 +8,21 @@
     <h1>{$cat.name|ucfirst}</h1>
     {$cat.content}
     {widget_catalog_data
-    conf =[
-    'context' =>  'subcategory'
-    ]
-    assign='subCategoryData'
+        conf =[
+            'context' =>  'subcategory'
+            ]
+        assign='subCategoryData'
     }
     <div class="product-list">
         {include file="catalog/loop/category.tpl" data=$subCategoryData}
     </div>
     {widget_catalog_data
-    conf =[
-    'context'   =>  'product',
-    'sort'      => 'product'
-    ]
-    assign='productData'
+        conf =[
+            'context'   =>  'product',
+            'sort'      => 'product'
+            ]
+        assign='productData'
     }
-    {*<pre>{$productData|print_r}</pre>*}
     <div id="listing-product" class="product-list">
         {include file="catalog/loop/product.tpl" data=$productData}
     </div>

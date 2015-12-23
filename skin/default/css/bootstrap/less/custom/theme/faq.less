@@ -1,0 +1,44 @@
+/*
+ * Rules for FAQ page
+ */
+#faq {
+	// Define content style
+	.normalize-content(@main-color);
+
+	#content {
+		padding-bottom: 70px;
+	}
+
+	.panel {
+		border: none;
+		box-shadow: none;
+
+		.panel-body {
+			border: none;
+		}
+
+		.panel-heading {
+			background-color: @main-color;
+			color: @smooth-white;
+			border-radius: 0;
+
+			.panel-title {
+				font-size: 20px;
+				.text-overflow;
+			}
+
+			.fa {
+				margin-right: 8px;
+				.auto-transition(.35s);
+				&:before { content: @fa-var-caret-up; }
+			}
+
+			.collapsed {
+				.fa {
+					.fa-icon-rotate(180deg, 2);
+					&:before { top: -4px; position: relative; }
+				}
+			}
+		}
+	}
+}

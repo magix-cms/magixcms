@@ -5,30 +5,34 @@
 {block name="webType"}ItemPage{/block}
 
 {block name="article:content"}
-    <h1>{$product.name|ucfirst}</h1>
+<div id="product" itemprop="about" itemscope itemtype="http://schema.org/Product">
+    <h1 itemprop="name">{$product.name|ucfirst}</h1>
+    <meta itemprop="category" content="{$cat.name}{if isset($subcat)} / {$subcat.name}{/if}">
     <div class="row">
         <div id="product-info" class="col-xs-12 col-md-4 text-center">
-            <div class="well well-lg">
+            <figure{if $product.imgSrc.medium} itemprop="image" itemscope itemtype="http://schema.org/ImageObject"{/if}>
                 {if $product.imgSrc.medium}
-                    <a href="{$product.imgSrc.large}" class="img-zoom" title="{$product.name}">
-                        <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" />
+                    <meta itemprop="contentUrl" content="{$product.imgSrc.large}" />
+                    <a href="{$product.imgSrc.large}" class="img-zoom" title="{$product.name}" itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+                        <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" itemprop="contentUrl"/>
                     </a>
                 {else}
                     <img src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
                 {/if}
+            </figure>
+            {if $product.price != 0}
+            <p class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                <span itemprop="price">{$product.price}</span> <span itemprop="priceCurrency" content="EUR">€</span> TTC
+            </p>
+            {/if}
+            <form action="{geturl}/{getlang}/contact/" method="post">
+                <p class="lead">Intéressé par {$product.name} ?</p>
                 <p>
-                    {if $product.price != 0}
-                        <span class="price">{$product.price} € TTC</span>
-                    {/if}
+                    <input type="hidden" name="moreinfo" value="{$product.name}"/>
+                    <input id="more-info" type="submit" class="btn btn-flat btn-main-theme" value="{#contact_form#|firststring}" />
                 </p>
-                <form action="{geturl}/{getlang}/contact/" method="post">
-                    <p class="lead">Intéressé par {$product.name} ?</p>
-                    <p>
-                        <input type="hidden" name="moreinfo" value="{$product.name}"/>
-                        <input id="more-info" type="submit" class="btn btn-primary" value="{#contact_form#|firststring}" />
-                    </p>
-                </form>
-            </div>
+            </form>
+
             {widget_catalog_data
                 conf =[
                 'context'   =>  'product-gallery'
@@ -36,40 +40,34 @@
                 assign='galeryProductData'
             }
             {if $galeryProductData != null}
-            <div id="product-gallery">
-                {* Example widget_catalog_display for gallery
-                {widget_product_gallery
-                    title= "<h2>{#gallery#|ucfirst}</h2>"
-                }
-                *}
-
-                <h2>{#gallery#|ucfirst}</h2>
-                {include file="catalog/loop/gallery.tpl" data=$galeryProductData}
-            </div>
+                <section id="gallery">
+                    <h3>{#gallery#|ucfirst}</h3>
+                    <div class="row">
+                        <div class="center-gallery-xs-6 center-gallery-sm-4 center-gallery-md-3">
+                            {include file="catalog/loop/gallery.tpl" data=$galeryProductData}
+                        </div>
+                    </div>
+                </section>
             {/if}
         </div>
-        <div class="col-xs12 col-md-8">
-            {$product.content}
-            {* Example widget_catalog_display for similar_products
-            {widget_catalog_display
-            title   =   "<h2>{#similar_products#|ucfirst}</h2>"
-            pattern =   [
-                'item' => [
-                    'before'    =>  '<div class="thumbnail col-sm-6">',
-                    'after'     =>  '</div></div>'
-                ]
-            ]
-            }*}
+        <div class="col-xs-12 col-md-8">
+            <div class="desc" itemprop="description">
+                {$product.content}
+            </div>
             {widget_catalog_data
                 assign='productRel'
             }
             {if $productRel != null}
-            <h2>{#similar_products#|ucfirst}</h2>
-            {$classCat =  "thumbcat-{$cat.id}"}
-            <div id="listing-product" class="product-list">
-                {include file="catalog/loop/product.tpl" data=$productRel classCat=$classCat}
-            </div>
+                <section id="similar-products" class="product-list">
+                    <h3>{#similar_products#|ucfirst}</h3>
+                    <div class="row">
+                        <div class="center-gallery-sm-6">
+                            {include file="catalog/loop/product.tpl" effect="ming" data=$productRel classCol="col-xs-12 col-sm-6" similar=true}
+                        </div>
+                    </div>
+                </section>
             {/if}
         </div>
     </div>
+</div>
 {/block}

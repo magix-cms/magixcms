@@ -6,11 +6,14 @@
     {if !isset($adjust)}
         {assign var="adjust" value="clip"}
     {/if}
+    {if !isset($gmap)}
+        {assign var="gmap" value=false}
+    {/if}
 {/strip}
-<header id="org" itemprop="copyrightHolder" itemscope itemtype="http://schema.org/{$companyData.type}"{if $companyData.tva} itemref="tva"{/if}>
-{if $toolbar}
-    {include file="section/toolbar.tpl" adjust="clip"}
-{/if}
+<header>
+    {if $toolbar}
+        {include file="section/toolbar.tpl" adjust="clip"}
+    {/if}
     <section id="header" role="navigation"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
         {if $adjust == 'clip'}<div class="container">
             <div class="row">{/if}
@@ -21,30 +24,38 @@
                     <span class="icon-bar"></span>
                 </button>
                 {* Brand && Headline *}
-                <a id="navbar-brand" class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}" itemprop="url">
-                    <img itemprop="logo" class="img-responsive" src="{geturl}/skin/{template}/img/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
-                    <meta itemprop="name" content="{$companyData.name}"/>
-                    <meta itemprop="brand" content="{$companyData.name}"/>
-                </a>
-                {include file="section/menu/primary.tpl" id="nav-primary-collapse" type=$menu root=['home'=>true,'catalog'=>true,'news'=>true,'contact'=>true] submenu=false gmap=false justified=false}
+                <div id="navbar-brand" itemprop="copyrightHolder" itemscope itemtype="http://schema.org/{$companyData.type}" itemref="{if $companyData.tva}tva {/if}socials-links address contactPoint contactPointMobile">
+                    <a class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}" itemprop="url">
+                        <img itemprop="logo" class="img-responsive" src="{geturl}/skin/{template}/img/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
+                        <meta itemprop="name" content="{$companyData.name}"/>
+                        <meta itemprop="brand" content="{$companyData.name}"/>
+                        {if $about != null}
+                            <meta itemprop="sameAs" content="{geturl}/{getlang}/about/"/>
+                        {/if}
+                        {if $gmap}
+                            <meta itemprop="hasMap" content="{geturl}/{getlang}/gmap/"/>
+                        {/if}
+                    </a>
+                </div>
+                {include file="section/menu/primary.tpl" id="nav-primary-collapse" type=$menu root=['about'=>true] submenu=false gmap=$gmap faq=true justified=false microData=true}
                 {if $adjust == 'clip'}
             </div>
         </div>
         {/if}
     </section>
-        <section id="header-fixed" role="navigation" data-spy="affix" data-offset-top="71"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
-            {if $adjust == 'clip'}
-            <div class="container">
-                <div class="row">
-                    {/if}
-                {* Brand && Headline *}
-                <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
-                    <img class="img-responsive" src="/skin/{template}/img/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" />
-                </a>
-                {include file="section/menu/primary.tpl" id="nav-primary-fixed" type=$menu root=['home'=>true,'catalog'=>true,'news'=>true,'contact'=>true] submenu=false gmap=false justified=false}
-                    {if $adjust == 'clip'}
-                </div>
+    <section id="header-fixed" role="navigation" data-spy="affix" data-offset-top="71"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
+        {if $adjust == 'clip'}
+        <div class="container">
+            <div class="row">
+                {/if}
+            {* Brand && Headline *}
+            <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
+                <img class="img-responsive" src="/skin/{template}/img/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" />
+            </a>
+            {include file="section/menu/primary.tpl" id="nav-primary-fixed" type=$menu root=['about'=>true] submenu=false gmap=$gmap faq=true justified=false microData=false}
+                {if $adjust == 'clip'}
             </div>
-            {/if}
-        </section>
+        </div>
+        {/if}
+    </section>
 </header>

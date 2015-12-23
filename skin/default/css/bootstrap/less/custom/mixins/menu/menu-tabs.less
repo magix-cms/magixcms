@@ -1,0 +1,90 @@
+/*------------*\
+----- Tabs -----
+\*------------*/
+nav.menu-tabs {
+	.nav-primary {
+		li {
+			a {
+				padding: 15px 20px;
+
+				@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+					padding: 15px 15px;
+				}
+			}
+		}
+	}
+
+	&-arrow {
+		.nav-primary {
+			@media (min-width: @screen-sm-min) {
+				>li.active {
+					>a {
+						&,&:hover,&:active,&:focus {
+							position: relative;
+
+							&:before {
+								content: "";
+								display: inline-block;
+								position: absolute;
+								bottom: -10px;
+								width: 20px;
+								height: 20px;
+								left: 42%;
+								box-shadow: 0 0 2px rgba(0,0,0,.4);
+								transform: rotate(45deg);
+								background-color: @main-color;
+								z-index: -1;
+
+								@media (min-width: @screen-md-min) {
+									left: 44%;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@media (min-width: @screen-sm-min) {
+		.nav-primary {
+			height: 70px;
+
+			> li {
+				height: 70px;
+				vertical-align: top;
+
+				> a {
+					height: 70px;
+					display: table;
+
+					> span {
+						display: table-cell;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+	}
+
+	@media (min-width: @screen-lg-min) {
+		.nav-primary {
+			height: auto;
+
+			> li {
+				height: auto;
+				vertical-align: top;
+
+				> a {
+					height: auto;
+					display: table;
+
+					> span {
+						display: table-cell;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+	}
+}

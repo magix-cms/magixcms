@@ -254,10 +254,15 @@ AddDefaultCharset utf-8
 ## default index file
     DirectoryIndex index.php
 #RewriteCond %{HTTP_HOST} ^localhost
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_HOST} !^www\.
+    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
 # ----------------------------------------------------------------------
 # | REWRITE
 # ----------------------------------------------------------------------
 ##################### Public ##########################
+RewriteCond %{REQUEST_URI} !^/(var|faq)
 RewriteRule ^([a-zA-Z]{1,3})/(.*) 											/$2?strLangue=$1		[QSA,L]
 RewriteRule ^(?:actualites|news|nieuws)/{0,1}$   /news.php				[QSA,L]
 RewriteRule ^(?:actualites|news|nieuws)[/]page[/]([/0-9]+)/{0,1}$   /news.php?page=$1				[QSA,L]

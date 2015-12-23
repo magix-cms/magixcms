@@ -85,16 +85,34 @@ class magixcjquery_view_helper_script{
 		}
 	}
 	/**
-	 * 
+	 * Retourne le type de chargement
+	 * @param string $load
+	 */
+	private function load($load){
+		if(self::getInstance()){
+			switch($load){
+				case 'async':
+					return ' async';
+					break;
+				case 'defer':
+					return ' defer';
+					break;
+				default:
+					return '';
+			}
+		}
+	}
+	/**
+	 *
 	 * magixcjquery_view_helper_script::src($uri,$type)
 	 * <script type="text/javascript" src="/monscript.js"></script>
-	 * 
+	 *
 	 * @param string $uri
 	 * @param string media
 	 */
-	public static function src($uri,$type){
+	public static function src($uri,$type,$load = 'normal'){
 		if(self::getInstance()){
-			return self::getInstance()->startScript().'src="'.$uri.'" '.self::getInstance()->type($type).'>'.self::getInstance()->endScript();
+			return self::getInstance()->startScript().'src="'.$uri.'" '.self::getInstance()->type($type).self::getInstance()->load($load).'>'.self::getInstance()->endScript();
 		}
 	}
 }

@@ -63,6 +63,7 @@
 function smarty_function_script($params, $template){
 	$src = $params['src'];
 	$type= $params['type'];
+	$load= $params['load']?$params['load']:'normal';
 	if (!isset($src)) {
 	 	trigger_error("src: missing 'src' parameter in link",E_USER_WARNING);
 		return;
@@ -97,6 +98,6 @@ function smarty_function_script($params, $template){
     }else{
         $url = $src;
     }
-	$head = $ini->src($url,$type);
+	$head = $ini->src($url,$type,$load);
 	return $head;
 }

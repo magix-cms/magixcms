@@ -31,7 +31,7 @@
  # versions in the future. If you wish to customize MAGIX CMS for your
  # needs please refer to http://www.magix-cms.com for more information.
  */
-/**
+ /**
  * Author: Salvatore Di Salvo
  * Copyright: MAGIX CMS
  * Date: 05-11-15
@@ -190,6 +190,182 @@ var MC_plugins_about = (function ($, undefined) {
                     return false;
                 }
             });
+        }else if(type === 'addpage'){
+            $(id).validate({
+                onsubmit: true,
+                event: 'submit',
+                rules: {
+                    subject : {
+                        required: true,
+                        minlength: 2
+                    },
+                    idlang : {
+                        required: true,
+                        number: true
+                    }
+                },
+                submitHandler: function(form) {
+                    $.nicenotify({
+                        ntype: "submit",
+                        uri: '/'+baseadmin+'/plugins.php?name=about&tab=page&action=add',
+                        typesend: 'post',
+                        idforms: $(form),
+                        resetform: true,
+                        successParams:function(data){
+                            $('#add-page').modal('hide');
+                            window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
+                            $.nicenotify.initbox(data,{
+                                display:true
+                            });
+                            getPage(baseadmin);
+                        }
+                    });
+                    return false;
+                }
+            });
+        }else if(type === 'editpage'){
+            $(id).validate({
+                onsubmit: true,
+                event: 'submit',
+                rules: {
+                    title_page : {
+                        required: true,
+                        minlength: 2
+                    }
+                },
+                submitHandler: function(form) {
+                    $.nicenotify({
+                        ntype: "submit",
+                        uri: '/'+baseadmin+'/plugins.php?name=about&tab=page&action=edit',
+                        typesend: 'post',
+                        idforms: $(form),
+                        resetform: false,
+                        successParams:function(data){
+                            window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
+                            $.nicenotify.initbox(data,{
+                                display:true
+                            });
+                        }
+                    });
+                    return false;
+                }
+            });
+        }else if(type === 'addchild'){
+            $(id).validate({
+                onsubmit: true,
+                event: 'submit',
+                rules: {
+                    title_page : {
+                        required: true,
+                        minlength: 2
+                    }
+                },
+                submitHandler: function(form) {
+                    $.nicenotify({
+                        ntype: "submit",
+                        uri: '/'+baseadmin+'/plugins.php?name=about&tab=page&action=savechild',
+                        typesend: 'post',
+                        idforms: $(form),
+                        resetform: false,
+                        successParams:function(data){
+                            window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
+                            $.nicenotify.initbox(data,{
+                                display:true
+                            });
+                        }
+                    });
+                    return false;
+                }
+            });
+        }
+    }
+    function del(id) {
+        $(id).validate({
+            onsubmit: true,
+            event: 'submit',
+            rules: {
+                delete: {
+                    required: true,
+                    number: true,
+                    minlength: 1
+                }
+            },
+            submitHandler: function (form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/' + baseadmin + '/plugins.php?name=about&tab=page&action=delete',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform: true,
+                    successParams: function (data) {
+                        $('#deleteModal').modal('hide');
+                        window.setTimeout(function () {
+                            $(".alert-success").alert('close');
+                        }, 4000);
+                        $.nicenotify.initbox(data, {
+                            display: true
+                        });
+                        $('#item_'+$('#delete').val()).remove();
+                        updateList();
+                    }
+                });
+                return false;
+            }
+        });
+    }
+
+    /**
+    * Liste des points forts
+    * @param getlang
+    */
+    function getPage(baseadmin) {
+        $.nicenotify({
+            ntype: "ajax",
+            uri: '/' + baseadmin + '/plugins.php?name=about&tab=page&action=getlist',
+            typesend: 'get',
+            beforeParams: function () {
+                var loader = $(document.createElement("tr")).attr('id', 'loader').append(
+                    $(document.createElement("td")).addClass('text-center').append(
+                        $(document.createElement("span")).addClass("loader offset5").append(
+                            $(document.createElement("img"))
+                                .attr('src', '/' + baseadmin + '/template/img/loader/small_loading.gif')
+                                .attr('width', '20px')
+                                .attr('height', '20px')
+                        )
+                    )
+                );
+                $('#no-entry').before(loader);
+            },
+            successParams: function (data) {
+                $('#loader').remove();
+                $.nicenotify.initbox(data, {
+                    display: false
+                });
+                if (data === undefined) {
+                    console.log(data);
+                }
+                if (data !== null) {
+                    $('#no-entry').before(data);
+                }
+                updateList();
+            }
+        });
+    }
+    function updateList() {
+        var rows = $('#list_page tr');
+        if (rows.length > 1) {
+            $('#no-entry').addClass('hide');
+
+            $('a.toggleModal').off();
+            $('a.toggleModal').click(function () {
+                if ($(this).attr('href') != '#') {
+                    var id = $(this).attr('href').slice(1);
+
+                    $('#delete').val(id);
+                }
+            });
+        } else {
+            $('#no-entry').removeClass('hide');
         }
     }
     return {
@@ -202,6 +378,11 @@ var MC_plugins_about = (function ($, undefined) {
             save('socials','#info_socials_form');
             save('enable_op','#enable_op_form');
             save('openinghours','#info_opening_form');
+            save('addpage','#add_about_page');
+            save('editpage','#edit_page_form');
+            save('addchild','#add_child_form');
+            del('#del_page');
+            updateList();
 
             $(function(){
                 $('[data-toggle="popover"]').popover();
