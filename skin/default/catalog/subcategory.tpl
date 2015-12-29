@@ -5,7 +5,17 @@
 {block name="webType"}CollectionPage{/block}
 
 {block name="article:content"}
-    <h1>{$subcat.name|ucfirst}</h1>
+    <h1 itemprop="name">{$subcat.name|ucfirst}</h1>
+    <div class="desc" itemprop="description">
+        {if isset($subcat.imgSrc.medium)}
+            <figure class="col-sm-3 pull-right">
+                <a href="{$subcat.imgSrc.large}" class="img-zoom" title="{$subcat.name}">
+                    <img src="{$subcat.imgSrc.medium}" alt="{$subcat.name}" class="img-responsive" />
+                </a>
+            </figure>
+        {/if}
+        {$subcat.content}
+    </div>
     {$subcat.content}
     {widget_catalog_data
         conf =[

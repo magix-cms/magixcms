@@ -351,9 +351,9 @@ class frontend_controller_plugins{
 	/**
 	 * @access public
 	 * Charge une variable venant du template
-	 * @param string $varname
-	 * @param string $_ptr
-	 * @param boolean $search_parents
+	 * @param string $varname variable name or null
+	 * @param string $_ptr optional pointer to data object
+	 * @param boolean $search_parents include parent templates?
 	 * @return string retourne une valeur ou un tableau de variable
 	 */
 	public function getTplVars($varname = null, $_ptr = null, $search_parents = true){

@@ -302,7 +302,7 @@
 
             {$submenu[] = [
             'name'      => {$child.title},
-            'url'       => "{$child.uri}-{$child.id}/",
+            'url'       => "{geturl}/{getlang}/about/{$child.uri}-{$child.id}/",
             'title'     => {$child.title},
             'active'    => {$subactive}
             ]}
