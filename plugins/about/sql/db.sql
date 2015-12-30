@@ -21,6 +21,7 @@ INSERT INTO `mc_plugins_about` (`idinfo`, `info_name`, `value`) VALUES
 (NULL, 'crypt_mail', '1'),
 (NULL, 'phone', NULL),
 (NULL, 'mobile', NULL),
+(NULL, 'click_to_call', '1'),
 (NULL, 'fax', NULL),
 (NULL, 'languages', 'French'),
 (NULL, 'facebook', NULL),

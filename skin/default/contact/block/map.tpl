@@ -20,10 +20,10 @@
     {/if}
     <div>
         {if $companyData.contact.phone}
-        <p><span class="fa fa-phone"></span>{$companyData.contact.phone}</p>
+        <p><span class="fa fa-phone"></span>{if $companyData.contact.click_to_call}<a href="tel:{$companyData.contact.phone|replace:'(0)':''|replace:' ':''|replace:'.':''}">{/if}{$companyData.contact.phone}{if $companyData.contact.click_to_call}</a>{/if}</p>
         {/if}
         {if $companyData.contact.mobile}
-        <p><span class="fa fa-mobile"></span>{$companyData.contact.mobile}</p>
+        <p><span class="fa fa-mobile"></span>{if $companyData.contact.click_to_call}<a href="tel:{$companyData.contact.mobile|replace:'(0)':''|replace:' ':''|replace:'.':''}">{/if}{$companyData.contact.mobile}{if $companyData.contact.click_to_call}</a>{/if}</p>
         {/if}
         {if $companyData.contact.fax}
             <p><span class="fa fa-fax"></span>{$companyData.contact.fax}</p>

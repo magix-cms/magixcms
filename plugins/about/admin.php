@@ -113,6 +113,7 @@ class plugins_about_admin extends DBabout{
 			'crypt_mail' 	=> '1',
 			'phone' 		=> NULL,
 			'mobile' 		=> NULL,
+			'click_to_call' => '1',
 			'fax' 			=> NULL,
 			'adress' 		=> array(
 				'adress' 		=> NULL,
@@ -313,6 +314,12 @@ class plugins_about_admin extends DBabout{
 			$this->edit_contact = true;
 		}elseif($this->edit_contact){
 			$this->company['contact']['click_to_mail'] = '0';
+		}
+		if(magixcjquery_filter_request::isPost('click_to_call')){
+			$this->company['contact']['click_to_call'] = '1';
+			$this->edit_contact = true;
+		}elseif($this->edit_contact){
+			$this->company['contact']['click_to_call'] = '0';
 		}
 		if(magixcjquery_filter_request::isPost('crypt_mail')){
 			$this->company['contact']['crypt_mail'] = '1';
@@ -941,13 +948,14 @@ class DBabout{
 						WHEN 'crypt_mail' THEN :crypt_mail
 						WHEN 'phone' THEN :phone
 						WHEN 'mobile' THEN :mobile
+						WHEN 'click_to_call' THEN :click_to_call
 						WHEN 'fax' THEN :fax
 						WHEN 'adress' THEN :adress
 						WHEN 'street' THEN :street
 						WHEN 'postcode' THEN :postcode
 						WHEN 'city' THEN :city
 					END
-					WHERE `info_name` IN ('mail','click_to_mail','crypt_mail','phone','mobile','fax','adress','street','postcode','city')";
+					WHERE `info_name` IN ('mail','click_to_mail','crypt_mail','phone','mobile','click_to_call','fax','adress','street','postcode','city')";
 
 		magixglobal_model_db::layerDB()->update($query,array(
 				':mail' 			=> $company['contact']['mail'],
@@ -955,6 +963,7 @@ class DBabout{
 				':crypt_mail'		=> $company['contact']['crypt_mail'],
 				':phone' 			=> $company['contact']['phone'],
 				':mobile' 			=> $company['contact']['mobile'],
+				':click_to_call'	=> $company['contact']['click_to_call'],
 				':fax' 				=> $company['contact']['fax'],
 				':adress' 			=> $company['contact']['adress']['adress'],
 				':street' 			=> $company['contact']['adress']['street'],

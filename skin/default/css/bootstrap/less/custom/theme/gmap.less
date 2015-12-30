@@ -22,6 +22,7 @@
         clear: both;
         overflow: hidden;
         border: 1px solid #ccc;
+        margin-bottom:70px;
         >div{
             display: table;
             width: 100%;
@@ -29,6 +30,7 @@
         }
     }
     .gmap3{
+        height: 650px;
         width: 100%;
         float: left;
         display: table-cell;
@@ -81,6 +83,35 @@
     }
     .adp-summary,.adp-legal{
         padding: 0 10px 10px;
+    }
+    .map_loader {
+        position:relative;
+        margin-top:25%;
+        left: 48%;
+        margin-left: -16px;
+    }
+    /**
+     * jQuery UI autocomplete
+     */
+    .ui-autocomplete {
+        background-color: white;
+        max-height: 250px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+        z-index:1003 !important;
+        z-index:1003;
+    }
+    .ui-autocomplete-loading {
+        background: white url(/plugins/gmap/img/ajax-loader.gif) right center no-repeat;
+    }
+    #map_adress img{
+        max-width: inherit;
+    }
+    .gmap-content{
+        clear: both;
     }
 }
 @media (max-width: @screen-md-max) {

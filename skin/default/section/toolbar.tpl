@@ -70,11 +70,11 @@
                         {/if}
                         {if $companyData.contact.phone}
                             <li>
-                                <span class="fa fa-phone"></span>{$companyData.contact.phone}
+                                <span class="fa fa-phone"></span>{if $companyData.contact.click_to_call}<a href="tel:{$companyData.contact.phone|replace:'(0)':''|replace:' ':''|replace:'.':''}">{/if}{$companyData.contact.phone}{if $companyData.contact.click_to_call}</a>{/if}
                             </li>
                         {/if}
                         {if $companyData.contact.mobile}
-                            <li><span class="fa fa-mobile"></span>{$companyData.contact.mobile}</li>
+                            <li><span class="fa fa-mobile"></span>{if $companyData.contact.click_to_call}<a href="tel:{$companyData.contact.mobile|replace:'(0)':''|replace:' ':''|replace:'.':''}">{/if}{$companyData.contact.mobile}{if $companyData.contact.click_to_call}</a>{/if}</li>
                         {/if}
 
                         <div id="contactPoint" itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">

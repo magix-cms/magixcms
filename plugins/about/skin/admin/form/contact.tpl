@@ -48,6 +48,21 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="click_to_call" class="col-sm-2 control-label toggle-label">
+                {#contact_call#|ucfirst}
+                <a href="#" class="text-info" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top" data-content="{#contact_call_ph#|ucfirst}">
+                    <span class="fa fa-question-circle"></span>
+                </a>
+            </label>
+            <div class="col-sm-2">
+                <div class="checkbox">
+                    <label>
+                        <input{if $companyData.contact.click_to_call} checked{/if} id="click_to_call" name="click_to_call" data-toggle="toggle" type="checkbox" data-on="oui" data-off="non" data-onstyle="primary" data-offstyle="default" >
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="company_fax" class="col-sm-2 control-label">{#contact_fax#|ucfirst} <span class="fa fa-fax"></span></label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="company_fax" name="company_fax" {if $companyData.contact.fax}value="{$companyData.contact.fax}" {/if}placeholder="{#contact_fax_ph#|ucfirst}">

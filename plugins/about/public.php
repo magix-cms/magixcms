@@ -98,6 +98,7 @@ class plugins_about_public extends database_plugins_about{
             'crypt_mail'    => '1',
             'phone' 		=> NULL,
             'mobile' 		=> NULL,
+			'click_to_call' => '1',
             'fax' 			=> NULL,
             'adress' 		=> array(
                 'adress' 		=> NULL,
