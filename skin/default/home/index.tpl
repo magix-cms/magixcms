@@ -30,7 +30,7 @@
 {/block}
 
 {block name="main:after"}
-    {include file="home/brick/advantages.tpl" orientation="left" links=true}
+    {include file="home/brick/block-good-choice.tpl"}
     {include file="home/brick/main-cat.tpl"}
     {*{include file="home/brick/last-news.tpl"}*}
 {/block}

@@ -294,23 +294,27 @@ class plugins_about_public extends database_plugins_about{
 	 */
 	public function getAbout()
 	{
-		$iso = $this->template->getLanguage();
+		if( self::verify_table() ) {
+			$iso = $this->template->getLanguage();
 
-		if($iso == null) {
-			$default = parent::getDefaultLang();
-			$iso = $default['iso'];
-		}
+			if ($iso == null) {
+				$default = parent::getDefaultLang();
+				$iso = $default['iso'];
+			}
 
-		$page = parent::getPage($iso);
+			$page = parent::getPage($iso);
 
-		if ($page != null) {
-			$this->template->assign('page',$this->getAboutPage($page));
-			return array(
-				'id' => $page['id'],
-				'title' => $page['title'],
-				'uri' => $page['uri'],
-				'childs' => parent::getChilds($page['id'],$iso)
-			);
+			if ($page != null) {
+				$this->template->assign('page', $this->getAboutPage($page));
+				return array(
+					'id' => $page['id'],
+					'title' => $page['title'],
+					'uri' => $page['uri'],
+					'childs' => parent::getChilds($page['id'], $iso)
+				);
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}

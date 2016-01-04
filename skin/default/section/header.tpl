@@ -37,7 +37,7 @@
                         {/if}
                     </a>
                 </div>
-                {include file="section/menu/primary.tpl" id="nav-primary-collapse" type=$menu root=['about'=>true] submenu=false gmap=$gmap faq=false justified=false microData=true}
+                {include file="section/menu/primary.tpl" id="nav-primary-collapse" type=$menu root=['about'=>false] submenu=false gmap=$gmap faq=false justified=false microData=true}
                 {if $adjust == 'clip'}
             </div>
         </div>
@@ -52,7 +52,7 @@
             <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
                 <img class="img-responsive" src="/skin/{template}/img/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" />
             </a>
-            {include file="section/menu/primary.tpl" id="nav-primary-fixed" type=$menu root=['about'=>true] submenu=false gmap=$gmap faq=false justified=false microData=false}
+            {include file="section/menu/primary.tpl" id="nav-primary-fixed" type=$menu root=['about'=>false] submenu=false gmap=$gmap faq=false justified=false microData=false}
                 {if $adjust == 'clip'}
             </div>
         </div>
