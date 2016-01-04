@@ -100,9 +100,9 @@ Licence
 
 <pre>
 This file is part of Magix CMS.
-Magix CMS, a CMS optimized for SEO
+MAGIX CMS, The content management system optimized for users
 
-Copyright (C) 2008 - 2015 magix-cms.com support[at]magix-cms[point]com
+Copyright (C) 2008 - 2016 magix-cms.com support[at]magix-cms[point]com
 
 OFFICIAL TEAM :
 
