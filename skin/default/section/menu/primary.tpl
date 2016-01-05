@@ -346,7 +346,13 @@
 {/strip}
 {* --- Create Menu HTML --- *}
 <nav{if isset($id)} id="{$id}"{/if} class="collapse navbar-collapse{if isset($type)} menu-{$type}{if $type == 'tabs' && $arrow}-arrow{/if}{/if}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
-    <ul class="nav-primary nav navbar-nav pull-right">
-        {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=false microData=$microData}
-    </ul>
+    {if $adjust == 'clip'}
+    <div class="container">
+        {/if}
+        <ul class="nav-primary nav{if isset($justified) &&$justified } nav-justified{else} navbar-nav pull-right{/if}">
+            {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=false microData=$microData}
+        </ul>
+        {if $adjust == 'clip'}
+    </div>
+    {/if}
 </nav>
