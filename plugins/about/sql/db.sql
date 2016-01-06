@@ -53,9 +53,9 @@ INSERT INTO `mc_plugins_about_op` (`idday`, `day_abbr`, `open_day`, `noon_time`,
 (NULL, 'Su', '0', '0', NULL, NULL, NULL, NULL);
 
 CREATE TABLE IF NOT EXISTS `mc_plugins_about_page` (
-  `idpage` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `idpage` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
   `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',
-  `idpage_p` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `idpage_p` smallint(3) unsigned NOT NULL DEFAULT '0',
   `title_page` varchar(150) NOT NULL,
   `uri_title` varchar(150) NOT NULL,
   `content_page` text NOT NULL,
