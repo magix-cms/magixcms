@@ -53,39 +53,3 @@
 	text-align: right;
 	.only-xtra-small({ float: none !important; });
 }
-
-
-/*--------------------------*\
------ Back to top button -----
-\*--------------------------*/
-
-#toTop, #toTop.affix-top {
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	opacity: 0;
-	visibility: hidden;
-	z-index: 300;
-	width: 100%;
-	.auto-transition(1s);
-	&.affix {
-		visibility: visible;
-		opacity: 1;
-	}
-	a {
-		.square(80px);
-		display: block;
-		color: @light-gray;
-		margin: 0 auto;
-		.text-center;
-		.auto-transition(.35s);
-		span {
-			font-size: 4.5em;
-		}
-		&:hover, &:focus, &:active {
-			text-decoration: none;
-			border-color: @main-color;
-			color: @main-color;
-		}
-	}
-}
