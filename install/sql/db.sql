@@ -226,15 +226,15 @@ CREATE TABLE IF NOT EXISTS `mc_config_size_img` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 INSERT INTO `mc_config_size_img` (`id_size_img`, `idconfig`, `config_size_attr`, `width`, `height`, `type`, `img_resizing`) VALUES
-(1, 4, 'category', '120', '100', 'small', 'basic'),
-(2, 4, 'subcategory', '120', '100', 'small', 'basic'),
-(3, 4, 'product', '120', '100', 'small', 'basic'),
-(4, 4, 'product', '350', '250', 'medium', 'basic'),
-(5, 4, 'product', '700', '700', 'large', 'basic'),
-(6, 4, 'galery', '120', '100', 'small', 'basic'),
+(1, 4, 'category', '480', '360', 'small', 'adaptive'),
+(2, 4, 'subcategory', '480', '360', 'small', 'adaptive'),
+(3, 4, 'product', '360', '270', 'small', 'adaptive'),
+(4, 4, 'product', '480', '360', 'medium', 'adaptive'),
+(5, 4, 'product', '900', '900', 'large', 'basic'),
+(6, 4, 'galery', '360', '270', 'small', 'adaptive'),
 (7, 4, 'galery', '700', '700', 'large', 'basic'),
-(8, 3, 'news', '120', '100', 'small', 'basic'),
-(9, 3, 'news', '350', '250', 'medium', 'basic');
+(8, 3, 'news', '360', '270', 'small', 'adaptive'),
+(9, 3, 'news', '480', '360', 'medium', 'basic');
 
 CREATE TABLE IF NOT EXISTS `mc_metas_rewrite` (
   `idrewrite` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
