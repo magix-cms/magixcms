@@ -22,3 +22,5 @@ plugins/convdata/
 plugins/faq/
 plugins/advantage/
 /skin/default/home/brick/advantages.tpl
+plugins/hipay/
+plugins/ogone/

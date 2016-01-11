@@ -65,7 +65,8 @@
 
     {include file="section/footer.tpl" adjust="clip"}
 
-    {include file="section/nav/btt.tpl"}
+    {include file="section/footbar.tpl"}
+    {include file="section/nav/btt.tpl" affix=300}
 
     {block name="foot"}
     {*  Magix Js

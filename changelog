@@ -1,6 +1,6 @@
 #### 2.6.5
 Stable
-
+* Add share for mobile (footbar)
 * Add quickAccess in breadcrumb (skin)
 * Update info for content_css in editor (backend)
 * Add lang dropdown (skin frontend)

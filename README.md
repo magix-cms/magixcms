@@ -49,6 +49,12 @@ Ressources
  * http://www.smarty.net
  * http://magix-cjquery.com/
 
+Plugins
+-----
+ * [Faq](https://github.com/magix-cms/faq)
+ * [Advantage](https://github.com/magix-cms/advantage)
+ * [Gmap](https://github.com/gtraxx/gmap)
+
 Requirements
 ------------
 

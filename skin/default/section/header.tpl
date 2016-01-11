@@ -32,7 +32,7 @@
         {if $adjust == 'clip'}<div class="container">
             <div class="row">{/if}
                 {* Show Nav Button (xs ad sm only) *}
-                <button id="toggle-menu" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu">
+                <button id="toggle-menu" type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target="#main-menu">
                     <span class="sr-only">{#toggleNavigation#|ucfirst}</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>

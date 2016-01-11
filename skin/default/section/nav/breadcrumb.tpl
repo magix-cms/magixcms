@@ -13,13 +13,6 @@
 <div class="container">
     <div class="row">
         {/if}
-        {* Share tools *}
-        {widget_share_data assign="shareData"}
-        <div class="share-box pull-right col-md-4">
-            <ul id="share-nav" class="list-inline">
-                {include file="section/loop/share.tpl" data=$shareData}
-            </ul>
-        </div>
         {strip}
         {assign var=bread value=array()}
 
