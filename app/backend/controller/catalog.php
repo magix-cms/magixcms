@@ -170,7 +170,7 @@ class backend_controller_catalog extends backend_db_catalog{
 	 * @var d_in_product
 	 */
 	public $d_rel_product;
-	public $product_search,$name_product,$name_category;
+	public $product_search,$name_product,$name_category,$img_order;
 	public $get_search_page;
     public $delete_catalog,$delete_image,$delete_product,$delete_galery,$delete_category,$delete_subcategory;
     /**
@@ -302,7 +302,10 @@ class backend_controller_catalog extends backend_db_catalog{
         if(magixcjquery_filter_request::isGet('name_category')){
             $this->name_category = magixcjquery_form_helpersforms::inputClean($_GET['name_category']);
         }
-
+        // galery
+        if(magixcjquery_filter_request::isPost('img_order')){
+            $this->img_order = magixcjquery_form_helpersforms::arrayClean($_POST['img_order']);
+        }
         //Global
         if(magixcjquery_filter_request::isGet('section')){
             $this->section = magixcjquery_form_helpersforms::inputClean($_GET['section']);
@@ -1756,7 +1759,19 @@ class backend_controller_catalog extends backend_db_catalog{
             }
         }
     }
-
+    /**
+     * Execute Update AJAX FOR order image
+     * @access private
+     *
+     */
+    private function update_order_galery(){
+        if(isset($this->img_order)){
+            $p = $this->img_order;
+            for ($i = 0; $i < count($p); $i++) {
+                parent::u_order_galery($i,$p[$i]);
+            }
+        }
+    }
     /**
      * @access private
      * Suppression des images de galerie produit
@@ -2210,6 +2225,8 @@ class backend_controller_catalog extends backend_db_catalog{
                                         $header->getStatus('200');
                                         $header->json_header("UTF-8");
                                         $this->json_list_galery();
+                                    }elseif(isset($this->img_order)){
+                                        $this->update_order_galery();
                                     }elseif(isset($this->imgcatalog)){
                                         $this->add_galery_image();
                                     }elseif(isset($this->delete_galery)){

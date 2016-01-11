@@ -246,6 +246,9 @@ tbody.ui-sortable > .ui-sortable-helper{
 /*
 * List image
 */
+.list-picture{
+    margin: 20px 0;
+}
 .list-picture li{
     margin:0 0 0 5px;
     text-align:center;

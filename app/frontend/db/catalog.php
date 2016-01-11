@@ -424,7 +424,8 @@ class frontend_db_catalog
                   FROM mc_catalog_product
                   WHERE idproduct = :idproduct
                 ) AS cur_p
-            JOIN mc_catalog_galery as gallery ON (cur_p.idcatalog = gallery.idcatalog)';
+            JOIN mc_catalog_galery as gallery ON (cur_p.idcatalog = gallery.idcatalog)
+            ORDER BY gallery.img_order';
         return magixglobal_model_db::layerDB()->select(
             $select,
             array(

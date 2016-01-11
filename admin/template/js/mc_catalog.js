@@ -2105,9 +2105,18 @@ var MC_catalog = (function ($, undefined) {
                 }
 
                 if($.isEmptyObject(j) === false){
+                    var Width = $('.list-picture img').width(),col;
+                    if(Width > 150){
+                        col = 'col-md-3 col-sm-3 col-xs-6';
+                    }else{
+                        col = 'col-md-2 col-sm-2 col-xs-6';
+                    }
+                    $('.list-picture li').addClass(col);
                     $.each(j, function(i,item) {
                         setContener.append(
-                            $(document.createElement("li")).addClass(col).append(
+                            $(document.createElement("li")).addClass(col)
+                                .attr("id","img_order_"+item.idmicro)
+                                .append(
                                 $(document.createElement("div")).append(
                                     $(document.createElement("a"))
                                         .attr('href','#')
@@ -2127,13 +2136,28 @@ var MC_catalog = (function ($, undefined) {
                             )
                         );
                     });
-                    var Width = $('.list-picture img').width(),col;
-                    if(Width > 150){
-                        col = 'col-md-3 col-sm-3 col-xs-6';
-                    }else{
-                        col = 'col-md-2 col-sm-2 col-xs-6';
-                    }
-                    $('.list-picture li').addClass(col);
+                    // Image galery sortable
+                    $('.list-picture').sortable({
+                         //items: "> li",
+                         //placeholder: "ui-state-highlight",
+                         cursor: "move",
+                         //axis: "x",
+                         update : function() {
+                             var serial = $('.list-picture').sortable('serialize');
+                             $.nicenotify({
+                                 ntype: "ajax",
+                                 uri: '/'+baseadmin+'/catalog.php?section='+section+'&getlang='+getlang+'&action=edit&edit='+edit+'&tab='+tab,
+                                 typesend: 'post',
+                                 noticedata : serial,
+                                 successParams:function(e){
+                                     $.nicenotify.initbox(e,{
+                                        display:false
+                                     });
+                                 }
+                             });
+                         }
+                     });
+                    $('.list-picture').disableSelection();
                 }else{
                     setContener.append(
                         $(document.createElement("img"))

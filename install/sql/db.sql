@@ -135,9 +135,10 @@ CREATE TABLE IF NOT EXISTS `mc_catalog_galery` (
   `idmicro` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `idcatalog` int(6) unsigned NOT NULL,
   `imgcatalog` varchar(125) NOT NULL,
+  `img_order` int(6) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`idmicro`),
   KEY `idcatalog` (`idcatalog`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_product` (
   `idproduct` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -283,7 +284,7 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'webmaster', '', 'string', 'google webmasterTools'),
 (NULL, 'analytics', '', 'string', 'google analytics'),
 (NULL, 'editor', 'openFilemanager', 'string', 'tinymce'),
-(NULL, 'magix_version', '2.6.0', 'string', 'Version Magix CMS'),
+(NULL, 'magix_version', '2.6.5', 'string', 'Version Magix CMS'),
 (NULL, 'content_css', NULL, 'string', NULL),
 (NULL, 'concat', '0' , 'string', NULL),
 (NULL, 'cache', 'none' , 'string', NULL),

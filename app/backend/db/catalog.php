@@ -747,15 +747,28 @@ class backend_db_catalog{
             ':edit'	=>	$edit
         ));
     }
-
+    /**
+     * Met à jour l'ordre d'affichage des images de la galerie
+     * @param $i
+     * @param $id
+     */
+    protected function u_order_galery($i,$id){
+        $sql = 'UPDATE mc_catalog_galery SET img_order = :i WHERE idmicro = :id';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':i'=>$i,
+                ':id'=>$id
+            )
+        );
+    }
     /**
      * Insertion d'une image galerie dans le produit
      * @param $imgcatalog
      * @param $edit
      */
     protected function i_product_galery($imgcatalog,$edit){
-        $sql = 'INSERT INTO mc_catalog_galery (idcatalog,imgcatalog)
-        VALUE(:edit,:imgcatalog)';
+        $sql = 'INSERT INTO mc_catalog_galery (idcatalog,imgcatalog,img_order)
+        VALUE(:edit,:imgcatalog,(SELECT COUNT(g.img_order) FROM mc_catalog_galery AS g WHERE g.idcatalog = :edit))';
         magixglobal_model_db::layerDB()->insert($sql,
             array(
                 ':edit'	=>	$edit,
