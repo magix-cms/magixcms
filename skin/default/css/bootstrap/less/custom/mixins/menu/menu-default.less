@@ -1,6 +1,8 @@
 /*---------------*\
 ----- Default -----
 \*---------------*/
-nav.menu-default {
-	.start-at-small({ margin-top: 10px; });
+.menu-default {
+	@media (min-width: @screen-sm-min) {
+		margin-top: 10px;
+	}
 }

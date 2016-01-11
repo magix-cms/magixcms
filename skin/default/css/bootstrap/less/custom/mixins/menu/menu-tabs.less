@@ -1,43 +1,65 @@
 /*------------*\
 ----- Tabs -----
 \*------------*/
-nav.menu-tabs {
-	.nav-primary {
-		li {
-			a {
-				padding: 15px 20px;
+// ---- Variables
+@mheight: 50px;
+@sm-mheight: @mheight;
+@md-mheight: @mheight;
+@lg-mheight: @mheight;
 
-				@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-					padding: 15px 15px;
-				}
+// ---- Rules
+
+// ---- Dropdown
+.dp-menu() {
+	display: block;
+	visibility: visible;
+	.box-shadow(0 10px 10px rgba(0,0,0,.2));
+	.opacity(1);
+	.translate(0,0);
+	.auto-transition(.5s);
+}
+// ---- //
+
+nav.menu-tabs {
+	.menu-dropdown;
+
+	li {
+		vertical-align: top;
+		a {
+			height: @mheight;
+			display: table;
+			width: 100%;
+
+			> span {
+				display: table-cell;
+				vertical-align: middle;
 			}
 		}
 	}
 
+	// ---- Arrow display
 	&-arrow {
-		.nav-primary {
-			@media (min-width: @screen-sm-min) {
-				>li.active {
-					>a {
-						&,&:hover,&:active,&:focus {
-							position: relative;
+		@media (min-width: @screen-sm-min) {
+			> li.active {
+				> a {
+					&,&:hover,&:active,&:focus {
+						position: relative;
 
-							&:before {
-								content: "";
-								display: inline-block;
-								position: absolute;
-								bottom: -10px;
-								width: 20px;
-								height: 20px;
-								left: 42%;
-								box-shadow: 0 0 2px rgba(0,0,0,.4);
-								transform: rotate(45deg);
-								background-color: @main-color;
-								z-index: -1;
+						&:before {
+							content: "";
+							display: inline-block;
+							position: absolute;
+							bottom: -10px;
+							width: 20px;
+							height: 20px;
+							left: 42%;
+							box-shadow: 0 0 2px rgba(0,0,0,.4);
+							transform: rotate(45deg);
+							background-color: @main-color;
+							z-index: -1;
 
-								@media (min-width: @screen-md-min) {
-									left: 44%;
-								}
+							@media (min-width: @screen-md-min) {
+								left: 44%;
 							}
 						}
 					}
@@ -45,46 +67,9 @@ nav.menu-tabs {
 			}
 		}
 	}
-
-	@media (min-width: @screen-sm-min) {
-		.nav-primary {
-			height: 70px;
-
-			> li {
-				height: 70px;
-				vertical-align: top;
-
-				> a {
-					height: 70px;
-					display: table;
-
-					> span {
-						display: table-cell;
-						vertical-align: middle;
-					}
-				}
-			}
-		}
-	}
-
-	@media (min-width: @screen-lg-min) {
-		.nav-primary {
-			height: auto;
-
-			> li {
-				height: auto;
-				vertical-align: top;
-
-				> a {
-					height: auto;
-					display: table;
-
-					> span {
-						display: table-cell;
-						vertical-align: middle;
-					}
-				}
-			}
-		}
-	}
+	// ---- //
 }
+
+/*
+ * Media Queries
+ */

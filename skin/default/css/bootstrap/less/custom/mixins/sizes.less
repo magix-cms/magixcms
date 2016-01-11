@@ -6,21 +6,20 @@
 ----- Global Sizes -----
 \*--------------------*/
 
-@footer-height: 400px;
+@footer-height: 745px;
 
 
 /*--------------------------------*\
 ----- Specific to screen sizes -----
 \*--------------------------------*/
 
-// --- lg sizes
-
-
-// --- md sizes
-@footer-height-md: (@footer-height - 35);
+// --- xs sizes
 
 // --- sm sizes
-@footer-height-sm: @footer-height;
+@footer-height-sm: @footer-height - 345;
 
-// --- xs sizes
-@footer-height-xs: (@footer-height + 150);
+// --- md sizes
+@footer-height-md: @footer-height-sm;
+
+// --- lg sizes
+@footer-height-lg: @footer-height-sm;

@@ -5,119 +5,131 @@
 #toolbar {
     background-color: extract(@dark-gradient,1);
 
-	padding: 7px 3px 7px 8px;
+	padding: 7px 0;
 	color: @smooth-white;
 	font-size: 12px;
 
-    #social-follow {
-        font-size: 14px;
-    }
-
-    ul {
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-        li {
-            display: inline-block;
-            margin-top: 4px;
-            float: left;
-            a {
-                color: white;
-                padding: 5px 10px;
-                &:hover {
-                    color: @main-color;
-                    text-decoration: none;
-                }
-            }
-        }
-    }
-
-    .navbar-toggle {
-        padding: 5px 10px;
-        margin: -5px 0 0;
-
-        span {
-            background-color: transparent;
-        }
-    }
-
-    .lang-nav {
-        li {
-            border-right: 1px solid #fff;
-            &:last-child {
-                border: none;
-            }
-            &.active {
-                color: @main-color;
-            }
-        }
-        .lang-header {
-            margin-top: 5px;
-        }
-    }
-
-    #contact-infos {
-        li {
-	        margin-left: 8px;
-
-            span.fa {
-                margin-top: 2px;
-	            margin-right: 8px;
-            }
-        }
-    }
-
     .visible-xs {
+		margin-top: 1px;
         ul li {
-            padding: 6px 5px 5px;
             margin-right: 10px;
-	        margin-top: 0;
+
+			&:first-child {
+				margin-top: 5px;
+			}
 
 	        &:last-child {
-		        margin-right: 0;
+		        margin-right: 15px;
 	        }
 
             span.fa {
                 margin-right: 8px;
-            }
-
-            &.toggle-menu {
-                padding: 0;
-                margin-right: 0;
-                span.fa {
-                    margin-right: 0;
-                }
+				&.fa-envelope {
+					margin-right: 0;
+				}
             }
         }
     }
 }
 
-@media (min-width: @screen-sm-min) {
-    #toolbar {
-		padding: 7px 15px !important;
-        ul {
-            li {
-                a {
-                    padding: 5px;
-                }
-            }
-        }
+#social-follow {
+	font-size: 14px;
+}
 
-        #social-follow {
-            margin-left: 15px;
-        }
+#menu-language {
+	margin-left: 15px;
+	.dropdown.open {
+		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2) inset;
+	}
+}
 
-        #contact-infos {
-			li {
-				margin-left: 0;
-				margin-right: 15px;
+#social-follow, #contact-infos, #toolbar .visible-xs {
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+		li {
+			display: inline-block;
+			margin-top: 4px;
+			float: left;
+			a {
+				color: white;
+				padding: 5px;
+				&:hover {
+					color: @main-color;
+					text-decoration: none;
+				}
 			}
-        }
+		}
+	}
+}
 
-        .dropdown #menu-user {
-            span.fa {
-                margin-right: 12px;
-            }
-        }
-    }
+.lang-header {
+	margin-right: 5px;
+
+	a {
+		color: @smooth-white;
+		padding: 5px;
+		display: inline-block;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.dropdown-menu {
+		min-width: 100%;
+		border-radius: 0;
+		background-color: @toolbar-bg;
+		padding: 0;
+
+		li {
+			padding: 0;
+			margin: 0;
+			a {
+				color: @smooth-white;
+				padding: 5px;
+				width: 100%;
+				text-align: center;
+				font-size: 12px;
+				&:hover, &:focus, &:active, &.active {
+					background-color: @main-color;
+					color: @smooth-white;
+				}
+			}
+		}
+	}
+
+	.lang-nav {
+		li {
+			border-right: 1px solid #fff;
+			&:last-child {
+				border: none;
+			}
+			&.active {
+				color: @main-color;
+			}
+		}
+		.lang-header {
+			margin-top: 5px;
+		}
+	}
+}
+
+@media (min-width: @screen-sm-min) {
+    #social-follow {
+		margin-left: 15px;
+	}
+
+	#contact-infos {
+		ul li {
+			margin: 5px 15px 0 0;
+
+			span.fa {
+				margin-top: 2px;
+				margin-right: 8px;
+			}
+		}
+	}
 }

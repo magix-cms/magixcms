@@ -56,6 +56,11 @@ function smarty_function_widget_lang_data($params, $template)
     $iso_current = magixcjquery_filter_request::isGet('strLangue');
 
     // *** Load SQL DATA
+	if (!$iso_current) {
+		$default = frontend_db_lang::s_default_language();
+		$template->assign('defaultLang',$default);
+	}
+
     $data = frontend_db_lang::s_fetch_lang();
     $assign = isset($params['assign']) ? $params['assign'] : 'data';
     $template->assign($assign,$data);

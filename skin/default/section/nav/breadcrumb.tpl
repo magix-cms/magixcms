@@ -1,6 +1,14 @@
+{strip}
 {if !isset($adjust)}
     {assign var="adjust" value="clip"}
 {/if}
+{if !isset($catalog)}
+    {assign var="catalog" value=true}
+{/if}
+{if !isset($quickAccess)}
+    {assign var="quickAccess" value=true}
+{/if}
+{/strip}
 {if $adjust == 'clip'}
 <div class="container">
     <div class="row">
@@ -27,7 +35,18 @@
         {if $smarty.server.SCRIPT_NAME == '/cms.php'}
             {* Parent *}
             {if $smarty.get.getidpage_p}
+                {if $quickAccess}
+                {widget_cms_data
+                    conf = [
+                        'select' => [{getlang} => {$smarty.get.getidpage_p}],
+                        'context' => 'child'
+                        ]
+                    assign = 'submenu'
+                }
+                {$bread[] = ['name' => {$parent.name},'url' => "{geturl}{$parent.url}",'title' => "{#show_page#}: {$parent.name}",'submenu' => $submenu]}
+                {else}
                 {$bread[] = ['name' => {$parent.name},'url' => "{geturl}{$parent.url}",'title' => "{#show_page#}: {$parent.name}"]}
+                {/if}
             {/if}
             {* /Parent *}
 
@@ -39,11 +58,34 @@
         {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
             {if $smarty.get.idclc}
                 {* Root *}
-                {*{$bread[] = ['name' => {#catalog#},'url' => "{geturl}/{getlang}/{#nav_catalog_uri#}/",'title' => {#show_catalog#}]}*}
+                {if $catalog}
+                    {if $quickAccess}
+                        {widget_catalog_data
+                            conf = [
+                                'context' => 'category'
+                                ]
+                            assign = 'submenu'
+                        }
+                        {$bread[] = ['name' => {#catalog#},'url' => "{geturl}/{getlang}/{#nav_catalog_uri#}/",'title' => {#show_catalog#},'submenu'=>$submenu]}
+                    {else}
+                        {$bread[] = ['name' => {#catalog#},'url' => "{geturl}/{getlang}/{#nav_catalog_uri#}/",'title' => {#show_catalog#}]}
+                    {/if}
+                {/if}
 
                 {* Catégories *}
                 {if $smarty.get.idcls OR $smarty.get.idproduct}
-                    {$bread[] = ['name' => {$cat.name},'url' => "{geturl}{$cat.url}",'title' => "{#show_category#}: {$cat.name}"]}
+                    {if $quickAccess}
+                        {widget_catalog_data
+                            conf = [
+                                'select' => [{getlang} => {$smarty.get.idclc}],
+                                'context' => ['category' => 'subcategory']
+                                ]
+                            assign = 'submenu'
+                        }
+                        {$bread[] = ['name' => {$cat.name},'url' => "{geturl}{$cat.url}",'title' => "{#show_category#}: {$cat.name}",'submenu'=>$submenu[0].subdata]}
+                    {else}
+                        {$bread[] = ['name' => {$cat.name},'url' => "{geturl}{$cat.url}",'title' => "{#show_category#}: {$cat.name}"]}
+                    {/if}
 
                     {* Sous-catégories *}
                     {if $smarty.get.idcls AND $smarty.get.idproduct}
@@ -116,30 +158,40 @@
         {/if}
         {* /Plugins *}
         {/strip}
-        <ol id="breadcrumb" class="breadcrumb hidden-xs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <nav id="breadcrumb" class="hidden-xs" itemprop="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <ol class="breadcrumb">
             {foreach $bread as $breadcrumb}
-                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    {if isset($breadcrumb.url)}
-                        <a href="{$breadcrumb.url}" title="{$breadcrumb.title|ucfirst}" itemprop="item">
-                            <span itemprop="name">{$breadcrumb.name|ucfirst}
-                            <meta itemprop="position" content="{($breadcrumb@index + 1)}" />
-                        </a>
-                    {else}
-                        <span itemprop="item">
-                            <span itemprop="name">{$breadcrumb.name|ucfirst}</span>
-                            <meta itemprop="position" content="{($breadcrumb@index + 1)}" />
-                        </span>
+            <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                {if isset($breadcrumb.url)}
+                    <a href="{$breadcrumb.url}" title="{$breadcrumb.title|ucfirst}" itemprop="item"{if isset($breadcrumb.submenu)} class="hasSubmenu"{/if}>
+                        <span itemprop="name">{$breadcrumb.name|ucfirst}
+                        <meta itemprop="position" content="{($breadcrumb@index + 1)}" />
+                    </a>
+                    {if isset($breadcrumb.submenu) && !empty($breadcrumb.submenu)}
+                    <ul class="submenu list-unstyled">
+                    {foreach $breadcrumb.submenu as $item}
+                        <li><a href="{$item.url}">{$item.name}</a></li>
+                    {/foreach}
+                    </ul>
                     {/if}
-                </li>
+                {else}
+                    <span itemprop="item">
+                        <span itemprop="name">{$breadcrumb.name|ucfirst}</span>
+                        <meta itemprop="position" content="{($breadcrumb@index + 1)}" />
+                    </span>
+                {/if}
+            </li>
             {/foreach}
-        </ol>
+            </ol>
+        </nav>
 
         {if !isset($collapse)}
             {$collapse = true}
         {/if}
         {$length = $bread|count}
 
-        <ol id="compact-breadcrumb" class="breadcrumb hidden-sm hidden-md hidden-lg">
+        <nav id="compact-breadcrumb" class="breadcrumb hidden-sm hidden-md hidden-lg">
+            <ol>
             {foreach from=$bread item=breadcrumb key=i}
                 {if $length > 3 && $i == 1 && $collapse}
                     <li id="hellipsis">
@@ -165,7 +217,8 @@
                     </li>
                 {/if}
             {/foreach}
-        </ol>
+            </ol>
+        </nav>
         {if $adjust == 'clip'}
     </div>
 </div>

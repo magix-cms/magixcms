@@ -4,13 +4,16 @@
 #footer {
 	background: @footer-bg;
 	color: @footer-color;
-	padding-top: 40px;
-	padding-bottom: 40px;
+	padding-top: 20px;
 	position: absolute;
 	bottom: 0;
 	font-weight: lighter;
-	.start-at-small({ .size(100%, @footer-height); });
-	.only-xtra-small({ .size(100%, @footer-height-xs); });
+	@media (min-width: @screen-sm-min) {
+		.size(100%, @footer-height-sm);
+	}
+	@media (max-width: @screen-xs-max) {
+		.size(100%, @footer-height);
+	}
 
 	// Global footer rules
 	h4 {
@@ -27,109 +30,6 @@
 		color: @footer-color;
 	}
 
-	#block {
-		&-about,
-		&-contact {
-			.normalize-link(@main-color);
-		}
-
-		// --- Block About
-		&-about {
-			.footer {
-				&-copyright {
-					color: #959595;
-
-					.footer-website {
-						margin: 20px 0 0 0;
-						padding-bottom: 0;
-						font-size: 28px;
-						border-bottom: none;
-						.only-small({ font-size: 22px; margin: 17px 0 3px; });
-					}
-
-					.copyright-info {
-						color: @footer-color;
-					}
-
-					a {
-						.img-responsive {
-							margin: 20px 0 15px;
-						}
-					}
-				}
-
-				&-certify {
-					margin: 15px 0;
-				}
-
-				&-creator {
-					margin-top: 20px;
-					color: #959595;
-					.normalize-link(@main-color, same, underline, lighter, "Raleway");
-
-					a {
-						font-size: 21px;
-					}
-				}
-			}
-		}
-
-		&-last-news {
-			.news-list-last {
-				h5 {
-					color: @footer-color;
-					.semiBold;
-					line-height: 1.428;
-				}
-
-				a {
-					color: @footer-color;
-					text-decoration: none;
-					h5 {
-						color: @footer-color;
-						text-decoration: none;
-					}
-					&:hover {
-						color: @footer-color;
-						text-decoration: none;
-						p, h5 {
-							color: @footer-color;
-							text-decoration: none;
-						}
-					}
-				}
-
-				.media-footer {
-					border-bottom: 1px dotted @light-gray;
-					color: @light-gray;
-					padding-bottom: 10px;
-					p {
-						font-size: 12px;
-						margin-bottom: 5px;
-					}
-					small {
-						color: @footer-color;
-					}
-				}
-			}
-		}
-
-		// --- Block contact
-		&-contact {
-			color: @light-gray;
-			font-size: 12px;
-			.only-xtra-small({ padding: 0 30px; });
-
-			strong/*, .mailto a*/ {
-				font-weight: 600;
-			}
-
-			h4 + p {
-				font-size: 14px;
-			}
-		}
-	}
-
 	.contact-list-footer {
 		> li {
 			font-size: 22px;
@@ -144,13 +44,113 @@
 	}
 }
 
-@media (max-width: @screen-xs-max) {
-	#footer {
-		height: @footer-height-xs;
+#block {
+	&-about,
+	&-contact {
+		.normalize-link(@main-color);
 	}
 
-	ul#nav-footer.link-bar {
-		margin: 15px 0;
-		display: block;
+	// --- Block About
+	&-about {
+		.footer {
+			&-copyright {
+				color: #959595;
+
+				.footer-website {
+					margin: 20px 0 0 0;
+					padding-bottom: 0;
+					font-size: 28px;
+					border-bottom: none;
+					.only-small({ font-size: 22px; margin: 17px 0 3px; });
+				}
+
+				.copyright-info {
+					color: @footer-color;
+				}
+
+				a {
+					.img-responsive {
+						margin: 20px 0 15px;
+					}
+				}
+			}
+
+			&-certify {
+				margin: 15px 0;
+			}
+
+			&-creator {
+				margin-top: 20px;
+				color: #959595;
+				.normalize-link(@main-color, same, underline, lighter, "Raleway");
+
+				a {
+					font-size: 21px;
+				}
+			}
+		}
 	}
+
+	&-last-news {
+		.news-list-last {
+			h5 {
+				color: @footer-color;
+				.semiBold;
+				line-height: 1.428;
+			}
+
+			a {
+				color: @footer-color;
+				text-decoration: none;
+				h5 {
+					color: @footer-color;
+					text-decoration: none;
+				}
+				&:hover {
+					color: @footer-color;
+					text-decoration: none;
+					p, h5 {
+						color: @footer-color;
+						text-decoration: none;
+					}
+				}
+			}
+
+			.media-footer {
+				border-bottom: 1px dotted @light-gray;
+				color: @light-gray;
+				padding-bottom: 10px;
+				p {
+					font-size: 12px;
+					margin-bottom: 5px;
+				}
+				small {
+					color: @footer-color;
+				}
+			}
+		}
+	}
+
+	// --- Block contact
+	&-contact {
+		color: @light-gray;
+		font-size: 12px;
+		padding: 0 15px;
+		@media (min-width: @screen-sm-min) {
+			padding: 0 30px;
+		}
+
+		strong/*, .mailto a*/ {
+			font-weight: 600;
+		}
+
+		h4 + p {
+			font-size: 14px;
+		}
+	}
+}
+
+ul#nav-footer.link-bar {
+	margin: 15px 0;
+	display: block;
 }

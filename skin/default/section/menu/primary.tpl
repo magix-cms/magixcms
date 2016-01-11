@@ -68,7 +68,8 @@
 {/if}
 
 {* --- Disable submenu links --- *}
-{if (isset($submenu) && $submenu) || $menu == 'dropdown'}
+{$dropmenu = ['dropdown','tabs','tabs-arrow']}
+{if (isset($submenu) && $submenu) || $menu|in_array:$dropmenu}
     {$getPage = 'all'}
     {$getCat = ['category' => 'subcategory']}
 {else}
@@ -197,7 +198,7 @@
     'active'    => {$active}
     ]}
 
-    {if isset($submenu) && $submenu}
+    {if isset($submenu) && $submenu || $menu|in_array:$dropmenu}
         {widget_catalog_data
             conf = [
                 'context' => 'category'
@@ -233,7 +234,7 @@
     {widget_cms_data
         conf = [
             'select' => [{getlang} => {#menu_pages_2#}],
-            'context' => 'all'
+            'context' => {$getPage}
             ]
         assign="pageList"
     }
@@ -291,7 +292,7 @@
     'title'     => "{#about_title#} {#website_name#}",
     'active'    => $about_current
     ]}
-    {if $about.childs != null}
+    {if $about.childs != null && (isset($submenu) && $submenu)}
         {assign var=submenu value=array()}
         {foreach $about.childs as $child}
             {if isset($smarty.get.pnum1) && $smarty.get.pnum1 == $child.id}
@@ -333,7 +334,7 @@
     'title'     => {#show_contact_form#},
     'active'    => $contact_current
     ]}
-    {if $gmap}
+    {if $gmap && (isset($submenu) && $submenu)}
         {$contact['subdata'][] = [
         'name'      => {#plan_acces#},
         'url'       => "{geturl}/{getlang}/gmap/",
@@ -345,14 +346,19 @@
 {/if}
 {/strip}
 {* --- Create Menu HTML --- *}
-<nav{if isset($id)} id="{$id}"{/if} class="collapse navbar-collapse{if isset($type)} menu-{$type}{if $type == 'tabs' && $arrow}-arrow{/if}{/if}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
-    {if $adjust == 'clip'}
+<nav{if isset($id)} id="{$id}"{/if} class="menu collapse navbar-collapse{if isset($type)} menu-{$type}{/if}{if $menubar} menubar{/if}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
+    {if $adjust == 'clip' && $menubar}
     <div class="container">
         {/if}
-        <ul class="nav-primary nav{if isset($justified) &&$justified } nav-justified{else} navbar-nav pull-right{/if}">
-            {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=false microData=$microData}
+        <a href="#search" class="sr-only skip-menu" role="link">Passer le menu</a>
+        <ul class="nav{if isset($justified) &&$justified } nav-justified{/if}">
+            {if isset($submenu) && $submenu || $menu|in_array:$dropmenu}
+                {include file="section/menu/loop/dropdown.tpl" menuData=$menu gmap=$gmap microData=$microData}
+            {else}
+                {include file="section/menu/loop/default.tpl" menuData=$menu gmap=$gmap microData=$microData}
+            {/if}
         </ul>
-        {if $adjust == 'clip'}
+        {if $adjust == 'clip' && $menubar}
     </div>
     {/if}
 </nav>

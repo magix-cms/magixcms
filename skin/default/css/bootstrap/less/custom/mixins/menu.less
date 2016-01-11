@@ -1,6 +1,76 @@
 /*
  * Predefine style for menu
  */
+.menubar {
+	clear: both;
+	margin: 0;
+	padding: 0;
+}
+
+
+/*
+ * Styles
+ */
 @import "menu/menu-default";
 @import "menu/menu-dropdown";
 @import "menu/menu-tabs";
+
+
+/*
+ * Media Queries
+ */
+#toggle-menu {
+	span {
+		background: #777;
+		.transform-origin(left center);
+	}
+
+	&.open {
+		span:first-child {
+			~ .icon-bar {
+				width: 21px;
+			}
+
+			+ .icon-bar {
+				-webkit-transform: rotate(45deg) translate(-1px, -1px);
+				-ms-transform: rotate(45deg) translate(-1px, -1px); // IE9 only
+				-o-transform: rotate(45deg) translate(-1px, -1px);
+				transform: rotate(45deg) translate(-1px, -1px);
+				& + span {
+					.opacity(0);
+				}
+			}
+		}
+		span:last-child {
+			-webkit-transform: rotate(-45deg) translate(-1px, 1px);
+			-ms-transform: rotate(-45deg) translate(-1px, 1px); // IE9 only
+			-o-transform: rotate(-45deg) translate(-1px, 1px);
+			transform: rotate(-45deg) translate(-1px, 1px);
+		}
+	}
+}
+
+// Toggle menu button
+.navbar-toggle {
+	margin-top: 15px;
+	z-index: 225;
+
+	span {
+		.auto-transition(.45s);
+	}
+
+	&.open {
+		span {
+			.rotate(45deg);
+		}
+	}
+}
+
+@media (min-width: @screen-sm-min) {
+	.menu {
+		.pull-right;
+		ul {
+			.navbar-nav;
+		}
+	}
+}

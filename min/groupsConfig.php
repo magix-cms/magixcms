@@ -13,8 +13,8 @@
 
 return array(
     'publicjs' => array(
-        '//libjs/jquery-1.11.1.min.js',
-        '//libjs/jquery-ui-1.10.3.custom.min.js',
+        '//libjs/jquery-1.12.0.min.js',
+        '//libjs/jquery-ui.1.10.4.min.js',
         '//libjs/vendor/jquery.form.3.51.min.js',
         '//libjs/vendor/jquery.validate.1.13.0.min.js'
     ),

@@ -40,9 +40,9 @@
  */
 $(function(){
     // Disable certain links in docs
-    $('[href^=#]').click(function(e) {
+    /*$('[href^=#]').click(function(e) {
         e.preventDefault()
-    });
+    });*/
     // *** targetblank in JS for W3C validation
     $('a.targetblank').on('click', function() {
         window.open($(this).attr('href'));

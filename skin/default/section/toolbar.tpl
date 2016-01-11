@@ -9,8 +9,8 @@
             <div class="row">{/if}
             {widget_lang_data assign="dataLangNav"}{* Language Nav *}
             {if $dataLangNav != null && count($dataLangNav) > 1}
-                <div class="pull-left lang-header">
-                    {include file="section/loop/lang.tpl" data=$dataLangNav type="nav"}
+                <div id="menu-language" class="pull-left lang-header">
+                    {include file="section/loop/lang.tpl" data=$dataLangNav type="nav" display='menu'}
                 </div>
             {/if}
             {if $companyData.socials != null}

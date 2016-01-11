@@ -1,6 +1,17 @@
 #### 2.6.5
 Stable
 
+* Add quickAccess in breadcrumb (skin)
+* Update info for content_css in editor (backend)
+* Add lang dropdown (skin frontend)
+* Add tabs,tabs-arrow header.tpl (skin frontend)
+* Upgrade jquery 1.11.1 => 1.12.0
+* Upgrade jquery ui 1.10.3 => 1.10.4
+* Add sortable for image galery (backend + frontend)
+    * Sort image galery by img_order
+    * Add sql for img_order + upgrade sql 2.6.0 => 2.6.5
+* Fix bug extend_valid_elements (backend)
+* Update img size configuration (default)
 * Add about dynamic page
 * Add general microdata
 * Fix bug library (root)
@@ -9,6 +20,9 @@ Stable
 * Change in global less (skin default)
 * Add global library (magixcjquery & smarty)
 * Add About plugin
+
+#### 2.6.1
+Stable
 * Add product listing with select & exclude
 * change class name effect (product)
 * Readme change url logo
