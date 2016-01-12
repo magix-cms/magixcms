@@ -43,7 +43,7 @@
                 <section id="gallery">
                     <h3>{#gallery#|ucfirst}</h3>
                     <div class="row">
-                        <div class="center-gallery-xs-6 center-gallery-sm-4 center-gallery-md-3">
+                        <div class="center-gallery-xs-6">
                             {include file="catalog/loop/gallery.tpl" data=$galeryProductData}
                         </div>
                     </div>

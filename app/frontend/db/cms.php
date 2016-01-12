@@ -147,5 +147,37 @@ class frontend_db_cms
         ));
     }
 
-
+	/**
+	 * @access protected
+	 * Select all categories by lang, or by option params sort
+	 * @param string $lang_iso
+	 * @param string|int $sort_id
+	 * @param string $sort_type
+	 * @param int $limit
+	 * @return array
+	 */
+	protected function s_page_all($lang_iso,$sort_id=null,$sort_type=null,$limit=null)
+	{
+		$where_clause = null;
+		if ($sort_id != null) {
+			$where_clause = 'AND p.idpage';
+			$where_clause .= ($sort_type != 'exclude') ?' IN (' : ' NOT IN (';
+			$where_clause .= $sort_id;
+			$where_clause .= ') ';
+		}
+		$limit_clause = null;
+		if (is_int($limit)){
+			$limit_clause = 'LIMIT '.$limit;
+		}
+		$select = "SELECT p.idpage,p.title_page,p.uri_page,p.content_page,lang.iso
+    	FROM mc_cms_pages AS p
+    	JOIN mc_lang AS lang ON(p.idlang = lang.idlang)
+    	WHERE lang.iso = :lang_iso AND sidebar_page = 1
+    	  {$where_clause}
+    	ORDER BY p.order_page
+    	  {$limit_clause}";
+		return magixglobal_model_db::layerDB()->select($select,array(
+			':lang_iso' => $lang_iso
+		));
+	}
 }

@@ -34,7 +34,7 @@
 <body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">
     {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="dropdown" submenu=true gmap=false faq=false}
     {block name="breadcrumb"}
-        {include file="section/nav/breadcrumb.tpl" adjust="clip" quickAccess=true}
+        {include file="section/nav/breadcrumb.tpl" adjust="clip" quickAccess=true icon=false}
     {/block}
     {block name="main:before"}{/block}
     {block name="main"}
@@ -62,10 +62,9 @@
     {/block}
 
     {block name="main:after"}{/block}
+    {* blocks=['facebook','news','cms','contact'] *}
+    {include file="section/footer.tpl" adjust="clip" blocks=['facebook','news','cms','contact']}
 
-    {include file="section/footer.tpl" adjust="clip"}
-
-    {include file="section/footbar.tpl"}
     {include file="section/nav/btt.tpl" affix=300}
 
     {block name="foot"}

@@ -10,21 +10,24 @@
 */
 $(function()
 {
-        // *** In case you don't have firebug...
+	// *** In case you don't have firebug...
     if (!window.console || !console.firebug) {
         var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
         window.console = {};
         for (var i = 0; i < names.length; ++i) window.console[names[i]] = function() {};
     }
 
-        // *** target_blank
+	// *** target_blank
     $('a.targetblank').click( function() {
         window.open($(this).attr('href'));
         return false;
     });
 
-    // *** Fancybox gallery
+	// *** Bootstrap components
+	$('[data-toggle="tooltip"]').tooltip();
+	//$('[data-toggle="popover"]').popover();
 
+    // *** Fancybox gallery
     var titles = {
             'fr': {'close':'Fermer','next':'Suivant','prev':'Précédent'},
             'nl': {'close':'Dicht','next':'Volgende','prev':'Voorgaand'},
@@ -55,6 +58,14 @@ $(function()
         }
     });
 
+	 // *** for gallery videos
+	 /*$(".video").fancybox({
+		 type: 'iframe',
+		  autoSize : true,
+		  padding : 5
+	 });
+	 */
+
     // *** Smooth Scroll to Top
     var speed = 1000;
     $('.toTop').click(function(e){
@@ -75,12 +86,4 @@ $(function()
             }
         });
     }
-    /*
-        // *** for gallery videos
-    $(".video").fancybox({
-        type: 'iframe',
-        autoSize : true,
-        padding : 5
-    });
-*/
 });

@@ -1,5 +1,14 @@
 #### 2.6.5
 Stable
+
+* Breadcrumb icon option (frontend)
+* Fix loop news + tags
+* Fix Affix logo + header
+* Redesign Footer default custom
+    * Add section Footer
+* Add facebook block footer (frontend)
+* Add context "mix" in CMS page
+* Add s_page_all in db CMS page
 * Add share for mobile (footbar)
 * Add quickAccess in breadcrumb (skin)
 * Update info for content_css in editor (backend)

@@ -40,12 +40,13 @@
 ----- Theme Textures -----
 \*----------------------*/
 
-@main-texture:  	"@{patternpath}navy_blue.png";
+@main-texture:  	"@{patternpath}fabric_plaid.png";
 //@main-bg:  			#333 url("@{main-texture}") repeat top left;
 @main-bg:  			#333;
 @header-texture:	@main-texture;
 @menu-texture:  	@main-texture;
 @footer-texture:	@main-texture;
+@sharebar-txt:		"@{patternpath}fabric_plaid.png";
 
 /*---------------*\
 ----- Toolbar -----
@@ -91,8 +92,10 @@
 ----- Footer -----
 \*--------------*/
 
-@footer-bg: 		@main-bg;
-@footer-color: 		@dark-white;
+//@sharebar-bg:	@smooth-white url("@{sharebar-txt}") repeat top left;
+@sharebar-bg:	@smooth-white;
+@footer-bg: 	@main-bg;
+@footer-color: 	@dark-white;
 
 
 /*---------------*\

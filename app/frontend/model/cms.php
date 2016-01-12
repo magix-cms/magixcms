@@ -141,7 +141,8 @@ class frontend_model_cms extends frontend_db_cms
                     '',
                     'all',
                     'parent',
-                    'child'
+                    'child',
+                    'mix'
                 );
 
                 if (in_array($custom['context'],$allowed)) {
@@ -174,7 +175,23 @@ class frontend_model_cms extends frontend_db_cms
                 $conf['type'],
                 $conf['limit']
             );
-        }
+        } elseif ($conf['context'][1] == 'mix') {
+			$data = parent::s_page_all($conf['lang'],$conf['id'],$conf['type'],$conf['limit']);
+			if($data != null AND ($conf['context'][2] == 'child' OR $conf['context'][1] == 'all'))
+			{
+				foreach ($data as $k1 => $v1)
+				{
+					$data_2 =
+						parent::s_page_child(
+							$conf['lang'],
+							$v1['idpage']
+						);
+					if ($data_2 != null)
+						$data[$k1]['subdata'] = $data_2;
+				}
+				$data_2 = null;
+			}
+		}
         return $data;
     }
 

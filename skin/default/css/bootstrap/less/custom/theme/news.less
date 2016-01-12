@@ -5,13 +5,6 @@
                         News root
 ---------------------------------------------------------- */
 .news-list {
-	.media {
-		border: 1px solid #DDDDDD;
-		border-radius: 4px;
-		margin-bottom: 20px;
-		padding: 4px;
-	}
-
 	.media-body {
 		.media-heading {
 			margin: 5px 0 5px;
@@ -29,6 +22,17 @@
 	}
 }
 
+#last-news, #news, #news-tag {
+	.media {
+		time {
+			position: absolute;
+			top: -45px;
+			right: 25px;
+			color: @light-gray;
+		}
+	}
+}
+
 #news,#news-tag {
 	// Define selection style
 	.text-select(@main-color);
@@ -37,7 +41,7 @@
 		margin-bottom: 50px;
 		> h1:first-child {
 			.main-title(@main-color);
-			.normalize-link(@text-color, same, underline, 400);
+			.normalize-link(@text-color; same; underline; 300; @font: "Raleway", Arial, sans-serif);
 			small {
 				color: @main-color;
 			}
@@ -46,20 +50,35 @@
 
 	.news-list {
 		margin-top: 15px;
-		.normalize-link(#333, same, none, 400);
+		.normalize-link(@main-color);
 		div {
 			min-height: 201px;
 		}
 		> div {
 			margin-bottom: 35px;
 			position: relative;
+			figure{
+				overflow: hidden;
+				img {
+					.auto-transition(.35s);
+				}
+			}
+			&:hover {
+				figure img {
+					transform: scale(1.1);
+				}
+			}
 		}
-		a {
+		.tag-list {
+			position: relative;
+			z-index: 2;
+		}
+		.media.row > a:last-child {
 			position: absolute;
 			top: 0;
 			left: 0;
 			.square(100%);
-			z-index: 50;
+			z-index: 1;
 			text-indent: 200%;
 			white-space: nowrap;
 			font-size: 0;
@@ -75,19 +94,14 @@
 			position: relative;
 			height: 100%;
 			display: block;
-			width: auto;
+
 			h4 {
 				margin: 0 0 20px;
-			}
-			time {
-				position: absolute;
-				bottom: 5px;
-				right: 20px;
-				color: @main-color;
 			}
 		}
 	}
 }
+
 
 /* --------------------------------------------------------
                             Tag
@@ -135,11 +149,87 @@
 	// Define selection style
 	.text-select(@main-color);
 
-	// Define breadcrumb style
-	#breadcrumb, #compact-breadcrumb {
-		.normalize-link(@main-color);
+	// Define content style
+	.normalize-content(@main-color);
+}
+
+#last-news {
+	h3 {
+		padding-bottom: 10px;
+		border-bottom: 1px solid @dark-white;
 	}
 
-	// Define content style
-	//.normalize-content(@main-color);
+	.news-list .row {
+		> .col-xs-6 {
+			width: 100%;
+		}
+	}
+}
+
+#last-news, #news {
+	.news-list {
+		padding: 0 0 30px;
+
+		.media {
+			border: none;
+			.row > div {
+				margin-top: 20px;
+			}
+		}
+	}
+
+	h3 {
+		font-weight: lighter;
+		margin-bottom: 15px;
+		a {
+			color: @text-color;
+		}
+	}
+
+	h4 {
+		margin-bottom: 25px;
+	}
+
+	.media {
+		position: relative;
+
+		.caption {
+			overflow: visible;
+			position: relative;
+			padding-bottom: 20px;
+		}
+
+		> a:last-child {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 2;
+			text-indent: 200%;
+			white-space: nowrap;
+			font-size: 0;
+			.square(100%);
+			.opacity(0);
+		}
+	}
+}
+
+@media (min-width: @screen-xs-min) {
+	#last-news {
+		.news-list .row {
+			> .col-xs-6 {
+				width: 50%;
+			}
+		}
+	}
+}
+
+@media (min-width: @screen-md-min) {
+	#last-news, #news, #news-tag {
+		.media {
+			time {
+				top: auto;
+				bottom: 0;
+			}
+		}
+	}
 }

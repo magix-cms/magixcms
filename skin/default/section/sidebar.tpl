@@ -49,7 +49,30 @@
         ]}
         {if $listingData}
             <div id="nav-sidebar">
-                {include file="news/loop/tag.tpl" main=$listingData.main listing=$listingData.listing active=$listingData.active}
+                <h3>
+                    {if $listingData.main.url}<a href="{$listingData.main.url}" title="{$listingData.main.name|ucfirst}">{/if}
+                        {$listingData.main.name|ucfirst}
+                        {if $listingData.main.url}</a>{/if}
+                </h3>
+                <ul class="list-unstyled list-inline">
+                    {include file="news/loop/tag.tpl" listing=$listingData.listing active=$listingData.active}
+                </ul>
+            </div>
+        {/if}
+        {widget_catalog_data
+            conf =[
+                'context' =>  'last-product',
+                'sort' => 'product',
+                'limit' => 2
+                ]
+            assign='productData'
+        }
+        {if $listingData}
+            <div class="news-list-last">
+                <h3>{#last_products#}</h3>
+                <div class="sidebar-list row">
+                    {include file="catalog/loop/last-product.tpl" data=$productData classCol="col-xs-12" effect="ming"}
+                </div>
             </div>
         {/if}
     {/if}

@@ -4,7 +4,13 @@
 {block name='body:id'}news{/block}
 
 {block name="article:content"}
-    <h1>{#news_root_h1#}</h1>
+    <h1>{#news_root_h1#|ucfirst}</h1>
+    {widget_news_data
+        conf= [
+            'level'     => 'tag'
+            ]
+        assign="sidebarData"
+    }
     {widget_news_data
         conf= ['limit' => 6]
         assign="newsData"
@@ -20,18 +26,4 @@
             {include file="section/loop/pagination.tpl" data=$paginationData}
         </ul>
     {/if}
-{/block}
-
-{block name='aside:content' append}
-    {widget_catalog_data
-        conf =[
-        'context' =>  'last-product',
-        'sort' => 'product',
-        'limit' => 4
-        ]
-        assign='productData'
-    }
-    <div class="news-list-last sidebar-list row">
-        {include file="catalog/loop/last-product.tpl" data=$productData}
-    </div>
 {/block}

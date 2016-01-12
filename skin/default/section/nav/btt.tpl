@@ -9,8 +9,8 @@
         {assign var="btn" value=false}
     {/if}
 {/strip}
-<div{if $affix != 'none'} data-spy="affix" data-offset-top="{$affix}"{/if} class="pull-right toTop">
-    <a{if $btn} class="btn btn-flat btn-main-theme"{/if} href="#" title="{#back_to_top#}">
+<div{if $affix != 'none'} data-spy="affix" data-offset-top="{$affix}"{/if} class="align-{$align} toTop{if $affix == 'none'} float-btn{/if}">
+    <a{if $btn} class="btn btn-flat btn-main-theme"{/if} href="#"{if !$btn} data-toggle="tooltip" data-placement="bottom"{/if} title="{#back_to_top#|ucfirst}">
         <span class="fa fa-angle-up"></span>
     </a>
 </div>

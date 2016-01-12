@@ -2,6 +2,9 @@
 {if !isset($adjust)}
     {assign var="adjust" value="clip"}
 {/if}
+{if !isset($adjust)}
+    {assign var="icon" value=false}
+{/if}
 {if !isset($catalog)}
     {assign var="catalog" value=true}
 {/if}
@@ -17,10 +20,15 @@
         {assign var=bread value=array()}
 
         {* Home *}
+            {if $icon}
+                {$hname = "<span class=\"fa fa-{$icon}\"></span>"}
+            {else}
+                {$hname = {#home#}}
+            {/if}
         {if $smarty.server.SCRIPT_NAME != '/index.php'}
-            {$bread[] = ['name' => {#home#},'url' => "{geturl}/{getlang}/",'title' => {#show_home#}]}
+            {$bread[] = ['name' => {$hname},'url' => "{geturl}/{getlang}/",'title' => {#show_home#}]}
         {else}
-            {$bread[] = ['name' => {#home#}]}
+            {$bread[] = ['name' => {$hname}]}
         {/if}
         {* /Home *}
 

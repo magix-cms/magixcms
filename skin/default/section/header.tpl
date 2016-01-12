@@ -41,7 +41,7 @@
                 {* Brand && Headline *}
                 <div id="navbar-brand" itemprop="copyrightHolder" itemscope itemtype="http://schema.org/{$companyData.type}" itemref="{if $companyData.tva}tva {/if}socials-links address contactPoint contactPointMobile">
                     <a class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}" itemprop="url">
-                        <img itemprop="logo" src="{geturl}/skin/{template}/img/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
+                        <img itemprop="logo" src="{geturl}/skin/{template}/img/logo/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
                         <meta itemprop="name" content="{$companyData.name}"/>
                         <meta itemprop="brand" content="{$companyData.name}"/>
                         {if $about != null}
@@ -70,7 +70,7 @@
                 {/if}
             {* Brand && Headline *}
             <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
-                <img class="img-responsive" src="/skin/{template}/img/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" />
+                <img class="img-responsive" src="/skin/{template}/img/logo/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" width="200" href="37"/>
             </a>
             {if $adjust == 'clip' && !$menubar}
                 {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}

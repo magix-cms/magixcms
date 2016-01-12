@@ -4,7 +4,7 @@
 {block name='body:id'}news-tag{/block}
 
 {block name="article:content"}
-    <h1>{$tag.name|ucfirst}</h1>
+    <h1>{#news_root_h1#|ucfirst} <small>- {$tag.name|ucfirst}</small></h1>
     {widget_news_data
     conf= ['limit' => 6]
     assign="newsData"

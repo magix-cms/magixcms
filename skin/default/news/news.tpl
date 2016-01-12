@@ -6,14 +6,14 @@
 {block name="article:content"}
     <h1>{$news.name}</h1>
     <small>
-        {#published_on#|ucfirst} {$news.date.register|date_format:"%d-%m-%Y"}
-        {if $news.date.publish|date_format:"%d-%m-%Y" != $news.date.register|date_format:"%d-%m-%Y"}
+        {#published_on#|ucfirst} <time datetime="{$news.date.register}">{$news.date.register|date_format:"%e %B %Y"}</time>
+        {*{if $news.date.publish|date_format:"%d-%m-%Y" != $news.date.register|date_format:"%d-%m-%Y"}
             {#updated_on#} {$news.date.publish|date_format:"%d-%m-%Y"}
-        {/if}
+        {/if}*}
     </small>
     {if $news.imgSrc.small}
-        <a href="{$news.imgSrc.medium}" class="img-zoom" title="{#zoom_in#}">
-            <img src="{$news.imgSrc.small}" alt="{$news.name}" class="pull-right img-polaroid" />
+        <a href="{$news.imgSrc.medium}" class="img-zoom" title="{$news.name}">
+            <img class="img-responsive pull-right"  src="{$news.imgSrc.small}" alt="{$news.name}" />
         </a>
     {/if}
     {$news.content}
