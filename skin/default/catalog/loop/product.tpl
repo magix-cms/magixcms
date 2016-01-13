@@ -39,7 +39,7 @@
             {if $classCat && is_bool($classCat)}
                 {$classCat =  "thumbcat-{$item.id}"}
             {/if}
-            <div{if $classCol} class="{$classCol}{/if}" itemprop="{if $similar}isRelatedTo{else}item{/if}" itemscope itemtype="http://schema.org/Product">
+            <div{if $classCol} class="{$classCol}{/if}" itemprop="{if $similar}isRelatedTo{else}itemListElement{/if}" itemscope itemtype="http://schema.org/Product">
                 <figure class="{if $effect}effect-{$effect} {/if}thumbnail">
                     {if $item.imgSrc.medium}
                         <img class="img-responsive" src="{$item.imgSrc.medium}" alt="{$item.name|ucfirst}" itemprop="image"/>
@@ -55,7 +55,7 @@
                                 </p>
                             {/if}
                         </div>
-                        <a href="{$item.url}" title="{$item.name|ucfirst}">{$item.name|ucfirst}</a>
+                        <a itemprop="url" href="{$item.url}" title="{$item.name|ucfirst}">{$item.name|ucfirst}</a>
                     </figcaption>
                 </figure>
             </div>

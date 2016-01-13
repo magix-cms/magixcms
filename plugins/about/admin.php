@@ -659,10 +659,10 @@ class plugins_about_admin extends DBabout{
 					$this->editPage();
 				} elseif($this->action == 'edit' && $this->edit) {
 					$this->template->assign('page',parent::getPage($this->edit));
-					$this->template->display('page/editPage.tpl');
+					$this->template->display('page/editpage.tpl');
 				} elseif($this->action == 'addchild' && $this->parent) {
 					$this->template->assign('parent',parent::getPage($this->parent));
-					$this->template->display('page/addPage.tpl');
+					$this->template->display('page/addpage.tpl');
 				} elseif($this->action == 'savechild' && $this->page['parent']) {
 					$this->addChild();
 				} elseif ($this->action == 'delete') {

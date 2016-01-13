@@ -2,9 +2,6 @@
 {block name="title"}{cms_seo config_param=['seo'=>$page.seoTitle,'default'=>$page.name]}{/block}
 {block name="description"}{cms_seo config_param=['seo'=>$page.seoDescr,'default'=>$page.name]}{/block}
 {block name='body:id'}cms{/block}
-{if {#about_page_id#}}
-    {block name="webType"}AboutPage{/block}
-{/if}
 
 {block name='article'}
     <article id="article" class="col-xs-12 col-sm-8 col-md-9" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">

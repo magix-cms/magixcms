@@ -39,17 +39,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 {* Brand && Headline *}
-                <div id="navbar-brand" itemprop="copyrightHolder" itemscope itemtype="http://schema.org/{$companyData.type}" itemref="{if $companyData.tva}tva {/if}socials-links address contactPoint contactPointMobile">
-                    <a class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}" itemprop="url">
-                        <img itemprop="logo" src="{geturl}/skin/{template}/img/logo/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
-                        <meta itemprop="name" content="{$companyData.name}"/>
-                        <meta itemprop="brand" content="{$companyData.name}"/>
-                        {if $about != null}
-                            <meta itemprop="sameAs" content="{geturl}/{getlang}/about/"/>
-                        {/if}
-                        {if $gmap}
-                            <meta itemprop="hasMap" content="{geturl}/{getlang}/gmap/"/>
-                        {/if}
+                <div id="navbar-brand">
+                    <a class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}">
+                        <img src="{geturl}/skin/{template}/img/logo/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
                     </a>
                 </div>
                 {if ($adjust == 'clip' && !$menubar) || $adjust == 'fluid'}

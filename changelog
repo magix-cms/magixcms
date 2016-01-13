@@ -1,6 +1,9 @@
 #### 2.6.5
 Stable
 
+* Upgrade tinymce 4.2.5 => 4.3.2
+* Fix bug About plugin with lowercase for tpl files
+* Update news skin (index, loop) + Add microdata
 * Breadcrumb icon option (frontend)
 * Fix loop news + tags
 * Fix Affix logo + header

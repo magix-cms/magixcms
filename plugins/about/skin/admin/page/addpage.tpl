@@ -8,7 +8,7 @@
     <!-- Notifications Messages -->
     <div class="mc-message clearfix"></div>
 
-    {include file="page/form/addChild.tpl"}
+    {include file="page/form/addchild.tpl"}
 {/block}
 {block name='javascript'}
     {include file="js.tpl"}

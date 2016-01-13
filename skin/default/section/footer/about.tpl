@@ -1,4 +1,4 @@
-<div class="footer-colophon" itemprop="isPartOf" itemscope itemtype="http://schema.org/WebSite" itemref="navbar-brand">
+<div class="footer-colophon" itemprop="isPartOf" itemscope itemtype="http://schema.org/WebSite" itemref="toolbar">
     <div id="logo" class="col-xs-12 {if $companyData.tva}col-sm-2{else}col-sm-4{/if}">
         <a href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
             <img src="/skin/{template}/img/logo/{#logo_img_small#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="164" height="31" />

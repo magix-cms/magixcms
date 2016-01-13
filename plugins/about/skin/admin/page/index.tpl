@@ -35,7 +35,7 @@
         {include file="page/no-entry.tpl"}
         </tbody>
     </table>
-    {include file="page/modal/addPage.tpl"}
+    {include file="page/modal/addpage.tpl"}
     {include file="page/modal/delete.tpl"}
 {/block}
 {block name="modal"}

@@ -5,9 +5,19 @@
 {block name="webType"}ItemPage{/block}
 
 {block name="article:content"}
-<div id="product" itemprop="about" itemscope itemtype="http://schema.org/Product">
+<div id="product" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
     <h1 itemprop="name">{$product.name|ucfirst}</h1>
-    <meta itemprop="category" content="{$cat.name}{if isset($subcat)} / {$subcat.name}{/if}">
+    {*<meta itemprop="category" content="{$cat.name}{if isset($subcat)} / {$subcat.name}{/if}">*}
+    <div itemprop="category" itemscope itemtype="http://schema.org/Series">
+        <meta itemprop="name" content="{$cat.name}">
+        <meta itemprop="url" content="{$cat.url}">
+    </div>
+    {if isset($subcat)}
+    <div itemprop="category" itemscope itemtype="http://schema.org/Series">
+        <meta itemprop="name" content="{$subcat.name}">
+        <meta itemprop="url" content="{$subcat.url}">
+    </div>
+    {/if}
     <div class="row">
         <div id="product-info" class="col-xs-12 col-md-4 text-center">
             <figure{if $product.imgSrc.medium} itemprop="image" itemscope itemtype="http://schema.org/ImageObject"{/if}>

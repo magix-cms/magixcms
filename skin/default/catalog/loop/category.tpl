@@ -63,23 +63,23 @@
             {/foreach}
         {else}
         {foreach $data as $item}
-            <div{if $classCol} class="{$classCol}{/if}">
+            <div{if $classCol} class="{$classCol}{/if}" itemprop="hasPart" itemscope itemtype="http://schema.org/Series">
                 <figure class="effect-{$effect} thumbnail">
                     {if $item.imgSrc.medium}
-                        <img class="img-responsive" src="{$item.imgSrc.medium}" alt="{$item.name|ucfirst}"/>
+                        <img class="img-responsive" src="{$item.imgSrc.medium}" alt="{$item.name|ucfirst}" itemprop="image"/>
                     {else}
                         <img class="img-responsive" src="{$item.imgSrc.default}" alt="{$item.name|ucfirst}"/>
                     {/if}
                     <figcaption>
-                        <h3>{$item.name|ucfirst}</h3>
-                        <div class="desc">
+                        <h3 itemprop="name">{$item.name|ucfirst}</h3>
+                        <div itemprop="description" class="desc">
                             {if $item.content}
                                 <p>
                                     {$item.content|strip_tags|truncate:100:'...'}
                                 </p>
                             {/if}
                         </div>
-                        <a href="{$item.url}" title="{$item.name|ucfirst}">{$item.name|ucfirst}</a>
+                        <a itemprop="url" href="{$item.url}" title="{$item.name|ucfirst}">{$item.name|ucfirst}</a>
                     </figcaption>
                 </figure>
             </div>

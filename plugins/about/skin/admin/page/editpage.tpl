@@ -9,9 +9,9 @@
     <div class="mc-message clearfix"></div>
 
     {if isset($parent)}
-        {include file="page/form/editChild.tpl"}
+        {include file="page/form/editchild.tpl"}
     {else}
-        {include file="page/form/editPage.tpl"}
+        {include file="page/form/editpage.tpl"}
     {/if}
 {/block}
 {block name='javascript'}

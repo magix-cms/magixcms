@@ -3,7 +3,21 @@
         {assign var="adjust" value="clip"}
     {/if}
 {/strip}
-    <section id="toolbar"{if $adjust == 'fluid'} class="section-block container-fluid"{/if} itemscope itemtype="http://schema.org/{$companyData.type}">
+    <section id="toolbar"{if $adjust == 'fluid'} class="section-block container-fluid"{/if} itemprop="copyrightHolder" itemscope itemtype="http://schema.org/{$companyData.type}"{if $companyData.tva} itemref=" tva"{/if}>
+        <meta itemprop="name" content="{$companyData.name}"/>
+        <meta itemprop="url" content="{geturl}"/>
+        <meta itemprop="brand" content="{$companyData.name}"/>
+        {if $about != null}
+            <meta itemprop="sameAs" content="{geturl}/{getlang}/about/"/>
+        {/if}
+        {if $gmap}
+            <meta itemprop="hasMap" content="{geturl}/{getlang}/gmap/"/>
+        {/if}
+        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+            <meta itemprop="url" content="{geturl}/skin/{template}/img/logo/{#logo_img#}">
+            <meta itemprop="width" content="269">
+            <meta itemprop="height" content="50">
+        </div>
     {if $adjust == 'clip'}
         <div class="container">
             <div class="row">{/if}
