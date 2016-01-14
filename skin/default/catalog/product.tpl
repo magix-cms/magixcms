@@ -4,80 +4,120 @@
 {block name='body:id'}catalog-product{/block}
 {block name="webType"}ItemPage{/block}
 
-{block name="article:content"}
-<div id="product" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
-    <h1 itemprop="name">{$product.name|ucfirst}</h1>
-    {*<meta itemprop="category" content="{$cat.name}{if isset($subcat)} / {$subcat.name}{/if}">*}
-    <div itemprop="category" itemscope itemtype="http://schema.org/Series">
-        <meta itemprop="name" content="{$cat.name}">
-        <meta itemprop="url" content="{$cat.url}">
-    </div>
-    {if isset($subcat)}
-    <div itemprop="category" itemscope itemtype="http://schema.org/Series">
-        <meta itemprop="name" content="{$subcat.name}">
-        <meta itemprop="url" content="{$subcat.url}">
-    </div>
-    {/if}
-    <div class="row">
-        <div id="product-info" class="col-xs-12 col-md-4 text-center">
-            <figure{if $product.imgSrc.medium} itemprop="image" itemscope itemtype="http://schema.org/ImageObject"{/if}>
-                {if $product.imgSrc.medium}
-                    <meta itemprop="contentUrl" content="{$product.imgSrc.large}" />
-                    <a href="{$product.imgSrc.large}" class="img-zoom" title="{$product.name}" itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-                        <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" itemprop="contentUrl"/>
-                    </a>
-                {else}
-                    <img src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
-                {/if}
-            </figure>
-            {if $product.price != 0}
-            <p class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                <span itemprop="price">{$product.price}</span> <span itemprop="priceCurrency" content="EUR">€</span> TTC
-            </p>
-            {/if}
-            <form action="{geturl}/{getlang}/contact/" method="post">
-                <p class="lead">Intéressé par {$product.name} ?</p>
-                <p>
-                    <input type="hidden" name="moreinfo" value="{$product.name}"/>
-                    <input id="more-info" type="submit" class="btn btn-flat btn-main-theme" value="{#contact_form#|firststring}" />
-                </p>
-            </form>
+{block name='article'}
+    <article id="article" class="col-xs-12" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
+        {block name='article:content'}
+            <div class="row">
+                <div id="product-info" class="col-xs-12 col-sm-6 col-md-4 text-center">
+                    <figure{if $product.imgSrc.medium} itemprop="image" itemscope itemtype="http://schema.org/ImageObject"{/if}>
+                        {if $product.imgSrc.medium}
+                            <meta itemprop="contentUrl" content="{$product.imgSrc.large}" />
+                            <a href="{$product.imgSrc.large}" class="img-zoom" title="{$product.name}" itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+                                <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" itemprop="contentUrl"/>
+                            </a>
+                        {else}
+                            <img src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
+                        {/if}
+                    </figure>
 
-            {widget_catalog_data
-                conf =[
-                'context'   =>  'product-gallery'
-                ]
-                assign='galeryProductData'
-            }
-            {if $galeryProductData != null}
-                <section id="gallery">
-                    <h3>{#gallery#|ucfirst}</h3>
-                    <div class="row">
-                        <div class="center-gallery-xs-6">
-                            {include file="catalog/loop/gallery.tpl" data=$galeryProductData}
+                    {widget_catalog_data
+                    conf =[
+                    'context'   =>  'product-gallery'
+                    ]
+                    assign='galeryProductData'
+                    }
+                    {if $galeryProductData != null}
+                        <section id="gallery">
+                            {*<h3>{#gallery#|ucfirst}</h3>*}
+                            {*<div class="row">
+                                <div class="gallery">
+                                    {include file="catalog/loop/gallery.tpl" data=$galeryProductData classCol="col-xs-6 col-sm-4 col-md-3"}
+                                </div>
+                            </div>*}
+
+                            <div class="image-gallery">
+                                <div class="big-image">
+                                    <a class="img-gallery" rel="productGallery" href="{$product.imgSrc.medium}" title="{$product.name|ucfirst}">
+                                        <img id="default" itemprop="image" class="img-responsive" src="{$product.imgSrc.small}" alt="{$product.name|ucfirst}"/>
+                                    {foreach $galeryProductData as $k => $item}
+                                    {$id = "img"|cat:$k}
+                                        <img id="{$id}" itemprop="image" class="img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
+                                    {/foreach}
+                                    </a>
+                                </div>
+
+                                <div class="thumbs">
+                                    <a class="button prev"><</a>
+                                    <a class="button next">></a>
+                                    <ul>
+                                        <li>
+                                            <a href="#default" data-url="{$product.imgSrc.medium}">
+                                                <img itemprop="image" class="img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
+                                            </a>
+                                        </li>
+                                        {foreach $galeryProductData as $k => $item}
+                                        <li>
+                                            <a href="#img{$k}" data-url="{$item.imgSrc.medium}">
+                                                <img itemprop="image" class="img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
+                                            </a>
+                                        </li>
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    {/if}
+                </div>
+                <div class="content col-xs-12 col-sm-6 col-md-8">
+                    <header>
+                        <h1 itemprop="name">{$product.name|ucfirst}</h1>
+                        {*<meta itemprop="category" content="{$cat.name}{if isset($subcat)} / {$subcat.name}{/if}">*}
+                        <div itemprop="category" itemscope itemtype="http://schema.org/Series">
+                            <meta itemprop="name" content="{$cat.name}">
+                            <meta itemprop="url" content="{$cat.url}">
                         </div>
+                        {if isset($subcat)}
+                            <div itemprop="category" itemscope itemtype="http://schema.org/Series">
+                                <meta itemprop="name" content="{$subcat.name}">
+                                <meta itemprop="url" content="{$subcat.url}">
+                            </div>
+                        {/if}
+                        {if $product.price != 0}
+                            <p class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                <span itemprop="price">{$product.price}</span> <span itemprop="priceCurrency" content="EUR">€</span> TTC
+                            </p>
+                        {/if}
+                    </header>
+
+                    <div class="desc" itemprop="description">
+                        {$product.content}
                     </div>
-                </section>
-            {/if}
-        </div>
-        <div class="col-xs-12 col-md-8">
-            <div class="desc" itemprop="description">
-                {$product.content}
+
+                    <form action="{geturl}/{getlang}/contact/" method="post">
+                        <fieldset>
+                            <legend><span>Intéressé par {$product.name}&thinsp;?</span></legend>
+                            <p>
+                                <input type="hidden" name="moreinfo" value="{$product.name}"/>
+                                <input id="more-info" type="submit" class="btn btn-flat btn-main-theme btn-lg" value="{#contact_form#|firststring}" />
+                            </p>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
-            {widget_catalog_data
-                assign='productRel'
-            }
+
+            {widget_catalog_data assign='productRel'}
             {if $productRel != null}
                 <section id="similar-products" class="product-list">
                     <h3>{#similar_products#|ucfirst}</h3>
                     <div class="row">
                         <div class="center-gallery-sm-6">
-                            {include file="catalog/loop/product.tpl" effect="ming" data=$productRel classCol="col-xs-12 col-sm-6" similar=true}
+                            {include file="catalog/loop/product.tpl" effect="ming" data=$productRel classCol="col-xs-12 col-sm-3" similar=true}
                         </div>
                     </div>
                 </section>
             {/if}
-        </div>
-    </div>
-</div>
+        {/block}
+    </article>
 {/block}
+
+{block name="aside"}{/block}

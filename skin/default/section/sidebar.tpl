@@ -27,7 +27,7 @@
         }
         {if $sidebarData}
             <div class="nav-sidebar">
-                <h3>{#catalog_navigation#|ucfirst}</h3>
+                <h4>{#catalog_navigation#|ucfirst}</h4>
                 {include file="catalog/loop/sidebar.tpl" data=$sidebarData}
             </div>
         {/if}
@@ -50,11 +50,11 @@
         ]}
         {if $listingData}
             <div class="nav-sidebar">
-                <h3>
+                <h4>
                     {if $listingData.main.url}<a href="{$listingData.main.url}" title="{$listingData.main.name|ucfirst}">{/if}
                         {$listingData.main.name|ucfirst}
                         {if $listingData.main.url}</a>{/if}
-                </h3>
+                </h4>
                 <ul class="list-unstyled list-inline">
                     {include file="news/loop/tag.tpl" listing=$listingData.listing active=$listingData.active}
                 </ul>
@@ -63,19 +63,26 @@
     {/if}
 
     {* Common *}
-    {widget_catalog_data
-        conf =[
-            'context' =>  'last-product',
-            'sort' => 'product',
-            'limit' => 2
-            ]
-        assign='productData'
-    }
-    {if $productData}
-        <div class="last-products">
-            <h3>{#last_products#}</h3>
-            <div class="sidebar-list row">
-                {include file="catalog/loop/last-product.tpl" data=$productData classCol="col-xs-12" effect="ming" truncate=100}
-            </div>
-        </div>
+    {if $smarty.server.SCRIPT_NAME == '/plugins.php'}
+        {if $smarty.get.magixmod != 'contact'
+        && $smarty.get.magixmod != 'gmap'
+        && $smarty.get.magixmod != 'about'
+        && $smarty.get.magixmod != 'faq'}
+            {widget_catalog_data
+                conf =[
+                    'context' =>  'last-product',
+                    'sort' => 'product',
+                    'limit' => 2
+                    ]
+                assign='productData'
+            }
+            {if $productData}
+                <div class="last-products">
+                    <h4>{#last_products#}</h4>
+                    <div class="sidebar-list row">
+                        {include file="catalog/loop/last-product.tpl" data=$productData classCol="col-xs-12" effect="ming" truncate=100}
+                    </div>
+                </div>
+            {/if}
+        {/if}
     {/if}
