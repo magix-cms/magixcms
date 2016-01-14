@@ -2,6 +2,8 @@
 /***** Ming *****/
 /*---------------*/
 figure.effect-ming {
+	background: transparent;
+	.auto-transition(0.35s);
     > img {
         .opacity(1);
         .auto-transition(0.35s);
@@ -31,18 +33,21 @@ figure.effect-ming {
             background-color: rgba(255,255,255,.5);
             .text-overflow;
 
-            @proplist: transform, color;
-            .auto-transition(.35s, @proplist);
+            //@proplist: transform, color;
+            .auto-transition(.35s);
         }
         .desc{
             position: absolute;
             top: 0;
             height: 100%;
-            padding: 25% 10% 10%;
+            padding: 25% 5% 10%;
+			width: 100%;
         }
         p {
             padding: @ming-p-padding;
             height: 100%;
+			width: 100%;
+			max-width: 100%;
             .opacity(0);
             .auto-transition(0.35s);
             .scale(1.5);
@@ -61,14 +66,14 @@ figure.effect-ming {
             .text-overflow();
         }
         figcaption {
-            background-color: rgba(58, 52, 42, 0);
             &:before {
                 .opacity(1);
+				.scale3d(1,1,1);
             }
         }
         p {
             .opacity(1);
-            .scale3d(1, 1, 1);
+            .scale3d(1,1,1);
         }
         img {
             .opacity(0.4);

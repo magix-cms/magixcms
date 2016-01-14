@@ -11,7 +11,7 @@
         }
         {* select data with conf 'select' => [$smarty.get.strLangue => $parent] *}
         {if $sidebarData}
-            <div id="nav-sidebar">
+            <div class="nav-sidebar">
                 {include file="cms/loop/sidebar.tpl" data=$sidebarData parent=$parent}
             </div>
         {/if}
@@ -26,7 +26,8 @@
         assign="sidebarData"
         }
         {if $sidebarData}
-            <div id="nav-sidebar">
+            <div class="nav-sidebar">
+                <h3>{#catalog_navigation#|ucfirst}</h3>
                 {include file="catalog/loop/sidebar.tpl" data=$sidebarData}
             </div>
         {/if}
@@ -48,7 +49,7 @@
             'active' => $smarty.get.tag
         ]}
         {if $listingData}
-            <div id="nav-sidebar">
+            <div class="nav-sidebar">
                 <h3>
                     {if $listingData.main.url}<a href="{$listingData.main.url}" title="{$listingData.main.name|ucfirst}">{/if}
                         {$listingData.main.name|ucfirst}
@@ -59,20 +60,22 @@
                 </ul>
             </div>
         {/if}
-        {widget_catalog_data
-            conf =[
-                'context' =>  'last-product',
-                'sort' => 'product',
-                'limit' => 2
-                ]
-            assign='productData'
-        }
-        {if $listingData}
-            <div class="news-list-last">
-                <h3>{#last_products#}</h3>
-                <div class="sidebar-list row">
-                    {include file="catalog/loop/last-product.tpl" data=$productData classCol="col-xs-12" effect="ming"}
-                </div>
+    {/if}
+
+    {* Common *}
+    {widget_catalog_data
+        conf =[
+            'context' =>  'last-product',
+            'sort' => 'product',
+            'limit' => 2
+            ]
+        assign='productData'
+    }
+    {if $productData}
+        <div class="last-products">
+            <h3>{#last_products#}</h3>
+            <div class="sidebar-list row">
+                {include file="catalog/loop/last-product.tpl" data=$productData classCol="col-xs-12" effect="ming" truncate=100}
             </div>
-        {/if}
+        </div>
     {/if}

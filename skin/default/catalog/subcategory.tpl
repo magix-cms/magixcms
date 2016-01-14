@@ -5,6 +5,7 @@
 
 {block name="article:content"}
     <div id="subcategory" itemprop="mainEntity" itemscope itemtype="http://schema.org/Series">
+        {* Subcategory's Description *}
         <h1 itemprop="name">{$subcat.name|ucfirst}</h1>
         <div itemprop="isPartOf" itemscope itemtype="http://schema.org/Series">
             <meta itemprop="name" content="{$cat.name}">
@@ -21,6 +22,9 @@
             {/if}
             {$subcat.content}
         </div>
+        <hr>
+
+        {* Category's Products *}
         {widget_catalog_data
             conf =[
                 'context'   =>  'product',
@@ -28,8 +32,10 @@
                 ]
             assign='productData'
         }
-        <div id="listing-product" class="product-list" itemprop="mainEntity" itemscope itemtype="http://schema.org/ItemList">
-            {include file="catalog/loop/product.tpl" data=$productData effect="ming"}
+        {if $productData != null}
+        <div id="listing-product" class="product-list row" itemprop="mainEntity" itemscope itemtype="http://schema.org/ItemList">
+            {include file="catalog/loop/product.tpl" data=$productData effect="ming" classCol="col-xs-12 col-sm-6"}
         </div>
+        {/if}
     </div>
 {/block}

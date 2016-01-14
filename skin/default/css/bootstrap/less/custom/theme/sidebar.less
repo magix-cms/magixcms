@@ -1,21 +1,19 @@
 /*
  * Rules for sidebar
  */
-#secondary-nav {
-    ul {
-        li {
-            &.active {
-                font-weight: bold;
-
-                ul {
-                    display: block !important;
-                }
-            }
-
-            ul {
-                list-style: none;
-                font-size: 12px;
-            }
-        }
-    }
+.nav-sidebar {
+	ul.panel-group.list-group {
+		.pnael-title {
+			a.pull-right {
+				span.fa:before {
+					content: '@{fa-var-caret-up}';
+				}
+				&.collapsed {
+					span.fa:before {
+						content: '@{fa-var-caret-down}';
+					}
+				}
+			}
+		}
+	}
 }

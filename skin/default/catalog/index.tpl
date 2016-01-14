@@ -13,22 +13,8 @@
             ]
             assign='categoryData'
         }
-        <div class="product-list">
-            {include file="catalog/loop/category.tpl" data=$categoryData}
+        <div class="product-list row">
+            {include file="catalog/loop/category.tpl" data=$categoryData effect="ming"}
         </div>
-    </div>
-{/block}
-
-{block name='aside:content' append}
-    {widget_catalog_data
-    conf =[
-    'context' =>  'last-product',
-    'sort' => 'product',
-    'limit' => 4
-    ]
-    assign='productData'
-    }
-    <div class="news-list-last sidebar-list row">
-        {include file="catalog/loop/last-product.tpl" data=$productData}
     </div>
 {/block}

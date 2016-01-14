@@ -1,6 +1,11 @@
+{strip}
 {if isset($data.id)}
     {$data = [$data]}
 {/if}
+{if !$truncate}
+    {$truncate = 250}
+{/if}
+{/strip}
 {if !$effect}
     {if is_array($data) && !empty($data)}
         {foreach $data as $item}
@@ -35,7 +40,7 @@
                         <div class="desc">
                             {if $item.content}
                                 <p>
-                                    {$item.content|strip_tags|truncate:100:'...'}
+                                    {$item.content|strip_tags|truncate:$truncate:'...'}
                                 </p>
                             {/if}
                         </div>

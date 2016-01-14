@@ -5,6 +5,7 @@
 
 {block name="article:content"}
     <div id="category" itemprop="mainEntity" itemscope itemtype="http://schema.org/Series">
+        {* Category's Description *}
         <h1 itemprop="name">{$cat.name|ucfirst}</h1>
         <div class="desc" itemprop="description">
             {if isset($cat.imgSrc.medium)}
@@ -17,15 +18,23 @@
             {/if}
             {$cat.content}
         </div>
+
+        {* Category's Subcategories *}
         {widget_catalog_data
             conf =[
                 'context' =>  'subcategory'
                 ]
             assign='subCategoryData'
         }
-        <div class="subcategory-list">
-            {include file="catalog/loop/category.tpl" data=$subCategoryData effect="ming"}
+        {if $subCategoryData != null}
+        <h3>Sous-Catégorie</h3>
+        <div class="subcategory-list row">
+            {include file="catalog/loop/category.tpl" data=$subCategoryData effect="ming" classCol="col-xs-12 col-sm-6 col-md-4" truncate=100}
         </div>
+        {/if}
+        <hr>
+
+        {* Category's Products *}
         {widget_catalog_data
             conf =[
                 'context'   =>  'product',
@@ -33,8 +42,10 @@
                 ]
             assign='productData'
         }
-        <div id="listing-product" class="product-list" itemprop="mainEntity" itemscope itemtype="http://schema.org/ItemList">
+        {if $productData != null}
+        <div id="listing-product" class="product-list row" itemprop="mainEntity" itemscope itemtype="http://schema.org/ItemList">
             {include file="catalog/loop/product.tpl" data=$productData effect="ming"}
         </div>
+        {/if}
     </div>
 {/block}

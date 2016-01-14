@@ -1,6 +1,9 @@
 #### 2.6.5
 Stable
 
+* Add microdata in catalog
+* Fix loop catalog + effect (frontend)
+* Change sidebar (frontend)
 * Upgrade tinymce 4.2.5 => 4.3.2
 * Fix bug About plugin with lowercase for tpl files
 * Update news skin (index, loop) + Add microdata

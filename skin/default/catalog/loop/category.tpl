@@ -1,6 +1,11 @@
+{strip}
 {if isset($data.id)}
     {$data = [$data]}
 {/if}
+{if !$truncate}
+    {$truncate = 250}
+{/if}
+{/strip}
 {if !$effect}
     {if !$classCol}
         {$classCol = 'thumbnail col-xs-12 col-sm-6 col-md-4 col-lg-4'}
@@ -23,7 +28,7 @@
                     </h3>
                     <p>
                         {if $item.content}
-                            {$item.content|strip_tags|truncate:250:'...'}
+                            {$item.content|strip_tags|truncate:$truncate:'...'}
                         {/if}
                     </p>
                 </div>
@@ -32,7 +37,7 @@
     {/if}
 {else}
     {if !$classCol}
-        {$classCol = 'col-xs-12 col-sm-6 col-md-4 col-lg-4'}
+        {$classCol = 'col-xs-12 col-sm-6'}
     {/if}
     {if is_array($data) && !empty($data)}
         {if $effect eq "effect-bob"}
@@ -52,7 +57,7 @@
                             <div class="desc">
                                 {if $item.content}
                                     <p>
-                                        {$item.content|strip_tags|truncate:250:'...'}
+                                        {$item.content|strip_tags|truncate:$truncate:'...'}
                                     </p>
                                 {/if}
                             </div>
@@ -75,7 +80,7 @@
                         <div itemprop="description" class="desc">
                             {if $item.content}
                                 <p>
-                                    {$item.content|strip_tags|truncate:100:'...'}
+                                    {$item.content|strip_tags|truncate:$truncate:'...'}
                                 </p>
                             {/if}
                         </div>
