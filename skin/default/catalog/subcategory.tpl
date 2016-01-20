@@ -28,7 +28,7 @@
         {widget_catalog_data
             conf =[
                 'context'   =>  'product',
-                'sort'      => 'product'
+                'sort'      => ['order'=>'DESC']
                 ]
             assign='productData'
         }

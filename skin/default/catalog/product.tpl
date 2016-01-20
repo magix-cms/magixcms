@@ -21,10 +21,11 @@
                     </figure>
 
                     {widget_catalog_data
-                    conf =[
-                    'context'   =>  'product-gallery'
-                    ]
-                    assign='galeryProductData'
+                        conf =[
+                        'context'   =>  'product-gallery',
+                        'sort'      => ['order'=>'DESC']
+                        ]
+                        assign='galeryProductData'
                     }
                     {if $galeryProductData != null}
                         <section id="gallery">
@@ -105,7 +106,12 @@
                 </div>
             </div>
 
-            {widget_catalog_data assign='productRel'}
+            {widget_catalog_data
+                conf =[
+                'sort'      => ['order'=>'DESC']
+                ]
+                assign='productRel'
+            }
             {if $productRel != null}
                 <section id="similar-products" class="product-list">
                     <h3>{#similar_products#|ucfirst}</h3>

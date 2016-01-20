@@ -71,8 +71,8 @@
             {widget_catalog_data
                 conf =[
                     'context' =>  'last-product',
-                    'sort' => 'product',
-                    'limit' => 2
+                    'sort'    => ['order'=>'DESC'],
+                    'limit'   => 2
                     ]
                 assign='productData'
             }

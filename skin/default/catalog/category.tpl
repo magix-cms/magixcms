@@ -22,7 +22,8 @@
         {* Category's Subcategories *}
         {widget_catalog_data
             conf =[
-                'context' =>  'subcategory'
+                'context' =>  'subcategory',
+                'sort'      => ['order'=>'DESC']
                 ]
             assign='subCategoryData'
         }
@@ -38,7 +39,7 @@
         {widget_catalog_data
             conf =[
                 'context'   =>  'product',
-                'sort'      => 'product'
+                'sort'      => ['order'=>'DESC']
                 ]
             assign='productData'
         }

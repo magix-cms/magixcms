@@ -51,7 +51,7 @@
  {widget_catalog_data
     conf =[
         'context' =>  'product',
-        'sort' => 'name',
+        'sort'    => ['order'=>'DESC']
         'plugins' => [
             'override'  => 'dbCatalog',
             'item' => [

@@ -15,18 +15,14 @@
 		// Prevent collapse block
 		margin-bottom: 50px;
 		// Normalize the main title of the content
-		> h1:first-child {
-			.main-title(@color);
-		}
-		> hr {
-			width: 75%;
-			background-color: @light-gray;
-			float: none;
-			clear: both;
-		}
-		// Normalize link in content
-		> p, > ul li {
-			.normalize-link(@color, same, underline, 600);
+		&, &> div {
+			> h1:first-child {
+				.main-title(@color);
+			}
+			// Normalize link in content
+			> p, > ul li {
+				.normalize-link(@color, same, underline, 600);
+			}
 		}
 		// Normalize images in content
 		img {

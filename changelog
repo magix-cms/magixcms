@@ -1,6 +1,8 @@
 #### 2.6.5
 Stable
 
+* New structure API catalog model & catalog sql (frontend)
+    * Add sort params in widget_catalog_data
 * Add microdata in catalog
 * Fix loop catalog + effect (frontend)
 * Change sidebar (frontend)
