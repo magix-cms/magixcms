@@ -1,6 +1,7 @@
 #### 2.6.5
 Stable
 
+* Fix galery design & less
 * New structure API catalog model & catalog sql (frontend)
     * Add sort params in widget_catalog_data
 * Add microdata in catalog

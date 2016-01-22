@@ -8,18 +8,7 @@
     <article id="article" class="col-xs-12" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
         {block name='article:content'}
             <div class="row">
-                <div id="product-info" class="col-xs-12 col-sm-6 col-md-4 text-center">
-                    <figure{if $product.imgSrc.medium} itemprop="image" itemscope itemtype="http://schema.org/ImageObject"{/if}>
-                        {if $product.imgSrc.medium}
-                            <meta itemprop="contentUrl" content="{$product.imgSrc.large}" />
-                            <a href="{$product.imgSrc.large}" class="img-zoom" title="{$product.name}" itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-                                <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" itemprop="contentUrl"/>
-                            </a>
-                        {else}
-                            <img src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
-                        {/if}
-                    </figure>
-
+                <div id="product-info" class="col-xs-12 col-sm-5 col-md-4 text-center">
                     {widget_catalog_data
                         conf =[
                         'context'   =>  'product-gallery',
@@ -29,37 +18,37 @@
                     }
                     {if $galeryProductData != null}
                         <section id="gallery">
-                            {*<h3>{#gallery#|ucfirst}</h3>*}
-                            {*<div class="row">
-                                <div class="gallery">
-                                    {include file="catalog/loop/gallery.tpl" data=$galeryProductData classCol="col-xs-6 col-sm-4 col-md-3"}
-                                </div>
-                            </div>*}
-
                             <div class="image-gallery">
                                 <div class="big-image">
-                                    <a class="img-gallery" rel="productGallery" href="{$product.imgSrc.medium}" title="{$product.name|ucfirst}">
-                                        <img id="default" itemprop="image" class="img-responsive" src="{$product.imgSrc.small}" alt="{$product.name|ucfirst}"/>
-                                    {foreach $galeryProductData as $k => $item}
-                                    {$id = "img"|cat:$k}
-                                        <img id="{$id}" itemprop="image" class="img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
-                                    {/foreach}
+                                    <a id="default" class="img-gallery" href="{$product.imgSrc.large}" rel="productGallery" title="{$product.name}" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                                        <meta itemprop="contentUrl" content="{$product.imgSrc.large}" />
+                                        <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+                                            <img itemprop="image" class="img-responsive" src="{$product.imgSrc.small}" alt="{$product.name|ucfirst}" itemprop="contentUrl"/>
+                                        </span>
                                     </a>
+                                    {foreach $galeryProductData as $k => $item}
+                                    <a id="img{$k}" class="img-gallery" href="{$item.imgSrc.medium}" rel="productGallery" title="{$product.name}" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                                        <meta itemprop="contentUrl" content="{$item.imgSrc.medium}" />
+                                        <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+                                            <img itemprop="image" class="img-responsive"  src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}" itemprop="contentUrl"/>
+                                        </span>
+                                    </a>
+                                    {/foreach}
                                 </div>
 
                                 <div class="thumbs">
-                                    <a class="button prev"><</a>
-                                    <a class="button next">></a>
-                                    <ul>
+                                    <a class="button prev"><span class="fa fa-angle-left"></span></a>
+                                    <a class="button next"><span class="fa fa-angle-right"></span></a>
+                                    <ul class="list-unstyled">
                                         <li>
-                                            <a href="#default" data-url="{$product.imgSrc.medium}">
-                                                <img itemprop="image" class="img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
+                                            <a class="show-img" href="#" data-target="#default">
+                                                <img class="img-responsive" src="{$product.imgSrc.small}" alt="{$product.name|ucfirst}"/>
                                             </a>
                                         </li>
                                         {foreach $galeryProductData as $k => $item}
                                         <li>
-                                            <a href="#img{$k}" data-url="{$item.imgSrc.medium}">
-                                                <img itemprop="image" class="img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
+                                            <a class="show-img" href="#"  data-target="#img{$k}" rel="productGallery">
+                                                <img class="img-responsive" src="{$item.imgSrc.small}" alt="{$product.name|ucfirst}"/>
                                             </a>
                                         </li>
                                         {/foreach}
@@ -67,9 +56,26 @@
                                 </div>
                             </div>
                         </section>
+                        {*<h3>{#gallery#|ucfirst}</h3>
+                        <div class="row">
+                            <div class="gallery">
+                                {include file="catalog/loop/gallery.tpl" data=$galeryProductData classCol="col-xs-6 col-sm-4 col-md-3"}
+                            </div>
+                        </div>*}
+                    {else}
+                        <figure{if $product.imgSrc.medium} itemprop="image" itemscope itemtype="http://schema.org/ImageObject"{/if}>
+                            {if $product.imgSrc.medium}
+                                <meta itemprop="contentUrl" content="{$product.imgSrc.large}" />
+                                <a href="{$product.imgSrc.large}" class="img-zoom" title="{$product.name}" itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+                                    <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" itemprop="contentUrl"/>
+                                </a>
+                            {else}
+                                <img src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
+                            {/if}
+                        </figure>
                     {/if}
                 </div>
-                <div class="content col-xs-12 col-sm-6 col-md-8">
+                <div class="content col-xs-12 col-sm-7 col-md-8">
                     <header>
                         <h1 itemprop="name">{$product.name|ucfirst}</h1>
                         {*<meta itemprop="category" content="{$cat.name}{if isset($subcat)} / {$subcat.name}{/if}">*}

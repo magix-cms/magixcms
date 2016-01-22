@@ -6,7 +6,91 @@
 ---------------------------------------------------------- */
 #catalog,#catalog-cat,#catalog-subcat,#catalog-product{
 	// Define content style
-	.normalize-content(@main-color);
+	#article .content {
+		// Prevent collapse block
+		margin-bottom: 50px;
+		// Normalize the main title of the content
+		header {
+			margin: 0 auto 25px;
+			padding: 0 0 15px;
+			border-bottom: 1px solid #eee;
+			overflow: hidden;
+
+			> h1:first-child {
+				color: @text-color;
+				float: left;
+				margin: 0;
+			}
+			> .price {
+				float: right;
+				padding: 8px 12px;
+				color: @smooth-white;
+				background-color: @main-color;
+				font-size: 16px;
+				font-weight: bold;
+				margin: 0;
+			}
+		}
+		// Normalize link in content
+		> p, > ul li {
+			.normalize-link(@main-color, same, underline, 600);
+		}
+		// Normalize images in content
+		img {
+			.img-responsive;
+			display: inline-block;
+			&.pull-right {
+				margin: 0 0 15px 30px !important;
+			}
+			&.pull-left {
+				margin: 0 30px 15px 0 !important;
+			}
+			/*&,&.pull-right,&.pull-left{
+                .only-xtra-small( { width: 100%; margin: 0 0 15px !important; .no-padding; } );
+            }*/
+		}
+		@media (max-width: @screen-xs-max) {
+			p > img {
+				margin: 15px 0 15px 30px !important;
+			}
+
+			> img {
+				margin: 15px 0 15px 30px !important;
+			}
+		}
+		// Normalize small for datetime
+		small {
+			display: block;
+			margin-bottom: 15px;
+			color: @light-gray;
+		}
+		.description {
+			margin-bottom: 30px;
+		}
+
+		fieldset {
+			text-align: center;
+
+			legend {
+				.lead;
+				margin-bottom: 35px;
+
+				span {
+					padding: 15px;
+					margin-bottom: -15px;
+					position: relative;
+					bottom: -15px;
+					background: #ffffff;
+				}
+			}
+		}
+		// Normalize heading in content
+		// @ToDo try to make it full auto with concatenation
+		/*@heading();
+        .headings({color: @color},'> ');
+        .heading();*/
+		.direct-headings({ color: @text-color });
+	}
 
 	#article > div {
 		.desc {
@@ -73,14 +157,126 @@
 	}
 
 	#gallery {
-		padding: 20px 0 40px;
+		padding-bottom: 30px;
+
+		.row {
+			margin: 0 -2px;
+			.col-xs-6 {
+				padding: 0 2px;
+			}
+		}
 
 		img {
 			border-radius: 0;
 			border: none;
 			padding: 0;
 			background-color: transparent;
-			margin: 0 0 20px 0;
+		}
+
+		.image-gallery .big-image {
+			margin: 0 0 20px;
+			display: block;
+			width: 100%;
+			overflow: hidden;
+			position: relative;
+		}
+		.image-gallery .big-image a {
+			opacity:0;
+			position:absolute;
+			left:0;
+			top:0;
+			width:100%;
+			margin:0 auto;
+			transition: opacity 350ms;
+
+			&:hover {
+				cursor: zoom-in;
+			}
+		}
+
+		#default {
+			opacity: 1;
+			z-index: 1;
+			position: static;
+			float: left;
+		}
+
+		/***Button***/
+		.image-gallery .button {
+			font-size: 30px;
+			display: table;
+			color: @dark-white;
+			padding: 0 10px;
+			position:absolute;
+			background-color: rgba(0,0,0,.3);
+			.auto-transition(.35s);
+			cursor: pointer;
+			top: 0;
+			height: 100%;
+			z-index: 1;
+
+			span {
+				display: table-cell;
+				vertical-align: middle;
+			}
+
+			&.prev {
+				left: 0;
+			}
+			&.next {
+				right: 0;
+			}
+
+			&:hover {
+				color: @smooth-white;
+				background-color: rgba(0,0,0,.6);
+				text-decoration: none;
+			}
+		}
+
+		/***thumbs***/
+		.image-gallery .thumbs {
+			overflow: hidden;
+			white-space: nowrap;
+			cursor: grab;
+			position: relative;
+			height: 75px;
+			@media (min-width: @screen-sm-min) {
+				height: 96px;
+			}
+
+			ul {
+				margin-bottom: 0;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			li {
+				display: inline-block;
+				margin-right: 3px;
+
+				&:last-child {
+					margin-right: 0;
+				}
+
+				a {
+					opacity: 0.85;
+					.auto-transition(.35s);
+
+					&:hover,
+					&:focus {
+						opacity: 1;
+					}
+
+					img {
+						width: 100px;
+						@media (min-width: @screen-sm-min) {
+							width: 128px;
+						}
+					}
+				}
+			}
 		}
 	}
 }

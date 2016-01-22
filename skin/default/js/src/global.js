@@ -8,6 +8,53 @@
 * JS theme default
 *
 */
+function initGallery(titles,iso){
+	// *** for gallery pictures
+	$(".img-gallery").fancybox({
+		helpers : {
+			title : 'outside'
+		},
+		tpl: {
+			closeBtn : '<a title="'+titles[iso]['close']+'" class="fancybox-item fancybox-close" href="javascript:;"></a>',
+			next     : '<a title="'+titles[iso]['next']+'" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
+			prev     : '<a title="'+titles[iso]['prev']+'" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'
+		}
+	});
+
+	$(".show-img").click(function(e){
+		e.preventDefault();
+		var target = $(this).data('target');
+		$(".big-image a").animate({ opacity: 0, 'z-index': 0 }, 200);
+		$(target).animate({ opacity: 1, 'z-index': 1 }, 200);
+	});
+
+	var startPos = parseInt($('.thumbs ul').css('left').slice(0,-2));
+	var listW = $('.thumbs ul').width();
+	var contW = $('.thumbs').width();
+	var maxOffset =  -( startPos + (listW - contW));
+	var offset = 128;
+
+	$(".thumbs .button").click(function(e){
+		e.preventDefault();
+		var posL = parseInt($('.thumbs ul').css('left').slice(0,-2)),
+			nextPos = 0;
+
+		if($(this).hasClass('next')) {
+			nextPos = posL - offset;
+			if( nextPos < maxOffset) {
+				nextPos = maxOffset;
+			}
+		} else if ($(this).hasClass('prev')) {
+			nextPos = posL + offset;
+			if( nextPos > 0) {
+				nextPos = 0;
+			}
+		}
+
+		$('.thumbs ul').animate({ left: nextPos+'px' },500);
+	});
+}
+
 $(function()
 {
 	// *** In case you don't have firebug...
@@ -46,17 +93,7 @@ $(function()
         }
     });
 
-    // *** for gallery pictures
-    $(".img-gallery").fancybox({
-        helpers : {
-            title : 'outside'
-        },
-        tpl: {
-            closeBtn : '<a title="'+titles[iso]['close']+'" class="fancybox-item fancybox-close" href="javascript:;"></a>',
-            next     : '<a title="'+titles[iso]['next']+'" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
-            prev     : '<a title="'+titles[iso]['prev']+'" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'
-        }
-    });
+	initGallery(titles,iso);
 
 	 // *** for gallery videos
 	 /*$(".video").fancybox({
