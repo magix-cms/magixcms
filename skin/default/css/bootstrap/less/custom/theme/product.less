@@ -238,11 +238,14 @@
 		.image-gallery .thumbs {
 			overflow: hidden;
 			white-space: nowrap;
-			cursor: grab;
 			position: relative;
 			height: 75px;
 			@media (min-width: @screen-sm-min) {
 				height: 96px;
+			}
+
+			&.draggable {
+				cursor: grab;
 			}
 
 			ul {
