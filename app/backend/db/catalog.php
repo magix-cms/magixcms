@@ -87,7 +87,7 @@ class backend_db_catalog{
         FROM mc_catalog_c AS c
     	JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
     	WHERE c.idlang = :getlang
-    	ORDER BY c.idclc DESC,c.corder';
+    	ORDER BY c.corder';
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':getlang'=>$getlang
         ));
