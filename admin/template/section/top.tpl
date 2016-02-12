@@ -100,13 +100,16 @@
                 </li>
             </ul>
             <p class="navbar-text navbar-right">
+                <a href="{geturl}" class="navbar-link targetblank">
+                    Voir le site
+                </a>
                 <select id="admin-language" title="{#select_admin_language#}">
                     <option {if {iso} == "fr"}selected="selected" {/if} value="fr">
                         FR
                     </option>
                 </select>
                 <a href="{geturl}/admin/dashboard.php?logout" class="navbar-link">
-                    <span class="fa fa-off"></span> Logout
+                    <span class="fa fa-power-off"></span> Logout
                 </a>
             </p>
         </div>

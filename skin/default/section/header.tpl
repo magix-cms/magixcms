@@ -25,6 +25,9 @@
     {/if}
 {/strip}
 <header>
+    {if $displayAdminPanel}
+        {include file="section/admin/toolbar.tpl" adjust="clip"}
+    {/if}
     {if $toolbar}
         {include file="section/toolbar.tpl" adjust="clip"}
     {/if}

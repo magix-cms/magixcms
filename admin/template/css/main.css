@@ -130,6 +130,9 @@ a:hover > .badge {
 .nav-header {
     font-size:14px;
 }
+.navbar-right a:first-child {
+	margin-right: 8px;
+}
 #admin-language{
     margin-right:5px;
 }

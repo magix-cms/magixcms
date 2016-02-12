@@ -36,7 +36,7 @@
                                     {/foreach}
                                 </div>
 
-                                <div class="thumbs">
+                                <div class="thumbs smooth-gallery">
                                     <a class="button prev"><span class="fa fa-angle-left"></span></a>
                                     <a class="button next"><span class="fa fa-angle-right"></span></a>
                                     <ul class="list-unstyled">

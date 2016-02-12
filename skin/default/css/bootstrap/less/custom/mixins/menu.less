@@ -1,20 +1,12 @@
 /*
  * Predefine style for menu
  */
-.menubar {
-	clear: both;
-	margin: 0;
-	padding: 0;
-}
-
-
 /*
  * Styles
  */
 @import "menu/menu-default";
 @import "menu/menu-dropdown";
 @import "menu/menu-tabs";
-
 
 /*
  * Media Queries
@@ -68,9 +60,18 @@
 
 @media (min-width: @screen-sm-min) {
 	.menu {
-		.pull-right;
+		float: right;
 		ul {
 			.navbar-nav;
 		}
+	}
+	.menubar {
+		ul > li {
+			float: none !important;
+		}
+		float: none;
+		clear: both;
+		margin: 0;
+		padding: 0;
 	}
 }
