@@ -65,7 +65,7 @@
                 {/if}
             {* Brand && Headline *}
             <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
-                <img class="img-responsive" src="/skin/{template}/img/logo/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" width="200" href="37"/>
+                <img class="img-responsive" src="/skin/{template}/img/logo/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" width="200" height="37"/>
             </a>
             {if $adjust == 'clip' && !$menubar}
                 {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}

@@ -85,7 +85,11 @@
     }
 {/block}
 {block name="foot" append}
-    {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {if {getlang} eq "en"}
+        {script src="/min/?f=plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {else}
+        {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {/if}
     <script type="text/javascript">
         $.nicenotify.notifier = {
             box:"",

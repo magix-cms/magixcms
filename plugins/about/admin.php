@@ -733,28 +733,28 @@ class plugins_about_admin extends DBabout{
     }
 
 	//SITEMAP
-	/*private function lastmod_dateFormat(){
+	private function lastmod_dateFormat(){
 		$dateformat = new magixglobal_model_dateformat();
 		return $dateformat->sitemap_lastmod_dateFormat();
-	}*/
+	}
 	/**
 	 * @access public
 	 * Options de reecriture des sitemaps NEWS
 	 */
-	/*public function sitemap_rewrite_options(){
+	public function sitemap_rewrite_options(){
 		return $options_string = array(
-				'index'=>true,
-				'level1'=>false,
-				'level2'=>false,
-				'records'=>false
+			'index'=>true,
+			'level1'=>false,
+			'level2'=>false,
+			'records'=>true
 		);
-	}*/
+	}
 
 	/**
 	 * URL index du module suivant la langue
 	 * @param $idlang
 	 */
-	/*public function sitemap_uri_index($idlang){
+	public function sitemap_uri_index($idlang){
 		$sitemap = new magixcjquery_xml_sitemap();
 		// Table des langues
 		$lang = new backend_db_block_lang();
@@ -762,17 +762,46 @@ class plugins_about_admin extends DBabout{
 		$db = $lang->s_data_iso($idlang);
 		if($db != null){
 			$sitemap->writeMakeNode(
-					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_plugins_root_url(
-							$db['iso'],
-							'about',
-							true)
-					,
+				magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_plugins_root_url(
+					$db['iso'],
+					'about',
+					true)
+				,
+				$this->lastmod_dateFormat(),
+				'always',
+				0.7
+			);
+		}
+	}
+	/**
+	 * URL index du module suivant la langue
+	 * @param $idlang
+	 */
+	public function sitemap_uri_record($idlang){
+		$sitemap = new magixcjquery_xml_sitemap();
+		// Table des langues
+		$lang = new backend_db_block_lang();
+		// Retourne le code ISO
+		$db = $lang->s_data_iso($idlang);
+		$idpage_p = parent::getPageData($idlang);
+		if(parent::getChildPages($idpage_p['id']) != null){
+			foreach(parent::getChildPages($idpage_p['id']) as $key){
+				$sitemap->writeMakeNode(
+					magixcjquery_html_helpersHtml::getUrl().magixglobal_model_rewrite::filter_plugins_params_url(
+						$db['iso'],
+						'about'
+						,array(
+							"pstring1"	=>	$key['url'],
+							"pnum1"		=>	$key['id']
+						),
+						true),
 					$this->lastmod_dateFormat(),
 					'always',
 					0.7
-			);
+				);
+			}
 		}
-	}*/
+	}
 }
 class DBabout{
     /**
@@ -852,7 +881,7 @@ class DBabout{
 	 */
 	protected function getChildPages($id)
 	{
-		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
+		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title,ab.uri_title as url, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
 				 JOIN mc_lang as lang ON ab.idlang = lang.idlang
 				 WHERE ab.idpage_p = :id";
 
@@ -898,6 +927,21 @@ class DBabout{
 
 		return magixglobal_model_db::layerDB()->selectOne($query,array(
 				':id' => $idlang
+		));
+	}
+
+	/**
+	 * @param $idlang
+	 * @return array
+	 */
+	protected function getPageData($idlang)
+	{
+		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
+				 JOIN mc_lang as lang ON ab.idlang = lang.idlang
+				 WHERE ab.idpage_p = 0 AND ab.idlang = :id";
+
+		return magixglobal_model_db::layerDB()->selectOne($query,array(
+			':id' => $idlang
 		));
 	}
 

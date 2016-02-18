@@ -1,0 +1,82 @@
+/*
+ * Buttons creation functions
+ */
+
+// button-gradient-variant override
+.button-gradient-variant(@color; @bg-color-1; @bg-color-2;) {
+	color: @color;
+	#gradient .directional(@bg-color-1, @bg-color-2);
+	border: none;
+
+	@dark-bg-1: darken(@bg-color-1, 10%);
+	@dark-bg-2: darken(@bg-color-2, 10%);
+
+	&:focus,
+	&.focus {
+		color: @color;
+		#gradient .directional(@dark-bg-1, @dark-bg-2);
+	}
+	&:hover {
+		color: @color;
+		#gradient .directional(@dark-bg-1, @dark-bg-2);
+	}
+	&:active,
+	&.active,
+	.open > .dropdown-toggle& {
+		color: @color;
+		#gradient .directional(@dark-bg-1, @dark-bg-2);
+
+		&:hover,
+		&:focus,
+		&.focus {
+			color: @color;
+			#gradient .directional(darken(@bg-color-1, 17%), darken(@bg-color-2, 17%));
+		}
+	}
+	&:active,
+	&.active,
+	.open > .dropdown-toggle& {
+		background-image: none;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+			#gradient .directional(@bg-color-1, @bg-color-2);
+		}
+	}
+
+	.badge {
+		color: @bg-color-1;
+		background-color: @color;
+	}
+}
+
+.custom-button(@name,@txt-color: #fff,@brd-rad: 0){
+	@var: ~'@{name}-colors';
+	@color: @@var;
+	@class: ~".btn-@{name}-theme";
+	.btn {
+		&@{class} {
+			.button-variant(@txt-color, extract(@color, 3), extract(@color, 4));
+
+			&.btn-flat,
+			&.btn-gradient {
+				-webkit-border-radius: @brd-rad;
+				-moz-border-radius: @brd-rad;
+				border-radius: @brd-rad;
+			}
+			&.btn-flat {
+				.button-variant(@txt-color, extract(@color, 3), extract(@color, 3));
+			}
+			&.btn-gradient {
+				.button-gradient-variant(@txt-color, extract(@color, 2), extract(@color, 4));
+			}
+		}
+	}
+}

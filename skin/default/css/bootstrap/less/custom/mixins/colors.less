@@ -8,33 +8,63 @@
 @smooth-white:  #f2f2f2;
 @dark-gradient: #222,#45484d;
 
-// --- Neutral Color
-@gray-color-darken:     darken(@gray-color-dark, 10%);
-@gray-color-dark:       #666666;
-@gray-color:            #808080;
-@gray-color-light:      #999999;
-@gray-color-lighten:    lighten(@gray-color-light, 10%);
+// --- Theme Colors
+@main-color: #3b61a9;
+@sd-color: #148ecf;
+@th-color: #f6852f;
+@fr-color: #2e8639;
+@gray-color: #808080;
+@dark-color: #222;
 
+//// --- Theme Colors Variant
 // --- Main Theme
-@main-color-darken:     darken(@main-color-dark, 10%);
-@main-color-dark:       darken(@main-color, 10%);
-@main-color:            #3b61a9;
-@main-color-light:      lighten(@main-color, 10%);
-@main-color-lighten:    lighten(@main-color-light, 10%);
+@main-colors:
+	darken(darken(@main-color,10%),10%),
+	darken(@main-color,10%),
+	@main-color,
+	lighten(@main-color,10%),
+	lighten(lighten(@main-color,10%),10%);
 
 // --- Secondary Color
-@sd-color-darken:    darken(@sd-color-dark, 10%);
-@sd-color-dark:      #0071bc;
-@sd-color:           #148ecf;
-@sd-color-light:     #29abe2;
-@sd-color-lighten:   lighten(@sd-color-light, 10%);
+@sd-colors:
+	darken(#0071bc, 10%),
+	#0071bc,
+	@sd-color,
+	#29abe2,
+	lighten(#29abe2, 10%);
 
 // --- Third Color
-@th-color-darken:   darken(@th-color-dark, 10%);
-@th-color-dark:     #f15a24;
-@th-color:          #f6852f;
-@th-color-light:    #fbb03b;
-@th-color-lighten:  lighten(@th-color-light, 10%);
+@th-colors:
+	darken(#f15a24, 10%),
+	#f15a24,
+	@th-color,
+	#fbb03b,
+	lighten(#fbb03b, 10%);
+
+// --- Fourth Color
+@fr-colors:
+	darken(darken(@fr-color,10%),10%),
+	darken(@fr-color,10%),
+	@fr-color,
+	lighten(@fr-color,10%),
+	lighten(lighten(@fr-color,10%),10%);
+
+// --- Neutral Color
+@gray-colors:
+	darken(#666666, 10%),
+	#666666,
+	@gray-color,
+	#999999,
+	lighten(#999999, 10%);
+
+// --- Dark Color
+@dark-colors:
+	darken(#222, 10%),
+	#222,
+	#333,
+	#45484d,
+	lighten(#45484d, 10%);
+
 
 /*----------------------*\
 ----- Theme Textures -----
