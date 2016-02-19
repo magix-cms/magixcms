@@ -6,7 +6,7 @@
     </div>
     <div class="col-xs-12 col-sm-4 text-center">
         <p class="footer-copyright"><span class="copyright-info"><span class="fa fa-copyright"></span> <span itemprop="copyrightYear">2016{if 'Y'|date != '2016'} - {'Y'|date}{/if}</span></span>
-        | {#footer_all_rights_reserved#|ucfirst}{#footer_all_rights_reserved#|ucfirst}</p>
+        | {#footer_all_rights_reserved#|ucfirst}</p>
     </div>
     {if $companyData.tva}
         <div class="col-xs-12 col-sm-2">

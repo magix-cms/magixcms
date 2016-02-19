@@ -69,7 +69,7 @@
 
 {* --- Disable submenu links --- *}
 {$dropmenu = ['dropdown','tabs','tabs-arrow']}
-{if (isset($submenu) && $submenu) || $menu|in_array:$dropmenu}
+{if (isset($submenu) && $submenu) || $type|in_array:$dropmenu}
     {$getPage = 'all'}
     {$getCat = ['category' => 'subcategory']}
 {else}
@@ -352,7 +352,7 @@
         {/if}
         <a href="#search" class="sr-only skip-menu" role="link">Passer le menu</a>
         <ul class="nav{if isset($justified) &&$justified } nav-justified{/if}">
-            {if isset($submenu) && $submenu || $menu|in_array:$dropmenu}
+            {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
                 {include file="section/menu/loop/dropdown.tpl" menuData=$menu gmap=$gmap microData=$microData}
             {else}
                 {include file="section/menu/loop/default.tpl" menuData=$menu gmap=$gmap microData=$microData}
