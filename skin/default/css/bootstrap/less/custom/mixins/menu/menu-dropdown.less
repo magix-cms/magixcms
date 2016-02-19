@@ -2,7 +2,7 @@
 ----- Dropdown -----
 \*----------------*/
 .dp-menu() {
-	display: block;
+	display: table;
 	visibility: visible;
 	.box-shadow(0 10px 10px rgba(0,0,0,.2));
 	.opacity(1);
@@ -42,7 +42,7 @@
 
 	.dropdown {
 		min-width: 100%;
-		display: block;
+		display: table;
 		position: absolute;
 		padding: 5px 0;
 		list-style-type: none;
@@ -56,9 +56,13 @@
 		.auto-transition(.5s);
 
 		li {
+			float: none;
+			display: table-row;
+			width: 100%;
 			a {
 				white-space: nowrap;
-				display: block;
+				display: table-cell;
+				min-width: 100%;
 				&:hover {
 					text-decoration: none;
 				}
