@@ -2,10 +2,11 @@
 ----- Tabs -----
 \*------------*/
 // ---- Variables
-@mheight: 50px;
-@sm-mheight: @mheight;
-@md-mheight: @mheight;
-@lg-mheight: @mheight;
+@minheight: 40px;
+@maxheight: 60px;
+@sm-mheight: @minheight;
+@md-mheight: @minheight;
+@lg-mheight: @minheight;
 
 // ---- Rules
 
@@ -23,16 +24,16 @@
 nav.menu-tabs {
 	.menu-dropdown;
 
-	li {
-		vertical-align: top;
-		a {
-			height: @mheight;
-			display: table;
-			width: 100%;
+	.nav-justified {
+		> li {
+			> a {
+				padding-top: 10px;
+				padding-bottom: 10px;
 
-			> span {
-				display: table-cell;
-				vertical-align: middle;
+				> span {
+					display: table-cell;
+					vertical-align: middle;
+				}
 			}
 		}
 	}
@@ -55,7 +56,7 @@ nav.menu-tabs {
 							left: 42%;
 							box-shadow: 0 0 2px rgba(0,0,0,.4);
 							transform: rotate(45deg);
-							background-color: @main-color;
+							background-color: @menu-active-bg;
 							z-index: -1;
 
 							@media (min-width: @screen-md-min) {
@@ -73,3 +74,26 @@ nav.menu-tabs {
 /*
  * Media Queries
  */
+@media (min-width: @screen-sm-min) {
+	nav.menu-tabs {
+		.menu-dropdown;
+
+		.nav-justified {
+			min-height: @minheight;
+			height: 100%;
+			max-height: @maxheight;
+			> li {
+				vertical-align: middle;
+				padding: 0;
+				margin: 0;
+				height: 100%;
+
+				> a {
+					height: 100%;
+					display: table;
+					width: 100%;
+				}
+			}
+		}
+	}
+}

@@ -57,7 +57,7 @@
 	}
 }
 
-.custom-button(@name,@txt-color: #fff,@brd-rad: 0){
+.custom-button(@name,@txt-color: #fff){
 	@var: ~'@{name}-colors';
 	@color: @@var;
 	@class: ~".btn-@{name}-theme";
@@ -65,17 +65,47 @@
 		&@{class} {
 			.button-variant(@txt-color, extract(@color, 3), extract(@color, 4));
 
-			&.btn-flat,
-			&.btn-gradient {
-				-webkit-border-radius: @brd-rad;
-				-moz-border-radius: @brd-rad;
-				border-radius: @brd-rad;
-			}
 			&.btn-flat {
 				.button-variant(@txt-color, extract(@color, 3), extract(@color, 3));
 			}
 			&.btn-gradient {
 				.button-gradient-variant(@txt-color, extract(@color, 2), extract(@color, 4));
+			}
+			&.btn-invert {
+				position: relative;
+				padding: 10px 16px;
+				line-height: 1.3333333;
+				background-color: transparent;
+				border-color: @text-color;
+				border-width: 2px;
+				color: @text-color;
+				.auto-transition(.25s);
+
+				&:before {
+					content: '';
+					position: absolute;
+					display: inline-block;
+					height: 100%;
+					width: 0;
+					top: 0;
+					left: 0;
+					background-color: extract(@color, 3);
+					z-index: -1;
+					-moz-transition: 0.25s;
+					-webkit-transition: 0.25s;
+					-o-transition: 0.25s;
+					transition: 0.25s;
+				}
+
+				&:hover {
+					background-color: transparent;
+					border-color: extract(@color, 3);
+					color: @txt-color;
+
+					&:before {
+						width: 100%;
+					}
+				}
 			}
 		}
 	}

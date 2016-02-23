@@ -69,7 +69,7 @@
 
                                         <div class="mc-message"></div>
                                         <input type="hidden" name="moreinfo" value="" />
-                                        <input type="submit" class="btn btn-flat btn-main-theme pull-right" value="{#pn_contact_send#|ucfirst}" />
+                                        <button type="submit" class="btn btn-box btn-flat btn-main-theme pull-right">{#pn_contact_send#|ucfirst}</button>
                                     </form>
                                 </div>
                             </div>
@@ -85,7 +85,11 @@
 {/block}
 
 {block name="foot" append}
-    {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {if {getlang} eq "en"}
+        {script src="/min/?f=plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {else}
+        {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+    {/if}
     <script type="text/javascript">
         $.nicenotify.notifier = {
             box:"",

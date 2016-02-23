@@ -67,6 +67,16 @@
     {/foreach}
 {/if}
 
+{* --- Enable Page links --- *}
+{if !isset($pages)}
+    {$pages = true}
+{/if}
+
+{* --- Enable Catalog links --- *}
+{if !isset($catelog)}
+    {$catelog = true}
+{/if}
+
 {* --- Disable submenu links --- *}
 {$dropmenu = ['dropdown','tabs','tabs-arrow']}
 {if (isset($submenu) && $submenu) || $type|in_array:$dropmenu}
@@ -99,8 +109,38 @@
 {/if}
 
 
+{* --- Menu About --- *}
+{if $root.about && $about != null}
+    {$item = [
+    'name'      => {#about_label#},
+    'url'       => "{geturl}/{getlang}/about/",
+    'title'     => "{#about_title#} {#website_name#}",
+    'active'    => $about_current
+    ]}
+    {if $about.childs != null && (isset($submenu) && $submenu)}
+        {assign var=submenu value=array()}
+        {foreach $about.childs as $child}
+            {if isset($smarty.get.pnum1) && $smarty.get.pnum1 == $child.id}
+                {$subactive = 1}
+            {else}
+                {$subactive = 0}
+            {/if}
+
+            {$submenu[] = [
+            'name'      => {$child.title},
+            'url'       => "{geturl}/{getlang}/about/{$child.uri}-{$child.id}/",
+            'title'     => {$child.title},
+            'active'    => {$subactive}
+            ]}
+        {/foreach}
+        {$item['subdata'] = $submenu}
+    {/if}
+    {$menu[] = $item}
+{/if}
+
+
 {* --- Menu Pages --- *}
-{if {#menu_pages#}}
+{if {#menu_pages#} && $pages}
     {widget_cms_data
         conf = [
             'select' => [{getlang} => {#menu_pages#}],
@@ -144,7 +184,7 @@
 
 
 {* --- Menu Catalog --- *}
-{if {#menu_catalog#}}
+{if {#menu_catalog#} && $catalog}
     {widget_catalog_data
         conf = [
             'context' => {$getCat},
@@ -230,7 +270,7 @@
 
 
 {* --- Menu Pages --- *}
-{if {#menu_pages_2#}}
+{if {#menu_pages_2#} && $pages}
     {widget_cms_data
         conf = [
             'select' => [{getlang} => {#menu_pages_2#}],
@@ -284,36 +324,6 @@
 {/if}
 
 
-{* --- Menu About --- *}
-{if $root.about && $about != null}
-    {$item = [
-    'name'      => {#about_label#},
-    'url'       => "{geturl}/{getlang}/about/",
-    'title'     => "{#about_title#} {#website_name#}",
-    'active'    => $about_current
-    ]}
-    {if $about.childs != null && (isset($submenu) && $submenu)}
-        {assign var=submenu value=array()}
-        {foreach $about.childs as $child}
-            {if isset($smarty.get.pnum1) && $smarty.get.pnum1 == $child.id}
-                {$subactive = 1}
-            {else}
-                {$subactive = 0}
-            {/if}
-
-            {$submenu[] = [
-            'name'      => {$child.title},
-            'url'       => "{geturl}/{getlang}/about/{$child.uri}-{$child.id}/",
-            'title'     => {$child.title},
-            'active'    => {$subactive}
-            ]}
-        {/foreach}
-        {$item['subdata'] = $submenu}
-    {/if}
-    {$menu[] = $item}
-{/if}
-
-
 {* --- Menu FAQ --- *}
 {if $faq}
     {$contact = [
@@ -353,9 +363,9 @@
         <a href="#search" class="sr-only skip-menu" role="link">Passer le menu</a>
         <ul class="nav{if isset($justified) &&$justified } nav-justified{/if}">
             {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
-                {include file="section/menu/loop/dropdown.tpl" menuData=$menu gmap=$gmap microData=$microData}
+                {include file="section/menu/loop/dropdown.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}
             {else}
-                {include file="section/menu/loop/default.tpl" menuData=$menu gmap=$gmap microData=$microData}
+                {include file="section/menu/loop/default.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}
             {/if}
         </ul>
         {if $adjust == 'clip' && $menubar}

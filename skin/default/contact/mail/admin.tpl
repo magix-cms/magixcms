@@ -10,21 +10,24 @@
                     <td width="800" style="background: #222;padding: 15px;/*border-bottom: 1px solid #333;*/" valign="top">
                         <!-- Gmail/Hotmail image display fix -->
                         <a href="{geturl}" target ="_blank" title="{#website#}" style="text-decoration: none;font-size: 46px;">
-                            <img src="{geturl}/skin/{template}/img/{#logo_img_small#}" alt="{#logo_img_alt#|ucfirst}" height="50" width="269"/>
+                            <img src="{geturl}/skin/{template}/img/logo/{#logo_img_small#}" alt="{#logo_img_alt#|ucfirst}" height="50" width="269"/>
                         </a>
                     </td>
                 </tr>
                 <tr>
                     <td width="800" style="background: #ffffff;padding:15px;" valign="top">
-                        <h2>{#mail_from#|ucfirst} {$data.firstname}&nbsp;{$data.lastname}</h2>
+                        <h2>{#object_mail#|ucfirst}&nbsp;: {$data.title}</h2>
                         <p>{$data.content|replace:'\n':'<br />'}</p>
                     </td>
                 </tr>
                 <tr>
                     <td width="400" style="background: #ffffff;padding:15px;" valign="top">
                         <h3>{#mail_from_coor#|ucfirst}</h3>
+                        <h4>{#mail_from#|ucfirst} {$data.firstname}&nbsp;{$data.lastname}</h4>
                         <ul style="padding: 0;list-style-type: none">
-                            <li style="padding: 5px 0;">{$data.adress|ucfirst}, {$data.postcode} {$data.city}</li>
+                            {if $data.adress != null}
+                                <li style="padding: 5px 0;">{$data.adress|ucfirst}, {$data.postcode} {$data.city}</li>
+                            {/if}
                             <li style="padding: 5px 0;">{#mail_email#|ucfirst}&nbsp;: {$data.email}</li>
                             {if $data.phone != null}
                                 <li style="padding: 5px 0;">{#mail_phone#|ucfirst}&nbsp;: {$data.phone}</li>

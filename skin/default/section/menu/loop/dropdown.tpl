@@ -3,7 +3,7 @@
     {foreach $menuData as $item}
         <li{if $item.active}{$class_current}{/if}>
             {if $item.subdata}
-                <button type="button" class="navbar-toggle{if $item.active} open{/if}" data-toggle="collapse" data-target="#nav-menu-{$item@index}">
+                <button type="button" class="navbar-toggle{if $item.active} open{/if}" data-toggle="collapse" data-target="#nav-{$menu}-{$item@index}">
                     <span class="fa fa-plus"></span>
                 </button>
             {/if}
@@ -18,7 +18,7 @@
                 </ul>
             {/if}
             {if $item.subdata}
-                <nav id="nav-menu-{$item@index}" class="collapse navbar-collapse{if $item.active} in{/if}">
+                <nav id="nav-{$menu}-{$item@index}" class="collapse navbar-collapse{if $item.active} in{/if}">
                     <ul>
                         {foreach $item.subdata as $child}
                             <li{if $child.active}{$class_current}{/if}>

@@ -56,7 +56,7 @@ class plugins_contact_public extends database_plugins_contact{
      * @var string
      */
     public $moreinfo;
-    public $lastname,$firstname,$email,$phone,$adress,$content;
+    public $title,$lastname,$firstname,$email,$phone,$adress,$postcode,$city,$content;
     /**
      * Class constructor
      */
@@ -102,6 +102,7 @@ class plugins_contact_public extends database_plugins_contact{
      */
     private function setNotify($type,$subContent=null){
         $this->template->configLoad();
+		$message = '';
         switch($type){
             case 'warning':
                 $warning = array(
@@ -163,11 +164,7 @@ class plugins_contact_public extends database_plugins_contact{
      */
     private function setTitleMail(){
         $subject = $this->template->getConfigVars('subject_contact');
-        /*if(isset($this->title)){
-            $title   = $this->title;
-        }else{*/
         $title   = 'Demande de contact';
-        /*}*/
         $website = $this->template->getConfigVars('website');
         return sprintf($subject, $title,$website);
     }
@@ -195,9 +192,11 @@ class plugins_contact_public extends database_plugins_contact{
      * Si return true retourne success.tpl
      * sinon retourne empty.tpl
      */
-    protected function send_email($create){
+    protected function send_email(){
         if(isset($this->email)){
-            $create->configLoad();
+			$create = new frontend_model_template();
+			$create->configLoad();
+            $this->template->configLoad();
             if(empty($this->lastname)
                 OR empty($this->firstname)
                 OR empty($this->email)){
@@ -207,13 +206,13 @@ class plugins_contact_public extends database_plugins_contact{
             }elseif(!empty($this->moreinfo)){
 				$this->getNotify('error','configured');
             }else{
-                if($create->getLanguage()){
+                if($this->template->getLanguage()){
                     if(parent::c_show_table() != 0){
-                        if(parent::s_contact($create->getLanguage()) != null){
+                        if(parent::s_contact($this->template->getLanguage()) != null){
                             //Instance la classe mail avec le paramètre de transport
                             $core_mail = new magixglobal_model_mail('mail');
                             //Charge dans un tableau les utilisateurs qui reçoivent les mails
-                            $lotsOfRecipients = parent::s_contact($create->getLanguage());
+                            $lotsOfRecipients = parent::s_contact($this->template->getLanguage());
                             //Initialisation du contenu du message
                             foreach ($lotsOfRecipients as $recipient){
                                 $message = $core_mail->body_mail(
@@ -240,12 +239,11 @@ class plugins_contact_public extends database_plugins_contact{
      * Execute le plugin dans la partie public
      */
     public function run(){
-        $create = frontend_controller_plugins::create();
-        $create->configLoad();
+		$this->template->configLoad();
         if(isset($this->email)){
-            $this->send_email($create);
+            $this->send_email();
         }else{
-            $create->display('index.tpl');
+			$this->template->display('index.tpl');
         }
     }
 }

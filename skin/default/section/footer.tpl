@@ -10,19 +10,21 @@
 {/strip}
 <footer id="footer"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
     {include file="section/footer/sharebar.tpl"}
-    <section id="footer-blocks">
-    {if $adjust == 'clip'}
-        <div class="container">
-            <div class="row">
-            {/if}
-            {foreach $blocks as $block}
-                {include file="section/footer/block/$block.tpl"}
-            {/foreach}
+    {if is_array($blocks) && !empty($blocks)}
+        <section id="footer-blocks">
             {if $adjust == 'clip'}
+            <div class="container">
+                <div class="row">
+                    {/if}
+                    {foreach $blocks as $block}
+                        {include file="section/footer/block/$block.tpl"}
+                    {/foreach}
+                    {if $adjust == 'clip'}
+                </div>
             </div>
-        </div>
+            {/if}
+        </section>
     {/if}
-    </section>
     <section id="colophon">
     {if $adjust == 'clip'}
         <div class="container">

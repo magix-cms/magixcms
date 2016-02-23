@@ -23,10 +23,13 @@
     {if !isset($menubar)}
         {assign var="menubar" value=true}
     {/if}
+    {if !isset($affix)}
+        {assign var="affix" value=true}
+    {/if}
 {/strip}
 <header>
     {if $displayAdminPanel}
-        {include file="section/admin/toolbar.tpl" adjust="clip"}
+        {include file="section/admin/toolbar.tpl"}
     {/if}
     {if $toolbar}
         {include file="section/toolbar.tpl" adjust="clip"}
@@ -58,15 +61,18 @@
             {include file="section/menu/primary.tpl" id="main-menu" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=true}
         {/if}
     </section>
-    <section id="header-fixed" role="navigation" data-spy="affix" data-offset-top="42"{if $adjust == 'fluid'} class="section-block container-fluid"{/if} aria-hidden="true">
+    {if $affix}
+    <section id="header-fixed" role="navigation" {if $adjust == 'fluid' || $menubar} class="{if $menubar}affix-menubar{/if}{if $adjust == 'fluid'} section-block container-fluid{/if}"{/if} aria-hidden="true">
         {if $adjust == 'clip'}
         <div class="container">
             <div class="row">
                 {/if}
+            {if !$menubar}
             {* Brand && Headline *}
             <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
                 <img class="img-responsive" src="/skin/{template}/img/logo/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" width="200" height="37"/>
             </a>
+            {/if}
             {if $adjust == 'clip' && !$menubar}
                 {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
             {/if}
@@ -78,4 +84,5 @@
             {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
         {/if}
     </section>
+    {/if}
 </header>

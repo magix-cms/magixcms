@@ -27,76 +27,6 @@ function initGallery(titles,iso){
 		$(".big-image a").animate({ opacity: 0, 'z-index': 0 }, 200);
 		$(target).animate({ opacity: 1, 'z-index': 1 }, 200);
 	});
-
-	/*if ($('.thumbs ul').length) {
-		var startPos = parseInt($('.thumbs ul').css('left').slice(0,-2));
-		var liw = $('.thumbs > ul > li:first-child').width();
-		var gutter = parseInt($('.thumbs > ul > li:first-child').css('margin-right').slice(0,-2));
-		var nbli = $('.thumbs > ul > li').length;
-		var listW = (liw*nbli)+(gutter*(nbli-1));
-		var contW = $('.thumbs').width();
-		var maxOffset =  -( startPos + (listW - contW));
-		var offset = liw + gutter;
-
-		//this flag is checked against to see if the "click" function can happen
-		var clickIsValid = true;
-		//this is how many milliseconds you want to allow before click doesn't count
-		var delay = 500;
-		var elem = null;
-
-		//this function sets the flag to false
-		var dontClick = function(){
-			clickIsValid = false;
-
-			var posL = parseInt($('.thumbs ul').css('left').slice(0,-2)),
-				nextPos = maxOffset,
-				speed	= Math.abs(Math.round(((maxOffset - posL)/offset)*500));
-
-			 if (elem.hasClass('prev')) {
-				nextPos = 0;
-				speed	= Math.abs(Math.round(((0 - posL)/offset)*500));
-			}
-
-			$('.thumbs ul').animate({ left: nextPos+'px' },speed);
-		};
-
-		//mousedown, a global variable is set to the timeout function
-		$(".thumbs .button").mousedown( function(){
-			elem = $(this);
-			cancelClick = setTimeout( dontClick, delay );
-		});
-
-		//mouseup, the timeout for dontClick is cancelled
-		$(".thumbs .button").mouseup( function(e){
-			e.preventDefault();
-			clearTimeout( cancelClick );
-
-			//if the time limit wasn't passed, this will be true
-			if(clickIsValid){
-				var posL = parseInt($('.thumbs ul').css('left').slice(0,-2)),
-					nextPos = 0;
-
-				if($(this).hasClass('next')) {
-					nextPos = posL - offset;
-					if( nextPos < maxOffset) {
-						nextPos = maxOffset;
-					}
-				} else if ($(this).hasClass('prev')) {
-					nextPos = posL + offset;
-					if( nextPos > 0) {
-						nextPos = 0;
-					}
-				}
-
-				$('.thumbs ul').animate({ left: nextPos+'px' },500);
-			}else{
-				$('.thumbs ul').stop();
-			}
-			//reset the values to their defaults
-			clickIsValid = true;
-			$('.can-click').text(' ');
-		})
-	}*/
 }
 
 $(function()
@@ -146,6 +76,24 @@ $(function()
 		  padding : 5
 	 });
 	 */
+
+	// *** Auto-position of the affix header
+	var aHead = typeof document.getElementById('header-fixed');
+	if (aHead != undefined) {
+		if ($('#header-fixed').hasClass('affix-menubar')) {
+			var target = getPosition(document.getElementById('main-menu'));
+		} else {
+			var target = getPosition(document.getElementById('header'));
+		}
+		$('#header-fixed').affix({
+			offset: {
+				top: target.y,
+				bottom: function () {
+					return (this.bottom = $('.footer').outerHeight(true))
+				}
+			}
+		})
+	}
 
     // *** Smooth Scroll to Top
     var speed = 1000;
