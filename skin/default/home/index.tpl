@@ -5,7 +5,9 @@
 
 {block name="breadcrumb"}{/block}
 
-{block name="main:before"}{/block}
+{block name="main:before"}
+    {include file="home/brick/carousel.tpl"}
+{/block}
 
 {block name="main"}
     <main id="content" class="container">
