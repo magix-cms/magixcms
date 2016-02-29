@@ -12,7 +12,7 @@
         </div>
         <div class="form-group">
             <div class="input-send"></div>
-            <input type="submit" class="btn btn-wsw-white pull-right" value="{#sign_on#|ucfirst}" />
+            <input type="submit" class="btn btn-main-theme pull-right" value="{#sign_on#|ucfirst}" />
         </div>
         <div class="clearfix mc-message"></div>
     </form>
