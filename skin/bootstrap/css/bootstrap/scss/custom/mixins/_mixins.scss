@@ -1,0 +1,60 @@
+// Transformations - Scale3d
+@mixin scale3d($ratioX, $ratioY, $ratioZ) {
+	-webkit-transform: scale3d($ratioX, $ratioY, $ratioZ);
+	-ms-transform: scale3d($ratioX, $ratioY, $ratioZ); // IE9 only
+	-o-transform: scale3d($ratioX, $ratioY, $ratioZ);
+	transform: scale3d($ratioX, $ratioY, $ratioZ);
+}
+
+// Auto-creation of transition values
+@mixin auto-transition($time,$prop: all,$fct: ease,$delay: 0s) {
+	@include transition($prop $time $fct $delay);
+}
+
+// Set margin to 0
+@mixin no-margin {
+	margin: 0;
+}
+// Set padding to 0
+@mixin no-padding {
+	padding: 0;
+}
+// Set margin and padding to 0
+@mixin no-martini {
+	@include no-margin;
+	@include no-padding;
+}
+
+
+// Remove borders
+@mixin no-border {
+	border: none;
+	border-radius: 0;
+}
+
+// Set style to a circle
+@mixin circle($radius) {
+	@include size($radius * 2);
+	border-radius: $radius * 4;
+}
+
+// Set a element to be a block with at 100%
+@mixin full-width {
+	display: block;
+	width: 100%;
+}
+
+// Define style for a full width block
+@mixin section-block($color) {
+	@include full-width;
+	background-color: $color;
+	margin-bottom: 30px;
+	padding: 50px 0 60px;
+}
+
+// Center a content in both width and height size of its parent.
+@mixin center-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

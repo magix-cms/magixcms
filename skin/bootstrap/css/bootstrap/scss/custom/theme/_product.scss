@@ -1,0 +1,251 @@
+/*
+ * Rules for catalog root, category and subcategory root, product lists and product page
+ */
+/* --------------------------------------------------------
+                        Catalog
+---------------------------------------------------------- */
+.catalog {
+	> .row {
+		margin-bottom: 3.571rem;
+	}
+
+	hr {
+		margin-bottom: 1.785rem;
+	}
+
+	section > h3 {
+		border-bottom: 1px solid #eee;
+		margin: 0 auto 1.785rem;
+		padding: 0 0 1rem;
+		color: $body-color;
+	}
+
+	.desc figure {
+		@include media-breakpoint-only(xs) {
+			@include img-fluid;
+		}
+		@include media-breakpoint-up(sm) {
+			float: right;
+			width: 33.3333333%;
+			margin: 0 0 1rem 1rem;
+			@include media-breakpoint-up(lg) {
+				width: 25%;
+			}
+		}
+	}
+}
+
+
+/* --------------------------------------------------------
+                        Category
+---------------------------------------------------------- */
+#catalog-cat {
+	.subcategory-list {
+		figure h3 {
+			font-size: 1rem;
+		}
+	}
+}
+/* --------------------------------------------------------
+                       Subcategory
+---------------------------------------------------------- */
+
+/* --------------------------------------------------------
+                         Product
+---------------------------------------------------------- */
+#catalog-product {
+	#article
+	{
+		.content {
+			// Normalize the main title of the content
+			header {
+				margin: 0 auto 25px;
+				padding: 0 0 15px;
+				border-bottom: 1px solid #eee;
+				overflow: hidden;
+
+				> h1:first-child {
+					color: $body-color;
+					float: left;
+					margin: 0;
+				}
+				> .price {
+					float: right;
+					padding: 8px 12px;
+					color: $smooth-white;
+					background-color: $main-color;
+					font-size: 16px;
+					font-weight: bold;
+					margin: 0;
+				}
+			}
+
+			.description {
+				margin-bottom: 30px;
+			}
+
+			fieldset {
+				text-align: center;
+
+				legend {
+					font-size: $lead-font-size;
+					font-weight: $lead-font-weight;
+					margin-bottom: 35px;
+
+					span {
+						padding: 15px;
+						margin-bottom: -15px;
+						position: relative;
+						bottom: -15px;
+						background: #ffffff;
+					}
+				}
+			}
+		}
+	}
+
+	#default {
+		opacity: 1;
+		z-index: 1;
+		position: static;
+		float: left;
+	}
+
+	.image-gallery {
+		/*** Big image ***/
+		.big-image {
+			margin: 0 0 20px;
+			display: block;
+			width: 100%;
+			overflow: hidden;
+			position: relative;
+
+			a {
+				opacity: 0;
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				margin: 0 auto;
+				z-index: -1;
+				@include transition(opacity 350ms);
+
+				&:hover {
+					cursor: zoom-in;
+				}
+
+				img {
+					width: 100%;
+				}
+			}
+		}
+
+		/*** Button ***/
+		.button {
+			font-size: 30px;
+			display: table;
+			color: $dark-white;
+			padding: 0 10px;
+			position: absolute;
+			background-color: rgba(0, 0, 0, .3);
+			@include auto-transition(.35s);
+			cursor: pointer;
+			top: 0;
+			height: 100%;
+			z-index: 1;
+
+			span {
+				display: table-cell;
+				vertical-align: middle;
+			}
+
+			&.prev {
+				left: 0;
+			}
+			&.next {
+				right: 0;
+			}
+
+			&:hover {
+				color: $smooth-white;
+				background-color: rgba(0, 0, 0, .6);
+				text-decoration: none;
+			}
+		}
+
+		/*** thumbs ***/
+		.thumbs {
+			overflow: hidden;
+			white-space: nowrap;
+			position: relative;
+			height: 75px;
+			@include media-breakpoint-up(md) {
+				height: 96px;
+			}
+
+			&.draggable {
+				cursor: grab;
+			}
+
+			ul {
+				margin-bottom: 0;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			li {
+				display: inline-block;
+				margin-right: 3px;
+
+				&:last-child {
+					margin-right: 0;
+				}
+
+				a {
+					opacity: 0.85;
+					@include auto-transition(.35s);
+
+					&:hover,
+					&:focus {
+						opacity: 1;
+					}
+
+					img {
+						width: 100px;
+						@include media-breakpoint-up(md) {
+							width: 128px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#interested-form {
+	margin: 50px 0 25px;
+	span {
+		margin: 0 8px;
+	}
+}
+
+
+/* --------------------------------------------------------
+                       Media Queries
+---------------------------------------------------------- */
+
+@include media-breakpoint-up(lg) {
+	#gallery {
+		.img-thumbnail {
+			transform: scale(1);
+			box-shadow: none;
+			@include auto-transition(.5s);
+
+			&:hover {
+				transform: scale(1.1);
+				box-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+			}
+		}
+	}
+}

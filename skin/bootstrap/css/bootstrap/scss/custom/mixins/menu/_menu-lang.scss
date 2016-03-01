@@ -1,0 +1,47 @@
+/*
+ * Languages menu
+ */
+@if $enabled-menu-lang == true {
+	.lang-header {
+		margin-right: 5px;
+
+		a {
+			color: $smooth-white;
+			padding: 5px;
+			display: inline-block;
+			cursor: pointer;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		.dropdown-menu {
+			min-width: 100%;
+			border-radius: 0;
+			background-color: $toolbar-bg;
+			padding: 0;
+
+			li {
+				padding: 0;
+				margin: 0;
+
+				a {
+					color: $smooth-white;
+					padding: 5px;
+					width: 100%;
+					text-align: center;
+					font-size: 12px;
+
+					&:hover,
+					&:focus,
+					&:active,
+					&.active {
+						background-color: $main-color;
+						color: $smooth-white;
+					}
+				}
+			}
+		}
+	}
+}

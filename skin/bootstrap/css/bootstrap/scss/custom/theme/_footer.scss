@@ -1,0 +1,295 @@
+/*
+ * Rules for footer
+ */
+#footer {
+	background: $footer-bg;
+	color: $footer-color;
+	margin-bottom: 34px;
+	font-weight: lighter;
+	width: 100%;
+	@include media-breakpoint-up(sm) {
+		margin-bottom: 0;
+	}
+
+	// Global footer rules
+	h4 {
+		font-size: 1.285rem;
+		margin: 0 0 20px;
+		color: $dark-white;
+		border-bottom: 1px solid $light-gray;
+		padding-bottom: 10px;
+		@include title-font;
+		font-weight: lighter;
+	}
+	
+	a {
+		color: $dark-white;
+	}
+
+	.block {
+		margin-bottom: 20px;
+	}
+
+	.contact-list-footer {
+		> li {
+			font-size: 1.571rem;
+			color: $footer-color;
+			@include media-breakpoint-only(md){
+				font-size: 1.428rem;
+			}
+
+			span {
+				width: 30px;
+			}
+		}
+	}
+
+	&-blocks {
+		padding: 20px 0;
+		@include media-breakpoint-down(md) {
+			.container {
+				max-width: 100%;
+			}
+			@include media-breakpoint-down(xs) {
+				.row {
+					flex-flow: column-reverse;
+				}
+			}
+		}
+	}
+}
+
+#block {
+	&-contact {
+		@include normalize-link;
+	}
+
+	&-last-news {
+		.news-list-last {
+			h5 {
+				color: $footer-color;
+				font-weight: 600;
+				line-height: 1.428;
+				font-size: 1rem;
+				margin: 0.714rem 0;
+			}
+
+			a {
+				&:hover {
+					.media-footer p {
+						color: $footer-color;
+					}
+					&, & * {
+						text-decoration: none;
+					}
+				}
+
+				.media-footer {
+					border-bottom: 1px dotted $light-gray;
+					padding-bottom: 0.714rem;
+
+					p {
+						font-size: 0.857rem;
+						margin-bottom: 5px;
+						color: $light-gray;
+					}
+
+					small {
+						font-size: 0.857rem;
+					}
+				}
+			}
+		}
+	}
+
+	// --- Block contact
+	&-contact {
+		color: $light-gray;
+		font-size: 12px;
+
+		strong/*, .mailto a*/ {
+			font-weight: 600;
+		}
+
+		h4 + p {
+			font-size: 1rem;
+		}
+
+		ul, p {
+			margin-bottom: .714rem;
+		}
+	}
+
+	// --- Facebook widget Page Box
+	&-facebook {
+		// Widget forced style
+		.fb-page.fb_iframe_widget,
+		.fb-page.fb_iframe_widget > span,
+		.fb-page.fb_iframe_widget iframe,
+		.fb_iframe_widget span,
+		._li div,
+		#u_0_0,
+		iframe ._h7r,
+		._1drm {
+			width: 100% !important;
+		}
+		._1drr._2ph- {
+			bottom: 200px !important;
+			z-index: 1 !important;
+		}
+	}
+}
+
+#footbar {
+	display: none;
+}
+
+#colophon {
+	background-color: $toolbar-bg;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+
+	> .container {
+		@include media-breakpoint-down(md) {
+			min-width: 100%;
+		}
+
+		&, & > div {
+			flex: 1 0 auto;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+
+			@include media-breakpoint-down(sm) {
+				flex-direction: column;
+			}
+		}
+	}
+
+	.footer {
+		&-colophon {
+			padding: 10px 0;
+			overflow: hidden;
+
+			> div {
+				text-align: center;
+			}
+
+			p {
+				margin: 0;
+			}
+
+			.footer-copyright {
+				margin-top: 5px;
+				color: #959595;
+
+				.footer-website {
+					margin: 20px 0 0 0;
+					padding-bottom: 0;
+					font-size: 2rem;
+					border-bottom: none;
+					@include media-breakpoint-only(md){
+						font-size: 1.571rem;
+						margin: 17px 0 3px;
+					}
+				}
+
+				.copyright-info {
+					color: $footer-color;
+				}
+
+				a {
+					.img-responsive {
+						margin: 20px 0 15px;
+					}
+				}
+			}
+		}
+
+		&-certify {
+			margin: 15px 0;
+		}
+
+		&-creator {
+			color: #959595;
+			@include normalize-link($weight: lighter, $font: "Raleway");
+
+			a {
+				font-size: 1.5rem;
+			}
+		}
+	}
+}
+
+@include media-breakpoint-down(xs) {
+	#footer ~ section {
+		margin-bottom: 0;
+	}
+
+	#footbar {
+		position: fixed;
+		bottom: 0;
+		display: block;
+		width: 100%;
+		z-index: 2;
+
+		.wrapper {
+			background: $main-color;
+			color: $smooth-white;
+			font-weight: lighter;
+			height: 34px;
+		}
+
+		.dropup {
+			position: static;
+		}
+
+		.share-nav {
+			position: absolute;
+			width: 100%;
+			z-index: -1;
+			bottom: -16px;
+			background: $sharebar-bg;
+			display: block;
+			padding: 8px 15px;
+			height: 50px;
+			box-shadow: 0 0 1px rgba(0,0,0,.2) inset;
+			@include auto-transition(.5s);
+
+			li {
+				float: left;
+				margin-right: 15px;
+			}
+		}
+
+		.dropup.open + .share-nav {
+			bottom: 34px;
+		}
+	}
+}
+
+@include media-breakpoint-up(sm) {
+	#footer {
+		&-blocks {
+			padding: 40px 0;
+		}
+	}
+
+	#colophon {
+		.footer {
+			&-colophon {
+				> div {
+					&:first-child {
+						text-align: left;
+					}
+					&:last-child {
+						text-align: right;
+					}
+				}
+			}
+		}
+	}
+}

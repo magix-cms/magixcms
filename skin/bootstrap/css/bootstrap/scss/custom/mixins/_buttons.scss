@@ -1,0 +1,27 @@
+/*
+ * Custom rules for buttons
+ */
+
+@if $btn-box == true {
+	.btn-box {
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+	}
+}
+
+@if $btn-flat == true {
+	@if $enable-shadows == true {
+		.btn-flat {
+			box-shadow: none !important;
+		}
+	}
+}
+
+// --- Auto Style (HTML use only)
+@include custom-button(main);
+@include custom-button(sd);
+@include custom-button(th);
+@include custom-button(fr);
+@include custom-button(gray);
+@include custom-button(dark);

@@ -1,0 +1,10 @@
+/*
+ * Rules for home page
+ */
+#home {
+	article > h1:first-child {
+		margin: 2rem 0 1.428rem;
+		padding: 0;
+		border: none;
+	}
+}

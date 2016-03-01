@@ -1,0 +1,41 @@
+/*
+ * Common rules for all pages
+ */
+html {
+	position: relative;
+	height: 100%;
+	background: #ffffff;
+	font-size: 14px;
+}
+
+body {
+	background-color: transparent;
+	display: flex;
+	flex-flow: column;
+	min-height: 100%;
+
+	> main {
+		flex: 1 0 auto;
+		margin-top: 1rem;
+		margin-bottom: 3.571rem;
+	}
+
+	> main ~ section {
+		margin-bottom: 3.571rem;
+	}
+}
+
+@include normalize-content;
+
+// --- Lead paragraphe
+.lead {
+	@include title-font;
+}
+
+// --- All headings
+@include headings {
+	@include title-font;
+}
+
+// Set selection style
+@include text-select($main-color);

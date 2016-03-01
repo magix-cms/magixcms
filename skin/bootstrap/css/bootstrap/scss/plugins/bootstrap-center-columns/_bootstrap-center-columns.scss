@@ -1,0 +1,14 @@
+@mixin center-gallery($align){
+	display: flex;
+	flex: 1 0 auto;
+	justify-content: $align;
+	flex-wrap: wrap;
+}
+
+.center-gallery {
+	@include center-gallery(center);
+
+	&-equid {
+		@include center-gallery(space-around);
+	}
+}

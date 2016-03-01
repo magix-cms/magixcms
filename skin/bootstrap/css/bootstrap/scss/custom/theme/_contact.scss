@@ -1,0 +1,54 @@
+/*
+ * Rules for contact
+ */
+#contact {
+	#sidebar {
+		p {
+			margin: 25px 0;
+			&.adresse {
+				/*font-size: 12px;*/
+				span.fa {
+					float: left;
+					height: 40px;
+				}
+			}
+			&.lead {
+				font-size: 1rem;
+				+ p {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		span.fa {
+			font-size: 26px;
+			color: $main-color;
+			display: inline-block;
+			width: 26px;
+			margin-right: 10px;
+			vertical-align: sub;
+		}
+
+		.email {
+			.fa.fa-at {
+				font-size: 1rem;
+				margin: 0;
+				color: $body-color;
+				padding: 0;
+				width: auto;
+				display: inline;
+				vertical-align: baseline;
+			}
+		}
+	}
+}
+
+#map {
+	margin-bottom: 20px;
+}
+
+@include media-breakpoint-up(xl) {
+	.separator {
+		border-right: 2px dashed $main-color;
+	}
+}

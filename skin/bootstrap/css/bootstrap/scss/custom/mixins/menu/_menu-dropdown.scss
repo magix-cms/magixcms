@@ -1,0 +1,147 @@
+/*----------------*\
+----- Dropdown -----
+\*----------------*/
+@mixin dp-menu {
+	display: table;
+	visibility: visible;
+	opacity: 1;
+	transform: translate(0, 0);
+	box-shadow: 0 10px 10px rgba(0, 0, 0, .2);
+	@include auto-transition(.5s);
+}
+
+@mixin menu-dropdown {
+	li {
+		.nav-link {
+			padding-right: 1rem;
+			padding-left: 1rem;
+		}
+		a, a:visited {
+			color: $menu-color;
+			@include auto-transition(.35s);
+
+			&:hover, &:active, &.active {
+				background: $menu-active-bg;
+				color: $menu-active-color;
+			}
+		}
+		&.active {
+			> a, > a:visited {
+				background: $menu-active-bg;
+				color: $menu-active-color;
+			}
+		}
+	}
+
+	.dropdown {
+		min-width: 100%;
+		display: table;
+		position: absolute;
+		padding: 5px 0;
+		list-style-type: none;
+		background: $menu-bg;
+		visibility: hidden;
+		box-shadow: none;
+		opacity: 0;
+		@include no-margin;
+		transform: translate(0, -10%);
+		transform-origin: center top;
+		@include auto-transition(.5s);
+
+		li {
+			float: none;
+			display: table-row;
+			width: 100%;
+			a {
+				white-space: nowrap;
+				display: table-cell;
+				min-width: 100%;
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+
+		&:hover {
+			@include dp-menu;
+		}
+	}
+
+	.has-dropdown {
+		position: relative;
+		&:hover {
+			& + .dropdown {
+				@include dp-menu;
+			}
+		}
+	}
+
+	@include media-breakpoint-up(sm) {
+		clear: none;
+
+		li.nav-link {
+			padding-bottom: .5rem;
+		}
+
+		> .pull-right {
+			> li:last-child {
+				ul {
+					right: 0;
+				}
+			}
+		}
+
+		.navbar-collapse {
+			display: none !important;
+		}
+	}
+
+	@include media-breakpoint-down(xs) {
+		ul.nav {
+			float: none !important;
+			position: relative;
+			z-index: 201;
+
+			> li {
+				position: relative;
+
+				&.active {
+					.navbar-toggler {
+						span {
+							color: $smooth-white;
+						}
+					}
+				}
+
+				.navbar-toggler {
+					float: none;
+					position: absolute;
+					right: 15px;
+					top: 2px;
+					margin: 0;
+				}
+
+				.navbar-toggleable-xs {
+					border-top: 1px solid rgba(0, 0, 0, 0.1);
+					border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+				}
+
+				nav {
+					background-color: #fff;
+					box-shadow: 0 0 1px rgba(0, 0, 0, .4) inset;
+				}
+
+				ul {
+					list-style-type: none;
+					padding: .437rem 0 .875rem 0;
+				}
+			}
+		}
+	}
+}
+
+.menu-dropdown {
+	@if $default-menu == 'dropdown' {
+	@include menu-dropdown;
+	}
+}

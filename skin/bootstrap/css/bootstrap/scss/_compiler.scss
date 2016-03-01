@@ -1,0 +1,76 @@
+/*------------------------*\
+----- Compiler Options -----
+\*------------------------*/
+// Bootstrap with Flexbox enabled
+//
+// Includes all the imports from the standard Bootstrap project, but enables
+// the flexbox variable.
+
+$enable-flex: true;
+$enable-transitions: true;
+$enable-gradients: true;
+$enable-shadows: false;
+
+// Custom buttons styles options
+$btn-box: true !default;
+$btn-flat: true !default;
+$btn-gradient: false !default;
+$btn-invert: false !default;
+
+// Path to the font-awesome fonts
+$fa-font-path: "./fonts/font-awesome";
+
+// --- Affix Elements
+$btt-btn: 1; // -- Back to top button
+$hdFixed: 1; // -- Header fixed
+
+// --- Menus
+$enabled-menu-lang: true;
+$default-menu: 'dropdown';
+$enabled-tabs: false;
+
+// Grid breakpoints
+//
+// Define the minimum and maximum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+	// Extra small screen / phone
+		xs: 0,
+	// Small screen / phone
+		sm: 480px,
+	// Medium screen / tablet
+		md: 768px,
+	// Large screen / desktop
+		lg: 1102px,
+	// Extra large screen / wide desktop
+		xl: 1500px
+) !default;
+
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+		sm: 440px,
+		md: 720px,
+		lg: 1040px,
+		xl: 1440px
+) !default;
+
+// --- Font Sizes
+$enabled-display: false;
+
+$font-size-h1: 1.25rem;
+$font-size-h2: 1.2rem;
+$font-size-h3: 1.1375rem;
+$font-size-h4: 1.05rem;
+$font-size-h5: 1rem;
+
+$display1-size: 3.6rem;
+$display2-size: 3.3rem;
+$display3-size: 2.7rem;
+$display4-size: 2.15rem;
+
+$lead-font-size: 1.03125rem;

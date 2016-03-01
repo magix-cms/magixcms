@@ -1,0 +1,230 @@
+// Set background text and text color for selected text
+@mixin text-select($bg-color: $main-color, $color: #fff) {
+	::-moz-selection {
+		color: $color;
+		background: $bg-color;
+	}
+	::selection {
+		color: $color;
+		background: $bg-color;
+	}
+}
+
+// Normalize link style for all state
+@mixin normalize-link($color: $main-color, $hover-color: same, $decoration: underline, $weight: 400, $font: $font-family-sans-serif) {
+	a, a:visited, a:link, a:active {
+		font-family: $font;
+		font-weight: $weight;
+		color: $color;
+	}
+	@if $hover-color == same {
+		a:hover {
+			text-decoration: $decoration;
+			color: $color;
+		}
+	} @else {
+		a:hover {
+			text-decoration: $decoration;
+			color: $hover-color;
+		}
+	}
+}
+
+/*--------------------------*\
+-----  Headings styling  -----
+----- shortcut functions -----
+\*--------------------------*/
+
+// --- All headings
+@mixin headings {
+	h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+		@content;
+	}
+}
+// --- Direct child headings
+@mixin direct-headings {
+	> h1, > h2, > h3, > h4, > h5, > h6, > .h1, > .h2, > .h3, > .h4, > .h5, > .h6 {
+		@content;
+	}
+}
+
+// --- Justify content | may be not cross-browser
+@mixin text-justify {
+	text-align: justify;
+	word-wrap: normal;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	-o-hyphens: auto;
+	hyphens: auto;
+}
+
+
+// --- Main title page
+@mixin main-title($color: $body-color, $brd: #eee) {
+	margin: 0 auto 25px;
+	padding: 0 0 15px;
+	color: $color;
+	border-bottom: 1px solid $brd;
+}
+
+// Normalize content
+@mixin normalize-content($color: $main-color) {
+	#article {
+		// Normalize the main title of the content
+		> h1:first-child {
+			@include main-title;
+		}
+		// Normalize images in content
+		img {
+			@include img-fluid;
+
+			&.pull-right {
+				margin: 0 0 1rem 1rem !important;
+			}
+			&.pull-left {
+				margin: 0 1rem 1rem 0 !important;
+			}
+		}
+
+		@include media-breakpoint-down(sm) {
+			p > img {
+				margin: 1rem 0 1rem 1rem !important;
+			}
+
+			> img {
+				margin: 1rem 0 1rem 1rem !important;
+			}
+		}
+		// Normalize small for datetime
+		small.datePublished {
+			display: block;
+			margin-bottom: 15px;
+			color: $light-gray;
+		}
+		.description {
+			margin-bottom: 30px;
+		}
+		// Normalize heading in content
+		@include direct-headings {
+			color: $body-color;
+		};
+	}
+
+	@include normalize-link($color);
+}
+
+// --- Responsive text sizes
+@mixin adaptive-font-size {
+	@include media-breakpoint-up(sm) {
+		h1 { font-size: ($font-size-h1 * 1.2); }			   // - 1.5 rem
+		h2 { font-size: ($font-size-h2 * 1.083333333333333); } // - 1.3 rem
+		h3 { font-size: ($font-size-h3 * 1.076923076923077); } // - 1.225 rem
+		h4 { font-size: ($font-size-h4 * 1.071428571428571); } // - 1.125 rem
+
+		@include media-breakpoint-up(md) {
+			h1 { font-size: ($font-size-h1 * 1.4); } 			   // - 1.75 rem
+			h2 { font-size: ($font-size-h2 * 1.255); }			   // - 1.5 rem
+			h3 { font-size: ($font-size-h3 * 1.230769230769231); } // - 1.4 rem
+			h4 { font-size: ($font-size-h4 * 1.214285714285714); } // - 1.275 rem
+			h5 { font-size: ($font-size-h5 * 1.125); } 			   // - 1.15 rem
+
+			@include media-breakpoint-up(lg) {
+				h1 { font-size: ($font-size-h1 * 1.6); }				// - 2 rem
+				h2 { font-size: ($font-size-h2 * 1.416666666666667); }	// - 1.7rem
+				h3 { font-size: ($font-size-h3 * 1.384615384615385); }	// - 1.575 rem
+				h4 { font-size: ($font-size-h4 * 1.357142857142857); }	// - 1.425 rem
+				h5 { font-size: ($font-size-h5 * 1.25); } 				// - 1.25 rem
+
+				@include media-breakpoint-up(xl) {
+					h1 { font-size: $font-size-h1 * 2; } 				 // - 2.5 rem
+					h2 { font-size: $font-size-h2 * 1.666666666666667; } // - 2 rem
+					h3 { font-size: $font-size-h3 * 1.538461538461538; } // - 1.75 rem
+					h4 { font-size: $font-size-h4 * 1.428571428571429; } // - 1.5 rem
+					h5 { font-size: $font-size-h5 * 1.25; }				 // - 1.25 rem
+				}
+			}
+		}
+	}
+
+	// These declarations are kept separate from and placed after
+	// the previous tag-based declarations so that the classes beat the tags in
+	// the CSS cascade, and thus <h1 class="h2"> will be styled like an h2.
+	@include media-breakpoint-up(sm) {
+		.h1 { font-size: ($font-size-h1 * 1.2); }			    // - 1.5 rem
+		.h2 { font-size: ($font-size-h2 * 1.083333333333333); } // - 1.3 rem
+		.h3 { font-size: ($font-size-h3 * 1.076923076923077); } // - 1.225 rem
+		.h4 { font-size: ($font-size-h4 * 1.071428571428571); } // - 1.125 rem
+
+		@include media-breakpoint-up(md) {
+			.h1 { font-size: ($font-size-h1 * 1.4); } 			    // - 1.75 rem
+			.h2 { font-size: ($font-size-h2 * 1.255); }			    // - 1.5 rem
+			.h3 { font-size: ($font-size-h3 * 1.230769230769231); } // - 1.4 rem
+			.h4 { font-size: ($font-size-h4 * 1.214285714285714); } // - 1.275 rem
+			.h5 { font-size: ($font-size-h5 * 1.125); } 			// - 1.15 rem
+
+			@include media-breakpoint-up(lg) {
+				.h1 { font-size: ($font-size-h1 * 1.6); }				// - 2 rem
+				.h2 { font-size: ($font-size-h2 * 1.416666666666667); }	// - 1.7rem
+				.h3 { font-size: ($font-size-h3 * 1.384615384615385); }	// - 1.575 rem
+				.h4 { font-size: ($font-size-h4 * 1.357142857142857); }	// - 1.425 rem
+				.h5 { font-size: ($font-size-h5 * 1.25); } 				// - 1.25 rem
+
+				@include media-breakpoint-up(xl) {
+					.h1 { font-size: $font-size-h1 * 2; } 				  // - 2.5 rem
+					.h2 { font-size: $font-size-h2 * 1.666666666666667; } // - 2 rem
+					.h3 { font-size: $font-size-h3 * 1.538461538461538; } // - 1.75 rem
+					.h4 { font-size: $font-size-h4 * 1.428571428571429; } // - 1.5 rem
+					.h5 { font-size: $font-size-h5 * 1.25; }			  // - 1.25 rem
+				}
+			}
+		}
+	}
+
+	@include media-breakpoint-up(sm) {
+		.lead { font-size: $lead-font-size * 1.03030303030303; } // - 1.0625 rem
+
+		@include media-breakpoint-up(md) {
+			.lead { font-size: $lead-font-size * 1.090909090909091; } // - 1.125 rem
+
+			@include media-breakpoint-up(lg) {
+				.lead { font-size: $lead-font-size * 1.151515151515152; } // - 1.1875 rem
+
+				@include media-breakpoint-up(xl) {
+					.lead { font-size: $lead-font-size * 1.212121212121212; } // - 1.25 rem
+				}
+			}
+		}
+	}
+
+	@if $enabled-display {
+		// Type display classes
+		@include media-breakpoint-up(sm) {
+			.display-1 { font-size: $display1-size * 1.166666666666667; } // - 4.2 rem
+			.display-2 { font-size: $display2-size * 1.166666666666667; } // - 3.85 rem
+			.display-3 { font-size: $display3-size * 1.166666666666667; } // - 3.15 rem
+			.display-4 { font-size: $display4-size * 1.166666666666667; } // - 2.51 rem
+
+			@include media-breakpoint-up(md) {
+				.display-1 { font-size: $display1-size * 1.333333333333333; } // - 4.8 rem
+				.display-2 { font-size: $display2-size * 1.333333333333333; } // - 4.4 rem
+				.display-3 { font-size: $display3-size * 1.333333333333333; } // - 3.6 rem
+				.display-4 { font-size: $display4-size * 1.333333333333333; } // - 2.87 rem
+
+				@include media-breakpoint-up(lg) {
+					.display-1 { font-size: $display1-size * 1.5; } // - 5.4 rem
+					.display-2 { font-size: $display2-size * 1.5; } // - 4.95 rem
+					.display-3 { font-size: $display3-size * 1.5; } // - 4.05 rem
+					.display-4 { font-size: $display4-size * 1.5; } // - 3.225 rem
+
+					@include media-breakpoint-up(xl) {
+						.display-1 { font-size: $display1-size * 1.666666666666667; } // - 6 rem
+						.display-2 { font-size: $display2-size * 1.666666666666667; } // - 5.5 rem
+						.display-3 { font-size: $display3-size * 1.666666666666667; } // - 4.5 rem
+						.display-4 { font-size: $display4-size * 1.666666666666667; } // - 3.5 rem
+					}
+				}
+			}
+		}
+	}
+}

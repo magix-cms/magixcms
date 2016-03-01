@@ -1,0 +1,88 @@
+/*!
+ * Bootstrap v4.0.0-alpha.2 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+// Compiler options
+@import "compiler";
+@import "custom/mixins/fonts";
+
+// Core variables and mixins
+@import "core/variables";
+@import "core/mixins";
+
+// Custom variables
+@import "custom/mixins/variables";
+@import "custom/mixins/colors";
+
+// Reset and dependencies
+@import "core/normalize";
+@import "core/print";
+
+// Core CSS
+@import "core/reboot";
+@import "core/type";
+@import "core/images";
+//@import "core/code";
+@import "core/grid";
+//@import "core/tables";
+@import "core/forms";
+@import "core/buttons";
+
+// Components
+@import "core/animation";
+@import "core/dropdown";
+//@import "core/button-group";
+//@import "core/input-group";
+@import "core/custom-forms";
+@import "core/nav";
+@import "core/navbar";
+//@import "core/card";
+@import "core/breadcrumb";
+//@import "core/pagination";
+//@import "core/pager";
+//@import "core/labels";
+//@import "core/jumbotron";
+@import "core/alert";
+//@import "core/progress";
+//@import "core/media";
+//@import "core/list-group";
+//@import "core/responsive-embed";
+//@import "core/close";
+
+// Components w/ JavaScript
+//@import "core/modal";
+//@import "core/tooltip";
+//@import "core/popover";
+@import "core/carousel";
+
+// Utility classes
+@import "core/utilities";
+@import "core/utilities-background";
+@import "core/utilities-spacing";
+@import "core/utilities-responsive";
+
+// Custom Mixins
+@import  "custom/mixins/mixins";
+@import  "custom/mixins/type-mixins";
+//@import  "custom/mixins/type";
+//@import  "custom/mixins/images";
+@import  "custom/mixins/buttons-mixins";
+@import  "custom/mixins/buttons";
+//@import  "custom/mixins/socials";
+@import  "custom/mixins/menu";
+//@import  "custom/mixins/forms";
+//@import  "custom/mixins/media";
+
+// Critical CSS Rules
+@import "custom/critical/global";
+@import "custom/critical/affix";
+@import "custom/critical/breadcrumbs";
+@import "custom/critical/toolbar";
+@import "custom/critical/header";
+@import "custom/critical/navs";
+@import "custom/critical/carousel";
+
+// Magix Plugins
+@import "custom/critical/plugins/slider";

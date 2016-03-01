@@ -1,0 +1,82 @@
+/*-------------*/
+/***** Bob *****/
+/*-------------*/
+figure.effect-bob {
+	border: none;
+	border-radius: 0;
+	max-width: 100%;
+	position: relative;
+	left: -1px;
+	top: 0;
+	display: block;
+	overflow: hidden;
+	text-align: center;
+	margin: auto;
+	background: transparent;
+
+	.center-img {
+		width: 100%;
+		margin-bottom: 12px;
+	}
+
+	img {
+		@include size(263px, auto);
+		z-index: 90;
+		@include media-breakpoint-only(lg) {
+			width: 213px;
+		}
+		@include media-breakpoint-only(md) {
+			width: 345px;
+		}
+		@include media-breakpoint-down(sm) {
+			width: 100%;
+		}
+	}
+
+
+	.round-div {
+		display: block;
+		position: absolute;
+		@include size(140px);
+		border-radius: 200px;
+		border: 100px solid #ffffff;
+		border-image: none;
+		top: -73px;
+		left: -40px;
+		box-shadow: inset 5px 5px 8px rgba(0, 0, 0, .4);
+		box-sizing: content-box;
+		@include auto-transition(.3s);
+		@include media-breakpoint-only(lg) {
+			@include size(110px);
+			top: -74px;
+			left: -48px;
+		}
+		@include media-breakpoint-only(md) {
+			@include size(160px);
+			top: -110px;
+			left: -58px;
+			border-width: 150px;
+			border-radius: 300px;
+		}
+		@include media-breakpoint-down(sm) {
+			display: none;
+		}
+	}
+
+	figcaption {
+		clear: both;
+		color: $body-color;
+		position: relative;
+		z-index: 100;
+		h3 {
+			@include text-truncate;
+			font-size: $font-size-h4;
+			line-height: 2;
+			color: $body-color;
+		}
+	}
+
+	&:hover .round-div {
+		transform: scale(1.2);
+	}
+}

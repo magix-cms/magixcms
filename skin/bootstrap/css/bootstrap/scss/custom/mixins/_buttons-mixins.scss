@@ -1,0 +1,166 @@
+/*
+ * Buttons creation functions
+ */
+
+// button-gradient-variant override
+@mixin button-gradient-variant($color, $bg-color-1, $bg-color-2) {
+	color: $color;
+	@include gradient-directional($bg-color-1, $bg-color-2);
+	border: none;
+	
+	$dark-bg-1: darken($bg-color-1, 10%);
+	$dark-bg-2: darken($bg-color-2, 10%);
+	
+	&:focus,
+	&.focus {
+		color: $color;
+		@include gradient-directional($dark-bg-1, $dark-bg-2);
+	}
+	&:hover {
+		color: $color;
+		@include gradient-directional($dark-bg-1, $dark-bg-2);
+	}
+	&:active,
+	&.active,
+	.open > .dropdown-toggle {
+		color: $color;
+		@include gradient-directional($dark-bg-1, $dark-bg-2);
+	
+		&:hover,
+		&:focus,
+		&.focus {
+			color: $color;
+			@include gradient-directional(darken($bg-color-1, 17%), darken($bg-color-2, 17%));
+		}
+	}
+	&:active,
+	&.active,
+	.open > .dropdown-toggle {
+		background-image: none;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+			@include gradient-directional($bg-color-1, $bg-color-2);
+		}
+	}
+	
+	.badge {
+		color: $bg-color-1;
+		background-color: $color;
+	}
+}
+
+@mixin get-btn-variant($color: false, $txt-color: #fff, $style: normal) {
+	@if $color != false {
+		@if $style == normal {
+			@include button-variant($txt-color, nth($color, 3), nth($color, 4));
+		} @else if $style == flat {
+			@if $btn-flat {
+				@include button-variant($txt-color, nth($color, 3), nth($color, 3));
+			}
+		} @else if $style == gradient {
+			@if $enable-gradients == true {
+				@if $btn-gradient == true {
+					@include button-gradient-variant($txt-color, nth($color, 2), nth($color, 4));
+				}
+			}
+		} @else if $style == invert {
+			@if $btn-invert == true {
+				position: relative;
+				padding: 10px 16px;
+				line-height: 1.3333333;
+				background-color: transparent;
+				border-color: $body-color;
+				border-width: 2px;
+				color: $body-color;
+				@include auto-transition(.25s);
+
+				&:before {
+					content: '';
+					position: absolute;
+					display: inline-block;
+					height: 100%;
+					width: 0;
+					top: 0;
+					left: 0;
+					background-color: nth($color, 3);
+					z-index: -1;
+					-moz-transition: 0.25s;
+					-webkit-transition: 0.25s;
+					-o-transition: 0.25s;
+					transition: 0.25s;
+				}
+
+				&:hover {
+					background-color: transparent;
+					border-color: nth($color, 3);
+					color: $txt-color;
+
+					&:before {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin custom-button($name: false,$txt-color: #fff,$return: false, $return-style: normal) {
+	@if $name != false {
+		$color: map-get($variant,$name);
+		$class: ".btn-#{$name}-theme";
+
+		@if $return {
+			@if $return-style == normal {
+				@include get-btn-variant($color, $txt-color);
+			} @else if $return-style == flat {
+				@if $btn-flat {
+					@include get-btn-variant($color, $txt-color, flat);
+				}
+			} @else if $return-style == gradient {
+				@if $enable-shadows == true {
+					@if $btn-gradient == true {
+						@include get-btn-variant($color, $txt-color, gradient);
+					}
+				}
+			} @else if $return-style == invert {
+				@if $btn-invert == true {
+					@include get-btn-variant($color, $txt-color, invert);
+				}
+			}
+		} @else {
+			.btn {
+				&#{$class} {
+					@include get-btn-variant($color, $txt-color);
+
+					@if $btn-flat {
+						&.btn-flat {
+							@include get-btn-variant($color, $txt-color, flat);
+						}
+					}
+
+					@if $enable-gradients == true {
+						@if $btn-gradient == true {
+							&.btn-gradient {
+								@include get-btn-variant($color, $txt-color, gradient);
+							}
+						}
+					}
+
+					@if $btn-invert == true {
+						&.btn-invert {
+							@include get-btn-variant($color, $txt-color, invert);
+						}
+					}
+				}
+			}
+		}
+	}
+}

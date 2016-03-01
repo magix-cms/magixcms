@@ -1,0 +1,62 @@
+/*---------------*/
+/***** Sadie *****/
+/*---------------*/
+figure.effect-sadie {
+	figcaption {
+		&:before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			@include size(100%);
+			background-color: $sadie-bg-base;
+			content: '';
+			opacity: 0;
+			transform: translate3d(0,50%,0);
+			@include gradient-vertical($sadie-bg-gradient,$sadie-bg-base,0%,75%);
+			@include auto-transition(.35s);
+		}
+		h3 {
+			position: absolute;
+			font-size: $sadie-h3-font-size;
+			top: 50%;
+			left: 0;
+			width: 100%;
+			color: $sadie-h3-color;
+			transform: translate3d(0,-50%,0);
+			@include auto-transition(.35s);
+			@include text-truncate;
+		}
+		p {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			padding: 2em;
+			width: 100%;
+			opacity: 0;
+			transform: translate3d(0,10px,0);
+			@include auto-transition(.35s);
+		}
+		&:hover {
+			opacity: 1;
+			transform: translate3d(0,0,0);
+			p {
+				opacity: 1;
+				transform: translate3d(0,0,0);
+			}
+		}
+	}
+	&:hover{
+		figcaption {
+			&:before {
+				opacity: 1;
+				-webkit-transform: translate3d(0,1px,0);
+				transform: translate3d(0,1px,0);
+			}
+		}
+		h3{
+			color: #fff;
+			-webkit-transform: translate3d(0,-50%,0) translate3d(0,-40px,0);
+			transform: translate3d(0,-50%,0) translate3d(0,-40px,0);
+		}
+	}
+}

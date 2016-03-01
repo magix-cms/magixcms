@@ -1,0 +1,74 @@
+/*--------------*/
+/***** Igor *****/
+/*--------------*/
+figure.effect-igor {
+	background-color: transparent;
+	@include auto-transition(.7s);
+	img {
+		position: relative;
+		top: 0;
+		opacity: 1;
+		@include auto-transition(.7s);
+	}
+	figcaption {
+		height: 100%;
+		.desc {
+			position: relative;
+			z-index: 0;
+			top: 100%;
+			display: table;
+			border-bottom: $igor-h3-bg-size solid $igor-h3-bg;
+			opacity: 0;
+			@include size(100%);
+			@include auto-transition(.6s);
+		}
+		p {
+			font-size: $igor-p-font-size;
+			color: $igor-p-color;
+			text-shadow: 0 0 10px rgba(0, 0, 0, 1);
+			text-transform: none;
+			font-weight: 600;
+			padding: 2em;
+			display: table-cell;
+			vertical-align: middle;
+			opacity: 0;
+			backface-visibility: hidden;
+			@include auto-transition(.6s);
+		}
+		h3 {
+			position: absolute;
+			z-index: 1;
+			bottom: 0;
+			left: 0;
+			padding: 15px 20px;
+			width: 100%;
+			font-size: $igor-h3-font-size-base;
+			color: $igor-h3-base;
+			text-align: center;;
+			@include text-truncate;
+			@include auto-transition(.45s, all, ease, .15s);
+		}
+	}
+	&:hover {
+		background-color: $igor-hover-bg;
+
+		img {
+			top: -20px;
+			opacity: 0.5;
+		}
+
+		.desc {
+			top: 0;
+			opacity: 1;
+		}
+
+		p {
+			opacity: 1;
+		}
+
+		h3 {
+			font-size: $igor-h3-font-size;
+			color: $igor-h3-color;
+		}
+	}
+}

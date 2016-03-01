@@ -1,0 +1,85 @@
+/*---------------*/
+/***** Ming *****/
+/*---------------*/
+figure.effect-ming {
+	background: transparent;
+	@include auto-transition(.35s);
+
+	> img {
+		opacity: 1;
+		@include auto-transition(.35s);
+	}
+
+	figcaption {
+		&:before {
+			position: absolute;
+			width: 90%;
+			height: 86.66666666666667%;
+			top: $ming-figcaption-size-top;
+			left: $ming-figcaption-size-left;
+			margin-top: 5%;
+			margin-left: 5%;
+			border: $ming-figcaption-border;
+			@include box-shadow(0 0 0 30px rgba(255, 255, 255, 0.2));
+			content: '';
+			opacity: 0;
+			transform: scale3d(1.4, 1.4, 1);
+			@include auto-transition(.35s);
+		}
+		h3 {
+			font-size: $ming-h3-font-size;
+			margin: 10% 0 2%;
+			line-height: 2;
+			color: #333;
+			padding: 0 2%;
+			background-color: rgba(255,255,255,.5);
+			@include text-truncate;
+			@include auto-transition(.35s);
+		}
+
+		.desc{
+			position: absolute;
+			top: 0;
+			height: 100%;
+			padding: 25% 5% 10%;
+			width: 100%;
+		}
+
+		p {
+			padding: $ming-p-padding;
+			height: 100%;
+			width: 100%;
+			max-width: 100%;
+			opacity: 0;
+			@include auto-transition(.35s);
+			transform: scale(1.5);
+			overflow: hidden;
+			@include media-breakpoint-only(lg){
+				font-size: 12px;
+			}
+		}
+	}
+	&:hover {
+		background: $ming-bg-hover;
+		h3 {
+			color: #fff;
+			background-color: transparent;
+			transform: scale(.9);
+			@include text-truncate;
+		}
+		figcaption {
+			&:before {
+				opacity: 1;
+				transform: scale3d(1,1,1);
+			}
+		}
+		p {
+			opacity: 1;
+			transform: scale3d(1,1,1);
+		}
+		img {
+			opacity: 0.4;
+			transform: scale(1.1);
+		}
+	}
+}

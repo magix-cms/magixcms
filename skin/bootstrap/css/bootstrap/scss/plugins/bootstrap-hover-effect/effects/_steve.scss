@@ -1,0 +1,85 @@
+/*-----------------*/
+/***** Steve *****/
+/*-----------------*/
+figure.effect-steve {
+	z-index: auto;
+	overflow: visible;
+
+	&:before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		content: '';
+		opacity: 0;
+		@include size(100%);
+		@include box-shadow(0 -30px 30px -30px rgba(0, 0, 0, 0.8));
+		@include auto-transition(.35s, opacity);
+
+		figcaption {
+			h3 {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: -1;
+				content: '';
+				@include size(100%);
+				@include auto-transition(.35s, opacity);
+			}
+		}
+	}
+
+	figcaption {
+		z-index: 1;
+		padding: 2em;
+
+		h3 {
+			background: $steve-h3-bg;
+			color: $steve-h3-color;
+			position: relative;
+			margin-top: 10%;
+			padding: 0.25em;
+			&:before {
+				@include box-shadow(0 1px 10px rgba(0, 0, 0, 0.5));
+			}
+		}
+
+		p {
+			background: $steve-p-bg;
+			color: $steve-p-color;
+			margin-top: 10px;
+			padding: 5px;
+			font-weight: 800;
+			opacity: 0;
+			@include auto-transition(.35s);
+			-webkit-transform: scale3d(0.9, 0.9, 1);
+			transform: scale3d(0.9, 0.9, 1);
+		}
+	}
+
+	> img {
+		opacity: 1;
+		@include auto-transition(.35s, transform);
+		-webkit-transform: perspective(1000px) translate3d(0, 0, 0);
+		transform: perspective(1000px) translate3d(0, 0, 0);
+	}
+
+	&:hover {
+		&:before {
+			opacity: 1;
+			h3 {
+				opacity: 0;
+			}
+		}
+
+		img {
+			-webkit-transform: perspective(1000px) translate3d(0, 0, 21px);
+			transform: perspective(1000px) translate3d(0, 0, 21px);
+		}
+
+		p {
+			opacity: 1;
+			transform: scale3d(1, 1, 1);
+		}
+	}
+}

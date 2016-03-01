@@ -1,0 +1,143 @@
+@charset "utf-8";
+/*
+ * Custom rules for text
+ */
+/*---------------------------*\
+----- Font weight classes -----
+\*---------------------------*/
+.semiBold {
+	font-weight: 600;
+}
+
+.extraBold {
+	font-weight: 800;
+}
+
+
+/*------------------*\
+----- Paragraphe -----
+\*------------------*/
+p {
+	@include normalize-link($main-color, same, underline, 600);
+}
+
+
+/*----------------------*\
+----- Citation style -----
+\*----------------------*/
+blockquote {
+	border-left: none;
+	padding-left: 3rem;
+	margin-top: 2rem;
+	position: relative;
+	span.quote{
+		position: absolute;
+		top: -0.7rem;
+		left: 0;
+		&:before {
+			@include quote;
+			content: "“";
+			color: #ccc;
+			font-size: 5rem;
+			line-height: 1;
+		}
+	}
+	p {
+		font-style: italic;
+		@include text-justify;
+	}
+	footer {
+		@include quote;
+		text-align: right;
+		font-size: 1.2rem;
+		font-weight: lighter;
+		color: #959595;
+		&:after {
+			content: " —";
+		}
+	}
+}
+
+@include media-breakpoint-up(sm) {
+	blockquote {
+		padding-left: 4rem;
+		span.quote {
+			top: -0.95rem;
+			&:before {
+				font-size: 6rem;
+			}
+		}
+	}
+}
+
+@include media-breakpoint-up(md) {
+	blockquote {
+		padding-left: 5rem;
+		span.quote {
+			top: -1.2rem;
+			&:before {
+				font-size: 7rem;
+			}
+		}
+	}
+}
+
+@include media-breakpoint-up(lg) {
+	blockquote {
+		padding-left: 6rem;
+		span.quote {
+			top: -1.45rem;
+			&:before {
+				font-size: 8rem;
+			}
+		}
+	}
+}
+
+@include media-breakpoint-up(xl) {
+	blockquote {
+		padding-left: 7rem;
+		span.quote {
+			top: -1.7rem;
+			&:before {
+				font-size: 10rem;
+			}
+		}
+	}
+}
+
+/*--------------*\
+----- Listes -----
+\*--------------*/
+.link-bar {
+	text-align: center;
+	@include list-unstyled;
+	@include normalize-link($main-color);
+
+	li {
+		border-right: 1px solid #959595;
+		display: inline-block;
+
+		+ li {
+			margin-left: -3px;
+		}
+
+		a {
+			padding: 6px 12px;
+		}
+
+		&:last-child {
+			border-right: none;
+		}
+	}
+}
+
+/*-----------------------*\
+----- Text font sizes -----
+\*-----------------------*/
+@include adaptive-font-size;
+
+// --- justify content
+.text-justify {
+	@include text-justify;
+}

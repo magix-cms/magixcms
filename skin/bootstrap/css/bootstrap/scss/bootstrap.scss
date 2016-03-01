@@ -1,0 +1,102 @@
+/*!
+ * Bootstrap v4.0.0-alpha.2 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+// Compiler options
+@import "compiler";
+@import "custom/mixins/fonts";
+
+// Core variables and mixins
+@import "core/variables";
+@import "core/mixins";
+
+// Custom variables
+@import "custom/mixins/variables";
+@import "custom/mixins/colors";
+
+// Plugins variables
+@import "plugins/bootstrap-hover-effect/mixins";
+@import "plugins/font-awesome/partials/variables";
+
+// Reset and dependencies
+//@import "core/normalize";
+//@import "core/print";
+
+// Core CSS
+//@import "core/reboot";
+//@import "core/type";
+@import "core/images";
+@import "core/code";
+//@import "core/grid";
+@import "core/tables";
+//@import "core/forms";
+//@import "core/buttons";
+
+// Components
+//@import "core/animation";
+//@import "core/dropdown";
+//@import "core/button-group";
+@import "core/input-group";
+@import "core/custom-forms";
+//@import "core/nav";
+//@import "core/navbar";
+@import "core/card";
+//@import "core/breadcrumb";
+@import "core/pagination";
+@import "core/pager";
+@import "core/labels";
+//@import "core/jumbotron";
+//@import "core/alert";
+@import "core/progress";
+@import "core/media";
+@import "core/list-group";
+@import "core/responsive-embed";
+@import "core/close";
+
+// Components w/ JavaScript
+@import "core/modal";
+@import "core/tooltip";
+@import "core/popover";
+//@import "core/carousel";
+
+// Utility classes
+//@import "core/utilities";
+//@import "core/utilities-background";
+//@import "core/utilities-spacing";
+//@import "core/utilities-responsive";
+
+// Custom Mixins
+@import "custom/mixins/mixins";
+@import "custom/mixins/type-mixins";
+@import "custom/mixins/type";
+@import "custom/mixins/images";
+@import "custom/mixins/buttons-mixins";
+//@import "custom/mixins/buttons";
+@import "custom/mixins/socials";
+//@import "custom/mixins/menu";
+@import "custom/mixins/forms";
+@import "custom/mixins/media";
+
+// Plugins
+@import "plugins/bootstrap-center-columns/bootstrap-center-columns";
+@import "plugins/bootstrap-hover-effect/bootstrap-hover-effect";
+@import "plugins/font-awesome/font-awesome";
+
+// Theme Rules
+@import "custom/theme/body";
+@import "custom/theme/home";
+@import "custom/theme/block";
+@import "custom/theme/share";
+@import "custom/theme/footer";
+@import "custom/theme/cms";
+@import "custom/theme/product";
+@import "custom/theme/news";
+@import "custom/theme/contact";
+@import "custom/theme/about";
+
+// Magix Plugins
+@import "custom/theme/plugins/gmap";
+//@import "custom/theme/plugins/advantage";
+//@import "custom/theme/plugins/faq";

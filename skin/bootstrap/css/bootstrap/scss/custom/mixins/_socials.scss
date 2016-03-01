@@ -1,0 +1,43 @@
+/*
+ * Social share buttons
+ */
+
+/* --- set the background of the social share buttons
+ *
+ * $style: flat or gradient
+ * $hover: dark, light or same
+ *
+ */
+@mixin soc-bg ($style, $colors) {
+	@if $style == flat {
+		background-color: nth($colors,2);
+	} @else if $style == gradient {
+		@include gradient-directional(nth($colors,1), nth($colors,2));
+	}
+}
+
+@mixin share-buttons($style: flat, $hover: dark) {
+	$socials: facebook, twitter, viadeo, google, linkedin;
+
+	.share {
+		@each $social in $socials {
+			&-#{$social} a {
+				$colors: map-get($soc-net,#{$social});
+				$gradient: $colors;
+
+				@if $hover == light {
+					$gradient: lighten(nth($colors,1),10%), lighten(nth($colors,2),10%);
+				} @else {
+					$gradient: darken(nth($colors,1),10%), darken(nth($colors,2),10%);
+				}
+
+				&{
+					@include soc-bg ($style, $colors);
+				}
+				&:hover {
+					@include soc-bg ($style, $gradient);
+				}
+			}
+		}
+	}
+}

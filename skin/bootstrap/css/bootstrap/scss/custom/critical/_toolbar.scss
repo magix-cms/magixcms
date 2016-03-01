@@ -1,0 +1,93 @@
+/*----------------------*\
+----- Header toolbar -----
+\*----------------------*/
+#toolbar {
+	background-color: nth($dark-gradient,1);
+	padding: 7px 0;
+	color: $smooth-white;
+	font-size: 0.857rem;
+}
+
+#social-follow {
+	font-size: 1rem;
+}
+
+#menu-language {
+	.dropdown.open {
+		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2) inset;
+	}
+}
+
+#social-follow,
+#contact-infos,
+#toolbar .hidden-sm-up {
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+		li {
+			display: inline-block;
+			margin-top: 4px;
+			float: left;
+			a {
+				color: white;
+				padding: 5px;
+				&:hover {
+					color: $main-color;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+/*
+ * Media Queries
+ */
+// --- Mobile view
+@include media-breakpoint-down(xs) {
+	#toolbar {
+		// --- Contact shortcut
+		.hidden-sm-up {
+			&.pull-right li {
+				margin-right: 0.714rem;
+			}
+		}
+	}
+
+	#contact-phone {
+		clear: both;
+		width: 100%;
+		text-align: center;
+		background-color: #eee;
+		color: $body-color;
+		font-size: 1.428rem;
+		padding: 0.3rem 0;
+		position: relative;
+		bottom: -7px;
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.2) inset;
+	}
+}
+
+@include media-breakpoint-up(sm) {
+	#admin-panel {
+		margin-left: 1rem;
+		z-index: 210;
+		position: fixed;
+	}
+
+	#social-follow {
+		margin-left: 1rem;
+	}
+
+	#contact-infos {
+		ul li {
+			margin: 5px 1rem 0 0;
+
+			span.fa {
+				margin-top: 2px;
+				margin-right: 8px;
+			}
+		}
+	}
+}

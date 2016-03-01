@@ -1,0 +1,15 @@
+/*--------------*/
+/***** Tony *****/
+/*--------------*/
+figure.effect-tony {
+	> img {
+		z-index: 2;
+		backface-visibility: hidden;
+		@include auto-transition(.35s, transform);
+	}
+	&:hover {
+		> img, > img:hover {
+			transform: translate(-100%, 0);
+		}
+	}
+}

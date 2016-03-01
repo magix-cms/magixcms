@@ -1,0 +1,102 @@
+/*------------*\
+----- Tabs -----
+\*------------*/
+
+// ---- Variables
+$minheight: 40px;
+$maxheight: 60px;
+$sm-mheight: $minheight;
+$md-mheight: $minheight;
+$lg-mheight: $minheight;
+
+// ---- Rules
+
+// ---- Dropdown
+@mixin dp-menu {
+	display: table;
+	visibility: visible;
+	opacity: 1;
+	transform: translate(0, 0);
+	box-shadow: 0 10px 10px rgba(0, 0, 0, .2);
+	@include auto-transition(.5s);
+}
+
+// ---- //
+nav.menu-tabs {
+	@if $enabled-tabs == true {
+		@include menu-dropdown;
+
+		.nav-justified {
+			> li {
+				> a {
+					padding-top: 10px;
+					padding-bottom: 10px;
+
+					> span {
+						display: table-cell;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+
+		// ---- Arrow display
+		&-arrow {
+			@include media-breakpoint-up(md) {
+				> li.active {
+					> a {
+						&, &:hover, &:active, &:focus {
+							position: relative;
+
+							&:before {
+								content: "";
+								display: inline-block;
+								position: absolute;
+								bottom: -10px;
+								width: 20px;
+								height: 20px;
+								left: 42%;
+								box-shadow: 0 0 2px rgba(0, 0, 0, .4);
+								transform: rotate(45deg);
+								background-color: $menu-active-bg;
+								z-index: -1;
+
+								@include media-breakpoint-up(lg) {
+									left: 44%;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// ---- //
+	}
+}
+
+/*
+ * Media Queries
+ */
+@include media-breakpoint-up(md) {
+	nav.menu-tabs {
+		@if $enabled-tabs == true {
+			.nav-justified {
+				min-height: $minheight;
+				height: 100%;
+				max-height: $maxheight;
+				> li {
+					vertical-align: middle;
+					padding: 0;
+					margin: 0;
+					height: 100%;
+
+					> a {
+						height: 100%;
+						display: table;
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
+}

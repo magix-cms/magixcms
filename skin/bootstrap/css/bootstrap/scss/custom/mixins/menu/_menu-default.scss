@@ -1,0 +1,10 @@
+/*---------------*\
+----- Default -----
+\*---------------*/
+@if $default-menu == 'default' {
+	.menu-default {
+		@include media-breakpoint-up(md) {
+			margin-top: 10px;
+		}
+	}
+}
