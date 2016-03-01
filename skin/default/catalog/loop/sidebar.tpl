@@ -7,7 +7,7 @@
                     <div class="panel-title">
                         <div class="input-group{if $value.subdata == null} solo{/if}">
                             <a class="btn form-control" href="{$value.url}" title="{$value.name|ucfirst}">
-                                {$value.name|ucfirst}
+                                <span class="overflow">{$value.name|ucfirst}</span>
                             </a>
                             {if $value.subdata != null}
                             <span class="input-group-btn">
@@ -25,7 +25,7 @@
                         {foreach $value.subdata as $subkey => $item}
                             <li{if $smarty.get.idcls == $item.id} class="active"{/if}>
                                 <a{if $smarty.get.idclc == $value.id} itemprop="relatedLink"{/if} class="list-group-item" href="{$item.url}" title="{$item.name|ucfirst}">
-                                    {$item.name|ucfirst}
+                                    <span class="overflow">{$value.name|ucfirst}</span>
                                 </a>
                             </li>
                         {/foreach}

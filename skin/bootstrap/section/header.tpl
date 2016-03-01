@@ -39,7 +39,7 @@
             {* Brand && Headline *}
             <div id="navbar-brand">
                 <a class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}">
-                    <img class="img-fluid" src="{geturl}/skin/{template}/img/logo/{#logo_img#}" srcset="{geturl}/skin/{template}/img/logo/{#logo_img#} 768w, {geturl}/skin/{template}/img/logo/{#logo_img_small#} 320w" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
+                    <img class="img-fluid" src="{geturl}/skin/{template}/img/logo/{#logo_img#}" srcset="{geturl}/skin/{template}/img/logo/{#logo_img#} 768w, {geturl}/skin/{template}/img/logo/{#logo_img_small#} 320w" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" />
                 </a>
             </div>
             {* Show Nav Button (xs ad sm only) *}

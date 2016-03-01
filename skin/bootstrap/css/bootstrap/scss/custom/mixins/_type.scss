@@ -52,6 +52,9 @@ blockquote {
 		font-size: 1.2rem;
 		font-weight: lighter;
 		color: #959595;
+		&:before {
+			content: "— ";
+		}
 		&:after {
 			content: " —";
 		}
