@@ -15,6 +15,9 @@
                     <p class="lead">
                         Magix CMS is now on Bootstrap v4, the most popular HTML, CSS, and JS framework in the world for building responsive, mobile-first projects on the web.
                     </p>
+                    {*<p class="text-center">
+                        <a href="#" class="btn btn-lg btn-invert btn-fr-theme">Download Magix CMS</a>
+                    </p>*}
                 </div>
             </div>
         </div>

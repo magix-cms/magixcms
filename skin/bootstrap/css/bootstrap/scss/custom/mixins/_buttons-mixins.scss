@@ -80,6 +80,7 @@
 				border-color: $body-color;
 				border-width: 2px;
 				color: $body-color;
+				z-index: 2;
 				@include auto-transition(.25s);
 
 				&:before {
