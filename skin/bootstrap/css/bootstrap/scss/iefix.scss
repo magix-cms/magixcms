@@ -1,0 +1,19 @@
+// It's a flex grid fix for IE
+//
+// Make sure the columns matches the flex basis
+
+@import "core/variables";
+@import "core/mixins/breakpoints";
+
+@for $i from 1 through $grid-columns {
+	$selector: '';
+	@each $breakpoint in map-keys($grid-breakpoints) {
+		$selector: "#{$selector}.col-#{$breakpoint}-#{$i}";
+		@if $i != $grid-columns {
+			$selector: "#{$selector}, ";
+		}
+	}
+	#{$selector} {
+		max-width: percentage($i / $grid-columns);
+	}
+}

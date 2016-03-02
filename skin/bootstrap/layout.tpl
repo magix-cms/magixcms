@@ -17,10 +17,11 @@
     <link rel="icon" type="image/png" href="{geturl}/skin/{template}/img/favicon.png" />
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
     {capture name="criticalSheet"}{strip}
-        /min/?f=skin/{template}/css/bootstrap/criticalcss.min.css
+        /min/?f=skin/{template}/css/bootstrap/criticalcss.min.css,
+        skin/{template}/css/bootstrap/iefix.min.css
     {/strip}{/capture}
-{strip}{headlink rel="stylesheet" href=$smarty.capture.criticalSheet concat=$concat media="screen"}
-{/strip}{if {module type="news"} eq true}
+{strip}{headlink rel="stylesheet" href=$smarty.capture.criticalSheet concat=$concat media="screen"}{/strip}
+{if {module type="news"} eq true}
     <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
 {/if}
 {capture name="scriptHtml5"}{strip}
@@ -28,7 +29,12 @@
     skin/{template}/js/vendor/html5shiv.js,
     skin/{template}/js/vendor/respond.min.js
 {/strip}{/capture}
-    {strip}<!--[if lt IE 9]>{script src=$smarty.capture.scriptHtml5 concat=$concat type="javascript"}<![endif]-->{/strip}
+    {strip}<!--[if lt IE 9]>{script src=$smarty.capture.scriptHtml5 concat=$concat type="javascript" load="async"}<![endif]-->{/strip}
+    {capture name="picturefill"}{strip}
+        /min/?f=
+        skin/{template}/js/vendor/picturefill.min.js
+    {/strip}{/capture}
+    {strip}{script src=$smarty.capture.picturefill concat=$concat type="javascript" load="async"}{/strip}
     {strip}{* Language link hreflang *}{widget_lang_data assign="dataLangHead"}{include file="section/loop/lang.tpl" data=$dataLangHead type="head"}{google_tools tools='analytics'}
 {/strip}</head>
 <body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">

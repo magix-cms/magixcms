@@ -42,8 +42,12 @@
 	position: relative;
 	color: #cdbfe3;
 	text-align: center;
+	display: flex;
+	align-items: center;
 
-	@include center-content;
+	.container {
+		flex: 0 0 100%;
+	}
 
 	.lead {
 		margin-left: auto;

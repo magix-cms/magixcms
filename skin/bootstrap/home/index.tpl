@@ -9,26 +9,15 @@
     {include file="home/brick/carousel.tpl"}
 {/block}
 
-{block name="main"}
-    <main id="content" class="container">
-        <div class="row">
-            {block name="article:before"}{/block}
-
-            {block name='article'}
-                <article id="article" class="col-xs-12" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
-                    {block name='article:content'}
-                        <h1 itemprop="name">{$home.name}</h1>
-                        <div itemprop="text">
-                            {$home.content}
-                        </div>
-                    {/block}
-                </article>
-            {/block}
-            {block name="aside"}{/block}
-
-            {block name="article:after"}{/block}
-        </div>
-    </main>
+{block name='article'}
+    <article id="article" class="container" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
+        {block name='article:content'}
+            <h1 itemprop="name">{$home.name}</h1>
+            <div itemprop="text">
+                {$home.content}
+            </div>
+        {/block}
+    </article>
 {/block}
 
 {block name="main:after"}
