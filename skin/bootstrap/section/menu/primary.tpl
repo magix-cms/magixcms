@@ -238,7 +238,7 @@
     'active'    => {$active}
     ]}
 
-    {if isset($submenu) && $submenu || $menu|in_array:$dropmenu}
+    {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
         {widget_catalog_data
             conf = [
                 'context' => 'category'

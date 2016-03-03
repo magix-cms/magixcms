@@ -2,10 +2,11 @@
 //
 // Make sure the columns matches the flex basis
 
+@import "compiler";
 @import "core/variables";
 @import "core/mixins/breakpoints";
 
-@for $i from 1 through $grid-columns {
+/*@for $i from 1 through $grid-columns {
 	$selector: '';
 	@each $breakpoint in map-keys($grid-breakpoints) {
 		$selector: "#{$selector}.col-#{$breakpoint}-#{$i}";
@@ -15,5 +16,14 @@
 	}
 	#{$selector} {
 		max-width: percentage($i / $grid-columns);
+	}
+}*/
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		@for $i from 1 through $grid-columns {
+			.col-#{$breakpoint}-#{$i} {
+				max-width: percentage($i / $grid-columns);
+			}
+		}
 	}
 }

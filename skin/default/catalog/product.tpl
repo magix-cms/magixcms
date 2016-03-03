@@ -70,7 +70,7 @@
                                     <img src="{$product.imgSrc.medium}" alt="{$product.name}" class="img-responsive" itemprop="contentUrl"/>
                                 </a>
                             {else}
-                                <img src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
+                                <img class="img-responsive" src="/skin/{template}/img/catalog/product-default.png" alt="{$product.name}" />
                             {/if}
                         </figure>
                     {/if}

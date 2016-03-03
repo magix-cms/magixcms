@@ -138,6 +138,16 @@
 			z-index: 1 !important;
 		}
 	}
+
+	// --- Block links
+	&-cms {
+		li {
+			a {
+				display: block;
+				padding: 2px 0 3px;
+			}
+		}
+	}
 }
 
 #footbar {

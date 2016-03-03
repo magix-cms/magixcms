@@ -17,7 +17,7 @@
                 <div class="row">
                     {/if}
                     {foreach $blocks as $block}
-                        {include file="section/footer/block/$block.tpl" classCol="col-xs-12 col-md-4"}
+                        {include file="section/footer/block/$block.tpl" classCol="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"}
                     {/foreach}
                     {if $adjust == 'clip'}
                 </div>
