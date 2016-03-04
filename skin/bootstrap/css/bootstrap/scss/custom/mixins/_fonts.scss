@@ -2,13 +2,15 @@
  * Custom fonts and font rules
  */
 $font-family-sans-serif: "Open Sans", Arial, sans-serif;
+$quote-font: "Philosopher", Georgia, serif;
+$title-font: "Raleway", "Helvetica", Arial, sans-serif;
 
 @mixin quote {
-  font-family: "Philosopher", Georgia, serif;
+  font-family: $quote-font;
 }
 
 @mixin title-font {
-  font-family: "Raleway", "Helvetica", Arial, sans-serif;
+  font-family: $title-font;
 }
 
 @mixin gruppo {

@@ -4,7 +4,6 @@
 /* --------------------------------------------------------
                          News List
 ---------------------------------------------------------- */
-#last-news,
 #news,
 #news-tag {
 	.media {
@@ -17,7 +16,6 @@
 	}
 }
 
-#last-news,
 #news {
 	.news-list {
 		padding: 0 0 30px;
@@ -157,8 +155,41 @@
 ---------------------------------------------------------- */
 #last-news {
 	h3 {
-		padding-bottom: 10px;
+		@include normalize-link($body-color,$decoration: underline,$weight: 500,$font: $title-font);
 		border-bottom: 1px solid $dark-white;
+		text-align: center;
+		margin-bottom: 2rem;
+		padding-bottom: 1rem;
+	}
+
+	.row-1, .row-2 {
+		figure {
+			height: 320px;
+			@include media-breakpoint-down(lg) {
+				height: 310px;
+				@include media-breakpoint-down(md) {
+					height: 270px;
+				}
+			}
+			margin: 0;
+
+			img {
+				position: absolute;
+				top: -100%;
+				bottom: -100%;
+				left: 0;
+				right: 0;
+				margin: auto;
+			}
+		}
+	}
+
+	@include media-breakpoint-down(md) {
+		.row-2 {
+			figure {
+				height: 260px;
+			}
+		}
 	}
 }
 

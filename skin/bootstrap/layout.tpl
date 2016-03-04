@@ -88,7 +88,7 @@
         {/strip}{/capture}
         {script src=$smarty.capture.scriptSkin concat=$concat type="javascript"}
     {/block}
-    {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300,500','Philosopher'=>'0','Gruppo'=>'0']}{/block}
+    {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300,400,500,600','Philosopher'=>'0','Gruppo'=>'0']}{/block}
     {block name="styleSheet"}
         {capture name="styleSheet"}{strip}
             /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,

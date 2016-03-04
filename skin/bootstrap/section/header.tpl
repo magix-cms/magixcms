@@ -39,33 +39,37 @@
             {* Brand && Headline *}
             <div id="navbar-brand">
                 <a class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}">
-                    <picture class="img-fluid">
+                    {capture name="sizes"}
+                        (min-width: 1500px) 11vw, (min-width: 1102px) 15vw, (min-width: 768px) 20vw, (min-width: 480px) 30vw, 50vw
+                    {/capture}
+                    <picture>
                         <!--[if IE 9]><video style="display: none;"><![endif]-->
                         <source type="image/webp"
-                                sizes="20vh"
-                                srcset="{geturl}/skin/{template}/img/logo/webp/logo-magix_cms@167.webp 167w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@200.webp 200w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@269.webp 269w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@333.webp 333w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@400.webp 400w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@537.webp 537w">
-                        <source sizes="20vh"
-                                srcset="{geturl}/skin/{template}/img/logo/png/logo-magix_cms@167.png 167w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@200.png 200w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@269.png 269w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@333.png 333w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@400.png 400w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@537.png 537w">
+                                sizes="{$smarty.capture.sizes}"
+                                srcset="{geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@167.webp 167w,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@200.webp 200w 2x,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@269.webp 269w,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@333.webp 333w 2x,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@400.webp 400w,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@537.webp 537w 2x">
+                        <source sizes="{$smarty.capture.sizes}"
+                                srcset="{geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@167.png 167w,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@200.png 200w 2x,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@269.png 269w,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@333.png 333w 2x,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@400.png 400w,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@537.png 537w 2x">
                         <!--[if IE 9]></video><![endif]-->
-                        <img src="{geturl}/skin/{template}/img/logo/png/logo-magix_cms@269.png"
-                             sizes="20vh"
-                             srcset="{geturl}/skin/{template}/img/logo/png/logo-magix_cms@167.png 167w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@200.png 200w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@269.png 269w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@333.png 333w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@400.png 400w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@537.png 537w"
-                             alt="{#logo_img_alt#|ucfirst} {$companyData.name}" />
+                        <img src="{geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@269.png"
+                             sizes="{$smarty.capture.sizes}"
+                             srcset="{geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@167.png 167w,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@200.png 200w 2x,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@269.png 269w,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@333.png 333w 2x,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@400.png 400w,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@537.png 537w 2x"
+                             alt="{#logo_img_alt#|ucfirst} {$companyData.name}"
+                             class="img-fluid"/>
                     </picture>
                 </a>
             </div>
@@ -93,26 +97,26 @@
                 <picture class="img-fluid">
                     <!--[if IE 9]><video style="display: none;"><![endif]-->
                     <source type="image/webp"
-                            sizes="20vh"
-                            srcset="{geturl}/skin/{template}/img/logo/webp/logo-magix_cms@167.webp 167w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@200.webp 200w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@269.webp 269w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@333.webp 333w,
-                                        {geturl}/skin/{template}/img/logo/webp/logo-magix_cms@400.webp 400w">
-                    <source sizes="20vh"
-                            srcset="{geturl}/skin/{template}/img/logo/png/logo-magix_cms@167.png 167w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@200.png 200w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@269.png 269w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@333.png 333w,
-                                        {geturl}/skin/{template}/img/logo/png/logo-magix_cms@400.png 400w">
+                            sizes="{$smarty.capture.sizes}"
+                            srcset="{geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@167.webp 167w,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@200.webp 200w,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@269.webp 269w,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@333.webp 333w,
+                                        {geturl}/skin/{template}/img/logo/webp/logo-{$companyData.name|lower|replace:' ':'_'}@400.webp 400w">
+                    <source sizes="{$smarty.capture.sizes}"
+                            srcset="{geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@167.png 167w,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@200.png 200w,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@269.png 269w,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@333.png 333w,
+                                        {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@400.png 400w">
                     <!--[if IE 9]></video><![endif]-->
-                    <img src="{geturl}/skin/{template}/img/logo/png/logo-magix_cms@200.png"
-                         sizes="20vh"
-                         srcset="{geturl}/skin/{template}/img/logo/png/logo-magix_cms@167.png 167w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@200.png 200w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@269.png 269w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@333.png 333w,
-                                    {geturl}/skin/{template}/img/logo/png/logo-magix_cms@400.png 400w"
+                    <img src="{geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@200.png"
+                         sizes="{$smarty.capture.sizes}"
+                         srcset="{geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@167.png 167w,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@200.png 200w,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@269.png 269w,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@333.png 333w,
+                                    {geturl}/skin/{template}/img/logo/png/logo-{$companyData.name|lower|replace:' ':'_'}@400.png 400w"
                          alt="{#logo_img_alt#|ucfirst} {$companyData.name}" />
                 </picture>
             </a>

@@ -57,7 +57,7 @@
 	}
 }
 
-.custom-button(@name,@txt-color: #fff){
+.custom-button(@name,@txt-color: #fff,@invert-base: @text-color){
 	@var: ~'@{name}-colors';
 	@color: @@var;
 	@class: ~".btn-@{name}-theme";
@@ -76,9 +76,9 @@
 				padding: 10px 16px;
 				line-height: 1.3333333;
 				background-color: transparent;
-				border-color: @text-color;
+				border-color: @invert-base;
 				border-width: 2px;
-				color: @text-color;
+				color: @invert-base;
 				z-index: 2;
 				.auto-transition(.25s);
 

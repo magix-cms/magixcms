@@ -57,7 +57,7 @@
 	}
 }
 
-@mixin get-btn-variant($color: false, $txt-color: #fff, $style: normal) {
+@mixin get-btn-variant($color: false, $txt-color: #fff, $style: normal, $invert-base: $body-color) {
 	@if $color != false {
 		@if $style == normal {
 			@include button-variant($txt-color, nth($color, 3), nth($color, 4));
@@ -77,9 +77,9 @@
 				padding: 10px 16px;
 				line-height: 1.3333333;
 				background-color: transparent;
-				border-color: $body-color;
+				border-color: $invert-base;
 				border-width: 2px;
-				color: $body-color;
+				color: $invert-base;
 				z-index: 2;
 				@include auto-transition(.25s);
 
@@ -113,7 +113,7 @@
 	}
 }
 
-@mixin custom-button($name: false,$txt-color: #fff,$return: false, $return-style: normal) {
+@mixin custom-button($name: false,$txt-color: #fff, $invert-base: $body-color, $return: false, $return-style: normal) {
 	@if $name != false {
 		$color: map-get($variant,$name);
 		$class: ".btn-#{$name}-theme";
@@ -157,7 +157,7 @@
 
 					@if $btn-invert == true {
 						&.btn-invert {
-							@include get-btn-variant($color, $txt-color, invert);
+							@include get-btn-variant($color, $txt-color, invert, $invert-base);
 						}
 					}
 				}

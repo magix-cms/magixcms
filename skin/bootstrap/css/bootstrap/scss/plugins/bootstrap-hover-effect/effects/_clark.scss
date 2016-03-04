@@ -1,0 +1,75 @@
+/*---------------*/
+/***** clark *****/
+/*---------------*/
+figure.effect-clark {
+	text-align: left;
+	figcaption {
+		display: flex;
+
+		&:before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			@include size(100%);
+			background-color: $clark-bg-base;
+			content: '';
+			opacity: 0;
+			height: 200%;
+			transform: translate3d(0,50%,0);
+			@include gradient-vertical($clark-bg-gradient,$clark-bg-base,0%,75%);
+			@include auto-transition(.25s);
+		}
+		h4 {
+			position: relative;
+			font-size: $clark-h3-font-size;
+			top: -25%;
+			left: 0;
+			width: 100%;
+			color: $clark-h3-color;
+			align-self: flex-start;
+			opacity: 0;
+			padding: 2rem;
+			@include auto-transition(.35s);
+			@include text-truncate;
+		}
+		.desc {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			padding: 2rem;
+			width: 100%;
+			opacity: 0;
+			transform: translate3d(0,10px,0);
+			@include auto-transition(.35s);
+
+			time {
+				display: block;
+				margin-bottom: 2rem;
+				font-size: 1.2rem;
+				font-weight: 700;
+			}
+		}
+		&:hover {
+			opacity: 1;
+			transform: translate3d(0,0,0);
+			.desc {
+				opacity: 1;
+				transform: translate3d(0,0,0);
+			}
+		}
+	}
+	&:hover{
+		figcaption {
+			&:before {
+				opacity: .5;
+				-webkit-transform: translate3d(0,1px,0);
+				transform: translate3d(0,1px,0);
+			}
+		}
+		h4{
+			opacity: 1;
+			color: #fff;
+			top: 2rem;
+		}
+	}
+}

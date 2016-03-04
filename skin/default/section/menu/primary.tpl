@@ -160,23 +160,23 @@
         'title'     => {$page.name},
         'active'    => {$active}
         ]}
-        {$submenu = 0}
+        {$subdata = 0}
         {if $page.subdata}
-            {assign var=submenu value=array()}
+            {assign var=subdata value=array()}
             {foreach $page.subdata as $child}
                 {if $pageSection && $child.id == $activePage}
                     {$subactive = 1}
                 {else}
                     {$subactive = 0}
                 {/if}
-                {$submenu[] = [
+                {$subdata[] = [
                 'name'      => {$child.name},
                 'url'       => {$child.url},
                 'title'     => {$child.name},
                 'active'    => {$subactive}
                 ]}
             {/foreach}
-            {$item['subdata'] = $submenu}
+            {$item['subdata'] = $subdata}
         {/if}
         {$menu[] = $item}
     {/foreach}
@@ -204,23 +204,23 @@
         'title'     => {$category.name},
         'active'    => {$active}
         ]}
-        {$submenu = 0}
+        {$subdata = 0}
         {if $category.subdata}
-            {assign var=submenu value=array()}
+            {assign var=subdata value=array()}
             {foreach $category.subdata as $child}
                 {if $subCat && $child.id == $subCat}
                     {$subactive = 1}
                 {else}
                     {$subactive = 0}
                 {/if}
-                {$submenu[] = [
+                {$subdata[] = [
                 'name'      => {$child.name},
                 'url'       => {$child.url},
                 'title'     => {$child.name},
                 'active'    => {$subactive}
                 ]}
             {/foreach}
-            {$item['subdata'] = $submenu}
+            {$item['subdata'] = $subdata}
         {/if}
         {$menu[] = $item}
     {/foreach}
@@ -246,7 +246,7 @@
             assign="categoryList"
         }
         {if $categoryList != null}
-            {assign var=submenu value=array()}
+            {assign var=subdata value=array()}
             {foreach $categoryList as $category}
                 {if $parentCat && $category.id == $parentCat}
                     {$subactive = 1}
@@ -254,14 +254,14 @@
                     {$subactive = 0}
                 {/if}
 
-                {$submenu[] = [
+                {$subdata[] = [
                 'name'      => {$category.name},
                 'url'       => {$category.url},
                 'title'     => {$category.name},
                 'active'    => {$subactive}
                 ]}
             {/foreach}
-            {$item['subdata'] = $submenu}
+            {$item['subdata'] = $subdata}
         {/if}
     {/if}
 
@@ -290,23 +290,23 @@
         'title'     => {$page.name},
         'active'    => {$active}
         ]}
-        {$submenu = 0}
+        {$subdata = 0}
         {if $page.subdata}
-            {assign var=submenu value=array()}
+            {assign var=subdata value=array()}
             {foreach $page.subdata as $child}
                 {if $pageSection && $child.id == $activePage}
                     {$subactive = 1}
                 {else}
                     {$subactive = 0}
                 {/if}
-                {$submenu[] = [
+                {$subdata[] = [
                 'name'      => {$child.name},
                 'url'       => {$child.url},
                 'title'     => {$child.name},
                 'active'    => {$subactive}
                 ]}
             {/foreach}
-            {$item['subdata'] = $submenu}
+            {$item['subdata'] = $subdata}
         {/if}
         {$menu[] = $item}
     {/foreach}

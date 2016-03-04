@@ -2,10 +2,18 @@
  * Rules for About page
  */
 #about {
+	#content {
+		margin-top: 2rem;
+
+		> .container > .row {
+			flex-direction: row-reverse;
+		}
+	}
+
 	figure {
-		padding: 25px 0 15px;
+		padding: 0 0 1rem;
 		border-bottom: 1px solid rgb(204, 204, 204);
-		margin-bottom: 25px;
+		margin-bottom: 1.78rem;
 		position: relative;
 
 		&:after {
@@ -67,6 +75,18 @@
 					font-weight: 600;
 				}
 			}
+		}
+	}
+}
+
+@include media-breakpoint-down(sm) {
+	#about {
+		#content > .container > .row {
+			flex-direction: column-reverse;
+		}
+
+		article + div {
+			margin-bottom: 2rem;
 		}
 	}
 }
