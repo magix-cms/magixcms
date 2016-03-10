@@ -81,8 +81,9 @@ class frontend_db_news{
 	 * @param string $date_register
 	 */
 	protected function s_newsData($keynews,$date_register){
-		$sql = 'SELECT n.*,lang.iso FROM mc_news AS n
-		LEFT JOIN mc_lang AS lang USING(idlang)
+		$sql = 'SELECT n.*,lang.iso,author.pseudo_admin AS author FROM mc_news AS n
+		JOIN mc_lang AS lang USING(idlang)
+		JOIN mc_admin_employee AS author ON n.idadmin = author.id_admin
 		WHERE n.keynews = :keynews AND CAST(n.date_register AS DATE) = CAST(:date_register AS DATE)';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(
 			':keynews' 	 	=> $keynews,
@@ -151,6 +152,34 @@ class frontend_db_news{
         return magixglobal_model_db::layerDB()->select($sql);
     }
 
+	/**
+	 * Retourne la liste des news suivant date
+	 * @param string $iso
+	 * @param integer $date
+	 * @param integer $limit
+	 */
+	protected function s_news_in_date($iso,$sort_date,$limit=null){
+		$year = $sort_date['year'];
+		if (isset($sort_date['month']))
+			$month = $sort_date['month'];
+		$where_clause = ' AND lang.iso = \''.$iso.'\'';
+		$where_clause .= ' AND news.idnews';
+		$where_clause .= ' IN (';
+		$where_clause .= ' SELECT idnews FROM mc_news WHERE YEAR(date_publish) = '.$year;
+		if (isset($month))
+			$where_clause .= ' AND MONTH(date_publish) = '.$month;
+		$where_clause .= ')';
+		$where_clause .= ' GROUP BY news.idnews ';
+		$limit_clause = $limit ? ' LIMIT '.$limit : '';
+		$sql = "SELECT news.*,lang.iso
+        FROM  mc_news AS news
+		LEFT JOIN mc_lang AS lang on (news.idlang = lang.idlang)
+        WHERE news.published = 1
+          {$where_clause}
+        ORDER BY news.date_register DESC
+        {$limit_clause}";
+		return magixglobal_model_db::layerDB()->select($sql);
+	}
     /**
      * Return all tag in language grouped by name and related to published news
      * @param string $lang_iso

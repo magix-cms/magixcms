@@ -57,6 +57,8 @@ class frontend_controller_news extends frontend_db_news
     /**
      * @var date
      */
+	public $yearNews;
+	public $monthNews;
 	public $dateNews;
      /**
      * @var string
@@ -78,9 +80,17 @@ class frontend_controller_news extends frontend_db_news
 			$this->dateNews = ($_GET['getdate']);
 
 		}
+		if ($FilterRequest->isGet('getyear')) {
+			$this->yearNews = ($_GET['getyear']);
+
+		}
+		if ($FilterRequest->isGet('getmonth')) {
+			$this->monthNews = ($_GET['getmonth']);
+
+		}
         $this->idPagination = 1;
 		if ($FilterRequest->isGet('page') AND is_numeric($_GET['page'])) {
-		          $this->idPagination = intval($_GET['page']);
+			$this->idPagination = intval($_GET['page']);
 
         }
 		if ($FilterRequest->isGet('tag')) {
@@ -113,11 +123,25 @@ class frontend_controller_news extends frontend_db_news
 			$this->load_news_data();
             $template->display('news/news.tpl');
 
-		} elseif (isset($this->idTag)) {
-            $template->assign('tag', array('name'=>urldecode($this->idTag)));
-            $template->display('news/tag.tpl');
+		} elseif (isset($this->yearNews)) {
+			$date = array();
+			$date['year'] = $this->yearNews;
+			if(isset($this->monthNews)) {
+				$date['month'] = $this->monthNews;
+				$date['monthName'] = strftime("%B", mktime(0, 0, 0, $date['month'], 1, 2000));
+			}
 
-		} else {
+			$template->assign('publishDate', $date);
+			if (isset($this->idTag)) {
+				$template->assign('tag', array('name'=>urldecode($this->idTag)));
+			}
+			$template->display('news/date.tpl');
+
+		} elseif (isset($this->idTag)) {
+			$template->assign('tag', array('name'=>urldecode($this->idTag)));
+			$template->display('news/tag.tpl');
+
+		}  else {
             $template->display('news/index.tpl');
 		}
 	}

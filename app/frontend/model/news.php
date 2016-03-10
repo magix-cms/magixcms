@@ -124,6 +124,7 @@ class frontend_model_news extends frontend_db_news {
             if (isset($current['record']['id'])) {
                 $data['active']   = ($row['keynews'] == $current['record']['id']) ? true : false;
             }
+            $data['author']      = $row['author'];
             $data['date']['register']      = $ModelDateformat->SQLDate($row['date_register']);
             $data['date']['publish']       = $ModelDateformat->SQLDate($row['date_publish']);
             $data['content']     = $row['n_content'];
@@ -187,6 +188,15 @@ class frontend_model_news extends frontend_db_news {
                 if (array_key_exists($data['conf']['lang'],$custom['exclude'])) {
                     $data['conf']['id']     =   $custom['exclude'][$data['conf']['lang']];
                     $data['conf']['type']   =   'exclude';
+                }
+            }
+        } elseif(isset($custom['date'])) {
+            if (is_array($custom['date'])) {
+                if (array_key_exists($data['conf']['lang'],$custom['date'])) {
+					if(is_array($custom['date'][$data['conf']['lang']])) {
+						$data['conf']['id']     =   $custom['date'][$data['conf']['lang']];
+						$data['conf']['type']   =   'date';
+					}
                 }
             }
         }
@@ -260,21 +270,37 @@ class frontend_model_news extends frontend_db_news {
                 );
             }
         } elseif (isset($data['conf']['id'])) {
-            if($class && class_exists($class)){
-                $data['src'] = $class::s_news_in_tag(
-                    $data['conf']['lang'],
-                    $data['conf']['id'],
-                    $data['conf']['type'],
-                    $data['conf']['limit']
-                );
-            }else{
-                $data['src'] = parent::s_news_in_tag(
-                    $data['conf']['lang'],
-                    $data['conf']['id'],
-                    $data['conf']['type'],
-                    $data['conf']['limit']
-                );
-            }
+			if($data['conf']['type'] == 'date') {
+				if($class && class_exists($class)){
+					$data['src'] = $class::s_news_in_date(
+						$data['conf']['lang'],
+						$data['conf']['id'],
+						null
+					);
+				}else{
+					$data['src'] = parent::s_news_in_date(
+						$data['conf']['lang'],
+						$data['conf']['id'],
+						null
+					);
+				}
+			} else {
+				if($class && class_exists($class)){
+					$data['src'] = $class::s_news_in_tag(
+						$data['conf']['lang'],
+						$data['conf']['id'],
+						$data['conf']['type'],
+						$data['conf']['limit']
+					);
+				}else{
+					$data['src'] = parent::s_news_in_tag(
+						$data['conf']['lang'],
+						$data['conf']['id'],
+						$data['conf']['type'],
+						$data['conf']['limit']
+					);
+				}
+			}
         }else {
             if($class && class_exists($class)){
                 $data['src'] = $class::s_news(

@@ -4,16 +4,15 @@
 {block name='body:id'}news-tag{/block}
 
 {block name='article'}
-    <pre>{$smarty.get|var_dump}</pre>
     <article id="article" class="container" itemprop="mainEntity" itemscope itemtype="http://schema.org/CreativeWorkSeries">
         {block name='article:content'}
-            <h1>{#news_root_h1#|ucfirst} <small>- <span itemprop="about">{$tag.name|ucfirst}</span></small></h1>
-            {* ## Navigation tags *}{*
+            <h1>{#news_root_h1#|ucfirst} <small>- <span>{if isset($publishDate.month)}{*{$date = '2000-'|cat:$publishDate.month|cat:'-1'}{$date|date_format:'%B'}*}{$publishDate.monthName} {/if}{$publishDate.year}</span></small></h1>
+            {*## Navigation tags *}
             {widget_news_data
-            conf= [
-            'level'     => 'tag'
-            ]
-            assign="sidebarData"
+                conf= [
+                    'level'     => 'tag'
+                ]
+                assign="sidebarData"
             }
             {$listingData = [
                 'main' => [
@@ -28,13 +27,11 @@
                         {include file="news/loop/tag.tpl" main=$listingData.main listing=$listingData.listing active=$listingData.active}
                     </ul>
                 </div>
-            {/if}*}
+            {/if}
 
             {widget_news_data
                 conf= [
-                    'date' => [{getlang} =>
-                        ['year' => {$publishDate.year}]
-                    ],
+                    'date' => [{getlang} => $publishDate],
                     'limit' => 6]
                 assign="newsData"
                 assignPagination="paginationData"
