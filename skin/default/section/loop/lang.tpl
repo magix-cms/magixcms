@@ -10,7 +10,7 @@
             <ul class="lang-nav list-inline">
                 {foreach $data as $item}
                     <li>
-                        <a{if $smarty.get.strLangue eq $item.iso} class="active"{/if} href="/{$item.iso}/" hreflang="{$item.iso}" title="{#go_to_version#|ucfirst}: {$item.language|var_dump}">
+                        <a{if $smarty.get.strLangue eq $item.iso} class="active"{/if} href="/{$item.iso}/" hreflang="{$item.iso}" title="{#go_to_version#|ucfirst}: {$item.language}">
                             {$item.iso|upper}
                         </a>
                     </li>
@@ -29,7 +29,7 @@
             <ul class="dropdown-menu" aria-labelledby="menu-language">
                 {foreach $data as $item}
                     <li>
-                        <a{if (isset($smarty.get.strLangue) && $item.iso eq $smarty.get.strLangue) || (!isset($smarty.get.strLangue) && $item.iso eq $defaultLang.iso)} class="active"{/if} href="/{$item.iso}/" hreflang="{$item.iso}" title="{#go_to_version#|ucfirst}: {$item.language|var_dump}">
+                        <a{if (isset($smarty.get.strLangue) && $item.iso eq $smarty.get.strLangue) || (!isset($smarty.get.strLangue) && $item.iso eq $defaultLang.iso)} class="active"{/if} href="/{$item.iso}/" hreflang="{$item.iso}" title="{#go_to_version#|ucfirst}: {$item.language}">
                             {$item.iso|upper}
                         </a>
                     </li>
