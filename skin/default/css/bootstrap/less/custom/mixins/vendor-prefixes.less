@@ -52,43 +52,6 @@
 	padding: 50px 0 60px;
 }
 
-
-// Set background text and text color for selected text
-.text-select(@bg-color, @color: #fff) {
-	::-moz-selection {
-		color: @color;
-		background: @bg-color;
-	}
-	::selection {
-		color: @color;
-		background: @bg-color;
-	}
-}
-
-// Normalize link style for all state
-.normalize-link(@color, @hover-color: same, @decoration: underline, @weight: 400, @font: @font-family-sans-serif) {
-	a, a:visited, a:link, a:active {
-		font-family: @font;
-		font-weight: @weight;
-		color: @color;
-	}
-
-	.set-hover(@color, @hover-color, @decoration) when (@hover-color = same) {
-		a:hover {
-			text-decoration: @decoration;
-			color: @color;
-		}
-	};
-	.set-hover(@color, @hover-color, @decoration) {
-		a:hover {
-			text-decoration: @decoration;
-			color: @hover-color;
-		}
-	};
-	.set-hover(@color, @hover-color, @decoration);
-}
-
-
 // Center a content in both width and height size of its parent. Parent must be in display: table
 // Use parent value for item to init the main container
 // Use child value for item to init the content container

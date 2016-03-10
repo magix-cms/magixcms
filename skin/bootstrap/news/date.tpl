@@ -4,11 +4,38 @@
 {block name='body:id'}news-tag{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/CreativeWorkSeries">
+    <pre>{$smarty.get|var_dump}</pre>
+    <article id="article" class="container" itemprop="mainEntity" itemscope itemtype="http://schema.org/CreativeWorkSeries">
         {block name='article:content'}
             <h1>{#news_root_h1#|ucfirst} <small>- <span itemprop="about">{$tag.name|ucfirst}</span></small></h1>
+            {* ## Navigation tags *}{*
             {widget_news_data
-                conf= ['limit' => 6]
+            conf= [
+            'level'     => 'tag'
+            ]
+            assign="sidebarData"
+            }
+            {$listingData = [
+                'main' => [
+                    'name' => {#news_by_theme#|ucfirst}
+                ],
+                'listing' => $sidebarData,
+                'active' => $smarty.get.tag
+            ]}
+            {if $listingData}
+                <div class="tag-listing">
+                    <ul>
+                        {include file="news/loop/tag.tpl" main=$listingData.main listing=$listingData.listing active=$listingData.active}
+                    </ul>
+                </div>
+            {/if}*}
+
+            {widget_news_data
+                conf= [
+                    'date' => [{getlang} =>
+                        ['year' => {$publishDate.year}]
+                    ],
+                    'limit' => 6]
                 assign="newsData"
                 assignPagination="paginationData"
             }

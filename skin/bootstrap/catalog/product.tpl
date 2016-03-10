@@ -105,7 +105,7 @@
                             <legend><span>Intéressé par {$product.name}&thinsp;?</span></legend>
                             <p>
                                 <input type="hidden" name="moreinfo" value="{$product.name}"/>
-                                <button id="more-info" type="submit" class="btn btn-box btn-flat btn-main-theme btn-lg">{#contact_form#|firststring}</button>
+                                <button id="more-info" type="submit" class="btn btn-box btn-flat btn-main-theme btn-lg">{#contact_form#|ucfirst}</button>
                             </p>
                         </fieldset>
                     </form>

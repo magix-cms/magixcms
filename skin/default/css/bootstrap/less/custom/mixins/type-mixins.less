@@ -1,0 +1,183 @@
+// Set background text and text color for selected text
+.text-select(@bg-color, @color: #fff) {
+	::-moz-selection {
+		color: @color;
+		background: @bg-color;
+	}
+	::selection {
+		color: @color;
+		background: @bg-color;
+	}
+}
+
+// Normalize link style for all state
+.normalize-link(@color: @main-color, @hover-color: same, @decoration: underline, @weight: 400, @font: @font-family-sans-serif) {
+	a, a:visited, a:link, a:active {
+		font-family: @font;
+		font-weight: @weight;
+		color: @color;
+	}
+
+	.set-hover(@color, @hover-color, @decoration) when (@hover-color = same) {
+		a:hover {
+			text-decoration: @decoration;
+			color: @color;
+		}
+	};
+	.set-hover(@color, @hover-color, @decoration) {
+		a:hover {
+			text-decoration: @decoration;
+			color: @hover-color;
+		}
+	};
+	.set-hover(@color, @hover-color, @decoration);
+}
+
+/*--------------------------*\
+-----  Headings styling  -----
+----- shortcut functions -----
+\*--------------------------*/
+
+// --- All headings
+.headings(@function) {
+	h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+		@function();
+	}
+}
+// --- Direct child headings
+.direct-headings(@function) {
+	> h1, > h2, > h3, > h4, > h5, > h6, > .h1, > .h2, > .h3, > .h4, > .h5, > .h6 {
+		@function();
+	}
+}
+
+// --- Justify content | may be not cross-browser
+.text-justify() {
+   text-align: justify;
+   word-wrap: normal;
+   -webkit-hyphens: auto;
+   -moz-hyphens: auto;
+   -ms-hyphens: auto;
+   -o-hyphens: auto;
+   hyphens: auto;
+}
+
+// --- Main title page
+.main-title(@color: @text-color, @brd: 1px solid #eee) {
+	margin: 0 auto 25px;
+	padding: 0 0 15px;
+	color: @text-color;
+	border-bottom: @brd;
+}
+
+// Normalize content
+.normalize-content(@color: @main-color) {
+	#article {
+		// Normalize the main title of the content
+		> h1:first-child {
+			.main-title;
+		}
+		// Normalize images in content
+		img {
+			.img-responsive;
+	
+			&.pull-right {
+				margin: 0 0 1rem 1rem !important;
+			}
+			&.pull-left {
+				margin: 0 1rem 1rem 0 !important;
+			}
+		}
+		
+		@media (max-width: @screen-sm-max) {
+			p > img {
+				margin: 1rem 0 1rem 1rem !important;
+			}
+	
+			> img {
+				margin: 1rem 0 1rem 1rem !important;
+			}
+		}
+		// Normalize small for datetime
+		small.datePublished {
+			display: block;
+			margin-bottom: 15px;
+			color: @light-gray;
+		}
+		.description {
+			margin-bottom: 30px;
+		}
+		// Normalize heading in content
+		.direct-headings ({
+			color: @text-color;
+		});
+	}
+
+	.normalize-link(@color);
+}
+
+// --- Responsive text sizes
+.adaptive-font-size() {
+	@media (min-width: @screen-sm-min) {
+		h1 { font-size: (@font-size-h1 * 1.4); } 			   // - 1.75 rem
+		h2 { font-size: (@font-size-h2 * 1.255); }			   // - 1.5 rem
+		h3 { font-size: (@font-size-h3 * 1.230769230769231); } // - 1.4 rem
+		h4 { font-size: (@font-size-h4 * 1.214285714285714); } // - 1.275 rem
+		h5 { font-size: (@font-size-h5 * 1.125); } 			   // - 1.15 rem
+
+		@media (min-width: @screen-md-min) {
+			h1 { font-size: (@font-size-h1 * 1.6); }				// - 2 rem
+			h2 { font-size: (@font-size-h2 * 1.416666666666667); }	// - 1.7rem
+			h3 { font-size: (@font-size-h3 * 1.384615384615385); }	// - 1.575 rem
+			h4 { font-size: (@font-size-h4 * 1.357142857142857); }	// - 1.425 rem
+			h5 { font-size: (@font-size-h5 * 1.25); } 				// - 1.25 rem
+
+			@media (min-width: @screen-lg-min) {
+				h1 { font-size: @font-size-h1 * 2; } 				 // - 2.5 rem
+				h2 { font-size: @font-size-h2 * 1.666666666666667; } // - 2 rem
+				h3 { font-size: @font-size-h3 * 1.538461538461538; } // - 1.75 rem
+				h4 { font-size: @font-size-h4 * 1.428571428571429; } // - 1.5 rem
+				h5 { font-size: @font-size-h5 * 1.25; }				 // - 1.25 rem
+			}
+		}
+	}
+
+	// These declarations are kept separate from and placed after
+	// the previous tag-based declarations so that the classes beat the tags in
+	// the CSS cascade, and thus <h1 class="h2"> will be styled like an h2.
+	@media (min-width: @screen-sm-min) {
+		.h1 { font-size: (@font-size-h1 * 1.4); } 			   // - 1.75 rem
+		.h2 { font-size: (@font-size-h2 * 1.255); }			   // - 1.5 rem
+		.h3 { font-size: (@font-size-h3 * 1.230769230769231); } // - 1.4 rem
+		.h4 { font-size: (@font-size-h4 * 1.214285714285714); } // - 1.275 rem
+		.h5 { font-size: (@font-size-h5 * 1.125); } 			   // - 1.15 rem
+
+		@media (min-width: @screen-md-min) {
+			.h1 { font-size: (@font-size-h1 * 1.6); }				// - 2 rem
+			.h2 { font-size: (@font-size-h2 * 1.416666666666667); }	// - 1.7rem
+			.h3 { font-size: (@font-size-h3 * 1.384615384615385); }	// - 1.575 rem
+			.h4 { font-size: (@font-size-h4 * 1.357142857142857); }	// - 1.425 rem
+			.h5 { font-size: (@font-size-h5 * 1.25); } 				// - 1.25 rem
+
+			@media (min-width: @screen-lg-min) {
+				.h1 { font-size: @font-size-h1 * 2; } 				 // - 2.5 rem
+				.h2 { font-size: @font-size-h2 * 1.666666666666667; } // - 2 rem
+				.h3 { font-size: @font-size-h3 * 1.538461538461538; } // - 1.75 rem
+				.h4 { font-size: @font-size-h4 * 1.428571428571429; } // - 1.5 rem
+				.h5 { font-size: @font-size-h5 * 1.25; }				 // - 1.25 rem
+			}
+		}
+	}
+
+	@media (min-width: @screen-sm-min) {
+		.lead { font-size: @lead-font-size * 1.03030303030303; } // - 1.0625 rem
+
+		@media (min-width: @screen-md-min) {
+			.lead { font-size: @lead-font-size * 1.090909090909091; } // - 1.125 rem
+
+			@media (min-width: @screen-lg-min) {
+				.lead { font-size: @lead-font-size * 1.151515151515152; } // - 1.1875 rem
+			}
+		}
+	}
+}

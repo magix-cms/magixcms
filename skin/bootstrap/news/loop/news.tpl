@@ -22,7 +22,7 @@
                     </span>
                 </figure>
                 <div class="caption col-xs-12 col-sm-6 col-md-8">
-                    <h4 itemprop="name">{$item.name|ucfirst}</h4>
+                    <h3 itemprop="name">{$item.name|ucfirst}</h3>
                     <time itemprop="datePublished" datetime="{$item.date.publish}">{$item.date.publish|date_format:"%e %B %Y"}</time>
                     <p itemprop="description">{$item.content|strip_tags|truncate:200:"..."}</p>
                     {strip}

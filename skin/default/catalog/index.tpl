@@ -4,17 +4,21 @@
 {block name='body:id'}catalog{/block}
 {block name="webType"}CollectionPage{/block}
 
-{block name="article:content"}
-    <div id="catalog-root" itemprop="mainEntity" itemscope itemtype="http://schema.org/Series">
-        <h1 itemprop="name">{#catalog_root_h1#|ucfirst}</h1>
-        {widget_catalog_data
+{block name='article'}
+    <article id="article" class="col-xs-12 col-sm-8 col-md-9 catalog" itemprop="mainEntity" itemscope itemtype="http://schema.org/Series">
+        {block name="article:content"}
+            <h1 itemprop="name">{#catalog_root_h1#|ucfirst}</h1>
+            {widget_catalog_data
             conf =[
             'context' =>  'category'
             ]
             assign='categoryData'
-        }
-        <div class="product-list row">
-            {include file="catalog/loop/category.tpl" data=$categoryData effect="ming"}
-        </div>
-    </div>
+            }
+            <div class="product-list row">
+                <div class="center-gallery">
+                    {include file="catalog/loop/category.tpl" data=$categoryData effect="ming" classCol="col-xs-12 col-sm-6 col-md-4 col-xl-3"}
+                </div>
+            </div>
+        {/block}
+    </article>
 {/block}

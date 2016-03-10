@@ -5,7 +5,7 @@
 {block name="webType"}ItemPage{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
+    <article id="article" class="col-xs-12 catalog" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
         {block name='article:content'}
             <div class="row">
                 <div id="product-info" class="col-xs-12 col-sm-5 col-md-4 text-center">
@@ -105,7 +105,7 @@
                             <legend><span>Intéressé par {$product.name}&thinsp;?</span></legend>
                             <p>
                                 <input type="hidden" name="moreinfo" value="{$product.name}"/>
-                                <input id="more-info" type="submit" class="btn btn-flat btn-main-theme btn-lg" value="{#contact_form#|firststring}" />
+                                <button id="more-info" type="submit" class="btn btn-box btn-flat btn-main-theme btn-lg">{#contact_form#|ucfirst}</button>
                             </p>
                         </fieldset>
                     </form>

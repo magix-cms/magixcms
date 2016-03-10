@@ -1,6 +1,5 @@
 @mixin center-gallery($align){
 	display: flex;
-	flex: 1 0 auto;
 	justify-content: $align;
 	flex-wrap: wrap;
 }

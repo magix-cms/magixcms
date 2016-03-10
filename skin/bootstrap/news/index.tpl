@@ -42,9 +42,7 @@
         {/if}
 
         {if $paginationData}
-            <ul class="pagination">
-                {include file="section/loop/pagination.tpl" data=$paginationData}
-            </ul>
+            {include file="section/loop/pagination.tpl" data=$paginationData}
         {/if}
     {/block}
     </article>

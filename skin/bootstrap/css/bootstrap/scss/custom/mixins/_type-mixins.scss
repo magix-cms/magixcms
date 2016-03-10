@@ -61,11 +61,11 @@
 
 
 // --- Main title page
-@mixin main-title($color: $body-color, $brd: #eee) {
+@mixin main-title($color: $body-color, $brd: 1px solid #eee) {
 	margin: 0 auto 25px;
 	padding: 0 0 15px;
 	color: $color;
-	border-bottom: 1px solid $brd;
+	border-bottom: $brd;
 }
 
 // Normalize content

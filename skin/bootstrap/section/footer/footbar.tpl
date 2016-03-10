@@ -1,7 +1,7 @@
 <section id="footbar" data-spy="affix" data-offset-top="0">
     <div class="wrapper">
         <div class="dropup pull-left">
-            <button class="btn btn-flat btn-main-theme dropdown-toggle" type="button" id="menu-share" data-toggle="dropdown" {*aria-haspopup="true" aria-expanded="true"*}>
+            <button class="btn btn-box btn-flat btn-main-theme dropdown-toggle" type="button" id="menu-share" data-toggle="dropdown" {*aria-haspopup="true" aria-expanded="true"*}>
                 <span class="fa fa-share-alt"></span>
                 {#share#|ucfirst}
             </button>

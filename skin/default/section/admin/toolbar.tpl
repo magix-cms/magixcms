@@ -1,8 +1,8 @@
-<section id="admin-panel" class="affix affix-top">
+<section id="admin-panel">
     <div class="dropdown">
-        <button class="btn btn-flat btn-dark-theme dropdown-toggle" type="button" id="adminmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-box btn-flat btn-dark-theme dropdown-toggle" type="button" id="adminmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="fa fa-user"></span>
-            {$displayAdminPanel.pseudo_admin}
+            <span class="hidden-xs">{$displayAdminPanel.pseudo_admin}</span>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="adminmenu">

@@ -1,6 +1,18 @@
 /*----------------------*\
 ----- Header toolbar -----
 \*----------------------*/
+#admin-panel {
+	//margin-left: 1rem;
+	z-index: 210;
+	//position: fixed;
+	float: left;
+
+	button {
+		margin-left: 1rem;
+		padding: 3px 12px 2px;
+	}
+}
+
 #toolbar {
 	background-color: nth($dark-gradient,1);
 	padding: 7px 0;
@@ -70,12 +82,6 @@
 }
 
 @include media-breakpoint-up(sm) {
-	#admin-panel {
-		margin-left: 1rem;
-		z-index: 210;
-		position: fixed;
-	}
-
 	#social-follow {
 		margin-left: 1rem;
 	}

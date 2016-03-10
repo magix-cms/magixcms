@@ -1,6 +1,7 @@
 /*----------------------------*\
 ----- Social Share Buttons -----
 \*----------------------------*/
+
 .share-nav {
 	height: 32px;
 	margin: 4px 0 0;
@@ -10,41 +11,37 @@
 			display: block;
 			padding: 2px;
 			div {
-				@include center-content;
+				.center-content(parent);
 			}
 			p {
+				.center-content(child);
 				margin-bottom: 0;
 			}
 			span:first-child {
 				display: block;
 				overflow: hidden;
-				@include size(28px);
-				font-size: 22px;
-				color: #fff;
-				text-align: center;
-				padding: 3px;
-
-				&.fa:before {
-					vertical-align: middle;
-				}
-				&.fa-google-plus:before {
-					font-size: 18px;
-					margin-top: 3px;
-					display: block;
-				}
-
-				img {
-					vertical-align: top;
-				}
-			}
-			&:hover {
-				text-decoration: none;
+				.square(28px);
 			}
 		}
 	}
 
 	// --- set the background of the social share buttons
-	@include share-buttons;
+	.share-buttons(flat,dark);
+
+	.share {
+		&-google img {
+			margin-top: -28px;
+		}
+		&-facebook img {
+			margin-top: -56px;
+		}
+		&-viadeo img {
+			margin-top: -84px;
+		}
+		&-linkedin img {
+			margin-top: -112px;
+		}
+	}
 }
 
 // --- Share align to breadcrumb
@@ -53,23 +50,23 @@
 	right: 0;
 	left: auto;
 	text-align: right;
-	@include media-breakpoint-down(sm){ float: none !important; }
+	.only-xtra-small({ float: none !important; });
 }
 
-@include media-breakpoint-up(sm) {
+@media (min-width: @screen-sm-min) {
 	#sharebar {
-		background: $sharebar-bg;
+		background: @sharebar-bg;
 		padding: 12px 0;
 
 		span.label {
-			color: $light-gray;
+			color: @light-gray;
 			float: left;
 			font-weight: 300;
 			line-height: 1.4;
 			font-size: 21px;
 			padding: 0.2em 0 0.3em;
 			margin-right: 8px;
-			@include title-font;
+			.title-font;
 		}
 
 		ul {
@@ -77,7 +74,7 @@
 			li {
 				float: left;
 				& + li {
-					margin-left: .857rem;
+					margin-left: 10px;
 				}
 			}
 		}

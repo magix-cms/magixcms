@@ -133,6 +133,9 @@
                 </div>
             {/if}
         {if $adjust == 'clip'}</div>{/if}
+        {if $displayAdminPanel}
+            {include file="section/admin/toolbar.tpl"}
+        {/if}
         <div class="collapse" id="contact-phone">
             {if $companyData.contact.click_to_call}<a href="tel:{$companyData.contact.phone|replace:'(0)':''|replace:' ':''|replace:'.':''}">{/if}{$companyData.contact.phone}{if $companyData.contact.click_to_call}</a>{/if}
         </div>

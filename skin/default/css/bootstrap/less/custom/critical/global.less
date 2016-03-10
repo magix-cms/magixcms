@@ -25,9 +25,38 @@ body {
     @media (min-width: @screen-lg-min) {
         margin-bottom: @footer-height-lg;
     }
+
+	> main {
+		margin-top: 15px;
+		margin-bottom: 50px;
+	}
+
+	> main ~ section {
+		margin-bottom: 50px;
+	}
 }
+
+.normalize-content;
 
 // --- Lead paragraphe
 .lead {
-    .raleway;
+    .title-font;
+}
+
+// --- All headings
+.headings {
+	.title-font;
+}
+
+// Set selection style
+.text-select(@main-color);
+
+.no-gutter {
+	.row {
+		margin: 0;
+		> div {
+			padding: 0;
+			margin: 0;
+		}
+	}
 }

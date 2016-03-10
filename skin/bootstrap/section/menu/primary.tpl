@@ -360,7 +360,7 @@
     {if $adjust == 'clip' && $menubar}
     <div class="container">
         {/if}
-        <a href="#search" class="sr-only skip-menu" role="link">Passer le menu</a>
+        <a href="#search" class="sr-only skip-menu" role="link">{#skipMenu#|ucfirst}</a>
         <ul class="nav navbar-nav{if isset($justified) &&$justified } nav-justified{/if}">
             {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
                 {include file="section/menu/loop/dropdown.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}

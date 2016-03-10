@@ -3,7 +3,7 @@
     {capture name="ogTitle"}{$title}{/capture}
     {capture name="ogDesc"}{$description}{/capture}
     {capture name="ogUrl"}{geturl}{/capture}
-    {capture name="ogImg"}{geturl}/skin/{template}/img/logo-magix_cms.png{/capture}
+    {capture name="ogImg"}{geturl}/skin/{template}/img/logo/{#logo_img#}{/capture}
     {capture name="ogType"}website{/capture}
     {capture name="twCard"}summary{/capture}
     {$data = null}

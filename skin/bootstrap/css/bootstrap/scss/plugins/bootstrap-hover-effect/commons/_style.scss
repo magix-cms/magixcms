@@ -43,6 +43,7 @@ figure.thumbnail {
 		h3 {
 			color: $he-heading-color;
 			font-size: $he-h3-font-size;
+			-webkit-transform: translateZ(0); // Chrome transition fix
 			@include no-margin;
 		}
 	}

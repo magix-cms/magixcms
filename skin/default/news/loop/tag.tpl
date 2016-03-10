@@ -16,7 +16,7 @@
             {/if}
         {/if}
         <li>
-            <a class="btn btn-flat btn-{if $choose}main-theme{else}default{/if} tag" href="{$item.url}" data-ref="tag-{$item.name|replace:' ':'-'}" title="{$item.name|ucfirst}">
+            <a class="btn btn-box btn-flat btn-{if $choose}main-theme{else}default{/if} tag" href="{$item.url}" data-ref="tag-{$item.name|replace:' ':'-'}" title="{$item.name|ucfirst}">
                 {$item.name|ucfirst}
             </a>
         </li>

@@ -130,6 +130,9 @@
                     </ul>
                 </div>
             {/if}
+                {if $displayAdminPanel}
+                    {include file="section/admin/toolbar.tpl"}
+                {/if}
                 {if $adjust == 'clip'}
             </div>
         </div>

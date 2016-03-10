@@ -6,8 +6,8 @@
 {block name='article'}
     <article id="article" class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/Article">
     {block name='article:content'}
-        <meta itemprop="mainEntityOfPage" content="{geturl}{$news.uri}"/>
         <h1 itemprop="headline">{$news.name}</h1>
+        <meta itemprop="mainEntityOfPage" content="{geturl}{$news.uri}"/>
         <meta itemprop="wordCount" content="{$news.content|count_words}" />
         <small>
             <span itemprop="author" itemscope itemtype="https://schema.org/Person">

@@ -6,86 +6,7 @@
 ---------------------------------------------------------- */
 #news,
 #news-tag {
-	.media {
-		time {
-			position: absolute;
-			top: -45px;
-			right: 25px;
-			color: $light-gray;
-		}
-	}
-}
-
-#news {
 	.news-list {
-		padding: 0 0 30px;
-
-		.media {
-			border: none;
-			.row > div {
-				margin-top: 20px;
-			}
-		}
-	}
-
-	h3 {
-		font-weight: lighter;
-		margin-bottom: 15px;
-		a {
-			color: $body-color;
-		}
-	}
-
-	h4 {
-		margin-bottom: 25px;
-	}
-
-	.media {
-		position: relative;
-
-		.caption {
-			overflow: visible;
-			position: relative;
-			padding-bottom: 20px;
-		}
-
-		> a:last-child {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 2;
-			text-indent: 200%;
-			white-space: nowrap;
-			font-size: 0;
-			opacity: 0;
-			@include size(100%);
-		}
-	}
-}
-
-#news,
-#news-tag {
-	#article {
-		margin-bottom: 50px;
-
-		> h1:first-child {
-			@include main-title;
-			@include normalize-link($body-color, $weight: 300, $font: '"Raleway", Arial, sans-serif');
-
-			small {
-				color: $main-color;
-			}
-		}
-	}
-
-	.news-list {
-		margin-top: 15px;
-		@include normalize-link;
-
-		div {
-			min-height: 201px;
-		}
-
 		> div {
 			margin-bottom: 35px;
 			position: relative;
@@ -117,34 +38,57 @@
 				font-weight: 600;
 			}
 		}
+	}
 
-		.media.row > a:last-child {
+	h3 {
+		font-weight: lighter;
+		margin-bottom: 15px;
+	}
+
+	.caption {
+		height: 100%;
+		overflow: visible;
+		position: relative;
+		padding-bottom: 20px;
+	}
+
+	.media.row > a:last-child {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		text-indent: 200%;
+		white-space: nowrap;
+		font-size: 0;
+		opacity: 0;
+		@include size(100%);
+	}
+
+	.media {
+		time {
 			position: absolute;
-			top: 0;
-			left: 0;
-			@include size(100%);
-			z-index: 1;
-			text-indent: 200%;
-			white-space: nowrap;
-			font-size: 0;
-			opacity: 0;
+			top: -45px;
+			right: 25px;
+			color: $light-gray;
 		}
+	}
+}
 
-		.media-left {
-			width: 50%;
-			display: block;
-			float: left;
-			padding-right: 10px;
-		}
+.page-navigation {
+	display: flex;
+	flex: 1 0 100%;
+	justify-content: center;
 
-		.caption {
-			position: relative;
-			height: 100%;
-			display: block;
+	.pagination {
+		margin: 0;
+	}
 
-			h4 {
-				margin: 0 0 20px;
-			}
+	.page-item.active {
+		.page-link,
+		.page-link:focus,
+		.page-link:hover {
+			background-color: $main-color;
+			border-color: $main-color;
 		}
 	}
 }

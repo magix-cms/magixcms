@@ -4,146 +4,48 @@
 /* --------------------------------------------------------
                         Catalog
 ---------------------------------------------------------- */
-#catalog,#catalog-cat,#catalog-subcat,#catalog-product{
-	// Define content style
-	#article .content {
-		// Prevent collapse block
-		margin-bottom: 50px;
-		// Normalize the main title of the content
-		header {
-			margin: 0 auto 25px;
-			padding: 0 0 15px;
-			border-bottom: 1px solid #eee;
-			overflow: hidden;
+.catalog {
+	> .row {
+		margin-bottom: 3.571rem;
+	}
 
-			> h1:first-child {
-				color: @text-color;
-				float: left;
-				margin: 0;
-			}
-			> .price {
-				float: right;
-				padding: 8px 12px;
-				color: @smooth-white;
-				background-color: @main-color;
-				font-size: 16px;
-				font-weight: bold;
-				margin: 0;
-			}
-		}
-		// Normalize link in content
-		> p, > ul li {
-			.normalize-link(@main-color, same, underline, 600);
-		}
-		// Normalize images in content
-		img {
-			.img-responsive;
-			display: inline-block;
-			&.pull-right {
-				margin: 0 0 15px 30px !important;
-			}
-			&.pull-left {
-				margin: 0 30px 15px 0 !important;
-			}
-			/*&,&.pull-right,&.pull-left{
-                .only-xtra-small( { width: 100%; margin: 0 0 15px !important; .no-padding; } );
-            }*/
-		}
+	hr {
+		margin-bottom: 1.785rem;
+	}
+
+	section > h3 {
+		border-bottom: 1px solid #eee;
+		margin: 0 auto 1.785rem;
+		padding: 0 0 1rem;
+		color: @text-color;
+	}
+
+	.desc figure {
 		@media (max-width: @screen-xs-max) {
-			p > img {
-				margin: 15px 0 15px 30px !important;
-			}
-
-			> img {
-				margin: 15px 0 15px 30px !important;
-			}
+			.img-responsive;
 		}
-		// Normalize small for datetime
-		small {
-			display: block;
-			margin-bottom: 15px;
-			color: @light-gray;
-		}
-		.description {
-			margin-bottom: 30px;
-		}
-
-		fieldset {
-			text-align: center;
-
-			legend {
-				.lead;
-				margin-bottom: 35px;
-
-				span {
-					padding: 15px;
-					margin-bottom: -15px;
-					position: relative;
-					bottom: -15px;
-					background: #ffffff;
-				}
+		@media (min-width: @screen-sm-min) {
+			float: right;
+			width: 33.3333333%;
+			margin: 0 0 1rem 1rem;
+			@media (min-width: @screen-lg-min) {
+				width: 25%;
 			}
 		}
-		// Normalize heading in content
-		// @ToDo try to make it full auto with concatenation
-		/*@heading();
-        .headings({color: @color},'> ');
-        .heading();*/
-		.direct-headings({ color: @text-color });
-	}
-
-	#article > div {
-		.desc {
-			overflow: hidden;
-		}
-
-		> h3, > hr {
-			clear: both;
-		}
-
-		> h3 {
-			border-bottom: 1px solid #eee;
-			padding-bottom: 10px;
-			margin-bottom: 20px;
-		}
-	}
-
-	section {
-		.container {
-			.direct-headings({ .main-title(@main-color) });
-		}
-		.direct-headings({ .main-title(@main-color) });
 	}
 }
 
-@media (max-width: @screen-xs-max) {
-	.product-list .col-xs-6 {
-		width: 100%;
-		margin: 0 auto;
-		float: none;
-	}
-}
-
-@media (min-width: 511px) and (max-width: @screen-xs-max) {
-	.product-list {
-		.col-xs-6 {
-			width: 65%;
-			margin: 0 auto;
-			float: none;
-		}
-	}
-}
-
-#catalog, #catalog-cat, #catalog-subcat, #catalog-product {
-	#content {
-		padding-bottom: 70px;
-	}
-}
 
 /* --------------------------------------------------------
                         Category
 ---------------------------------------------------------- */
-
+#catalog-cat {
+	.subcategory-list {
+		figure h3 {
+			font-size: 14px;
+		}
+	}
+}
 /* --------------------------------------------------------
                        Subcategory
 ---------------------------------------------------------- */
@@ -152,63 +54,100 @@
                          Product
 ---------------------------------------------------------- */
 #catalog-product {
-	#similar-products {
-		padding: 20px 0 40px;
-	}
+	#article
+	{
+		.content {
+			// Normalize the main title of the content
+			header {
+				margin: 0 auto 25px;
+				padding: 0 0 15px;
+				border-bottom: 1px solid #eee;
+				overflow: hidden;
 
-	#gallery {
-		padding-bottom: 30px;
+				> h1:first-child {
+					color: @text-color;
+					float: left;
+					margin: 0;
+				}
+				> .price {
+					float: right;
+					padding: 8px 12px;
+					color: @smooth-white;
+					background-color: @main-color;
+					font-size: 16px;
+					font-weight: bold;
+					margin: 0;
+				}
+			}
 
-		.row {
-			margin: 0 -2px;
-			.col-xs-6 {
-				padding: 0 2px;
+			.description {
+				margin-bottom: 30px;
+			}
+
+			fieldset {
+				text-align: center;
+
+				legend {
+					font-size: @lead-font-size;
+					font-weight: 300;
+					margin-bottom: 35px;
+
+					span {
+						padding: 15px;
+						margin-bottom: -15px;
+						position: relative;
+						bottom: -15px;
+						background: #ffffff;
+					}
+				}
 			}
 		}
+	}
 
-		img {
-			border-radius: 0;
-			border: none;
-			padding: 0;
-			background-color: transparent;
-		}
+	#default {
+		opacity: 1;
+		z-index: 1;
+		position: static;
+		float: left;
+	}
 
-		.image-gallery .big-image {
+	.image-gallery {
+		/*** Big image ***/
+		.big-image {
 			margin: 0 0 20px;
 			display: block;
 			width: 100%;
 			overflow: hidden;
 			position: relative;
-		}
-		.image-gallery .big-image a {
-			opacity:0;
-			position:absolute;
-			left:0;
-			top:0;
-			width:100%;
-			margin:0 auto;
-			transition: opacity 350ms;
 
-			&:hover {
-				cursor: zoom-in;
+			a {
+				opacity: 0;
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				margin: 0 auto;
+				z-index: -1;
+				.transition(opacity 350ms);
+
+				&:hover {
+					cursor: zoom-in;
+				}
+
+				img {
+					width: 100%;
+				}
 			}
 		}
 
-		#default {
-			opacity: 1;
-			z-index: 1;
-			position: static;
-			float: left;
-		}
-
-		/***Button***/
-		.image-gallery .button {
+		/*** Button ***/
+		.button {
 			font-size: 30px;
 			display: table;
 			color: @dark-white;
 			padding: 0 10px;
-			position:absolute;
-			background-color: rgba(0,0,0,.3);
+			position: absolute;
+			background-color: rgba(0, 0, 0, .3);
 			.auto-transition(.35s);
 			cursor: pointer;
 			top: 0;
@@ -229,18 +168,18 @@
 
 			&:hover {
 				color: @smooth-white;
-				background-color: rgba(0,0,0,.6);
+				background-color: rgba(0, 0, 0, .6);
 				text-decoration: none;
 			}
 		}
 
-		/***thumbs***/
-		.image-gallery .thumbs {
+		/*** thumbs ***/
+		.thumbs {
 			overflow: hidden;
 			white-space: nowrap;
 			position: relative;
 			height: 75px;
-			@media (min-width: @screen-sm-min) {
+			@media (min-width: @screen-md-min) {
 				height: 96px;
 			}
 
@@ -274,7 +213,7 @@
 
 					img {
 						width: 100px;
-						@media (min-width: @screen-sm-min) {
+						@media (min-width: @screen-md-min) {
 							width: 128px;
 						}
 					}
@@ -291,15 +230,21 @@
 	}
 }
 
+
+/* --------------------------------------------------------
+                       Media Queries
+---------------------------------------------------------- */
+
 @media (min-width: @screen-md-min) {
 	#gallery {
 		.img-thumbnail {
-			.scale(1);
-			.box-shadow(none);
+			transform: scale(1);
+			box-shadow: none;
 			.auto-transition(.5s);
+
 			&:hover {
-				.scale(1.1);
-				.box-shadow(0 2px 15px rgba(0, 0, 0, 0.8));
+				transform: scale(1.1);
+				box-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
 			}
 		}
 	}

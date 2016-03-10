@@ -1,7 +1,7 @@
+@charset "utf-8";
 /*
  * Custom rules for text
  */
-
 /*---------------------------*\
 ----- Font weight classes -----
 \*---------------------------*/
@@ -11,38 +11,6 @@
 
 .extraBold {
     font-weight: 800;
-}
-
-
-/*--------------------------*\
------  Headings styling  -----
------ shortcut functions -----
-\*--------------------------*/
-
-// --- All headings
-.headings(@function) {
-    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-        @function();
-    }
-}
-// --- Direct child headings
-.direct-headings(@function) {
-    > h1, > h2, > h3, > h4, > h5, > h6, > .h1, > .h2, > .h3, > .h4, > .h5, > .h6 {
-        @function();
-    }
-}
-
-// --- Main title page
-.main-title(@color) {
-    margin: 0 auto 25px;
-    padding: 0 0 15px;
-    color: @text-color;
-	border-bottom: 1px solid #eee;
-    /*& + hr {
-        .size(15%, 1px);
-        margin: 0 auto 45px;
-        background-color: @color;
-    }*/
 }
 
 
@@ -61,21 +29,71 @@ blockquote {
     border-left: none;
     padding-left: 100px;
     position: relative;
-    &:before {
-        .philosopher;
-        content: "“";
-        color: #ccc;
-        font-size: 10em;
-        left: 0;
-        position: absolute;
-        top: -61px;
-    }
-    footer {
-        text-align: right;
-        &:after {
-            content: " —";
-        }
-    }
+	span.quote{
+		position: absolute;
+		top: -10px;
+		left: 0;
+		&:before {
+			.quote;
+			content: "“";
+			color: #ccc;
+			font-size: 70px;
+			line-height: 1;
+		}
+	}
+	p {
+		font-style: italic;
+		.text-justify;
+	}
+	footer {
+		.quote;
+		text-align: right;
+		font-size: 17px;
+		font-weight: lighter;
+		color: #959595;
+		&:before {
+			content: "— ";
+		}
+		&:after {
+			content: " —";
+		}
+	}
+}
+
+@media (min-width: @screen-sm-min) {
+	blockquote {
+		padding-left: 56px;
+		span.quote {
+			top: -13px;
+			&:before {
+				font-size: 84px;
+			}
+		}
+	}
+}
+
+@media (min-width: @screen-md-min) {
+	blockquote {
+		padding-left: 70px;
+		span.quote {
+			top: -17px;
+			&:before {
+				font-size: 98px;
+			}
+		}
+	}
+}
+
+@media (min-width: @screen-md-min) {
+	blockquote {
+		padding-left: 84px;
+		span.quote {
+			top: -20px;
+			&:before {
+				font-size: 112px;
+			}
+		}
+	}
 }
 
 
@@ -99,4 +117,14 @@ blockquote {
 			border-right: none;
 		}
 	}
+}
+
+/*-----------------------*\
+----- Text font sizes -----
+\*-----------------------*/
+.adaptive-font-size;
+
+// --- justify content
+.text-justify {
+	.text-justify;
 }
