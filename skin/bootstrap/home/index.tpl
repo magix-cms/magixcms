@@ -23,5 +23,5 @@
 {block name="main:after"}
     {include file="home/brick/block-good-choice.tpl"}
     {include file="home/brick/main-cat.tpl"}
-    {include file="home/brick/last-news.tpl" adjust="clip" filter=false limit="300"}
+    {include file="home/brick/last-news.tpl" adjust="clip" filter=false limit="6"}
 {/block}

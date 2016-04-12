@@ -7,8 +7,6 @@ CREATE TABLE IF NOT EXISTS `mc_plugins_about` (
 
 INSERT INTO `mc_plugins_about` (`idinfo`, `info_name`, `value`) VALUES
 (NULL, 'name', NULL),
-(NULL, 'desc', NULL),
-(NULL, 'slogan', NULL),
 (NULL, 'type', 'org'),
 (NULL, 'eshop', '0'),
 (NULL, 'tva', NULL),
@@ -30,6 +28,18 @@ INSERT INTO `mc_plugins_about` (`idinfo`, `info_name`, `value`) VALUES
 (NULL, 'linkedin', NULL),
 (NULL, 'viadeo', NULL),
 (NULL, 'openinghours', '0');
+
+CREATE TABLE IF NOT EXISTS `mc_plugins_about_data` (
+  `iddata` smallint(2) unsigned NOT NULL AUTO_INCREMENT,
+  `idlang` smallint(3) unsigned NOT NULL,
+  `info_name` varchar(30) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`iddata`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_plugins_about_data` (`iddata`, `idlang`, `info_name`, `value`) VALUES
+(NULL, 1, 'desc', NULL),
+(NULL, 1, 'slogan', NULL);
 
 CREATE TABLE IF NOT EXISTS `mc_plugins_about_op` (
   `idday` smallint(2) unsigned NOT NULL AUTO_INCREMENT,

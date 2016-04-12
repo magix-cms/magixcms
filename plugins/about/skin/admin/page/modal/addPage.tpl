@@ -11,15 +11,6 @@
                         <label for="subject">{#page_title#|ucfirst}&nbsp;*</label>
                         <input id="subject" class="form-control" type="text" size="150" value="" name="subject" placeholder="{#page_title_ph#|ucfirst}">
                     </div>
-                    <div class="form-group col-xs-12">
-                        <label for="idlang">{#page_lang#|ucfirst}&nbsp;*</label>
-                        <select id="idlang" class="form-control" name="idlang">
-                            <option value="">{#choose_lang#|ucfirst}</option>
-                            {foreach $languages as $lang}
-                                <option value="{$lang.idlang}">{$lang.iso|upper} ({$lang.language|ucfirst})</option>
-                            {/foreach}
-                        </select>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{#cancel#|ucfirst}</button>

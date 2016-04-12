@@ -28,4 +28,5 @@ plugins/mailchimp/
 plugins/cartpay/
 plugins/blocklink/
 plugins/profil/
+plugins/shipping/
 /skin/test/

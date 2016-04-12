@@ -15,26 +15,9 @@
     <!-- Notifications Messages -->
     <div class="mc-message clearfix"></div>
 
-    <table class="table table-bordered table-condensed table-hover">
-        <thead>
-        <tr>
-            <th><span class="fa fa-key"></span></th>
-            <th>{#page_title#|ucfirst}</th>
-            <th>{#page_content#|ucfirst}</th>
-            <th>{#page_seo_title#|ucfirst}</th>
-            <th>{#page_seo_desc#|ucfirst}</th>
-            <th><span class="fa fa-users"></span></th>
-            <th><span class="fa fa-edit"></span></th>
-            <th><span class="fa fa-trash-o"></span></th>
-        </tr>
-        </thead>
-        <tbody id="list_page">
-        {if !empty($pages)}
-            {include file="page/loop/list.tpl" pages=$pages}
-        {/if}
-        {include file="page/no-entry.tpl"}
-        </tbody>
-    </table>
+    <div id="list-page">
+        {include file="page/loop/home-list.tpl"}
+    </div>
     {include file="page/modal/addpage.tpl"}
     {include file="page/modal/delete.tpl"}
 {/block}

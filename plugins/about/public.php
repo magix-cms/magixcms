@@ -269,9 +269,11 @@ class plugins_about_public extends database_plugins_about{
     public function getData()
     {
         if( self::verify_table() ) {
-            $about = parent::getAbout();
+            $about = parent::getAbout(array('context'=>'info'));
+            $aboutData = parent::getAbout(array('context'=>'data','iso'=>frontend_model_template::current_Language()));
+            $array_about = array_merge($about,$aboutData);
             $global = array();
-            foreach ($about as $info) {
+            foreach ($array_about as $info) {
                 $global[$info['info_name']] = $info['value'];
             }
             $op = parent::getOp();
@@ -364,11 +366,29 @@ class database_plugins_about{
     /**
      * @return array
      */
-    protected function getAbout()
+    protected function getAbout($data)
     {
-        $query = "SELECT `info_name`,`value` FROM `mc_plugins_about`";
+        if(is_array($data)) {
+            if (array_key_exists('context', $data)) {
+                $context = $data['context'];
+            } else {
+                $context = 'info';
+            }
+            if($context == 'info') {
+                $query = "SELECT a.info_name,a.value FROM mc_plugins_about AS a";
 
-        return magixglobal_model_db::layerDB()->select($query);
+                return magixglobal_model_db::layerDB()->select($query);
+            }elseif($context == 'data') {
+                $query = "SELECT d.info_name,d.value FROM mc_plugins_about_data AS d
+                JOIN mc_lang as lang ON d.idlang = lang.idlang
+				 WHERE lang.iso = :iso";
+
+                return magixglobal_model_db::layerDB()->select($query,array(
+                    ':iso' => $data['iso']
+                ));
+            }
+        }
+
     }
 
     /**

@@ -7,7 +7,7 @@
         {
             console.log("MC_plugins_about is not defined");
         }else{
-            MC_plugins_about.run(baseadmin);
+            MC_plugins_about.run(baseadmin,getlang);
         }
     });
 </script>

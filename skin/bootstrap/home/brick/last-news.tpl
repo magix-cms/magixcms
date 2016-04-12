@@ -1,7 +1,7 @@
 {if !isset($adjust)}
     {assign var="adjust" value="clip"}
 {/if}
-{$conf = ['level' => 'last-news', 'limit' => 300]}
+{$conf = ['level' => 'last-news', 'limit' => 6]}
 {if isset($filter) && $filter != 'none' && $filter != false}
     {$conf['select'] = [{getlang} => $filter]}
 {/if}

@@ -45,7 +45,7 @@ var MC_plugins_about = (function ($, undefined) {
      * @param collection
      * @param type
      */
-    function save(type,id){
+    function save(type,id, getlang){
         if(type === 'company'){
             // *** Set required fields for validation
             $(id).validate({
@@ -54,7 +54,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&action=edit',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&action=edit',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -76,7 +76,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&action=edit',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&action=edit',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -98,7 +98,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&action=edit',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&action=edit',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -120,7 +120,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&action=edit',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&action=edit',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -142,7 +142,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&action=edit',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&action=edit',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -176,7 +176,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&action=edit',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&action=edit',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -198,16 +198,12 @@ var MC_plugins_about = (function ($, undefined) {
                     subject : {
                         required: true,
                         minlength: 2
-                    },
-                    idlang : {
-                        required: true,
-                        number: true
                     }
                 },
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&tab=page&action=add',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&tab=page&action=add',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: true,
@@ -217,7 +213,8 @@ var MC_plugins_about = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:true
                             });
-                            getPage(baseadmin);
+                            //getPage(baseadmin,getlang);
+                            getHTMLFormat(baseadmin,getlang);
                         }
                     });
                     return false;
@@ -236,7 +233,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&tab=page&action=edit',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&tab=page&action=edit',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -263,7 +260,7 @@ var MC_plugins_about = (function ($, undefined) {
                 submitHandler: function(form) {
                     $.nicenotify({
                         ntype: "submit",
-                        uri: '/'+baseadmin+'/plugins.php?name=about&tab=page&action=savechild',
+                        uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&tab=page&action=savechild',
                         typesend: 'post',
                         idforms: $(form),
                         resetform: false,
@@ -279,7 +276,13 @@ var MC_plugins_about = (function ($, undefined) {
             });
         }
     }
-    function del(id) {
+
+     /**
+      * suppression de la page
+      * @param id
+      * @param getlang
+      */
+    function del(id,getlang) {
         $(id).validate({
             onsubmit: true,
             event: 'submit',
@@ -293,7 +296,7 @@ var MC_plugins_about = (function ($, undefined) {
             submitHandler: function (form) {
                 $.nicenotify({
                     ntype: "submit",
-                    uri: '/' + baseadmin + '/plugins.php?name=about&tab=page&action=delete',
+                    uri: '/' + baseadmin + '/plugins.php?name=about&getlang='+getlang+'&tab=page&action=delete',
                     typesend: 'post',
                     idforms: $(form),
                     resetform: true,
@@ -318,10 +321,10 @@ var MC_plugins_about = (function ($, undefined) {
     * Liste des points forts
     * @param getlang
     */
-    function getPage(baseadmin) {
+    function getPage(baseadmin,getlang) {
         $.nicenotify({
             ntype: "ajax",
-            uri: '/' + baseadmin + '/plugins.php?name=about&tab=page&action=getlist',
+            uri: '/' + baseadmin + '/plugins.php?name=about&getlang='+getlang+'&tab=page&action=getlist',
             typesend: 'get',
             beforeParams: function () {
                 var loader = $(document.createElement("tr")).attr('id', 'loader').append(
@@ -351,6 +354,42 @@ var MC_plugins_about = (function ($, undefined) {
             }
         });
     }
+
+     /**
+      *
+      * @param baseadmin
+      * @param action
+      * @param edit
+      * @param level
+      * @param productype
+      */
+     function getHTMLFormat(baseadmin,getlang){
+         $.nicenotify({
+             ntype: "ajax",
+             uri: '/' + baseadmin + '/plugins.php?name=about&getlang='+getlang+'&tab=page&action=getlist',
+             typesend: 'get',
+             datatype: 'html',
+             beforeParams:function(){
+                 var loader = $(document.createElement("span")).addClass("loader offset5").append(
+                     $(document.createElement("img"))
+                         .attr('src','/'+baseadmin+'/template/img/loader/small_loading.gif')
+                         .attr('width','20px')
+                         .attr('height','20px')
+                 );
+                 $('#list-page').html(loader);
+             },
+             successParams:function(data){
+                 $('#list-page').empty();
+                 $.nicenotify.initbox(data,{
+                     display:false
+                 });
+                 $('#list-page').html(data);
+             }
+         });
+     }
+     /**
+      * Update page list
+      */
     function updateList() {
         var rows = $('#list_page tr');
         if (rows.length > 1) {
@@ -370,18 +409,18 @@ var MC_plugins_about = (function ($, undefined) {
     }
     return {
         // Fonction Public        
-        run: function (baseadmin) {
+        run: function (baseadmin,getlang) {
             // Init function
-            save('company','#info_company_form');
-            save('contact','#info_contact_form');
-            save('language','#info_language_form');
-            save('socials','#info_socials_form');
-            save('enable_op','#enable_op_form');
-            save('openinghours','#info_opening_form');
-            save('addpage','#add_about_page');
-            save('editpage','#edit_page_form');
-            save('addchild','#add_child_form');
-            del('#del_page');
+            save('company','#info_company_form',getlang);
+            save('contact','#info_contact_form',getlang);
+            save('language','#info_language_form',getlang);
+            save('socials','#info_socials_form',getlang);
+            save('enable_op','#enable_op_form',getlang);
+            save('openinghours','#info_opening_form',getlang);
+            save('addpage','#add_about_page',getlang);
+            save('editpage','#edit_page_form',getlang);
+            save('addchild','#add_child_form',getlang);
+            del('#del_page',getlang);
             updateList();
 
             $(function(){

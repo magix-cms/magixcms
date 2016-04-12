@@ -56,7 +56,7 @@ class plugins_about_admin extends DBabout{
 	 * 
 	 * @var idlang
 	 */
-	public $idlang;
+	public $idlang,$getlang;
 	/**
 	 * Les variables globales
 	 */
@@ -255,6 +255,8 @@ class plugins_about_admin extends DBabout{
         }
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = magixcjquery_form_helpersforms::inputNumeric($_GET['getlang']);
+			$this->company['idlang'] = magixcjquery_form_helpersforms::inputClean($_GET['getlang']);
+			$this->page['idlang'] = magixcjquery_form_helpersforms::inputClean($_GET['getlang']);
         }
 		if(magixcjquery_filter_request::isGet('tab')){
 			$this->tab = magixcjquery_form_helpersforms::inputClean($_GET['tab']);
@@ -463,9 +465,11 @@ class plugins_about_admin extends DBabout{
 	 */
 	private function getData()
 	{
-		$about = parent::getAbout();
+		$about = parent::getAbout(array('context'=>'info'));
+		$aboutData = parent::getAbout(array('context'=>'data','idlang'=>$this->getlang));
+		$array_about = array_merge($about,$aboutData);
 		$global = array();
-		foreach ($about as $info) {
+		foreach ($array_about as $info) {
 			$global[$info['info_name']] = $info['value'];
 		}
 
@@ -532,7 +536,6 @@ class plugins_about_admin extends DBabout{
 		if (isset($this->page)) {
 			$this->page['uri_title'] = magixcjquery_url_clean::rplMagixString($this->page['title'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 			parent::u_page($this->page);
-
 			$this->notify('save');
 		}
 	}
@@ -654,7 +657,7 @@ class plugins_about_admin extends DBabout{
 			elseif (isset($this->tab) && $this->tab == 'page')
 			{
 				if($this->add_page) {
-					$this->addPage();
+					$this->addPage($this->getlang);
 				} elseif($this->action == 'edit' && $this->page['id']) {
 					$this->editPage();
 				} elseif($this->action == 'edit' && $this->edit) {
@@ -670,14 +673,14 @@ class plugins_about_admin extends DBabout{
 						$this->del();
 					}
 				} elseif ($this->action == 'getlist') {
-					$this->template->assign('pages',parent::getLastPage());
-					$this->template->display('page/loop/list.tpl');
+					//$this->template->assign('pages',parent::getLastPage());
+					$this->template->assign('pages',parent::getPages($this->getlang));
+					$this->template->display('page/loop/home-list.tpl');
 				} elseif($this->action == 'getchild' && $this->parent) {
 					$this->template->assign('pages',parent::getChildPages($this->parent));
 					$this->template->display('page/parent.tpl');
 				} else {
-					$this->template->assign('languages',$this->getLang());
-					$this->template->assign('pages',parent::getPages());
+					$this->template->assign('pages',parent::getPages($this->getlang));
 					$this->template->display('page/index.tpl');
 				}
 			}
@@ -718,7 +721,7 @@ class plugins_about_admin extends DBabout{
      * Set Configuration pour le menu
      * @return array
      */
-    public function setConfig(){
+    /*public function setConfig(){
         return array(
             'url' => array(
 				'lang' => 'none',
@@ -730,7 +733,20 @@ class plugins_about_admin extends DBabout{
 				'name' => 'fa fa-info-circle'
 			)
         );
-    }
+    }*/
+	/**
+	 * Set Configuration pour le menu
+	 * @return array
+	 */
+	public function setConfig(){
+		return array(
+			'url'=> array(
+				'lang'=>'list',
+				'action'=>'list',
+				'name'=>'À propos'
+			)
+		);
+	}
 
 	//SITEMAP
 	private function lastmod_dateFormat(){
@@ -847,11 +863,26 @@ class DBabout{
 	/**
 	 * @return array
 	 */
-	protected function getAbout()
+	protected function getAbout($data)
 	{
-		$query = "SELECT `info_name`,`value` FROM `mc_plugins_about`";
 
-		return magixglobal_model_db::layerDB()->select($query);
+		if(is_array($data)) {
+			if (array_key_exists('context', $data)) {
+				$context = $data['context'];
+			} else {
+				$context = 'info';
+			}
+			if($context == 'info') {
+				$query = "SELECT a.info_name,a.value FROM mc_plugins_about AS a";
+				return magixglobal_model_db::layerDB()->select($query);
+			}elseif($context == 'data') {
+				$query = "SELECT d.info_name,d.value FROM mc_plugins_about_data AS d
+				 WHERE d.idlang = :idlang";
+				return magixglobal_model_db::layerDB()->select($query,array(
+					':idlang' => $data['idlang']
+				));
+			}
+		}
 	}
 
 	/**
@@ -867,13 +898,13 @@ class DBabout{
 	/**
 	 * @return array
 	 */
-	protected function getPages()
+	protected function getPages($getlang)
 	{
 		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
 				 JOIN mc_lang as lang ON ab.idlang = lang.idlang
-				 WHERE ab.idpage_p = 0";
+				 WHERE ab.idpage_p = 0 AND ab.idlang = :getlang";
 
-		return magixglobal_model_db::layerDB()->select($query);
+		return magixglobal_model_db::layerDB()->select($query, array(':getlang' => $getlang));
 	}
 
 	/**
@@ -893,7 +924,8 @@ class DBabout{
 	 */
 	protected function getLastPage()
 	{
-		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page FROM `mc_plugins_about_page` as ab
+		$query = "SELECT lang.iso, ab.idpage as id, ab.title_page as title, ab.content_page as content, ab.seo_title_page, ab.seo_desc_page 
+		FROM `mc_plugins_about_page` as ab
 				 JOIN mc_lang as lang ON ab.idlang = lang.idlang ORDER BY ab.idpage DESC LIMIT 1";
 
 		return magixglobal_model_db::layerDB()->select($query);
@@ -962,22 +994,54 @@ class DBabout{
 		$query = "UPDATE `mc_plugins_about`
 					SET `value` = CASE `info_name`
 						WHEN 'name' THEN :nme
-						WHEN 'desc' THEN :dsc
-						WHEN 'slogan' THEN :slogan
 						WHEN 'type' THEN :tpe
 						WHEN 'eshop' THEN :eshop
 						WHEN 'tva' THEN :tva
 					END
-					WHERE `info_name` IN ('name','desc','slogan','type','eshop','tva')";
+					WHERE `info_name` IN ('name','type','eshop','tva')";
 
 		magixglobal_model_db::layerDB()->update($query,array(
 				':nme' 		=> $company['name'],
-				':dsc' 		=> $company['desc'],
-				':slogan' 	=> $company['slogan'],
 				':tpe' 		=> $company['type'],
 				':eshop' 	=> $company['eshop'],
 				':tva' 		=> $company['tva']
 		));
+		$select = "SELECT * FROM `mc_plugins_about_data`
+				 WHERE idlang = :idlang";
+
+		$data = magixglobal_model_db::layerDB()->selectOne($select,array(
+			':idlang' => $company['idlang']
+		));
+
+		if($data['info_name']){
+			$query2 = "UPDATE `mc_plugins_about_data`
+					SET `value` = CASE `info_name`
+						WHEN 'desc' THEN :dsc
+						WHEN 'slogan' THEN :slogan
+					END
+					WHERE `info_name` IN ('desc','slogan') AND idlang = :idlang";
+
+			magixglobal_model_db::layerDB()->update($query2,array(
+				':dsc' 		=> $company['desc'],
+				':slogan' 	=> $company['slogan'],
+				':idlang' 	=> $company['idlang']
+			));
+		}else{
+			$insert1 = "INSERT INTO `mc_plugins_about_data` (`idlang`,`info_name`,`value`)
+			VALUE(:idlang,'desc',:dsc)";
+
+			magixglobal_model_db::layerDB()->insert($insert1,array(
+				':dsc' 		=> $company['desc'],
+				':idlang' 	=> $company['idlang']
+			));
+			$insert2 = "INSERT INTO `mc_plugins_about_data` (`idlang`,`info_name`,`value`)
+			VALUE(:idlang,'slogan',:slogan)";
+
+			magixglobal_model_db::layerDB()->insert($insert2,array(
+				':slogan' 		=> $company['slogan'],
+				':idlang' 	=> $company['idlang']
+			));
+		}
 	}
 
 	/**
