@@ -64,7 +64,7 @@ class plugins_contact_admin extends DBContact{
     /**
      * Les variables du plugin contact
      */
-    public $delete_contact,$mail_contact;
+    public $delete_contact,$mail_contact,$switch,$enable_address,$require_address;
     /**
 	 * Construct class
 	 */
@@ -86,6 +86,17 @@ class plugins_contact_admin extends DBContact{
         }
         if(magixcjquery_filter_request::isGet('getlang')){
             $this->getlang = magixcjquery_form_helpersforms::inputNumeric($_GET['getlang']);
+        }
+
+        // *** Config
+        if(magixcjquery_filter_request::isPost('switch')) {
+            $this->switch = magixcjquery_form_helpersforms::inputClean($_POST['switch']);
+            if(magixcjquery_filter_request::isPost('enable_address')){
+                $this->enable_address = magixcjquery_form_helpersforms::inputClean($_GET['enable_address']);
+            }
+            if(magixcjquery_filter_request::isPost('require_address')){
+                $this->require_address = magixcjquery_form_helpersforms::inputClean($_GET['require_address']);
+            }
         }
 	}
 
@@ -159,47 +170,61 @@ class plugins_contact_admin extends DBContact{
 	 * Affiche les pages de l'administration du plugin
 	 * @access public
 	 */
-	public function run(){
-        $header= new magixglobal_model_header();
+	public function run()
+    {
+        $header = new magixglobal_model_header();
         $create = new backend_controller_plugins();
-        if(self::install_table($create) == true){
-            if(magixcjquery_filter_request::isGet('getlang')){
-                if(isset($this->action)){
-                    if($this->action == 'json'){
+        if (self::install_table($create) == true) {
+            if (magixcjquery_filter_request::isGet('getlang')) {
+                if (isset($this->action)) {
+                    if ($this->action == 'json') {
                         $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $header->head_last_modified(gmdate("D, d M Y H:i:s") . "GMT");
                         $header->pragma();
                         $header->cache_control("nocache");
                         $header->getStatus('200');
                         $header->json_header("UTF-8");
                         $this->jsonList();
-                    }elseif($this->action == 'list'){
+                    } elseif ($this->action == 'config') {
+                        $create->assign('config',parent::getContactConfig());
+                        $create->display('config.tpl');
+                    } elseif ($this->action == 'list') {
                         $create->display('list.tpl');
-                    }elseif($this->action == 'add'){
+                    } elseif ($this->action == 'add') {
                         $this->add();
-                    }elseif($this->action == 'remove'){
-                        if(isset($this->delete_contact)){
+                    } elseif ($this->action == 'remove') {
+                        if (isset($this->delete_contact)) {
                             $this->remove();
                         }
                     }
-                }elseif(isset($this->tab)){
+                } elseif (isset($this->tab)) {
                     $create->display('about.tpl');
                 }
-            }else{
-                if(magixcjquery_filter_request::isGet('json_graph')){
+            } else {
+                if (magixcjquery_filter_request::isGet('json_graph')) {
                     $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                    $header->head_last_modified(gmdate("D, d M Y H:i:s") . "GMT");
                     $header->pragma();
                     $header->cache_control("nocache");
                     $header->getStatus('200');
                     $header->json_header("UTF-8");
                     $this->json_graph();
-                }else{
+                } elseif (isset($this->action)) {
+                    if ($this->action == 'switch' && isset($this->switch)) {
+                        if($this->switch == 'enable') {
+                            parent::u_config('enable', array(':enable' => (isset($this->enable_address)?1:0)));
+                        }
+                        if($this->switch == 'require') {
+                            parent::u_config('require', array(':require' => (isset($this->require_address)?1:0)));
+                        }
+                        $this->message->getNotify('add');
+                    }
+                } else {
                     $create->display('index.tpl');
                 }
             }
         }
-	}
+    }
     /**
      * @access public
      * Options de reecriture des métas
@@ -333,4 +358,21 @@ class DBContact{
 			':edit'	=>	$edit
 		)); 
 	}
+
+    /**
+     * @return array
+     */
+    protected function getContactConfig() {
+        $sql = 'SELECT * FROM mc_plugins_contact_config';
+        return magixglobal_model_db::layerDB()->selectOne($sql);
+    }
+
+    /**
+     * @param $data
+     */
+    public function u_config($type,$data)
+    {
+        $sql = "UPDATE `mc_plugins_contact_config` SET `address_".$type."d` = :".$type." WHERE `idcontact_config` = 1";
+        magixglobal_model_db::layerDB()->update($sql,$data);
+    }
 }

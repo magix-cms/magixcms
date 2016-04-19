@@ -40,45 +40,41 @@
  */
 var MC_plugins_contact = (function ($, undefined) {
     //Fonction Private
-    function add(iso){
+    function add(iso,adress){
         // *** Set required fields for validation
+        var rules = {
+            lastname: {
+                required: true,
+                minlength: 2
+            },
+            firstname: {
+                required: true,
+                minlength: 2
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            title: {
+                required: true,
+                minlength: 2
+            },
+            content: {
+                required: true,
+                minlength: 2
+            }
+        };
+
+        if(adress) {
+            rules['adress'] = { required: true, minlength: 2 };
+            rules['postcode'] = { required: true, minlength: 2 };
+            rules['city'] = { required: true, minlength: 2 };
+        }
+
         $("#contact-form").validate({
             onsubmit: true,
             event: 'submit',
-            rules: {
-                lastname: {
-                    required: true,
-                    minlength: 2
-                },
-                firstname: {
-                    required: true,
-                    minlength: 2
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                /*adress: {
-                    required: true,
-                    minlength: 2
-                },
-                postcode: {
-                    required: true,
-                    minlength: 2
-                },
-                city: {
-                    required: true,
-                    minlength: 2
-                },*/
-                title: {
-                    required: true,
-                    minlength: 2
-                },
-                content: {
-                    required: true,
-                    minlength: 2
-                }
-            },
+            rules: rules,
             submitHandler: function(form) {
                 $.nicenotify({
                     ntype: "submit",
@@ -98,8 +94,8 @@ var MC_plugins_contact = (function ($, undefined) {
     }
     return {
         //Fonction Public        
-        run:function (iso) {
-            add(iso);
+        run:function (iso,adress) {
+            add(iso,adress);
         }
     };
 })(jQuery);

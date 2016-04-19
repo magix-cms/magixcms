@@ -51,6 +51,7 @@ class plugins_contact_public extends database_plugins_contact{
      * @var frontend_controller_plugins
      */
     protected $template;
+    protected $config;
     /**
      *
      * @var string
@@ -144,19 +145,22 @@ class plugins_contact_public extends database_plugins_contact{
      * setBodyMail
      */
     private function setBodyMail(){
-
-        return array(
+        $data = array(
             'lastname'    =>  $this->lastname,
             'firstname'   =>  $this->firstname,
             'email'       =>  $this->email,
             'phone'       =>  $this->phone,
-            'adress'      =>  $this->adress,
-            'postcode'    =>  $this->postcode,
-            'city'        =>  $this->city,
             'title'       =>  $this->title,
             'content'     =>  $this->content
         );
 
+        if($this->config['address_enabled']) {
+            $data['adress']   = $this->adress;
+            $data['postcode'] = $this->postcode;
+            $data['city']     = $this->city;
+        }
+
+        return $data;
     }
 
     /**
@@ -164,7 +168,7 @@ class plugins_contact_public extends database_plugins_contact{
      */
     private function setTitleMail(){
         $subject = $this->template->getConfigVars('subject_contact');
-        $title   = 'Demande de contact';
+        $title   = $this->template->getConfigVars('titlemail_contact');;
         $website = $this->template->getConfigVars('website');
         return sprintf($subject, $title,$website);
     }
@@ -173,7 +177,7 @@ class plugins_contact_public extends database_plugins_contact{
      * @access private
      * @return string
      */
-    private function getBodyMail(){
+    private function getBodyMail() {
         $this->template->assign('data',$this->setBodyMail());
         return $this->template->fetch('mail/admin.tpl');
     }
@@ -181,10 +185,17 @@ class plugins_contact_public extends database_plugins_contact{
     /**
      * @return array
      */
-    public function getContact(){
+    public function getContact() {
         if(parent::s_contact($this->template->getLanguage()) != null){
             return parent::s_contact($this->template->getLanguage());
         }
+    }
+
+    /**
+     *
+     */
+    public function getConfig() {
+        $this->config = parent::getContactConfig();
     }
 
     /**
@@ -193,28 +204,26 @@ class plugins_contact_public extends database_plugins_contact{
      * sinon retourne empty.tpl
      */
     protected function send_email(){
-        if(isset($this->email)){
+        if(isset($this->email)) {
 			$create = new frontend_model_template();
 			$create->configLoad();
             $this->template->configLoad();
-            if(empty($this->lastname)
-                OR empty($this->firstname)
-                OR empty($this->email)){
+            if(empty($this->lastname) OR empty($this->firstname) OR empty($this->email)) {
                 $this->getNotify('warning','empty');
-            }elseif(!magixcjquery_filter_isVar::isMail($this->email)){
+            } elseif(!magixcjquery_filter_isVar::isMail($this->email)) {
                 $this->getNotify('warning','mail');
-            }elseif(!empty($this->moreinfo)){
+            } elseif(!empty($this->moreinfo)) {
 				$this->getNotify('error','configured');
-            }else{
-                if($this->template->getLanguage()){
-                    if(parent::c_show_table() != 0){
-                        if(parent::s_contact($this->template->getLanguage()) != null){
+            } else {
+                if($this->template->getLanguage()) {
+                    if(parent::c_show_table() != 0) {
+                        if(parent::s_contact($this->template->getLanguage()) != null) {
                             //Instance la classe mail avec le paramètre de transport
                             $core_mail = new magixglobal_model_mail('mail');
                             //Charge dans un tableau les utilisateurs qui reçoivent les mails
                             $lotsOfRecipients = parent::s_contact($this->template->getLanguage());
                             //Initialisation du contenu du message
-                            foreach ($lotsOfRecipients as $recipient){
+                            foreach ($lotsOfRecipients as $recipient) {
                                 $message = $core_mail->body_mail(
                                     self::setTitleMail(),
                                     array($this->email),
@@ -225,10 +234,10 @@ class plugins_contact_public extends database_plugins_contact{
                                 $core_mail->batch_send_mail($message);
                             }
                             $this->getNotify('success');
-                        }else{
+                        } else {
                             $this->getNotify('error','configured');
                         }
-                    }else{
+                    } else {
                         $this->getNotify('error','installed');
                     }
                 }
@@ -240,9 +249,11 @@ class plugins_contact_public extends database_plugins_contact{
      */
     public function run(){
 		$this->template->configLoad();
+        $this->getConfig();
         if(isset($this->email)){
             $this->send_email();
         }else{
+            $this->template->assign('config',$this->config);
 			$this->template->display('index.tpl');
         }
     }
@@ -253,12 +264,16 @@ class database_plugins_contact{
      * @access protected
      * return integer
      */
-    protected function c_show_table(){
+    protected function c_show_table() {
         $table = 'mc_plugins_contact';
         return frontend_db_plugins::layerPlugins()->showTable($table);
     }
 
-    protected function s_contact($iso){
+    /**
+     * @param $iso
+     * @return array
+     */
+    protected function s_contact($iso) {
         $sql = 'SELECT c.*
         FROM mc_plugins_contact AS c
         JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
@@ -266,6 +281,14 @@ class database_plugins_contact{
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':iso'=>$iso
         ));
+    }
+
+    /**
+     * @return array
+     */
+    protected function getContactConfig() {
+        $sql = 'SELECT * FROM mc_plugins_contact_config';
+        return magixglobal_model_db::layerDB()->selectOne($sql);
     }
 
     /**

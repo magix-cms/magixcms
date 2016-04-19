@@ -222,6 +222,36 @@ var MC_plugins_contact = (function ($, undefined) {
     }
 
     /**
+     * Save
+     * @param id
+     * @param collection
+     * @param type
+     */
+    function save(id,baseadmin){
+        // *** Set required fields for validation
+        $(id).validate({
+            onsubmit: true,
+            event: 'submit',
+            submitHandler: function(form) {
+                $.nicenotify({
+                    ntype: "submit",
+                    uri: '/'+baseadmin+'/plugins.php?name=contact&action=switch',
+                    typesend: 'post',
+                    idforms: $(form),
+                    resetform: false,
+                    successParams:function(data){
+                        window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
+                        $.nicenotify.initbox(data,{
+                            display:true
+                        });
+                    }
+                });
+                return false;
+            }
+        });
+    }
+
+    /**
      * Suppression du contact
      * @param getlang
      */
@@ -261,7 +291,20 @@ var MC_plugins_contact = (function ($, undefined) {
         });
     }
     return {
-        //Fonction Public        
+        //Fonction Public
+        runConfig:function (baseadmin) {
+            save('#enable_address_form',baseadmin);
+            save('#require_address_form',baseadmin);
+
+            $(function(){
+                $('#enable_address').change(function(){
+                    $('#enable_address_form').submit();
+                });
+                $('#require_address').change(function(){
+                    $('#require_address_form').submit();
+                });
+            });
+        },
         runCharts:function (baseadmin) {
             graph(baseadmin);
         },

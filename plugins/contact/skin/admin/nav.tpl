@@ -10,6 +10,7 @@
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
+            <li><a href="{$pluginUrl}&amp;getlang={$smarty.get.getlang}&amp;action=config"><span class="fa fa-cog"></span>&nbsp;{#config#}</a></li>
             <li><a href="{$pluginUrl}">{#statistics#}</a></li>
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">{#languages#} <b class="caret"></b></a>
