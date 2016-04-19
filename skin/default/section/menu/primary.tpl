@@ -86,6 +86,9 @@
     {$getPage = 'parent'}
     {$getCat = 'category'}
 {/if}
+{if $type == 'mega-dropdown'}
+    {$getCat = ['category' => 'subcategory']}
+{/if}
 
 {* --- Disable Gmap link --- *}
 {if !isset($gmap)}
@@ -222,7 +225,7 @@
             {/foreach}
             {$item['subdata'] = $subdata}
         {/if}
-        {$menu[] = $item}
+        {$menu['catalog'] = $item}
     {/foreach}
 {elseif $root.catalog}
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
@@ -241,7 +244,8 @@
     {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
         {widget_catalog_data
             conf = [
-                'context' => 'category'
+                'context' => {$getCat},
+                'sort' => ['sort_type' => 'id','sort_order' => 'ASC']
                 ]
             assign="categoryList"
         }
@@ -254,18 +258,38 @@
                     {$subactive = 0}
                 {/if}
 
-                {$subdata[] = [
+                {$submenu = [
                 'name'      => {$category.name},
                 'url'       => {$category.url},
                 'title'     => {$category.name},
                 'active'    => {$subactive}
                 ]}
+
+                {if isset($category.subdata)}
+                    {assign var=sub value=array()}
+                    {foreach $category.subdata as $child}
+                        {if $subCat && $child.id == $subCat}
+                            {$subactive = 1}
+                        {else}
+                            {$subactive = 0}
+                        {/if}
+                        {$sub[] = [
+                        'name'      => {$child.name},
+                        'url'       => {$child.url},
+                        'title'     => {$child.name},
+                        'active'    => {$subactive}
+                        ]}
+                    {/foreach}
+                    {$submenu['subdata'] = $sub}
+                {/if}
+
+                {$subdata[] = $submenu}
             {/foreach}
             {$item['subdata'] = $subdata}
         {/if}
     {/if}
 
-    {$menu[] = $item}
+    {$menu['catalog'] = $item}
 {/if}
 
 
@@ -363,7 +387,7 @@
         <a href="#search" class="sr-only skip-menu" role="link">{#skipMenu#}</a>
         <ul class="nav{if isset($justified) &&$justified } nav-justified{/if}">
             {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
-                {include file="section/menu/loop/dropdown.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}
+                {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}
             {else}
                 {include file="section/menu/loop/default.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}
             {/if}

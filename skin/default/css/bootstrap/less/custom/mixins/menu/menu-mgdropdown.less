@@ -1,7 +1,7 @@
 /*----------------*\
 ----- Dropdown -----
 \*----------------*/
-.dp-menu() {
+.mdp-menu() {
 	display: table;
 	visibility: visible;
 	.box-shadow(0 10px 10px rgba(0,0,0,.2));
@@ -10,8 +10,73 @@
 	.auto-transition(.5s);
 }
 
-.menu-dropdown {
+.menu {
+	> .container {
+		position: relative;
+	}
+
+	.menu-mega-dropdown.nav {
+		> li {
+			> a {
+				padding: 14px 20px !important;
+			}
+		}
+	}
+}
+
+.menu-mega-dropdown {
 	clear: both;
+
+	li.mgdropdown {
+		position: static;
+
+		.dropdown {
+			padding-top: 30px;
+			padding-bottom: 30px;
+			left: ~"calc((100% - 1140px) /2 )";
+			right: ~"calc((100% - 1140px) /2 )";
+			width: 1140px;
+			min-width: 0;
+
+			ul {
+				.list-unstyled;
+			}
+
+			&.catalog {
+				h5 {
+					a {
+						font-size: 14px;
+						font-weight: 600;
+						color: #222;
+						&:hover, &:focus, &:active, &.active {
+							background: transparent;
+							color: extract(@main-colors,2);
+						}
+					}
+				}
+
+				ul > li {
+					float: none;
+					a:hover, a:focus, a:active, a.active {
+						background: #222;
+					}
+				}
+			}
+
+			&.brands {
+				.col-sm-2 {
+					//padding: 0;
+				}
+
+				ul > li {
+					a:hover, a:focus, a:active, a.active {
+						background: transparent;
+						color: extract(@main-colors,2);
+					}
+				}
+			}
+		}
+	}
 
 	li {
 		a, a:visited {
@@ -46,7 +111,7 @@
 		position: absolute;
 		padding: 5px 0;
 		list-style-type: none;
-		background: @menu-bg;
+		background: @dropdown-bg;
 		visibility: hidden;
 		.box-shadow(none);
 		.opacity(0);
@@ -55,7 +120,7 @@
 		.transform-origin(center top);
 		.auto-transition(.5s);
 
-		li {
+		> li {
 			float: none;
 			display: table-row;
 			width: 100%;
@@ -70,7 +135,7 @@
 		}
 
 		&:hover {
-			.dp-menu();
+			.mdp-menu();
 		}
 	}
 
@@ -78,7 +143,7 @@
 		position: relative;
 		&:hover {
 			& + .dropdown {
-				.dp-menu();
+				.mdp-menu();
 			}
 		}
 	}
@@ -92,7 +157,7 @@
 	}
 
 	@media (max-width: @screen-xs-max) {
-		ul.nav {
+		&.nav {
 			float: none !important;
 			position: relative;
 			z-index: 201;
@@ -139,6 +204,37 @@
 					}
 				}
 			}
+		}
+	}
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+	.menu .menu-mega-dropdown.nav {
+		.nav-justified;
+		min-height: 68px;
+		height: 100%;
+		max-height: 68px;
+
+		> li {
+			vertical-align: middle;
+			padding: 0;
+			margin: 0;
+			height: 100%;
+
+			> a {
+				height: 100%;
+				display: table;
+				width: 100%;
+
+				span {
+					display: table-cell;
+					vertical-align: middle;
+				}
+			}
+		}
+
+		li {
+			float: none;
 		}
 	}
 }
