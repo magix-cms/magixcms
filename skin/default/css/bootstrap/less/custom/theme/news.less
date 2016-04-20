@@ -146,6 +146,40 @@
 	}
 }
 
+#archives-menu {
+	.normalize-link(@text-color,@main-color,none);
+
+	small {
+		font-size: 75%;
+		color: @light-gray;
+	}
+
+	.year p {
+		a {
+			&.collapsed {
+				.fa {
+					&:before {
+						content: @fa-var-caret-down;
+					}
+				}
+			}
+			.fa {
+				padding: 0 5px;
+				&:before {
+					content: @fa-var-caret-up;
+				}
+			}
+		}
+	}
+	.months {
+		ul {
+			margin-left: 10px;
+			padding-left: 10px;
+			border-left: 1px solid #ccc;
+		}
+	}
+}
+
 
 /* --------------------------------------------------------
                             Tag

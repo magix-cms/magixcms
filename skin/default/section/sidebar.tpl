@@ -34,7 +34,7 @@
     {/if}
     {* # News *}
     {if $smarty.server.SCRIPT_NAME == '/news.php'}
-        {* ## Navigation tags *}
+        {* ## Navigation tags *}{*
         {widget_news_data
             conf= [
                 'level'     => 'tag'
@@ -59,7 +59,8 @@
                     {include file="news/loop/tag.tpl" listing=$listingData.listing active=$listingData.active}
                 </ul>
             </div>
-        {/if}
+        {/if}*}
+        {include file="news/brick/sidebar.tpl"}
     {/if}
 
     {* Common *}

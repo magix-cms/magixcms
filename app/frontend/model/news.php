@@ -323,5 +323,34 @@ class frontend_model_news extends frontend_db_news {
         }
         return $data['src'];
     }
+
+	/**
+	 * @param $iso
+	 * @return array
+	 */
+	public function getArchives($iso)
+	{
+		$data = parent::s_dates_archive($iso);
+
+		$arch = array();
+		foreach ($data as $arr) {
+
+			$months = explode(',',$arr['mths']);
+			$months = array_reverse($months);
+			foreach ($months as $k => $month) {
+				$nbr = parent::c_dates_archive($iso,$arr['yr'],$month);
+				$month = array(
+					'month' => $month,
+					'nbr' => $nbr['nbr']
+				);
+				$months[$k] = $month;
+			}
+			$arch[] = array(
+				'year' => $arr['yr'],
+				'months' => $months
+			);
+		}
+		return $arch;
+	}
 }
 ?>

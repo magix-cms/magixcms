@@ -90,7 +90,7 @@
         {if $adjust == 'clip'}<div class="container">{/if}
             {if !$menubar}
             {* Brand && Headline *}
-            <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
+            <a class="navbar-brand" href="{geturl}/{getlang}/" title="{#logo_link_title#|ucfirst}">
                 <picture class="img-fluid">
                     <!--[if IE 9]><video style="display: none;"><![endif]-->
                     <source type="image/webp"

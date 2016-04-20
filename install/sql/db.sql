@@ -91,6 +91,14 @@ CREATE TABLE IF NOT EXISTS `mc_lang` (
 
 INSERT INTO `mc_lang` VALUES(1, 'fr', 'francais', 1, 1);
 
+CREATE TABLE IF NOT EXISTS `mc_country` (
+  `idcountry` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `iso` varchar(5) NOT NULL,
+  `country` varchar(125) NOT NULL,
+  `order` int(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idcountry`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `idcatalog` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',

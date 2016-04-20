@@ -49,57 +49,62 @@
  */
 function smarty_function_widget_news_data($params, $template)
 {
-    $ModelSystem        =   new magixglobal_model_system();
-    $ModelRewrite       =   new magixglobal_model_rewrite();
     $ModelNews          =   new frontend_model_news();
-    $ModelPager         =   new magixglobal_model_pager();
 
-    // Set and load data
-    $current    =   $ModelSystem->setCurrentId();
-    $conf       =   (is_array($params['conf'])) ? $params['conf'] : array();
-    $override   =   $params['conf']['plugins']['override'] ? $params['conf']['plugins']['override'] : '';
-    $data       =   $ModelNews->getData($conf,$current,$override);
-    $newrow     =   (is_array($params['conf']['plugins']['item'])) ? $params['conf']['plugins']['item'] : array();
+    if($params['archives']) {
+        $archives = $ModelNews->getArchives($params['archives']);
+        $template->assign('archives',$archives);
+    } else {
+        $ModelSystem        =   new magixglobal_model_system();
+        $ModelRewrite       =   new magixglobal_model_rewrite();
+        $ModelPager         =   new magixglobal_model_pager();
 
-    // Set Pagination
-    $pagination =   array();
-    if (isset($data['total']) AND isset($data['limit'])) {
-        $pagination  =
-            $ModelPager->setPaginationData(
-                $data['total'],
-                $data['limit'],
-                '/'.$current['lang']['iso'].$ModelRewrite->mod_news_lang($current['lang']['iso']),
-                $current['news']['pagination']['id'],
-                '/'
-            );
-        unset($data['total']);
-        unset($data['limit']);
-    }
-    $current = $current['news'];
-    // Format data
-    $items = array();
-    if ($data != null) {
-        foreach ($data as $row)
-        {
-            if (isset($row['idnews'])) {
-                $items[]    =   $ModelNews->setItemData($row,$current,$newrow);
+        // Set and load data
+        $current    =   $ModelSystem->setCurrentId();
+        $conf       =   (is_array($params['conf'])) ? $params['conf'] : array();
+        $override   =   $params['conf']['plugins']['override'] ? $params['conf']['plugins']['override'] : '';
+        $data       =   $ModelNews->getData($conf,$current,$override);
+        $newrow     =   (is_array($params['conf']['plugins']['item'])) ? $params['conf']['plugins']['item'] : array();
 
-            } elseif (isset($row['name_tag'])) {
-                $items[]    =   array(
-                    'id' =>  $row['name_tag'],
-                    'name'=> $row['name_tag'],
-                    'iso' => $row['iso'],
-                    'url'   =>  magixglobal_model_rewrite::filter_news_tag_url($row['iso'],urlencode($row['name_tag']),true)
+        // Set Pagination
+        $pagination =   array();
+        if (isset($data['total']) AND isset($data['limit'])) {
+            $pagination  =
+                $ModelPager->setPaginationData(
+                    $data['total'],
+                    $data['limit'],
+                    '/'.$current['lang']['iso'].$ModelRewrite->mod_news_lang($current['lang']['iso']),
+                    $current['news']['pagination']['id'],
+                    '/'
                 );
-
-            }
+            unset($data['total']);
+            unset($data['limit']);
         }
+        $current = $current['news'];
+        // Format data
+        $items = array();
+        if ($data != null) {
+            foreach ($data as $row)
+            {
+                if (isset($row['idnews'])) {
+                    $items[]    =   $ModelNews->setItemData($row,$current,$newrow);
 
+                } elseif (isset($row['name_tag'])) {
+                    $items[]    =   array(
+                        'id' =>  $row['name_tag'],
+                        'name'=> $row['name_tag'],
+                        'iso' => $row['iso'],
+                        'url'   =>  magixglobal_model_rewrite::filter_news_tag_url($row['iso'],urlencode($row['name_tag']),true)
+                    );
+
+                }
+            }
+
+        }
+        $assign = isset($params['assign']) ? $params['assign'] : 'data';
+        $template->assign($assign,$items);
+
+        $assignPager = isset($params['assignPagination']) ? $params['assignPagination'] : 'paginationData';
+        $template->assign($assignPager,$pagination);
     }
-    $assign = isset($params['assign']) ? $params['assign'] : 'data';
-    $template->assign($assign,$items);
-
-    $assignPager = isset($params['assignPagination']) ? $params['assignPagination'] : 'paginationData';
-    $template->assign($assignPager,$pagination);
-
 }

@@ -211,6 +211,41 @@ class frontend_db_news{
             array('idnews'=>$idnews)
         );
     }
+
+	/**
+	 * Retourne un tableau contenant la list des années et mois durant lesquels des news ont été publiées
+	 * @return array
+	 */
+	protected function s_dates_archive($iso)
+	{
+		$sql = "SELECT GROUP_CONCAT(DISTINCT MONTH(`date_publish`)) AS mths, YEAR(`date_publish`) AS yr
+				FROM `mc_news` AS `news`
+				JOIN `mc_lang` AS `lang`
+				USING(`idlang`)
+				WHERE `published` = 1
+				AND `lang`.`iso` = :iso
+				GROUP BY YEAR(`date_publish`)
+				ORDER BY `date_publish` DESC";
+		return magixglobal_model_db::layerDB()->select($sql,array(':iso' => $iso));
+	}
+
+	/**
+	 * Retourne un tableau contenant la list des années et mois durant lesquels des news ont été publiées
+	 * @return array
+	 */
+	protected function c_dates_archive($iso,$year,$month)
+	{
+		$sql = "SELECT COUNT(`idnews`) AS nbr
+				FROM `mc_news` AS `news`
+				JOIN `mc_lang` AS `lang`
+				USING(`idlang`)
+				WHERE `published` = 1
+				AND `lang`.`iso` = :iso
+				AND YEAR(`date_publish`) = :yr
+				AND MONTH(`date_publish`) = :mth";
+
+		return magixglobal_model_db::layerDB()->selectOne($sql,array(':iso' => $iso, ':yr' => $year, ':mth' => $month));
+	}
     /**
      *
      * Retourne le nombre total de news pour la langue
