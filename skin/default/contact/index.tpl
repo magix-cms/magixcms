@@ -45,15 +45,15 @@
                                         {if $config.address_enabled}
                                             <div class="row">
                                                 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <label for="adress">{#pn_contact_adress#|ucfirst}&nbsp;:</label>
+                                                    <label for="adress">{#pn_contact_adress#|ucfirst}{if $config.address_required}*{/if}&nbsp;:</label>
                                                     <input id="adress" type="text" name="adress" placeholder="{#ph_adress#|ucfirst}" value="" class="form-control" />
                                                 </div>
                                                 <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                                                    <label for="postcode">{#pn_contact_postcode#|ucfirst}&nbsp;:</label>
+                                                    <label for="postcode">{#pn_contact_postcode#|ucfirst}{if $config.address_required}*{/if}&nbsp;:</label>
                                                     <input id="postcode" type="text" name="postcode" placeholder="{#ph_postcode#|ucfirst}" value="" class="form-control" />
                                                 </div>
                                                 <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                                                    <label for="city">{#pn_contact_city#|ucfirst}&nbsp;:</label>
+                                                    <label for="city">{#pn_contact_city#|ucfirst}{if $config.address_required}*{/if}&nbsp;:</label>
                                                     <input id="city" type="text" name="city" placeholder="{#ph_city#|ucfirst}" value="" class="form-control" />
                                                 </div>
                                             </div>
@@ -97,7 +97,7 @@
             elemclass : '.mc-message'
         };
         var iso = '{getlang}';
-        var adress = {if $config.address_required}1{else}0{/if};
+        var adress = {if $config.address_enabled && $config.address_required}1{else}0{/if};
         $(function(){
             if (typeof MC_plugins_contact == "undefined")
             {

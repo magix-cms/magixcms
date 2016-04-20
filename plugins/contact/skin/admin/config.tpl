@@ -5,14 +5,13 @@
 {/block}
 {block name="article:content"}
     {include file="nav.tpl"}
-    <h1>Contact</h1>
-    {include file="section/tab.tpl"}
-    <h2>Configuration</h2>
+    <h1>Contact&nbsp;<small>&mdash;&nbsp;Configuration</small></h1>
     <!-- Notifications Messages -->
     <div class="mc-message clearfix"></div>
     <!-- Tab panes -->
-    <div>
-        <form id="enable_address_form" class="form-inline" method="post" action="{$smarty.server.REQUEST_URI}">
+    <h2>Champs personnalisés</h2>
+    <div class="row">
+        <form id="enable_address_form" class="form-inline col-xs-12 col-sm-4 col-md-3" method="post" action="{$smarty.server.REQUEST_URI}">
             <div class="checkbox">
                 <label>
                     Champs adresse
@@ -21,10 +20,10 @@
             </div>
             <input type="hidden" name="switch" value="enable">
         </form>
-        <form id="require_address_form" class="form-inline" method="post" action="{$smarty.server.REQUEST_URI}">
+        <form id="require_address_form" class="form-inline col-xs-12 col-sm-4 col-md-3" method="post" action="{$smarty.server.REQUEST_URI}">
             <div class="checkbox">
                 <label>
-                    Champs requis
+                    &mdash;&nbsp;Requis
                     <input id="require_address" data-toggle="toggle" type="checkbox" name="require_address" data-on="oui" data-off="non"{if $config.address_required} checked{/if}>
                 </label>
             </div>

@@ -50,28 +50,18 @@
 						color: #222;
 						&:hover, &:focus, &:active, &.active {
 							background: transparent;
-							color: extract(@main-colors,2);
 						}
 					}
 				}
 
 				ul > li {
 					float: none;
-					a:hover, a:focus, a:active, a.active {
-						background: #222;
+					a {
+						color: @text-color;
 					}
-				}
-			}
-
-			&.brands {
-				.col-sm-2 {
-					//padding: 0;
-				}
-
-				ul > li {
 					a:hover, a:focus, a:active, a.active {
-						background: transparent;
-						color: extract(@main-colors,2);
+						color: @smooth-white;
+						background: #222;
 					}
 				}
 			}

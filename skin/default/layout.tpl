@@ -32,7 +32,7 @@
     {strip}{* Language link hreflang *}{widget_lang_data assign="dataLangHead"}{include file="section/loop/lang.tpl" data=$dataLangHead type="head"}{google_tools tools='analytics'}
 {/strip}</head>
 <body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">
-    {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="mega-dropdown" submenu=true gmap=false faq=false affix=true}
+    {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="dropdown" submenu=true gmap=false faq=false affix=true}
     {block name="breadcrumb"}
         {include file="section/nav/breadcrumb.tpl" adjust="clip" quickAccess=true icon=false}
     {/block}

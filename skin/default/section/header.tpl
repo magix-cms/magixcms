@@ -43,7 +43,7 @@
                 </button>
                 {* Brand && Headline *}
                 <div id="navbar-brand">
-                    <a class="navbar-brand" href="{geturl}" title="{#logo_link_title#|ucfirst}">
+                    <a class="navbar-brand" href="{geturl}/{getlang}/" title="{#logo_link_title#|ucfirst}">
                         <img src="{geturl}/skin/{template}/img/logo/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
                     </a>
                 </div>

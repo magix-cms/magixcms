@@ -1,1 +1,0 @@
-{headlink rel="stylesheet" href="/{baseadmin}/min/?f=plugins/{$smarty.get.name}/css/bootstrap2-toggle.min.css" concat={$concat} media="screen"}

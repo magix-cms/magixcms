@@ -24,8 +24,8 @@
 				</authors>
 				<version>
 					<date_create>10/04/2010</date_create>
-					<date_update>26/08/2014</date_update>
-					<number>2.5</number>
+					<date_update>20/04/2016</date_update>
+					<number>2.5.1</number>
 					<phase>Stable</phase>
 					<support>
                         <ticket href="https://github.com/magix-cms/magixcms/issues"></ticket>
