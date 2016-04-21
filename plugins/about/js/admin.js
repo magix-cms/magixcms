@@ -202,19 +202,22 @@ var MC_plugins_about = (function ($, undefined) {
                 },
                 submitHandler: function(form) {
                     $.nicenotify({
-                        ntype: "submit",
+                        ntype: "ajax",
                         uri: '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&tab=page&action=add',
                         typesend: 'post',
-                        idforms: $(form),
                         resetform: true,
+						datatype: 'json',
+						noticedata: $(form).serialize(),
                         successParams:function(data){
-                            $('#add-page').modal('hide');
-                            window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
-                            $.nicenotify.initbox(data,{
-                                display:true
-                            });
-                            //getPage(baseadmin,getlang);
-                            getHTMLFormat(baseadmin,getlang);
+							$('#add-page').modal('hide');
+							window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
+							$.nicenotify.initbox(data.notify,{
+								display:true
+							});
+							//getPage(baseadmin,getlang);
+							//getHTMLFormat(baseadmin,getlang);
+							if(data.statut && data.result != null)
+								addLine(data.result);
                         }
                     });
                     return false;
@@ -354,6 +357,11 @@ var MC_plugins_about = (function ($, undefined) {
             }
         });
     }
+
+	 function addLine(line) {
+		 $('#no-entry').before(line);
+		 updateList();
+	 }
 
      /**
       *

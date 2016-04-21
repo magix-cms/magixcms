@@ -35,6 +35,7 @@
 
 /**
  * @author Gérits Aurélien <aurelien@magix-cms.com> <aurelien@magix-dev.be>
+ * @contributor Salvatore Di Salvo <disalvo.infographiste@gmail.com>
  * @copyright  MAGIX CMS Copyright (c) 2010 -2014 Gerits Aurelien,
  * @version  Release: 1.0
  * Date: 20/08/2014
@@ -45,6 +46,12 @@ class backend_model_message{
      * @var backend_controller_template
      */
     protected $template,$plugins;
+	protected $default = array(
+		'template'		=>'message.tpl',
+		'method'		=>'display',
+		'assignFetch'	=>'',
+		'plugin'		=>'false'
+	);
 
     /**
      *
@@ -57,48 +64,51 @@ class backend_model_message{
     /**
      * Retourne le message de notification
      * @param $type
-     * @param array $option
+     * @param array $options
+	 * @return string html compiled
      */
-    public function getNotify($type,$option = array('template'=>'message.tpl','method'=>'display','assignFetch'=>'','plugin'=>'false')){
-        if(array_key_exists('template',$option)){
-            $skin = $option['template'];
-        }else{
-            $skin = 'message.tpl';
-        }
-        if(array_key_exists('plugin',$option)){
-            $plugin = $option['plugin'];
-        }else{
-            $plugin = 'false';
-        }
-        if(array_key_exists('method',$option)){
-            $method = $option['method'];
-        }else{
-            $method = 'display';
-        }
-        if(array_key_exists('assignFetch',$option)){
-            $assignFetch = $option['assignFetch'];
-        }else{
-            $assignFetch = '';
-        }
-        if($plugin === 'true'){
-            if($method === 'fetch'){
-                $this->plugins->assign('message',$type);
-                $fetch = $this->plugins->$method($skin);
-                $this->plugins->assign($assignFetch,$fetch);
-            }elseif($method === 'display'){
-                $this->plugins->assign('message',$type);
-                $this->plugins->$method($skin);
-            }
-        }else{
-            if($method === 'fetch'){
-                $this->template->assign('message',$type);
-                $fetch = $this->template->$method($skin);
-                $this->template->assign($assignFetch,$fetch);
-            }elseif($method === 'display'){
-                $this->template->assign('message',$type);
-                $this->template->$method($skin);
-            }
-        }
+    public function getNotify($type,$options = array()){
+		$options = $options + $this->default;
+		$model = $options['plugin'] ? $this->plugins : $this->template;
+
+		switch($options['method']) {
+			case 'display':
+				$model->assign('message',$type);
+				$model->display($options['template']);
+				break;
+
+			case 'fetch':
+			case 'return':
+				$model->assign('message',$type);
+                $fetch = $model->fetch($options['template']);
+				if($options['method'] == 'fetch')
+					$model->assign($options['assignFetch'],$fetch);
+				else
+					return $fetch;
+				break;
+
+			default:
+				$model->assign('message',$type);
+				$model->display($options['template']);
+		}
     }
+	
+	/**
+	 * Return a json object with the statut of the post action, the notification and the eventual result of the post
+	 * @param bool $statut
+	 * @param string $notify
+	 * @param bool $result
+	 */
+	public function json_post_response($statut=true,$notify='save',$options = null,$result = null)
+	{
+		if (is_array($options))
+			$options = $options + $this->default;
+		elseif ($options === null || !is_array($options))
+			$options = $this->default;
+		$options['method'] = 'return';
+
+		$notify = $this->getNotify($notify,$options);
+		print '{"statut":'.json_encode($statut).',"notify":'.json_encode($notify).',"result":'.json_encode($result).'}';
+	}
 }
 ?>

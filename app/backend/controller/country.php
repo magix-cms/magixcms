@@ -341,15 +341,17 @@ class backend_controller_country extends backend_db_country{
      */
     public function setItemsData(){
         return parent::select(array(
-            'context'=>'all',
-            'type'=>'count'
+            'context'=>'all'
         ));
     }
 
     /**
      * 
      */
-    public function getItemsData(){}
+    public function getItemsData(){
+        $data = $this->setItemsData();
+        $this->template->assign('getItemsData',$data);
+    }
 
     /**
      * @throws Exception
@@ -366,7 +368,8 @@ class backend_controller_country extends backend_db_country{
                     $this->add();
                 }
             }elseif($this->action === 'html'){
-
+                $this->getItemsData();
+                $this->template->display('country/loop/items.tpl');
             }
         }else{
             $this->template->display('country/index.tpl');

@@ -398,8 +398,10 @@ class plugins_about_admin extends DBabout{
 	 * Retourne le message de notification
 	 * @param $type
 	 */
-	private function notify($type){
-		$this->message->getNotify($type,self::$notify);
+	private function notify($type,$options = null){
+		if ($options == null)
+			$options = self::$notify;
+			$this->message->getNotify($type,$options);
 	}
 
 	/**
@@ -498,13 +500,13 @@ class plugins_about_admin extends DBabout{
 	private function addPage()
 	{
 		if (isset($this->page)) {
-
 			if( parent::getPageLang($this->page['idlang']) == null ) {
 				$this->page['uri_title'] = magixcjquery_url_clean::rplMagixString($this->page['title'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 				parent::i_page($this->page);
-				$this->notify('save');
+				$this->template->assign('pages',parent::getPages($this->getlang));
+				$this->message->json_post_response(true,'save',self::$notify,$this->template->fetch('page/loop/list.tpl'));
 			} else {
-				$this->notify('already_exist');
+				$this->message->json_post_response(false,'already_exist',self::$notify);
 			}
 		}
 	}
@@ -657,6 +659,13 @@ class plugins_about_admin extends DBabout{
 			elseif (isset($this->tab) && $this->tab == 'page')
 			{
 				if($this->add_page) {
+					$header= new magixglobal_model_header();
+					$header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+					$header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+					$header->pragma();
+					$header->cache_control("nocache");
+					$header->getStatus('200');
+					$header->json_header("UTF-8");
 					$this->addPage($this->getlang);
 				} elseif($this->action == 'edit' && $this->page['id']) {
 					$this->editPage();
