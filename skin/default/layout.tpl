@@ -75,6 +75,7 @@
         ********}
         {capture name="scriptVendor"}{strip}
             /min/?f=
+            skin/{template}/js/vendor/bootstrap-cookie-consent.min.js,
             skin/{template}/js/vendor/bootstrap.min.js,
             skin/{template}/js/vendor/jquery.fancybox.min.js,
             skin/{template}/js/vendor/smooth-gallery.min.js
