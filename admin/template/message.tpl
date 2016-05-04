@@ -79,7 +79,7 @@
 {capture name="alert_message"}
     {#request_lang_exist#}
 {/capture}
-    {** lang_exist **}
+    {** lang_default **}
 {case 'lang_default' break}
 {capture name="alert_type"}{strip}
     warning
@@ -89,6 +89,16 @@
 {/strip}{/capture}
 {capture name="alert_message"}
     {#request_lang_default#}
+{/capture}
+{case 'country_exist' break}
+{capture name="alert_type"}{strip}
+    warning
+{/strip}{/capture}
+{capture name="icon"}{strip}
+    warning
+{/strip}{/capture}
+{capture name="alert_message"}
+    {#request_country_exist#}
 {/capture}
 {case 'child_exist' break}
 {capture name="alert_type"}{strip}

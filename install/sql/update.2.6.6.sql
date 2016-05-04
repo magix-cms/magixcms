@@ -7,3 +7,5 @@ CREATE TABLE IF NOT EXISTS `mc_country` (
   `order` int(5) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`idcountry`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_module` (`id_module` ,`class_name` ,`name` ,`plugins`)VALUES (NULL , 'backend_controller_country', 'country', '0');

@@ -1,7 +1,7 @@
 {extends file="layout.tpl"}
 {block name='body:id'}module-language{/block}
 {block name="article:content"}
-{include file="lang/section/nav.tpl"}
+{include file="country/section/nav.tpl"}
     <h1>{#statistics_language#|ucfirst}</h1>
     <div id="graph"></div>
 {/block}

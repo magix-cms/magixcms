@@ -56,7 +56,8 @@ INSERT INTO `mc_module` (`id_module`, `class_name`, `name`, `plugins`) VALUES
   (NULL, 'backend_controller_home', 'home', 0),
   (NULL, 'backend_controller_cms', 'cms', 0),
   (NULL, 'backend_controller_catalog', 'catalog', 0),
-  (NULL, 'backend_controller_news', 'new', 0);
+  (NULL, 'backend_controller_news', 'new', 0),
+  (NULL, 'backend_controller_country', 'country', 0);
 
 
 CREATE TABLE IF NOT EXISTS `mc_admin_access` (
@@ -78,7 +79,8 @@ INSERT INTO `mc_admin_access` (`id_access`, `id_role`, `id_module`, `view_access
   (NULL, 1, 5, 1, 1, 1, 1),
   (NULL, 1, 6, 1, 1, 1, 1),
   (NULL, 1, 7, 1, 1, 1, 1),
-  (NULL, 1, 8, 1, 1, 1, 1);
+  (NULL, 1, 8, 1, 1, 1, 1),
+  (NULL, 1, 9, 1, 1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS `mc_lang` (
   `idlang` smallint(3) unsigned NOT NULL AUTO_INCREMENT,

@@ -51,17 +51,24 @@ class backend_db_country{
 	protected function select($data){
 		if(is_array($data)){
 			if($data['context'] === 'all'){
-				$sql = 'SELECT co.*
-				FROM mc_country AS co';
-				return magixglobal_model_db::layerDB()->select($sql);
+				if(($data['type'] === 'list')){
+					$sql = 'SELECT co.*
+					FROM mc_country AS co';
+					return magixglobal_model_db::layerDB()->select($sql);
+				}
+				elseif($data['type'] === 'last'){
+					$sql = 'SELECT co.*
+					FROM mc_country AS co ORDER BY `idcountry` DESC LIMIT 0,1';
+					return magixglobal_model_db::layerDB()->select($sql);
+				}
 
 			}elseif($data['context'] === 'one'){
-				if($data['type'] === 'data'){
+				if($data['type'] === 'iso'){
 					$sql = 'SELECT co.*
 					FROM mc_country AS co 
-					WHERE co.idcountry = :id';
+					WHERE co.iso = :iso';
 					return magixglobal_model_db::layerDB()->selectOne($sql,array(
-						':id'	=>	$data['id']
+						':iso'	=>	$data['iso']
 					));
 				}elseif($data['type'] === 'count'){
 					$sql = 'SELECT count(co.idcountry) AS datacount
@@ -87,5 +94,13 @@ class backend_db_country{
 					':order_c' 	=> $data['order_c']
 				));
 		}
+	}
+	/**
+	 * @param $id
+	 */
+	protected function delete($id)
+	{
+		$query = "DELETE FROM mc_country WHERE idcountry = :id";
+		magixglobal_model_db::layerDB()->delete($query,array(':id'=>$id));
 	}
 }

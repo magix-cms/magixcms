@@ -65,13 +65,28 @@
                             <span class="fa fa-columns"></span> {#theming#|ucfirst}</a>
                     </li>
                 {/if}
-                {if {employee_access type="view_access" class_name="backend_controller_lang"} eq 1 AND $config_lang eq 1}
-                    <li{if {script_name} eq "lang"} class="active"{/if}>
-                        <a href="/{baseadmin}/lang.php?action=list">
-                            <span class="fa fa-flag"></span> {#languages#|ucfirst}
-                        </a>
-                    </li>
-                {/if}
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-location-arrow"></span> {#localization#|ucfirst} <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {if {employee_access type="view_access" class_name="backend_controller_lang"} eq 1 AND $config_lang eq 1}
+                            <li{if {script_name} eq "lang"} class="active"{/if}>
+                                <a href="/{baseadmin}/lang.php?action=list">
+                                    <span class="fa fa-flag"></span> {#languages#|ucfirst}
+                                </a>
+                            </li>
+                        {/if}
+                        {if {employee_access type="view_access" class_name="backend_controller_country"} eq 1}
+                            <li{if {script_name} eq "country"} class="active"{/if}>
+                                <a href="/{baseadmin}/country.php">
+                                    <span class="fa fa-globe"></span> {#country#|ucfirst}
+                                </a>
+                            </li>
+                        {/if}
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="fa fa-wrench"></span> {#tools#|ucfirst} <b class="caret"></b>

@@ -21,6 +21,7 @@ function smarty_function_script_name($params, $template){
         "access"=>"access",
         "theming"=>"theming",
         "lang"=>"lang",
+        "country"=>"country",
         "home"=>"home",
         "cms"=>"cms",
         "news"=>"news",

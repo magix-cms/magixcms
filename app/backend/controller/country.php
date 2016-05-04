@@ -278,7 +278,7 @@ class backend_controller_country extends backend_db_country{
         "ZM"=>"Zambia",
         "ZW"=>"Zimbabwe"
     );
-    public $edit, $action;
+    public $edit, $action,$delete_country;
     public $iso,$country,$order_c;
     public static $notify = array('plugin' => 'false');
     /**
@@ -306,6 +306,10 @@ class backend_controller_country extends backend_db_country{
         if(magixcjquery_filter_request::isPost('order_c')){
             $this->order_c = magixcjquery_form_helpersforms::arrayClean($_POST['order_c']);
         }
+        //DELETE
+        if(magixcjquery_filter_request::isPost('delete_country')){
+            $this->delete_country = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_country']);
+        }
         $this->header = new magixglobal_model_header();
         $this->template = new backend_controller_template();
     }
@@ -322,17 +326,23 @@ class backend_controller_country extends backend_db_country{
     }
 
     /**
-     *
+     * Add new country 
      */
-    public function add(){
+    private function add(){
         $dataCount = parent::select(array('context'=>'one','type'=>'count'));
+        $validate = parent::select(array('context'=>'one','type'=>'iso','iso'=>$this->iso));
         if($dataCount){
-            parent::insert(array(
-                'iso'       =>  $this->iso,
-                'country'   =>  $this->country,
-                'order_c'   =>  $dataCount['order_c']+1
-            ));
-            $this->message->getNotify('add',self::$notify);
+            if($validate['iso'] != NULL){
+                $this->message->json_post_response(false,'country_exist',self::$notify);
+            }else{
+                parent::insert(array(
+                    'iso'       =>  strtoupper($this->iso),
+                    'country'   =>  $this->country,
+                    'order_c'   =>  $dataCount['datacount']+1
+                ));
+                $this->getItemData();
+                $this->message->json_post_response(true,'add',self::$notify,$this->template->fetch('country/loop/item.tpl'));
+            }
         }
     }
 
@@ -341,12 +351,13 @@ class backend_controller_country extends backend_db_country{
      */
     public function setItemsData(){
         return parent::select(array(
-            'context'=>'all'
+            'context'=>'all',
+            'type'=>'list'
         ));
     }
 
     /**
-     * 
+     * @throws Exception
      */
     public function getItemsData(){
         $data = $this->setItemsData();
@@ -354,24 +365,66 @@ class backend_controller_country extends backend_db_country{
     }
 
     /**
+     * @return array
+     */
+    private function setItemData(){
+        return parent::select(array(
+            'context'=>'all',
+            'type'=>'last'
+        ));
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getItemData(){
+        $data = $this->setItemData();
+        $this->template->assign('getItemData',$data);
+    }
+
+    /**
+     * @param $id
+     */
+    private function remove($id){
+        parent::delete($id);
+    }
+    /**
      * @throws Exception
      */
     public function run(){
         // load translation
-        $this->template->addConfigFile(array(
-            'country'
-        ),array('country_'),false
+        $this->template->addConfigFile(
+            array(
+                'country',
+                'country/tools'
+            ),array(
+                'country_',
+                'country_iso_'
+            ),false
         );
+        /**
+         * if action
+         */
         if(isset($this->action)){
             if($this->action === 'add'){
                 if(isset($this->country)){
+                    $header= new magixglobal_model_header();
+                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                    $header->pragma();
+                    $header->cache_control("nocache");
+                    $header->getStatus('200');
+                    $header->json_header("UTF-8");
                     $this->add();
                 }
-            }elseif($this->action === 'html'){
-                $this->getItemsData();
-                $this->template->display('country/loop/items.tpl');
+            }elseif($this->action === 'remove'){
+                if(isset($this->delete_country)){
+                    $this->remove($this->delete_country);
+                }
             }
         }else{
+            $this->template->assign('countryTools',$this->defaultCountry());
+            $this->getItemsData();
             $this->template->display('country/index.tpl');
         }
     }
