@@ -50,6 +50,16 @@
 function smarty_function_widget_country_data($params, $template)
 {
     $countryData = new frontend_controller_country();
+    $modelSystem = new magixglobal_model_system();
+    frontend_model_template::addConfigFile(
+        array(
+            $modelSystem->base_path().'locali18n/country'
+        ),
+        array(
+            'country_',
+        )
+        ,false
+    );
     $assign = isset($params['assign']) ? $params['assign'] : 'countryData';
     $template->assign($assign,$countryData->setItemsData());
 }
