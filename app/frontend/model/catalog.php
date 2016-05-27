@@ -178,6 +178,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                 $data['id']          = $row['idcls'];
                 $data['name']        = $row['slibelle'];
                 $data['content']     = ($row['s_content'] != '') ? $row['s_content'] : null;
+                $data['order']       = $row['sorder'];
+                $data['idparent']    = $row['idclc'];
                 // Plugin
                 if($newrow != false){
                     if(is_array($newrow)){
@@ -224,8 +226,11 @@ class frontend_model_catalog extends frontend_db_catalog {
                         true
                     );
                 $data['id']         =    $row['idclc'];
+                $data['idlang']     =    $row['idlang'];
+                $data['iso']        =    $row['iso'];
                 $data['name']       =    $row['clibelle'];
                 $data['content']    =    ($row['c_content'] != '') ? $row['c_content'] : null;
+                $data['order']      =    $row['corder'];
                 // Plugin
                 if($newrow != false){
                     if(is_array($newrow)){

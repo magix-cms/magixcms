@@ -49,10 +49,10 @@ class frontend_db_catalog
      * @param int $idclc
      * @return array
      */
-    protected function s_category_data($idclc)
+    public function s_category_data($idclc)
     {
     	$select = 'SELECT
-            c.idclc,c.clibelle,c.pathclibelle,c.c_content,c.img_c,lang.iso
+            c.idclc,c.clibelle,c.pathclibelle,c.c_content,c.img_c, c.corder, c.idlang, lang.iso
 	      FROM mc_catalog_c as c
 	      JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
 		  WHERE c.idclc = :idclc
@@ -70,10 +70,10 @@ class frontend_db_catalog
      * @param int $idcls
      * @return array
      */
-	protected function s_subcategory_data($idcls)
+	public function s_subcategory_data($idcls)
     {
         $select = 'SELECT
-                s.idcls,s.slibelle,s.pathslibelle,s.s_content,s.img_s,
+                s.idcls,s.slibelle,s.pathslibelle,s.s_content,s.img_s,s.sorder,
                 c.idclc,c.clibelle,c.pathclibelle,
                 lang.iso
             FROM mc_catalog_s as s
@@ -125,7 +125,7 @@ class frontend_db_catalog
      * @param $data
      * @return array
      */
-    protected static function fetchCategory($data){
+    public static function fetchCategory($data){
         if(is_array($data)){
             if(array_key_exists('fetch',$data)){
                 $fetch = $data['fetch'];
@@ -168,21 +168,33 @@ class frontend_db_catalog
                         $where_clause .= ') ';
                     }
                 }
-                $query = "SELECT
-                c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, c.img_c,
-                lang.iso
-				FROM mc_catalog_c AS c
-				JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
-				WHERE lang.iso = :iso
-				{$where_clause}
-				{$order_clause}
-				{$limit_clause}";
-                return magixglobal_model_db::layerDB()->select(
-                    $query,
-                    array(
-                        ':iso'	=>	$data['iso']
-                    )
-                );
+                if(array_key_exists('iso',$data)) {
+                    $query = "SELECT
+                    c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, c.img_c, c.corder,
+                    lang.iso
+                    FROM mc_catalog_c AS c
+                    JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+                    WHERE lang.iso = :iso
+                    {$where_clause}
+                    {$order_clause}
+                    {$limit_clause}";
+                    return magixglobal_model_db::layerDB()->select(
+                        $query,
+                        array(
+                            ':iso' => $data['iso']
+                        )
+                    );
+                }else{
+                    $query = "SELECT
+                    c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, c.img_c, c.corder,
+                    lang.iso
+                    FROM mc_catalog_c AS c
+                    JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+                    {$where_clause}
+                    {$order_clause}
+                    {$limit_clause}";
+                    return magixglobal_model_db::layerDB()->select($query);
+                }
             }
         }
     }
@@ -193,7 +205,7 @@ class frontend_db_catalog
      * @param $data
      * @return array
      */
-    protected static function fetchSubCategory($data){
+    public static function fetchSubCategory($data){
         if(is_array($data)){
             if(array_key_exists('fetch',$data)){
                 $fetch = $data['fetch'];
@@ -238,9 +250,10 @@ class frontend_db_catalog
                         $where_clause .= ') ';
                     }
                 }
-                $query = "SELECT
+                if(array_key_exists('iso',$data)) {
+                    $query = "SELECT
                       c.idlang, c.clibelle, c.pathclibelle, c.idclc,
-                      s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s,
+                      s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, s.sorder,
                       lang.iso
                   FROM mc_catalog_s AS s
                   JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
@@ -250,18 +263,34 @@ class frontend_db_catalog
                   {$order_clause}
                   {$limit_clause}
 				";
-                return magixglobal_model_db::layerDB()->select(
-                    $query,
-                    array(
-                        ':iso'	=>	$data['iso']
-                    )
-                );
+                    return magixglobal_model_db::layerDB()->select(
+                        $query,
+                        array(
+                            ':iso' => $data['iso']
+                        )
+                    );
+                }else{
+                    $query = "SELECT
+                      c.idlang, c.clibelle, c.pathclibelle, c.idclc,
+                      s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, s.sorder,
+                      lang.iso
+                  FROM mc_catalog_s AS s
+                  JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
+                  JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+                  {$where_clause}
+                  {$order_clause}
+                  {$limit_clause}
+				";
+                    return magixglobal_model_db::layerDB()->select(
+                        $query
+                    );
+                }
             }elseif($fetch == 'in_cat'){
                 //Select all sub categories in category
                 if(array_key_exists('idclc',$data)){
                     $query = "SELECT
                     c.idlang, c.clibelle, c.pathclibelle, c.idclc,
-                    s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s,
+                    s.slibelle, s.s_content, s.pathslibelle, s.idcls, s.img_s, s.sorder,
                     lang.iso
                         FROM mc_catalog_s AS s
                         JOIN mc_catalog_c AS c ON ( c.idclc = s.idclc )
