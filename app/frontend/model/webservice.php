@@ -1,5 +1,14 @@
 <?php
 class frontend_model_webservice{
+    public function __construct()
+    {
+        if (function_exists("curl_init")) {
+            $this->with_curl = TRUE;
+        } else {
+            $this->with_curl = FALSE;
+        }
+    }
+
     /**
      * @return string
      */
@@ -8,7 +17,7 @@ class frontend_model_webservice{
     }
 
     /**
-     * @param $mc_ws_auth_key
+     * @param $mcWsAuthKey
      * @return bool
      */
     public function authorization($mcWsAuthKey){
@@ -40,6 +49,30 @@ class frontend_model_webservice{
             header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
             header('WWW-Authenticate: Basic realm="Welcome to Magixcms Webservice, please enter the authentication key as the login. No password required."');
             die('401 Unauthorized');
+        }
+    }
+    public function preparePostData($data){
+        $curl_params = array();
+        $encodedAuth = $data['wsAuthKey'];
+        $generated_xml = urlencode($data['request']);
+        $options = array(
+            CURLOPT_HEADER          => 0,
+            CURLOPT_RETURNTRANSFER  => true,
+            CURLINFO_HEADER_OUT     => true,
+            CURLOPT_URL             => $data['url'],
+            CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
+            CURLOPT_USERPWD         => $encodedAuth,
+            CURLOPT_HTTPHEADER      => array("Authorization : Basic ".$encodedAuth),
+            CURLOPT_CUSTOMREQUEST   => "POST",
+            CURLOPT_POSTFIELDS      => $data['method']."=".$generated_xml
+        );
+        $ch = curl_init();
+        curl_setopt_array($ch,$options);
+        $response = curl_exec($ch);
+        $curlInfo = curl_getinfo($ch);
+        curl_close ($ch);
+        if($response){
+            print $response;
         }
     }
 }

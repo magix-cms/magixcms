@@ -3,7 +3,6 @@ class frontend_controller_webservice{
     protected $outputxml;
     public $collection,$retrieve,$id,$data;
     public function __construct(){
-
         $this->webservice = new frontend_model_webservice();
         $this->outputxml = new magixglobal_model_outputxml();
         $this->dbCatalog = new frontend_db_catalog();
@@ -24,6 +23,10 @@ class frontend_controller_webservice{
             $this->data = magixcjquery_form_helpersforms::arrayClean($_POST['data']);
         }
     }
+
+    /**
+     * @return string
+     */
     private function setWsAuthKey(){
         return "ZQ88PRJX5VWQHCWE4EE7SQ7HPNX00RAJ";
     }
@@ -280,30 +283,11 @@ class frontend_controller_webservice{
                 break;
         }
     }
-    public function preparePostData($data){
-        $curl_params = array();
-        $encodedAuth = $this->setWsAuthKey();
-        $generated_xml = urlencode($data['request']);
-        $options = array(
-            CURLOPT_HEADER          => 0,
-            CURLOPT_RETURNTRANSFER  => true,
-            CURLINFO_HEADER_OUT     => true,
-            CURLOPT_URL             => $data['url'],
-            CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
-            CURLOPT_USERPWD         => $encodedAuth,
-            CURLOPT_HTTPHEADER      => array("Authorization : Basic ".$encodedAuth),
-            CURLOPT_CUSTOMREQUEST   => "POST",
-            CURLOPT_POSTFIELDS      => $data['method']."=".$generated_xml
-        );
-        $ch = curl_init();
-        curl_setopt_array($ch,$options);
-        $response = curl_exec($ch);
-        $curlInfo = curl_getinfo($ch);
-        curl_close ($ch);
-        if($response){
-            print $response;
-        }
-    }
+
+    /**
+     * @param $data
+     * @return mixed|SimpleXMLElement
+     */
     public function setPostData($data){
         switch($data['method']){
             case 'xml':
@@ -314,22 +298,19 @@ class frontend_controller_webservice{
                 break;
         }
     }
+
+    /**
+     * @param bool $filter
+     * @return mixed|SimpleXMLElement
+     */
     public function getResult($filter = false){
-
-        /*$filter = array(
-            'name','content'
-        );
-        foreach($filter as $input){
-            if (!($_POST[$input]) OR $_POST[$input] == null OR $_POST[$input] == ''){
-                return;
-            }
-        }*/
-
-        $keyPost = array_keys($_POST);
-        if(in_array("json",$keyPost) || in_array("xml",$keyPost)){
-            $parse = $this->setPostData(array('method'=>$keyPost[0]));
-            if(is_object($parse)){
-                return $parse;
+        if($_POST){
+            $keyPost = array_keys($_POST);
+            if (in_array("json", $keyPost) || in_array("xml", $keyPost)) {
+                $parse = $this->setPostData(array('method' => $keyPost[0]));
+                if (is_object($parse)) {
+                    return $parse;
+                }
             }
         }
     }
@@ -337,13 +318,13 @@ class frontend_controller_webservice{
      * Execute webservice function
      */
     public function run(){
-        if(isset($this->collection)){
-            switch ($this->collection){
+        if (isset($this->collection)) {
+            switch ($this->collection) {
                 case 'catalog':
                     $this->setCatalog();
                     break;
             }
-        } else{
+        } else {
             $curl_params = array();
             $encodedAuth = $this->setWsAuthKey();
             /*$options = array(
@@ -400,19 +381,19 @@ class frontend_controller_webservice{
             $test .= $this->outputxml->newEndElement();
             $test .= $this->outputxml->output();*/
             $test = '<?xml version="1.0" encoding="UTF-8" ?>
-            <magixcms>
-                <category>
-                    <name>rthrthrt</name>
-                    <url>mon-url</url>
-                    <description>
-                        <![CDATA[<div id="lipsum">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
-                        <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
-                        </div>]]>
-                    </description>
-                </category>
-            </magixcms>';
-            $json = json_encode(array('name'=>'test','content'=>'test avec json'));
+        <magixcms>
+            <category>
+                <name>rthrthrt</name>
+                <url>mon-url</url>
+                <description>
+                    <![CDATA[<div id="lipsum">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
+                    <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
+                    </div>]]>
+                </description>
+            </category>
+        </magixcms>';
+            $json = json_encode(array('name' => 'test', 'content' => 'test avec json'));
             /*$generated_xml = urlencode($json);
             $options = array(
                 CURLOPT_HEADER          => 0,
@@ -422,29 +403,29 @@ class frontend_controller_webservice{
                 CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
                 CURLOPT_USERPWD         => $encodedAuth,
                 CURLOPT_HTTPHEADER      => array("Authorization : Basic ".$encodedAuth,/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*///),
-                /*CURLOPT_CUSTOMREQUEST   => "POST",
-                CURLOPT_POSTFIELDS      => "json=".$generated_xml
-            );
-            $ch = curl_init();
-            curl_setopt_array($ch,$options);
-            $response = curl_exec($ch);
-            //print_r($response);
-            $curlInfo = curl_getinfo($ch);
-            /*$index = strpos($response, "\r\n\r\n");
-            if ($index === false && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD'){
-                throw new Exception('Bad HTTP response');
-            }
-            $header = substr($response, 0, $index);
-            $body = substr($response, $index + 4);
-            $headerArrayTmp = explode("\n", $header);
-            $headerArray = array();
-            foreach ($headerArrayTmp as &$headerItem)
-            {
-                $tmp = explode(':', $headerItem);
-                $tmp = array_map('trim', $tmp);
-                if (count($tmp) == 2)
-                    $headerArray[$tmp[0]] = $tmp[1];
-            }*/
+            /*CURLOPT_CUSTOMREQUEST   => "POST",
+            CURLOPT_POSTFIELDS      => "json=".$generated_xml
+        );
+        $ch = curl_init();
+        curl_setopt_array($ch,$options);
+        $response = curl_exec($ch);
+        //print_r($response);
+        $curlInfo = curl_getinfo($ch);
+        /*$index = strpos($response, "\r\n\r\n");
+        if ($index === false && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD'){
+            throw new Exception('Bad HTTP response');
+        }
+        $header = substr($response, 0, $index);
+        $body = substr($response, $index + 4);
+        $headerArrayTmp = explode("\n", $header);
+        $headerArray = array();
+        foreach ($headerArrayTmp as &$headerItem)
+        {
+            $tmp = explode(':', $headerItem);
+            $tmp = array_map('trim', $tmp);
+            if (count($tmp) == 2)
+                $headerArray[$tmp[0]] = $tmp[1];
+        }*/
             /*curl_close ($ch);
             //print '<pre>';
             //print_r($response);
@@ -457,10 +438,11 @@ class frontend_controller_webservice{
             /*$xml = simplexml_load_string($test);
             print_r($xml);*/
             /*if($response){ echo $response; }*/
-            $this->preparePostData(array(
-                'method'=>'xml',
-                'request'=>$test,
-                'url'=>'http://www.magixcms.dev/webservice/catalog/categories'
+            $this->webservice->preparePostData(array(
+                'wsAuthKey'=>$this->setWsAuthKey(),
+                'method' => 'xml',
+                'request' => $test,
+                'url' => 'http://www.magixcms.dev/webservice/catalog/categories'
             ));
         }
     }
