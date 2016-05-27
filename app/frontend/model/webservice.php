@@ -62,7 +62,7 @@ class frontend_model_webservice{
             CURLOPT_URL             => $data['url'],
             CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
             CURLOPT_USERPWD         => $encodedAuth,
-            CURLOPT_HTTPHEADER      => array("Authorization : Basic ".$encodedAuth),
+            CURLOPT_HTTPHEADER      => array("Authorization : Basic ".$encodedAuth/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*/),
             CURLOPT_CUSTOMREQUEST   => "POST",
             CURLOPT_POSTFIELDS      => $data['method']."=".$generated_xml
         );
@@ -72,7 +72,7 @@ class frontend_model_webservice{
         $curlInfo = curl_getinfo($ch);
         curl_close ($ch);
         if($response){
-            print $response;
+            return $response;
         }
     }
 }

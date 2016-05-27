@@ -300,10 +300,9 @@ class frontend_controller_webservice{
     }
 
     /**
-     * @param bool $filter
      * @return mixed|SimpleXMLElement
      */
-    public function getResult($filter = false){
+    public function getResult(){
         if($_POST){
             $keyPost = array_keys($_POST);
             if (in_array("json", $keyPost) || in_array("xml", $keyPost)) {
@@ -394,51 +393,7 @@ class frontend_controller_webservice{
             </category>
         </magixcms>';
             $json = json_encode(array('name' => 'test', 'content' => 'test avec json'));
-            /*$generated_xml = urlencode($json);
-            $options = array(
-                CURLOPT_HEADER          => 0,
-                CURLOPT_RETURNTRANSFER  => true,
-                CURLINFO_HEADER_OUT     => true,
-                CURLOPT_URL             => 'http://www.magixcms.dev/webservice/catalog/categories',
-                CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
-                CURLOPT_USERPWD         => $encodedAuth,
-                CURLOPT_HTTPHEADER      => array("Authorization : Basic ".$encodedAuth,/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*///),
-            /*CURLOPT_CUSTOMREQUEST   => "POST",
-            CURLOPT_POSTFIELDS      => "json=".$generated_xml
-        );
-        $ch = curl_init();
-        curl_setopt_array($ch,$options);
-        $response = curl_exec($ch);
-        //print_r($response);
-        $curlInfo = curl_getinfo($ch);
-        /*$index = strpos($response, "\r\n\r\n");
-        if ($index === false && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD'){
-            throw new Exception('Bad HTTP response');
-        }
-        $header = substr($response, 0, $index);
-        $body = substr($response, $index + 4);
-        $headerArrayTmp = explode("\n", $header);
-        $headerArray = array();
-        foreach ($headerArrayTmp as &$headerItem)
-        {
-            $tmp = explode(':', $headerItem);
-            $tmp = array_map('trim', $tmp);
-            if (count($tmp) == 2)
-                $headerArray[$tmp[0]] = $tmp[1];
-        }*/
-            /*curl_close ($ch);
-            //print '<pre>';
-            //print_r($response);
-            //print_r($curlInfo);
-            //print_r(array('status_code' => $curlInfo['http_code'],"request_header"=>$curlInfo['request_header'], 'response' => $body, 'header' => $header));
-            //print '</pre>';
-            //print $body;
-            //}
-            //$this->outputxml->getXmlHeader();
-            /*$xml = simplexml_load_string($test);
-            print_r($xml);*/
-            /*if($response){ echo $response; }*/
-            $this->webservice->preparePostData(array(
+            print $this->webservice->preparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',
                 'request' => $test,
