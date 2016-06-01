@@ -51,28 +51,86 @@ class frontend_model_webservice{
             die('401 Unauthorized');
         }
     }
-    public function preparePostData($data){
-        $curl_params = array();
-        $encodedAuth = $data['wsAuthKey'];
-        $generated_xml = urlencode($data['request']);
-        $options = array(
-            CURLOPT_HEADER          => 0,
-            CURLOPT_RETURNTRANSFER  => true,
-            CURLINFO_HEADER_OUT     => true,
-            CURLOPT_URL             => $data['url'],
-            CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
-            CURLOPT_USERPWD         => $encodedAuth,
-            CURLOPT_HTTPHEADER      => array("Authorization : Basic ".$encodedAuth/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*/),
-            CURLOPT_CUSTOMREQUEST   => "POST",
-            CURLOPT_POSTFIELDS      => $data['method']."=".$generated_xml
-        );
-        $ch = curl_init();
-        curl_setopt_array($ch,$options);
-        $response = curl_exec($ch);
-        $curlInfo = curl_getinfo($ch);
-        curl_close ($ch);
-        if($response){
-            return $response;
+
+    /**
+     * Prepare post Data with Curl (no files)
+     * @param $data
+     * @return mixed
+     */
+    public function setPreparePostData($data){
+        if($this->with_curl) {
+            $curl_params = array();
+            $encodedAuth = $data['wsAuthKey'];
+            $generated_xml = urlencode($data['request']);
+            $options = array(
+                CURLOPT_HEADER => 0,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLINFO_HEADER_OUT => true,
+                CURLOPT_URL => $data['url'],
+                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                CURLOPT_USERPWD => $encodedAuth,
+                CURLOPT_HTTPHEADER => array("Authorization : Basic " . $encodedAuth/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*/),
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => $data['method'] . "=" . $generated_xml/*,
+            CURLOPT_SAFE_UPLOAD     => false*/
+            );
+            $ch = curl_init();
+            curl_setopt_array($ch, $options);
+            $response = curl_exec($ch);
+            $curlInfo = curl_getinfo($ch);
+            curl_close($ch);
+            if ($response) {
+                return $response;
+            }
+        }
+    }
+
+    /**
+     * Prepare post Img with Curl (files only)
+     * @param $data
+     * @return mixed
+     */
+    public function setPreparePostImg($data){
+        if($this->with_curl) {
+            if (isset($_FILES)) {
+                $ch = curl_init();
+
+                $curl_params = array();
+                $encodedAuth = $data['wsAuthKey'];
+
+                $img = array(
+                    'img' =>
+                        '@' . $_FILES['img']['tmp_name']
+                        . ';filename=' . $_FILES['img']['name']
+                        . ';type=' . $_FILES['img']['type']
+                );
+
+                $options = array(
+                    CURLOPT_HEADER => 0,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLINFO_HEADER_OUT => true,
+                    CURLOPT_URL => $data['url'],
+                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => $encodedAuth,
+                    CURLOPT_HTTPHEADER => array("Authorization : Basic " . $encodedAuth/*,"Content-Type: multipart/form-data"*/),
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => $img/*,
+            CURLOPT_SAFE_UPLOAD     => false*/
+                );
+                $ch = curl_init();
+                curl_setopt_array($ch, $options);
+                $response = curl_exec($ch);
+                $curlInfo = curl_getinfo($ch);
+                curl_close($ch);
+                if ($response) {
+                    return $response;
+                }
+
+                //print '<pre>';
+                //print_r($data['request']);
+                //print_r($curlInfo);
+                //print '</pre>';
+            }
         }
     }
 }
