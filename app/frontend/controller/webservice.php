@@ -1,7 +1,7 @@
 <?php
 class frontend_controller_webservice extends frontend_db_webservice{
     protected $outputxml,$message;
-    public $collection,$retrieve,$id,$option,$data,$img;
+    public $collection,$retrieve,$id,$action,$img;
     public static $notify = array('plugin' => 'false', 'method' => 'print', 'template'=> '');
     public function __construct(){
         $this->webservice = new frontend_model_webservice();
@@ -22,13 +22,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
         if(magixcjquery_filter_request::isGet('id')){
             $this->id = magixcjquery_form_helpersforms::inputNumeric($_GET['id']);
         }
-        if(magixcjquery_filter_request::isGet('option')){
-            $this->option = magixcjquery_form_helpersforms::inputClean($_GET['option']);
+        if(magixcjquery_filter_request::isGet('action')){
+            $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
         // POST
-        if(magixcjquery_filter_request::isPost('data')){
-            $this->data = magixcjquery_form_helpersforms::arrayClean($_POST['data']);
-        }
         if(isset($_FILES['img']["name"])){
             $this->img = magixcjquery_url_clean::rplMagixString($_FILES['img']["name"]);
         }
@@ -40,7 +37,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
     private function setWsAuthKey(){
         return "ZQ88PRJX5VWQHCWE4EE7SQ7HPNX00RAJ";
     }
-
+    // ############## GET
     /**
      * get catalog categories
      */
@@ -254,6 +251,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
         $this->outputxml->newEndElement();
         $this->outputxml->output();
     }
+    //########## POST
+
     /**
      * @param $data
      * @return mixed|SimpleXMLElement
@@ -291,186 +290,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
             }
         }
     }
-    /**
-     * Retourne le chemin depuis la racine
-     * @param $pathUpload
-     * @return string
-     */
-    private function imgBasePath($pathUpload){
-        return magixglobal_model_system::base_path().$pathUpload;
-    }
 
-    /**
-     * Return path string for upload
-     * @param $data
-     * @return string
-     */
-    private function dirImgUpload($data){
-        if(is_array($data)){
-            if(array_key_exists('type',$data)){
-                switch($data['type']){
-                    case 'catalog':
-                        $type = 'catalogimg';
-                        break;
-                    case 'news':
-                        $type = 'news';
-                        break;
-                }
-                if(array_key_exists('context',$data) && array_key_exists('imgBasePath',$data)){
-                    if($data['imgBasePath']){
-                        $url = self::imgBasePath("upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR.$data['context'].DIRECTORY_SEPARATOR);
-                    }else{
-                        $url = "upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR.$data['context'].DIRECTORY_SEPARATOR;
-                    }
-                }elseif(array_key_exists('imgBasePath',$data)){
-                    if($data['imgBasePath']){
-                        $url = self::imgBasePath("upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR);
-                    }else{
-                        $url = "upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR;
-                    }
-                }
-                return $url;
-            }
-        }
-    }
-
-    /**
-     * Return path collection for upload
-     * @param $data
-     * @return array
-     */
-    private function dirImgUploadCollection($data){
-        if(is_array($data)){
-            if(array_key_exists('type',$data)){
-                switch($data['type']){
-                    case 'catalog':
-                        $type = 'catalogimg';
-                        break;
-                    case 'news':
-                        $type = 'news';
-                        break;
-                }
-                if(array_key_exists('context',$data)){
-                    foreach($data['context'] as $key){
-                        $url[] = self::imgBasePath("upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR);
-                    }
-
-                }
-                return $url;
-            }
-        }
-    }
-
-    /**
-     * Set Upload files
-     * @param $img
-     * @param $data
-     * @param $imgPath
-     * @param $imgCollection
-     * @param bool $debug
-     * @return array
-     */
-    private function setUploadImage($img,$data,$imgPath,$imgCollection,$debug=false){
-        if(isset($this->$img)){
-            try{
-                // Charge la classe pour le traitement du fichier
-                $makeFiles = new magixcjquery_files_makefiles();
-                $resultUpload = null;
-                $dirImg = $this->dirImgUpload(array_merge($imgPath,array('imgBasePath'=>true)));
-
-                if(!empty($this->$img)){
-                    $initImg = new frontend_model_image();
-                    /**
-                     * Envoi une image dans le dossier "racine" catalogimg
-                     */
-                    $resultUpload = $initImg->uploadImg(
-                        $img,
-                        $this->dirImgUpload(array_merge($imgPath,array('imgBasePath'=>false))),
-                        $debug
-                    );
-                    /**
-                     * Analyze l'extension du fichier en traitement
-                     * @var $fileextends
-                     */
-                    
-                    $fileExtends = $initImg->image_analyze($dirImg.$this->$img);
-                    if ($initImg->imgSizeMin($dirImg.$this->$img,25,25)){
-                        if(file_exists($dirImg.$data['name'].$fileExtends)){
-                            $makeFiles->removeFile($dirImg,$data['edit']);
-                        }
-                        // Renomme le fichier
-                        $makeFiles->renameFiles(
-                            $dirImg,
-                            $dirImg.$this->$img,$dirImg.$data['name'].$fileExtends
-                        );
-                        /**
-                         * Initialisation de la classe phpthumb
-                         * @var void
-                         */
-                        try{
-                            $thumb = PhpThumbFactory::create($dirImg.$data['name'].$fileExtends);
-                        }catch (Exception $e)
-                        {
-                            magixglobal_model_system::magixlog('An error has occured :',$e);
-                        }
-                        /**
-                         *
-                         * Charge la taille des images des sous catégories du catalogue
-                         */
-                        $fetchConfig = parent::fetchConfig(array('type'=>'config','context'=>'imgSize','attr_name'=>$data['attr_name'],'attr_size'=>$data['attr_size']));
-                        if($fetchConfig != null){
-                            if(is_array($imgCollection)){
-                                $dirImgArray = $this->dirImgUploadCollection($imgCollection);
-                                foreach($fetchConfig as $key => $value){
-                                    switch($value['img_resizing']){
-                                        case 'basic':
-                                            $thumb->resize($value['width'],$value['height']);
-                                            $thumb->save($dirImgArray[$key].$data['name'].$fileExtends);
-                                            break;
-                                        case 'adaptive':
-                                            $thumb->adaptiveResize($value['width'],$value['height']);
-                                            $thumb->save($dirImgArray[$key].$data['name'].$fileExtends);
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-
-                        // Supprime l'ancienne image
-                        if(!empty($data['edit'])){
-                            if(file_exists($dirImg.$data['edit'])){
-                                $makeFiles->removeFile($dirImg,$data['edit']);
-                            }
-                        }
-                        //Supprime le fichier local
-                        if(file_exists($dirImg.$data['name'].$fileExtends)){
-                            $makeFiles->removeFile($dirImg,$data['name'].$fileExtends);
-                        }else{
-                            throw new Exception('file: '.$this->$img.' is not found');
-                        }
-
-                        return array('file'=>$data['name'].$fileExtends,'statut'=>$resultUpload['statut'],'notify'=>$resultUpload['notify'],'msg'=>$resultUpload['msg']);
-                    }else{
-                        //Supprime le fichier local
-                        if(file_exists($dirImg.$this->$img)){
-                            $makeFiles->removeFile($dirImg,$this->$img);
-                        }else{
-                            throw new Exception('file: '.$this->$img.' is not found');
-                        }
-                    }
-                }else{
-                    if(!empty($data['edit'])){
-                        if(file_exists($dirImg.$data['edit'])){
-                            $makeFiles->removeFile($dirImg,$data['edit']);
-                        }
-                    }
-                    return array('file'=>null,'statut'=>$resultUpload['statut'],'notify'=>$resultUpload['notify'],'msg'=>$resultUpload['msg']);
-                }
-            }catch (Exception $e){
-                magixglobal_model_system::magixlog('An error has occured :',$e);
-            }
-        }
-    }
 
     /**
      * Set parse data from XML OR JSON
@@ -495,21 +315,27 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 'content'   => $this->getResult()->{'category'}->{'description'}
                             );
                         }elseif($operations['scrud'] === 'update'){
-
-                            if($this->getResult()->{'category'}->{'url'} != ''){
-                                $url = $this->getResult()->{'category'}->{'url'};
+                            if(array_key_exists('action',$operations)){
+                                switch($operations['action']){
+                                    case 'links':
+                                        break;
+                                }
                             }else{
-                                $url = magixcjquery_url_clean::rplMagixString(
-                                    $this->getResult()->{'category'}->{'name'},
-                                    array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
+                                if($this->getResult()->{'category'}->{'url'} != ''){
+                                    $url = $this->getResult()->{'category'}->{'url'};
+                                }else{
+                                    $url = magixcjquery_url_clean::rplMagixString(
+                                        $this->getResult()->{'category'}->{'name'},
+                                        array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
+                                    );
+                                }
+                                $parse = array(
+                                    'id'        => $this->getResult()->{'category'}->{'id'},
+                                    'name'      => $this->getResult()->{'category'}->{'name'},
+                                    'url'       => $url,
+                                    'content'   => $this->getResult()->{'category'}->{'description'}
                                 );
                             }
-                            $parse = array(
-                                'id'        => $this->getResult()->{'category'}->{'id'},
-                                'name'      => $this->getResult()->{'category'}->{'name'},
-                                'url'       => $url,
-                                'content'   => $this->getResult()->{'category'}->{'description'}
-                            );
                         }
                     }
                 }
@@ -529,7 +355,6 @@ class frontend_controller_webservice extends frontend_db_webservice{
             /**
              * Data validate from POST
              */
-
             foreach($dataValidate as $input){
                 if (!($parse[$input]) OR $parse[$input] == null OR $parse[$input] == ''){
                     $this->message->json_post_response(false,'error',self::$notify,'Params : '.$input.' is not valid');
@@ -583,22 +408,27 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         }
                     }elseif(isset($this->img)) {
                         if($this->webservice->authorization($this->setWsAuthKey())) {
-                            $resultUpload = $this->setUploadImage(
+                            $resultUpload = $this->webservice->setUploadImage(
                                 'img',
                                 array(
                                     'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                    'edit' => null,
+                                    'id' => null,
                                     'attr_name' => 'catalog',
                                     'attr_size' => 'category'
-                                ),
-                                array(
-                                    'type' => 'catalog'
                                 ),
                                 array(
                                     'type' => 'catalog',
                                     'context' => array('category')
                                 )
                             );
+                            if($resultUpload['statut']){
+                                parent::updateData(array(
+                                    'type'      => 'catalog',
+                                    'context'   => 'category',
+                                    'id'        => $this->id,
+                                    'img'      => $resultUpload['file']
+                                ));
+                            }
                             $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                         }
                     }else{
@@ -613,9 +443,9 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         if($this->webservice->authorization($this->setWsAuthKey())){
                             $this->setPostData(
                                 array(
-                                    'type'=>'catalog',
-                                    'context'=>'category',
-                                    'scrud'=>'create'
+                                    'type'      =>  'catalog',
+                                    'context'   =>  'category',
+                                    'scrud'     =>  'create'
                                 ),
                                 array(
                                     'name','idlang','url','content'
@@ -744,13 +574,11 @@ class frontend_controller_webservice extends frontend_db_webservice{
         <magixcms>
             <category>
                 <id>1</id>
-                <name>Mon édition de test</name>
+                <name>Mon édition</name>
                 <url></url>
                 <description>
-                    <![CDATA[<div id="lipsum">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
-                    <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
-                    </div>]]>
+                    <![CDATA[
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
                 </description>
             </category>
         </magixcms>';
@@ -758,7 +586,13 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
                     <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
                     </div>';
-            $json = json_encode(array('category'=>array('name' => 'Mon titre via webservice json', 'description' => $description)));
+            $json = json_encode(array('category'=>array(
+                'id'            =>  1,
+                'name'          =>  'Mon titre via webservice json',
+                'url'           =>  '',
+                'description'   => $description
+            )));
+
             print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',

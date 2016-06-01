@@ -53,7 +53,13 @@ class frontend_db_webservice
                                     )
                                 );
                             }elseif(isset($data['img'])){
-
+                                $query = 'UPDATE mc_catalog_c SET img_c = :img WHERE idclc = :edit';
+                                magixglobal_model_db::layerDB()->update($query,
+                                    array(
+                                        ':img'	=>	$data['img'],
+                                        ':edit'		=>	$data['id']
+                                    )
+                                );
                             }
                         }
                     }
