@@ -408,11 +408,12 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         }
                     }elseif(isset($this->img)) {
                         if($this->webservice->authorization($this->setWsAuthKey())) {
+                            $data = $this->dbCatalog->s_category_data($this->id);
                             $resultUpload = $this->webservice->setUploadImage(
                                 'img',
                                 array(
                                     'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                    'id' => null,
+                                    'edit' => $data['img_c'],
                                     'attr_name' => 'catalog',
                                     'attr_size' => 'category'
                                 ),

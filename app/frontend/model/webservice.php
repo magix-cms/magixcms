@@ -139,6 +139,7 @@ class frontend_model_webservice extends frontend_db_webservice{
                 $makeFiles = new magixcjquery_files_makefiles();
                 $resultUpload = null;
                 $dirImg = $this->dirImgUpload(array_merge(array('type'=>$imgCollection['type']),array('imgBasePath'=>true)));
+                $fetchConfig = parent::fetchConfig(array('type'=>'config','context'=>'imgSize','attr_name'=>$data['attr_name'],'attr_size'=>$data['attr_size']));
                 if(!empty($this->$img)){
                     $initImg = new frontend_model_image();
                     /**
@@ -178,7 +179,7 @@ class frontend_model_webservice extends frontend_db_webservice{
                          *
                          * Charge la taille des images des sous catégories du catalogue
                          */
-                        $fetchConfig = parent::fetchConfig(array('type'=>'config','context'=>'imgSize','attr_name'=>$data['attr_name'],'attr_size'=>$data['attr_size']));
+
                         if($fetchConfig != null){
                             if(is_array($imgCollection)){
                                 $dirImgArray = $this->dirImgUploadCollection($imgCollection);
@@ -198,9 +199,14 @@ class frontend_model_webservice extends frontend_db_webservice{
                         }
 
                         // Supprime l'ancienne image
-                        if(!empty($data['id'])){
-                            if(file_exists($dirImg.$data['id'])){
-                                $makeFiles->removeFile($dirImg,$data['id']);
+                        if(!empty($data['edit'])){
+                            if(is_array($imgCollection)) {
+                                $dirImgArray = $this->dirImgUploadCollection($imgCollection);
+                                foreach($fetchConfig as $key => $value) {
+                                    if (file_exists($dirImgArray[$key] . $data['edit'])) {
+                                        $makeFiles->removeFile($dirImgArray[$key], $data['edit']);
+                                    }
+                                }
                             }
                         }
                         //Supprime le fichier local
@@ -220,9 +226,14 @@ class frontend_model_webservice extends frontend_db_webservice{
                         }
                     }
                 }else{
-                    if(!empty($data['id'])){
-                        if(file_exists($dirImg.$data['id'])){
-                            $makeFiles->removeFile($dirImg,$data['id']);
+                    if(!empty($data['edit'])){
+                        if(is_array($imgCollection)) {
+                            $dirImgArray = $this->dirImgUploadCollection($imgCollection);
+                            foreach($fetchConfig as $key => $value) {
+                                if (file_exists($dirImgArray[$key] . $data['edit'])) {
+                                    $makeFiles->removeFile($dirImgArray[$key], $data['edit']);
+                                }
+                            }
                         }
                     }
                     return array('file'=>null,'statut'=>$resultUpload['statut'],'notify'=>$resultUpload['notify'],'msg'=>$resultUpload['msg']);
