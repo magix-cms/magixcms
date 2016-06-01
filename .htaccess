@@ -280,7 +280,7 @@ RewriteRule ^(?:catalogue|catalog)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]
 RewriteRule ^webservice[/]/{0,1}$ %{ENV:REWRITEBASE}webservice.php [QSA,L]
 RewriteRule ^webservice[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)/{0,1}$ %{ENV:REWRITEBASE}webservice.php?collection=$1&retrieve=$2 [QSA,L]
 RewriteRule ^webservice[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)[/]([0-9]+)/{0,1}$ %{ENV:REWRITEBASE}webservice.php?collection=$1&retrieve=$2&id=$3 [QSA,L]
-RewriteRule ^webservice[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)[/]([0-9]+)/[/]([a-zA-Z]+){0,1}$ %{ENV:REWRITEBASE}webservice.php?collection=$1&retrieve=$2&id=$3&action=$4 [QSA,L]
+RewriteRule ^webservice[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)[/]([0-9]+)[/]([a-zA-Z]+){0,1}$ %{ENV:REWRITEBASE}webservice.php?collection=$1&retrieve=$2&id=$3&action=$4 [QSA,L]
 ############################ Plugins ###############################
 #RewriteRule ^(admin)/ - [L]
 RewriteCond %{REQUEST_URI} !^/(admin|install|webservice)

@@ -17,13 +17,25 @@ class frontend_db_webservice
                          * Insert new category catalog
                          */
                         $sql = 'INSERT INTO mc_catalog_c (clibelle,pathclibelle,c_content,idlang,corder)
-		            VALUE(:name,:url,:content,:idlang,(SELECT COUNT(c.corder) FROM mc_catalog_c as c WHERE c.idlang = :idlang))';
+		                VALUE(:name,:url,:content,:idlang,(SELECT COUNT(c.corder) FROM mc_catalog_c as c WHERE c.idlang = :idlang))';
                         magixglobal_model_db::layerDB()->insert($sql,
                             array(
                                 ':name'		=>	$data['name'],
                                 ':url'		=>	$data['url'],
                                 ':content'  =>	$data['content'],
                                 ':idlang'	=>	$data['idlang']
+                            )
+                        );
+                    }elseif($context === 'subcategory'){
+                        $query = 'INSERT INTO mc_catalog_s (idclc,slibelle,pathslibelle,s_content,sorder)
+		                VALUE(:idparent,:name,:url,:content,(SELECT COUNT(s.sorder) 
+		                FROM mc_catalog_s AS s WHERE s.idclc = :idparent))';
+                        magixglobal_model_db::layerDB()->insert($query,
+                            array(
+                                ':name'		=>	$data['name'],
+                                ':url'		=>	$data['url'],
+                                ':content'  =>	$data['content'],
+                                ':idparent' =>  $data['idparent']
                             )
                         );
                     }

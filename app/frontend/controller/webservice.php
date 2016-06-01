@@ -337,15 +337,30 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 );
                             }
                         }
+                    }elseif($operations['context'] === 'subcategory'){
+                        if($operations['scrud'] === 'create') {
+                            $parse = array(
+                                'name'      => $this->getResult()->{$operations['context']}->{'name'},
+                                'idparent'    => $this->getResult()->{$operations['context']}->{'idparent'},
+                                'url'       => magixcjquery_url_clean::rplMagixString(
+                                    $this->getResult()->{$operations['context']}->{'name'},
+                                    array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
+                                ),
+                                'content'   => $this->getResult()->{$operations['context']}->{'description'}
+                            );
+                        }
                     }
                 }
             break;
         }
         return $parse;
     }
+
     /**
+     * Set post data
+     * @param $operations
+     * @param $dataValidate
      * @param bool $debug
-     * @throws Exception
      */
     public function setPostData($operations,$dataValidate,$debug = false){
         if($debug){
@@ -361,14 +376,25 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     return;
                 }else{
                     if($operations['scrud'] === 'create') {
-                        parent::insertNewData(array(
-                            'type'      => $operations['type'],
-                            'context'   => $operations['context'],
-                            'name'      => $parse['name'],
-                            'url'       => $parse['url'],
-                            'content'   => $parse['content'],
-                            'idlang'    => $parse['idlang']
-                        ));
+                        if($operations['context'] === 'subcategory'){
+                            parent::insertNewData(array(
+                                'type'      => $operations['type'],
+                                'context'   => $operations['context'],
+                                'name'      => $parse['name'],
+                                'url'       => $parse['url'],
+                                'content'   => $parse['content'],
+                                'idparent'  => $parse['idparent']
+                            ));
+                        }else{
+                            parent::insertNewData(array(
+                                'type'      => $operations['type'],
+                                'context'   => $operations['context'],
+                                'name'      => $parse['name'],
+                                'url'       => $parse['url'],
+                                'content'   => $parse['content'],
+                                'idlang'    => $parse['idlang']
+                            ));
+                        }
                         $this->message->json_post_response(true,'success',self::$notify,'Add success');
                     }elseif($operations['scrud'] === 'update'){
                         parent::updateData(array(
@@ -395,16 +421,33 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 if(isset($this->id)){
                     if(isset($_POST['xml']) || isset($_POST['json'])){
                         if($this->webservice->authorization($this->setWsAuthKey())){
-                            $this->setPostData(
-                                array(
-                                    'type'=>'catalog',
-                                    'context'=>'category',
-                                    'scrud'=>'update'
-                                ),
-                                array(
-                                    'name','url','content'
-                                )
-                            );
+                            if(isset($this->action)){
+                                switch($this->action) {
+                                    case 'child':
+                                        $this->setPostData(
+                                            array(
+                                                'type'      => 'catalog',
+                                                'context'   => 'subcategory',
+                                                'scrud'     => 'create'
+                                            ),
+                                            array(
+                                                'name', 'url', 'content', 'idparent'
+                                            )
+                                        );
+                                        break;
+                                }
+                            }else{
+                                $this->setPostData(
+                                    array(
+                                        'type'      =>  'catalog',
+                                        'context'   =>  'category',
+                                        'scrud'     =>  'update'
+                                    ),
+                                    array(
+                                        'name','url','content'
+                                    )
+                                );
+                            }
                         }
                     }elseif(isset($this->img)) {
                         if($this->webservice->authorization($this->setWsAuthKey())) {
@@ -583,6 +626,17 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 </description>
             </category>
         </magixcms>';
+            $subcategory = '<?xml version="1.0" encoding="UTF-8" ?>
+        <magixcms>
+            <subcategory>
+                <idparent>1</idparent>
+                <name>Mon édition</name>
+                <description>
+                    <![CDATA[
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
+                </description>
+            </subcategory>
+        </magixcms>';
             $description = '<div id="lipsum">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
                     <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
@@ -597,8 +651,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
             print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',
-                'request' => $test,
-                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/1'
+                'request' => $subcategory,
+                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/1/child'
             ));
 
             
