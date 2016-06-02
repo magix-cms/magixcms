@@ -181,49 +181,54 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'cData' => $dataClean['content']
             )
         );
+        // Start image category
         $this->outputxml->newStartElement('images');
-        if($dataClean['imgSrc']['large'] != null){
-            $this->outputxml->setElement(
-                array(
-                    'start' => 'image',
-                    'attrNS' => array(
-                        array(
-                            'prefix' => 'xlink',
-                            'name' => 'href',
-                            'uri' => $this->url . $dataClean['imgSrc']['large']
+            if($dataClean['imgSrc']['large'] != null){
+                $this->outputxml->setElement(
+                    array(
+                        'start' => 'image',
+                        'attrNS' => array(
+                            array(
+                                'prefix' => 'xlink',
+                                'name' => 'href',
+                                'uri' => $this->url . $dataClean['imgSrc']['large']
+                            )
                         )
                     )
-                )
-            );
-        }
+                );
+            }
 
         $this->outputxml->newEndElement();
+        // End image category
         $this->outputxml->setElement(
             array(
                 'start' => 'order',
                 'text' => $dataClean['order']
             )
         );
+        // Start sub categories links
         // Load Subcategories in category
         $this->outputxml->newStartElement('subcategories');
-        if($fetchSubcategory != null) {
-            foreach ($fetchSubcategory as $key) {
-                $this->outputxml->setElement(
-                    array(
-                        'start' => 'subcategory',
-                        'attrNS' => array(
-                            array(
-                                'prefix' => 'xlink',
-                                'name' => 'href',
-                                'uri' => $this->url . '/webservice/catalog/subcategories/' . $key['idcls'].'/'
+            if($fetchSubcategory != null) {
+                foreach ($fetchSubcategory as $key) {
+                    $this->outputxml->setElement(
+                        array(
+                            'start' => 'subcategory',
+                            'attrNS' => array(
+                                array(
+                                    'prefix' => 'xlink',
+                                    'name' => 'href',
+                                    'uri' => $this->url . '/webservice/catalog/subcategories/' . $key['idcls'].'/'
+                                )
                             )
                         )
-                    )
-                );
+                    );
+                }
             }
-        }
         $this->outputxml->newEndElement();
+        // End sub categories links
 
+        // Start products links
         $this->outputxml->newStartElement('products');
         // Load products in category
         if($fetchProduct != null) {
@@ -243,7 +248,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
             }
         }
         $this->outputxml->newEndElement();
-
+        // End products links
         $this->outputxml->newEndElement();
         $this->outputxml->output();
     }
@@ -298,49 +303,51 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'cData' => $dataClean['content']
             )
         );
+        // Start Image subcategory
         $this->outputxml->newStartElement('images');
-        if($dataClean['imgSrc']['large'] != null){
-            $this->outputxml->setElement(
-                array(
-                    'start' => 'image',
-                    'attrNS' => array(
-                        array(
-                            'prefix' => 'xlink',
-                            'name' => 'href',
-                            'uri' => $this->url . $dataClean['imgSrc']['large']
+            if($dataClean['imgSrc']['large'] != null){
+                $this->outputxml->setElement(
+                    array(
+                        'start' => 'image',
+                        'attrNS' => array(
+                            array(
+                                'prefix' => 'xlink',
+                                'name' => 'href',
+                                'uri' => $this->url . $dataClean['imgSrc']['large']
+                            )
                         )
                     )
-                )
-            );
-        }
-
+                );
+            }
         $this->outputxml->newEndElement();
+        // End Image subcategory
         $this->outputxml->setElement(
             array(
                 'start' => 'order',
                 'text' => $dataClean['order']
             )
         );
+        // Start products links
         $this->outputxml->newStartElement('products');
-        // Load products in subcategory
-        if($fetchProduct != null) {
-            foreach ($fetchProduct as $key) {
-                $this->outputxml->setElement(
-                    array(
-                        'start' => 'product',
-                        'attrNS' => array(
-                            array(
-                                'prefix' => 'xlink',
-                                'name' => 'href',
-                                'uri' => $this->url . '/webservice/catalog/product/' . $key['idcatalog'].'/'
+            // Load products in subcategory
+            if($fetchProduct != null) {
+                foreach ($fetchProduct as $key) {
+                    $this->outputxml->setElement(
+                        array(
+                            'start' => 'product',
+                            'attrNS' => array(
+                                array(
+                                    'prefix' => 'xlink',
+                                    'name' => 'href',
+                                    'uri' => $this->url . '/webservice/catalog/product/' . $key['idcatalog'].'/'
+                                )
                             )
                         )
-                    )
-                );
+                    );
+                }
             }
-        }
         $this->outputxml->newEndElement();
-
+        // end products links
         $this->outputxml->newEndElement();
         $this->outputxml->newEndElement();
         $this->outputxml->output();
@@ -393,73 +400,100 @@ class frontend_controller_webservice extends frontend_db_webservice{
      * @throws Exception
      */
     private function setParse($operations){
-        switch($operations['type']){
-            case 'catalog':
-                if(isset($operations['context'])){
-                    if($operations['context'] === 'category'){
-                        if($operations['scrud'] === 'create') {
-                            $language = parent::fetchLanguage(array('fetch' => 'one', 'iso' => $this->getResult()->{'category'}->{'iso'}));
-                            $parse = array(
-                                'name'      => $this->getResult()->{'category'}->{'name'},
-                                'idlang'    => $language['idlang'],
-                                'url'       => magixcjquery_url_clean::rplMagixString(
+        try {
+            switch ($operations['type']) {
+                case 'catalog':
+                    if ($operations['retrieve'] === 'categories') {
+                        if ($operations['context'] === 'category') {
+                            if ($operations['scrud'] === 'create') {
+                                $language = parent::fetchLanguage(array('fetch' => 'one', 'iso' => $this->getResult()->{'category'}->{'iso'}));
+                                $url = magixcjquery_url_clean::rplMagixString(
                                     $this->getResult()->{'category'}->{'name'},
                                     array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
-                                ),
-                                'content'   => $this->getResult()->{'category'}->{'description'}
-                            );
-                        }elseif($operations['scrud'] === 'update'){
-                            if(array_key_exists('action',$operations)){
-                                switch($operations['action']){
-                                    case 'links':
-                                        break;
-                                }
-                            }else{
-                                if($this->getResult()->{'category'}->{'url'} != ''){
+                                );
+                                $parse = array(
+                                    'idlang' => $language['idlang'],
+                                    'name' => $this->getResult()->{'category'}->{'name'},
+                                    'url' => $url,
+                                    'content' => $this->getResult()->{'category'}->{'description'}
+                                );
+                            } elseif ($operations['scrud'] === 'update') {
+                                if ($this->getResult()->{'category'}->{'url'} != '') {
                                     $url = $this->getResult()->{'category'}->{'url'};
-                                }else{
+                                } else {
                                     $url = magixcjquery_url_clean::rplMagixString(
                                         $this->getResult()->{'category'}->{'name'},
                                         array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
                                     );
                                 }
                                 $parse = array(
-                                    'id'        => $this->getResult()->{'category'}->{'id'},
-                                    'name'      => $this->getResult()->{'category'}->{'name'},
-                                    'url'       => $url,
-                                    'content'   => $this->getResult()->{'category'}->{'description'}
+                                    'id' => $this->getResult()->{'category'}->{'id'},
+                                    'name' => $this->getResult()->{'category'}->{'name'},
+                                    'url' => $url,
+                                    'content' => $this->getResult()->{'category'}->{'description'}
+                                );
+                            }
+                        } elseif ($operations['context'] === 'subcategory') {
+                            if ($operations['scrud'] === 'create') {
+                                $parse = array(
+                                    'name' => $this->getResult()->{$operations['context']}->{'name'},
+                                    'idparent' => $this->getResult()->{$operations['context']}->{'idparent'},
+                                    'url' => magixcjquery_url_clean::rplMagixString(
+                                        $this->getResult()->{$operations['context']}->{'name'},
+                                        array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
+                                    ),
+                                    'content' => $this->getResult()->{$operations['context']}->{'description'}
+                                );
+                            }
+                        } elseif ($operations['context'] === 'product') {
+                            if ($operations['scrud'] === 'create') {
+                                $parse = array(
+                                    'product'       => $this->getResult()->{$operations['context']}->{'id'},
+                                    'category'      => $this->getResult()->{$operations['context']}->{'category'},
+                                    'subcategory'   => $this->getResult()->{$operations['context']}->{'subcategory'}
                                 );
                             }
                         }
-                    }elseif($operations['context'] === 'subcategory'){
-                        if($operations['scrud'] === 'create') {
-                            $parse = array(
-                                'name'      => $this->getResult()->{$operations['context']}->{'name'},
-                                'idparent'    => $this->getResult()->{$operations['context']}->{'idparent'},
-                                'url'       => magixcjquery_url_clean::rplMagixString(
-                                    $this->getResult()->{$operations['context']}->{'name'},
-                                    array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
-                                ),
-                                'content'   => $this->getResult()->{$operations['context']}->{'description'}
-                            );
-                        }
-                    }elseif($operations['context'] === 'product'){
-                        if($operations['scrud'] === 'create') {
-                            $parse = array(
-                                'product'      => $this->getResult()->{$operations['context']}->{'id'},
-                                'category'      => $this->getResult()->{$operations['context']}->{'category'},
-                                'subcategory'    => $this->getResult()->{$operations['context']}->{'subcategory'}
-                            );
+                    } elseif ($operations['retrieve'] === 'subcategories') {
+                        if ($operations['context'] === 'subcategory') {
+                            if ($operations['scrud'] === 'update') {
+                                if ($this->getResult()->{'subcategory'}->{'url'} != '') {
+                                    $url = $this->getResult()->{'subcategory'}->{'url'};
+                                } else {
+                                    $url = magixcjquery_url_clean::rplMagixString(
+                                        $this->getResult()->{'subcategory'}->{'name'},
+                                        array('dot' => false, 'ampersand' => 'strict', 'cspec' => '', 'rspec' => '')
+                                    );
+                                }
+                                $parse = array(
+                                    'id' => $this->getResult()->{'subcategory'}->{'id'},
+                                    'name' => $this->getResult()->{'subcategory'}->{'name'},
+                                    'url' => $url,
+                                    'content' => $this->getResult()->{'subcategory'}->{'description'}
+                                );
+                            }
+                        } elseif ($operations['context'] === 'product') {
+                            if($operations['scrud'] === 'create') {
+                                $parse = array(
+                                    'product'       => $this->getResult()->{$operations['context']}->{'id'},
+                                    'category'      => $this->getResult()->{$operations['context']}->{'category'},
+                                    'subcategory'   => $this->getResult()->{$operations['context']}->{'subcategory'}
+                                );
+                            }
                         }
                     }
-                }
-            break;
+                    break;
+            }
+            if ($parse) {
+                return $parse;
+            }
+        }catch (Exception $e) {
+            magixglobal_model_system::magixlog('Parse error object :',$e);
         }
-        return $parse;
     }
 
     /**
-     * Set post data
+     * Set post data after validation
      * @param $operations
      * @param $dataValidate
      * @param bool $debug
@@ -495,7 +529,16 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 'context'       => $operations['context'],
                                 'category'      => $operations['category'],
                                 'subcategory'   => $parse['subcategory'],
-                                'product'   => $parse['product'],
+                                'product'       => $parse['product'],
+                            ));
+                        }elseif($operations['retrieve'] === 'subcategories'
+                            && $operations['context'] === 'product'){
+                            parent::insertNewData(array(
+                                'type'          => $operations['type'],
+                                'context'       => $operations['context'],
+                                'category'      => $parse['category'],
+                                'subcategory'   => $operations['subcategory'],
+                                'product'       => $parse['product'],
                             ));
                         }else{
                             parent::insertNewData(array(
@@ -568,8 +611,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 $this->setPostData(
                                     array(
                                         'type'      =>  'catalog',
+                                        'retrieve'  => 'categories',
                                         'context'   =>  'category',
-                                        'scrud'     =>  'update'
+                                        'scrud'     =>  'update',
+                                        'id'        =>  $this->id
                                     ),
                                     array(
                                         'name','url','content'
@@ -624,26 +669,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 )
                             );
                         }
-                    }/*elseif(isset($this->img)) {
-                        $resultUpload = $this->setUploadImage(
-                            'img',
-                            array(
-                                'name'  =>  magixglobal_model_cryptrsa::random_generic_ui(),
-                                'edit'  =>  null,
-                                'attr_name'  =>  'catalog',
-                                'attr_size'  =>  'product'
-                            ),
-                            array(
-                                'type'      =>  'catalog'/*,
-                                'context'   =>  'category'*/
-                            /*),
-                            array(
-                                'type'      =>  'catalog',
-                                'context'   =>  array('product','medium','mini')
-                            )
-                        );
-                        $this->message->json_post_response($resultUpload['statut'],$resultUpload['notify'],self::$notify,$resultUpload['msg']);
-                    }*/else{
+                    }else{
                         if($this->webservice->authorization($this->setWsAuthKey())){
                             $this->outputxml->getXmlHeader();
                             $this->getCatalogCategories();
@@ -653,9 +679,69 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 break;
             case 'subcategories':
                 if(isset($this->id)){
-                    if($this->webservice->authorization($this->setWsAuthKey())){
-                        $this->outputxml->getXmlHeader();
-                        $this->getCatalogSubCategories($this->id);
+                    if(isset($_POST['xml']) || isset($_POST['json'])){
+                        if(isset($this->action)){
+                            switch($this->action) {
+                                case 'product':
+                                    $this->setPostData(
+                                        array(
+                                            'type'      => 'catalog',
+                                            'retrieve'  =>  'subcategories',
+                                            'context'   => 'product',
+                                            'subcategory'  =>  $this->id,
+                                            'scrud'     => 'create'
+                                        ),
+                                        array(
+                                            'subcategory','product'
+                                        )
+                                    );
+                                    break;
+                            }
+                        }else{
+                            $this->setPostData(
+                                array(
+                                    'type'      =>  'catalog',
+                                    'retrieve'  =>  'subcategories',
+                                    'context'   =>  'subcategory',
+                                    'scrud'     =>  'update',
+                                    'id'        =>  $this->id
+                                ),
+                                array(
+                                    'name','url','content'
+                                )
+                            );
+                        }
+                    }elseif(isset($this->img)) {
+                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                            $data = $this->dbCatalog->s_subcategory_data($this->id);
+                            $resultUpload = $this->webservice->setUploadImage(
+                                'img',
+                                array(
+                                    'name' => magixglobal_model_cryptrsa::random_generic_ui(),
+                                    'edit' => $data['img_s'],
+                                    'attr_name' => 'catalog',
+                                    'attr_size' => 'subcategory'
+                                ),
+                                array(
+                                    'type' => 'catalog',
+                                    'context' => array('subcategory')
+                                )
+                            );
+                            if($resultUpload['statut']){
+                                parent::updateData(array(
+                                    'type'      => 'catalog',
+                                    'context'   => 'subcategory',
+                                    'id'        => $this->id,
+                                    'img'       => $resultUpload['file']
+                                ));
+                            }
+                            $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
+                        }
+                    }else{
+                        if($this->webservice->authorization($this->setWsAuthKey())){
+                            $this->outputxml->getXmlHeader();
+                            $this->getCatalogSubCategories($this->id);
+                        }
                     }
                 }
                 break;
@@ -746,19 +832,20 @@ class frontend_controller_webservice extends frontend_db_webservice{
         <magixcms>
             <category>
                 <id>1</id>
-                <name>Mon édition</name>
+                <name>ma ligne de vêtement bleu</name>
                 <url></url>
                 <description>
-                    <![CDATA[
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
+                    <![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
                 </description>
             </category>
         </magixcms>';
+
             $subcategory = '<?xml version="1.0" encoding="UTF-8" ?>
         <magixcms>
             <subcategory>
-               
-                <name>Mon édition</name>
+                <id>3</id>
+                <name>ma sous catégorie ws</name>
+                <url>ma-sous-categorie-ws</url>
                 <description>
                     <![CDATA[
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
@@ -771,10 +858,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
             <product>
                 <id>5</id>
                 <category>1</category>
-                <subcategory>0</subcategory>
+                <subcategory>3</subcategory>
             </product>
         </magixcms>';
-            $description = '<div id="lipsum">
+            /*$description = '<div id="lipsum">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
                     <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
                     </div>';
@@ -783,13 +870,13 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'name'          =>  'Mon titre via webservice json',
                 'url'           =>  '',
                 'description'   => $description
-            )));
+            )));*/
 
             print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',
                 'request' => $product,
-                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/1/product/'
+                'url' => 'http://www.magixcms.dev/webservice/catalog/subcategories/3/product/'
             ));
 
             

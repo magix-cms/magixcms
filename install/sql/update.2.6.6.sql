@@ -9,3 +9,4 @@ CREATE TABLE IF NOT EXISTS `mc_country` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `mc_module` (`id_module` ,`class_name` ,`name` ,`plugins`)VALUES (NULL , 'backend_controller_country', 'country', '0');
+ALTER TABLE `mc_catalog` DROP `idadmin` ;
