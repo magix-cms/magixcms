@@ -1422,7 +1422,6 @@ var MC_catalog = (function ($, undefined) {
                                                 .addClass("fa fa-money")
                                         ),
                                         $(document.createElement("th")).append(Globalize.localize( "content", iso )),
-                                        $(document.createElement("th")).append("Rédacteur"),
                                         $(document.createElement("th"))
                                             .append(
                                                 $(document.createElement("span"))
@@ -1528,7 +1527,6 @@ var MC_catalog = (function ($, undefined) {
                                     $(document.createElement("td")).append(img),
                                     $(document.createElement("td")).append(item.price),
                                     $(document.createElement("td")).append(content),
-                                    $(document.createElement("td")).append(item.pseudo),
                                     copy
                                     ,
                                     move

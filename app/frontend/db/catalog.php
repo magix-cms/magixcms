@@ -4,11 +4,11 @@
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
+ # Copyright (C) 2008 - 2016 magix-cms.com support[at]magix-cms[point]com
  #
  # OFFICIAL TEAM :
  #
- #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
+ #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com>
  #
  # Redistributions of files must retain the above copyright notice.
  # This program is free software: you can redistribute it and/or modify
@@ -316,7 +316,7 @@ class frontend_db_catalog
      * @param $data
      * @return array
      */
-    protected static function fetchProduct($data){
+    public static function fetchProduct($data){
         if(is_array($data)) {
             if (array_key_exists('fetch', $data)) {
                 $fetch = $data['fetch'];
@@ -380,7 +380,7 @@ class frontend_db_catalog
                         break;
                 }
                 $query = "SELECT
-                    p.idproduct,p.idclc, p.idcls,
+                    p.idcatalog,p.idproduct,p.idclc, p.idcls,
                     catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
                     c.pathclibelle,
                     s.pathslibelle,
@@ -433,7 +433,7 @@ class frontend_db_catalog
                     $where_clause = 'WHERE lang.iso = \'' . frontend_model_template::current_Language() . '\'';
                 }
                 $query = "SELECT
-                p.idproduct,p.idclc, p.idcls,
+                p.idcatalog,p.idproduct,p.idclc, p.idcls,
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
                 c.pathclibelle,
                 s.pathslibelle,

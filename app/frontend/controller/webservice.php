@@ -1,8 +1,45 @@
 <?php
+/*
+ # -- BEGIN LICENSE BLOCK ----------------------------------
+ #
+ # This file is part of MAGIX CMS.
+ # MAGIX CMS, The content management system optimized for users
+ # Copyright (C) 2008 - 2016 magix-cms.com support[at]magix-cms[point]com
+ #
+ # OFFICIAL TEAM :
+ #
+ #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com>
+ #
+ # Redistributions of files must retain the above copyright notice.
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # -- END LICENSE BLOCK -----------------------------------
+
+ # DISCLAIMER
+
+ # Do not edit or add to this file if you wish to upgrade MAGIX CMS to newer
+ # versions in the future. If you wish to customize MAGIX CMS for your
+ # needs please refer to http://www.magix-cms.com for more information.
+ */
 class frontend_controller_webservice extends frontend_db_webservice{
     protected $outputxml,$message;
     public $collection,$retrieve,$id,$action,$img;
     public static $notify = array('plugin' => 'false', 'method' => 'print', 'template'=> '');
+
+    /**
+     * frontend_controller_webservice constructor.
+     */
     public function __construct(){
         $this->webservice = new frontend_model_webservice();
         $this->outputxml = new magixglobal_model_outputxml();
@@ -66,7 +103,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         array(
                             'prefix'    =>  'xlink',
                             'name'      =>  'href',
-                            'uri'       =>  $this->url.'/webservice/catalog/categories/'.$key['idclc']
+                            'uri'       =>  $this->url.'/webservice/catalog/categories/'.$key['idclc'].'/'
                         )
                     )
                 )
@@ -81,18 +118,27 @@ class frontend_controller_webservice extends frontend_db_webservice{
      * get catalog categories id
      * @param $id
      */
-    private function getCatalogCategory($id)
-    {
+    private function getCatalogCategory($id){
 
         $data = $this->dbCatalog->s_category_data($id);
 
         $dataClean = $this->Catalog->setItemData($data, 0);
-        $data_2 = $this->Catalog->fetchSubCategory(
+        // query for sub category
+        $fetchSubcategory = $this->Catalog->fetchSubCategory(
             array(
                 'fetch' => 'in_cat',
                 'idclc' => $id
             )
         );
+        // query for product
+        $fetchProduct = $this->Catalog->fetchProduct(
+            array(
+                'fetch'         =>  'all_in',
+                'idclc'         =>  $id,
+                'idcls'         =>  0
+            )
+        );
+
         $this->outputxml->newStartElement('category');
         $this->outputxml->setElement(
             array(
@@ -160,8 +206,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
         );
         // Load Subcategories in category
         $this->outputxml->newStartElement('subcategories');
-        if($data_2 != null) {
-            foreach ($data_2 as $key) {
+        if($fetchSubcategory != null) {
+            foreach ($fetchSubcategory as $key) {
                 $this->outputxml->setElement(
                     array(
                         'start' => 'subcategory',
@@ -169,7 +215,27 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             array(
                                 'prefix' => 'xlink',
                                 'name' => 'href',
-                                'uri' => $this->url . '/webservice/catalog/subcategories/' . $key['idcls']
+                                'uri' => $this->url . '/webservice/catalog/subcategories/' . $key['idcls'].'/'
+                            )
+                        )
+                    )
+                );
+            }
+        }
+        $this->outputxml->newEndElement();
+
+        $this->outputxml->newStartElement('products');
+        // Load products in category
+        if($fetchProduct != null) {
+            foreach ($fetchProduct as $key) {
+                $this->outputxml->setElement(
+                    array(
+                        'start' => 'product',
+                        'attrNS' => array(
+                            array(
+                                'prefix' => 'xlink',
+                                'name' => 'href',
+                                'uri' => $this->url . '/webservice/catalog/product/' . $key['idcatalog'].'/'
                             )
                         )
                     )
@@ -191,6 +257,15 @@ class frontend_controller_webservice extends frontend_db_webservice{
 
         $data = $this->dbCatalog->s_subcategory_data($id);
         $dataClean = $this->Catalog->setItemData($data, 0);
+
+        // query for product
+        $fetchProduct = $this->Catalog->fetchProduct(
+            array(
+                'fetch'         =>  'all_in',
+                'idclc'         =>  $dataClean['idparent'],
+                'idcls'         =>  $id
+            )
+        );
 
         $this->outputxml->newStartElement('subcategory');
         $this->outputxml->setElement(
@@ -246,8 +321,27 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'text' => $dataClean['order']
             )
         );
+        $this->outputxml->newStartElement('products');
+        // Load products in subcategory
+        if($fetchProduct != null) {
+            foreach ($fetchProduct as $key) {
+                $this->outputxml->setElement(
+                    array(
+                        'start' => 'product',
+                        'attrNS' => array(
+                            array(
+                                'prefix' => 'xlink',
+                                'name' => 'href',
+                                'uri' => $this->url . '/webservice/catalog/product/' . $key['idcatalog'].'/'
+                            )
+                        )
+                    )
+                );
+            }
+        }
         $this->outputxml->newEndElement();
 
+        $this->outputxml->newEndElement();
         $this->outputxml->newEndElement();
         $this->outputxml->output();
     }
@@ -349,6 +443,14 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 'content'   => $this->getResult()->{$operations['context']}->{'description'}
                             );
                         }
+                    }elseif($operations['context'] === 'product'){
+                        if($operations['scrud'] === 'create') {
+                            $parse = array(
+                                'product'      => $this->getResult()->{$operations['context']}->{'id'},
+                                'category'      => $this->getResult()->{$operations['context']}->{'category'},
+                                'subcategory'    => $this->getResult()->{$operations['context']}->{'subcategory'}
+                            );
+                        }
                     }
                 }
             break;
@@ -376,14 +478,24 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     return;
                 }else{
                     if($operations['scrud'] === 'create') {
-                        if($operations['context'] === 'subcategory'){
+                        if($operations['retrieve'] === 'categories'
+                            && $operations['context'] === 'subcategory'){
                             parent::insertNewData(array(
                                 'type'      => $operations['type'],
                                 'context'   => $operations['context'],
                                 'name'      => $parse['name'],
                                 'url'       => $parse['url'],
                                 'content'   => $parse['content'],
-                                'idparent'  => $parse['idparent']
+                                'idparent'  => $operations['parent']
+                            ));
+                        }elseif($operations['retrieve'] === 'categories'
+                            && $operations['context'] === 'product'){
+                            parent::insertNewData(array(
+                                'type'          => $operations['type'],
+                                'context'       => $operations['context'],
+                                'category'      => $operations['category'],
+                                'subcategory'   => $parse['subcategory'],
+                                'product'   => $parse['product'],
                             ));
                         }else{
                             parent::insertNewData(array(
@@ -427,11 +539,27 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                         $this->setPostData(
                                             array(
                                                 'type'      => 'catalog',
+                                                'retrieve'  => 'categories',
                                                 'context'   => 'subcategory',
-                                                'scrud'     => 'create'
+                                                'scrud'     => 'create',
+                                                'parent'    =>  $this->id
                                             ),
                                             array(
                                                 'name', 'url', 'content', 'idparent'
+                                            )
+                                        );
+                                        break;
+                                    case 'product':
+                                        $this->setPostData(
+                                            array(
+                                                'type'      => 'catalog',
+                                                'retrieve'  => 'categories',
+                                                'context'   => 'product',
+                                                'category'  =>  $this->id,
+                                                'scrud'     => 'create'
+                                            ),
+                                            array(
+                                                'subcategory','product'
                                             )
                                         );
                                         break;
@@ -629,13 +757,22 @@ class frontend_controller_webservice extends frontend_db_webservice{
             $subcategory = '<?xml version="1.0" encoding="UTF-8" ?>
         <magixcms>
             <subcategory>
-                <idparent>1</idparent>
+               
                 <name>Mon édition</name>
                 <description>
                     <![CDATA[
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
                 </description>
             </subcategory>
+        </magixcms>';
+
+            $product = '<?xml version="1.0" encoding="UTF-8" ?>
+        <magixcms>
+            <product>
+                <id>5</id>
+                <category>1</category>
+                <subcategory>0</subcategory>
+            </product>
         </magixcms>';
             $description = '<div id="lipsum">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
@@ -651,8 +788,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
             print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',
-                'request' => $subcategory,
-                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/1/child'
+                'request' => $product,
+                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/1/product/'
             ));
 
             

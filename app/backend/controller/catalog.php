@@ -176,7 +176,7 @@ class backend_controller_catalog extends backend_db_catalog{
     /**
      * Les variables globales
      */
-    public $edit,$section,$getlang,$action,$tab,$idadmin,$callback,$title_search,$copy,$move,$plugin;
+    public $edit,$section,$getlang,$action,$tab,$callback,$title_search,$copy,$move,$plugin;
 
 	/**
 	 * @access public
@@ -189,9 +189,7 @@ class backend_controller_catalog extends backend_db_catalog{
         if(class_exists('backend_model_message')){
             $this->message = new backend_model_message();
         }
-        if(magixcjquery_filter_request::isSession('keyuniqid_admin')){
-            $this->idadmin = magixcjquery_filter_isVar::isPostNumeric($_SESSION['id_admin']);
-        }
+        
         //Catégories
 		if(magixcjquery_filter_request::isPost('clibelle')){
 			$this->clibelle = magixcjquery_form_helpersforms::inputClean($_POST['clibelle']);
@@ -1032,8 +1030,7 @@ class backend_controller_catalog extends backend_db_catalog{
                 parent::i_catalog_product(
                     $this->titlecatalog,
                     $urlcatalog,
-                    $this->getlang,
-                    $this->idadmin
+                    $this->getlang
                 );
                 $this->message->getNotify('add');
             }
@@ -1067,8 +1064,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     $urlcatalog,
                     $desccatalog,
                     $price,
-                    $this->edit,
-                    $this->idadmin
+                    $this->edit
                 );
                 $this->message->getNotify('update');
             }
@@ -1103,7 +1099,6 @@ class backend_controller_catalog extends backend_db_catalog{
             // Insertion de la copie du produit
             parent::i_catalog_product_copy(
                 $data['idlang'],
-                $data['idadmin'],
                 $data['titlecatalog'],
                 $data['urlcatalog'],
                 $data['desccatalog'],
@@ -1204,8 +1199,7 @@ class backend_controller_catalog extends backend_db_catalog{
                     ',"content":'.json_encode($content).
                     ',"price":'.json_encode($price).
                     ',"img":'.json_encode($img).
-                    ',"iso":'.json_encode($key['iso']).
-                    ',"pseudo":'.json_encode($key['pseudo_admin']).'}';
+                    ',"iso":'.json_encode($key['iso']).'}';
             }
             print '['.implode(',',$json_data).']';
         }else{

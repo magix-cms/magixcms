@@ -104,7 +104,6 @@ CREATE TABLE IF NOT EXISTS `mc_country` (
 CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `idcatalog` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `idlang` smallint(3) unsigned NOT NULL DEFAULT '1',
-  `idadmin` smallint(5) unsigned NOT NULL,
   `urlcatalog` varchar(125) NOT NULL,
   `titlecatalog` varchar(125) NOT NULL,
   `imgcatalog` varchar(125) DEFAULT NULL,
@@ -113,8 +112,7 @@ CREATE TABLE IF NOT EXISTS `mc_catalog` (
   `publish` smallint(1) unsigned NOT NULL DEFAULT '1',
   `date_catalog` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcatalog`),
-  KEY `idclc` (`idlang`),
-  KEY `idadmin` (`idadmin`)
+  KEY `idclc` (`idlang`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `mc_catalog_c` (

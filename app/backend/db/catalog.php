@@ -418,10 +418,9 @@ class backend_db_catalog{
         $limit = $limit ? ' LIMIT '.$max : '';
         $offset = !empty($offset) ? ' OFFSET '.$offset: '';
         $sql = 'SELECT cl.idcatalog, cl.urlcatalog, cl.titlecatalog, cl.desccatalog, cl.price, cl.idlang, cl.imgcatalog,
-        lang.iso, m.pseudo_admin
+        lang.iso
 		FROM mc_catalog AS cl
 		JOIN mc_lang AS lang ON ( cl.idlang = lang.idlang )
-		LEFT JOIN mc_admin_employee AS m ON(m.id_admin = cl.idadmin)
 		WHERE cl.idlang = :idlang
 		ORDER BY cl.'.$sort.' DESC'.$limit.$offset;
         return magixglobal_model_db::layerDB()->select($sql,array(
@@ -531,10 +530,9 @@ class backend_db_catalog{
      * @param $desccatalog
      * @param $price
      * @param $edit
-     * @param $idadmin
      */
-    protected function u_catalog_product($titlecatalog,$urlcatalog,$desccatalog,$price,$edit,$idadmin){
-        $sql = 'UPDATE mc_catalog SET idadmin=:idadmin,titlecatalog=:titlecatalog
+    protected function u_catalog_product($titlecatalog,$urlcatalog,$desccatalog,$price,$edit){
+        $sql = 'UPDATE mc_catalog SET titlecatalog=:titlecatalog
 		,urlcatalog=:urlcatalog,desccatalog=:desccatalog,price=:price,date_catalog=NOW()
 		WHERE idcatalog=:edit';
         magixglobal_model_db::layerDB()->insert($sql,
@@ -543,8 +541,7 @@ class backend_db_catalog{
                 ':urlcatalog'		=>	$urlcatalog,
                 ':desccatalog'		=>	$desccatalog,
                 ':price'			=>	$price,
-                ':edit'		        =>	$edit,
-                ':idadmin'			=>	$idadmin
+                ':edit'		        =>	$edit
             ));
     }
 
@@ -553,32 +550,28 @@ class backend_db_catalog{
      * @param $titlecatalog
      * @param $urlcatalog
      * @param $idlang
-     * @param $idadmin
      */
-    protected function i_catalog_product($titlecatalog,$urlcatalog,$idlang,$idadmin){
-        $sql = 'INSERT INTO mc_catalog (titlecatalog,urlcatalog,idlang,idadmin)
-		VALUE(:titlecatalog,:urlcatalog,:idlang,:idadmin)';
+    protected function i_catalog_product($titlecatalog,$urlcatalog,$idlang){
+        $sql = 'INSERT INTO mc_catalog (titlecatalog,urlcatalog,idlang)
+		VALUE(:titlecatalog,:urlcatalog,:idlang)';
         magixglobal_model_db::layerDB()->insert($sql,
             array(
                 ':titlecatalog'		=>	$titlecatalog,
                 ':urlcatalog'		=>	$urlcatalog,
-                ':idlang'			=>	$idlang,
-                ':idadmin'			=>	$idadmin
+                ':idlang'			=>	$idlang
             ));
     }
 
     /**
      * Copie du produit
      * @param $edit
-     * @param $idadmin
      */
-    protected function i_catalog_product_copy($idlang,$idadmin,$titlecatalog,$urlcatalog,$desccatalog,$price,$imgcatalog){
-        $sql = 'INSERT INTO mc_catalog (idlang,idadmin,urlcatalog,titlecatalog,desccatalog,price,imgcatalog)
-        VALUE(:idlang,:idadmin,:urlcatalog,:titlecatalog,:desccatalog,:price,:imgcatalog)';
+    protected function i_catalog_product_copy($idlang,$titlecatalog,$urlcatalog,$desccatalog,$price,$imgcatalog){
+        $sql = 'INSERT INTO mc_catalog (idlang,urlcatalog,titlecatalog,desccatalog,price,imgcatalog)
+        VALUE(:idlang,:urlcatalog,:titlecatalog,:desccatalog,:price,:imgcatalog)';
         magixglobal_model_db::layerDB()->insert($sql,
             array(
                 ':idlang'			=>	$idlang,
-                ':idadmin'			=>	$idadmin,
                 ':titlecatalog'		=>	$titlecatalog,
                 ':urlcatalog'		=>	$urlcatalog,
                 ':desccatalog'		=>	$desccatalog,
