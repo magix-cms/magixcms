@@ -80,13 +80,7 @@ class frontend_model_webservice extends frontend_db_webservice{
                         $type = 'news';
                         break;
                 }
-                if(array_key_exists('context',$data) && array_key_exists('imgBasePath',$data)){
-                    if($data['imgBasePath']){
-                        $url = $this->imgBasePath("upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR.$data['context'].DIRECTORY_SEPARATOR);
-                    }else{
-                        $url = "upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR.$data['context'].DIRECTORY_SEPARATOR;
-                    }
-                }elseif(array_key_exists('imgBasePath',$data)){
+                if(array_key_exists('imgBasePath',$data)){
                     if($data['imgBasePath']){
                         $url = $this->imgBasePath("upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR);
                     }else{
@@ -114,8 +108,8 @@ class frontend_model_webservice extends frontend_db_webservice{
                         $type = 'news';
                         break;
                 }
-                if(array_key_exists('context',$data)){
-                    foreach($data['context'] as $key){
+                if(array_key_exists('upload_dir',$data)){
+                    foreach($data['upload_dir'] as $key){
                         $url[] = $this->imgBasePath("upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR);
                     }
 
@@ -184,14 +178,23 @@ class frontend_model_webservice extends frontend_db_webservice{
                             if(is_array($imgCollection)){
                                 $dirImgArray = $this->dirImgUploadCollection($imgCollection);
                                 foreach($fetchConfig as $key => $value){
+                                    if(array_key_exists('prefix',$data)){
+                                        if(is_array($data['prefix'])){
+                                            $prefix = $data['prefix'][$key];
+                                        }else{
+                                            $prefix = '';
+                                        }
+                                    }else{
+                                        $prefix = '';
+                                    }
                                     switch($value['img_resizing']){
                                         case 'basic':
                                             $thumb->resize($value['width'],$value['height']);
-                                            $thumb->save($dirImgArray[$key].$data['name'].$fileExtends);
+                                            $thumb->save($dirImgArray[$key].$prefix.$data['name'].$fileExtends);
                                             break;
                                         case 'adaptive':
                                             $thumb->adaptiveResize($value['width'],$value['height']);
-                                            $thumb->save($dirImgArray[$key].$data['name'].$fileExtends);
+                                            $thumb->save($dirImgArray[$key].$prefix.$data['name'].$fileExtends);
                                             break;
                                     }
                                 }

@@ -719,12 +719,13 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 array(
                                     'name' => magixglobal_model_cryptrsa::random_generic_ui(),
                                     'edit' => $data['img_s'],
+                                    //'prefix'=> array('l_','m_','s_'),
                                     'attr_name' => 'catalog',
                                     'attr_size' => 'subcategory'
                                 ),
                                 array(
                                     'type' => 'catalog',
-                                    'context' => array('subcategory')
+                                    'upload_dir' => array('subcategory')
                                 )
                             );
                             if($resultUpload['statut']){
@@ -828,6 +829,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 </description>
             </category>
         </magixcms>';*/
+            
             $test = '<?xml version="1.0" encoding="UTF-8" ?>
         <magixcms>
             <category>
@@ -872,12 +874,12 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'description'   => $description
             )));*/
 
-            print $this->webservice->setPreparePostData(array(
+            /*print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',
                 'request' => $product,
                 'url' => 'http://www.magixcms.dev/webservice/catalog/subcategories/3/product/'
-            ));
+            ));*/
 
             
             /*print $this->webservice->setPreparePostImg(array(

@@ -99,7 +99,7 @@ class frontend_db_webservice
                         if ($context === 'category') {
                             if(isset($data['name'])) {
                                 $query = 'UPDATE mc_catalog_c 
-                            SET clibelle = :name, pathclibelle = :url,c_content = :content WHERE idclc = :id';
+                                SET clibelle = :name, pathclibelle = :url,c_content = :content WHERE idclc = :id';
                                 magixglobal_model_db::layerDB()->update($query,
                                     array(
                                         ':id'       => $data['id'],
@@ -113,14 +113,14 @@ class frontend_db_webservice
                                 magixglobal_model_db::layerDB()->update($query,
                                     array(
                                         ':img'	=>	$data['img'],
-                                        ':id'		=>	$data['id']
+                                        ':id'	=>	$data['id']
                                     )
                                 );
                             }
                         }elseif ($context === 'subcategory') {
                             if(isset($data['name'])) {
                                 $query = 'UPDATE mc_catalog_s 
-                            SET slibelle = :name, pathslibelle = :url,s_content = :content WHERE idcls = :id';
+                                SET slibelle = :name, pathslibelle = :url,s_content = :content WHERE idcls = :id';
                                 magixglobal_model_db::layerDB()->update($query,
                                     array(
                                         ':id'       => $data['id'],

@@ -29,5 +29,6 @@ plugins/cartpay/
 plugins/blocklink/
 plugins/profil/
 plugins/shipping/
+plugins/docws/
 /skin/test/
 /schema-webservice/
