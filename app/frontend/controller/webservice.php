@@ -501,6 +501,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
     public function setPostData($operations,$dataValidate,$debug = false){
         if($debug){
             $this->getResult($debug);
+            print_r($dataValidate);
+            print_r($operations);
         }else{
             $parse = $this->setParse($operations);
             /**
@@ -661,6 +663,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             $this->setPostData(
                                 array(
                                     'type'      =>  'catalog',
+                                    'retrieve'  => 'categories',
                                     'context'   =>  'category',
                                     'scrud'     =>  'create'
                                 ),
@@ -820,7 +823,6 @@ class frontend_controller_webservice extends frontend_db_webservice{
             <category>
                 <iso>fr</iso>
                 <name>Mon titre via webservice xml</name>
-                <url>mon-url</url>
                 <description>
                     <![CDATA[<div id="lipsum">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
@@ -830,7 +832,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
             </category>
         </magixcms>';*/
             
-            $test = '<?xml version="1.0" encoding="UTF-8" ?>
+           /* $test = '<?xml version="1.0" encoding="UTF-8" ?>
         <magixcms>
             <category>
                 <id>1</id>
@@ -862,18 +864,24 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 <category>1</category>
                 <subcategory>3</subcategory>
             </product>
-        </magixcms>';
-            /*$description = '<div id="lipsum">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
-                    <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
-                    </div>';
-            $json = json_encode(array('category'=>array(
+        </magixcms>';*/
+            $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui.';
+            /*$json = json_encode(array('category'=>array(
                 'id'            =>  1,
                 'name'          =>  'Mon titre via webservice json',
                 'url'           =>  '',
                 'description'   => $description
             )));*/
-
+            $json = json_encode(array('category'=>array(
+                'iso'           =>'fr',
+                'name'          =>  'Mon titre de test json',
+                'description'   => $description
+            )));
+            //print_r($json);
+                'wsAuthKey'=>$this->setWsAuthKey(),
+                'method' => 'json',
+                'request' => $json,
+                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/'
             /*print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',
