@@ -878,10 +878,12 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'description'   => $description
             )));
             //print_r($json);
+            /*print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'json',
                 'request' => $json,
                 'url' => 'http://www.magixcms.dev/webservice/catalog/categories/'
+            ));*/
             /*print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'xml',
