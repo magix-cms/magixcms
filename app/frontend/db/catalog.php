@@ -94,10 +94,10 @@ class frontend_db_catalog
      * @param int $idproduct
      * @return array
      */
-	protected function s_product_data($idproduct)
+	public function s_product_data($idproduct)
     {
         $select = 'SELECT
-                p.idproduct,p.idcatalog,p.idclc, p.idcls,
+                p.idproduct,p.idcatalog,p.idclc, p.idcls,p.orderproduct,
                 catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.date_catalog,
                 catalog.price,catalog.desccatalog,
                 c.clibelle,c.pathclibelle,s.slibelle,

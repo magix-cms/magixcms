@@ -109,6 +109,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                         $row['idproduct'],
                         true
                     );
+                // Base url for product
+                $data['baseUrl']       = $row['urlcatalog'];
 
                 $data['active']   = false;
                 if (is_array($current)) {
@@ -124,6 +126,8 @@ class frontend_model_catalog extends frontend_db_catalog {
 
                 $data['id']        = $row['idproduct'];
                 $data['idcatalog'] = $row['idcatalog'];
+                $data['idlang']    = $row['idlang'];
+                $data['iso']       = $row['iso'];
                 $data['name']      = $row['titlecatalog'];
                 $data['price']     = $row['price'];
                 $data['content']   = $row['desccatalog'];
@@ -174,6 +178,8 @@ class frontend_model_catalog extends frontend_db_catalog {
                         $row['idcls'],
                         true
                     );
+                // Base url for subcategory
+                $data['baseUrl']       = $row['pathslibelle'];
 
                 $data['id']          = $row['idcls'];
                 $data['name']        = $row['slibelle'];
@@ -225,6 +231,10 @@ class frontend_model_catalog extends frontend_db_catalog {
                         $row['idclc'],
                         true
                     );
+
+                // Base url for category
+                $data['baseUrl']       = $row['pathclibelle'];
+
                 $data['id']         =    $row['idclc'];
                 $data['idlang']     =    $row['idlang'];
                 $data['iso']        =    $row['iso'];
