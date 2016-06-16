@@ -92,15 +92,36 @@ class frontend_db_webservice
                     // Module products
                     }elseif($retrieve === 'products'){
                         if ($context === 'product') {
-                            $query = 'INSERT INTO mc_catalog (idlang,urlcatalog,titlecatalog,desccatalog,price)
-                            VALUE(:idlang,:url,:name,:content,:price)';
+                            if(isset($data['name'])) {
+                                $query = 'INSERT INTO mc_catalog (idlang,urlcatalog,titlecatalog,desccatalog,price)
+                                VALUE(:idlang,:url,:name,:content,:price)';
+                                magixglobal_model_db::layerDB()->insert($query,
+                                    array(
+                                        ':name' => $data['name'],
+                                        ':url' => $data['url'],
+                                        ':content' => $data['content'],
+                                        ':price' => $data['price'],
+                                        ':idlang' => $data['idlang']
+                                    )
+                                );
+                            }elseif(isset($data['img'])){
+                                $query = 'INSERT INTO mc_catalog_galery (idcatalog,imgcatalog,img_order)
+                                VALUE(:id,:img,(SELECT COUNT(g.img_order) FROM mc_catalog_galery AS g
+                                WHERE g.idcatalog=:id))';
+                                magixglobal_model_db::layerDB()->update($query,
+                                    array(
+                                        ':img'	=>	$data['img'],
+                                        ':id'	=>	$data['id']
+                                    )
+                                );
+                            }
+                        }elseif($context === 'related'){
+                            $query = 'INSERT INTO mc_catalog_rel_product (idcatalog,idproduct)
+                                VALUE(:id,:related)';
                             magixglobal_model_db::layerDB()->insert($query,
                                 array(
-                                    ':name' => $data['name'],
-                                    ':url' => $data['url'],
-                                    ':content' => $data['content'],
-                                    ':price' => $data['price'],
-                                    ':idlang' => $data['idlang']
+                                    ':id' => $data['id'],
+                                    ':related' => $data['related']
                                 )
                             );
                         }
@@ -161,6 +182,28 @@ class frontend_db_webservice
                                     array(
                                         ':img'	=>	$data['img'],
                                         ':id'		=>	$data['id']
+                                    )
+                                );
+                            }
+                        }elseif ($context === 'product') {
+                            if(isset($data['name'])) {
+                                $query = 'UPDATE mc_catalog 
+                                SET titlecatalog = :name, urlcatalog = :url,price = :price,desccatalog = :content WHERE idcatalog = :id';
+                                magixglobal_model_db::layerDB()->update($query,
+                                    array(
+                                        ':id'       => $data['id'],
+                                        ':name'     => $data['name'],
+                                        ':url'      => $data['url'],
+                                        ':content'  => $data['content'],
+                                        ':price'    => $data['price']
+                                    )
+                                );
+                            }elseif(isset($data['img'])){
+                                $query = 'UPDATE mc_catalog SET imgcatalog = :img WHERE idcatalog = :id';
+                                magixglobal_model_db::layerDB()->update($query,
+                                    array(
+                                        ':img'	=>	$data['img'],
+                                        ':id'	=>	$data['id']
                                     )
                                 );
                             }
@@ -276,6 +319,17 @@ class frontend_db_webservice
                 WHERE p.idcatalog = :id AND NOT p.idcls = 0';
                 return magixglobal_model_db::layerDB()->select(
                     $select,
+                    array(
+                        ':id'    =>	$data['id']
+                    )
+                );
+            }elseif($fetch === 'gallery'){
+                $query = 'SELECT
+                    gallery.*
+                    FROM mc_catalog_galery AS gallery
+                    WHERE gallery.idcatalog = :id';
+                return magixglobal_model_db::layerDB()->select(
+                    $query,
                     array(
                         ':id'    =>	$data['id']
                     )
