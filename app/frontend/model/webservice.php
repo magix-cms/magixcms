@@ -36,7 +36,7 @@ class frontend_model_webservice extends frontend_db_webservice{
         // Use for image management (using the POST method of the browser to simulate the PUT method)
         $method = $_SERVER['REQUEST_METHOD'];
 
-        if (isset($_SERVER['PHP_AUTH_USER'])) {
+        if (isset($_SERVER['PHP_AUTH_USER']) AND !empty($_SERVER['PHP_AUTH_USER'])) {
             $key = base64_encode($_SERVER['PHP_AUTH_USER']);
         } elseif (isset($_GET['ws_key'])) {
             $key = base64_encode($_GET['ws_key']);
@@ -256,17 +256,19 @@ class frontend_model_webservice extends frontend_db_webservice{
         if($this->with_curl) {
             $curl_params = array();
             $encodedAuth = $data['wsAuthKey'];
-            $generated_xml = urlencode($data['request']);
+            $generatedData = urlencode($data['data']);
             $options = array(
                 CURLOPT_HEADER => 0,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLINFO_HEADER_OUT => true,
+                //CURLINFO_HEADER_OUT => true,
+                CURLOPT_NOBODY => false,
                 CURLOPT_URL => $data['url'],
                 CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => $encodedAuth,
-                CURLOPT_HTTPHEADER => array("Authorization : Basic " . $encodedAuth/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*/),
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => $data['method'] . "=" . $generated_xml/*,
+                CURLOPT_HTTPHEADER => array("Authorization : Basic " . $encodedAuth,/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*/),
+                CURLOPT_POST => true,
+                CURLOPT_CUSTOMREQUEST => $data['customRequest'],
+                CURLOPT_POSTFIELDS => $data['method'] . "=" . $generatedData/*,
             CURLOPT_SAFE_UPLOAD     => false*/
             );
             $ch = curl_init();
@@ -274,6 +276,11 @@ class frontend_model_webservice extends frontend_db_webservice{
             $response = curl_exec($ch);
             $curlInfo = curl_getinfo($ch);
             curl_close($ch);
+            // Data
+            /*$header = trim(substr($response, 0, $curlInfo['header_size']));
+            $body = substr($response, $curlInfo['header_size']);
+
+            print_r(array('status' => $curlInfo['http_code'], 'header' => $header, 'data' => json_decode($body)));*/
             if ($response) {
                 return $response;
             }

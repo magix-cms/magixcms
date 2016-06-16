@@ -1351,24 +1351,25 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     <description><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]></description>
                 </product>
             </magixcms>';*/
-            $related = '<?xml version="1.0" encoding="UTF-8"?>
+            /*$related = '<?xml version="1.0" encoding="UTF-8"?>
             <magixcms>
                 <product>
                     <id>20</id>
                     <related>4</related>
                 </product>
-            </magixcms>';
-            $json = json_encode(array('product'=>array(
+            </magixcms>';*/
+            /*$json = json_encode(array('product'=>array(
                 'id'            =>  1,
                 'related'          =>  20
             )));
-            print_r($json);
-            print $this->webservice->setPreparePostData(array(
+            print_r($json);*/
+            /*print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
-                'method' => 'json',
-                'request' => $json,
-                'url' => 'http://www.magixcms.dev/webservice/catalog/products/1/related/'
-            ));
+                'method' => 'xml',
+                'data' => $product,
+                'customRequest' => 'POST',
+                'url' => 'http://www.magixcms.dev/webservice/catalog/products/1/'
+            ));*/
 
             
             /*print $this->webservice->setPreparePostImg(array(
