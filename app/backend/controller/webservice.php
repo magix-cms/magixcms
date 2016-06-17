@@ -46,7 +46,7 @@
  *
  */
 
-class backend_controller_webservice {
+class backend_controller_webservice extends backend_db_webservice{
     /**
      * @var
      */
@@ -70,11 +70,28 @@ class backend_controller_webservice {
             $this->status_key = 0;
         }
     }
+    private function setItemData(){}
+    private function getItemData(){}
+    private function save(){
+        $data = parent::fetch();
+        if($data['idwskey'] != null){
+            //parent::update(array('id'=>$data['idwskey'],'key'=>$this->ws_key,'status'=>$this->status_key));
+            $this->message->json_post_response(true,'update',self::$notify);
+        }else{
+            //parent::insert(array('key'=>$this->ws_key,'status'=>$this->status_key));
+            $this->message->json_post_response(true,'add',self::$notify);
+        }
+    }
     /**
      * @throws Exception
      */
     public function run(){
-        
+        if(isset($this->ws_key)){
+            $this->save();
+        }else{
+            $this->getItemData();
+            $this->template->display('webservice/index.tpl');
+        }
     }
 }
 ?>

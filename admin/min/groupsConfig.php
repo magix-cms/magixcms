@@ -19,7 +19,8 @@ return array(
         '//libjs/vendor/jquery.validate.1.13.0.min.js',
         '//libjs/vendor/additional-methods.1.13.0.min.js',
         '//'.PATHADMIN.'/template/js/vendor/bootstrap.min.js',
-        '//'.PATHADMIN.'/template/js/vendor/holder.js'
+        '//'.PATHADMIN.'/template/js/vendor/holder.js',
+        '//'.PATHADMIN.'/template/js/vendor/bootstrap2-toggle.min.js'
     ),
 	'jimagine' =>   array(
         '//libjs/jimagine/config.js',
@@ -47,6 +48,7 @@ return array(
         '//'.PATHADMIN.'/template/css/fancybox/jquery.fancybox.css',
         '//'.PATHADMIN.'/template/css/morris.css',
         '//'.PATHADMIN.'/template/css/jquery.tagsinput.css',
+        '//'.PATHADMIN.'/template/css/bootstrap2-toggle.min.css',
         '//'.PATHADMIN.'/template/css/main.css'
     ),
     'maxAge' => 31536000,

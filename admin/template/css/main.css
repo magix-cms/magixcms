@@ -350,3 +350,6 @@ div.mce-fullscreen{
 .form-control-feedback{
     line-height: 34px;
 }
+.form-group label {
+    margin-top: 0;
+}
