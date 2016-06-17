@@ -267,6 +267,7 @@ class frontend_model_webservice extends frontend_db_webservice{
                 CURLOPT_USERPWD => $encodedAuth,
                 CURLOPT_HTTPHEADER => array("Authorization : Basic " . $encodedAuth,/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*/),
                 CURLOPT_POST => true,
+                CURLOPT_CONNECTTIMEOUT => 300,
                 CURLOPT_CUSTOMREQUEST => $data['customRequest'],
                 CURLOPT_POSTFIELDS => $data['method'] . "=" . $generatedData/*,
             CURLOPT_SAFE_UPLOAD     => false*/

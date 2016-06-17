@@ -1294,7 +1294,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 <category>1</category>
                 <subcategory>3</subcategory>
             </product>
-        </magixcms>';*/
+        </magixcms>';
             /*$subcategory = '<?xml version="1.0" encoding="UTF-8"?>
             <magixcms>
                 <subcategory>
