@@ -277,7 +277,7 @@ RewriteRule ^(?:catalogue|catalog)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)/{0,1}$     			
 RewriteRule ^(?:catalogue|catalog)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)/{0,1}$     				/catalog.php?idclc=$1&pathclibelle=$2&idcls=$3&pathslibelle=$4		[QSA,L]
 RewriteRule ^(?:catalogue|catalog)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)[-]([/0-9]+)/{0,1}$     	/catalog.php?idclc=$1&pathclibelle=$2&urlcatalog=$3&idproduct=$4		[QSA,L]
 RewriteRule ^(?:catalogue|catalog)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([/0-9]+)[-]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)[-]([/0-9]+)/{0,1}$     	/catalog.php?idclc=$1&pathclibelle=$2&idcls=$3&pathslibelle=$4&urlcatalog=$5&idproduct=$6		[QSA,L]
-RewriteRule ^webservice[/]/{0,1}$ %{ENV:REWRITEBASE}webservice.php [QSA,L]
+RewriteRule ^webservice/{0,1}$ %{ENV:REWRITEBASE}webservice.php [QSA,L]
 RewriteRule ^webservice[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)/{0,1}$ %{ENV:REWRITEBASE}webservice.php?collection=$1&retrieve=$2 [QSA,L]
 RewriteRule ^webservice[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)[/]([0-9]+)/{0,1}$ %{ENV:REWRITEBASE}webservice.php?collection=$1&retrieve=$2&id=$3 [QSA,L]
 RewriteRule ^webservice[/]([-_0-9a-zA-Z]+)[/]([-_0-9a-zA-Z]+)[/]([0-9]+)[/]([a-zA-Z]+)/{0,1}$ %{ENV:REWRITEBASE}webservice.php?collection=$1&retrieve=$2&id=$3&action=$4 [QSA,L]
