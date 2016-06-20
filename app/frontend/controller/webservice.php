@@ -703,6 +703,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                     'url' => $url,
                                     'content' => $this->getResult()->{'category'}->{'description'}
                                 );
+                            } elseif ($operations['scrud'] === 'delete') {
+                                $parse = array(
+                                    'id' => $this->getResult()->{'category'}->{'id'}
+                                );
                             }
                         } elseif ($operations['context'] === 'subcategory') {
                             if ($operations['scrud'] === 'create') {
@@ -741,6 +745,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                     'name' => $this->getResult()->{'subcategory'}->{'name'},
                                     'url' => $url,
                                     'content' => $this->getResult()->{'subcategory'}->{'description'}
+                                );
+                            }elseif ($operations['scrud'] === 'delete') {
+                                $parse = array(
+                                    'id' => $this->getResult()->{$operations['context']}->{'id'}
                                 );
                             }
                         } elseif ($operations['context'] === 'product') {
@@ -844,7 +852,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             && $operations['context'] === 'subcategory'){
                             parent::insertNewData(array(
                                 'type'      => $operations['type'],
-                                'retrieve'  =>$operations['retrieve'],
+                                'retrieve'  => $operations['retrieve'],
                                 'context'   => $operations['context'],
                                 'name'      => $parse['name'],
                                 'url'       => $parse['url'],
@@ -855,7 +863,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             && $operations['context'] === 'product'){
                             parent::insertNewData(array(
                                 'type'          => $operations['type'],
-                                'retrieve'  =>$operations['retrieve'],
+                                'retrieve'      => $operations['retrieve'],
                                 'context'       => $operations['context'],
                                 'category'      => $operations['category'],
                                 'subcategory'   => $parse['subcategory'],
@@ -875,7 +883,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             && $operations['context'] === 'product'){
                             parent::insertNewData(array(
                                 'type'      => $operations['type'],
-                                'retrieve'  =>$operations['retrieve'],
+                                'retrieve'  => $operations['retrieve'],
                                 'context'   => $operations['context'],
                                 'idlang'    => $parse['idlang'],
                                 'name'      => $parse['name'],
@@ -908,25 +916,32 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         if($operations['retrieve'] === 'products'
                             && $operations['context'] === 'product'){
                             parent::updateData(array(
-                                'type' => $operations['type'],
-                                'context' => $operations['context'],
-                                'id' => $parse['id'],
-                                'name' => $parse['name'],
-                                'url' => $parse['url'],
-                                'content' => $parse['content'],
-                                'price' => $parse['price']
+                                'type'      => $operations['type'],
+                                'context'   => $operations['context'],
+                                'id'        => $parse['id'],
+                                'name'      => $parse['name'],
+                                'url'       => $parse['url'],
+                                'content'   => $parse['content'],
+                                'price'     => $parse['price']
                             ));
                         }else {
                             parent::updateData(array(
-                                'type' => $operations['type'],
-                                'context' => $operations['context'],
-                                'id' => $parse['id'],
-                                'name' => $parse['name'],
-                                'url' => $parse['url'],
-                                'content' => $parse['content']
+                                'type'      => $operations['type'],
+                                'context'   => $operations['context'],
+                                'id'        => $parse['id'],
+                                'name'      => $parse['name'],
+                                'url'       => $parse['url'],
+                                'content'   => $parse['content']
                             ));
                         }
                         $this->message->json_post_response(true,'success',self::$notify,'Update success');
+                    }elseif($operations['scrud'] === 'delete'){
+                        parent::deleteData(array(
+                            'type'      => $operations['type'],
+                            'context'   => $operations['context'],
+                            'id'        => $parse['id']
+                        ));
+                        $this->message->json_post_response(true, 'success', self::$notify, 'Delete success');
                     }
                     return;
                 }
@@ -969,6 +984,19 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                             ),
                                             array(
                                                 'subcategory','product'
+                                            )
+                                        );
+                                        break;
+                                    case 'delete':
+                                        $this->setPostData(
+                                            array(
+                                                'type'      =>  'catalog',
+                                                'retrieve'  =>  'categories',
+                                                'context'   =>  'category',
+                                                'scrud'     =>  'delete'
+                                            ),
+                                            array(
+                                                'id'
                                             )
                                         );
                                         break;
@@ -1054,14 +1082,27 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                     case 'product':
                                         $this->setPostData(
                                             array(
-                                                'type' => 'catalog',
-                                                'retrieve' => 'subcategories',
-                                                'context' => 'product',
-                                                'subcategory' => $this->id,
-                                                'scrud' => 'create'
+                                                'type'          => 'catalog',
+                                                'retrieve'      => 'subcategories',
+                                                'context'       => 'product',
+                                                'subcategory'   => $this->id,
+                                                'scrud'         => 'create'
                                             ),
                                             array(
                                                 'subcategory', 'product'
+                                            )
+                                        );
+                                        break;
+                                    case 'delete':
+                                        $this->setPostData(
+                                            array(
+                                                'type'      =>  'catalog',
+                                                'retrieve'  =>  'subcategories',
+                                                'context'   =>  'subcategory',
+                                                'scrud'     =>  'delete'
+                                            ),
+                                            array(
+                                                'id'
                                             )
                                         );
                                         break;
@@ -1261,10 +1302,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     break;
             }
         } else {
-            if($this->webservice->authorization($this->setWsAuthKey())) {
+            /*if($this->webservice->authorization($this->setWsAuthKey())) {
                 $this->outputxml->getXmlHeader();
                 $this->getRoot();
-            }
+            }*/
             /*$curl_params = array();
             $encodedAuth = $this->setWsAuthKey();*/
             /*$options = array(
@@ -1406,13 +1447,18 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'price'         =>  '10.80',
                 'description'   => $description
             )));
-            print_r($json);*/
-            /*print $this->webservice->setPreparePostData(array(
+            */
+            $json = json_encode(array('subcategory'=>array(
+                'id'  =>'16'
+            )));
+            //print_r($json);
+            print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'json',
-                'request' => $product,
-                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/1/product/'
-            ));*/
+                'data' => $json,
+                'customRequest' => 'POST',
+                'url' => 'http://www.magixcms.dev/webservice/catalog/subcategories/16/delete/'
+            ));
             /*$product = '<?xml version="1.0" encoding="UTF-8"?>
             <magixcms>
                 <product>

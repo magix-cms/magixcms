@@ -347,5 +347,33 @@ class frontend_db_webservice
             }
         }
     }
+    public function deleteData($data){
+        if(is_array($data)) {
+            if (array_key_exists('type', $data)) {
+                $type = $data['type'];
+            }
+            if (array_key_exists('id', $data)) {
+                if (array_key_exists('context', $data)) {
+                    $context = $data['context'];
+                    if ($type === 'catalog') {
+                        if ($context === 'category') {
+                            $query = array(
+                                'DELETE FROM mc_catalog_product WHERE idclc = '.$data['id'],
+                                'DELETE FROM mc_catalog_s WHERE idclc = '.$data['id'],
+                                'DELETE FROM mc_catalog_c WHERE idclc = '.$data['id']
+                            );
+                            magixglobal_model_db::layerDB()->transaction($query);
+                        }elseif ($context === 'subcategory') {
+                            $query = array(
+                                'DELETE FROM mc_catalog_product WHERE idcls = '.$data['id'],
+                                'DELETE FROM mc_catalog_s WHERE idcls = '.$data['id']
+                            );
+                            magixglobal_model_db::layerDB()->transaction($query);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 ?>

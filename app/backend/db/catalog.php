@@ -259,6 +259,7 @@ class backend_db_catalog{
     protected function d_category($delete_category){
         $sql = array(
             'DELETE FROM mc_catalog_product WHERE idclc = '.$delete_category,
+            'DELETE FROM mc_catalog_s WHERE idclc = '.$delete_category,
             'DELETE FROM mc_catalog_c WHERE idclc = '.$delete_category
         );
         magixglobal_model_db::layerDB()->transaction($sql);
