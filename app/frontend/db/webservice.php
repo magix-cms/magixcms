@@ -239,10 +239,20 @@ class frontend_db_webservice
                         ));
                     }
                     break;
+                case 'key':
+                    $sql = 'SELECT ws.*
+					FROM mc_webservice AS ws LIMIT 1';
+                    return magixglobal_model_db::layerDB()->selectOne($sql);
+                    break;
             }
         }
 
     }
+
+    /**
+     * @param $data
+     * @return array
+     */
     protected function fetchLanguage($data){
         if(is_array($data)) {
             if (array_key_exists('fetch', $data)) {

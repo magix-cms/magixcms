@@ -4,11 +4,11 @@
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2016 magix-cms.com support[at]magix-cms[point]com
+ # Copyright (C) 2008 - 2016 magix-cms.com <support@magix-cms.com>
  #
  # OFFICIAL TEAM :
  #
- #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com>
+ #   * Gerits Aurelien (Author - Developer) <aurelien@magix-cms.com> <contact@aurelien-gerits.be>
  #
  # Redistributions of files must retain the above copyright notice.
  # This program is free software: you can redistribute it and/or modify
@@ -73,9 +73,66 @@ class frontend_controller_webservice extends frontend_db_webservice{
      * @return string
      */
     private function setWsAuthKey(){
-        return "ZQ88PRJX5VWQHCWE4EE7SQ7HPNX00RAJ";
+        $data = parent::fetchConfig(array('type'=>'key'));
+        if($data != null){
+            if($data['status_key'] != '0'){
+                return $data['ws_key'];
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
     // ############## GET
+    /**
+     * Global Root
+     */
+    private function getRoot(){
+        $data = array('catalog');
+        $this->outputxml->newStartElement('modules');
+        foreach($data as $key) {
+            $this->outputxml->setElement(
+                array(
+                    'start' => 'module',
+                    'attrNS' => array(
+                        array(
+                            'prefix' => 'xlink',
+                            'name' => 'href',
+                            'uri' => $this->url . '/webservice/'.$key.'/'
+                        )
+                    )
+                )
+            );
+        }
+        $this->outputxml->newEndElement();
+        $this->outputxml->output();
+    }
+
+    //######################## Catalog ####################
+    /**
+     * Root catalog
+     */
+    private function getCatalogRoot(){
+        $data = array('categories','subcategories','products');
+        $this->outputxml->newStartElement('catalog');
+        foreach($data as $key) {
+            $this->outputxml->setElement(
+                array(
+                    'start' => 'api',
+                    'attrNS' => array(
+                        array(
+                            'prefix' => 'xlink',
+                            'name' => 'href',
+                            'uri' => $this->url . '/webservice/catalog/'.$key.'/'
+                        )
+                    )
+                )
+            );
+        }
+        $this->outputxml->newEndElement();
+        $this->outputxml->output();
+    }
     /**
      * get catalog categories
      */
@@ -991,36 +1048,38 @@ class frontend_controller_webservice extends frontend_db_webservice{
             case 'subcategories':
                 if(isset($this->id)){
                     if(isset($_POST['xml']) || isset($_POST['json'])){
-                        if(isset($this->action)){
-                            switch($this->action) {
-                                case 'product':
-                                    $this->setPostData(
-                                        array(
-                                            'type'      => 'catalog',
-                                            'retrieve'  =>  'subcategories',
-                                            'context'   => 'product',
-                                            'subcategory'  =>  $this->id,
-                                            'scrud'     => 'create'
-                                        ),
-                                        array(
-                                            'subcategory','product'
-                                        )
-                                    );
-                                    break;
+                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                            if (isset($this->action)) {
+                                switch ($this->action) {
+                                    case 'product':
+                                        $this->setPostData(
+                                            array(
+                                                'type' => 'catalog',
+                                                'retrieve' => 'subcategories',
+                                                'context' => 'product',
+                                                'subcategory' => $this->id,
+                                                'scrud' => 'create'
+                                            ),
+                                            array(
+                                                'subcategory', 'product'
+                                            )
+                                        );
+                                        break;
+                                }
+                            } else {
+                                $this->setPostData(
+                                    array(
+                                        'type' => 'catalog',
+                                        'retrieve' => 'subcategories',
+                                        'context' => 'subcategory',
+                                        'scrud' => 'update',
+                                        'id' => $this->id
+                                    ),
+                                    array(
+                                        'name', 'url', 'content'
+                                    )
+                                );
                             }
-                        }else{
-                            $this->setPostData(
-                                array(
-                                    'type'      =>  'catalog',
-                                    'retrieve'  =>  'subcategories',
-                                    'context'   =>  'subcategory',
-                                    'scrud'     =>  'update',
-                                    'id'        =>  $this->id
-                                ),
-                                array(
-                                    'name','url','content'
-                                )
-                            );
                         }
                     }elseif(isset($this->img)) {
                         // POST image from forms
@@ -1061,70 +1120,72 @@ class frontend_controller_webservice extends frontend_db_webservice{
             case 'products':
                 if(isset($this->id)){
                     if(isset($_POST['xml']) || isset($_POST['json'])){
-                        if(isset($this->action)){
-                            if($this->action === 'related') {
+                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                            if (isset($this->action)) {
+                                if ($this->action === 'related') {
+                                    $this->setPostData(
+                                        array(
+                                            'type' => 'catalog',
+                                            'retrieve' => 'products',
+                                            'context' => 'related',
+                                            'scrud' => 'create',
+                                            'id' => $this->id
+                                        ),
+                                        array(
+                                            'related'
+                                        )
+                                    );
+                                }
+                            } else {
                                 $this->setPostData(
                                     array(
                                         'type' => 'catalog',
                                         'retrieve' => 'products',
-                                        'context' => 'related',
-                                        'scrud' => 'create',
+                                        'context' => 'product',
+                                        'scrud' => 'update',
                                         'id' => $this->id
                                     ),
                                     array(
-                                        'related'
+                                        'name', 'url', 'price', 'content'
                                     )
                                 );
                             }
-                        }else{
-                            $this->setPostData(
-                                array(
-                                    'type'      =>  'catalog',
-                                    'retrieve'  =>  'products',
-                                    'context'   =>  'product',
-                                    'scrud'     =>  'update',
-                                    'id'        =>  $this->id
-                                ),
-                                array(
-                                    'name','url','price','content'
-                                )
-                            );
                         }
                     }elseif(isset($this->img)) {
-                        if(isset($this->action)){
-                            if($this->action === 'gallery'){
-                                // POST image from forms
-                                if($this->webservice->authorization($this->setWsAuthKey())) {
-                                    $resultUpload = $this->webservice->setUploadImage(
-                                        'img',
-                                        array(
-                                            'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                            'edit' => null,
-                                            //'prefix'=> array('l_','m_','s_'),
-                                            'attr_name' => 'catalog',
-                                            'attr_size' => 'galery'
-                                        ),
-                                        array(
-                                            'type' => 'catalog',
-                                            'upload_dir' => array('galery/maxi','galery/mini')
-                                        )
-                                    );
-                                    if($resultUpload['statut']){
-                                        parent::insertNewData(array(
-                                            'type'      => 'catalog',
-                                            'retrieve'  => 'products',
-                                            'context'   => 'product',
-                                            'id'        => $this->id,
-                                            'img'       => $resultUpload['file']
-                                        ));
+                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                            if (isset($this->action)) {
+                                if ($this->action === 'gallery') {
+                                    // POST image from forms
+                                    if ($this->webservice->authorization($this->setWsAuthKey())) {
+                                        $resultUpload = $this->webservice->setUploadImage(
+                                            'img',
+                                            array(
+                                                'name' => magixglobal_model_cryptrsa::random_generic_ui(),
+                                                'edit' => null,
+                                                //'prefix'=> array('l_','m_','s_'),
+                                                'attr_name' => 'catalog',
+                                                'attr_size' => 'galery'
+                                            ),
+                                            array(
+                                                'type' => 'catalog',
+                                                'upload_dir' => array('galery/maxi', 'galery/mini')
+                                            )
+                                        );
+                                        if ($resultUpload['statut']) {
+                                            parent::insertNewData(array(
+                                                'type' => 'catalog',
+                                                'retrieve' => 'products',
+                                                'context' => 'product',
+                                                'id' => $this->id,
+                                                'img' => $resultUpload['file']
+                                            ));
+                                        }
+                                        $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                                     }
-                                    $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                                 }
-                            }
-                        }else{
-                            // POST image from forms
-                            if($this->webservice->authorization($this->setWsAuthKey())) {
-                                $data = parent::fetchCatalog(array('fetch'  =>  'one','id' => $this->id));
+                            } else {
+                                // POST image from forms
+                                $data = parent::fetchCatalog(array('fetch' => 'one', 'id' => $this->id));
                                 $resultUpload = $this->webservice->setUploadImage(
                                     'img',
                                     array(
@@ -1136,21 +1197,20 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                     ),
                                     array(
                                         'type' => 'catalog',
-                                        'upload_dir' => array('product','medium','mini')
+                                        'upload_dir' => array('product', 'medium', 'mini')
                                     )
                                 );
-                                if($resultUpload['statut']){
+                                if ($resultUpload['statut']) {
                                     parent::updateData(array(
-                                        'type'      => 'catalog',
-                                        'context'   => 'product',
-                                        'id'        => $this->id,
-                                        'img'       => $resultUpload['file']
+                                        'type' => 'catalog',
+                                        'context' => 'product',
+                                        'id' => $this->id,
+                                        'img' => $resultUpload['file']
                                     ));
                                 }
                                 $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                             }
                         }
-
                     }else{
                         if($this->webservice->authorization($this->setWsAuthKey())){
                             $this->outputxml->getXmlHeader();
@@ -1159,17 +1219,19 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     }
                 }else{
                     if(isset($_POST['xml']) || isset($_POST['json'])){
-                        $this->setPostData(
-                            array(
-                                'type'      =>  'catalog',
-                                'retrieve'  =>  'products',
-                                'context'   =>  'product',
-                                'scrud'     =>  'create'
-                            ),
-                            array(
-                                'name','idlang','url','price','content'
-                            )
-                        );
+                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                            $this->setPostData(
+                                array(
+                                    'type' => 'catalog',
+                                    'retrieve' => 'products',
+                                    'context' => 'product',
+                                    'scrud' => 'create'
+                                ),
+                                array(
+                                    'name', 'idlang', 'url', 'price', 'content'
+                                )
+                            );
+                        }
                     }else{
                         if($this->webservice->authorization($this->setWsAuthKey())){
                             $this->outputxml->getXmlHeader();
@@ -1177,8 +1239,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         }
                     }
                 }
-
-                break;
+            break;
         }
     }
 
@@ -1189,10 +1250,21 @@ class frontend_controller_webservice extends frontend_db_webservice{
         if (isset($this->collection)) {
             switch ($this->collection) {
                 case 'catalog':
-                    $this->setCatalog();
+                    if(isset($this->retrieve)){
+                        $this->setCatalog();
+                    }else{
+                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                            $this->outputxml->getXmlHeader();
+                            $this->getCatalogRoot();
+                        }
+                    }
                     break;
             }
         } else {
+            if($this->webservice->authorization($this->setWsAuthKey())) {
+                $this->outputxml->getXmlHeader();
+                $this->getRoot();
+            }
             /*$curl_params = array();
             $encodedAuth = $this->setWsAuthKey();*/
             /*$options = array(

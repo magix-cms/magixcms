@@ -298,3 +298,10 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'cache', 'none' , 'string', NULL),
 (NULL, 'googleplus', NULL , 'string', 'Google plus'),
 (NULL, 'robots', 'noindex,nofollow', 'string', 'metas robots');
+
+CREATE TABLE IF NOT EXISTS `mc_webservice` (
+  `idwskey` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `ws_key` varchar(125) DEFAULT NULL,
+  `status_key` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idwskey`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

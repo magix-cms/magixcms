@@ -67,18 +67,40 @@ class backend_controller_webservice extends backend_db_webservice{
             $this->ws_key = magixcjquery_form_helpersforms::inputClean($_POST['ws_key']);
         }
         if (magixcjquery_filter_request::isPost('status_key')) {
-            $this->status_key = 0;
+            $this->status_key = 1;
         }
     }
-    private function setItemData(){}
-    private function getItemData(){}
+
+    /**
+     * @return array
+     */
+    private function setItemData(){
+        return parent::fetch();
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getItemData(){
+        $data = $this->setItemData();
+        $this->template->assign('getItemData',$data);
+    }
+
+    /**
+     * save
+     */
     private function save(){
         $data = parent::fetch();
+        if(!isset($this->status_key)){
+            $status_key = '0';
+        }else{
+            $status_key = $this->status_key;
+        }
         if($data['idwskey'] != null){
-            //parent::update(array('id'=>$data['idwskey'],'key'=>$this->ws_key,'status'=>$this->status_key));
+            parent::update(array('id'=>$data['idwskey'],'key'=>$this->ws_key,'status'=>$status_key));
             $this->message->json_post_response(true,'update',self::$notify);
         }else{
-            //parent::insert(array('key'=>$this->ws_key,'status'=>$this->status_key));
+            parent::insert(array('key'=>$this->ws_key,'status'=>$status_key));
             $this->message->json_post_response(true,'add',self::$notify);
         }
     }
@@ -87,6 +109,13 @@ class backend_controller_webservice extends backend_db_webservice{
      */
     public function run(){
         if(isset($this->ws_key)){
+            $header= new magixglobal_model_header();
+            $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+            $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+            $header->pragma();
+            $header->cache_control("nocache");
+            $header->getStatus('200');
+            $header->json_header("UTF-8");
             $this->save();
         }else{
             $this->getItemData();

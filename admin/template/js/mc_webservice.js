@@ -18,34 +18,25 @@ var MC_webservice = (function($, window, document, undefined){
      * @param id
      */
     function save(baseadmin,id){
-        var formsAdd = $(id).validate({
-            onsubmit: true,
-            event: 'submit',
-            rules: {
-                status_key: {
-                    required: true
-                }
-            },
-            submitHandler: function(form) {
-                $.nicenotify({
-                    ntype: "submit",
-                    uri: setAjaxUrlLoad(baseadmin),
-                    typesend: 'post',
-                    idforms: $(form),
-                    resetform:true,
-                    successParams:function(data){
-                        if(data.statut != false){
-                            window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
-                        }else{
-                            window.setTimeout(function() { $(".alert-warning").alert('close'); }, 4000);
-                        }
-                        $.nicenotify.initbox(data.notify,{
-                            display:true
-                        });
+        $(id).on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: setAjaxUrlLoad(baseadmin),
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    if(data.statut != false){
+                        window.setTimeout(function() { $(".alert-success").alert('close'); }, 4000);
+                    }else{
+                        window.setTimeout(function() { $(".alert-warning").alert('close'); }, 4000);
                     }
-                });
-                return false;
-            }
+                    $.nicenotify.initbox(data.notify,{
+                        display:true
+                    });
+                }
+            });
+            return false;
         });
     }
     /**

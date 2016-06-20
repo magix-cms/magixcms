@@ -100,6 +100,10 @@
                                 <span class="fa fa-sitemap"></span> Sitemap
                             </a>
                         </li>
+                        <li><a href="/{baseadmin}/webservice.php">
+                                <span class="fa fa-cloud"></span> Web Service
+                            </a>
+                        </li>
                         <li class="divider"></li>
                         <li class="dropdown-header"><span class="fa fa-bolt"></span> SEO</li>
                         {if $config_metasrewrite eq 1}

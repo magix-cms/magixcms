@@ -10,3 +10,10 @@ CREATE TABLE IF NOT EXISTS `mc_country` (
 
 INSERT INTO `mc_module` (`id_module` ,`class_name` ,`name` ,`plugins`)VALUES (NULL , 'backend_controller_country', 'country', '0');
 ALTER TABLE `mc_catalog` DROP `idadmin` ;
+
+CREATE TABLE IF NOT EXISTS `mc_webservice` (
+  `idwskey` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `ws_key` varchar(125) DEFAULT NULL,
+  `status_key` smallint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idwskey`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
