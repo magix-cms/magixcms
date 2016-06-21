@@ -352,23 +352,41 @@ class frontend_db_webservice
             if (array_key_exists('type', $data)) {
                 $type = $data['type'];
             }
+            if (array_key_exists('retrieve', $data)) {
+                $retrieve = $data['retrieve'];
+            }
             if (array_key_exists('id', $data)) {
                 if (array_key_exists('context', $data)) {
                     $context = $data['context'];
-                    if ($type === 'catalog') {
-                        if ($context === 'category') {
-                            $query = array(
-                                'DELETE FROM mc_catalog_product WHERE idclc = '.$data['id'],
-                                'DELETE FROM mc_catalog_s WHERE idclc = '.$data['id'],
-                                'DELETE FROM mc_catalog_c WHERE idclc = '.$data['id']
-                            );
-                            magixglobal_model_db::layerDB()->transaction($query);
-                        }elseif ($context === 'subcategory') {
-                            $query = array(
-                                'DELETE FROM mc_catalog_product WHERE idcls = '.$data['id'],
-                                'DELETE FROM mc_catalog_s WHERE idcls = '.$data['id']
-                            );
-                            magixglobal_model_db::layerDB()->transaction($query);
+                    if($type === 'catalog'){
+                        // Module categories and subcategories
+                        if($retrieve === 'categories') {
+                            if ($context === 'category') {
+                                $query = array(
+                                    'DELETE FROM mc_catalog_product WHERE idclc = ' . $data['id'],
+                                    'DELETE FROM mc_catalog_s WHERE idclc = ' . $data['id'],
+                                    'DELETE FROM mc_catalog_c WHERE idclc = ' . $data['id']
+                                );
+                                magixglobal_model_db::layerDB()->transaction($query);
+                            }
+                        }elseif($retrieve === 'subcategories'){
+                            if ($context === 'subcategory') {
+                                $query = array(
+                                    'DELETE FROM mc_catalog_product WHERE idcls = ' . $data['id'],
+                                    'DELETE FROM mc_catalog_s WHERE idcls = ' . $data['id']
+                                );
+                                magixglobal_model_db::layerDB()->transaction($query);
+                            }
+                        }elseif($retrieve === 'products'){
+                            if ($context === 'product') {
+                                $query = array(
+                                    'DELETE FROM mc_catalog_galery WHERE idcatalog = '.$data['id'],
+                                    'DELETE FROM mc_catalog_rel_product WHERE idcatalog = '.$data['id'],
+                                    'DELETE FROM mc_catalog_product WHERE idcatalog = '.$data['id'],
+                                    'DELETE FROM mc_catalog WHERE idcatalog = '.$data['id']
+                                );
+                                magixglobal_model_db::layerDB()->transaction($query);
+                            }
                         }
                     }
                 }

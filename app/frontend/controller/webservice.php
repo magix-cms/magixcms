@@ -938,6 +938,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     }elseif($operations['scrud'] === 'delete'){
                         parent::deleteData(array(
                             'type'      => $operations['type'],
+                            'retrieve'  => $operations['retrieve'],
                             'context'   => $operations['context'],
                             'id'        => $parse['id']
                         ));
@@ -1448,17 +1449,17 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 'description'   => $description
             )));
             */
-            $json = json_encode(array('subcategory'=>array(
+            /*$json = json_encode(array('subcategory'=>array(
                 'id'  =>'16'
             )));
-            //print_r($json);
+            print_r($json);
             print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'json',
                 'data' => $json,
                 'customRequest' => 'POST',
                 'url' => 'http://www.magixcms.dev/webservice/catalog/subcategories/16/delete/'
-            ));
+            ));*/
             /*$product = '<?xml version="1.0" encoding="UTF-8"?>
             <magixcms>
                 <product>
