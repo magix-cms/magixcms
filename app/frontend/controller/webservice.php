@@ -1301,8 +1301,143 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         }
                     }
                     break;
+                case 'test':
+                    if($this->webservice->setMethod() === 'PUT'){
+                        /*if(isset($this->collection)){
+                            switch($this->collection){
+                                case 'test':
+                                    if($this->retrieve === 'test'){
+                                        print 'test';
+                                    }else{
+                                        print 'no retrieve';
+                                    }
+                                    break;
+                            }
+                        }*/
+                        //print_r($_GET).'</br>';
+                        //print $_SERVER['CONTENT_TYPE'].'</br>';
+                        if($this->webservice->getContentType() === 'json'){
+                            header('Content-type: application/json');
+                            /*parse_str(file_get_contents('php://input'), $requestData);
+                            $parseData = ($requestData);
+                            //$montruc = json_decode($parseData);
+                            if (is_object($parseData)) {
+                                //print json_decode($parseData->{'category'}->{'name'});
+                            }else{
+                                //print ($parseData);
+                                //$this->message->json_post_response(false,'error',self::$notify,'parseData is not valid');
+                            }
+                            print $requestData[0]["category"];
+                            print_r($parseData);
+                            //print $montruc->{'category'}->{'name'};*/
+                            if ($stream = fopen('php://input', 'r')) {
+                                // affiche toute la page, en commençant à la position 10
+                                $streamParse = stream_get_contents($stream, -1, 0);
+                                $rentretout = urldecode($streamParse);
+                                //print_r(json_decode($machin));
+                                $parse = json_decode($rentretout);
+                                fclose($stream);
+                                print $parse->{'category'}->{'name'};
+                            }
+                        }elseif($_SERVER['CONTENT_TYPE'] === 'text/xml'){
+                            //print_r($_SERVER).'</br>';
+                            header('Content-type: text/xml');
+                            if ($stream = fopen('php://input', 'r')) {
+                                // affiche toute la page, en commençant à la position 10
+                                $streamParse = stream_get_contents($stream, -1, 0);
+                                $parse = simplexml_load_string(urldecode($streamParse), null, LIBXML_NOCDATA);
+                                fclose($stream);
+                                print $parse->{'category'}->{'name'};
+                            }
+                        }
+                    }elseif($this->webservice->setMethod() === 'POST'){
+                        if($this->webservice->getContentType() === 'xml'){
+                            //print_r($_SERVER).'</br>';
+                            print_r($_POST);
+                            header('Content-type: text/xml');
+                            if ($stream = fopen('php://input', 'r')) {
+                                // affiche toute la page, en commençant à la position 10
+                                $streamParse = stream_get_contents($stream, -1, 0);
+                                $parse = simplexml_load_string(urldecode($streamParse), null, LIBXML_NOCDATA);
+                                fclose($stream);
+                                print $parse->{'category'}->{'name'};
+                            }
+                        }elseif($this->webservice->getContentType() === 'files'){
+                            if(isset($this->img)) {
+                                print '<pre>';
+                                print_r($_SERVER);
+                                print '</pre>';
+                                print $this->img;
+                            }
+                        }
+                    }
+
+                    //print_r($_SERVER).'</br>';
+                    //print $_SERVER['CONTENT_LENGTH'];
+                    //print $_SERVER['REQUEST_METHOD'];
+                    /*$filePath= "php://input";
+                    $handle = fopen($filePath, "r");
+
+                    $fileContents = fread($handle, filesize($filePath));
+                    fclose($handle);
+                    if(!empty($fileContents)) {
+                        echo "<pre>".$fileContents."</pre>";
+                    }*/
+                    break;
             }
         } else {
+            /*$data = json_encode(
+                array(
+                    'category'  =>  array(
+                        'id'            =>  3,
+                        'name'          =>  'Mon titre via webservice json'
+                    )
+                )
+            );
+
+            $json_data = ($data);*/
+            /*$test = '<?xml version="1.0" encoding="UTF-8" ?>
+        <magixcms>
+            <category>
+                <id>1</id>
+                <name>ma ligne de vêtement bleu</name>
+                <url></url>
+                <description>
+                    <![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
+                </description>
+            </category>
+        </magixcms>';
+
+            $headers[] = 'Content-type: text/xml';
+            $header[]= 'Accept: text/xml';
+            //$header[]= 'Accept: application/json';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "http://www.magixcms.dev/webservice/test/");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, 1);                  // For debugging
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS,urlencode($test));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            //curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);             // no caching
+            //curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);            // no caching
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+
+            $response = curl_exec($ch);
+            $curlInfo = curl_getinfo($ch);
+            curl_close($ch);
+            $header = trim(substr($response, 0, $curlInfo['header_size']));
+            $body = substr($response, $curlInfo['header_size']);
+            if (!$response)
+            {
+                return false;
+            }else{
+                print '<pre>';
+                print_r($curlInfo);
+                print '</pre>';
+                print $response;
+            }*/
+
             /*if($this->webservice->authorization($this->setWsAuthKey())) {
                 $this->outputxml->getXmlHeader();
                 $this->getRoot();
@@ -1451,14 +1586,14 @@ class frontend_controller_webservice extends frontend_db_webservice{
             */
             /*$json = json_encode(array('subcategory'=>array(
                 'id'  =>'16'
-            )));
-            print_r($json);
+            )));*/
+            /*print_r($json);
             print $this->webservice->setPreparePostData(array(
                 'wsAuthKey'=>$this->setWsAuthKey(),
                 'method' => 'json',
                 'data' => $json,
                 'customRequest' => 'POST',
-                'url' => 'http://www.magixcms.dev/webservice/catalog/subcategories/16/delete/'
+                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/'
             ));*/
             /*$product = '<?xml version="1.0" encoding="UTF-8"?>
             <magixcms>

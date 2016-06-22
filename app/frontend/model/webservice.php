@@ -1,5 +1,10 @@
 <?php
 class frontend_model_webservice extends frontend_db_webservice{
+    public $contentTypeCollection = array(
+        'application/json'      =>'json',
+        'text/xml'              =>'xml',
+        'multipart/form-data'   =>'files'
+    );
     public function __construct()
     {
         if (function_exists("curl_init")) {
@@ -10,13 +15,6 @@ class frontend_model_webservice extends frontend_db_webservice{
         if(isset($_FILES['img']["name"])){
             $this->img = magixcjquery_url_clean::rplMagixString($_FILES['img']["name"]);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getContentType(){
-        return 'text/xml';
     }
 
     /**
@@ -54,6 +52,45 @@ class frontend_model_webservice extends frontend_db_webservice{
             die('401 Unauthorized');
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function setMethod(){
+        if(isset($_SERVER['REQUEST_METHOD'])){
+            return $_SERVER['REQUEST_METHOD'];
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private function setContentType(){
+        $contentType = explode(";",$_SERVER['CONTENT_TYPE']);
+        $contentType = $contentType[0];
+        return $contentType;
+    }
+    /**
+     * @return mixed|void
+     */
+    public function getContentType(){
+        if(is_array($this->contentTypeCollection)){
+            $contentType = $this->setContentType();
+            /*if(preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches)){
+                //print $boundary = $matches[1];
+                $contentType = explode(";",$_SERVER['CONTENT_TYPE']);
+                $contentType = $contentType[0];
+            }else{
+                $contentType = $_SERVER['CONTENT_TYPE'];
+            }*/
+            if(!array_key_exists($contentType,$this->contentTypeCollection)){
+                return;
+            }else{
+                return $this->contentTypeCollection[$contentType];
+            }
+        }
+    }
+
 
     /**
      * Retourne le chemin depuis la racine
@@ -251,6 +288,19 @@ class frontend_model_webservice extends frontend_db_webservice{
      * Prepare post Data with Curl (no files)
      * @param $data
      * @return mixed
+     *
+     $json = json_encode(array(
+        'category'=>array(
+            'id'  =>'16'
+        )));
+        print_r($json);
+        print $this->webservice->setPreparePostData(array(
+        'wsAuthKey'=>$this->setWsAuthKey(),
+        'method' => 'json',
+        'data' => $json,
+        'customRequest' => 'POST',
+        'url' => 'http://www.mywebsite.tld/webservice/catalog/categories/16/delete/'
+    ));
      */
     public function setPreparePostData($data){
         if($this->with_curl) {
