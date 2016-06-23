@@ -418,6 +418,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
     private function getCatalogProducts(){
         $data = parent::fetchCatalog(
             array(
+                'type'   => 'product',
                 'fetch'  =>  'all'
             )
         );
@@ -458,6 +459,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
 
         $data = parent::fetchCatalog(
             array(
+                'type'      => 'product',
                 'fetch'     =>  'one',
                 'id'        =>  $id
             )
@@ -531,7 +533,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
         $this->outputxml->newStartElement('categories');
         $fetchcategory = parent::fetchCatalog(
             array(
-                'fetch'     =>  'category',
+                'type'     =>  'category',
                 'id'        =>  $id
             )
         );
@@ -559,7 +561,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
         $this->outputxml->newStartElement('subcategories');
         $fetchcategory = parent::fetchCatalog(
             array(
-                'fetch'     =>  'subcategory',
+                'type'     =>  'subcategory',
                 'id'        =>  $id
             )
         );
@@ -586,7 +588,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
         $this->outputxml->newStartElement('gallery');
         $fetchGallery = parent::fetchCatalog(
             array(
-                'fetch'     =>  'gallery',
+                'type'     =>  'gallery',
+                'fetch'     =>  'all',
                 'id'        =>  $id
             )
         );
@@ -645,7 +648,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
      * @return mixed|SimpleXMLElement
      */
     public function getResult($debug = false){
-        if($_POST){
+        /*if($_POST){
             $keyPost = array_keys($_POST);
             if (in_array("json", $keyPost) || in_array("xml", $keyPost)) {
                 $parse = $this->setPostMethod(array('method' => $keyPost[0]));
@@ -660,7 +663,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     }
                 }
             }
-        }
+        }*/
+        return $this->webservice->getResultParse($debug);
     }
 
 
@@ -953,13 +957,30 @@ class frontend_controller_webservice extends frontend_db_webservice{
      * Set catalog
      */
     private function setCatalog(){
+        $getContentType = $this->webservice->getContentType();
+        $this->webservice->setHeaderType();
         switch ($this->retrieve){
             case 'categories':
                 if(isset($this->id)){
-                    if(isset($_POST['xml']) || isset($_POST['json'])){
-                        if($this->webservice->authorization($this->setWsAuthKey())){
-                            if(isset($this->action)){
-                                switch($this->action) {
+                    if($this->webservice->setMethod() === 'PUT'){
+                        if($getContentType === 'xml' OR $getContentType === 'json'){
+                            $this->setPostData(
+                                array(
+                                    'type'      =>  'catalog',
+                                    'retrieve'  => 'categories',
+                                    'context'   =>  'category',
+                                    'scrud'     =>  'update',
+                                    'id'        =>  $this->id
+                                ),
+                                array(
+                                    'name','url','content'
+                                )
+                            );
+                        }
+                    }elseif($this->webservice->setMethod() === 'POST'){
+                        if($getContentType === 'xml' OR $getContentType === 'json') {
+                            if(isset($this->action)) {
+                                switch ($this->action) {
                                     case 'child':
                                         $this->setPostData(
                                             array(
@@ -967,7 +988,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                                 'retrieve'  => 'categories',
                                                 'context'   => 'subcategory',
                                                 'scrud'     => 'create',
-                                                'parent'    =>  $this->id
+                                                'parent'    => $this->id
                                             ),
                                             array(
                                                 'name', 'url', 'content', 'idparent'
@@ -980,80 +1001,52 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                                 'type'      => 'catalog',
                                                 'retrieve'  => 'categories',
                                                 'context'   => 'product',
-                                                'category'  =>  $this->id,
-                                                'scrud'     => 'create'
+                                                'category'  => $this->id,
+                                                'scrud' => 'create'
                                             ),
                                             array(
-                                                'subcategory','product'
-                                            )
-                                        );
-                                        break;
-                                    case 'delete':
-                                        $this->setPostData(
-                                            array(
-                                                'type'      =>  'catalog',
-                                                'retrieve'  =>  'categories',
-                                                'context'   =>  'category',
-                                                'scrud'     =>  'delete'
-                                            ),
-                                            array(
-                                                'id'
+                                                'subcategory', 'product'
                                             )
                                         );
                                         break;
                                 }
-                            }else{
-                                $this->setPostData(
+                            }
+                        }elseif($getContentType === 'files'){
+                            if(isset($this->img)) {
+                                // POST image from forms
+                                $data = $this->dbCatalog->s_category_data($this->id);
+                                $resultUpload = $this->webservice->setUploadImage(
+                                    'img',
                                     array(
-                                        'type'      =>  'catalog',
-                                        'retrieve'  => 'categories',
-                                        'context'   =>  'category',
-                                        'scrud'     =>  'update',
-                                        'id'        =>  $this->id
+                                        'name' => magixglobal_model_cryptrsa::random_generic_ui(),
+                                        'edit' => $data['img_c'],
+                                        'attr_name' => 'catalog',
+                                        'attr_size' => 'category'
                                     ),
                                     array(
-                                        'name','url','content'
+                                        'type' => 'catalog',
+                                        'context' => array('category')
                                     )
                                 );
+                                if($resultUpload['statut']){
+                                    parent::updateData(array(
+                                        'type'      => 'catalog',
+                                        'context'   => 'category',
+                                        'id'        => $this->id,
+                                        'img'      => $resultUpload['file']
+                                    ));
+                                }
+                                $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                             }
-                        }
-                    }elseif(isset($this->img)) {
-                        // POST image from forms
-                        if($this->webservice->authorization($this->setWsAuthKey())) {
-                            $data = $this->dbCatalog->s_category_data($this->id);
-                            $resultUpload = $this->webservice->setUploadImage(
-                                'img',
-                                array(
-                                    'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                    'edit' => $data['img_c'],
-                                    'attr_name' => 'catalog',
-                                    'attr_size' => 'category'
-                                ),
-                                array(
-                                    'type' => 'catalog',
-                                    'context' => array('category')
-                                )
-                            );
-                            if($resultUpload['statut']){
-                                parent::updateData(array(
-                                    'type'      => 'catalog',
-                                    'context'   => 'category',
-                                    'id'        => $this->id,
-                                    'img'      => $resultUpload['file']
-                                ));
-                            }
-                            $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                         }
                     }else{
-                        if($this->webservice->authorization($this->setWsAuthKey())){
-                            $this->outputxml->getXmlHeader();
-                            $this->getCatalogCategory($this->id);
-                        }
+                        $this->outputxml->getXmlHeader();
+                        $this->getCatalogCategory($this->id);
                     }
 
                 }else{
-                    if(isset($_POST['xml']) || isset($_POST['json'])){
-                        if($this->webservice->authorization($this->setWsAuthKey())){
+                    if($this->webservice->setMethod() === 'POST'){
+                        if($getContentType === 'xml' OR $getContentType === 'json'){
                             $this->setPostData(
                                 array(
                                     'type'      =>  'catalog',
@@ -1066,18 +1059,29 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 )
                             );
                         }
+                    }elseif($this->webservice->setMethod() === 'DELETE'){
+                        $this->setPostData(
+                            array(
+                                'type'      =>  'catalog',
+                                'retrieve'  =>  'categories',
+                                'context'   =>  'category',
+                                'scrud'     =>  'delete'
+                            ),
+                            array(
+                                'id'
+                            )
+                        );
+                        break;
                     }else{
-                        if($this->webservice->authorization($this->setWsAuthKey())){
-                            $this->outputxml->getXmlHeader();
-                            $this->getCatalogCategories();
-                        }
+                        $this->outputxml->getXmlHeader();
+                        $this->getCatalogCategories();
                     }
                 }
                 break;
             case 'subcategories':
                 if(isset($this->id)){
-                    if(isset($_POST['xml']) || isset($_POST['json'])){
-                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                    if($this->webservice->setMethod() === 'POST'){
+                        if($getContentType === 'xml' OR $getContentType === 'json'){
                             if (isset($this->action)) {
                                 switch ($this->action) {
                                     case 'product':
@@ -1094,174 +1098,173 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                             )
                                         );
                                         break;
-                                    case 'delete':
-                                        $this->setPostData(
-                                            array(
-                                                'type'      =>  'catalog',
-                                                'retrieve'  =>  'subcategories',
-                                                'context'   =>  'subcategory',
-                                                'scrud'     =>  'delete'
-                                            ),
-                                            array(
-                                                'id'
-                                            )
-                                        );
-                                        break;
                                 }
-                            } else {
-                                $this->setPostData(
+                            }
+                        }if($getContentType === 'files'){
+                            if(isset($this->img)) {
+                                // POST image from forms
+                                $data = $this->dbCatalog->s_subcategory_data($this->id);
+                                $resultUpload = $this->webservice->setUploadImage(
+                                    'img',
                                     array(
-                                        'type' => 'catalog',
-                                        'retrieve' => 'subcategories',
-                                        'context' => 'subcategory',
-                                        'scrud' => 'update',
-                                        'id' => $this->id
+                                        'name' => magixglobal_model_cryptrsa::random_generic_ui(),
+                                        'edit' => $data['img_s'],
+                                        //'prefix'=> array('l_','m_','s_'),
+                                        'attr_name' => 'catalog',
+                                        'attr_size' => 'subcategory'
                                     ),
                                     array(
-                                        'name', 'url', 'content'
+                                        'type' => 'catalog',
+                                        'upload_dir' => array('subcategory')
                                     )
                                 );
+                                if($resultUpload['statut']){
+                                    parent::updateData(array(
+                                        'type'      => 'catalog',
+                                        'context'   => 'subcategory',
+                                        'id'        => $this->id,
+                                        'img'       => $resultUpload['file']
+                                    ));
+                                }
+                                $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                             }
                         }
-                    }elseif(isset($this->img)) {
-                        // POST image from forms
-                        if($this->webservice->authorization($this->setWsAuthKey())) {
-                            $data = $this->dbCatalog->s_subcategory_data($this->id);
-                            $resultUpload = $this->webservice->setUploadImage(
-                                'img',
+                    }elseif($this->webservice->setMethod() === 'PUT'){
+                        if($getContentType === 'xml' OR $getContentType === 'json'){
+                            $this->setPostData(
                                 array(
-                                    'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                    'edit' => $data['img_s'],
-                                    //'prefix'=> array('l_','m_','s_'),
-                                    'attr_name' => 'catalog',
-                                    'attr_size' => 'subcategory'
+                                    'type'      => 'catalog',
+                                    'retrieve'  => 'subcategories',
+                                    'context'   => 'subcategory',
+                                    'scrud'     => 'update',
+                                    'id'        => $this->id
                                 ),
                                 array(
-                                    'type' => 'catalog',
-                                    'upload_dir' => array('subcategory')
+                                    'name', 'url', 'content'
                                 )
                             );
-                            if($resultUpload['statut']){
-                                parent::updateData(array(
-                                    'type'      => 'catalog',
-                                    'context'   => 'subcategory',
-                                    'id'        => $this->id,
-                                    'img'       => $resultUpload['file']
-                                ));
-                            }
-                            $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                         }
                     }else{
-                        if($this->webservice->authorization($this->setWsAuthKey())){
-                            $this->outputxml->getXmlHeader();
-                            $this->getCatalogSubCategories($this->id);
-                        }
+                        $this->outputxml->getXmlHeader();
+                        $this->getCatalogSubCategories($this->id);
+                    }
+                }else{
+                    if($this->webservice->setMethod() === 'DELETE'){
+                        $this->setPostData(
+                            array(
+                                'type'      =>  'catalog',
+                                'retrieve'  =>  'subcategories',
+                                'context'   =>  'subcategory',
+                                'scrud'     =>  'delete'
+                            ),
+                            array(
+                                'id'
+                            )
+                        );
                     }
                 }
                 break;
             case 'products':
                 if(isset($this->id)){
-                    if(isset($_POST['xml']) || isset($_POST['json'])){
-                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                    if($this->webservice->setMethod() === 'PUT'){
+                        if($getContentType === 'xml' OR $getContentType === 'json'){
+                            $this->setPostData(
+                                array(
+                                    'type'      => 'catalog',
+                                    'retrieve'  => 'products',
+                                    'context'   => 'product',
+                                    'scrud'     => 'update',
+                                    'id'        => $this->id
+                                ),
+                                array(
+                                    'name', 'url', 'price', 'content'
+                                )
+                            );
+                        }
+                    }elseif($this->webservice->setMethod() === 'POST'){
+                        if($getContentType === 'xml' OR $getContentType === 'json'){
                             if (isset($this->action)) {
                                 if ($this->action === 'related') {
                                     $this->setPostData(
                                         array(
-                                            'type' => 'catalog',
-                                            'retrieve' => 'products',
-                                            'context' => 'related',
-                                            'scrud' => 'create',
-                                            'id' => $this->id
+                                            'type'      => 'catalog',
+                                            'retrieve'  => 'products',
+                                            'context'   => 'related',
+                                            'scrud'     => 'create',
+                                            'id'        => $this->id
                                         ),
                                         array(
                                             'related'
                                         )
                                     );
                                 }
-                            } else {
-                                $this->setPostData(
-                                    array(
-                                        'type' => 'catalog',
-                                        'retrieve' => 'products',
-                                        'context' => 'product',
-                                        'scrud' => 'update',
-                                        'id' => $this->id
-                                    ),
-                                    array(
-                                        'name', 'url', 'price', 'content'
-                                    )
-                                );
                             }
-                        }
-                    }elseif(isset($this->img)) {
-                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                        }elseif($getContentType === 'files'){
                             if (isset($this->action)) {
                                 if ($this->action === 'gallery') {
                                     // POST image from forms
-                                    if ($this->webservice->authorization($this->setWsAuthKey())) {
-                                        $resultUpload = $this->webservice->setUploadImage(
-                                            'img',
-                                            array(
-                                                'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                                'edit' => null,
-                                                //'prefix'=> array('l_','m_','s_'),
-                                                'attr_name' => 'catalog',
-                                                'attr_size' => 'galery'
-                                            ),
-                                            array(
-                                                'type' => 'catalog',
-                                                'upload_dir' => array('galery/maxi', 'galery/mini')
-                                            )
-                                        );
-                                        if ($resultUpload['statut']) {
-                                            parent::insertNewData(array(
-                                                'type' => 'catalog',
-                                                'retrieve' => 'products',
-                                                'context' => 'product',
-                                                'id' => $this->id,
-                                                'img' => $resultUpload['file']
-                                            ));
-                                        }
-                                        $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
+                                    $resultUpload = $this->webservice->setUploadImage(
+                                        'img',
+                                        array(
+                                            'name' => magixglobal_model_cryptrsa::random_generic_ui(),
+                                            'edit' => null,
+                                            //'prefix'=> array('l_','m_','s_'),
+                                            'attr_name' => 'catalog',
+                                            'attr_size' => 'galery'
+                                        ),
+                                        array(
+                                            'type' => 'catalog',
+                                            'upload_dir' => array('galery/maxi', 'galery/mini')
+                                        )
+                                    );
+                                    if ($resultUpload['statut']) {
+                                        parent::insertNewData(array(
+                                            'type' => 'catalog',
+                                            'retrieve' => 'products',
+                                            'context' => 'product',
+                                            'id' => $this->id,
+                                            'img' => $resultUpload['file']
+                                        ));
                                     }
+                                    $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                                 }
-                            } else {
-                                // POST image from forms
-                                $data = parent::fetchCatalog(array('fetch' => 'one', 'id' => $this->id));
-                                $resultUpload = $this->webservice->setUploadImage(
-                                    'img',
-                                    array(
-                                        'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                        'edit' => $data['imgcatalog'],
-                                        //'prefix'=> array('l_','m_','s_'),
-                                        'attr_name' => 'catalog',
-                                        'attr_size' => 'product'
-                                    ),
-                                    array(
-                                        'type' => 'catalog',
-                                        'upload_dir' => array('product', 'medium', 'mini')
-                                    )
-                                );
-                                if ($resultUpload['statut']) {
-                                    parent::updateData(array(
-                                        'type' => 'catalog',
-                                        'context' => 'product',
-                                        'id' => $this->id,
-                                        'img' => $resultUpload['file']
-                                    ));
+                            }else{
+                                if(isset($this->img)) {
+                                    // POST image from forms
+                                    $data = parent::fetchCatalog(array('fetch' => 'one', 'id' => $this->id));
+                                    $resultUpload = $this->webservice->setUploadImage(
+                                        'img',
+                                        array(
+                                            'name' => magixglobal_model_cryptrsa::random_generic_ui(),
+                                            'edit' => $data['imgcatalog'],
+                                            //'prefix'=> array('l_','m_','s_'),
+                                            'attr_name' => 'catalog',
+                                            'attr_size' => 'product'
+                                        ),
+                                        array(
+                                            'type' => 'catalog',
+                                            'upload_dir' => array('product', 'medium', 'mini')
+                                        )
+                                    );
+                                    if ($resultUpload['statut']) {
+                                        parent::updateData(array(
+                                            'type' => 'catalog',
+                                            'context' => 'product',
+                                            'id' => $this->id,
+                                            'img' => $resultUpload['file']
+                                        ));
+                                    }
+                                    $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                                 }
-                                $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
                             }
                         }
                     }else{
-                        if($this->webservice->authorization($this->setWsAuthKey())){
-                            $this->outputxml->getXmlHeader();
-                            $this->getCatalogProduct($this->id);
-                        }
+                        $this->outputxml->getXmlHeader();
+                        $this->getCatalogProduct($this->id);
                     }
                 }else{
-                    if(isset($_POST['xml']) || isset($_POST['json'])){
-                        if($this->webservice->authorization($this->setWsAuthKey())) {
+                    if($this->webservice->setMethod() === 'POST'){
+                        if($getContentType === 'xml' OR $getContentType === 'json'){
                             $this->setPostData(
                                 array(
                                     'type' => 'catalog',
@@ -1274,11 +1277,49 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 )
                             );
                         }
-                    }else{
-                        if($this->webservice->authorization($this->setWsAuthKey())){
-                            $this->outputxml->getXmlHeader();
-                            $this->getCatalogProducts();
+                    }elseif($this->webservice->setMethod() === 'DELETE'){
+                        if (isset($this->action)) {
+                            if ($this->action === 'gallery') {
+                                /*$fetchGallery = parent::fetchCatalog(
+                                    array(
+                                        'type'     =>  'gallery',
+                                        'fetch'     =>  'one',
+                                        'id'        =>  $id
+                                    )
+                                );
+                                // Charge la classe pour le traitement du fichier
+                                if(is_array(array('galery/maxi', 'galery/mini'))) {
+                                    $dirImgArray = $this->dirImgUploadCollection(
+                                        array(
+                                            'type' => 'catalog',
+                                            'upload_dir' => array('galery/maxi', 'galery/mini')
+                                        )
+                                    );
+                                }
+                                $makeFiles = new magixcjquery_files_makefiles();
+                                foreach($fetchConfig as $key => $value){
+
+                                }
+                                if(file_exists(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR.$data['imgcatalog'])) {
+                                    $makeFiles->removeFile(self::dirImgProductGalery() . 'maxi' . DIRECTORY_SEPARATOR, $data['imgcatalog']);
+                                }*/
+                            }
+                        }else{
+                            $this->setPostData(
+                                array(
+                                    'type'      =>  'catalog',
+                                    'retrieve'  =>  'products',
+                                    'context'   =>  'product',
+                                    'scrud'     =>  'delete'
+                                ),
+                                array(
+                                    'id'
+                                )
+                            );
                         }
+                    }else{
+                        $this->outputxml->getXmlHeader();
+                        $this->getCatalogProducts();
                     }
                 }
             break;
@@ -1288,348 +1329,310 @@ class frontend_controller_webservice extends frontend_db_webservice{
     /**
      * Execute webservice function
      */
-    public function run(){
-        if (isset($this->collection)) {
-            switch ($this->collection) {
-                case 'catalog':
-                    if(isset($this->retrieve)){
-                        $this->setCatalog();
-                    }else{
-                        if($this->webservice->authorization($this->setWsAuthKey())) {
+    public function run()
+    {
+        if ($this->webservice->authorization($this->setWsAuthKey())) {
+            if (isset($this->collection)) {
+                switch ($this->collection) {
+                    case 'catalog':
+                        if (isset($this->retrieve)) {
+                            $this->setCatalog();
+                        } else {
                             $this->outputxml->getXmlHeader();
                             $this->getCatalogRoot();
                         }
-                    }
-                    break;
-                case 'test':
-                    if($this->webservice->setMethod() === 'PUT'){
-                        /*if(isset($this->collection)){
-                            switch($this->collection){
-                                case 'test':
-                                    if($this->retrieve === 'test'){
-                                        print 'test';
-                                    }else{
-                                        print 'no retrieve';
-                                    }
-                                    break;
+                        break;
+                    /*case 'test':
+                        if($this->webservice->setMethod() === 'PUT'){
+                            $getContentType = $this->webservice->getContentType();
+                            if($getContentType === 'xml' OR $getContentType === 'json'){
+                                $this->webservice->setHeaderType();
+                                $parse = $this->webservice->getResultParse();
+                                if($parse){
+                                    print $parse->{'category'}->{'name'};
+                                }else{
+                                    $this->message->json_post_response(false,'error',self::$notify,$parse);
+                                }
                             }
-                        }*/
-                        //print_r($_GET).'</br>';
-                        //print $_SERVER['CONTENT_TYPE'].'</br>';
-                        if($this->webservice->getContentType() === 'json'){
-                            header('Content-type: application/json');
-                            /*parse_str(file_get_contents('php://input'), $requestData);
-                            $parseData = ($requestData);
-                            //$montruc = json_decode($parseData);
-                            if (is_object($parseData)) {
-                                //print json_decode($parseData->{'category'}->{'name'});
-                            }else{
-                                //print ($parseData);
-                                //$this->message->json_post_response(false,'error',self::$notify,'parseData is not valid');
-                            }
-                            print $requestData[0]["category"];
-                            print_r($parseData);
-                            //print $montruc->{'category'}->{'name'};*/
-                            if ($stream = fopen('php://input', 'r')) {
-                                // affiche toute la page, en commençant à la position 10
-                                $streamParse = stream_get_contents($stream, -1, 0);
-                                $rentretout = urldecode($streamParse);
-                                //print_r(json_decode($machin));
-                                $parse = json_decode($rentretout);
-                                fclose($stream);
-                                print $parse->{'category'}->{'name'};
-                            }
-                        }elseif($_SERVER['CONTENT_TYPE'] === 'text/xml'){
-                            //print_r($_SERVER).'</br>';
-                            header('Content-type: text/xml');
-                            if ($stream = fopen('php://input', 'r')) {
-                                // affiche toute la page, en commençant à la position 10
-                                $streamParse = stream_get_contents($stream, -1, 0);
-                                $parse = simplexml_load_string(urldecode($streamParse), null, LIBXML_NOCDATA);
-                                fclose($stream);
-                                print $parse->{'category'}->{'name'};
+                        }elseif($this->webservice->setMethod() === 'POST'){
+                            $getContentType = $this->webservice->getContentType();
+                            if($getContentType === 'xml' OR $getContentType === 'json'){
+                                $this->webservice->setHeaderType($getContentType);
+                                $parse = $this->webservice->getResultParse($getContentType);
+                                if($parse){
+                                    print $parse->{'category'}->{'name'};
+                                }else{
+                                    $this->message->json_post_response(false,'error',self::$notify,$parse);
+                                }
+                            }elseif($getContentType === 'files'){
+                                if(isset($this->img)) {
+                                    print '<pre>';
+                                    print_r($_SERVER);
+                                    print '</pre>';
+                                    print $this->img;
+                                }
                             }
                         }
-                    }elseif($this->webservice->setMethod() === 'POST'){
-                        if($this->webservice->getContentType() === 'xml'){
-                            //print_r($_SERVER).'</br>';
-                            print_r($_POST);
-                            header('Content-type: text/xml');
-                            if ($stream = fopen('php://input', 'r')) {
-                                // affiche toute la page, en commençant à la position 10
-                                $streamParse = stream_get_contents($stream, -1, 0);
-                                $parse = simplexml_load_string(urldecode($streamParse), null, LIBXML_NOCDATA);
-                                fclose($stream);
-                                print $parse->{'category'}->{'name'};
-                            }
-                        }elseif($this->webservice->getContentType() === 'files'){
-                            if(isset($this->img)) {
-                                print '<pre>';
-                                print_r($_SERVER);
-                                print '</pre>';
-                                print $this->img;
-                            }
-                        }
-                    }
+                        break;*/
+                }
+            } else {
+                /* $data = json_encode(
+                     array(
+                         'category'  =>  array(
+                             'id'            =>  3,
+                             'name'          =>  'Mon titre via webservice json'
+                         )
+                     )
+                 );
+                 /*$data = '<?xml version="1.0" encoding="UTF-8" ?>
+             <magixcms>
+                 <category>
+                     <id>1</id>
+                     <name>ma ligne de vêtement bleu</name>
+                     <url></url>
+                     <description>
+                         <![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
+                     </description>
+                 </category>
+             </magixcms>';*/
 
-                    //print_r($_SERVER).'</br>';
-                    //print $_SERVER['CONTENT_LENGTH'];
-                    //print $_SERVER['REQUEST_METHOD'];
-                    /*$filePath= "php://input";
-                    $handle = fopen($filePath, "r");
+                //$headers[] = 'Content-type: text/xml';
+                //$header[]= 'Accept: text/xml';
+                /*$headers[] = 'Content-type: application/json';
+                $header[]= 'Accept: application/json';
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "http://www.magixcms.dev/webservice/test/");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_setopt($ch, CURLINFO_HEADER_OUT, 1);                  // For debugging
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+                curl_setopt($ch, CURLOPT_POSTFIELDS,urlencode($data));
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                //curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);             // no caching
+                //curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);            // no caching
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
 
-                    $fileContents = fread($handle, filesize($filePath));
-                    fclose($handle);
-                    if(!empty($fileContents)) {
-                        echo "<pre>".$fileContents."</pre>";
-                    }*/
-                    break;
-            }
-        } else {
-            /*$data = json_encode(
-                array(
-                    'category'  =>  array(
-                        'id'            =>  3,
-                        'name'          =>  'Mon titre via webservice json'
-                    )
-                )
-            );
+                $response = curl_exec($ch);
+                $curlInfo = curl_getinfo($ch);
+                curl_close($ch);
+                $header = trim(substr($response, 0, $curlInfo['header_size']));
+                $body = substr($response, $curlInfo['header_size']);
+                if (!$response)
+                {
+                    return false;
+                }else{
+                    print '<pre>';
+                    print_r($curlInfo);
+                    print '</pre>';
+                    print $response;
+                }*/
 
-            $json_data = ($data);*/
-            /*$test = '<?xml version="1.0" encoding="UTF-8" ?>
-        <magixcms>
-            <category>
-                <id>1</id>
-                <name>ma ligne de vêtement bleu</name>
-                <url></url>
-                <description>
-                    <![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
-                </description>
-            </category>
-        </magixcms>';
-
-            $headers[] = 'Content-type: text/xml';
-            $header[]= 'Accept: text/xml';
-            //$header[]= 'Accept: application/json';
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://www.magixcms.dev/webservice/test/");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLINFO_HEADER_OUT, 1);                  // For debugging
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS,urlencode($test));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            //curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);             // no caching
-            //curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);            // no caching
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
-
-            $response = curl_exec($ch);
-            $curlInfo = curl_getinfo($ch);
-            curl_close($ch);
-            $header = trim(substr($response, 0, $curlInfo['header_size']));
-            $body = substr($response, $curlInfo['header_size']);
-            if (!$response)
-            {
-                return false;
-            }else{
-                print '<pre>';
-                print_r($curlInfo);
-                print '</pre>';
-                print $response;
-            }*/
-
-            /*if($this->webservice->authorization($this->setWsAuthKey())) {
-                $this->outputxml->getXmlHeader();
-                $this->getRoot();
-            }*/
-            /*$curl_params = array();
-            $encodedAuth = $this->setWsAuthKey();*/
-            /*$options = array(
-                CURLOPT_HEADER          => true,
-                CURLOPT_RETURNTRANSFER  => true,
-                CURLINFO_HEADER_OUT     => true,
-                CURLOPT_URL             => 'http://www.magixcms.dev/webservice/catalog/categories',
-                CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
-                CURLOPT_USERPWD         => $encodedAuth,
-                CURLOPT_HTTPHEADER => array("Authorization : Basic ".$encodedAuth,"Content-Type: text/xml;charset=utf-8")
-            );
-            $ch = curl_init();
-            curl_setopt_array($ch,$options);
-            $response = curl_exec($ch);
-            //print_r($response);
-            $curlInfo = curl_getinfo($ch);
-            $index = strpos($response, "\r\n\r\n");
-            if ($index === false && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD'){
-                throw new Exception('Bad HTTP response');
-            }
-            $header = substr($response, 0, $index);
-            $body = substr($response, $index + 4);
-            $headerArrayTmp = explode("\n", $header);
-            $headerArray = array();
-            foreach ($headerArrayTmp as &$headerItem)
-            {
-                $tmp = explode(':', $headerItem);
-                $tmp = array_map('trim', $tmp);
-                if (count($tmp) == 2)
-                    $headerArray[$tmp[0]] = $tmp[1];
-            }
-            curl_close ($ch);
-            header('Content-type: text/xml; charset=UTF-8');*/
-            /*print '<pre>';
-            //print_r($response);
-            //print_r($curlInfo);
-            print_r(array('status_code' => $curlInfo['http_code'], 'response' => $body, 'header' => $header));
-            print '</pre>';*/
-            //print $body;
-            //if(isset($this->data)){
-            //$data_string = "postvar1=value1&postvar2=value2&postvar3=value3";
-            /*$data_string = array(
-                    'name' => 'test',
-                    'content' => 'mon test'
-            );*/
-            /*$test = $this->outputxml->newStartElement('categories');
-            $test .= $this->outputxml->setElement(
-                    array(
-                        'start'=>'category',
-                        'text'=> 'truc'
-                    )
+                /*if($this->webservice->authorization($this->setWsAuthKey())) {
+                    $this->outputxml->getXmlHeader();
+                    $this->getRoot();
+                }*/
+                /*$curl_params = array();
+                $encodedAuth = $this->setWsAuthKey();*/
+                /*$options = array(
+                    CURLOPT_HEADER          => true,
+                    CURLOPT_RETURNTRANSFER  => true,
+                    CURLINFO_HEADER_OUT     => true,
+                    CURLOPT_URL             => 'http://www.magixcms.dev/webservice/catalog/categories',
+                    CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD         => $encodedAuth,
+                    CURLOPT_HTTPHEADER => array("Authorization : Basic ".$encodedAuth,"Content-Type: text/xml;charset=utf-8")
                 );
+                $ch = curl_init();
+                curl_setopt_array($ch,$options);
+                $response = curl_exec($ch);
+                //print_r($response);
+                $curlInfo = curl_getinfo($ch);
+                $index = strpos($response, "\r\n\r\n");
+                if ($index === false && $curl_params[CURLOPT_CUSTOMREQUEST] != 'HEAD'){
+                    throw new Exception('Bad HTTP response');
+                }
+                $header = substr($response, 0, $index);
+                $body = substr($response, $index + 4);
+                $headerArrayTmp = explode("\n", $header);
+                $headerArray = array();
+                foreach ($headerArrayTmp as &$headerItem)
+                {
+                    $tmp = explode(':', $headerItem);
+                    $tmp = array_map('trim', $tmp);
+                    if (count($tmp) == 2)
+                        $headerArray[$tmp[0]] = $tmp[1];
+                }
+                curl_close ($ch);
+                header('Content-type: text/xml; charset=UTF-8');*/
+                /*print '<pre>';
+                //print_r($response);
+                //print_r($curlInfo);
+                print_r(array('status_code' => $curlInfo['http_code'], 'response' => $body, 'header' => $header));
+                print '</pre>';*/
+                //print $body;
+                //if(isset($this->data)){
+                //$data_string = "postvar1=value1&postvar2=value2&postvar3=value3";
+                /*$data_string = array(
+                        'name' => 'test',
+                        'content' => 'mon test'
+                );*/
+                /*$test = $this->outputxml->newStartElement('categories');
+                $test .= $this->outputxml->setElement(
+                        array(
+                            'start'=>'category',
+                            'text'=> 'truc'
+                        )
+                    );
 
-            $test .= $this->outputxml->newEndElement();
-            $test .= $this->outputxml->output();*/
-            /*$test = '<?xml version="1.0" encoding="UTF-8" ?>
+                $test .= $this->outputxml->newEndElement();
+                $test .= $this->outputxml->output();*/
+                /*$test = '<?xml version="1.0" encoding="UTF-8" ?>
+            <magixcms>
+                <category>
+                    <iso>fr</iso>
+                    <name>Mon titre via webservice xml</name>
+                    <description>
+                        <![CDATA[<div id="lipsum">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
+                        <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
+                        </div>]]>
+                    </description>
+                </category>
+            </magixcms>';*/
+
+                /* $test = '<?xml version="1.0" encoding="UTF-8" ?>
+             <magixcms>
+                 <category>
+                     <id>1</id>
+                     <name>ma ligne de vêtement bleu</name>
+                     <url></url>
+                     <description>
+                         <![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
+                     </description>
+                 </category>
+             </magixcms>';
+
+                 $subcategory = '<?xml version="1.0" encoding="UTF-8" ?>
+             <magixcms>
+                 <subcategory>
+                     <id>3</id>
+                     <name>ma sous catégorie ws</name>
+                     <url>ma-sous-categorie-ws</url>
+                     <description>
+                         <![CDATA[
+                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
+                     </description>
+                 </subcategory>
+             </magixcms>';
+
+                 $product = '<?xml version="1.0" encoding="UTF-8" ?>
+             <magixcms>
+                 <product>
+                     <id>5</id>
+                     <category>1</category>
+                     <subcategory>3</subcategory>
+                 </product>
+             </magixcms>';
+                 /*$subcategory = '<?xml version="1.0" encoding="UTF-8"?>
+                 <magixcms>
+                     <subcategory>
+                         <id_parent>1</id_parent>
+                         <id>3</id>
+                         <name>my subcategory</name>
+                         <url>my-subcategory</url>
+                         <description><![CDATA[
+                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                     Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>
+                                 ]]></description>
+                     </subcategory>
+                 </magixcms>';*/
+                $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui.';
+                /*$json = json_encode(array('subcategory'=>array(
+                    'idparent'      =>  1,
+                    'id'            =>  3,
+                    'name'          =>  'Mon titre via webservice json',
+                    'url'           =>  '',
+                    'description'   => $description
+                )));*/
+                /*$json = json_encode(array('category'=>array(
+                    'iso'           =>'fr',
+                    'name'          =>  'Mon titre de test json',
+                    'description'   => $description
+                )));*/
+                /*$product = json_encode(array('product'=>array(
+                    'id'            =>  5,
+                    'category'      =>  1,
+                    'subcategory'   =>  1
+                )));*/
+                /*$json = json_encode(array('product'=>array(
+                    'iso'            =>'fr',
+                     //'id'            =>  3,
+                     'name'          =>  'My test',
+                     'url'           =>  '',
+                     'price'         =>  '10.80',
+                     'description'   => $description
+                 )));
+                 */
+                /*$test = '<?xml version="1.0" encoding="UTF-8" ?>
         <magixcms>
             <category>
                 <iso>fr</iso>
                 <name>Mon titre via webservice xml</name>
                 <description>
-                    <![CDATA[<div id="lipsum">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui. Nulla accumsan neque at dignissim consequat. In pharetra dignissim lorem, ac aliquet purus varius et. Cras fermentum sit amet elit et varius. Integer dui leo, pretium eget viverra vel, bibendum vel est. Pellentesque commodo, magna sed consequat eleifend, odio ligula venenatis sapien, eget aliquet orci augue ultricies velit. Sed cursus accumsan sapien, at gravida libero dignissim ut. Nulla facilisi. Aliquam augue nunc, suscipit ut elit eget, ullamcorper sagittis arcu.</p>
-                    <p>Ut scelerisque, dui eleifend sollicitudin varius, libero ligula consectetur ligula, sit amet tristique dui lorem ut tortor. Nam commodo ipsum quam, eget finibus eros semper malesuada. Curabitur eget pellentesque lacus, et tincidunt dui. Sed congue bibendum purus, et lacinia enim lacinia quis. Proin interdum eu leo ut hendrerit. Nam at maximus risus. Cras nec volutpat est, vel malesuada nisi. Nullam in mi in dolor malesuada ornare. In sed massa massa.</p>
-                    </div>]]>
-                </description>
-            </category>
-        </magixcms>';*/
-            
-           /* $test = '<?xml version="1.0" encoding="UTF-8" ?>
-        <magixcms>
-            <category>
-                <id>1</id>
-                <name>ma ligne de vêtement bleu</name>
-                <url></url>
-                <description>
                     <![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
                 </description>
             </category>
-        </magixcms>';
+        </magixcms>';*/
+                //print_r($json);
+                $test = '<?xml version="1.0" encoding="UTF-8" ?>
+<magixcms>
+    <subcategory>
+        <id>7</id>
+    </subcategory>
+</magixcms>';
+                print $this->webservice->setPreparePostData(array(
+                    'wsAuthKey' => $this->setWsAuthKey(),
+                    'method' => 'xml',
+                    'data' => $test,
+                    'customRequest' => 'DELETE',
+                    'url' => 'http://www.magixcms.dev/webservice/catalog/subcategories/'
+                ));
+                /*$product = '<?xml version="1.0" encoding="UTF-8"?>
+                <magixcms>
+                    <product>
+                        <id>20</id>
+                        <name>My test update</name>
+                        <url></url>
+                        <price>178</price>
+                        <description><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]></description>
+                    </product>
+                </magixcms>';*/
+                /*$related = '<?xml version="1.0" encoding="UTF-8"?>
+                <magixcms>
+                    <product>
+                        <id>20</id>
+                        <related>4</related>
+                    </product>
+                </magixcms>';*/
+                /*$json = json_encode(array('product'=>array(
+                    'id'            =>  1,
+                    'related'          =>  20
+                )));
+                print_r($json);*/
+                /*print $this->webservice->setPreparePostData(array(
+                    'wsAuthKey'=>$this->setWsAuthKey(),
+                    'method' => 'xml',
+                    'data' => $product,
+                    'customRequest' => 'POST',
+                    'url' => 'http://www.magixcms.dev/webservice/catalog/products/1/'
+                ));*/
 
-            $subcategory = '<?xml version="1.0" encoding="UTF-8" ?>
-        <magixcms>
-            <subcategory>
-                <id>3</id>
-                <name>ma sous catégorie ws</name>
-                <url>ma-sous-categorie-ws</url>
-                <description>
-                    <![CDATA[
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]>
-                </description>
-            </subcategory>
-        </magixcms>';
 
-            $product = '<?xml version="1.0" encoding="UTF-8" ?>
-        <magixcms>
-            <product>
-                <id>5</id>
-                <category>1</category>
-                <subcategory>3</subcategory>
-            </product>
-        </magixcms>';
-            /*$subcategory = '<?xml version="1.0" encoding="UTF-8"?>
-            <magixcms>
-                <subcategory>
-                    <id_parent>1</id_parent>
-                    <id>3</id>
-                    <name>my subcategory</name>
-                    <url>my-subcategory</url>
-                    <description><![CDATA[
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>
-                            ]]></description>
-                </subcategory>
-            </magixcms>';*/
-            $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi. Mauris in augue dui.';
-            /*$json = json_encode(array('subcategory'=>array(
-                'idparent'      =>  1,
-                'id'            =>  3,
-                'name'          =>  'Mon titre via webservice json',
-                'url'           =>  '',
-                'description'   => $description
-            )));*/
-            /*$json = json_encode(array('category'=>array(
-                'iso'           =>'fr',
-                'name'          =>  'Mon titre de test json',
-                'description'   => $description
-            )));*/
-            /*$product = json_encode(array('product'=>array(
-                'id'            =>  5,
-                'category'      =>  1,
-                'subcategory'   =>  1
-            )));*/
-           /*$json = json_encode(array('product'=>array(
-               'iso'            =>'fr',
-                //'id'            =>  3,
-                'name'          =>  'My test',
-                'url'           =>  '',
-                'price'         =>  '10.80',
-                'description'   => $description
-            )));
-            */
-            /*$json = json_encode(array('subcategory'=>array(
-                'id'  =>'16'
-            )));*/
-            /*print_r($json);
-            print $this->webservice->setPreparePostData(array(
-                'wsAuthKey'=>$this->setWsAuthKey(),
-                'method' => 'json',
-                'data' => $json,
-                'customRequest' => 'POST',
-                'url' => 'http://www.magixcms.dev/webservice/catalog/categories/'
-            ));*/
-            /*$product = '<?xml version="1.0" encoding="UTF-8"?>
-            <magixcms>
-                <product>
-                    <id>20</id>
-                    <name>My test update</name>
-                    <url></url>
-                    <price>178</price>
-                    <description><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis ex, blandit accumsan risus quis, eleifend mollis nisi.</p>]]></description>
-                </product>
-            </magixcms>';*/
-            /*$related = '<?xml version="1.0" encoding="UTF-8"?>
-            <magixcms>
-                <product>
-                    <id>20</id>
-                    <related>4</related>
-                </product>
-            </magixcms>';*/
-            /*$json = json_encode(array('product'=>array(
-                'id'            =>  1,
-                'related'          =>  20
-            )));
-            print_r($json);*/
-            /*print $this->webservice->setPreparePostData(array(
-                'wsAuthKey'=>$this->setWsAuthKey(),
-                'method' => 'xml',
-                'data' => $product,
-                'customRequest' => 'POST',
-                'url' => 'http://www.magixcms.dev/webservice/catalog/products/1/'
-            ));*/
-
-            
-            /*print $this->webservice->setPreparePostImg(array(
-                'wsAuthKey' =>  $this->setWsAuthKey(),
-                'url'       => 'http://www.magixcms.dev/webservice/catalog/categories/3'
-            ));*/
+                /*print $this->webservice->setPreparePostImg(array(
+                    'wsAuthKey' =>  $this->setWsAuthKey(),
+                    'url'       => 'http://www.magixcms.dev/webservice/catalog/categories/3'
+                ));*/
+            }
         }
     }
 }

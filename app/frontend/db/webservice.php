@@ -276,32 +276,37 @@ class frontend_db_webservice
      */
     public static function fetchCatalog($data){
         if(is_array($data)) {
+            if (array_key_exists('type', $data)) {
+                $type = $data['type'];
+            }
             if (array_key_exists('fetch', $data)) {
                 $fetch = $data['fetch'];
             } else {
                 $fetch = 'all';
             }
-            if ($fetch === 'all') {
-                $query = "SELECT catalog.idcatalog,
-                    catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,catalog.imgcatalog,lang.iso
-                FROM mc_catalog AS catalog
-                JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )";
-                return magixglobal_model_db::layerDB()->select(
-                    $query
-                );
-            }elseif($fetch === 'one'){
-                $select = 'SELECT
-                catalog.*,lang.iso
-                FROM mc_catalog AS catalog
-                JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
-                WHERE catalog.idcatalog = :id';
-                return magixglobal_model_db::layerDB()->selectOne(
-                    $select,
-                    array(
-                        ':id'    =>	$data['id']
-                    )
-                );
-            }elseif($fetch === 'category'){
+            if($type === 'product'){
+                if ($fetch === 'all') {
+                    $query = "SELECT catalog.idcatalog,
+                        catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,catalog.imgcatalog,lang.iso
+                    FROM mc_catalog AS catalog
+                    JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )";
+                    return magixglobal_model_db::layerDB()->select(
+                        $query
+                    );
+                }elseif($fetch === 'one'){
+                    $select = 'SELECT
+                    catalog.*,lang.iso
+                    FROM mc_catalog AS catalog
+                    JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
+                    WHERE catalog.idcatalog = :id';
+                    return magixglobal_model_db::layerDB()->selectOne(
+                        $select,
+                        array(
+                            ':id'    =>	$data['id']
+                        )
+                    );
+                }
+            }elseif($type === 'category'){
                 $select = 'SELECT
                 catalog.*,p.idproduct,p.idcatalog,p.idclc, p.idcls,lang.iso,c.clibelle,c.pathclibelle,s.slibelle,
                 s.pathslibelle
@@ -317,7 +322,7 @@ class frontend_db_webservice
                         ':id'    =>	$data['id']
                     )
                 );
-            }elseif($fetch === 'subcategory'){
+            }elseif($type === 'subcategory'){
                 $select = 'SELECT
                 catalog.*,p.idproduct,p.idcatalog,p.idclc, p.idcls,lang.iso,c.clibelle,c.pathclibelle,s.slibelle,
                 s.pathslibelle
@@ -333,17 +338,30 @@ class frontend_db_webservice
                         ':id'    =>	$data['id']
                     )
                 );
-            }elseif($fetch === 'gallery'){
-                $query = 'SELECT
+            }elseif($type === 'gallery'){
+                if($fetch === 'all'){
+                    $query = 'SELECT
                     gallery.*
                     FROM mc_catalog_galery AS gallery
                     WHERE gallery.idcatalog = :id';
-                return magixglobal_model_db::layerDB()->select(
-                    $query,
-                    array(
-                        ':id'    =>	$data['id']
-                    )
-                );
+                    return magixglobal_model_db::layerDB()->select(
+                        $query,
+                        array(
+                            ':id'    =>	$data['id']
+                        )
+                    );
+                }elseif($fetch === 'one'){
+                    $query = 'SELECT
+                    gallery.*
+                    FROM mc_catalog_galery AS gallery
+                    WHERE gallery.idmicro = :id';
+                    return magixglobal_model_db::layerDB()->selectOne(
+                        $query,
+                        array(
+                            ':id'    =>	$data['id']
+                        )
+                    );
+                }
             }
         }
     }
@@ -386,6 +404,11 @@ class frontend_db_webservice
                                     'DELETE FROM mc_catalog WHERE idcatalog = '.$data['id']
                                 );
                                 magixglobal_model_db::layerDB()->transaction($query);
+                            }elseif ($context === 'gallery') {
+                                $sql = 'DELETE FROM mc_catalog_galery WHERE idmicro = :id';
+                                magixglobal_model_db::layerDB()->delete($sql,array(
+                                    ':id'    =>  $data['id']
+                                ));
                             }
                         }
                     }

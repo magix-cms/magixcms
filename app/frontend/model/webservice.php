@@ -16,7 +16,7 @@ class frontend_model_webservice extends frontend_db_webservice{
             $this->img = magixcjquery_url_clean::rplMagixString($_FILES['img']["name"]);
         }
     }
-
+    /* ##################################### Authentification ##########################################*/
     /**
      * @param $mcWsAuthKey
      * @return bool
@@ -52,8 +52,9 @@ class frontend_model_webservice extends frontend_db_webservice{
             die('401 Unauthorized');
         }
     }
-
+    /* ##################################### Parse XML OR JSON ##########################################*/
     /**
+     * request method put, get, post, delete
      * @return mixed
      */
     public function setMethod(){
@@ -63,6 +64,7 @@ class frontend_model_webservice extends frontend_db_webservice{
     }
 
     /**
+     * set content-type header
      * @return array
      */
     private function setContentType(){
@@ -70,7 +72,9 @@ class frontend_model_webservice extends frontend_db_webservice{
         $contentType = $contentType[0];
         return $contentType;
     }
+
     /**
+     * Return content type for parse détection
      * @return mixed|void
      */
     public function getContentType(){
@@ -91,7 +95,73 @@ class frontend_model_webservice extends frontend_db_webservice{
         }
     }
 
+    /**
+     * Return header from content type
+     */
+    public function setHeaderType(){
+        $getContentType = $this->getContentType();
+        switch($getContentType){
+            case 'xml':
+                header('Content-type: text/xml');
+                break;
+            case 'json':
+                header('Content-type: application/json');
+                break;
+        }
+    }
 
+    /**
+     * Read raw data from the request body
+     * @return bool|string
+     */
+    private function setStreamData(){
+        if ($stream = fopen('php://input', 'r')) {
+            $streamData = stream_get_contents($stream, -1, 0);
+            $streamData = urldecode($streamData);
+            fclose($stream);
+            return $streamData;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * @param $data
+     * @return mixed|SimpleXMLElement
+     */
+    private function setParseMethod($data){
+        switch($data['method']){
+            case 'xml':
+                return simplexml_load_string($data['data'], null, LIBXML_NOCDATA);
+                break;
+            case 'json':
+                return json_decode($data['data']);
+                break;
+        }
+    }
+
+    /**
+     * @param $method
+     * @param bool $debug
+     * @return mixed|SimpleXMLElement
+     */
+    public function getResultParse($debug = false){
+        $parse = $this->setParseMethod(array(
+            'method'    =>  $this->getContentType(),
+            'data'      =>  $this->setStreamData()
+        ));
+        if (is_object($parse)) {
+            if($debug){
+                print '<pre>';
+                print_r($parse);
+                print '</pre>';
+            }else{
+                return $parse;
+            }
+        }else{
+            return 'Parse result is not object';
+        }
+    }
+    /* ##################################### Image Upload ##########################################*/
     /**
      * Retourne le chemin depuis la racine
      * @param $pathUpload
@@ -283,7 +353,7 @@ class frontend_model_webservice extends frontend_db_webservice{
             }
         }
     }
-
+    /* ##################################### Utility with Curl for Extranal Web Service ##########################################*/
     /**
      * Prepare post Data with Curl (no files)
      * @param $data
@@ -307,19 +377,31 @@ class frontend_model_webservice extends frontend_db_webservice{
             $curl_params = array();
             $encodedAuth = $data['wsAuthKey'];
             $generatedData = urlencode($data['data']);
+            switch($data['method']){
+                case 'json';
+                    $headers = array("Authorization : Basic " . $encodedAuth,'Content-type: application/json','Accept: application/json');
+                    break;
+                case 'xml';
+                    $headers = array("Authorization : Basic " . $encodedAuth,'Content-type: text/xml','Accept: text/xml');
+                    break;
+            }
+
             $options = array(
-                CURLOPT_HEADER => 0,
+                //CURLOPT_HEADER => 0,
+                CURLINFO_HEADER_OUT=> 1,                // For debugging
                 CURLOPT_RETURNTRANSFER => true,
                 //CURLINFO_HEADER_OUT => true,
                 CURLOPT_NOBODY => false,
                 CURLOPT_URL => $data['url'],
                 CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                 CURLOPT_USERPWD => $encodedAuth,
-                CURLOPT_HTTPHEADER => array("Authorization : Basic " . $encodedAuth,/*"application/x-www-form-urlencoded","Content-Type: text/xml; charset=UTF-8"*/),
-                CURLOPT_POST => true,
+                CURLOPT_HTTPHEADER => $headers,
+                //CURLOPT_POST => true,
+                //CURLOPT_FORBID_REUSE => 1,
+                //CURLOPT_FRESH_CONNECT=>1,
                 CURLOPT_CONNECTTIMEOUT => 300,
                 CURLOPT_CUSTOMREQUEST => $data['customRequest'],
-                CURLOPT_POSTFIELDS => $data['method'] . "=" . $generatedData/*,
+                CURLOPT_POSTFIELDS => $generatedData/*,
             CURLOPT_SAFE_UPLOAD     => false*/
             );
             $ch = curl_init();
