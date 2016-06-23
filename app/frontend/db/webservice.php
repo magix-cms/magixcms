@@ -276,15 +276,15 @@ class frontend_db_webservice
      */
     public static function fetchCatalog($data){
         if(is_array($data)) {
-            if (array_key_exists('type', $data)) {
-                $type = $data['type'];
+            if (array_key_exists('context', $data)) {
+                $context = $data['context'];
             }
             if (array_key_exists('fetch', $data)) {
                 $fetch = $data['fetch'];
             } else {
                 $fetch = 'all';
             }
-            if($type === 'product'){
+            if($context === 'product'){
                 if ($fetch === 'all') {
                     $query = "SELECT catalog.idcatalog,
                         catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,catalog.imgcatalog,lang.iso
@@ -306,7 +306,7 @@ class frontend_db_webservice
                         )
                     );
                 }
-            }elseif($type === 'category'){
+            }elseif($context === 'category'){
                 $select = 'SELECT
                 catalog.*,p.idproduct,p.idcatalog,p.idclc, p.idcls,lang.iso,c.clibelle,c.pathclibelle,s.slibelle,
                 s.pathslibelle
@@ -322,7 +322,7 @@ class frontend_db_webservice
                         ':id'    =>	$data['id']
                     )
                 );
-            }elseif($type === 'subcategory'){
+            }elseif($context === 'subcategory'){
                 $select = 'SELECT
                 catalog.*,p.idproduct,p.idcatalog,p.idclc, p.idcls,lang.iso,c.clibelle,c.pathclibelle,s.slibelle,
                 s.pathslibelle
@@ -338,7 +338,7 @@ class frontend_db_webservice
                         ':id'    =>	$data['id']
                     )
                 );
-            }elseif($type === 'gallery'){
+            }elseif($context === 'gallery'){
                 if($fetch === 'all'){
                     $query = 'SELECT
                     gallery.*

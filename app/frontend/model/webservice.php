@@ -353,6 +353,29 @@ class frontend_model_webservice extends frontend_db_webservice{
             }
         }
     }
+
+    /**
+     * Remove img
+     * @param $data
+     * @param $imgCollection
+     * @param bool $debug
+     */
+    public function setRemoveImage($data,$imgCollection,$debug = false){
+        $makeFiles = new magixcjquery_files_makefiles();
+        $fetchConfig = parent::fetchConfig(array('type'=>'config','context'=>'imgSize','attr_name'=>$data['attr_name'],'attr_size'=>$data['attr_size']));
+        if(is_array($imgCollection)) {
+            $dirImgArray = $this->dirImgUploadCollection($imgCollection);
+            foreach($fetchConfig as $key => $value) {
+                if (file_exists($dirImgArray[$key] . $data['name'])) {
+                    if($debug){
+                        print $dirImgArray[$key] . $data['name'];
+                    }else{
+                        $makeFiles->removeFile($dirImgArray[$key], $data['name']);
+                    }
+                }
+            }
+        }
+    }
     /* ##################################### Utility with Curl for Extranal Web Service ##########################################*/
     /**
      * Prepare post Data with Curl (no files)
@@ -414,6 +437,10 @@ class frontend_model_webservice extends frontend_db_webservice{
             $body = substr($response, $curlInfo['header_size']);
 
             print_r(array('status' => $curlInfo['http_code'], 'header' => $header, 'data' => json_decode($body)));*/
+            if(array_key_exists('debug',$data) && $data['debug']){
+                var_dump($curlInfo);
+                var_dump($response);
+            }
             if ($response) {
                 return $response;
             }

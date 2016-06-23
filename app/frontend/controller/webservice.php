@@ -418,7 +418,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
     private function getCatalogProducts(){
         $data = parent::fetchCatalog(
             array(
-                'type'   => 'product',
+                'context'   => 'product',
                 'fetch'  =>  'all'
             )
         );
@@ -459,7 +459,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
 
         $data = parent::fetchCatalog(
             array(
-                'type'      => 'product',
+                'context'      => 'product',
                 'fetch'     =>  'one',
                 'id'        =>  $id
             )
@@ -533,7 +533,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
         $this->outputxml->newStartElement('categories');
         $fetchcategory = parent::fetchCatalog(
             array(
-                'type'     =>  'category',
+                'context'     =>  'category',
                 'id'        =>  $id
             )
         );
@@ -561,7 +561,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
         $this->outputxml->newStartElement('subcategories');
         $fetchcategory = parent::fetchCatalog(
             array(
-                'type'     =>  'subcategory',
+                'context'     =>  'subcategory',
                 'id'        =>  $id
             )
         );
@@ -588,7 +588,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
         $this->outputxml->newStartElement('gallery');
         $fetchGallery = parent::fetchCatalog(
             array(
-                'type'     =>  'gallery',
+                'context'     =>  'gallery',
                 'fetch'     =>  'all',
                 'id'        =>  $id
             )
@@ -812,6 +812,12 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             if ($operations['scrud'] === 'create') {
                                 $parse = array(
                                     'related'  => $this->getResult()->{'product'}->{'related'}
+                                );
+                            }
+                        }elseif ($operations['context'] === 'gallery') {
+                            if ($operations['scrud'] === 'delete') {
+                                $parse = array(
+                                    'id'  => $this->getResult()->{'img'}->{'id'}
                                 );
                             }
                         }
@@ -1231,7 +1237,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             }else{
                                 if(isset($this->img)) {
                                     // POST image from forms
-                                    $data = parent::fetchCatalog(array('fetch' => 'one', 'id' => $this->id));
+                                    $data = parent::fetchCatalog(array('context'=>'product','fetch' => 'one', 'id' => $this->id));
                                     $resultUpload = $this->webservice->setUploadImage(
                                         'img',
                                         array(
@@ -1258,6 +1264,50 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 }
                             }
                         }
+                    }elseif($this->webservice->setMethod() === 'DELETE'){
+                        if($getContentType === 'xml' OR $getContentType === 'json') {
+                            if (isset($this->action)) {
+                                if ($this->action === 'gallery') {
+                                    $parse = $this->setParse(
+                                        array(
+                                            'type'      => 'catalog',
+                                            'retrieve'  => 'products',
+                                            'context'   => 'gallery',
+                                            'scrud'     => 'delete'
+                                        )
+                                    );
+                                    if($parse) {
+                                        $fetchGallery = parent::fetchCatalog(
+                                            array(
+                                                'context' => 'gallery',
+                                                'fetch' => 'one',
+                                                'id' => $parse['id']
+                                            )
+                                        );
+                                        $this->webservice->setRemoveImage(
+                                            array(
+                                                'name' => $fetchGallery['imgcatalog'],
+                                                'edit' => null,
+                                                //'prefix'=> array('l_','m_','s_'),
+                                                'attr_name' => 'catalog',
+                                                'attr_size' => 'galery'
+                                            ),
+                                            array(
+                                                'type' => 'catalog',
+                                                'upload_dir' => array('galery/maxi', 'galery/mini')
+                                            )
+                                        );
+                                        parent::deleteData(array(
+                                            'type'      => 'catalog',
+                                            'retrieve'  => 'products',
+                                            'context'   => 'gallery',
+                                            'id'        => $fetchGallery['idmicro']
+                                        ));
+                                        $this->message->json_post_response(true, 'success', self::$notify, 'Delete success');
+                                    }
+                                }
+                            }
+                        }
                     }else{
                         $this->outputxml->getXmlHeader();
                         $this->getCatalogProduct($this->id);
@@ -1267,10 +1317,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         if($getContentType === 'xml' OR $getContentType === 'json'){
                             $this->setPostData(
                                 array(
-                                    'type' => 'catalog',
-                                    'retrieve' => 'products',
-                                    'context' => 'product',
-                                    'scrud' => 'create'
+                                    'type'      => 'catalog',
+                                    'retrieve'  => 'products',
+                                    'context'   => 'product',
+                                    'scrud'     => 'create'
                                 ),
                                 array(
                                     'name', 'idlang', 'url', 'price', 'content'
@@ -1278,39 +1328,13 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             );
                         }
                     }elseif($this->webservice->setMethod() === 'DELETE'){
-                        if (isset($this->action)) {
-                            if ($this->action === 'gallery') {
-                                /*$fetchGallery = parent::fetchCatalog(
-                                    array(
-                                        'type'     =>  'gallery',
-                                        'fetch'     =>  'one',
-                                        'id'        =>  $id
-                                    )
-                                );
-                                // Charge la classe pour le traitement du fichier
-                                if(is_array(array('galery/maxi', 'galery/mini'))) {
-                                    $dirImgArray = $this->dirImgUploadCollection(
-                                        array(
-                                            'type' => 'catalog',
-                                            'upload_dir' => array('galery/maxi', 'galery/mini')
-                                        )
-                                    );
-                                }
-                                $makeFiles = new magixcjquery_files_makefiles();
-                                foreach($fetchConfig as $key => $value){
-
-                                }
-                                if(file_exists(self::dirImgProductGalery().'maxi'.DIRECTORY_SEPARATOR.$data['imgcatalog'])) {
-                                    $makeFiles->removeFile(self::dirImgProductGalery() . 'maxi' . DIRECTORY_SEPARATOR, $data['imgcatalog']);
-                                }*/
-                            }
-                        }else{
+                        if($getContentType === 'xml' OR $getContentType === 'json') {
                             $this->setPostData(
                                 array(
-                                    'type'      =>  'catalog',
-                                    'retrieve'  =>  'products',
-                                    'context'   =>  'product',
-                                    'scrud'     =>  'delete'
+                                    'type'      => 'catalog',
+                                    'retrieve'  => 'products',
+                                    'context'   => 'product',
+                                    'scrud'     => 'delete'
                                 ),
                                 array(
                                     'id'
@@ -1342,38 +1366,6 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             $this->getCatalogRoot();
                         }
                         break;
-                    /*case 'test':
-                        if($this->webservice->setMethod() === 'PUT'){
-                            $getContentType = $this->webservice->getContentType();
-                            if($getContentType === 'xml' OR $getContentType === 'json'){
-                                $this->webservice->setHeaderType();
-                                $parse = $this->webservice->getResultParse();
-                                if($parse){
-                                    print $parse->{'category'}->{'name'};
-                                }else{
-                                    $this->message->json_post_response(false,'error',self::$notify,$parse);
-                                }
-                            }
-                        }elseif($this->webservice->setMethod() === 'POST'){
-                            $getContentType = $this->webservice->getContentType();
-                            if($getContentType === 'xml' OR $getContentType === 'json'){
-                                $this->webservice->setHeaderType($getContentType);
-                                $parse = $this->webservice->getResultParse($getContentType);
-                                if($parse){
-                                    print $parse->{'category'}->{'name'};
-                                }else{
-                                    $this->message->json_post_response(false,'error',self::$notify,$parse);
-                                }
-                            }elseif($getContentType === 'files'){
-                                if(isset($this->img)) {
-                                    print '<pre>';
-                                    print_r($_SERVER);
-                                    print '</pre>';
-                                    print $this->img;
-                                }
-                            }
-                        }
-                        break;*/
                 }
             } else {
                 /* $data = json_encode(
@@ -1584,19 +1576,20 @@ class frontend_controller_webservice extends frontend_db_webservice{
             </category>
         </magixcms>';*/
                 //print_r($json);
-                $test = '<?xml version="1.0" encoding="UTF-8" ?>
-<magixcms>
-    <subcategory>
-        <id>7</id>
-    </subcategory>
-</magixcms>';
+                /*$test = '<?xml version="1.0" encoding="UTF-8" ?>
+                <magixcms>
+                    <img>
+                        <id>11</id>
+                    </img>
+                </magixcms>';
                 print $this->webservice->setPreparePostData(array(
                     'wsAuthKey' => $this->setWsAuthKey(),
                     'method' => 'xml',
                     'data' => $test,
                     'customRequest' => 'DELETE',
-                    'url' => 'http://www.magixcms.dev/webservice/catalog/subcategories/'
-                ));
+                    'debug' => false,
+                    'url' => 'http://www.magixcms.dev/webservice/catalog/products/1/gallery/'
+                ));*/
                 /*$product = '<?xml version="1.0" encoding="UTF-8"?>
                 <magixcms>
                     <product>
