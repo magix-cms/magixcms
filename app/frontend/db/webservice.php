@@ -276,6 +276,9 @@ class frontend_db_webservice
      */
     public static function fetchCatalog($data){
         if(is_array($data)) {
+            if (array_key_exists('retrieve', $data)) {
+                $retrieve = $data['retrieve'];
+            }
             if (array_key_exists('context', $data)) {
                 $context = $data['context'];
             }
@@ -284,30 +287,31 @@ class frontend_db_webservice
             } else {
                 $fetch = 'all';
             }
-            if($context === 'product'){
-                if ($fetch === 'all') {
-                    $query = "SELECT catalog.idcatalog,
+            if($retrieve === 'products'){
+                if($context === 'product'){
+                    if ($fetch === 'all') {
+                        $query = "SELECT catalog.idcatalog,
                         catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,catalog.imgcatalog,lang.iso
                     FROM mc_catalog AS catalog
                     JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )";
-                    return magixglobal_model_db::layerDB()->select(
-                        $query
-                    );
-                }elseif($fetch === 'one'){
-                    $select = 'SELECT
+                        return magixglobal_model_db::layerDB()->select(
+                            $query
+                        );
+                    }elseif($fetch === 'one'){
+                        $select = 'SELECT
                     catalog.*,lang.iso
                     FROM mc_catalog AS catalog
                     JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
                     WHERE catalog.idcatalog = :id';
-                    return magixglobal_model_db::layerDB()->selectOne(
-                        $select,
-                        array(
-                            ':id'    =>	$data['id']
-                        )
-                    );
-                }
-            }elseif($context === 'category'){
-                $select = 'SELECT
+                        return magixglobal_model_db::layerDB()->selectOne(
+                            $select,
+                            array(
+                                ':id'    =>	$data['id']
+                            )
+                        );
+                    }
+                }elseif($context === 'category'){
+                    $select = 'SELECT
                 catalog.*,p.idproduct,p.idcatalog,p.idclc, p.idcls,lang.iso,c.clibelle,c.pathclibelle,s.slibelle,
                 s.pathslibelle
                 FROM mc_catalog_product AS p
@@ -316,14 +320,14 @@ class frontend_db_webservice
                 LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
                 JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
                 WHERE p.idcatalog = :id AND p.idcls = 0';
-                return magixglobal_model_db::layerDB()->select(
-                    $select,
-                    array(
-                        ':id'    =>	$data['id']
-                    )
-                );
-            }elseif($context === 'subcategory'){
-                $select = 'SELECT
+                    return magixglobal_model_db::layerDB()->select(
+                        $select,
+                        array(
+                            ':id'    =>	$data['id']
+                        )
+                    );
+                }elseif($context === 'subcategory'){
+                    $select = 'SELECT
                 catalog.*,p.idproduct,p.idcatalog,p.idclc, p.idcls,lang.iso,c.clibelle,c.pathclibelle,s.slibelle,
                 s.pathslibelle
                 FROM mc_catalog_product AS p
@@ -332,39 +336,77 @@ class frontend_db_webservice
                 LEFT JOIN mc_catalog_s AS s ON ( s.idcls = p.idcls )
                 JOIN mc_lang AS lang ON ( catalog.idlang = lang.idlang )
                 WHERE p.idcatalog = :id AND NOT p.idcls = 0';
-                return magixglobal_model_db::layerDB()->select(
-                    $select,
-                    array(
+                    return magixglobal_model_db::layerDB()->select(
+                        $select,
+                        array(
+                            ':id'    =>	$data['id']
+                        )
+                    );
+                }elseif($context === 'related'){
+                    $sql = 'SELECT rel.*
+                    FROM mc_catalog_rel_product AS rel
+                    JOIN mc_catalog_product AS p ON(rel.idproduct = p.idproduct)
+                    JOIN mc_catalog AS cl ON (cl.idcatalog = p.idcatalog)
+                    WHERE rel.idcatalog = :id';
+                    return magixglobal_model_db::layerDB()->select($sql,array(
                         ':id'    =>	$data['id']
-                    )
-                );
-            }elseif($context === 'gallery'){
-                if($fetch === 'all'){
-                    $query = 'SELECT
+                    ));
+                }elseif($context === 'gallery'){
+                    if($fetch === 'all'){
+                        $query = 'SELECT
                     gallery.*
                     FROM mc_catalog_galery AS gallery
                     WHERE gallery.idcatalog = :id';
-                    return magixglobal_model_db::layerDB()->select(
-                        $query,
-                        array(
-                            ':id'    =>	$data['id']
-                        )
-                    );
-                }elseif($fetch === 'one'){
-                    $query = 'SELECT
+                        return magixglobal_model_db::layerDB()->select(
+                            $query,
+                            array(
+                                ':id'    =>	$data['id']
+                            )
+                        );
+                    }elseif($fetch === 'one'){
+                        $query = 'SELECT
                     gallery.*
                     FROM mc_catalog_galery AS gallery
                     WHERE gallery.idmicro = :id';
-                    return magixglobal_model_db::layerDB()->selectOne(
-                        $query,
-                        array(
-                            ':id'    =>	$data['id']
-                        )
-                    );
+                        return magixglobal_model_db::layerDB()->selectOne(
+                            $query,
+                            array(
+                                ':id'    =>	$data['id']
+                            )
+                        );
+                    }
+                }
+            }elseif($retrieve === 'categories'){
+                if($context === 'category'){
+                    if($fetch === 'one') {
+                        $sql = 'SELECT c.*,lang.iso
+                        FROM mc_catalog_c as c
+                        JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
+                        WHERE c.idclc = :id';
+                        return magixglobal_model_db::layerDB()->selectOne($sql, array(
+                            ':id' => $data['id']
+                        ));
+                    }
+                }
+            }elseif($retrieve === 'subcategories'){
+                if($context === 'subcategory'){
+                    if($fetch === 'one') {
+                        $sql = 'SELECT s.*
+                        FROM mc_catalog_s as s
+                        WHERE s.idcls = :id';
+                        return magixglobal_model_db::layerDB()->selectOne($sql, array(
+                            ':id' => $data['id']
+                        ));
+                    }
                 }
             }
         }
     }
+
+    /**
+     * Remove Data
+     * @param $data
+     */
     public function deleteData($data){
         if(is_array($data)) {
             if (array_key_exists('type', $data)) {
@@ -373,43 +415,61 @@ class frontend_db_webservice
             if (array_key_exists('retrieve', $data)) {
                 $retrieve = $data['retrieve'];
             }
-            if (array_key_exists('id', $data)) {
-                if (array_key_exists('context', $data)) {
-                    $context = $data['context'];
-                    if($type === 'catalog'){
-                        // Module categories and subcategories
-                        if($retrieve === 'categories') {
-                            if ($context === 'category') {
-                                $query = array(
-                                    'DELETE FROM mc_catalog_product WHERE idclc = ' . $data['id'],
-                                    'DELETE FROM mc_catalog_s WHERE idclc = ' . $data['id'],
-                                    'DELETE FROM mc_catalog_c WHERE idclc = ' . $data['id']
-                                );
-                                magixglobal_model_db::layerDB()->transaction($query);
-                            }
-                        }elseif($retrieve === 'subcategories'){
-                            if ($context === 'subcategory') {
-                                $query = array(
-                                    'DELETE FROM mc_catalog_product WHERE idcls = ' . $data['id'],
-                                    'DELETE FROM mc_catalog_s WHERE idcls = ' . $data['id']
-                                );
-                                magixglobal_model_db::layerDB()->transaction($query);
-                            }
-                        }elseif($retrieve === 'products'){
-                            if ($context === 'product') {
-                                $query = array(
-                                    'DELETE FROM mc_catalog_galery WHERE idcatalog = '.$data['id'],
-                                    'DELETE FROM mc_catalog_rel_product WHERE idcatalog = '.$data['id'],
-                                    'DELETE FROM mc_catalog_product WHERE idcatalog = '.$data['id'],
-                                    'DELETE FROM mc_catalog WHERE idcatalog = '.$data['id']
-                                );
-                                magixglobal_model_db::layerDB()->transaction($query);
-                            }elseif ($context === 'gallery') {
-                                $sql = 'DELETE FROM mc_catalog_galery WHERE idmicro = :id';
-                                magixglobal_model_db::layerDB()->delete($sql,array(
-                                    ':id'    =>  $data['id']
-                                ));
-                            }
+            if (array_key_exists('context', $data)) {
+                $context = $data['context'];
+                if($type === 'catalog'){
+                    // Module categories and subcategories
+                    if($retrieve === 'categories') {
+                        if ($context === 'category') {
+                            $query = array(
+                                'DELETE FROM mc_catalog_product WHERE idclc = ' . $data['id'],
+                                'DELETE FROM mc_catalog_s WHERE idclc = ' . $data['id'],
+                                'DELETE FROM mc_catalog_c WHERE idclc = ' . $data['id']
+                            );
+                            magixglobal_model_db::layerDB()->transaction($query);
+                        }elseif ($context === 'product') {
+                            $query = 'DELETE FROM mc_catalog_product WHERE idclc = :category 
+                            AND idcls = 0 AND idcatalog = :id';
+                            magixglobal_model_db::layerDB()->delete($query,array(
+                                ':id'          =>  $data['id'],
+                                ':category'    =>  $data['category']
+                            ));
+                        }
+                    }elseif($retrieve === 'subcategories'){
+                        if ($context === 'subcategory') {
+                            $query = array(
+                                'DELETE FROM mc_catalog_product WHERE idcls = ' . $data['id'],
+                                'DELETE FROM mc_catalog_s WHERE idcls = ' . $data['id']
+                            );
+                            magixglobal_model_db::layerDB()->transaction($query);
+                        }elseif ($context === 'product') {
+                            $query = 'DELETE FROM mc_catalog_product WHERE idcls = :subcategory 
+                            AND idcatalog = :id';
+                            magixglobal_model_db::layerDB()->delete($query,array(
+                                ':id'               =>  $data['id'],
+                                ':subcategory'      =>  $data['subcategory']
+                            ));
+                        }
+                    }elseif($retrieve === 'products'){
+                        if ($context === 'product') {
+                            $query = array(
+                                'DELETE FROM mc_catalog_galery WHERE idcatalog = '.$data['id'],
+                                'DELETE FROM mc_catalog_rel_product WHERE idcatalog = '.$data['id'],
+                                'DELETE FROM mc_catalog_product WHERE idcatalog = '.$data['id'],
+                                'DELETE FROM mc_catalog WHERE idcatalog = '.$data['id']
+                            );
+                            magixglobal_model_db::layerDB()->transaction($query);
+                        }elseif ($context === 'gallery') {
+                            $sql = 'DELETE FROM mc_catalog_galery WHERE imgcatalog = :image';
+                            magixglobal_model_db::layerDB()->delete($sql,array(
+                                ':image'    =>  $data['image']
+                            ));
+                        }elseif ($context === 'related') {
+                            $sql = 'DELETE FROM mc_catalog_rel_product WHERE idcatalog = :id AND idproduct = :related';
+                            magixglobal_model_db::layerDB()->delete($sql,array(
+                                ':id'      =>  $data['id'],
+                                ':related' => $data['related']
+                            ));
                         }
                     }
                 }

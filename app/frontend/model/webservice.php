@@ -140,7 +140,6 @@ class frontend_model_webservice extends frontend_db_webservice{
     }
 
     /**
-     * @param $method
      * @param bool $debug
      * @return mixed|SimpleXMLElement
      */
@@ -151,6 +150,7 @@ class frontend_model_webservice extends frontend_db_webservice{
         ));
         if (is_object($parse)) {
             if($debug){
+                print $this->getContentType();
                 print '<pre>';
                 print_r($parse);
                 print '</pre>';
@@ -219,7 +219,6 @@ class frontend_model_webservice extends frontend_db_webservice{
                     foreach($data['upload_dir'] as $key){
                         $url[] = $this->imgBasePath("upload".DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR.$key.DIRECTORY_SEPARATOR);
                     }
-
                 }
                 return $url;
             }
@@ -361,24 +360,26 @@ class frontend_model_webservice extends frontend_db_webservice{
      * @param bool $debug
      */
     public function setRemoveImage($data,$imgCollection,$debug = false){
-        $makeFiles = new magixcjquery_files_makefiles();
-        $fetchConfig = parent::fetchConfig(array('type'=>'config','context'=>'imgSize','attr_name'=>$data['attr_name'],'attr_size'=>$data['attr_size']));
-        if(is_array($imgCollection)) {
-            $dirImgArray = $this->dirImgUploadCollection($imgCollection);
-            foreach($fetchConfig as $key => $value) {
-                if (file_exists($dirImgArray[$key] . $data['name'])) {
-                    if($debug){
-                        print $dirImgArray[$key] . $data['name'];
-                    }else{
-                        $makeFiles->removeFile($dirImgArray[$key], $data['name']);
+        if($data['name']!= null){
+            $makeFiles = new magixcjquery_files_makefiles();
+            $fetchConfig = parent::fetchConfig(array('type'=>'config','context'=>'imgSize','attr_name'=>$data['attr_name'],'attr_size'=>$data['attr_size']));
+            if(is_array($imgCollection)) {
+                $dirImgArray = $this->dirImgUploadCollection($imgCollection);
+                foreach($fetchConfig as $key => $value) {
+                    if (file_exists($dirImgArray[$key] . $data['name'])) {
+                        if($debug){
+                            print $dirImgArray[$key] . $data['name'];
+                        }else{
+                            $makeFiles->removeFile($dirImgArray[$key], $data['name']);
+                        }
                     }
                 }
             }
         }
     }
-    /* ##################################### Utility with Curl for Extranal Web Service ##########################################*/
+    /* ##################################### Utility with Curl for External Web Service ##########################################*/
     /**
-     * Prepare post Data with Curl (no files)
+     * Prepare request Data with Curl (no files)
      * @param $data
      * @return mixed
      *
@@ -388,14 +389,15 @@ class frontend_model_webservice extends frontend_db_webservice{
         )));
         print_r($json);
         print $this->webservice->setPreparePostData(array(
-        'wsAuthKey'=>$this->setWsAuthKey(),
-        'method' => 'json',
-        'data' => $json,
-        'customRequest' => 'POST',
-        'url' => 'http://www.mywebsite.tld/webservice/catalog/categories/16/delete/'
-    ));
+        'wsAuthKey' => $this->setWsAuthKey(),
+        'method' => 'xml',
+        'data' => $test,
+        'customRequest' => 'DELETE',
+        'debug' => false,
+        'url' => 'http://www.mywebsite.tld/webservice/catalog/categories/'
+        ));
      */
-    public function setPreparePostData($data){
+    public function setPrepareSendData($data){
         if($this->with_curl) {
             $curl_params = array();
             $encodedAuth = $data['wsAuthKey'];
@@ -410,22 +412,21 @@ class frontend_model_webservice extends frontend_db_webservice{
             }
 
             $options = array(
-                //CURLOPT_HEADER => 0,
-                CURLINFO_HEADER_OUT=> 1,                // For debugging
-                CURLOPT_RETURNTRANSFER => true,
-                //CURLINFO_HEADER_OUT => true,
-                CURLOPT_NOBODY => false,
-                CURLOPT_URL => $data['url'],
-                CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                CURLOPT_USERPWD => $encodedAuth,
-                CURLOPT_HTTPHEADER => $headers,
-                //CURLOPT_POST => true,
-                //CURLOPT_FORBID_REUSE => 1,
-                //CURLOPT_FRESH_CONNECT=>1,
-                CURLOPT_CONNECTTIMEOUT => 300,
-                CURLOPT_CUSTOMREQUEST => $data['customRequest'],
-                CURLOPT_POSTFIELDS => $generatedData/*,
-            CURLOPT_SAFE_UPLOAD     => false*/
+                CURLOPT_HEADER          => 0,
+                CURLINFO_HEADER_OUT     => 1,                // For debugging
+                CURLOPT_RETURNTRANSFER  => true,
+                CURLOPT_NOBODY          => false,
+                CURLOPT_URL             => $data['url'],
+                CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
+                CURLOPT_USERPWD         => $encodedAuth,
+                CURLOPT_HTTPHEADER      => $headers,
+                //CURLOPT_POST          => true,
+                //CURLOPT_FORBID_REUSE  => 1,
+                //CURLOPT_FRESH_CONNECT =>1,
+                CURLOPT_CONNECTTIMEOUT  => 300,
+                CURLOPT_CUSTOMREQUEST   => $data['customRequest'],
+                CURLOPT_POSTFIELDS      => $generatedData
+                //CURLOPT_SAFE_UPLOAD     => false*/
             );
             $ch = curl_init();
             curl_setopt_array($ch, $options);
@@ -451,6 +452,11 @@ class frontend_model_webservice extends frontend_db_webservice{
      * Prepare post Img with Curl (files only)
      * @param $data
      * @return mixed
+         print $this->webservice->setPreparePostImg(array(
+            'wsAuthKey' =>  $this->setWsAuthKey(),
+            'url'       => 'http://www.website.tld/webservice/catalog/categories/3',
+            'debug' => false,
+        ));
      */
     public function setPreparePostImg($data){
         if($this->with_curl) {
@@ -468,30 +474,30 @@ class frontend_model_webservice extends frontend_db_webservice{
                 );
 
                 $options = array(
-                    CURLOPT_HEADER => 0,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLINFO_HEADER_OUT => true,
-                    CURLOPT_URL => $data['url'],
-                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                    CURLOPT_USERPWD => $encodedAuth,
-                    CURLOPT_HTTPHEADER => array("Authorization : Basic " . $encodedAuth/*,"Content-Type: multipart/form-data"*/),
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => $img/*,
-            CURLOPT_SAFE_UPLOAD     => false*/
+                    CURLOPT_HEADER          => 0,
+                    CURLOPT_RETURNTRANSFER  => true,
+                    CURLINFO_HEADER_OUT     => true,
+                    CURLOPT_URL             => $data['url'],
+                    CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD         => $encodedAuth,
+                    CURLOPT_HTTPHEADER      => array("Authorization : Basic " . $encodedAuth/*,"Content-Type: multipart/form-data"*/),
+                    CURLOPT_CUSTOMREQUEST   => "POST",
+                    CURLOPT_POST            => true,
+                    CURLOPT_POSTFIELDS      => $img
+                    //CURLOPT_SAFE_UPLOAD   => false
                 );
                 $ch = curl_init();
                 curl_setopt_array($ch, $options);
                 $response = curl_exec($ch);
                 $curlInfo = curl_getinfo($ch);
                 curl_close($ch);
+                if(array_key_exists('debug',$data) && $data['debug']){
+                    var_dump($curlInfo);
+                    var_dump($response);
+                }
                 if ($response) {
                     return $response;
                 }
-
-                //print '<pre>';
-                //print_r($data['request']);
-                //print_r($curlInfo);
-                //print '</pre>';
             }
         }
     }
