@@ -1,10 +1,9 @@
-<?php
 /*
  # -- BEGIN LICENSE BLOCK ----------------------------------
  #
  # This file is part of MAGIX CMS.
  # MAGIX CMS, The content management system optimized for users
- # Copyright (C) 2008 - 2013 magix-cms.com <support@magix-cms.com>
+ # Copyright (C) 2008 - 2016 magix-cms.com <support@magix-cms.com>
  #
  # OFFICIAL TEAM :
  #
@@ -33,20 +32,36 @@
  # needs please refer to http://www.magix-cms.com for more information.
  */
 
-/**
- * @author Gerits Aurelien <aurelien@magix-cms.com>
- * @copyright  2008 - 2012 Magix CMS
- * @version  Release: $Revision$
- *  Date: 29/11/12
- *  Time: 21:25
- * @license Dual licensed under the MIT or GPL Version 3 licenses.
- */
-/**
- * Nom du dossier courant
- */
-define('PATHADMIN', basename(dirname(realpath( __FILE__ ))));
-/**
- * Version de tinyMCE
- */
-define('VERSION_EDITOR', '4.3.13');
-?>
+tinymce.PluginManager.requireLangPack('prism');
+tinymce.PluginManager.add('prism', function(editor, url) {
+    function showDialog() {
+        var win,
+            data = {},
+            dom = editor.dom;
+        // Open URL based window
+        win = editor.windowManager.open({
+            title: "Prism Title",
+            file: tinyMCE.baseURL + '/plugins/prism/prism.html',
+            width: 600,
+            height: 400,
+            inline: 1,
+            resizable: true,
+            maximizable: true
+        });
+    }
+
+    // Add a button that opens a window
+    editor.addButton('prism', {
+        //text: 'mc_pages',
+        icon: true,
+        image: url+'/img/prism.jpg',
+        tooltip: "Prism Title",
+        onclick: showDialog,
+        onPostRender: function() {
+            var ctrl = this;
+            editor.on('NodeChange', function(e) {
+                ctrl.active(e.element.nodeName == 'IMG');
+            });
+        }
+    });
+});
