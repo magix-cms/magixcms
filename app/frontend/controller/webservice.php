@@ -34,7 +34,7 @@
  */
 class frontend_controller_webservice extends frontend_db_webservice{
     protected $outputxml,$message;
-    public $collection,$retrieve,$id,$action,$img;
+    public $collection,$retrieve,$id,$action,$img,$debug;
     public static $notify = array('plugin' => 'false', 'method' => 'print', 'template'=> '');
 
     /**
@@ -62,6 +62,9 @@ class frontend_controller_webservice extends frontend_db_webservice{
         }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        if(magixcjquery_filter_request::isGet('debug')){
+            $this->debug = magixcjquery_form_helpersforms::inputClean($_GET['debug']);
         }
         // POST
         if(isset($_FILES['img']["name"])){
@@ -1038,7 +1041,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 'retrieve'  => $operations['retrieve'],
                                 'context'   => $operations['context'],
                                 'id'        => $parse['id'],
-                                'category'   => $operations['category']
+                                'category'  => $operations['category']
                             ));
                         }elseif($operations['retrieve'] === 'subcategories'
                             && $operations['context'] === 'product'){
@@ -1069,7 +1072,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
     /**
      * Set catalog
      */
-    private function setCatalog(){
+    private function setCatalog($debug){
         $getContentType = $this->webservice->getContentType();
         $this->webservice->setHeaderType();
         switch ($this->retrieve){
@@ -1080,14 +1083,15 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             $this->setPostData(
                                 array(
                                     'type'      =>  'catalog',
-                                    'retrieve'  => 'categories',
+                                    'retrieve'  =>  'categories',
                                     'context'   =>  'category',
                                     'scrud'     =>  'update',
                                     'id'        =>  $this->id
                                 ),
                                 array(
                                     'name','url','content'
-                                )
+                                ),
+                                $debug
                             );
                         }
                     }elseif($this->webservice->setMethod() === 'POST'){
@@ -1105,7 +1109,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                             ),
                                             array(
                                                 'name', 'url', 'content', 'idparent'
-                                            )
+                                            ),
+                                            $debug
                                         );
                                         break;
                                     case 'product':
@@ -1115,11 +1120,12 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                                 'retrieve'  => 'categories',
                                                 'context'   => 'product',
                                                 'category'  => $this->id,
-                                                'scrud' => 'create'
+                                                'scrud'     => 'create'
                                             ),
                                             array(
                                                 'subcategory', 'product'
-                                            )
+                                            ),
+                                            $debug
                                         );
                                         break;
                                 }
@@ -1131,22 +1137,23 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 $resultUpload = $this->webservice->setUploadImage(
                                     'img',
                                     array(
-                                        'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                        'edit' => $data['img_c'],
+                                        'name'      => magixglobal_model_cryptrsa::random_generic_ui(),
+                                        'edit'      => $data['img_c'],
                                         'attr_name' => 'catalog',
                                         'attr_size' => 'category'
                                     ),
                                     array(
-                                        'type' => 'catalog',
-                                        'context' => array('category')
-                                    )
+                                        'type'      => 'catalog',
+                                        'context'   => array('category')
+                                    ),
+                                    $debug
                                 );
                                 if($resultUpload['statut']){
                                     parent::updateData(array(
                                         'type'      => 'catalog',
                                         'context'   => 'category',
                                         'id'        => $this->id,
-                                        'img'      => $resultUpload['file']
+                                        'img'       => $resultUpload['file']
                                     ));
                                 }
                                 $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
@@ -1166,7 +1173,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                         ),
                                         array(
                                             'id','category'
-                                        )
+                                        ),
+                                        $debug
                                     );
                                     break;
                             }
@@ -1188,7 +1196,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 ),
                                 array(
                                     'name','idlang','url','content'
-                                )
+                                ),
+                                $debug
                             );
                         }
                     }elseif($this->webservice->setMethod() === 'DELETE'){
@@ -1201,7 +1210,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             ),
                             array(
                                 'id'
-                            )
+                            ),
+                            $debug
                         );
                         break;
                     }else{
@@ -1227,7 +1237,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                             ),
                                             array(
                                                 'subcategory', 'product'
-                                            )
+                                            ),
+                                            $debug
                                         );
                                         break;
                                 }
@@ -1239,8 +1250,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 $resultUpload = $this->webservice->setUploadImage(
                                     'img',
                                     array(
-                                        'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                        'edit' => $data['img_s'],
+                                        'name'      => magixglobal_model_cryptrsa::random_generic_ui(),
+                                        'edit'      => $data['img_s'],
                                         //'prefix'=> array('l_','m_','s_'),
                                         'attr_name' => 'catalog',
                                         'attr_size' => 'subcategory'
@@ -1248,7 +1259,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                     array(
                                         'type' => 'catalog',
                                         'upload_dir' => array('subcategory')
-                                    )
+                                    ),
+                                    $debug
                                 );
                                 if($resultUpload['statut']){
                                     parent::updateData(array(
@@ -1273,7 +1285,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 ),
                                 array(
                                     'name', 'url', 'content'
-                                )
+                                ),
+                                $debug
                             );
                         }
                     }elseif($this->webservice->setMethod() === 'DELETE'){
@@ -1291,7 +1304,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                             ),
                                             array(
                                                 'id', 'subcategory'
-                                            )
+                                            ),
+                                            $debug
                                         );
                                         break;
                                 }
@@ -1306,14 +1320,15 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         if($getContentType === 'xml' OR $getContentType === 'json') {
                             $this->setPostData(
                                 array(
-                                    'type' => 'catalog',
-                                    'retrieve' => 'subcategories',
-                                    'context' => 'subcategory',
-                                    'scrud' => 'delete'
+                                    'type'      => 'catalog',
+                                    'retrieve'  => 'subcategories',
+                                    'context'   => 'subcategory',
+                                    'scrud'     => 'delete'
                                 ),
                                 array(
                                     'id'
-                                )
+                                ),
+                                $debug
                             );
                         }
                     }
@@ -1333,7 +1348,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 ),
                                 array(
                                     'name', 'url', 'price', 'content'
-                                )
+                                ),
+                                $debug
                             );
                         }
                     }elseif($this->webservice->setMethod() === 'POST'){
@@ -1350,7 +1366,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                         ),
                                         array(
                                             'related'
-                                        )
+                                        ),
+                                        $debug
                                     );
                                 }
                             }
@@ -1361,24 +1378,25 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                     $resultUpload = $this->webservice->setUploadImage(
                                         'img',
                                         array(
-                                            'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                            'edit' => null,
+                                            'name'      => magixglobal_model_cryptrsa::random_generic_ui(),
+                                            'edit'      => null,
                                             //'prefix'=> array('l_','m_','s_'),
                                             'attr_name' => 'catalog',
                                             'attr_size' => 'galery'
                                         ),
                                         array(
-                                            'type' => 'catalog',
-                                            'upload_dir' => array('galery/maxi', 'galery/mini')
-                                        )
+                                            'type'        => 'catalog',
+                                            'upload_dir'  => array('galery/maxi', 'galery/mini')
+                                        ),
+                                        $debug
                                     );
                                     if ($resultUpload['statut']) {
                                         parent::insertNewData(array(
-                                            'type' => 'catalog',
-                                            'retrieve' => 'products',
-                                            'context' => 'product',
-                                            'id' => $this->id,
-                                            'img' => $resultUpload['file']
+                                            'type'      => 'catalog',
+                                            'retrieve'  => 'products',
+                                            'context'   => 'product',
+                                            'id'        => $this->id,
+                                            'img'       => $resultUpload['file']
                                         ));
                                     }
                                     $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
@@ -1390,23 +1408,24 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                     $resultUpload = $this->webservice->setUploadImage(
                                         'img',
                                         array(
-                                            'name' => magixglobal_model_cryptrsa::random_generic_ui(),
-                                            'edit' => $data['imgcatalog'],
+                                            'name'      => magixglobal_model_cryptrsa::random_generic_ui(),
+                                            'edit'      => $data['imgcatalog'],
                                             //'prefix'=> array('l_','m_','s_'),
                                             'attr_name' => 'catalog',
                                             'attr_size' => 'product'
                                         ),
                                         array(
-                                            'type' => 'catalog',
+                                            'type'       => 'catalog',
                                             'upload_dir' => array('product', 'medium', 'mini')
-                                        )
+                                        ),
+                                        $debug
                                     );
                                     if ($resultUpload['statut']) {
                                         parent::updateData(array(
-                                            'type' => 'catalog',
-                                            'context' => 'product',
-                                            'id' => $this->id,
-                                            'img' => $resultUpload['file']
+                                            'type'      => 'catalog',
+                                            'context'   => 'product',
+                                            'id'        => $this->id,
+                                            'img'       => $resultUpload['file']
                                         ));
                                     }
                                     $this->message->json_post_response($resultUpload['statut'], $resultUpload['notify'], self::$notify, $resultUpload['msg']);
@@ -1431,19 +1450,20 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                                 'type'      => 'catalog',
                                                 'retrieve'  => 'products',
                                                 'context'   => 'gallery',
-                                                'image'        => $key
+                                                'image'     => $key
                                             ));
                                             $this->webservice->setRemoveImage(
                                                 array(
-                                                    'name' => $key,
+                                                    'name'      => $key,
                                                     //'prefix'=> array('l_','m_','s_'),
                                                     'attr_name' => 'catalog',
                                                     'attr_size' => 'galery'
                                                 ),
                                                 array(
-                                                    'type' => 'catalog',
+                                                    'type'       => 'catalog',
                                                     'upload_dir' => array('galery/maxi', 'galery/mini')
-                                                )
+                                                ),
+                                                $debug
                                             );
                                         }
                                         $this->message->json_post_response(true, 'success', self::$notify, 'Delete success');
@@ -1459,7 +1479,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                         ),
                                         array(
                                             'related'
-                                        )
+                                        ),
+                                        $debug
                                     );
                                 }
                             }
@@ -1480,7 +1501,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 ),
                                 array(
                                     'name', 'idlang', 'url', 'price', 'content'
-                                )
+                                ),
+                                $debug
                             );
                         }
                     }elseif($this->webservice->setMethod() === 'DELETE'){
@@ -1494,7 +1516,8 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 ),
                                 array(
                                     'id'
-                                )
+                                ),
+                                $debug
                             );
                         }
                     }else{
@@ -1511,12 +1534,19 @@ class frontend_controller_webservice extends frontend_db_webservice{
      */
     public function run()
     {
+        // If authorization is true
         if ($this->webservice->authorization($this->setWsAuthKey())) {
+            if(isset($this->debug)){
+                $debug = $this->debug;
+            }else{
+                $debug = false;
+            }
+            // If collection defined
             if (isset($this->collection)) {
                 switch ($this->collection) {
                     case 'catalog':
                         if (isset($this->retrieve)) {
-                            $this->setCatalog();
+                            $this->setCatalog($debug);
                         } else {
                             $this->outputxml->getXmlHeader();
                             $this->getCatalogRoot();
