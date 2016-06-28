@@ -1,6 +1,7 @@
 {extends file="contact/mail/layout.tpl"}
 <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
 {block name='body:content'}
+{autoload_i18n}
 <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
     <tr>
         <td valign="top">
@@ -16,13 +17,12 @@
                 </tr>
                 <tr>
                     <td width="800" style="background: #ffffff;padding:15px;" valign="top">
-                        <h2>{#object_mail#|ucfirst}&nbsp;: {$data.title}</h2>
+                        <h3>{#object_mail#|ucfirst}&nbsp;: {$data.title}</h3>
                         <p>{$data.content|replace:'\n':'<br />'}</p>
                     </td>
                 </tr>
                 <tr>
                     <td width="400" style="background: #ffffff;padding:15px;" valign="top">
-                        <h3>{#mail_from_coor#|ucfirst}</h3>
                         <h4>{#mail_from#|ucfirst} {$data.firstname}&nbsp;{$data.lastname}</h4>
                         <ul style="padding: 0;list-style-type: none">
                             {if $data.adress != null}

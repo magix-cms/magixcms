@@ -7,7 +7,7 @@
 {block name="slider"}{/block}
 
 {block name='article'}
-    <article id="article" class="container">
+    <article id="article">
         {block name='article:content'}
             <h1 itemprop="name">{#contact_root_h1#}</h1>
             <div class="row">
@@ -42,18 +42,18 @@
                                             <label for="tel">{#pn_contact_phone#|ucfirst}&nbsp;:</label>
                                             <input id="phone" type="text" name="phone" placeholder="{#ph_contact_phone#|ucfirst}" class="form-control"  />
                                         </div>
-                                        {if $config.address_enabled}
+                                        {if $address_enabled}
                                             <div class="row">
                                                 <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                    <label for="adress">{#pn_contact_adress#|ucfirst}{if $config.address_required}*{/if}&nbsp;:</label>
-                                                    <input id="adress" type="text" name="adress" placeholder="{#ph_adress#|ucfirst}" value="" class="form-control" />
+                                                    <label for="address">{#pn_contact_address#|ucfirst}{if $address_required}*{/if}&nbsp;:</label>
+                                                    <input id="address" type="text" name="address" placeholder="{#ph_address#|ucfirst}" value="" class="form-control" />
                                                 </div>
                                                 <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                                                    <label for="postcode">{#pn_contact_postcode#|ucfirst}{if $config.address_required}*{/if}&nbsp;:</label>
+                                                    <label for="postcode">{#pn_contact_postcode#|ucfirst}{if $address_required}*{/if}&nbsp;:</label>
                                                     <input id="postcode" type="text" name="postcode" placeholder="{#ph_postcode#|ucfirst}" value="" class="form-control" />
                                                 </div>
                                                 <div class="form-group col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                                                    <label for="city">{#pn_contact_city#|ucfirst}{if $config.address_required}*{/if}&nbsp;:</label>
+                                                    <label for="city">{#pn_contact_city#|ucfirst}{if $address_required}*{/if}&nbsp;:</label>
                                                     <input id="city" type="text" name="city" placeholder="{#ph_city#|ucfirst}" value="" class="form-control" />
                                                 </div>
                                             </div>
@@ -70,7 +70,7 @@
 
                                         <div class="mc-message"></div>
                                         <input type="hidden" name="moreinfo" value="" />
-                                        <button type="submit" class="btn btn-box btn-flat btn-main-theme pull-right">{#pn_contact_send#|ucfirst}</button>
+                                        <button type="submit" class="btn btn-box btn-flat btn-dark-theme pull-right">{#pn_contact_send#|ucfirst}</button>
                                     </form>
                                 </div>
                             </div>
@@ -87,9 +87,9 @@
 
 {block name="foot" append}
     {if {getlang} eq "en"}
-        {script src="/min/?f=plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+        {script src="/min/?f=plugins/contact/js/public.js" concat=$concat type="javascript"}
     {else}
-        {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.0.3.js" concat=$concat type="javascript"}
+        {script src="/min/?f=libjs/vendor/localization/messages_{getlang}.js,plugins/contact/js/public.js" concat=$concat type="javascript"}
     {/if}
     <script type="text/javascript">
         $.nicenotify.notifier = {
@@ -97,13 +97,13 @@
             elemclass : '.mc-message'
         };
         var iso = '{getlang}';
-        var adress = {if $config.address_enabled && $config.address_required}1{else}0{/if};
+        var address = {if $address_required}1{else}0{/if};
         $(function(){
             if (typeof MC_plugins_contact == "undefined")
             {
                 console.log("MC_plugins_contact is not defined");
             }else{
-                MC_plugins_contact.run(iso,adress);
+                MC_plugins_contact.run(iso,address);
             }
         });
     </script>

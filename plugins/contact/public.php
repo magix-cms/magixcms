@@ -50,18 +50,40 @@ class plugins_contact_public extends database_plugins_contact{
     /**
      * @var frontend_controller_plugins
      */
-    protected $template;
-    protected $config;
+    protected $template,$config;
     /**
-     *
-     * @var string
+     * bot security variable
+     * @var $moreinfo null
      */
     public $moreinfo;
-    public $title,$lastname,$firstname,$email,$phone,$adress,$postcode,$city,$content;
+    /**
+     * Basic fields
+     * @var $lastname string
+     * @var $firstname string
+     * @var $email string
+     * @var $phone string
+     * @var $title string
+     * @var $content string
+     */
+    public $lastname,$firstname,$email,$phone,$title,$content;
+    /**
+     * @var $adress string
+     * @var $postcode string
+     * @var $city string
+     */
+    public $address,$postcode,$city;
+
     /**
      * Class constructor
      */
     public function __construct(){
+        if (class_exists('frontend_controller_plugins')) {
+            $this->template = new frontend_controller_plugins();
+        }
+        if (parent::c_show_table('mc_plugins_contact_config')) {
+            $this->config = parent::g_config();
+        }
+
         if(magixcjquery_filter_request::isPost('moreinfo')){
             $this->moreinfo = $_POST['moreinfo'];
         }
@@ -80,8 +102,8 @@ class plugins_contact_public extends database_plugins_contact{
         if(magixcjquery_filter_request::isPost('phone')){
             $this->phone = magixcjquery_form_helpersforms::inputClean($_POST['phone']);
         }
-        if(magixcjquery_filter_request::isPost('adress')){
-            $this->adress = magixcjquery_form_helpersforms::inputClean($_POST['adress']);
+        if(magixcjquery_filter_request::isPost('address')){
+            $this->address = magixcjquery_form_helpersforms::inputClean($_POST['address']);
         }
         if(magixcjquery_filter_request::isPost('postcode')){
             $this->postcode = magixcjquery_form_helpersforms::inputClean($_POST['postcode']);
@@ -92,7 +114,6 @@ class plugins_contact_public extends database_plugins_contact{
         if(magixcjquery_filter_request::isPost('content')){
             $this->content = magixcjquery_form_helpersforms::inputClean($_POST['content']);
         }
-        $this->template = new frontend_controller_plugins();
     }
 
     /**
@@ -103,7 +124,6 @@ class plugins_contact_public extends database_plugins_contact{
      */
     private function setNotify($type,$subContent=null){
         $this->template->configLoad();
-		$message = '';
         switch($type){
             case 'warning':
                 $warning = array(
@@ -144,7 +164,7 @@ class plugins_contact_public extends database_plugins_contact{
      * @access private
      * setBodyMail
      */
-    private function setBodyMail(){
+    private function setBodyMail() {
         $data = array(
             'lastname'    =>  $this->lastname,
             'firstname'   =>  $this->firstname,
@@ -155,7 +175,7 @@ class plugins_contact_public extends database_plugins_contact{
         );
 
         if($this->config['address_enabled']) {
-            $data['adress']   = $this->adress;
+            $data['address']   = $this->address;
             $data['postcode'] = $this->postcode;
             $data['city']     = $this->city;
         }
@@ -168,34 +188,31 @@ class plugins_contact_public extends database_plugins_contact{
      */
     private function setTitleMail(){
         $subject = $this->template->getConfigVars('subject_contact');
-        $title   = $this->template->getConfigVars('titlemail_contact');;
+        $title   = $this->template->getConfigVars('contact_request');
         $website = $this->template->getConfigVars('website');
-        return sprintf($subject, $title,$website);
+        return sprintf($subject,$title,$website);
     }
 
     /**
      * @access private
      * @return string
      */
-    private function getBodyMail() {
-        $this->template->assign('data',$this->setBodyMail());
-        return $this->template->fetch('mail/admin.tpl');
+    private function getBodyMail($debug = false){
+        if($debug) {
+            $this->template->display('mail/admin.tpl');
+        } else {
+            $this->template->assign('data',$this->setBodyMail());
+            return $this->template->fetch('mail/admin.tpl');
+        }
     }
 
     /**
      * @return array
      */
-    public function getContact() {
+    public function getContact(){
         if(parent::s_contact($this->template->getLanguage()) != null){
             return parent::s_contact($this->template->getLanguage());
         }
-    }
-
-    /**
-     *
-     */
-    public function getConfig() {
-        $this->config = parent::getContactConfig();
     }
 
     /**
@@ -204,26 +221,26 @@ class plugins_contact_public extends database_plugins_contact{
      * sinon retourne empty.tpl
      */
     protected function send_email(){
-        if(isset($this->email)) {
-			$create = new frontend_model_template();
-			$create->configLoad();
+        if(isset($this->email)){
             $this->template->configLoad();
-            if(empty($this->lastname) OR empty($this->firstname) OR empty($this->email)) {
+            if(empty($this->lastname)
+                OR empty($this->firstname)
+                OR empty($this->email)){
                 $this->getNotify('warning','empty');
-            } elseif(!magixcjquery_filter_isVar::isMail($this->email)) {
+            }elseif(!magixcjquery_filter_isVar::isMail($this->email)){
                 $this->getNotify('warning','mail');
-            } elseif(!empty($this->moreinfo)) {
-				$this->getNotify('error','configured');
-            } else {
-                if($this->template->getLanguage()) {
-                    if(parent::c_show_table() != 0) {
-                        if(parent::s_contact($this->template->getLanguage()) != null) {
+            }elseif(!empty($this->moreinfo)){
+                $this->getNotify('error','configured');
+            }else{
+                if($this->template->getLanguage()){
+                    if(parent::c_show_table() != 0){
+                        if(parent::s_contact($this->template->getLanguage()) != null){
                             //Instance la classe mail avec le paramètre de transport
                             $core_mail = new magixglobal_model_mail('mail');
                             //Charge dans un tableau les utilisateurs qui reçoivent les mails
                             $lotsOfRecipients = parent::s_contact($this->template->getLanguage());
                             //Initialisation du contenu du message
-                            foreach ($lotsOfRecipients as $recipient) {
+                            foreach ($lotsOfRecipients as $recipient){
                                 $message = $core_mail->body_mail(
                                     self::setTitleMail(),
                                     array($this->email),
@@ -234,27 +251,31 @@ class plugins_contact_public extends database_plugins_contact{
                                 $core_mail->batch_send_mail($message);
                             }
                             $this->getNotify('success');
-                        } else {
+                        }else{
                             $this->getNotify('error','configured');
                         }
-                    } else {
+                    }else{
                         $this->getNotify('error','installed');
                     }
                 }
             }
         }
     }
+    
     /**
      * Execute le plugin dans la partie public
      */
     public function run(){
-		$this->template->configLoad();
-        $this->getConfig();
-        if(isset($this->email)){
+        $this->template->configLoad();
+
+        if(isset($this->email)) {
             $this->send_email();
-        }else{
-            $this->template->assign('config',$this->config);
-			$this->template->display('index.tpl');
+        } elseif(isset($_GET['testmail'])) {
+            self::getBodyMail(true);
+        } else {
+            $this->template->assign('address_enabled',$this->config['address_enabled']);
+            $this->template->assign('address_required',$this->config['address_required']);
+            $this->template->display('index.tpl');
         }
     }
 }
@@ -264,16 +285,28 @@ class database_plugins_contact{
      * @access protected
      * return integer
      */
-    protected function c_show_table() {
-        $table = 'mc_plugins_contact';
+    protected function c_show_table($table = 'mc_plugins_contact')
+    {
         return frontend_db_plugins::layerPlugins()->showTable($table);
     }
 
     /**
+     * Get contact configuration
+     * @return array
+     */
+    protected function g_config()
+    {
+        $sql = "SELECT * FROM `mc_plugins_contact_config` WHERE `idcontact_config` = 1";
+        return magixglobal_model_db::layerDB()->selectOne($sql);
+    }
+
+    /**
+     * Get list of contact
      * @param $iso
      * @return array
      */
-    protected function s_contact($iso) {
+    protected function s_contact($iso)
+    {
         $sql = 'SELECT c.*
         FROM mc_plugins_contact AS c
         JOIN mc_lang AS lang ON(c.idlang = lang.idlang)
@@ -281,14 +314,6 @@ class database_plugins_contact{
         return magixglobal_model_db::layerDB()->select($sql,array(
             ':iso'=>$iso
         ));
-    }
-
-    /**
-     * @return array
-     */
-    protected function getContactConfig() {
-        $sql = 'SELECT * FROM mc_plugins_contact_config';
-        return magixglobal_model_db::layerDB()->selectOne($sql);
     }
 
     /**

@@ -292,7 +292,7 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'webmaster', '', 'string', 'google webmasterTools'),
 (NULL, 'analytics', '', 'string', 'google analytics'),
 (NULL, 'editor', 'openFilemanager', 'string', 'tinymce'),
-(NULL, 'magix_version', '2.6.5', 'string', 'Version Magix CMS'),
+(NULL, 'magix_version', '2.7.0', 'string', 'Version Magix CMS'),
 (NULL, 'content_css', NULL, 'string', NULL),
 (NULL, 'concat', '0' , 'string', NULL),
 (NULL, 'cache', 'none' , 'string', NULL),

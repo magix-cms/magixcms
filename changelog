@@ -1,3 +1,92 @@
+#### 2.7.0
+Beta
+* Add debug mode (WS)
+* Upgrade tinymce 4.3.2 => 4.0.13
+* Add web service admin api key (backend)
+* Fix bug mega dropdown (skin default)
+* Update WebService API
+    * Add action params
+    * Fix bug image upload (webservice)
+    * Remove old img category (webservice)
+    * Add subcategory in category (webservice)
+    * Add image in subcategory (webservice)
+    * Add product in subcategory (webservice)
+    * Add prefix for image upload (webservice)
+    * Fix bug add category with web service
+    * list & Add product with web service
+    * Fix schema get product (ws)
+        * Fix add product (ws)
+        * Update product (ws)
+        * Add img gallery (ws)
+        * Add product related (ws)
+* Add webservice API
+    * Fix getResult method (webservice)
+    * Restructure API web service + comment api
+    * Add system upload in webservice
+    * Fix wsAuthKey (webservice)
+    * Add SCRUD (webservice)
+    * Add request json (Webservice)
+* Fix temporary translate for country (frontend)
+    * Add new brick for use with country
+* Add widget country
+* Finalize country Admin (new module)
+    * Adapt template for country module
+* Add redirect with js
+* Add new translation variable (frontend)
+* Update font awesome 4.5 => 4.6.1
+* Add cookies consent (frontend)
+* Add new method json return
+    * Fix about with method json return
+* Update news : Add archive system
+* Prepare country module
+Small changes on admin css
+    * Légères corrections css dans l'admin:
+        - Retrait bordure footer.
+        - Ajout espacement entre footer et contenu.
+* Mega Dropdown style (commit by Xarksass)
+  Ajout du style mega dropdown pour le menu.
+  Uniquement disponible sur le root du catalogue.
+* Contact plugin update (commit by Xarksass)
+    * Mise en place d'une configuration pour activer ou non les champs
+    * relatifs à l'adresse et les rendre obligatoires ou non.
+* Update About multi lang
+* Add date option in news widget (frontend)
+* Remove var_dump in lang tpl (frontend)
+* Change adminpanel
+    * Add new screenshot
+    * Update skin bootstrap (structure sass)
+* Fix bug with submenu (frontend)
+    * Work in new skin (global)
+* Fix bug dropdown menu if no catalog (frontend)
+* Add btn carousel (frontend)
+* Fix Internet Explorer skin bootstrap 4 (Frontend)
+    * Add responsive logo in skin bootstrap
+* Add sidebar cms design from catalog (frontend)
+    * Fix snippet blockquote (backend)
+    * update affix in boostrap 4 skin (frontend)
+* Add new skin with bootstrap 4
+* Fix block newsletter
+    * Add translation for block newsletter
+* Fix getPosition in global js
+* Change Affix header
+    * Fix bug menu dropdown, tabs, menubar
+    * Add footer no block
+    * Add button prefixes styles
+* Fix bug menu dropdown & tabs less (frontend)
+* Fix bug with menu dropdown type (frontend)
+* Add button prefixed (frontend)
+    * Fix bug about url (backend)
+    * Add about in sitemap
+* Fix bug with files category.tpl
+* Fix bug nav justify (frontend)
+    * Add admin panel plugins (frontend)
+    * Add links for web site in header (backend)
+* Fix bug pstring1 no content
+* Fix bug order category (backend)
+* Add rewrite in plugin with pstring without pnum
+    * Remove rewrite with magixmod
+* Add smooth gallery (frontend)
+
 #### 2.6.5
 Stable
 
