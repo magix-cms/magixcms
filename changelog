@@ -1,5 +1,6 @@
 #### 2.7.0
 Beta
+* Add new configuration plugin contact
 * Add debug mode (WS)
 * Upgrade tinymce 4.3.2 => 4.0.13
 * Add web service admin api key (backend)
