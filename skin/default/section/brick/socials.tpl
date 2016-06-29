@@ -2,66 +2,45 @@
     {* Default Meta => Home *}
     {capture name="ogTitle"}{$title}{/capture}
     {capture name="ogDesc"}{$description}{/capture}
-    {capture name="ogUrl"}{geturl}{/capture}
+    {capture name="ogUrl"}{geturl}{$smarty.server.REQUEST_URI}{/capture}
     {capture name="ogImg"}{geturl}/skin/{template}/img/logo/{#logo_img#}{/capture}
     {capture name="ogType"}website{/capture}
     {capture name="twCard"}summary{/capture}
     {$data = null}
 
     {switch $smarty.server.SCRIPT_NAME}
-    {* Pages *}
+        {* Pages *}
     {case '/cms.php' break}
-        {$data = $page}
-        {capture name="ogUrl"}{geturl}{$page.url}{/capture}
-    {* /Pages *}
+    {$data = $page}
+        {* /Pages *}
 
-    {* Catalogue *}
+        {* Catalogue *}
     {case '/catalog.php' break}
-        {if $smarty.get.idclc}
-            {if $smarty.get.idcls OR $smarty.get.idproduct}
-                {if $smarty.get.idproduct}
-                    {* Produits *}
-                    {$data = $product}
-                    {capture name="ogUrl"}{geturl}{$data.url}{/capture}
-                    {capture name="ogType"}article{/capture}
-                    {* /Produits *}
-                {elseif $smarty.get.idcls}
-                    {* Sous-catégories *}
-                    {capture name="ogUrl"}{geturl}{$subcat.url}{/capture}
-                    {* /Sous-catégories *}
-                {/if}
-            {else}
-                {* Catégories *}
-                {capture name="ogUrl"}{geturl}{$cat.url}{/capture}
-                {* /Catégories *}
-            {/if}
-        {else}
-            {* Root *}
-            {capture name="ogUrl"}{geturl}/{getlang}/{#nav_catalog_uri#}/{/capture}
-            {* /Root *}
-        {/if}
-    {* /Catalogue *}
-
-    {* Actualités *}
-    {case '/news.php' break}
-        {if $smarty.get.tag OR $smarty.get.uri_get_news}
-            {if $smarty.get.tag}
-                {* Tag *}
-                {capture name="ogUrl"}{geturl}/{#nav_news_uri#}/tag/{$smarty.get.tag}/{/capture}
-                {* /Tag *}
-            {elseif $smarty.get.uri_get_news}
-                {* News *}
-                {$data = $news}
-                {capture name="ogUrl"}{geturl}{$data.uri}{/capture}
+    {if $smarty.get.idclc}
+        {if $smarty.get.idcls OR $smarty.get.idproduct}
+            {if $smarty.get.idproduct}
+                {* Produits *}
+                {$data = $product}
                 {capture name="ogType"}article{/capture}
-                {* /News *}
+                {* /Produits *}
+            {elseif $smarty.get.idcls}
+                {$data = $subcat}
             {/if}
         {else}
-            {* Root *}
-            {capture name="ogUrl"}{geturl}/{getlang}/{#nav_news_uri#}/{/capture}
-            {* /Root *}
+            {$data = $cat}
         {/if}
-    {* /Actualités *}
+    {/if}
+        {* /Catalogue *}
+
+        {* Actualités *}
+    {case '/news.php' break}
+    {if $smarty.get.tag OR $smarty.get.uri_get_news}
+        {if $smarty.get.uri_get_news}
+            {$data = $news}
+            {capture name="ogType"}article{/capture}
+        {/if}
+    {/if}
+        {* /Actualités *}
     {/switch}
 
     {if $data != null}
