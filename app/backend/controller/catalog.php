@@ -629,10 +629,10 @@ class backend_controller_catalog extends backend_db_catalog{
                 $img .= '<p><a href="#" data-delete="'.$img_c.'" class="btn btn-danger delete-image">';
                 $img .= '<span class="icon-trash"></span> '.$create->getConfigVars("remove").'</a></p>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-thumbnail" /></p>';
+                $img = '<p><img data-src="holder.js/140x140?text=Thumbnail" class="ajax-image img-thumbnail" /></p>';
             }
         }else{
-            $img = '<p><img data-src="holder.js/140x140/text:Thumnails" class="ajax-image img-thumbnail" /></p>';
+            $img = '<p><img data-src="holder.js/140x140?text=Thumbnail" class="ajax-image img-thumbnail" /></p>';
         }
         print $img;
     }
@@ -929,10 +929,10 @@ class backend_controller_catalog extends backend_db_catalog{
                 $img .= '<p><a href="#" data-delete="'.$img_s.'" class="btn btn-danger delete-image">';
                 $img .= '<span class="icon-trash"></span> '.$create->getConfigVars("remove").'</a></p>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
+                $img = '<p><img data-src="holder.js/140x140?text=Thumbnail" class="ajax-image img-thumbnail" /></p>';
             }
         }else{
-            $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
+            $img = '<p><img data-src="holder.js/140x140?text=Thumbnail" class="ajax-image img-thumbnail" /></p>';
         }
         print $img;
     }
@@ -1542,10 +1542,10 @@ class backend_controller_catalog extends backend_db_catalog{
                     $img .= '</div>';
                 $img .= '</div>';
             }else{
-                $img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
+                $img = '<p><img data-src="holder.js/140x140?text=Thumbnail" class="ajax-image img-thumbnail" /></p>';
             }
         }else{
-            $img .= '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
+            $img .= '<p><img data-src="holder.js/140x140?text=Thumbnail" class="ajax-image img-thumbnail" /></p>';
         }
         print $img;
     }

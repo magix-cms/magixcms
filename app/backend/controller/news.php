@@ -477,7 +477,7 @@ class backend_controller_news extends backend_db_news{
             $img = '<p><img src="/upload/news/s_'.$news_img.'" class="img-thumbnail" alt="" /></p>';
             $img .= '<p><a class="btn btn-danger delete-image"><span class="icon-trash"></span> '.$create->getConfigVars("remove").'</a></p>';
 		}else{
-			$img = '<p><img data-src="holder.js/140x140/text:Thumbnails" class="ajax-image img-thumbnail" /></p>';
+			$img = '<p><img data-src="holder.js/140x140?text=Thumbnail" class="ajax-image img-thumbnail" /></p>';
 		}
 		print $img;
 	}

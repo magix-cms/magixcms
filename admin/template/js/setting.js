@@ -255,9 +255,13 @@ $(function(){
     });
 
     // Holder config
-    Holder.add_theme(
+    Holder.addTheme(
         "bright",
-        { background: "white", foreground: "gray", size: 12 }
+        {
+            bg: "white",
+            fg: "gray",
+            size: 12
+        }
     );
     /*####################Formulaire Validation######################*/
     $.validator.setDefaults({
