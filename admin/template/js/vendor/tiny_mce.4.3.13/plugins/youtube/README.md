@@ -1,7 +1,7 @@
 Plugin youtube for TinyMCE 4
 ======================
 
-Insert YouTube video W3C valid with optionnals (HD, similar vidéos)
+Insert YouTube video (Google Format) with optionnals (HD, similar vidéos)
 
 
 Authors
@@ -13,7 +13,7 @@ Official link in french :
 
 ###Screenshot
 
-![tinyMCE plugin YouTube](http://blog.aurelien-gerits.be/wp-content/uploads/2013/09/youtube-tinymce-2.0.png "tinyMCE plugin YouTube")
+![youtube-tinymce-1 2 0](https://cloud.githubusercontent.com/assets/356674/17137863/b977bf00-533d-11e6-9070-426c5131f75a.png)
 
 ###Installation
  * Download the dist/youtube.zip archive
@@ -29,7 +29,8 @@ tinymce.init({
 			"searchreplace visualblocks code fullscreen",
 			"insertdatetime media table contextmenu paste youtube"
 			],
-	toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image| youtube"
+	toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image| youtube",
+	extended_valid_elements: "+iframe[src|width|height|name|align|class]",
 	});
 </script>
 ```
@@ -44,6 +45,8 @@ tinymce.init({
  * Brazilian
  * Hungarian
  * Polish
+ * Dutch
+ * Turkish
  
  You can send me translations in other languages
  
