@@ -156,6 +156,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             'content'   =>  $key['idclc']
                         ),
                         array(
+                            'name'      =>  'name',
+                            'content'   =>  $key['clibelle']
+                        ),
+                        array(
                             'name'      =>  'idlang',
                             'content'   =>  $key['idlang']
                         )
