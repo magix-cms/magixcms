@@ -663,7 +663,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         'attr'=>array(
                             array(
                                 'name'      =>  'id',
-                                'content'   =>  $key['idcatalog']
+                                'content'   =>  $key['idproduct']
                             ),
                             array(
                                 'name'      =>  'name',
