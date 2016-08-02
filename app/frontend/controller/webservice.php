@@ -279,6 +279,16 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     $this->outputxml->setElement(
                         array(
                             'start' => 'subcategory',
+                            'attr'=>array(
+                                array(
+                                    'name'      =>  'id',
+                                    'content'   =>  $key['idcls']
+                                ),
+                                array(
+                                    'name'      =>  'name',
+                                    'content'   =>  $key['slibelle']
+                                )
+                            ),
                             'attrNS' => array(
                                 array(
                                     'prefix' => 'xlink',
@@ -301,11 +311,21 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 $this->outputxml->setElement(
                     array(
                         'start' => 'product',
+                        'attr'=>array(
+                            array(
+                                'name'      =>  'id',
+                                'content'   =>  $key['idcatalog']
+                            ),
+                            array(
+                                'name'      =>  'name',
+                                'content'   =>  $key['titlecatalog']
+                            )
+                        ),
                         'attrNS' => array(
                             array(
                                 'prefix' => 'xlink',
                                 'name' => 'href',
-                                'uri' => $this->url . '/webservice/catalog/product/' . $key['idcatalog'].'/'
+                                'uri' => $this->url . '/webservice/catalog/products/' . $key['idcatalog'].'/'
                             )
                         )
                     )
@@ -400,11 +420,21 @@ class frontend_controller_webservice extends frontend_db_webservice{
                     $this->outputxml->setElement(
                         array(
                             'start' => 'product',
+                            'attr'=>array(
+                                array(
+                                    'name'      =>  'id',
+                                    'content'   =>  $key['idcatalog']
+                                ),
+                                array(
+                                    'name'      =>  'name',
+                                    'content'   =>  $key['titlecatalog']
+                                )
+                            ),
                             'attrNS' => array(
                                 array(
                                     'prefix' => 'xlink',
                                     'name' => 'href',
-                                    'uri' => $this->url . '/webservice/catalog/product/' . $key['idcatalog'].'/'
+                                    'uri' => $this->url . '/webservice/catalog/products/' . $key['idcatalog'].'/'
                                 )
                             )
                         )
@@ -552,6 +582,16 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 $this->outputxml->setElement(
                     array(
                         'start' => 'category',
+                        'attr'=>array(
+                            array(
+                                'name'      =>  'id',
+                                'content'   =>  $key['idclc']
+                            ),
+                            array(
+                                'name'      =>  'name',
+                                'content'   =>  $key['clibelle']
+                            )
+                        ),
                         'attrNS' => array(
                             array(
                                 'prefix' => 'xlink',
@@ -581,6 +621,16 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 $this->outputxml->setElement(
                     array(
                         'start' => 'subcategory',
+                        'attr'=>array(
+                            array(
+                                'name'      =>  'id',
+                                'content'   =>  $key['idcls']
+                            ),
+                            array(
+                                'name'      =>  'name',
+                                'content'   =>  $key['slibelle']
+                            )
+                        ),
                         'attrNS' => array(
                             array(
                                 'prefix' => 'xlink',
@@ -610,6 +660,16 @@ class frontend_controller_webservice extends frontend_db_webservice{
                 $this->outputxml->setElement(
                     array(
                         'start' => 'related',
+                        'attr'=>array(
+                            array(
+                                'name'      =>  'id',
+                                'content'   =>  $key['idcatalog']
+                            ),
+                            array(
+                                'name'      =>  'name',
+                                'content'   =>  $key['titlecatalog']
+                            )
+                        ),
                         'attrNS' => array(
                             array(
                                 'prefix' => 'xlink',

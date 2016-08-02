@@ -343,9 +343,10 @@ class frontend_db_webservice
                         )
                     );
                 }elseif($context === 'related'){
-                    $sql = 'SELECT rel.*
+                    $sql = 'SELECT rel.*,catalog.titlecatalog
                     FROM mc_catalog_rel_product AS rel
                     JOIN mc_catalog_product AS p ON(rel.idproduct = p.idproduct)
+                    JOIN mc_catalog AS catalog ON ( catalog.idcatalog = rel.idcatalog )
                     JOIN mc_catalog AS cl ON (cl.idcatalog = p.idcatalog)
                     WHERE rel.idcatalog = :id';
                     return magixglobal_model_db::layerDB()->select($sql,array(
