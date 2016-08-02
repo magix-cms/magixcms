@@ -662,8 +662,12 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         'start' => 'related',
                         'attr'=>array(
                             array(
+                                'name'      =>  'rel',
+                                'content'   =>  $key['idrelproduct']
+                            ),
+                            array(
                                 'name'      =>  'id',
-                                'content'   =>  $key['idproduct']
+                                'content'   =>  $key['idcatalog']
                             ),
                             array(
                                 'name'      =>  'name',
@@ -674,7 +678,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             array(
                                 'prefix' => 'xlink',
                                 'name' => 'href',
-                                'uri' => $this->url . '/webservice/catalog/products/' . $key['idproduct'].'/'
+                                'uri' => $this->url . '/webservice/catalog/products/' . $key['idcatalog'].'/'
                             )
                         )
                     )
