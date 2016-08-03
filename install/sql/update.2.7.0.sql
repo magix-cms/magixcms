@@ -1,4 +1,4 @@
-UPDATE `mc_setting` SET `setting_value` = '2.6.6' WHERE `setting_id` = 'magix_version';
+UPDATE `mc_setting` SET `setting_value` = '2.7.0' WHERE `setting_id` = 'magix_version';
 
 CREATE TABLE IF NOT EXISTS `mc_country` (
   `idcountry` int(5) unsigned NOT NULL AUTO_INCREMENT,

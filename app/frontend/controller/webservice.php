@@ -319,6 +319,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                             array(
                                 'name'      =>  'name',
                                 'content'   =>  $key['titlecatalog']
+                            ),
+                            array(
+                                'name'      =>  'price',
+                                'content'   =>  $key['price']
                             )
                         ),
                         'attrNS' => array(
@@ -428,6 +432,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                                 array(
                                     'name'      =>  'name',
                                     'content'   =>  $key['titlecatalog']
+                                ),
+                                array(
+                                    'name'      =>  'price',
+                                    'content'   =>  $key['price']
                                 )
                             ),
                             'attrNS' => array(
@@ -473,6 +481,10 @@ class frontend_controller_webservice extends frontend_db_webservice{
                         array(
                             'name'      =>  'idlang',
                             'content'   =>  $key['idlang']
+                        ),
+                        array(
+                            'name'      =>  'price',
+                            'content'   =>  $key['price']
                         )
                     ),
                     'attrNS'=>array(
