@@ -10,7 +10,7 @@
     </div>
     {if $companyData.tva}
         <div class="col-xs-12 col-sm-2">
-            <p id="tva" itemprop="vatID" class="company-tva text-center">{#footer_tva#} {$companyData.tva}</p>
+            <p class="company-tva text-center">{#footer_tva#} {$companyData.tva}</p>
         </div>
     {/if}
     <div class="footer-creator powered col-xs-12 col-sm-4 pull-right">
