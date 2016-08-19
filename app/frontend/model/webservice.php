@@ -406,7 +406,7 @@ class frontend_model_webservice extends frontend_db_webservice{
         )));
         print_r($json);
         print $this->webservice->setPreparePostData(array(
-        'wsAuthKey' => $this->setWsAuthKey(),
+        'wsAuthKey' => $this->webservice->setWsAuthKey(),
         'method' => 'xml',
         'data' => $test,
         'customRequest' => 'DELETE',
@@ -470,7 +470,7 @@ class frontend_model_webservice extends frontend_db_webservice{
      * @param $data
      * @return mixed
          print $this->webservice->setPreparePostImg(array(
-            'wsAuthKey' =>  $this->setWsAuthKey(),
+            'wsAuthKey' =>  $this->webservice->setWsAuthKey(),
             'url'       => 'http://www.website.tld/webservice/catalog/categories/3',
             'debug' => false,
         ));
