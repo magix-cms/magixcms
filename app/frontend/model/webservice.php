@@ -52,6 +52,23 @@ class frontend_model_webservice extends frontend_db_webservice{
             die('401 Unauthorized');
         }
     }
+
+    /**
+     * @return string
+     */
+    public function setWsAuthKey(){
+        $data = parent::fetchConfig(array('type'=>'key'));
+        if($data != null){
+            if($data['status_key'] != '0'){
+                return $data['ws_key'];
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
     /* ##################################### Parse XML OR JSON ##########################################*/
     /**
      * request method put, get, post, delete

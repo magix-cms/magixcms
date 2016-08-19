@@ -72,21 +72,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
         }
     }
 
-    /**
-     * @return string
-     */
-    private function setWsAuthKey(){
-        $data = parent::fetchConfig(array('type'=>'key'));
-        if($data != null){
-            if($data['status_key'] != '0'){
-                return $data['ws_key'];
-            }else{
-                return false;
-            }
-        }else{
-            return false;
-        }
-    }
+
     // ############## GET
     /**
      * Global Root
@@ -1615,7 +1601,7 @@ class frontend_controller_webservice extends frontend_db_webservice{
     public function run()
     {
         // If authorization is true
-        if ($this->webservice->authorization($this->setWsAuthKey())) {
+        if ($this->webservice->authorization($this->webservice->setWsAuthKey())) {
             if(isset($this->debug)){
                 $debug = $this->debug;
             }else{
