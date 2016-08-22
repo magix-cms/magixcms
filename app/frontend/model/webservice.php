@@ -1,10 +1,21 @@
 <?php
 class frontend_model_webservice extends frontend_db_webservice{
+    /**
+     * @var array
+     */
     public $contentTypeCollection = array(
         'application/json'      =>'json',
         'text/xml'              =>'xml',
         'multipart/form-data'   =>'files'
     );
+    /**
+     * @var bool
+     */
+    protected $with_curl;
+
+    /**
+     * frontend_model_webservice constructor.
+     */
     public function __construct()
     {
         if (function_exists("curl_init")) {
@@ -462,6 +473,62 @@ class frontend_model_webservice extends frontend_db_webservice{
             if ($response) {
                 return $response;
             }
+        }
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     *
+     print $this->webservice->setPrepareGet(array(
+        'wsAuthKey' => $this->webservice->setWsAuthKey(),
+        'method' => 'xml',
+        'debug' => false,
+        'url' => 'http://www.mywebsite.tld/webservice/catalog/categories/'
+    ));
+     */
+    public function setPrepareGet($data){
+        try {
+            if($this->with_curl) {
+                $curl_params = array();
+                $encodedAuth = $data['wsAuthKey'];
+                switch($data['method']){
+                    case 'json';
+                        $headers = array("Authorization : Basic " . $encodedAuth,'Content-type: application/json','Accept: application/json');
+                        break;
+                    case 'xml';
+                        $headers = array("Authorization : Basic " . $encodedAuth,'Content-type: text/xml','Accept: text/xml');
+                        break;
+                }
+                $options = array(
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLINFO_HEADER_OUT => true,
+                    CURLOPT_URL => $data['url'],
+                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => $encodedAuth,
+                    CURLOPT_HTTPHEADER => $headers,
+                    CURLOPT_CUSTOMREQUEST => "GET"
+                );
+
+                $ch = curl_init();
+                curl_setopt_array($ch, $options);
+
+                $response = curl_exec($ch);
+                $curlInfo = curl_getinfo($ch);
+                curl_close($ch);
+                if (array_key_exists('debug', $data) && $data['debug']) {
+                    var_dump($curlInfo);
+                    var_dump($response);
+                }
+                if ($curlInfo['http_code'] == '200') {
+                    if ($response) {
+                        return $response;
+                    }
+                }
+
+            }
+        }catch (Exception $e){
+            magixglobal_model_system::magixlog('An error has occured :',$e);
         }
     }
 
