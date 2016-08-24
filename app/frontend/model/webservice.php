@@ -451,6 +451,7 @@ class frontend_model_webservice extends frontend_db_webservice{
                 //CURLOPT_POST          => true,
                 //CURLOPT_FORBID_REUSE  => 1,
                 //CURLOPT_FRESH_CONNECT =>1,
+                CURLOPT_TIMEOUT         => 300,
                 CURLOPT_CONNECTTIMEOUT  => 300,
                 CURLOPT_CUSTOMREQUEST   => $data['customRequest'],
                 CURLOPT_POSTFIELDS      => $generatedData
@@ -470,8 +471,13 @@ class frontend_model_webservice extends frontend_db_webservice{
                 var_dump($curlInfo);
                 var_dump($response);
             }
-            if ($response) {
-                return $response;
+            if ($curlInfo['http_code'] == '200') {
+                if ($response) {
+                    return $response;
+                }
+            }elseif($curlInfo['http_code'] == '0'){
+                print 'Error HTTP: code 0';
+                return;
             }
         }
     }
@@ -501,13 +507,15 @@ class frontend_model_webservice extends frontend_db_webservice{
                         break;
                 }
                 $options = array(
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLINFO_HEADER_OUT => true,
-                    CURLOPT_URL => $data['url'],
-                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-                    CURLOPT_USERPWD => $encodedAuth,
-                    CURLOPT_HTTPHEADER => $headers,
-                    CURLOPT_CUSTOMREQUEST => "GET"
+                    CURLOPT_RETURNTRANSFER  => true,
+                    CURLINFO_HEADER_OUT     => true,
+                    CURLOPT_URL             => $data['url'],
+                    CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD         => $encodedAuth,
+                    CURLOPT_HTTPHEADER      => $headers,
+                    CURLOPT_TIMEOUT         => 300,
+                    CURLOPT_CONNECTTIMEOUT  => 300,
+                    CURLOPT_CUSTOMREQUEST   => "GET"
                 );
 
                 $ch = curl_init();
@@ -524,6 +532,9 @@ class frontend_model_webservice extends frontend_db_webservice{
                     if ($response) {
                         return $response;
                     }
+                }elseif($curlInfo['http_code'] == '0'){
+                    print 'Error HTTP: code 0';
+                    return;
                 }
 
             }
@@ -565,6 +576,8 @@ class frontend_model_webservice extends frontend_db_webservice{
                     CURLOPT_HTTPAUTH        => CURLAUTH_BASIC,
                     CURLOPT_USERPWD         => $encodedAuth,
                     CURLOPT_HTTPHEADER      => array("Authorization : Basic " . $encodedAuth/*,"Content-Type: multipart/form-data"*/),
+                    CURLOPT_TIMEOUT         => 300,
+                    CURLOPT_CONNECTTIMEOUT  => 300,
                     CURLOPT_CUSTOMREQUEST   => "POST",
                     CURLOPT_POST            => true,
                     CURLOPT_POSTFIELDS      => $img
@@ -579,8 +592,13 @@ class frontend_model_webservice extends frontend_db_webservice{
                     var_dump($curlInfo);
                     var_dump($response);
                 }
-                if ($response) {
-                    return $response;
+                if ($curlInfo['http_code'] == '200') {
+                    if ($response) {
+                        return $response;
+                    }
+                }elseif($curlInfo['http_code'] == '0'){
+                    print 'Error HTTP: code 0';
+                    return;
                 }
             }
         }
