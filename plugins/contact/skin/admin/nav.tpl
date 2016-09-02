@@ -6,7 +6,7 @@
             <span class="fa fa-bar"></span>
             <span class="fa fa-bar"></span>
         </button>
-        <a class="navbar-brand" href="{$pluginUrl}&amp;getlang={$smarty.get.getlang}&amp;action=list">Contact</a>
+        <a class="navbar-brand" href="#">Contact</a>
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
