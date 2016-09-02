@@ -66,8 +66,8 @@ $(function()
             'nl': {'close':'Dicht','next':'Volgende','prev':'Voorgaand'},
             'en': {'close':'Close','next':'Next','prev':'Previous'}
         },
-	lang = $('html').attr('lang'),
-	iso = lang ? lang : 'en';
+        lang = $('html').attr('lang'),
+        iso = lang ? lang : 'en';
 
     // *** for one picture
     $(".img-zoom").fancybox({
