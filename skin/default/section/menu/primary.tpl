@@ -144,6 +144,9 @@
 
 {* --- Menu Pages --- *}
 {if {#menu_pages#} && $pages}
+    {if !empty({#menu_pages_title#})}
+        {$titles = ';'|explode:#menu_pages_title#}
+    {/if}
     {widget_cms_data
         conf = [
             'select' => [{getlang} => {#menu_pages#}],
@@ -157,11 +160,16 @@
         {else}
             {$active = 0}
         {/if}
+        {if isset($titles[$page@index]) && !empty($titles[$page@index])}
+            {$title = $titles[$page@index]}
+        {else}
+            {$title = $page.name}
+        {/if}
         {$item = [
-        'name'      => {$page.name},
-        'url'       => {$page.url},
-        'title'     => {$page.name},
-        'active'    => {$active}
+            'name'      => {$title},
+            'url'       => {$page.url},
+            'title'     => {$page.name},
+            'active'    => {$active}
         ]}
         {$subdata = 0}
         {if $page.subdata}
@@ -295,6 +303,9 @@
 
 {* --- Menu Pages --- *}
 {if {#menu_pages_2#} && $pages}
+    {if !empty({#menu_pages_title_2#})}
+        {$titles = ';'|explode:#menu_pages_title_2#}
+    {/if}
     {widget_cms_data
         conf = [
             'select' => [{getlang} => {#menu_pages_2#}],
@@ -308,8 +319,13 @@
         {else}
             {$active = 0}
         {/if}
+        {if isset($titles[$page@index]) && !empty($titles[$page@index])}
+            {$title = $titles[$page@index]}
+        {else}
+            {$title = $page.name}
+        {/if}
         {$item = [
-        'name'      => {$page.name},
+        'name'      => {$title},
         'url'       => {$page.url},
         'title'     => {$page.name},
         'active'    => {$active}
