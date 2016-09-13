@@ -10,6 +10,8 @@ $(function(){
             MC_config.runEditor(baseadmin);
         {elseif $smarty.get.section eq 'imagesize'}
             MC_config.runImages(baseadmin);
+        {elseif $smarty.get.section eq 'cssinliner'}
+        MC_config.runCSSInliner(baseadmin);
         {/if}
         {else}
             MC_config.runConfig(baseadmin);

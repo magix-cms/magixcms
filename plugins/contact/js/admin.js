@@ -295,7 +295,6 @@ var MC_plugins_contact = (function ($, undefined) {
         runConfig:function (baseadmin) {
             save('#enable_address_form',baseadmin);
             save('#require_address_form',baseadmin);
-            save('#enable_inliner_form',baseadmin);
 
             $(function(){
                 $('#enable_address').change(function(){

@@ -35,6 +35,11 @@
                                     <span class="fa fa-folder-open"></span> {#cache_management#|ucfirst}
                                 </a>
                             </li>
+                            <li>
+                                <a href="/{baseadmin}/config.php?section=cssinliner">
+                                    <span class="fa fa-folder-open"></span> {#css_inliner#|ucfirst}
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 {/if}

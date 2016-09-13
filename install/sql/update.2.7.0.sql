@@ -17,3 +17,6 @@ CREATE TABLE IF NOT EXISTS `mc_webservice` (
   `status_key` smallint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`idwskey`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_setting` VALUES
+(NULL, 'css_inliner', '1', 'string', 'CSS inliner');

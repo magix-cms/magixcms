@@ -171,6 +171,28 @@ var MC_config = (function ($, undefined) {
             return false;
         });
     }
+
+    /**
+     * Mise à jour des CSS frontend à intégré dans tinyMCE
+     */
+    function updateCSSInliner(baseadmin){
+        $('#forms_config_cssinliner').on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/'+baseadmin+'/config.php?section=cssinliner&action=edit',
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        });
+    }
+
     return {
         //Fonction Public        
         runConfig:function (baseadmin) {
@@ -190,6 +212,9 @@ var MC_config = (function ($, undefined) {
                 var formsId = $(this).attr('id');
                 updateImage(baseadmin,formsId);
             });
+        },
+        runCSSInliner:function(baseadmin){
+            updateCSSInliner(baseadmin);
         }
     };
 })(jQuery);

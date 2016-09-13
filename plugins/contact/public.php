@@ -50,7 +50,7 @@ class plugins_contact_public extends database_plugins_contact{
     /**
      * @var frontend_controller_plugins
      */
-    protected $template,$mail,$config;
+    protected $template,$mail,$config,$setting;
     /**
      * bot security variable
      * @var $moreinfo null
@@ -83,6 +83,7 @@ class plugins_contact_public extends database_plugins_contact{
         if (parent::c_show_table('mc_plugins_contact_config')) {
             $this->config = parent::g_config();
         }
+        $this->setting = frontend_model_setting::select_uniq_setting('css_inliner');
 
         if(magixcjquery_filter_request::isPost('moreinfo')){
             $this->moreinfo = $_POST['moreinfo'];
@@ -203,7 +204,7 @@ class plugins_contact_public extends database_plugins_contact{
         if($debug) {
 			$bodyMail = $this->template->fetch('mail/admin.tpl');
 
-			if ($this->config['enable_inliner']) {
+			if ($this->setting['setting_value']) {
 				$this->mail = new magixglobal_model_mail('mail');
 				print $this->mail->plugin_css_inliner($bodyMail,array('/contact/css' => 'foundation-emails.css'));
 			} else {
@@ -213,7 +214,7 @@ class plugins_contact_public extends database_plugins_contact{
             $this->template->assign('data',$this->setBodyMail());
 			$bodyMail = $this->template->fetch('mail/admin.tpl');
 
-			if ($this->config['enable_inliner']) {
+			if ($this->setting['setting_value']) {
 				return $this->mail->plugin_css_inliner($bodyMail,array('/contact/css' => 'foundation-emails.css'));
 			} else {
 				return $bodyMail;
@@ -289,6 +290,7 @@ class plugins_contact_public extends database_plugins_contact{
         } elseif(isset($_GET['testmail'])) {
             self::getBodyMail(true);
         } else {
+
             $this->template->assign('address_enabled',$this->config['address_enabled']);
             $this->template->assign('address_required',$this->config['address_required']);
             $this->template->display('index.tpl');

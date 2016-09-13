@@ -14,6 +14,7 @@
             <li><a href="/{baseadmin}/config.php?section=editor">Editeur wysiwyg</a></li>
             <li><a href="/{baseadmin}/config.php?section=imagesize">Taille des images</a></li>
             <li><a href="/{baseadmin}/config.php?section=cache">Gestion du cache</a></li>
+            <li><a href="/{baseadmin}/config.php?section=cssinliner">CSS Inliner</a></li>
         </ul>
     </div>
 </nav>

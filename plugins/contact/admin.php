@@ -65,7 +65,7 @@ class plugins_contact_admin extends DBContact{
     /**
      * Les variables du plugin contact
      */
-    public $delete_contact,$mail_contact,$switch,$enable_address,$require_address,$enable_inliner;
+    public $delete_contact,$mail_contact,$switch,$enable_address,$require_address;
     /**
 	 * Construct class
 	 */
@@ -105,9 +105,6 @@ class plugins_contact_admin extends DBContact{
             if(magixcjquery_filter_request::isPost('require_address')){
                 $this->require_address = magixcjquery_form_helpersforms::inputClean($_GET['require_address']);
             }
-			if(magixcjquery_filter_request::isPost('enable_inliner')){
-				$this->enable_inliner = magixcjquery_form_helpersforms::inputClean($_GET['enable_inliner']);
-			}
         }
 	}
 
@@ -213,9 +210,6 @@ class plugins_contact_admin extends DBContact{
                         }
                         if($this->switch == 'require') {
                             parent::u_config('address_required', array(':address_required' => (isset($this->require_address)?1:0)));
-                        }
-                        if($this->switch == 'inliner') {
-                            parent::u_config('enable_inliner', array(':enable_inliner' => (isset($this->enable_inliner)?1:0)));
                         }
                         $this->message->getNotify('add');
                     }

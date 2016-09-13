@@ -297,7 +297,8 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'concat', '0' , 'string', NULL),
 (NULL, 'cache', 'none' , 'string', NULL),
 (NULL, 'googleplus', NULL , 'string', 'Google plus'),
-(NULL, 'robots', 'noindex,nofollow', 'string', 'metas robots');
+(NULL, 'robots', 'noindex,nofollow', 'string', 'metas robots'),
+(NULL, 'css_inliner', '1', 'string', 'CSS inliner');
 
 CREATE TABLE IF NOT EXISTS `mc_webservice` (
   `idwskey` smallint(5) unsigned NOT NULL AUTO_INCREMENT,

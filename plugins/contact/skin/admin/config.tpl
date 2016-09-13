@@ -30,18 +30,6 @@
             <input type="hidden" name="switch" value="require">
         </form>
     </div>
-    <h2>Compilateur</h2>
-    <div class="row">
-        <form id="enable_inliner_form" class="form-inline col-xs-12" method="post" action="{$smarty.server.REQUEST_URI}">
-            <div class="checkbox">
-                <label>
-                    &mdash;&nbsp;CSS Inliner
-                    <input id="enable_inliner" data-toggle="toggle" type="checkbox" name="enable_inliner" data-on="oui" data-off="non"{if $config.enable_inliner} checked{/if}>
-                </label>
-            </div>
-            <input type="hidden" name="switch" value="inliner">
-        </form>
-    </div>
 {/block}
 {block name="modal"}
     <div id="window-dialog"></div>

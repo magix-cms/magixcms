@@ -71,7 +71,7 @@ class backend_controller_config extends backend_db_config{
      * Configure l'éditeur HTML
      * @var string
      */
-    public $manager_setting,$content_css,$concat,$cache;
+    public $manager_setting,$content_css,$concat,$cache,$css_inliner;
 	/**
 	 * @access public
 	 * @var string
@@ -128,6 +128,10 @@ class backend_controller_config extends backend_db_config{
         if(magixcjquery_filter_request::isPost('cache')){
             $this->cache = magixcjquery_form_helpersforms::inputClean($_POST['cache']);
         }
+        if(magixcjquery_filter_request::isPost('css_inliner')){
+            $this->css_inliner = 1;
+        }
+
         //image resizing
         if(magixcjquery_filter_request::isPost('width') AND magixcjquery_filter_request::isPost('height')){
             $this->width = magixcjquery_filter_isVar::isPostNumeric($_POST['width']);
@@ -380,7 +384,19 @@ class backend_controller_config extends backend_db_config{
             $this->message->getNotify('update');
         }
     }
-
+    /**
+     * Mise à jour de css inliner
+     * @param $create
+     */
+    private function SaveCssinliner($create){
+        if(!isset($this->css_inliner)){
+            $css_inliner = '0';
+        }else{
+            $css_inliner = $this->css_inliner;
+        }
+        parent::u_setting_value('css_inliner',$css_inliner);
+        $this->message->getNotify('update');
+    }
 	/**
 	 * @access public
 	 * 
@@ -434,6 +450,14 @@ class backend_controller_config extends backend_db_config{
                 }else{
                     $create->assign('select_concat',$this->load_cache_data($create));
                     $create->display('config/cache.tpl');
+                }
+            }elseif($this->section == 'cssinliner'){
+                if(isset($this->action)) {
+                    if ($this->action == 'edit') {
+                        $this->SaveCssinliner($create);
+                    }
+                }else{
+                    $create->display('config/css_inliner.tpl');
                 }
             }
         }else{
