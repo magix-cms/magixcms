@@ -37,7 +37,7 @@
                             </li>
                             <li>
                                 <a href="/{baseadmin}/config.php?section=cssinliner">
-                                    <span class="fa fa-folder-open"></span> {#css_inliner#|ucfirst}
+                                    <span class="fa fa-cubes"></span> {#css_inliner#|ucfirst}
                                 </a>
                             </li>
                         </ul>
