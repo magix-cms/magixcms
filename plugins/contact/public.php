@@ -50,7 +50,7 @@ class plugins_contact_public extends database_plugins_contact{
     /**
      * @var frontend_controller_plugins
      */
-    protected $template,$config;
+    protected $template,$mail,$config;
     /**
      * bot security variable
      * @var $moreinfo null
@@ -187,9 +187,11 @@ class plugins_contact_public extends database_plugins_contact{
      * @return string
      */
     private function setTitleMail(){
-        $subject = $this->template->getConfigVars('subject_contact');
-        $title   = $this->template->getConfigVars('contact_request');
-        $website = $this->template->getConfigVars('website');
+		$about = new plugins_about_public();
+		$collection = $about->getData();
+		$subject = $this->template->getConfigVars('subject_contact');
+		$title   = $this->template->getConfigVars('contact_request');
+		$website = $collection['name'];
         return sprintf($subject,$title,$website);
     }
 
@@ -199,10 +201,23 @@ class plugins_contact_public extends database_plugins_contact{
      */
     private function getBodyMail($debug = false){
         if($debug) {
-            $this->template->display('mail/admin.tpl');
+			$bodyMail = $this->template->fetch('mail/admin.tpl');
+
+			if ($this->config['enable_inliner']) {
+				$this->mail = new magixglobal_model_mail('mail');
+				print $this->mail->plugin_css_inliner($bodyMail,array('/contact/css' => 'foundation-emails.css'));
+			} else {
+				print $bodyMail;
+			}
         } else {
             $this->template->assign('data',$this->setBodyMail());
-            return $this->template->fetch('mail/admin.tpl');
+			$bodyMail = $this->template->fetch('mail/admin.tpl');
+
+			if ($this->config['enable_inliner']) {
+				return $this->mail->plugin_css_inliner($bodyMail,array('/contact/css' => 'foundation-emails.css'));
+			} else {
+				return $bodyMail;
+			}
         }
     }
 
@@ -235,22 +250,23 @@ class plugins_contact_public extends database_plugins_contact{
                 if($this->template->getLanguage()){
                     if(parent::c_show_table() != 0){
                         if(parent::s_contact($this->template->getLanguage()) != null){
-                            //Instance la classe mail avec le paramètre de transport
-                            $core_mail = new magixglobal_model_mail('mail');
-                            //Charge dans un tableau les utilisateurs qui reçoivent les mails
-                            $lotsOfRecipients = parent::s_contact($this->template->getLanguage());
-                            //Initialisation du contenu du message
-                            foreach ($lotsOfRecipients as $recipient){
-                                $message = $core_mail->body_mail(
-                                    self::setTitleMail(),
-                                    array($this->email),
-                                    array($recipient['mail_contact']),
-                                    self::getBodyMail(),
-                                    false
-                                );
-                                $core_mail->batch_send_mail($message);
-                            }
-                            $this->getNotify('success');
+							if (class_exists('magixglobal_model_mail')) {
+								$this->mail = new magixglobal_model_mail('mail');
+								//Charge dans un tableau les utilisateurs qui reçoivent les mails
+								$lotsOfRecipients = parent::s_contact($this->template->getLanguage());
+								//Initialisation du contenu du message
+								foreach ($lotsOfRecipients as $recipient){
+									$message = $this->mail->body_mail(
+										self::setTitleMail(),
+										array($this->email),
+										array($recipient['mail_contact']),
+										self::getBodyMail(),
+										false
+									);
+									$this->mail->batch_send_mail($message);
+								}
+								$this->getNotify('success');
+							}
                         }else{
                             $this->getNotify('error','configured');
                         }

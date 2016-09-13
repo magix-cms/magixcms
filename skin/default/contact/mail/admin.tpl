@@ -1,49 +1,67 @@
 {extends file="contact/mail/layout.tpl"}
 <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
 {block name='body:content'}
-{autoload_i18n}
-<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
-    <tr>
-        <td valign="top">
-            <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
-            <table cellpadding="0" cellspacing="0" border="0" align="center" style="border: 1px solid #959595;">
-                <tr>
-                    <td width="800" style="background: #222;padding: 15px;/*border-bottom: 1px solid #333;*/" valign="top">
-                        <!-- Gmail/Hotmail image display fix -->
-                        <a href="{geturl}" target ="_blank" title="{#website#}" style="text-decoration: none;font-size: 46px;">
-                            <img src="{geturl}/skin/{template}/img/logo/{#logo_img_small#}" alt="{#logo_img_alt#|ucfirst}" height="50" width="269"/>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="800" style="background: #ffffff;padding:15px;" valign="top">
-                        <h3>{#object_mail#|ucfirst}&nbsp;: {$data.title}</h3>
-                        <p>{$data.content|replace:'\n':'<br />'}</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="400" style="background: #ffffff;padding:15px;" valign="top">
-                        <h4>{#mail_from#|ucfirst} {$data.firstname}&nbsp;{$data.lastname}</h4>
-                        <ul style="padding: 0;list-style-type: none">
-                            {if $data.adress != null}
-                                <li style="padding: 5px 0;">{$data.adress|ucfirst}, {$data.postcode} {$data.city}</li>
-                            {/if}
-                            <li style="padding: 5px 0;">{#mail_email#|ucfirst}&nbsp;: {$data.email}</li>
-                            {if $data.phone != null}
-                                <li style="padding: 5px 0;">{#mail_phone#|ucfirst}&nbsp;: {$data.phone}</li>
-                            {/if}
-                        </ul>
-                    </td>
-                </tr>
-            </table>
-            <!-- End example table -->
-            {*
-            <!-- Working with telephone numbers (including sms prompts).  Use the "mobile" class to style appropriately in desktop clients
-            versus mobile clients. -->
-            <span class="mobile_link">123-456-7890</span>
-            *}
-        </td>
-    </tr>
-</table>
+    <!-- move the above styles into your custom stylesheet -->
+    <table align="center" class="container content float-center">
+        <tbody>
+        <tr>
+            <td>
+                <table class="spacer">
+                    <tbody>
+                    <tr>
+                        <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="row">
+                    <tbody>
+                    <tr>
+                        <td class="small-12 large-12 columns first last">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h4>{#object_mail#|ucfirst}&nbsp;: {$data.title}</h4>
+                                        <p>{$data.content|replace:'\n':'<br />'}</p>
+                                    </td>
+                                    <td class="expander"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="small-12 large-12 first last">
+                            <table class="spacer spacer-hr">
+                                <tbody>
+                                <tr>
+                                    <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="small-12 large-6 columns first last">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h5>{#mail_from#|ucfirst} {$data.firstname}&nbsp;{$data.lastname}</h5>
+                                        {if $data.address != null}
+                                            <p>{$data.address|ucfirst}, {$data.postcode} {$data.city}</p>
+                                        {/if}
+                                        {if $data.phone != null}
+                                            <p>{#mail_phone#|ucfirst}&nbsp;: {$data.phone}</p>
+                                        {/if}
+                                        <p>{#mail_email#|ucfirst}&nbsp;: <a href="mailto:{$data.email}">{$data.email}</a></p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 {/block}
 <!-- End of wrapper table -->

@@ -7,7 +7,7 @@
 {block name="slider"}{/block}
 
 {block name='article'}
-    <article id="article">
+    <article id="article" class="col-xs-12">
         {block name='article:content'}
             <h1 itemprop="name">{#contact_root_h1#}</h1>
             <div class="row">
@@ -70,7 +70,7 @@
 
                                         <div class="mc-message"></div>
                                         <input type="hidden" name="moreinfo" value="" />
-                                        <button type="submit" class="btn btn-box btn-flat btn-dark-theme pull-right">{#pn_contact_send#|ucfirst}</button>
+                                        <button type="submit" class="btn btn-box btn-flat btn-main-theme pull-right">{#pn_contact_send#|ucfirst}</button>
                                     </form>
                                 </div>
                             </div>

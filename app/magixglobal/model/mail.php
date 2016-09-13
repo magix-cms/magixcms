@@ -44,6 +44,8 @@
  * @name mail
  *
  */
+use CSSInliner\CSSInliner;
+
 class magixglobal_model_mail{
 	/**
 	 * 
@@ -209,7 +211,34 @@ class magixglobal_model_mail{
 			magixglobal_model_system::magixlog('An error has occured :',$e);
 		}
     }
- 	/**
+
+	/**
+	 * CSS Inliner for responsive mail
+	 * @param $html
+	 * @param null $css
+	 * @param $dir
+	 * @return string
+	 */
+	public function plugin_css_inliner($html, $css = null, $debug = false) {
+		$inliner = new CSSInliner();
+
+		if($css != null) {
+			if(is_array($css)) {
+				foreach ($css as $dir => $c) {
+					if (is_array($c)) {
+						foreach ($c as $d => $file) {
+							$inliner->addCSS('skin/' .frontend_model_template::frontendTheme()->themeSelected(). $d . '/' . $file);
+						}
+					} else {
+						$inliner->addCSS('skin/' .frontend_model_template::frontendTheme()->themeSelected(). $dir . '/' . $c);
+					}
+				}
+			}
+		}
+
+		return $inliner->render($html,$debug);
+	}
+	/**
      * Envoi du message avec la méthode batch send
      * @param void $mailer
      * @param string $message

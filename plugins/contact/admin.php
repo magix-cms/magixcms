@@ -46,6 +46,7 @@
  *
  */
 class plugins_contact_admin extends DBContact{
+	protected $template, $header,$message;
 	/**
 	 * 
 	 * @var idadmin
@@ -59,12 +60,12 @@ class plugins_contact_admin extends DBContact{
 	/**
 	 * Les variables globales
 	 */
-	public $action,$tab,$getlang,$message;
+	public $action,$tab,$getlang;
 
     /**
      * Les variables du plugin contact
      */
-    public $delete_contact,$mail_contact,$switch,$enable_address,$require_address;
+    public $delete_contact,$mail_contact,$switch,$enable_address,$require_address,$enable_inliner;
     /**
 	 * Construct class
 	 */
@@ -72,6 +73,13 @@ class plugins_contact_admin extends DBContact{
         if(class_exists('backend_model_message')){
             $this->message = new backend_model_message();
         }
+        if(class_exists('magixglobal_model_header')){
+            $this->header = new magixglobal_model_header();
+        }
+        if(class_exists('backend_controller_plugins')){
+            $this->template = new backend_controller_plugins();
+        }
+
         if(magixcjquery_filter_request::isPost('mail_contact')){
             $this->mail_contact = magixcjquery_form_helpersforms::inputClean($_POST['mail_contact']);
         }
@@ -97,6 +105,9 @@ class plugins_contact_admin extends DBContact{
             if(magixcjquery_filter_request::isPost('require_address')){
                 $this->require_address = magixcjquery_form_helpersforms::inputClean($_GET['require_address']);
             }
+			if(magixcjquery_filter_request::isPost('enable_inliner')){
+				$this->enable_inliner = magixcjquery_form_helpersforms::inputClean($_GET['enable_inliner']);
+			}
         }
 	}
 
@@ -104,14 +115,11 @@ class plugins_contact_admin extends DBContact{
 	 * @access private
 	 * Installation des tables mysql du plugin
 	 */
-	private function install_table($create){
+	private function install_table(){
 		if(parent::c_show_table() == 0){
-			$create->db_install_table('db.sql', 'request/install.tpl');
-		}else{
-			//$magixfire = new magixcjquery_debug_magixfire();
-			//$magixfire->magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
-			return true;
+			$this->template->db_install_table('db.sql', 'request/install.tpl');
 		}
+		return true;
 	}
 
     /**
@@ -172,24 +180,18 @@ class plugins_contact_admin extends DBContact{
 	 */
 	public function run()
     {
-        $header = new magixglobal_model_header();
-        $create = new backend_controller_plugins();
-        if (self::install_table($create) == true) {
+
+        if (self::install_table() == true) {
             if (magixcjquery_filter_request::isGet('getlang')) {
                 if (isset($this->action)) {
                     if ($this->action == 'json') {
-                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                        $header->head_last_modified(gmdate("D, d M Y H:i:s") . "GMT");
-                        $header->pragma();
-                        $header->cache_control("nocache");
-                        $header->getStatus('200');
-                        $header->json_header("UTF-8");
+						$this->header->set_json_headers();
                         $this->jsonList();
                     } elseif ($this->action == 'config') {
-                        $create->assign('config',parent::getContactConfig());
-                        $create->display('config.tpl');
+                        $this->template->assign('config',parent::getContactConfig());
+                        $this->template->display('config.tpl');
                     } elseif ($this->action == 'list') {
-                        $create->display('list.tpl');
+                        $this->template->display('list.tpl');
                     } elseif ($this->action == 'add') {
                         $this->add();
                     } elseif ($this->action == 'remove') {
@@ -198,29 +200,27 @@ class plugins_contact_admin extends DBContact{
                         }
                     }
                 } elseif (isset($this->tab)) {
-                    $create->display('about.tpl');
+                    $this->template->display('about.tpl');
                 }
             } else {
                 if (magixcjquery_filter_request::isGet('json_graph')) {
-                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                    $header->head_last_modified(gmdate("D, d M Y H:i:s") . "GMT");
-                    $header->pragma();
-                    $header->cache_control("nocache");
-                    $header->getStatus('200');
-                    $header->json_header("UTF-8");
+					$this->header->set_json_headers();
                     $this->json_graph();
                 } elseif (isset($this->action)) {
                     if ($this->action == 'switch' && isset($this->switch)) {
                         if($this->switch == 'enable') {
-                            parent::u_config('enable', array(':enable' => (isset($this->enable_address)?1:0)));
+                            parent::u_config('address_enabled', array(':address_enabled' => (isset($this->enable_address)?1:0)));
                         }
                         if($this->switch == 'require') {
-                            parent::u_config('require', array(':require' => (isset($this->require_address)?1:0)));
+                            parent::u_config('address_required', array(':address_required' => (isset($this->require_address)?1:0)));
+                        }
+                        if($this->switch == 'inliner') {
+                            parent::u_config('enable_inliner', array(':enable_inliner' => (isset($this->enable_inliner)?1:0)));
                         }
                         $this->message->getNotify('add');
                     }
                 } else {
-                    $create->display('index.tpl');
+                    $this->template->display('index.tpl');
                 }
             }
         }
@@ -372,7 +372,7 @@ class DBContact{
      */
     public function u_config($type,$data)
     {
-        $sql = "UPDATE `mc_plugins_contact_config` SET `address_".$type."d` = :".$type." WHERE `idcontact_config` = 1";
+        $sql = "UPDATE `mc_plugins_contact_config` SET `".$type."` = :".$type." WHERE `idcontact_config` = 1";
         magixglobal_model_db::layerDB()->update($sql,$data);
     }
 }

@@ -295,6 +295,7 @@ var MC_plugins_contact = (function ($, undefined) {
         runConfig:function (baseadmin) {
             save('#enable_address_form',baseadmin);
             save('#require_address_form',baseadmin);
+            save('#enable_inliner_form',baseadmin);
 
             $(function(){
                 $('#enable_address').change(function(){
@@ -302,6 +303,9 @@ var MC_plugins_contact = (function ($, undefined) {
                 });
                 $('#require_address').change(function(){
                     $('#require_address_form').submit();
+                });
+                $('#enable_inliner').change(function(){
+                    $('#enable_inliner_form').submit();
                 });
             });
         },

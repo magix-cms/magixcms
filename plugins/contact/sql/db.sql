@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `mc_plugins_contact_config` (
   `idcontact_config` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
   `address_enabled` smallint(3) unsigned NOT NULL,
   `address_required` smallint(3) unsigned NOT NULL,
+  `enbale_inliner` smallint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`idcontact_config`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
