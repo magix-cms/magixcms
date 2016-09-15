@@ -7,7 +7,7 @@
     {literal}
         <style>
             .header {
-                background: #2a1c30;
+                background: #f2f2f2;
             }
 
             .header .columns {
@@ -25,7 +25,7 @@
             }
 
             .header .container {
-                background: #2a1c30;
+                background: #f2f2f2;
             }
 
             .header .container td {
