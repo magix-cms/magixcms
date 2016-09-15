@@ -173,10 +173,28 @@ var MC_config = (function ($, undefined) {
     }
 
     /**
-     * Mise à jour des CSS frontend à intégré dans tinyMCE
+     * Update css inliner config
+     * @param baseadmin
      */
-    function updateCSSInliner(baseadmin){
-        $('#forms_config_cssinliner').on('submit',function(){
+    function updateCSSInlinerConfig(baseadmin){
+        $('#forms_cssinliner_config').on('submit',function(){
+            $.nicenotify({
+                ntype: "submit",
+                uri: '/'+baseadmin+'/config.php?section=cssinliner&action=config',
+                typesend: 'post',
+                idforms: $(this),
+                resetform:false,
+                successParams:function(data){
+                    $.nicenotify.initbox(data,{
+                        display:true
+                    });
+                }
+            });
+            return false;
+        });
+    }
+    function updateCSSInlinerColor(baseadmin){
+        $('#forms_cssinliner_color').on('submit',function(){
             $.nicenotify({
                 ntype: "submit",
                 uri: '/'+baseadmin+'/config.php?section=cssinliner&action=edit',
@@ -214,7 +232,9 @@ var MC_config = (function ($, undefined) {
             });
         },
         runCSSInliner:function(baseadmin){
-            updateCSSInliner(baseadmin);
+            updateCSSInlinerConfig(baseadmin);
+            updateCSSInlinerColor(baseadmin);
+            $('.csspicker').colorpicker();
         }
     };
 })(jQuery);

@@ -66,4 +66,13 @@ class frontend_db_setting{
     	$sql = 'SELECT setting_value FROM mc_setting WHERE setting_id = :setting_id';
 		return magixglobal_model_db::layerDB()->selectOne($sql,array(':setting_id'	=>	$setting_id));
     }
+
+    /**
+     * @return array
+     */
+    public function fetchCSSIColor(){
+        $sql = 'SELECT color.*
+    	FROM mc_css_inliner_color as color';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
 }

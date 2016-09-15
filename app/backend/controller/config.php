@@ -79,6 +79,7 @@ class backend_controller_config extends backend_db_config{
 	public $metasrewrite,$plugins;
     public $action,$section,$tab;
     public $id_size_img,$config_size_attr,$width,$height,$img_resizing;
+    public $property,$color;
 	/**
 	 * function construct
 	 */
@@ -130,6 +131,15 @@ class backend_controller_config extends backend_db_config{
         }
         if(magixcjquery_filter_request::isPost('css_inliner')){
             $this->css_inliner = 1;
+        }
+        if(magixcjquery_filter_request::isPost('property')){
+            $this->property = ($_POST['property']);
+        }
+        if(magixcjquery_filter_request::isPost('color')){
+            $this->color = ($_POST['color']);
+        }
+        if(magixcjquery_filter_request::isPost('cache')){
+            $this->cache = magixcjquery_form_helpersforms::inputClean($_POST['cache']);
         }
 
         //image resizing
@@ -386,9 +396,8 @@ class backend_controller_config extends backend_db_config{
     }
     /**
      * Mise à jour de css inliner
-     * @param $create
      */
-    private function SaveCssinliner($create){
+    private function SaveCssinliner(){
         if(!isset($this->css_inliner)){
             $css_inliner = '0';
         }else{
@@ -396,6 +405,20 @@ class backend_controller_config extends backend_db_config{
         }
         parent::u_setting_value('css_inliner',$css_inliner);
         $this->message->getNotify('update');
+    }
+
+    /**
+     * Mise à jour des propriétés de couleurs de css inliner
+     */
+    private function saveCssinlinerColor(){
+        $property = array('header_bg','header_color','footer_bg','footer_c');
+        $merge = array_combine($property,$this->color);
+        if(isset($this->color)){
+            foreach($merge as $key => $value){
+                parent::updateCSSIColor($key,$value);
+            }
+            $this->message->getNotify('update');
+        }
     }
 	/**
 	 * @access public
@@ -453,10 +476,13 @@ class backend_controller_config extends backend_db_config{
                 }
             }elseif($this->section == 'cssinliner'){
                 if(isset($this->action)) {
-                    if ($this->action == 'edit') {
-                        $this->SaveCssinliner($create);
+                    if ($this->action == 'config') {
+                        $this->SaveCssinliner();
+                    }elseif($this->action == 'edit'){
+                        $this->saveCssinlinerColor();
                     }
                 }else{
+                    $create->assign('getDataCSSIColor',parent::fetchCSSIColor());
                     $create->display('config/css_inliner.tpl');
                 }
             }

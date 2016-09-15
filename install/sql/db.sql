@@ -300,6 +300,19 @@ INSERT INTO `mc_setting` VALUES
 (NULL, 'robots', 'noindex,nofollow', 'string', 'metas robots'),
 (NULL, 'css_inliner', '1', 'string', 'CSS inliner');
 
+CREATE TABLE IF NOT EXISTS `mc_css_inliner_color` (
+  `id_cssi` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `property_cssi` varchar(125) NOT NULL,
+  `color_cssi` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_cssi`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_css_inliner_color` (`id_cssi`, `property_cssi`, `color_cssi`) VALUES
+(NULL, 'header_bg', '#f2f2f2'),
+(NULL, 'header_c', '#ffffff'),
+(NULL, 'footer_bg', '#333333'),
+(NULL, 'footer_c', '#ffffff');
+
 CREATE TABLE IF NOT EXISTS `mc_webservice` (
   `idwskey` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `ws_key` varchar(125) DEFAULT NULL,

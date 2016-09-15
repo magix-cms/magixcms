@@ -242,4 +242,28 @@ class backend_db_config{
                 ':id_size_img' =>	$id_size_img
             ));
     }
+    // CSS INLINER
+    /**
+     * @return array
+     */
+    protected function fetchCSSIColor(){
+        $sql = 'SELECT color.*
+    	FROM mc_css_inliner_color as color';
+        return magixglobal_model_db::layerDB()->select($sql);
+    }
+    /**
+     * Modification des couleurs de css inliner
+     * @param $property
+     * @param $color
+     */
+    protected function updateCSSIColor($property,$color){
+        $sql = 'UPDATE mc_css_inliner_color SET color_cssi = :color
+    	WHERE property_cssi = :property';
+        magixglobal_model_db::layerDB()->update($sql,
+            array(
+                ':property'	=>	$property,
+                ':color'    =>	$color
+            )
+        );
+    }
 }

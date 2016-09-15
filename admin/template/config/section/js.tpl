@@ -1,4 +1,4 @@
-{script src="/{baseadmin}/min/?f={baseadmin}/template/js/mc_config.js" concat={$concat} type="javascript"}
+{script src="/{baseadmin}/min/?f={baseadmin}/template/js/vendor/bootstrap-colorpicker.min.js,{baseadmin}/template/js/mc_config.js" concat={$concat} type="javascript"}
 <script type="text/javascript">
 $(function(){
     if (typeof MC_config == "undefined")
@@ -11,7 +11,7 @@ $(function(){
         {elseif $smarty.get.section eq 'imagesize'}
             MC_config.runImages(baseadmin);
         {elseif $smarty.get.section eq 'cssinliner'}
-        MC_config.runCSSInliner(baseadmin);
+            MC_config.runCSSInliner(baseadmin);
         {/if}
         {else}
             MC_config.runConfig(baseadmin);
