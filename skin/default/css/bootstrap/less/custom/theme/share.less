@@ -21,27 +21,28 @@
 				display: block;
 				overflow: hidden;
 				.square(28px);
+				font-size: 22px;
+				color: #fff;
+				text-align: center;
+				padding: 3px;
+
+				&.fa:before {
+					vertical-align: middle;
+				}
+				&.fa-google-plus:before {
+					font-size: 18px;
+					margin-top: 3px;
+					display: block;
+				}
+			}
+			&:hover {
+				text-decoration: none;
 			}
 		}
 	}
 
 	// --- set the background of the social share buttons
 	.share-buttons(flat,dark);
-
-	.share {
-		&-google img {
-			margin-top: -28px;
-		}
-		&-facebook img {
-			margin-top: -56px;
-		}
-		&-viadeo img {
-			margin-top: -84px;
-		}
-		&-linkedin img {
-			margin-top: -112px;
-		}
-	}
 }
 
 // --- Share align to breadcrumb

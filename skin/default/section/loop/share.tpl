@@ -4,9 +4,7 @@
             <a class="targetblank" href="{$item.url}" title="{#share_on#|ucfirst} {$item.name|ucfirst}">
                 <div>
                     <p>
-                        <span>
-                            <img src="/skin/{template}/img/share/socials.png" alt="{$item.name|ucfirst}" width="28" height="140"/>
-                        </span>
+                        <span class="fa fa-{$item.name}{if $item.name == 'google'}-plus{/if}"></span>
                         <span class="sr-only">{$item.name|ucfirst}</span>
                     </p>
                 </div>
