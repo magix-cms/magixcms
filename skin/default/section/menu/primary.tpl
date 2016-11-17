@@ -73,8 +73,8 @@
 {/if}
 
 {* --- Enable Catalog links --- *}
-{if !isset($catelog)}
-    {$catelog = true}
+{if !isset($catalog)}
+    {$catalog = true}
 {/if}
 
 {* --- Disable submenu links --- *}
@@ -233,7 +233,7 @@
             {/foreach}
             {$item['subdata'] = $subdata}
         {/if}
-        {$menu['catalog'] = $item}
+        {$menu[] = $item}
     {/foreach}
 {elseif $root.catalog}
     {if $smarty.server.SCRIPT_NAME == '/catalog.php'}
@@ -253,7 +253,7 @@
         {widget_catalog_data
             conf = [
                 'context' => {$getCat},
-                'sort' => ['sort_type' => 'id','sort_order' => 'ASC']
+                'sort' => ['id'=>'DESC']
                 ]
             assign="categoryList"
         }
@@ -297,7 +297,7 @@
         {/if}
     {/if}
 
-    {$menu['catalog'] = $item}
+    {$menu[] = $item}
 {/if}
 
 
