@@ -386,7 +386,7 @@ class backend_controller_news extends backend_db_news{
 				 * Initialisation de la classe phpthumb 
 				 * @var void
 				 */
-				$thumb = PhpThumbFactory::create(self::dir_img_news().$nimage);
+				$thumb = PhpThumbFactory::create(self::dir_img_news().$nimage,array('jpegQuality'=>70));
 				$imageuri = $rimage.$fileextends;
 				$imgsetting = new backend_model_setting();
 				$imgsizesmall = $initImg->dataImgSize('news','news','small');

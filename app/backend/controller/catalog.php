@@ -546,7 +546,7 @@ class backend_controller_catalog extends backend_db_catalog{
                          * @var void
                          */
                         try{
-                            $thumb = PhpThumbFactory::create(self::dirImgCategory().$pathclibelle.$fileextends);
+                            $thumb = PhpThumbFactory::create(self::dirImgCategory().$pathclibelle.$fileextends,array('jpegQuality'=>70));
                         }catch (Exception $e)
                         {
                             magixglobal_model_system::magixlog('An error has occured :',$e);
@@ -867,7 +867,7 @@ class backend_controller_catalog extends backend_db_catalog{
                          * Initialisation de la classe phpthumb
                          * @var void
                          */
-                        $thumb = PhpThumbFactory::create(self::dirImgSubCategory().$pathslibelle.$fileextends);
+                        $thumb = PhpThumbFactory::create(self::dirImgSubCategory().$pathslibelle.$fileextends,array('jpegQuality'=>70));
                         /**
                          *
                          * Charge la taille des images des sous catégories du catalogue
@@ -1336,7 +1336,7 @@ class backend_controller_catalog extends backend_db_catalog{
                          * Initialisation de la classe phpthumb
                          * @var void
                          */
-                        $thumb = PhpThumbFactory::create(self::dirImgProduct().$urlimg.$fileextends);
+                        $thumb = PhpThumbFactory::create(self::dirImgProduct().$urlimg.$fileextends,array('jpegQuality'=>70));
                         $firebug = new magixcjquery_debug_magixfire();
                         /**
                          * Création des images et miniatures utile.
@@ -1645,7 +1645,7 @@ class backend_controller_catalog extends backend_db_catalog{
                      * Initialisation de la classe phpthumb
                      * @var void
                      */
-                    $thumb = PhpThumbFactory::create(self::dirImgProductGalery().$imgcatalog.$fileextends);
+                    $thumb = PhpThumbFactory::create(self::dirImgProductGalery().$imgcatalog.$fileextends,array('jpegQuality'=>70));
                     //Charge la taille des images des galeries du catalogue
                     $firebug = new magixcjquery_debug_magixfire();
                     /**
