@@ -18,9 +18,9 @@
         {/block}
     </article>
     <div class="col-sm-3 pull-left">
-        <figure>
-            <img class="img-responsive" src="{geturl}/skin/{template}/img/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
-        </figure>
+        {*<figure>
+            <img class="img-responsive" src="{geturl}/skin/{template}/img/logo/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
+        </figure>*}
         <a{if isset($smarty.get.pnum1)} itemprop="relatedLink"{else} class="active"{/if} href="{geturl}/{getlang}/about/" title="{#show_page#}: {$about.title}">{$about.title}</a>
         {if isset($about.childs) && $about.childs != null && !empty($about.childs)}
         <nav class="child-nav">
