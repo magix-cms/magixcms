@@ -6,7 +6,7 @@
         <input type="file" id="n_image" name="n_image" value="" />
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </div>
 </form>
 <div id="load_news_img">
@@ -75,7 +75,7 @@
         </div>
     </div>
     <p class="btn-row">
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </p>
 </form>
 {/if}

@@ -60,6 +60,6 @@
         </div>
     </div>
     <p>
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </p>
 </form>

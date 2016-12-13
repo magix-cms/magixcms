@@ -13,7 +13,7 @@
         <input type="radio" name="concat" id="concat_1" value="1"{if $concat eq 1} checked="checked"{/if} />
         {#activate#}
     </label>
-    <input type="submit" class="btn btn-primary" value="Envoyer" />
+    <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
 </form>
 <h3>{#type_cache#}</h3>
 <div class="mc-info clearfix">
@@ -31,6 +31,6 @@
         {$select_concat}
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </div>
 </form>

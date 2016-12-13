@@ -16,7 +16,7 @@
             </div>
 
             <div>
-                <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+                <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
             </div>
         </form>
     </div>
@@ -27,7 +27,7 @@
                 {$role_select}
             </div>
             <div>
-                <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+                <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
             </div>
         </form>
         <h3>{#change_password#}</h3>
@@ -39,7 +39,7 @@
                 <input type="password" placeholder="{#confirm_password#|ucfirst}" class="form-control" id="passwd_confirm" name="passwd_confirm" value="" size="50" />
             </div>
             <div>
-                <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+                <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
             </div>
         </form>
         {if {role_admin items='administrator'}}

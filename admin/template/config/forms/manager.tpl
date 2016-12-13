@@ -9,7 +9,7 @@
         {$select_manager}
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </div>
 </form>
 <h2>{#content_css_editor#}</h2>
@@ -25,6 +25,6 @@
         </p>
     </div>
     <p>
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </p>
 </form>

@@ -24,7 +24,7 @@
                         {$select_lang}
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-primary btn-sm" value="{#send#|ucfirst}" />
+                        <input type="submit" class="btn btn-primary btn-sm" value="{#save#|ucfirst}" />
                     </div>
                 </form>
             </div>
@@ -42,7 +42,7 @@
                         {$select_lang}
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-primary btn-sm" value="{#send#|ucfirst}" />
+                        <input type="submit" class="btn btn-primary btn-sm" value="{#save#|ucfirst}" />
                     </div>
                 </form>
             </div>

@@ -5,7 +5,7 @@
             <input type="file" id="imgcatalog" name="imgcatalog" value="" />
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+            <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
         </div>
     </form>
     <div id="load_catalog_product_img">
@@ -26,7 +26,7 @@
         </select>
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </div>
 </form>
 <div id="list_product_category"></div>
@@ -51,7 +51,7 @@
             <input type="file" id="imgcatalog" name="imgcatalog" value="" />
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+            <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
         </div>
     </form>
     <div id="load_catalog_product_galery"></div>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <p class="btn-row">
-            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+            <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
         </p>
     </form>
 {/if}

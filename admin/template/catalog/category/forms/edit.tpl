@@ -6,7 +6,7 @@
             <input type="file" id="img_c" name="img_c" value="" />
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+            <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
         </div>
     </form>
     <div id="load_catalog_category_img">
@@ -67,7 +67,7 @@
             </div>
         </div>
         <p class="btn-row">
-            <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+            <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
         </p>
     </form>
 {/if}

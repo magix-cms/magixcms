@@ -68,33 +68,26 @@
     {include file="section/nav/btt.tpl" affix=300}
 
     {block name="foot"}
-    {*  Magix Js
-        ********}
-        {script src="/min/?g=publicjs,jimagine" concat=$concat type="javascript"}
-    {*  Vendor Js
-        ********}
-        {capture name="scriptVendor"}{strip}
-            /min/?f=
-            skin/{template}/js/vendor/bootstrap-cookie-consent.min.js,
-            skin/{template}/js/vendor/bootstrap.min.js,
-            skin/{template}/js/vendor/jquery.fancybox.min.js,
-            skin/{template}/js/vendor/smooth-gallery.min.js
-        {/strip}{/capture}
-        {script src=$smarty.capture.scriptVendor concat=$concat type="javascript"}
-    {*  Skin js
-        *******}
-        {capture name="scriptSkin"}{strip}
-            /min/?f=
-            skin/{template}/js/form.min.js,
-            skin/{template}/js/global.min.js
-        {/strip}{/capture}
-        {script src=$smarty.capture.scriptSkin concat=$concat type="javascript"}
+        {strip}
+            {script src="/min/?g=jquery" concat=$concat type="javascript"}
+            {capture name="cookie"}{strip}
+                /min/?f=skin/{template}/js/vendor/bootstrap-cookie-consent.min.js
+            {/strip}{/capture}
+            {script src=$smarty.capture.cookie concat=$concat type="javascript"}
+            {capture name="bootstrap"}{strip}
+                /min/?f=skin/{template}/js/vendor/bootstrap.min.js
+            {/strip}{/capture}
+            {script src=$smarty.capture.bootstrap concat=$concat type="javascript"}
+            {capture name="scriptSkin"}{strip}
+                /min/?f=skin/{template}/js/global.min.js
+            {/strip}{/capture}
+            {script src=$smarty.capture.scriptSkin concat=$concat type="javascript" load='async'}
+        {/strip}
     {/block}
     {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300,500','Philosopher'=>'0']}{/block}
     {block name="styleSheet"}
         {capture name="styleSheet"}{strip}
-            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css,
-            skin/{template}/css/fancybox/jquery.fancybox.min.css
+            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css
         {/strip}{/capture}
         {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
     {/block}

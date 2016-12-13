@@ -33,3 +33,17 @@
         {/if}
     </div>
 {/block}
+{block name="foot" append}
+    {capture name="scriptVendor"}{strip}
+        /min/?f=
+        skin/{template}/js/vendor/jquery.fancybox.min.js,
+        skin/{template}/js/fancybox.init.min.js
+    {/strip}{/capture}
+    {script src=$smarty.capture.scriptVendor concat=$concat type="javascript"}
+{/block}
+{block name="styleSheet" append}
+    {capture name="styleSheet"}{strip}
+        /min/?f=skin/{template}/css/fancybox/jquery.fancybox.min.css
+    {/strip}{/capture}
+    {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
+{/block}

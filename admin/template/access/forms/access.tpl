@@ -28,6 +28,6 @@
         <input type="checkbox" name="delete_access" id="delete_access" class="checkbox-access" value="1" /> {#remove#}
     </label>
     <div class="input-btn">
-        <input type="submit" class="btn btn-primary" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </div>
 </form>

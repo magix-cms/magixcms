@@ -12,20 +12,15 @@
  **/
 
 return array(
-    'publicjs' => array(
-        '//libjs/jquery-1.12.0.min.js',
-        '//libjs/jquery-ui.1.10.4.min.js',
+    'jquery' => array(
+        '//libjs/jquery-1.12.0.min.js'
+    ),
+    'form' => array(
         '//libjs/vendor/jquery.form.3.51.min.js',
         '//libjs/vendor/jquery.validate.1.13.0.min.js',
-        '//libjs/vendor/redirect.js'
+        '//libjs/jimagine/plugins/jquery.nicenotify.js'
     ),
-	'jimagine' => array(
-        '//libjs/jimagine/config.js',
-        '//libjs/jimagine/jmConstant.js',
-	    '//libjs/jimagine/plugins/jquery.nicenotify.js',
-        '//libjs/jimagine/plugins/jquery.jmShowIt.js'
-    ),
-	'globalize'=> array(
+    'globalize'=> array(
         '//libjs/globalize/globalize.js',
         '//libjs/globalize/cultures/globalize.cultures.js'
     ),

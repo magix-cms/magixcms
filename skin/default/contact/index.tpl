@@ -86,6 +86,11 @@
 {/block}
 
 {block name="foot" append}
+    {script src="/min/?g=form" concat=$concat type="javascript"}
+    {capture name="formjs"}{strip}
+        /min/?f=skin/{template}/js/form.min.js
+    {/strip}{/capture}
+    {script src=$smarty.capture.formjs concat=$concat type="javascript" load='async'}
     {if {getlang} eq "en"}
         {script src="/min/?f=plugins/contact/js/public.js" concat=$concat type="javascript"}
     {else}

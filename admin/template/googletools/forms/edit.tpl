@@ -11,7 +11,7 @@
         <input type="text" class="form-control" id="analytics" name="analytics" size="30" value="{$analytics}" />
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary btn-sm" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary btn-sm" value="{#save#|ucfirst}" />
     </div>
 </form>
 <div class="mc-info clearfix">
@@ -27,7 +27,7 @@
         <input type="text" class="form-control" id="webmaster" name="webmaster" size="30" value="{$webmaster}" />
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary btn-sm" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary btn-sm" value="{#save#|ucfirst}" />
     </div>
 </form>
 <div class="mc-info clearfix">
@@ -43,7 +43,7 @@
         <input type="text" class="form-control" id="googleplus" name="googleplus" size="30" value="{$googleplus}" />
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary btn-sm" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary btn-sm" value="{#save#|ucfirst}" />
     </div>
 </form>
 <form id="forms_robots_edit" class="forms-googletools form-inline" method="post" action="">
@@ -54,6 +54,6 @@
         {$select_robots}
         </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary btn-sm" value="{#send#|ucfirst}" />
+        <input type="submit" class="btn btn-primary btn-sm" value="{#save#|ucfirst}" />
     </div>
 </form>
