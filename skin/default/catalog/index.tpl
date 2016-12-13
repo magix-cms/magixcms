@@ -10,9 +10,10 @@
             <h1 itemprop="name">{#catalog_root_h1#|ucfirst}</h1>
             {widget_catalog_data
             conf =[
-            'context' =>  'category'
+                'context' =>  'category',
+                'sort' => ['order'=>'DESC']
             ]
-            assign='categoryData'
+                assign='categoryData'
             }
             <div class="product-list row">
                 <div class="center-gallery">

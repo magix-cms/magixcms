@@ -253,7 +253,7 @@
         {widget_catalog_data
             conf = [
                 'context' => {$getCat},
-                'sort' => ['id'=>'DESC']
+                'sort' => ['order'=>'DESC']
                 ]
             assign="categoryList"
         }

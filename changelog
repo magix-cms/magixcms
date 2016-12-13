@@ -1,4 +1,32 @@
 #### 2.7.0
+Stable
+* Fix order in loop data
+* Fix translate var in product infos
+* Add require config in contact plugin
+    * Add testmail in contact plugin
+    * Fix global var
+* Fix update column name country order
+* Add css inliner API
+    * Update contact plugin 2.6.0 => 2.7.0
+    * Add css inliner (contact plugin)
+    * Add translate var for css inliner (backend)
+    * Add css inliner in global setting
+    * Add css inliner management color (backend)
+* Fix bug with share (frontend)
+* Update Jimagine
+* Fix bug case sensitive for tpl addPage.tpl => addpage.tpl (about plugin)
+* Fix bug primary catalog loop
+* Update idMainCat for product and category display
+    * Fix category loop in home
+* hide image in about tpl
+* Fix idMainCat (en , nl)
+* Fix phpThumbFactory quality jpg
+* Fix global performance (frontend)
+* Change button name send => save (backend)
+* Update tinymce 4.3.2 => 4.5.1
+    * Update responsivle filemanager
+    * Update tinymce config files
+
 Beta
 * Add new configuration plugin contact
 * Add debug mode (WS)
