@@ -255,6 +255,10 @@ AddDefaultCharset utf-8
     DirectoryIndex index.php
 #RewriteCond %{HTTP_HOST} ^localhost
 <IfModule mod_rewrite.c>
+<IfModule mod_ssl.c>
+    #RewriteCond %{HTTP_HOST} !^www\.
+    #RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
     RewriteCond %{HTTP_HOST} !^www\.
     RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
 </IfModule>
