@@ -20,11 +20,11 @@
         plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen colorpicker textpattern wordcount directionality',
-            'insertdatetime media table contextmenu paste textcolor template youtube prism imagetools fontawesome mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
+            'insertdatetime media table contextmenu paste textcolor template youtube imagetools codesample fontawesome mc_pages mc_news'+catalog_tinymce_plugin+manager_tinymce_plugin
         ],
         toolbar1: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | fontsizeselect | forecolor backcolor',
-        toolbar2: 'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | '+manager_tinymce_button+' image media | link unlink anchor | code | preview',
-        toolbar3: 'table | hr removeformat | fullscreen | visualblocks | loremipsum | inserttime | styleselect | template | youtube | mc_pages mc_news mc_catalog prism fontawesome',
+        toolbar2: 'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | charmap | undo redo | '+manager_tinymce_button+' image media | link unlink anchor | code | preview',
+        toolbar3: 'table | hr removeformat | fullscreen | visualblocks | loremipsum | inserttime | styleselect | template | youtube | mc_pages mc_news mc_catalog fontawesome codesample',
         imagetools_toolbar: "imageoptions",
         menubar: false,
         toolbar_items_size: 'small',
@@ -46,6 +46,16 @@
                 }
             });
         },
+        image_dimensions: false,
+        image_class_list: [
+            {title: 'None', value: ''},
+            {title: 'Image Responsive', value: 'img-responsive'},
+            {title: 'Image float left', value: 'pull-left img-float'},
+            {title: 'Image float right', value: 'pull-right img-float'},
+            {title: 'Image rounded', value: 'img-rounded'},
+            {title: 'Image circle', value: 'img-circle'},
+            {title: 'Image thumbnail', value: 'img-thumbnail'}
+        ],
         formats: {
             strikethrough: {inline: 'del'}
         },
