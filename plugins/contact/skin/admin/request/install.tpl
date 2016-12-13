@@ -10,9 +10,3 @@
         <span class="fa fa-ok"></span> {#request_install_plugin#}
     </p>
 {/block}
-{block name="modal"}
-    <div id="window-dialog"></div>
-{/block}
-{block name='javascript'}
-{include file="js.tpl"}
-{/block}
