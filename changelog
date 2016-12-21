@@ -1,5 +1,6 @@
 #### 2.7.0
 Stable
+* Fix contact plugin for testmail
 * Fix order in loop data
 * Fix translate var in product infos
 * Add require config in contact plugin
@@ -24,7 +25,7 @@ Stable
 * Fix global performance (frontend)
 * Change button name send => save (backend)
 * Update tinymce 4.3.2 => 4.5.1
-    * Update responsivle filemanager
+    * Update responsive filemanager
     * Update tinymce config files
 
 Beta

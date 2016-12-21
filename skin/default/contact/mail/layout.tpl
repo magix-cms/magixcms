@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{$smarty.config.subject_contact}</title>
+    <title>{if isset($smarty.config.subject_contact)}{$smarty.config.subject_contact|replace:'%1$s':$smarty.config.contact_request|replace:'%2$s':$companyData.name}{/if}</title>
     {literal}
         <style>
             .header {

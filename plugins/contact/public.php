@@ -50,7 +50,7 @@ class plugins_contact_public extends database_plugins_contact{
     /**
      * @var frontend_controller_plugins
      */
-    protected $template,$mail,$config,$setting;
+    protected $template,$mail,$config,$setting,$testmail;
     /**
      * bot security variable
      * @var $moreinfo null
@@ -115,6 +115,10 @@ class plugins_contact_public extends database_plugins_contact{
         if(magixcjquery_filter_request::isPost('content')){
             $this->content = magixcjquery_form_helpersforms::inputClean($_POST['content']);
         }
+        // debug
+        if(magixcjquery_filter_request::isGet('testmail')){
+            $this->testmail = magixcjquery_form_helpersforms::inputClean($_GET['testmail']);
+        }
     }
 
     /**
@@ -165,22 +169,38 @@ class plugins_contact_public extends database_plugins_contact{
      * @access private
      * setBodyMail
      */
-    private function setBodyMail() {
-        $data = array(
-            'lastname'    =>  $this->lastname,
-            'firstname'   =>  $this->firstname,
-            'email'       =>  $this->email,
-            'phone'       =>  $this->phone,
-            'title'       =>  $this->title,
-            'content'     =>  $this->content
-        );
+    private function setBodyMail($debug) {
+        if($debug) {
+            $data = array(
+                'lastname' => "My Name",
+                'firstname' => "My Firstname",
+                'email' => $this->testmail,
+                'phone' => "+32 08080808",
+                'title' => "Test Mail",
+                'content' => "My test mail"
+            );
 
-        if($this->config['address_enabled']) {
-            $data['address']   = $this->address;
-            $data['postcode'] = $this->postcode;
-            $data['city']     = $this->city;
+            if ($this->config['address_enabled']) {
+                $data['address'] = "My street";
+                $data['postcode'] = "my postcode";
+                $data['city'] = "my city";
+            }
+        }else{
+            $data = array(
+                'lastname' => $this->lastname,
+                'firstname' => $this->firstname,
+                'email' => $this->email,
+                'phone' => $this->phone,
+                'title' => $this->title,
+                'content' => $this->content
+            );
+
+            if ($this->config['address_enabled']) {
+                $data['address'] = $this->address;
+                $data['postcode'] = $this->postcode;
+                $data['city'] = $this->city;
+            }
         }
-
         return $data;
     }
 
@@ -198,11 +218,13 @@ class plugins_contact_public extends database_plugins_contact{
 
     /**
      * @access private
+     * @debug
      * @return string
      */
     private function getBodyMail($debug = false){
         $fetchColor = new frontend_db_setting();
         $this->template->assign('getDataCSSIColor',$fetchColor->fetchCSSIColor());
+        $this->template->assign('data',$this->setBodyMail($debug));
         if($debug) {
 
 			$bodyMail = $this->template->fetch('mail/admin.tpl');
@@ -214,7 +236,7 @@ class plugins_contact_public extends database_plugins_contact{
 				print $bodyMail;
 			}
         } else {
-            $this->template->assign('data',$this->setBodyMail());
+
 			$bodyMail = $this->template->fetch('mail/admin.tpl');
 
 			if ($this->setting['setting_value']) {
@@ -290,8 +312,8 @@ class plugins_contact_public extends database_plugins_contact{
 
         if(isset($this->email)) {
             $this->send_email();
-        } elseif(isset($_GET['testmail'])) {
-            self::getBodyMail(true);
+        } elseif(isset($this->testmail)) {
+            self::getBodyMail($this->testmail);
         } else {
 
             $this->template->assign('address_enabled',$this->config['address_enabled']);
@@ -304,7 +326,8 @@ class database_plugins_contact{
     /**
      * Vérifie si les tables du plugin sont installé
      * @access protected
-     * return integer
+     * @param $table string
+     * @return intéger
      */
     protected function c_show_table($table = 'mc_plugins_contact')
     {

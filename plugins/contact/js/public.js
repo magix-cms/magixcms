@@ -82,7 +82,19 @@ var MC_plugins_contact = (function ($, undefined) {
                     typesend: 'post',
                     idforms: $(form),
                     resetform:true,
+                    beforeParams:function(){
+                        $('#btn-contact').hide();
+                        var loader = $(document.createElement("div")).addClass("loader")
+                            .append(
+                                $(document.createElement("i")).addClass("fa fa-spinner fa-pulse fa-2x"),
+                                $(document.createElement("span")).append("Loading...").addClass("sr-only")
+                            );
+                        $('.mc-message').before(loader);
+                    },
                     successParams:function(data){
+                        $('.loader').remove();
+                        $('#btn-contact').show();
+                        window.setTimeout(function() { $(".mc-message .alert-success").alert('close'); }, 4000);
                         $.nicenotify.initbox(data,{
                             display:true
                         });
