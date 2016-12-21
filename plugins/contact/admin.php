@@ -115,8 +115,9 @@ class plugins_contact_admin extends DBContact{
 	private function install_table(){
 		if(parent::c_show_table() == 0){
 			$this->template->db_install_table('db.sql', 'request/install.tpl');
-		}
-		return true;
+		}else {
+            return true;
+        }
 	}
 
     /**
@@ -178,7 +179,7 @@ class plugins_contact_admin extends DBContact{
 	public function run()
     {
 
-        if (self::install_table() == true) {
+        if ($this->install_table() == true) {
             if (magixcjquery_filter_request::isGet('getlang')) {
                 if (isset($this->action)) {
                     if ($this->action == 'json') {
