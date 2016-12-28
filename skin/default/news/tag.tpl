@@ -4,7 +4,7 @@
 {block name='body:id'}news-tag{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/CreativeWorkSeries">
+    <article class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/CreativeWorkSeries">
         {block name='article:content'}
             <h1>{#news_root_h1#|ucfirst} <small>- <span itemprop="about">{$tag.name|ucfirst}</span></small></h1>
             {widget_news_data

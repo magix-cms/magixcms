@@ -40,17 +40,28 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 class frontend_model_config extends frontend_db_config{
-    /**
-     * @param $create
-     */
-    public function load_data_setting($create){
+	protected $template;
+
+	/**
+	 * frontend_model_config constructor.
+	 * @param $model
+	 */
+	public function __construct($model)
+	{
+		$this->template = $model;
+	}
+
+	/**
+	 *
+	 */
+    public function load_data_setting(){
         $data = parent::s_data_setting();
         $assign_exclude = array(
             'webmaster','analytics','magix_version'
         );
         foreach($data as $key){
-            if( !(array_search($key['setting_id'],$assign_exclude) ) ){
-                $create->assign($key['setting_id'],$key['setting_value']);
+            if( !(in_array($key['setting_id'],$assign_exclude) ) ){
+				$this->template->assign($key['setting_id'],$key['setting_value']);
             }
         }
     }

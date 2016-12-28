@@ -17,8 +17,17 @@
 /*------------------*\
 ----- Paragraphe -----
 \*------------------*/
-p {
+/*p {
     .normalize-link(@main-color, same, underline, 600);
+}*/
+
+
+/*-------------*\
+----- Liens -----
+\*-------------*/
+.bold-link {
+	color: inherit !important;
+	font-weight: bold !important;
 }
 
 
@@ -104,7 +113,7 @@ blockquote {
 	text-align: center;
 	.list-unstyled;
 	.list-inline;
-	.normalize-link(@main-color);
+	//.normalize-link(@main-color);
 
 	li {
 		border-right: 1px solid #959595;
@@ -126,5 +135,5 @@ blockquote {
 
 // --- justify content
 .text-justify {
-	.text-justify;
+	.text-justify();
 }

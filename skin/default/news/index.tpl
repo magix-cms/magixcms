@@ -5,7 +5,7 @@
 {block name="webType"}CollectionPage{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/Periodical">
+    <article class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/Periodical">
     {block name='article:content'}
         <h1 itemprop="name">{#news_root_h1#|ucfirst}</h1>
         {widget_news_data

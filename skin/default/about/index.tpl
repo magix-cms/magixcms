@@ -5,7 +5,7 @@
 {block name="webType"}{if isset($parent)}WebPage{else}AboutPage{/if}{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12 col-sm-9 pull-right" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
+    <article class="col-xs-12 col-sm-9 pull-right" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
         {block name='article:content'}
             <h1 itemprop="name">{$page.title}</h1>
             <time datetime="{$page.date.register}" itemprop="datePublished"></time>

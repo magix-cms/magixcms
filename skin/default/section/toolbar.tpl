@@ -20,7 +20,7 @@
         </div>
     {if $adjust == 'clip'}
         <div class="container">
-            <div class="row">{/if}
+            {/if}
             {widget_lang_data assign="dataLangNav"}{* Language Nav *}
             {if $dataLangNav != null && count($dataLangNav) > 1}
                 <div id="menu-language" class="pull-left lang-header">
@@ -90,36 +90,35 @@
                         {if $companyData.contact.mobile}
                             <li><span class="fa fa-mobile"></span>{if $companyData.contact.click_to_call}<a href="tel:{$companyData.contact.mobile|replace:'(0)':''|replace:' ':''|replace:'.':''}">{/if}{$companyData.contact.mobile}{if $companyData.contact.click_to_call}</a>{/if}</li>
                         {/if}
-
-                        <div id="contactPoint" itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
-                            {if $companyData.contact.mail}
-                                <meta itemprop="email" content="{$companyData.contact.mail}"/>
-                            {/if}
-                            {if $companyData.contact.phone}
-                                <meta itemprop="telephone" content="{$companyData.contact.phone}"/>
-                            {else}
-                                <meta itemprop="url" content="{geturl}/{getlang}/contact/"/>
-                            {/if}
-                            {if $companyData.contact.fax}
-                                <meta itemprop="faxNumber" content="{$companyData.contact.fax}"/>
-                            {/if}
+                    </ul>
+                    <div id="contactPoint" itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
+                        {if $companyData.contact.mail}
+                            <meta itemprop="email" content="{$companyData.contact.mail}"/>
+                        {/if}
+                        {if $companyData.contact.phone}
+                            <meta itemprop="telephone" content="{$companyData.contact.phone}"/>
+                        {else}
+                            <meta itemprop="url" content="{geturl}/{getlang}/contact/"/>
+                        {/if}
+                        {if $companyData.contact.fax}
+                            <meta itemprop="faxNumber" content="{$companyData.contact.fax}"/>
+                        {/if}
+                        <meta itemprop="contactType" content="customer support"/>
+                        {$av_langs = ','|explode:$companyData.contact.languages}
+                        {foreach $av_langs as $lang}
+                            <meta itemprop="availableLanguage" content="{$lang}"/>
+                        {/foreach}
+                    </div>
+                    {if $companyData.contact.mobile}
+                        <div id="contactPointMobile" itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
+                            <meta itemprop="telephone" content="{$companyData.contact.mobile}"/>
                             <meta itemprop="contactType" content="customer support"/>
                             {$av_langs = ','|explode:$companyData.contact.languages}
                             {foreach $av_langs as $lang}
                                 <meta itemprop="availableLanguage" content="{$lang}"/>
                             {/foreach}
                         </div>
-                        {if $companyData.contact.mobile}
-                            <div id="contactPointMobile" itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
-                                <meta itemprop="telephone" content="{$companyData.contact.mobile}"/>
-                                <meta itemprop="contactType" content="customer support"/>
-                                {$av_langs = ','|explode:$companyData.contact.languages}
-                                {foreach $av_langs as $lang}
-                                    <meta itemprop="availableLanguage" content="{$lang}"/>
-                                {/foreach}
-                            </div>
-                        {/if}
-                    </ul>
+                    {/if}
                 </div>
             </div>
             {if $companyData.contact.phone}
@@ -134,7 +133,6 @@
                     {include file="section/admin/toolbar.tpl"}
                 {/if}
                 {if $adjust == 'clip'}
-            </div>
         </div>
     {/if}
     </section>

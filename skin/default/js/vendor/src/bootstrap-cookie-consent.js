@@ -12,32 +12,8 @@ C = {
     // Value of cookie
     cookieValue: 'on',
 
-    // Message banner title
-    bannerTitle: "Cookies:",
-
-    // Message banner message
-    bannerMessage: "Ce site utilise les cookies pour proposer ses services",
-
-    // Message banner dismiss button
-    bannerButton: "Continuer",
-
-    // Link to your cookie policy.
-    bannerLinkURL: "/fr/pages/2-cookies/",
-
-    // Link text
-    bannerLinkText: "En savoir plus",
-
-    createDiv: function () {
-        var banner = $(
-            '<div id="cookies" class="alert alert-success alert-dismissible fade in" ' +
-            'role="alert"><p class="pull-left"><span class="fa fa-info-circle"></span><strong>' + this.bannerTitle + '</strong> ' +
-            this.bannerMessage + ' <a href="' + this.bannerLinkURL + '">' +
-            this.bannerLinkText + '</a></p><button type="button" class="btn ' +
-            'btn-success pull-right" onclick="C.createCookie(C.cookieName, C.cookieValue' +
-            ', C.cookieDuration)" data-dismiss="alert" aria-label="Close">' +
-            this.bannerButton + '</button></div>'
-        );
-        $("body").prepend(banner);
+	showDiv: function () {
+        $("#cookies").removeClass('hide');
     },
 
     createCookie: function(name, value, days) {
@@ -66,7 +42,7 @@ C = {
 
     init: function() {
         if (this.checkCookie(this.cookieName) != this.cookieValue)
-            this.createDiv();
+            this.showDiv();
     }
 }
 

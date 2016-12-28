@@ -53,7 +53,7 @@ class frontend_db_home
 	protected function s_data_home($iso)
     {
 		$select = 'SELECT
-                h.subject,h.content,h.metatitle,h.metadescription,h.idlang,
+                h.subject as name,h.content as content,h.metatitle as seoTitle,h.metadescription as seoDescr,h.idlang,
                 lang.iso
 				FROM mc_page_home AS h
 				JOIN mc_lang AS lang ON(h.idlang = lang.idlang) 

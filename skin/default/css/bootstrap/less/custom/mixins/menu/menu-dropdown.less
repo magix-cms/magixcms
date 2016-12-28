@@ -1,14 +1,6 @@
 /*----------------*\
 ----- Dropdown -----
 \*----------------*/
-.dp-menu() {
-	display: table;
-	visibility: visible;
-	.box-shadow(0 10px 10px rgba(0,0,0,.2));
-	.opacity(1);
-	.translate(0,2px);
-	.auto-transition(.5s);
-}
 
 .menu-dropdown {
 	clear: both;
@@ -36,49 +28,6 @@
 		> li:last-child {
 			ul {
 				right: 0;
-			}
-		}
-	}
-
-	.dropdown {
-		min-width: 100%;
-		display: table;
-		position: absolute;
-		padding: 5px 0;
-		list-style-type: none;
-		background: @menu-bg;
-		visibility: hidden;
-		.box-shadow(none);
-		.opacity(0);
-		.no-margin;
-		.translate(0,-10px);
-		.transform-origin(center top);
-		.auto-transition(.5s);
-
-		li {
-			float: none;
-			display: table-row;
-			width: 100%;
-			a {
-				white-space: nowrap;
-				display: table-cell;
-				min-width: 100%;
-				&:hover {
-					text-decoration: none;
-				}
-			}
-		}
-
-		&:hover {
-			.dp-menu();
-		}
-	}
-
-	.has-dropdown {
-		position: relative;
-		&:hover {
-			& + .dropdown {
-				.dp-menu();
 			}
 		}
 	}

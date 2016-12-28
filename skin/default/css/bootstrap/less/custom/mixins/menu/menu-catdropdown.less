@@ -15,7 +15,7 @@
 		position: relative;
 	}
 
-	.menu-mega-dropdown.nav {
+	.menu-cat-dropdown.nav {
 		> li {
 			> a {
 				padding: 14px 20px !important;
@@ -24,7 +24,7 @@
 	}
 }
 
-.menu-mega-dropdown {
+.menu-cat-dropdown {
 	clear: both;
 
 	li.mgdropdown {
@@ -40,8 +40,23 @@
 
 			ul {
 				.list-unstyled;
+			}
 
-				> li {
+			&.catalog {
+				h5 {
+					a {
+						font-size: 14px;
+						font-weight: 600;
+						color: #222;
+						display: inline-block;
+						width: 100%;
+						&:hover, &:focus, &:active, &.active {
+							background: transparent;
+						}
+					}
+				}
+
+				ul > li {
 					float: none;
 					a {
 						color: @text-color;
@@ -49,19 +64,6 @@
 					a:hover, a:focus, a:active, a.active {
 						color: @smooth-white;
 						background: #222;
-					}
-				}
-			}
-
-			h5 {
-				a {
-					font-size: 14px;
-					font-weight: 600;
-					color: #222;
-					display: inline-block;
-					width: 100%;
-					&:hover, &:focus, &:active, &.active {
-						background: transparent;
 					}
 				}
 			}
@@ -154,7 +156,8 @@
 		}
 	}
 }
-.menu-mega-dropdown.menu-left {
+
+.menu-cat-dropdown.menu-left {
 	li.mgdropdown {
 		.dropdown {
 			left: 15px;
@@ -162,7 +165,7 @@
 		}
 	}
 }
-.menu-mega-dropdown.menu-right {
+.menu-cat-dropdown.menu-right {
 	li.mgdropdown {
 		.dropdown {
 			right: 15px;
@@ -171,9 +174,8 @@
 	}
 }
 
-
 @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-	.menu .menu-mega-dropdown.nav {
+	.menu .menu-cat-dropdown.nav {
 		.nav-justified;
 		min-height: 68px;
 		height: 100%;

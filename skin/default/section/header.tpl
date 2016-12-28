@@ -23,15 +23,18 @@
     {if !isset($menubar)}
         {assign var="menubar" value=true}
     {/if}
+    {if !isset($menuclass)}
+        {assign var="menuclass" value=''}
+    {/if}
     {if !isset($affix)}
         {assign var="affix" value=true}
     {/if}
 {/strip}
-<header>
+<header id="header">
     {if $toolbar}
         {include file="section/toolbar.tpl" adjust="clip"}
     {/if}
-    <section id="header" role="navigation"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
+    <section id="header-menu" role="navigation" class="{if $adjust == 'fluid'}section-block container-fluid{/if}">
         {if $adjust == 'clip'}<div class="container">
             <div class="row">{/if}
                 {* Show Nav Button (xs ad sm only) *}
@@ -42,20 +45,20 @@
                     <span class="icon-bar"></span>
                 </button>
                 {* Brand && Headline *}
-                <div id="navbar-brand">
+                <div>
                     <a class="navbar-brand" href="{geturl}/{getlang}/" title="{#logo_link_title#|ucfirst}">
                         <img src="{geturl}/skin/{template}/img/logo/{#logo_img#}" alt="{#logo_img_alt#|ucfirst} {$companyData.name}" width="269" height="50" />
                     </a>
                 </div>
                 {if ($adjust == 'clip' && !$menubar) || $adjust == 'fluid'}
-                    {include file="section/menu/primary.tpl" id="main-menu" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=true}
+                    {include file="section/menu/primary.tpl" id="main-menu" type=$menu cclass=$menuclass root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=true}
                 {/if}
                 {if $adjust == 'clip'}
             </div>
         </div>
         {/if}
         {if $adjust == 'clip' && $menubar}
-            {include file="section/menu/primary.tpl" id="main-menu" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=true}
+            {include file="section/menu/primary.tpl" id="main-menu" type=$menu cclass=$menuclass root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=true}
         {/if}
     </section>
     {if $affix}
@@ -71,14 +74,14 @@
             </a>
             {/if}
             {if $adjust == 'clip' && !$menubar}
-                {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
+                {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu cclass=$menuclass root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
             {/if}
                 {if $adjust == 'clip'}
             </div>
         </div>
         {/if}
         {if ($adjust == 'clip' && $menubar) || $adjust == 'fluid'}
-            {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
+            {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu cclass=$menuclass root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
         {/if}
     </section>
     {/if}

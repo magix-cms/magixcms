@@ -32,9 +32,10 @@
     {strip}{* Language link hreflang *}{widget_lang_data assign="dataLangHead"}{include file="section/loop/lang.tpl" data=$dataLangHead type="head"}{google_tools tools='analytics'}
 {/strip}</head>
 <body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">
-    {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="dropdown" submenu=true gmap=false faq=false affix=true}
+    {include file="section/brick/cookie-consent.tpl"}
+    {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="dropdown" menuclass='' submenu=true gmap=false faq=false affix=false}
     {block name="breadcrumb"}
-        {include file="section/nav/breadcrumb.tpl" adjust="clip" quickAccess=true icon=false}
+        {include file="section/nav/breadcrumb.tpl" adjust="clip" quickAccess=false icon=false}
     {/block}
     {block name="main:before"}{/block}
     {block name="main"}
@@ -43,7 +44,7 @@
             {block name="article:before"}{/block}
 
             {block name='article'}
-                <article id="article" class="col-xs-12 col-sm-8 col-md-9">
+                <article class="col-xs-12 col-sm-8 col-md-9">
                     {block name='article:content'}{/block}
                 </article>
             {/block}
@@ -63,7 +64,7 @@
 
     {block name="main:after"}{/block}
     {* blocks=['facebook','news','cms','contact'] *}
-    {include file="section/footer.tpl" adjust="clip" blocks=['facebook','news','cms','contact']}
+    {include file="section/footer.tpl" adjust="clip" blocks=['news','cms','contact']}
 
     {include file="section/nav/btt.tpl" affix=300}
 

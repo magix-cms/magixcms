@@ -72,15 +72,13 @@
 
 // Normalize content
 .normalize-content(@color: @main-color) {
-	#article {
+	article {
 		// Normalize the main title of the content
 		> h1:first-child {
 			.main-title;
 		}
 		// Normalize images in content
 		img {
-			.img-responsive;
-	
 			&.pull-right {
 				margin: 0 0 1rem 1rem !important;
 			}

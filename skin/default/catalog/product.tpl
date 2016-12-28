@@ -5,7 +5,7 @@
 {block name="webType"}ItemPage{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12 catalog" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
+    <article class="col-xs-12 catalog" itemprop="mainEntity" itemscope itemtype="http://schema.org/Product">
         {block name='article:content'}
             <div class="row">
                 <div id="product-info" class="col-xs-12 col-sm-5 col-md-4 text-center">

@@ -4,7 +4,7 @@
 {block name='body:id'}new-record{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/Article">
+    <article class="col-xs-12 col-sm-8 col-md-9" itemprop="mainEntity" itemscope itemtype="http://schema.org/Article">
     {block name='article:content'}
         <h1 itemprop="headline">{$news.name}</h1>
         <meta itemprop="mainEntityOfPage" content="{geturl}{$news.uri}"/>

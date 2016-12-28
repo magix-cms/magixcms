@@ -7,7 +7,7 @@
 {block name="slider"}{/block}
 
 {block name='article'}
-    <article id="article" class="col-xs-12">
+    <article class="col-xs-12">
         {block name='article:content'}
             <h1 itemprop="name">{#contact_root_h1#}</h1>
             <div class="row">

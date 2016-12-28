@@ -4,11 +4,14 @@
 /*
  * Styles
  */
+@import "menu/dropdown";
 @import "menu/menu-default";
 @import "menu/menu-dropdown";
+@import "menu/menu-catdropdown";
 @import "menu/menu-mgdropdown";
 @import "menu/menu-tabs";
 
+// Toggle menu button
 #toggle-menu {
 	span {
 		background: #777;
@@ -39,8 +42,6 @@
 		}
 	}
 }
-
-// Toggle menu button
 .navbar-toggle {
 	margin-top: 15px;
 	z-index: 225;
@@ -71,6 +72,7 @@
 
 @media (min-width: @screen-sm-min) {
 	.menu {
+		margin-top: 20px;
 		float: right;
 		ul {
 			.navbar-nav;

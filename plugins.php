@@ -50,9 +50,9 @@
 require('lib/mcfrontend.php');
 $plugins = new frontend_controller_plugins();
 if($plugins->getplugin()){
-    $config = new frontend_model_config();
-    $create = new frontend_controller_plugins();
-    $config->load_data_setting($create);
+	$create = new frontend_controller_plugins();
+	$config = new frontend_model_config($create);
+    $config->load_data_setting();
 	$plugins->display_plugins();
 }
 ?>

@@ -15,38 +15,41 @@
 			.normalize-link(@text-color,@main-color,none,400);
 		}
 
-		.hasSubmenu {
-			&:hover {
-				+ .submenu {
-					visibility: visible;
-				}
-			}
-
-			+ .submenu {
-				position: absolute;
-				visibility: hidden;
-				z-index: 12;
-				left: 10px;
-				min-width: 100%;
-				border-radius: 3px;
-				.auto-transition(.35s);
-				box-shadow: 0 2px 3px rgba(0,0,0,.3);
-				background-color: white;
-				top: 25px;
-
-				li{
-					a {
-						padding: 6px 12px;
-						display: block;
-						white-space: nowrap;
+		.bcSubmenu(@enabled) when (@enabled = 1) {
+			.hasSubmenu {
+				&:hover {
+					+ .submenu {
+						visibility: visible;
 					}
 				}
 
-				&:hover {
-					visibility: visible;
+				+ .submenu {
+					position: absolute;
+					visibility: hidden;
+					z-index: 12;
+					left: 10px;
+					min-width: 100%;
+					border-radius: 3px;
+					.auto-transition(.35s);
+					box-shadow: 0 2px 3px rgba(0,0,0,.3);
+					background-color: white;
+					top: 25px;
+
+					li{
+						a {
+							padding: 6px 12px;
+							display: block;
+							white-space: nowrap;
+						}
+					}
+
+					&:hover {
+						visibility: visible;
+					}
 				}
 			}
 		}
+		.bcSubmenu(@bcsubmenu);
 	}
 }
 

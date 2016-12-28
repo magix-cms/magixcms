@@ -297,7 +297,7 @@
         {/if}
     {/if}
 
-    {$menu[] = $item}
+    {$menu['catalog'] = $item}
 {/if}
 
 
@@ -396,12 +396,12 @@
 {/if}
 {/strip}
 {* --- Create Menu HTML --- *}
-<nav{if isset($id)} id="{$id}"{/if} class="menu collapse navbar-collapse{if isset($type)} menu-{$type}{/if}{if $menubar} menubar{/if}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
+<nav{if isset($id)} id="{$id}"{/if} class="menu collapse navbar-collapse{if isset($type)} menu-{$type}{/if}{if isset($cclass)} {$cclass}{/if}{if $menubar} menubar{/if}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
     {if $adjust == 'clip' && $menubar}
     <div class="container">
         {/if}
         <a href="#search" class="sr-only skip-menu" role="link">{#skipMenu#}</a>
-        <ul class="nav{if isset($justified) &&$justified } nav-justified{/if}">
+        <ul class="nav{*if isset($justified) && $justified } nav-justified{/if*}">
             {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
                 {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}
             {else}

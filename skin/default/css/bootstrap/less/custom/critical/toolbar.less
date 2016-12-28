@@ -13,46 +13,10 @@
 
 #toolbar {
     background-color: extract(@dark-gradient,1);
-
 	padding: 7px 0;
 	color: @smooth-white;
 	font-size: 12px;
 
-    .visible-xs {
-		margin-top: 1px;
-        ul li {
-            margin-right: 10px;
-
-			&:first-child {
-				margin-top: 5px;
-			}
-
-	        &:last-child {
-		        margin-right: 15px;
-	        }
-
-            span.fa {
-                margin-right: 8px;
-				&.fa-envelope {
-					margin-right: 0;
-				}
-            }
-        }
-    }
-}
-
-#social-follow {
-	font-size: 14px;
-}
-
-#menu-language {
-	margin-left: 15px;
-	.dropdown.open {
-		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2) inset;
-	}
-}
-
-#social-follow, #contact-infos, #toolbar .visible-xs {
 	ul {
 		padding: 0;
 		margin: 0;
@@ -71,11 +35,42 @@
 			}
 		}
 	}
+
+    .visible-xs {
+		margin-top: 1px;
+        ul li {
+            margin-right: 10px;
+			margin-top: 5px;
+
+	        &:last-child {
+		        margin-right: 0;
+	        }
+        }
+
+		.fa {
+			margin-right: 8px;
+			&-envelope {
+				margin-right: 0;
+			}
+		}
+    }
+}
+
+#social-follow {
+	font-size: 14px;
+}
+
+#contact-infos {
+	li:last-child {  margin-right: 0; }
+}
+
+#menu-language {
+	.open {
+		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2) inset;
+	}
 }
 
 .lang-header {
-	margin-right: 5px;
-
 	a {
 		color: @smooth-white;
 		padding: 5px;

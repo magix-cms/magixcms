@@ -22,6 +22,7 @@ function getPosition(element) {
 
 $(function()
 {
+	var width = $(window).width();
 	// *** In case you don't have firebug...
     if (!window.console || !console.firebug) {
         var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
@@ -40,8 +41,8 @@ $(function()
 	//$('[data-toggle="popover"]').popover();
 
 	// *** Auto-position of the affix header
-	var aHead = typeof document.getElementById('header-fixed');
-	if (aHead != undefined) {
+	var aHead = document.getElementById('header-fixed');
+	if (aHead != null) {
 		if ($('#header-fixed').hasClass('affix-menubar')) {
 			var target = getPosition(document.getElementById('main-menu'));
 		} else {
@@ -55,6 +56,24 @@ $(function()
 				}
 			}
 		})
+	} else {
+		if(width > 768) {
+			var target = getPosition(document.getElementById('header-menu'));
+			var space = $('#header-menu').height();
+
+			function affixHead() {
+				var scrollTop = $(window).scrollTop();
+				if (scrollTop > target.y) {
+					$('#header-menu').addClass('affix affix-top');
+					if (document.getElementById('toolbar') != null) $('#toolbar').css('margin-bottom',space)
+				} else {
+					$('#header-menu').removeClass('affix affix-top');
+					if (document.getElementById('toolbar') != null) $('#toolbar').css('margin-bottom',0)
+				}
+			}
+			$(window).scroll(affixHead);
+			affixHead();
+		}
 	}
 
     // *** Smooth Scroll to Top
@@ -66,7 +85,6 @@ $(function()
     });
 
     // *** Cross effect on mobile
-    var width = $(window).width();
     if(width < 768) {
         $('button.navbar-toggle').click(function(){
             var target = $($(this).data('target'));

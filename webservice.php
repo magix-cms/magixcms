@@ -33,8 +33,8 @@
  # needs please refer to http://www.magix-cms.com for more information.
  */
 require('lib/mcfrontend.php');
-$config = new frontend_model_config();
 $create = new frontend_model_template;
-$config->load_data_setting($create);
+$config = new frontend_model_config($create);
+$config->load_data_setting();
 $webservice = new frontend_controller_webservice();
 $webservice->run();

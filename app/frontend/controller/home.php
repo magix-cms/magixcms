@@ -46,21 +46,28 @@
  */
 class frontend_controller_home extends frontend_db_home
 {
+	protected $template;
     /**
      * strLangue catch on GET
      * @var integer
      */
 	public $getlang;
+
 	/**
-	 * function construct
+	 * frontend_controller_home constructor.
+	 * @param $model
 	 */
-	function __construct()
+	function __construct($model)
     {
+    	$this->template = $model;
+
 		if (magixcjquery_filter_request::isGet('strLangue')) {
 			$this->getlang = magixcjquery_filter_join::getCleanAlpha($_GET['strLangue'],3);
 		} else {
             $this->getlang = frontend_model_template::current_Language();
         }
+
+        $this->run();
 	}
     /**
      * Assign home's data to smarty
@@ -68,17 +75,8 @@ class frontend_controller_home extends frontend_db_home
      */
 	private function load_home_data()
     {
-        $template = new frontend_model_template();
-
-    	$data = parent::s_data_home($this->getlang);
-        $dataClean  =   array(
-            'name'      =>  $data['subject'],
-            'content'   =>  $data['content'],
-            'seoTitle'  =>  $data['metatitle'],
-            'seoDescr'  =>  $data['metadescription']
-        );
-
-        $template->assign('home',$dataClean);
+        $data = parent::s_data_home($this->getlang);
+        $this->template->assign('home',$data);
 	}
     /**
      * Control, loading and display
@@ -88,7 +86,7 @@ class frontend_controller_home extends frontend_db_home
     {
         if(isset($this->getlang)){
             $this->load_home_data();
-            frontend_model_template::display('home/index.tpl');
+			$this->template->display('home/index.tpl');
         }
 	}
 }
