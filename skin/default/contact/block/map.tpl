@@ -3,22 +3,22 @@
 {/if}
 <section id="map">
     <p class="lead">{#info_contact#|ucfirst}</p>
-    {if $companyData.contact.mail}
-    <p class="email">
-        <span class="fa fa-envelope"></span>
-        {if $companyData.contact.click_to_mail}
-            {mailto address={$companyData.contact.mail} encode="hex"}
-        {else}
-            {if $companyData.contact.crypt_mail}
-                {*{$companyData.contact.mail|replace:'@':'[at]'}*}
-                {$companyData.contact.mail|replace:'@':'<span class="fa fa-at"></span>'}
-            {else}
-                {$companyData.contact.mail}
-            {/if}
+    <div class="contact-infos">
+        {if $companyData.contact.mail}
+            <p class="email">
+                <span class="fa fa-envelope"></span>
+                {if $companyData.contact.click_to_mail}
+                    {mailto address={$companyData.contact.mail} encode="hex"}
+                {else}
+                    {if $companyData.contact.crypt_mail}
+                        {*{$companyData.contact.mail|replace:'@':'[at]'}*}
+                        {$companyData.contact.mail|replace:'@':'<span class="fa fa-at"></span>'}
+                    {else}
+                        {$companyData.contact.mail}
+                    {/if}
+                {/if}
+            </p>
         {/if}
-    </p>
-    {/if}
-    <div>
         {if $companyData.contact.phone}
         <p><span class="fa fa-phone"></span>{if $companyData.contact.click_to_call}<a href="tel:{$companyData.contact.phone|replace:'(0)':''|replace:' ':''|replace:'.':''}">{/if}{$companyData.contact.phone}{if $companyData.contact.click_to_call}</a>{/if}</p>
         {/if}
@@ -29,7 +29,7 @@
             <p><span class="fa fa-fax"></span>{$companyData.contact.fax}</p>
         {/if}
         {if $companyData.contact.adress.street}
-        <p itemscope itemtype="http://schema.org/PostalAddress" class="adresse">
+        <p itemscope itemtype="http://schema.org/PostalAddress" class="address">
             <span class="fa fa-map-marker"></span> {$companyData.contact.adress.adress}
         </p>
         {/if}

@@ -1,49 +1,53 @@
 /*
  * Rules for contact
  */
-#contact {
-	#sidebar {
-		font-size: 14px;
+#sidebar {
+	font-size: 14px;
 
-		h3 {
-			color: @text-color;
+	p {
+		margin: 30px 0;
+	}
+
+	.contact-infos p {
+		padding-left: 36px;
+		position: relative;
+
+		> .fa {
+			position: absolute;
+			left: 0;
 		}
 
-		p {
-			margin: 25px 0;
-			&.adresse {
-				/*font-size: 12px;*/
-				span.fa {
-					float: left;
-					height: 40px;
-				}
-			}
-			&.lead {
-				font-size: 14px;
-				+ p {
-					margin-bottom: 0;
-				}
+		&.address {
+			.fa {
+				float: left;
+				height: 40px;
 			}
 		}
-
-		span.fa {
-			font-size: 26px;
-			color: @main-color;
-			display: inline-block;
-			width: 26px;
-			margin-right: 10px;
-		}
-
-		.email {
-			.fa.fa-at {
-				font-size: 100%;
-				margin: 0;
-				color: @text-color;
-				padding: 0;
-				width: auto;
-				display: inline;
+		&.lead {
+			font-size: 14px;
+			+ p {
+				margin-bottom: 0;
 			}
 		}
+	}
+
+	.fa {
+		font-size: 26px;
+		color: @main-color;
+		display: inline-block;
+		width: 26px;
+		margin-right: 10px;
+		margin-top: -5px;
+	}
+
+	.fa-at {
+		font-size: 100%;
+		margin: 0;
+		color: @text-color;
+		padding: 0;
+		width: auto;
+		display: inline;
+		position: static !important;
 	}
 }
 
