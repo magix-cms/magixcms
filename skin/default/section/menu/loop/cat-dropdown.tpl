@@ -1,7 +1,7 @@
 {if $menuData}
     {assign var='class_current' value=' class="active"'}
     {foreach $menuData as $key => $item}
-        <li class="menu-item{if $key == 'catalog'} mgdropdown{/if}{if $item.active && !(isset($smarty.get.idclc) && $smarty.get.idclc == {#id_mainCat#} && $key == 'catalog')} active{/if}">
+        <li class="menu-item{if $key === 'catalog'} mgdropdown{/if}{if $item.active && !(isset($smarty.get.idclc) && $smarty.get.idclc == {#id_mainCat#} && $key == 'catalog')} active{/if}">
             {if $item.subdata}
                 <button type="button" class="navbar-toggle{if $item.active} open{/if}" data-toggle="collapse" data-target="#nav-{$menu}-{$item@index}">
                     <span class="fa fa-plus"></span>
@@ -10,7 +10,7 @@
             <a{if $microData} itemprop="url"{/if} href="{$item.url}" title="{$item.title|ucfirst}"{if $item.subdata} class="has-dropdown"{/if}>
                 <span{if $microData} itemprop="name"{/if}>{$item.name|ucfirst}</span>
             </a>
-            {if $item.subdata && $key == 'catalog'}
+            {if $item.subdata && $key === 'catalog'}
                 <div class="dropdown hidden-xs {$key}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
                     {foreach $item.subdata as $child}
                         <div class="col-sm-3">
