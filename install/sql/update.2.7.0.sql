@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `mc_country` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `mc_module` (`id_module` ,`class_name` ,`name` ,`plugins`)VALUES (NULL , 'backend_controller_country', 'country', '0');
+
 ALTER TABLE `mc_catalog` DROP `idadmin` ;
 
 CREATE TABLE IF NOT EXISTS `mc_webservice` (
@@ -18,8 +19,7 @@ CREATE TABLE IF NOT EXISTS `mc_webservice` (
   PRIMARY KEY (`idwskey`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-INSERT INTO `mc_setting` VALUES
-(NULL, 'css_inliner', '1', 'string', 'CSS inliner');
+INSERT INTO `mc_setting` VALUES (NULL, 'css_inliner', '1', 'string', 'CSS inliner');
 
 CREATE TABLE IF NOT EXISTS `mc_css_inliner_color` (
   `id_cssi` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -33,3 +33,24 @@ INSERT INTO `mc_css_inliner_color` (`id_cssi`, `property_cssi`, `color_cssi`) VA
 (NULL, 'header_c', '#ffffff'),
 (NULL, 'footer_bg', '#333333'),
 (NULL, 'footer_c', '#ffffff');
+
+CREATE TABLE IF NOT EXISTS `mc_plugins_contact_config` (
+  `idcontact_config` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `address_enabled` smallint(3) unsigned NOT NULL,
+  `address_required` smallint(3) unsigned NOT NULL,
+  PRIMARY KEY (`idcontact_config`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_plugins_contact_config` (`address_enabled`, `address_required`) VALUES (0, 0);
+
+CREATE TABLE IF NOT EXISTS `mc_plugins_about_data` (
+  `iddata` smallint(2) unsigned NOT NULL AUTO_INCREMENT,
+  `idlang` smallint(3) unsigned NOT NULL,
+  `info_name` varchar(30) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`iddata`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `mc_plugins_about_data` (`iddata`, `idlang`, `info_name`, `value`) VALUES
+(NULL, 1, 'desc', NULL),
+(NULL, 1, 'slogan', NULL);
