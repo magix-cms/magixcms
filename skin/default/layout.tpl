@@ -32,7 +32,7 @@
     {strip}{* Language link hreflang *}{widget_lang_data assign="dataLangHead"}{include file="section/loop/lang.tpl" data=$dataLangHead type="head"}{google_tools tools='analytics'}
 {/strip}</head>
 <body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">
-    {include file="section/brick/cookie-consent.tpl"}
+    {include file="section/brick/cookie-consent.tpl"}{* Pour menu="cat-dropdown" ou menu="mega-dropdown" il faut au minimum menuclass='mega-dropdown' *}
     {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="dropdown" menuclass='' submenu=true gmap=false faq=false affix=false}
     {block name="breadcrumb"}
         {include file="section/nav/breadcrumb.tpl" adjust="clip" quickAccess=false icon=false}

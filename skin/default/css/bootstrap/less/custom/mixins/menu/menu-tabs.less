@@ -1,12 +1,9 @@
 /*------------*\
 ----- Tabs -----
 \*------------*/
-
 // ---- Rules
-nav.menu-tabs,
-nav.menu-tabs-arrow {
-	clear: both;
-
+.menu-tabs,
+.menu-tabs-arrow {
 	> div > ul {
 		width: 100%;
 		display: table;
@@ -18,95 +15,17 @@ nav.menu-tabs-arrow {
 
 			> a {
 				text-align: center;
-				padding: 20px 10px !important;
-			}
-		}
-	}
-
-	li {
-		a, a:visited {
-			padding: 10px 15px;
-			color: @menu-color;
-			.auto-transition(.35s);
-
-			&:hover, &:active, &.active {
-				background: @menu-active-bg;
-				color: @menu-active-color;
-			}
-		}
-		&.active {
-			> a, > a:visited {
-				background: @menu-active-bg;
-				color: @menu-active-color;
-			}
-		}
-	}
-
-	/*
-	 * Media Queries
-	 */
-	@media (min-width: @screen-sm-min) {
-		clear: none;
-
-		.navbar-collapse {
-			display: none !important;
-		}
-	}
-
-	@media (max-width: @screen-xs-max) {
-		ul.nav {
-			float: none !important;
-			position: relative;
-			z-index: 201;
-
-			> li {
-				position: relative;
-
-				a {
-					display: block;
-
-					&:hover {
-						text-decoration: none;
-					}
-				}
-
-				&.active {
-					.navbar-toggle {
-						span {
-							color: @smooth-white;
-						}
-					}
-				}
-
-				.navbar-toggle {
-					float: none;
-					position: absolute;
-					right: 15px;
-					top: 0;
-					margin: 0;
-				}
-
-				.navbar-collapse {
-					border-top: 1px solid rgba(0, 0, 0, 0.1);
-					border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-				}
-
-				ul {
-					list-style-type: none;
-					margin: 10px 0;
-					padding: 0;
-
-					li {
-						float: none;
-					}
-				}
 			}
 		}
 	}
 }
 
 // ---- Arrow display
-nav.menu-tabs-arrow {
+.menu-tabs-arrow {
+	> div > ul > li > a {
+		padding: 20px 10px !important;
+	}
+
 	@media (min-width: @screen-sm-min) {
 		li > a {
 			&:before {

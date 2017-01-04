@@ -29,17 +29,15 @@
                     </div>
                 {/foreach}
             </div>
-            {/if}
-            {if $item.subdata}
-                <nav id="nav-{$menu}-{$item@index}" class="collapse navbar-collapse{if $item.active} in{/if}">
-                    <ul>
-                        {foreach $item.subdata as $child}
-                            <li{if $child.active}{$class_current}{/if}>
-                                <a href="{$child.url}" title="{$child.title|ucfirst}">{$child.name|ucfirst}</a>
-                            </li>
-                        {/foreach}
-                    </ul>
-                </nav>
+            <nav id="nav-{$menu}-{$item@index}" class="collapse navbar-collapse{if $item.active} in{/if}">
+                <ul>
+                    {foreach $item.subdata as $child}
+                        <li{if $child.active}{$class_current}{/if}>
+                            <a href="{$child.url}" title="{$child.title|ucfirst}">{$child.name|ucfirst}</a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </nav>
             {/if}
         </li>
     {/foreach}

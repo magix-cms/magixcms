@@ -1,0 +1,80 @@
+// ---- Mega Dropdown
+li.mgdropdown {
+	position: static;
+
+	.dropdown {
+		min-width: 0;
+		padding-top: 30px;
+		padding-bottom: 30px;
+		@media (min-width: @screen-sm-min) {
+			left: ~"calc((100% - 720px) /2 )";
+			right: ~"calc((100% - 720px) /2 )";
+			width: 720px;
+		}
+		@media (min-width: @screen-md-min) {
+			left: ~"calc((100% - 940px) /2 )";
+			right: ~"calc((100% - 940px) /2 )";
+			width: 940px;
+		}
+		@media (min-width: @screen-lg-min) {
+			left: ~"calc((100% - 1140px) /2 )";
+			right: ~"calc((100% - 1140px) /2 )";
+			width: 1140px;
+		}
+
+		ul {
+			.list-unstyled;
+
+			> li {
+				float: none;
+				a {
+					color: @mg-link-color;
+
+					&:hover,
+					&:focus,
+					&:active,
+					&.active {
+						color: @smooth-white;
+						background: @mg-hover-bg;
+					}
+				}
+			}
+		}
+
+		h5 {
+			a {
+				font-size: 14px;
+				font-weight: 600;
+				color: @mg-head-color;
+				display: inline-block;
+				width: 100%;
+
+				&:hover,
+				&:focus,
+				&:active,
+				&.active {
+					color: @mg-head-color;
+					text-decoration: underline;
+					background: transparent;
+				}
+			}
+		}
+	}
+}
+
+&.menu-left {
+	li.mgdropdown {
+		.dropdown {
+			left: 15px;
+			right: auto;
+		}
+	}
+}
+&.menu-right {
+	li.mgdropdown {
+		.dropdown {
+			right: 15px;
+			left: auto;
+		}
+	}
+}

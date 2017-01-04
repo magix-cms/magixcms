@@ -401,7 +401,7 @@
     <div class="container">
         {/if}
         <a href="#search" class="sr-only skip-menu" role="link">{#skipMenu#}</a>
-        <ul class="nav{*if isset($justified) && $justified } nav-justified{/if*}">
+        <ul class="nav">
             {if isset($submenu) && $submenu || $type|in_array:$dropmenu}
                 {include file="section/menu/loop/$type.tpl" menuData=$menu gmap=$gmap microData=$microData menu=$id}
             {else}
