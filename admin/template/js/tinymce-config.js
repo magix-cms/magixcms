@@ -59,7 +59,12 @@
         link_class_list: [
             {title: 'None', value: ''},
             {title: 'TargetBlank', value: 'targetblank'},
-            {title: 'Lightbox simple', value: 'img-zoom'}
+            {title: 'btn-main-theme', value: 'btn-main-theme'},
+            {title: 'btn-sd-theme', value: 'btn-sd-theme'},
+            {title: 'btn-th-theme', value: 'btn-th-theme'},
+            {title: 'btn-fr-theme', value: 'btn-fr-theme'},
+            {title: 'btn-gray-theme', value: 'btn-gray-theme'},
+            {title: 'btn-dark-theme', value: 'btn-dark-theme'}
         ],
         codesample_languages: [
             {text: 'HTML/XML', value: 'markup'},
