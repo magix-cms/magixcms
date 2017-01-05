@@ -42,10 +42,10 @@
  * @license Dual licensed under the MIT or GPL Version 3 licenses.
  */
 class backend_model_message{
-    /**
-     * @var backend_controller_template
-     */
-    protected $template,$plugins;
+	/**
+	 * @var backend_controller_template
+	 */
+	protected $template,$plugins;
 	protected $default = array(
 		'template'		=>'message.tpl',
 		'method'		=>'display',
@@ -53,21 +53,21 @@ class backend_model_message{
 		'plugin'		=>'false'
 	);
 
-    /**
-     *
-     */
-    public function __construct(){
-        $this->template = new backend_controller_template();
-        $this->plugins = new backend_controller_plugins();
-    }
+	/**
+	 *
+	 */
+	public function __construct(){
+		$this->template = new backend_controller_template();
+		$this->plugins = new backend_controller_plugins();
+	}
 
-    /**
-     * Retourne le message de notification
-     * @param $type
-     * @param array $options
+	/**
+	 * Retourne le message de notification
+	 * @param $type
+	 * @param array $options
 	 * @return string html compiled
-     */
-    public function getNotify($type,$options = array()){
+	 */
+	public function getNotify($type,$options = array()){
 		$options = $options + $this->default;
 		$model = $options['plugin'] ? $this->plugins : $this->template;
 
@@ -80,7 +80,7 @@ class backend_model_message{
 			case 'fetch':
 			case 'return':
 				$model->assign('message',$type);
-                $fetch = $model->fetch($options['template']);
+				$fetch = $model->fetch($options['template']);
 				if($options['method'] == 'fetch')
 					$model->assign($options['assignFetch'],$fetch);
 				else
@@ -91,15 +91,24 @@ class backend_model_message{
 				$model->assign('message',$type);
 				$model->display($options['template']);
 		}
-    }
-	
+	}
+
 	/**
 	 * Return a json object with the statut of the post action, the notification and the eventual result of the post
 	 * @param bool $statut
 	 * @param string $notify
 	 * @param bool $result
 	 */
-	public function json_post_response($statut=true,$notify='save',$options = null,$result = null)
+	/**
+	 * example of extended result data
+	 * $result = array(
+	'result' => 1, // can be an id for example or an array of data
+	 * 	'extend' => array('id_category' => 2, 'id_subcategory' => 3)
+	 * )
+	 * the json output will be
+	 * {"statut":true,"notify":...,"result":1,"id_category":2,"id_subcategory":3}
+	 */
+	public function json_post_response($statut=true,$notify='save',$result = null,$options = null)
 	{
 		if (is_array($options))
 			$options = $options + $this->default;
@@ -107,8 +116,29 @@ class backend_model_message{
 			$options = $this->default;
 		$options['method'] = 'return';
 
-		$notify = $this->getNotify($notify,$options);
-		print '{"statut":'.json_encode($statut).',"notify":'.json_encode($notify).',"result":'.json_encode($result).'}';
+		if($notify != null){
+			$notify = $this->getNotify($notify,$options);
+		}else{
+			$notify = null;
+		}
+		$extend = '';
+		if (is_array($result) && key_exists('result',$result)) {
+			$output = $result['result'];
+
+			if(key_exists('extend',$result)) {
+				if(is_array($result['extend'])) {
+					foreach ($result['extend'] as $k => $v) {
+						$extend .= ',"'.$k.'":'.json_encode($v);
+					}
+				}
+			}
+		} else {
+			$output = $result;
+		}
+
+		//@ToDo set_json_headers required to do a json_post_repsonse
+		//$this->header->set_json_headers();
+		print '{"statut":'.json_encode($statut).',"notify":'.json_encode($notify).',"result":'.json_encode($output).$extend.'}';
 	}
 }
 ?>

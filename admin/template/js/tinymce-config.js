@@ -56,6 +56,27 @@
             {title: 'Image circle', value: 'img-circle'},
             {title: 'Image thumbnail', value: 'img-thumbnail'}
         ],
+        link_class_list: [
+            {title: 'None', value: ''},
+            {title: 'TargetBlank', value: 'targetblank'},
+            {title: 'Lightbox simple', value: 'img-zoom'}
+        ],
+        codesample_languages: [
+            {text: 'HTML/XML', value: 'markup'},
+            {text: 'JavaScript', value: 'javascript'},
+            {text: 'CSS', value: 'css'},
+            {text: 'PHP', value: 'php'},
+            {text: 'Ruby', value: 'ruby'},
+            {text: 'Python', value: 'python'},
+            {text: 'Java', value: 'java'},
+            {text: 'C', value: 'c'},
+            {text: 'C#', value: 'csharp'},
+            {text: 'C++', value: 'cpp'},
+            {text: 'Smarty', value: 'smarty'},
+            {text: 'Less', value: 'less'},
+            {text: 'Sass (Sass)', value: 'sass'},
+            {text: 'Sass (Scss)', value: 'sass'}
+        ],
         formats: {
             strikethrough: {inline: 'del'}
         },

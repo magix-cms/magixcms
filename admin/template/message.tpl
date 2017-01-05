@@ -1,6 +1,6 @@
 {autoload_i18n}
 {switch $message}
-{********* Success *********}
+    {********* Success *********}
 {case 'add' break}
     {** Add **}
 {capture name="alert_type"}{strip}
@@ -22,6 +22,17 @@
 {/strip}{/capture}
 {capture name="alert_message"}
     {#request_success_update#}
+{/capture}
+    {** Delete **}
+{case 'delete' break}
+{capture name="alert_type"}{strip}
+    success
+{/strip}{/capture}
+{capture name="icon"}{strip}
+    check
+{/strip}{/capture}
+{capture name="alert_message"}
+    {#request_success_delete#}
 {/capture}
     {** Pinguer **}
 {case 'pinguer' break}
@@ -56,7 +67,7 @@
 {capture name="alert_message"}
     {#request_update_plugin#}
 {/capture}
-{********* Warning *********}
+    {********* Warning *********}
     {** Empty **}
 {case 'empty' break}
 {capture name="alert_type"}{strip}
@@ -130,7 +141,7 @@
 {capture name="alert_message"}
     {#request_error_writable#}
 {/capture}
-{********* Error *********}
+    {********* Error *********}
     {** error_login **}
 {case 'error_login' break}
 {capture name="alert_type"}{strip}
