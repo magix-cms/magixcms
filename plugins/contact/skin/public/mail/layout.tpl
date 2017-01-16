@@ -4,39 +4,37 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{if isset($smarty.config.subject_contact)}{$smarty.config.subject_contact|replace:'%1$s':$smarty.config.contact_request|replace:'%2$s':$companyData.name}{/if}</title>
-    {literal}
         <style>
-            .header {
-                background: #f2f2f2;
-            }
+        .header {
+        background: {$getDataCSSIColor[0].color_cssi};
+        }
 
-            .header .columns {
-                padding-bottom: 0;
-            }
+        .header .columns {
+            padding-bottom: 0;
+        }
 
-            .header p {
-                color: #fff;
-                margin-bottom: 0;
-            }
+        .header p {
+        color: {$getDataCSSIColor[1].color_cssi};
+        margin-bottom: 0;
+        }
 
-            .header .wrapper-inner {
-                padding: 0;
-                /*controls the height of the header*/
-            }
+        .header .wrapper-inner {
+            padding: 0;
+            /*controls the height of the header*/
+        }
 
-            .header .container {
-                background: #f2f2f2;
-            }
+        .header .container {
+        background: {$getDataCSSIColor[0].color_cssi};
+        }
 
-            .header .container td {
-                padding: 15px;
-            }
+        .header .container td {
+            padding: 15px;
+        }
 
-            .spacer.spacer-hr td{
-                border-top: 1px solid #eeeeee;
-            }
+        .spacer.spacer-hr td{
+            border-top: 1px solid #eeeeee;
+        }
         </style>
-    {/literal}
 </head>
 <body>
 <!-- <style> -->
