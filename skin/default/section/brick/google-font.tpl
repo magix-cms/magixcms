@@ -12,5 +12,5 @@
             {$family = $family|cat:'|'}
         {/if}
     {/foreach}
-    <link href='http://fonts.googleapis.com/css?family={$family}' rel='stylesheet' type='text/css'>
+    <link href="{if isset($smarty.server.HTTPS) eq 'on'}https{else}http{/if}://fonts.googleapis.com/css?family={$family}" rel="stylesheet" type="text/css">
 {/if}
