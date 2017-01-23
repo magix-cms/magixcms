@@ -191,7 +191,7 @@ var MC_access = (function ($, undefined) {
                 minHeight: 210,
                 buttons: {
                     'Save': function() {
-                        idforms.submit();
+                        $('#forms_role_add').submit();
                     },
                     Cancel: function() {
                         $(this).dialog('close');

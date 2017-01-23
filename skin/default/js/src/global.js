@@ -24,11 +24,11 @@ $(function()
 {
 	var width = $(window).width();
 	// *** In case you don't have firebug...
-    if (!window.console || !console.firebug) {
+    /*if (!window.console || !console.firebug) {
         var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
         window.console = {};
         for (var i = 0; i < names.length; ++i) window.console[names[i]] = function() {};
-    }
+    }*/
 
 	// *** target_blank
     $('a.targetblank').click( function() {
