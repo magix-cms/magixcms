@@ -454,7 +454,8 @@ class frontend_model_webservice extends frontend_db_webservice{
                 CURLOPT_TIMEOUT         => 300,
                 CURLOPT_CONNECTTIMEOUT  => 300,
                 CURLOPT_CUSTOMREQUEST   => $data['customRequest'],
-                CURLOPT_POSTFIELDS      => $generatedData
+                CURLOPT_POSTFIELDS      => $generatedData,
+                CURLOPT_SSL_VERIFYPEER  => false
                 //CURLOPT_SAFE_UPLOAD     => false*/
             );
             $ch = curl_init();
@@ -515,7 +516,8 @@ class frontend_model_webservice extends frontend_db_webservice{
                     CURLOPT_HTTPHEADER      => $headers,
                     CURLOPT_TIMEOUT         => 300,
                     CURLOPT_CONNECTTIMEOUT  => 300,
-                    CURLOPT_CUSTOMREQUEST   => "GET"
+                    CURLOPT_CUSTOMREQUEST   => "GET",
+                    CURLOPT_SSL_VERIFYPEER  => false
                 );
 
                 $ch = curl_init();
@@ -580,7 +582,8 @@ class frontend_model_webservice extends frontend_db_webservice{
                     CURLOPT_CONNECTTIMEOUT  => 300,
                     CURLOPT_CUSTOMREQUEST   => "POST",
                     CURLOPT_POST            => true,
-                    CURLOPT_POSTFIELDS      => $img
+                    CURLOPT_POSTFIELDS      => $img,
+                    CURLOPT_SSL_VERIFYPEER  => false
                     //CURLOPT_SAFE_UPLOAD   => false
                 );
                 $ch = curl_init();
