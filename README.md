@@ -3,6 +3,14 @@
 
 ![logo-magix_cms](https://cloud.githubusercontent.com/assets/356674/21895994/056c52c2-d8e5-11e6-9163-f7ac06e537c1.png)
 
+###License
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+###version 
+
+![version](https://img.shields.io/github/release/magix-cms/magixcms.svg)
+
 Presentation
 ------------
 
@@ -109,7 +117,7 @@ Licence
 This file is part of Magix CMS.
 MAGIX CMS, The content management system optimized for users
 
-Copyright (C) 2008 - 2016 magix-cms.com support[at]magix-cms[point]com
+Copyright (C) 2008 - 2017 magix-cms.com support[at]magix-cms[point]com
 
 OFFICIAL TEAM :
 
