@@ -9,7 +9,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ###version 
 
-![version](https://img.shields.io/github/release/magix-cms/magixcms.svg)
+[![release](https://img.shields.io/github/release/magix-cms/magixcms.svg)](https://github.com/magix-cms/magixcms/releases/latest)
 
 Presentation
 ------------
