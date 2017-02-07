@@ -22,8 +22,8 @@
     <thead>
     <tr>
         <th><span class="fa fa-clock-o"></span></th>
-        <th>entre</th>
-        <th>et entre</th>
+        <th>{#between#}</th>
+        <th>{#and_between#}</th>
     </tr>
     </thead>
     <tbody>
@@ -54,7 +54,7 @@
         {else}
             <tr>
                 <td>{#$dayOfWeek#}</td>
-                <td colspan="2"><strong>Fermé</strong></td>
+                <td colspan="2"><strong>{#closed#}</strong></td>
             </tr>
         {/if}
     {/foreach}
