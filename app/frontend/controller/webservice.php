@@ -34,7 +34,7 @@
  */
 class frontend_controller_webservice extends frontend_db_webservice{
     protected $outputxml,$message;
-    public $collection,$retrieve,$id,$action,$img,$debug;
+    public $collection,$retrieve,$id,$action,$img,$debug,$filter,$sort;
     public static $notify = array('plugin' => 'false', 'method' => 'print', 'template'=> '');
 
     /**
@@ -66,13 +66,62 @@ class frontend_controller_webservice extends frontend_db_webservice{
         if(magixcjquery_filter_request::isGet('debug')){
             $this->debug = magixcjquery_form_helpersforms::inputClean($_GET['debug']);
         }
+        if(magixcjquery_filter_request::isGet('filter')){
+            $this->filter = magixcjquery_form_helpersforms::arrayClean($_GET['filter']);
+        }
+        if(magixcjquery_filter_request::isGet('sort')){
+            $this->sort = magixcjquery_form_helpersforms::inputClean($_GET['sort']);
+        }
         // POST
         if(isset($_FILES['img']["name"])){
             $this->img = magixcjquery_url_clean::rplMagixString($_FILES['img']["name"]);
         }
     }
 
+    /**
+     * @return array
+     */
+    private function get(){
+        $getData = array();
+        // filter
+        if(isset($this->filter)){
+            foreach ($this->filter as $key => $value) {
+                $setValue = str_replace('[','',$value);
+                $setValue = str_replace(']','',$setValue);
+                $setOptions[$key] = $setValue;
+                $setFilter = array('filter'=>$setOptions);
+                if(strpos($setFilter['filter'][$key],'|')){
+                    $setData[$key] = explode("|", $setFilter['filter'][$key]);
+                }else{
+                    $setData[$key] = $setFilter['filter'][$key];
+                }
+                $getData['filter'] = $setData;
+            }
+        }
+        // sort
+        if (isset($this->sort)) {
+            $setValue = str_replace('[','',$this->sort);
+            $setValue = str_replace(']','',$setValue);
+            $setData = explode(",", $setValue);
+            $getData['sort'] = array($setData[0]    =>  $setData[1]);
+        }
 
+        if(array_key_exists('filter',$getData)){
+            $getOptions['filter'] = $getData['filter'];
+        }else{
+            $getOptions['filter'] = array();
+        }
+
+        if(array_key_exists('sort',$getData)){
+            $getOptions['sort']['sort_type'] = key($getData['sort']);
+            $getOptions['sort']['sort_order'] = $getData['sort'][key($getData['sort'])];
+        }else{
+            $getOptions['sort']['sort_type'] = 'id';
+            $getOptions['sort']['sort_order'] = 'DESC';
+        }
+        return $getOptions;
+
+    }
     // ############## GET
     /**
      * Global Root
@@ -126,11 +175,18 @@ class frontend_controller_webservice extends frontend_db_webservice{
      * get catalog categories
      */
     private function getCatalogCategories(){
-        $data = $this->dbCatalog->fetchCategory(
-            array(
-                'fetch'  =>  'all'
-            )
+        $setOptions = $this->get();
+
+        $setData = array_merge(
+            array('fetch'  =>  'all'),
+            $setOptions['filter'],
+            $setOptions['sort']
         );
+
+        $data = $this->dbCatalog->fetchCategory(
+            $setData
+        );
+
         $this->outputxml->newStartElement('categories');
         foreach($data as $key){
             $this->outputxml->setElement(

@@ -184,6 +184,26 @@ class frontend_db_catalog
                             ':iso' => $data['iso']
                         )
                     );
+                }elseif(array_key_exists('idlang',$data)) {
+                    $where_clause .= 'c.idlang';
+                    $where_clause .= ' IN (';
+                    $where_clause .= $data['idlang'];
+                    $where_clause .= ') ';
+                    $query = "SELECT
+                    c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, c.img_c, c.corder,
+                    lang.iso
+                    FROM mc_catalog_c AS c
+                    JOIN mc_lang AS lang ON ( c.idlang = lang.idlang )
+                    WHERE 
+                    {$where_clause}
+                    {$order_clause}
+                    {$limit_clause}";
+                    return magixglobal_model_db::layerDB()->select(
+                        $query,
+                        array(
+                            ':idlang' => $data['idlang']
+                        )
+                    );
                 }else{
                     $query = "SELECT
                     c.idlang, c.clibelle,c.pathclibelle, c.idclc, c.c_content, c.img_c, c.corder,
