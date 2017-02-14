@@ -261,8 +261,8 @@ AddDefaultCharset utf-8
     #RewriteCond %{HTTP_HOST} !^www\.
     #RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
 </IfModule>
-    RewriteCond %{HTTP_HOST} !^www\.
-    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+    #RewriteCond %{HTTP_HOST} !^www\.
+    #RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
 </IfModule>
 # ----------------------------------------------------------------------
 # | REWRITE
