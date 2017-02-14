@@ -6,7 +6,7 @@
 {block name="breadcrumb"}{/block}
 
 {block name="main:before"}
-    {include file="home/brick/carousel.tpl"}
+    {if !(isset($mobileBrowser) && $mobileBrowser)}{include file="home/brick/carousel.tpl"}{/if}
 {/block}
 
 {block name="main"}

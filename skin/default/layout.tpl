@@ -16,16 +16,20 @@
 {/if}
     <link rel="icon" type="image/png" href="{geturl}/skin/{template}/img/favicon.png" />
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{geturl}/skin/{template}/img/favicon.ico" /><![endif]-->
-    {capture name="criticalSheet"}{strip}
-        /min/?f=skin/{template}/css/bootstrap/critical.min.css
+    {capture name="stylesheet"}{strip}
+        {if isset($mobileBrowser) && $mobileBrowser}
+            /min/?f=skin/{template}/css/mobile.min.css
+        {else}
+            /min/?f=skin/{template}/css/style.min.css
+        {/if}
     {/strip}{/capture}
-{strip}{headlink rel="stylesheet" href=$smarty.capture.criticalSheet concat=$concat media="screen"}
+{strip}{headlink rel="stylesheet" href=$smarty.capture.stylesheet concat=$concat media="screen"}
 {/strip}{if {module type="news"} eq true}
     <link rel="alternate" type="application/rss+xml" href="{geturl}/news_{getlang}_rss.xml" title="RSS">
 {/if}
 {capture name="scriptHtml5"}{strip}
     /min/?f=
-    skin/{template}/js/vendor/html5shiv.js,
+    skin/{template}/js/vendor/html5shiv.min.js,
     skin/{template}/js/vendor/respond.min.js
 {/strip}{/capture}
     {strip}<!--[if lt IE 9]>{script src=$smarty.capture.scriptHtml5 concat=$concat type="javascript"}<![endif]-->{/strip}
@@ -70,13 +74,16 @@
 
     {block name="foot"}
         {strip}
-            {script src="/min/?g=jquery" concat=$concat type="javascript"}
-            {capture name="cookie"}{strip}
-                /min/?f=skin/{template}/js/vendor/bootstrap-cookie-consent.min.js
+            {capture name="jQuery"}{strip}
+                /min/?f=skin/{template}/js/vendor/jquery.min.js
             {/strip}{/capture}
-            {script src=$smarty.capture.cookie concat=$concat type="javascript"}
+            {script src=$smarty.capture.jQuery concat=$concat type="javascript"}
             {capture name="bootstrap"}{strip}
-                /min/?f=skin/{template}/js/vendor/bootstrap.min.js
+                {if isset($mobileBrowser) && $mobileBrowser}
+                    /min/?f=skin/{template}/js/vendor/bootstrap-mobile.min.js
+                {else}
+                    /min/?f=skin/{template}/js/vendor/bootstrap.min.js
+                {/if}
             {/strip}{/capture}
             {script src=$smarty.capture.bootstrap concat=$concat type="javascript"}
             {capture name="scriptSkin"}{strip}
@@ -86,11 +93,6 @@
         {/strip}
     {/block}
     {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300,500','Philosopher'=>'0']}{/block}
-    {block name="styleSheet"}
-        {capture name="styleSheet"}{strip}
-            /min/?f=skin/{template}/css/bootstrap/bootstrap.min.css
-        {/strip}{/capture}
-        {headlink rel="stylesheet" href=$smarty.capture.styleSheet concat=$concat media="screen"}
-    {/block}
+    {block name="styleSheet"}{/block}
 </body>
 </html>

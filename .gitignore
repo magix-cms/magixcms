@@ -33,4 +33,8 @@ plugins/slideshow/
 plugins/soundcloud/
 /skin/default/home/brick/advantages.tpl
 /skin/test/
+/skin/local-business/
 /schema-webservice/
+/theme-manager/
+/node_modules/
+/skin/default/node_modules/*

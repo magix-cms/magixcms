@@ -172,9 +172,10 @@
                     {title: "Media 16:9", block: "div", classes: 'embed-responsive embed-responsive-16by9'},
                     {title: "Media 4:3", block: "div", classes: 'embed-responsive embed-responsive-4by3'}
                 ]}
-            ]},
+            ]}
         ],
         templates : '/'+baseadmin+'/ajax.php?action=list&tab=snippet',
+        template_popup_width: 800,
         language : tinyLanguage,
         schema: "html5",
         extended_valid_elements: "+span[*],+iframe[src|width|height|name|align|class],+strong[*]",

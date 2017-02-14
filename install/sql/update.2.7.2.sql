@@ -1,0 +1,1 @@
+UPDATE `mc_setting` SET `setting_value` = '2.7.2' WHERE `setting_id` = 'magix_version';

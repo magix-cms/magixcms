@@ -1,101 +1,56 @@
-// Compiler options
-@import (reference) "compiler";
+/*!
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
 
 // Core variables and mixins
-@import (reference) "core/variables";
-@import (reference) "core/mixins";
-
-// Plugins variables
-@import (reference) "plugins/bootstrap-hover-effect/mixins";
-@import (reference) "plugins/font-awesome/variables";
-
-// Custom variables
-@import (reference) "custom/mixins/variables";
-@import (reference) "custom/mixins/colors";
+@import "variables.less";
+@import "mixins.less";
 
 // Reset and dependencies
-@import (reference) "core/normalize";
-@import "core/print";
-//@import "core/glyphicons";
+@import "normalize.less";
+@import "print.less";
+@import "glyphicons.less";
 
 // Core CSS
-@import (reference) "core/scaffolding";
-@import (reference) "core/type";
-@import "core/code";
-@import (reference) "core/grid";
-@import "core/tables";
-@import "core/forms";
-@import (reference) "core/buttons";
+@import "scaffolding.less";
+@import "type.less";
+@import "code.less";
+@import "grid.less";
+@import "tables.less";
+@import "forms.less";
+@import "buttons.less";
 
 // Components
-@import (reference) "core/component-animations";
-@import "core/dropdowns";
-@import "core/button-groups";
-@import "core/input-groups";
-@import (reference) "core/navs";
-@import (reference) "core/navbar";
-@import "core/breadcrumbs";
-@import "core/pagination";
-@import "core/pager";
-//@import "core/labels";
-//@import "core/badges";
-//@import "core/jumbotron";
-//@import "core/thumbnails";
-@import "core/alerts";
-//@import "core/progress-bars";
-@import "core/media";
-@import "core/list-group";
-@import "core/panels";
-@import "core/responsive-embed";
-//@import "core/wells";
-@import "core/close";
+@import "component-animations.less";
+@import "dropdowns.less";
+@import "button-groups.less";
+@import "input-groups.less";
+@import "navs.less";
+@import "navbar.less";
+@import "breadcrumbs.less";
+@import "pagination.less";
+@import "pager.less";
+@import "labels.less";
+@import "badges.less";
+@import "jumbotron.less";
+@import "thumbnails.less";
+@import "alerts.less";
+@import "progress-bars.less";
+@import "media.less";
+@import "list-group.less";
+@import "panels.less";
+@import "responsive-embed.less";
+@import "wells.less";
+@import "close.less";
 
 // Components w/ JavaScript
-//@import "core/modals";
-@import "core/tooltip";
-@import "core/popovers";
-//@import "core/carousel";
+@import "modals.less";
+@import "tooltip.less";
+@import "popovers.less";
+@import "carousel.less";
 
 // Utility classes
-@import (reference) "core/utilities";
-@import "core/responsive-utilities";
-
-// Custom Mixins
-@import (reference) "custom/mixins/media-queries";
-@import (reference) "custom/mixins/vendor-prefixes";
-@import "custom/mixins/responsive-utilities";
-@import "custom/mixins/sizes";
-@import "custom/mixins/fonts";
-@import (reference) "custom/mixins/type-mixins";
-@import "custom/mixins/type";
-@import "custom/mixins/images";
-@import (reference) "custom/mixins/buttons-prefixes";
-@import (reference) "custom/mixins/buttons";
-@import "custom/mixins/socials";
-@import (reference) "custom/mixins/menu";
-@import "custom/mixins/forms";
-@import "custom/mixins/media";
-
-// Plugins
-//@import "plugins/bootstrap-center-columns/bootstrap-center-columns";
-@import "plugins/bootstrap-hover-effect/bootstrap-hover-effect";
-@import "plugins/font-awesome/font-awesome";
-
-// Theme Rules
-@import "custom/theme/body";
-@import "custom/theme/affix";
-@import "custom/theme/sidebar";
-@import "custom/theme/home";
-@import "custom/theme/block";
-@import "custom/theme/footer";
-@import "custom/theme/cms";
-@import "custom/theme/product";
-@import "custom/theme/news";
-@import "custom/theme/contact";
-@import "custom/theme/about";
-@import "custom/theme/share";
-
-// Magix Plugins
-@import (optional) "custom/theme/gmap";
-@import (optional) "custom/theme/advantage";
-@import (optional) "custom/theme/faq";
+@import "utilities.less";
+@import "responsive-utilities.less";

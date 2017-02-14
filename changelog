@@ -1,3 +1,22 @@
+#### 2.7.2
+Stable
+
+* New structure for the default skin
+    * new structure for css & less files
+        * New working file in css/src to generate the files: mobile.min.css, style.min.css
+        * Independent bootstrap file
+        * Independent fancybox file
+        * Independent font-awesome file
+    * new structure for fonts
+* Add mobile detect API (lib)
+* Add watchers.xml for phpstorm (skin)
+* Add gulfile.js (skin)
+* Add tinymce templates to the skin
+    * snippet
+* Add get function for new params filter,sort (web service)
+* Moving the holder.js in libjs
+* Fix bug add new country (backend country)
+
 #### 2.7.1
 Stable
 

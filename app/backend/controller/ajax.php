@@ -40,6 +40,7 @@
  * License: Dual licensed under the MIT or GPL Version
  */
 class backend_controller_ajax{
+    protected $theme,$setSkinPath;
     /**
      * @var int
      */
@@ -49,6 +50,8 @@ class backend_controller_ajax{
      * Constructor
      */
     public function __construct(){
+        $this->theme = new backend_db_theming();
+        $this->setSkinPath = magixglobal_model_system::base_path().'skin'.DIRECTORY_SEPARATOR;
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -61,6 +64,99 @@ class backend_controller_ajax{
     }
 
     /**
+     * @return string
+     */
+    private function setSkinData(){
+        $currentSkin = $this->theme->s_current_theme();
+        $currentSkin['setting_value'];
+        if($currentSkin['setting_value'] != null){
+            if($currentSkin['setting_value'] == 'default'){
+                if(file_exists($this->setSkinPath.'default/')){
+                    $setData =  'default';
+                }
+            }elseif(file_exists($this->setSkinPath.$currentSkin['setting_value'].'/')){
+                $setData =  $currentSkin['setting_value'];
+            }else{
+                $setData = 'default';
+            }
+            return $setData;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    private function setSnippetPath(){
+        if(file_exists($this->setSkinPath.$this->setSkinData().DIRECTORY_SEPARATOR.'snippet')){
+            $setData['path'] = $this->setSkinPath.$this->setSkinData().DIRECTORY_SEPARATOR.'snippet';
+            $setData['type'] = 'skin';
+            $setData['directory'] = $this->setSkinData().'/snippet';
+        }else{
+            $setData['path'] = magixglobal_model_system::base_path().PATHADMIN.DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'snippet';
+            $setData['type'] = 'admin';
+            $setData['directory'] = 'snippet';
+        }
+        return $setData;
+    }
+
+    /**
+     * Parcourt le dossier des snippets HTML dans le skin courant ou le dossier de base
+     */
+    private function setSnippet(){
+        $setPath = $this->setSnippetPath();
+        if(is_array($setPath)) {
+            $directory = new RecursiveDirectoryIterator($setPath['path'], RecursiveDirectoryIterator::SKIP_DOTS);
+            $iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::LEAVES_ONLY);
+            //extension
+            $extensions = array("html");
+            // delimiteur
+            $delimiter = "\n";
+            if (is_object($iterator)) {
+                foreach ($iterator as $fileinfo) {
+                    // Compatibility with php < 5.3.6
+                    if (version_compare(phpversion(), '5.3.6', '<')) {
+                        $getExtension = pathinfo($fileinfo->getFilename(), PATHINFO_EXTENSION);
+                    } else {
+                        $getExtension = $fileinfo->getExtension();
+                    }
+                    if (in_array($getExtension, $extensions)) {
+                        if ($setPath['type'] === 'skin') {
+                            $pos = strpos($fileinfo->getPathname(), $setPath['type']);
+                            //$len = strlen($pos);
+                            if (stripos($_SERVER['HTTP_USER_AGENT'], 'win')) {
+                                $url = '/skin/' . $setPath['directory'] . '/' . $fileinfo->getFilename();
+                            } else {
+                                $url = DIRECTORY_SEPARATOR . substr($fileinfo->getPathname(), $pos);
+                            }
+                        } elseif ($setPath['type'] === 'admin') {
+                            $pos = strpos($fileinfo->getPathname(), PATHADMIN);
+                            //$len = strlen($pos);
+                            if (stripos($_SERVER['HTTP_USER_AGENT'], 'win')) {
+                                $url = '/' . PATHADMIN . '/template/' . $setPath['directory'] . '/' . $fileinfo->getFilename();
+                            } else {
+                                $url = DIRECTORY_SEPARATOR . substr($fileinfo->getPathname(), $pos);
+                            }
+                        }
+
+                        $files[] = $delimiter . '{'
+                            . 'title:"' . $fileinfo->getBasename('.' . $getExtension)
+                            . '", url:"'
+                            . $url
+                            . '"}';
+                    }
+                }
+                if (is_array($files)) {
+                    asort($files, SORT_REGULAR);
+                    $ouput = 'templates = [';
+                    $ouput .= implode(',', $files);
+                    $ouput .= $delimiter . ']';
+                    print $ouput;
+                }
+            }
+        }
+    }
+    /**
+     * @deprecated
      * Parcourt le dossier des snippets HTML
      * @param $dir
      */
@@ -73,6 +169,7 @@ class backend_controller_ajax{
         $extensions = array("html");
         // delimiteur
         $delimiter = "\n";
+
         if(is_object($iterator)){
             foreach ($iterator as $fileinfo) {
                 // Compatibility with php < 5.3.6
@@ -125,7 +222,7 @@ class backend_controller_ajax{
                             $header->cache_control("nocache");
                             $header->getStatus('200');
                             $header->javascript_header("UTF-8");
-                            $this->jsSnippet('snippet');
+                            $this->setSnippet();
                         }
                     }
                 }

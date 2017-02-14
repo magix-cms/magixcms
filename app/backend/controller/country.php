@@ -341,7 +341,7 @@ class backend_controller_country extends backend_db_country{
                     'order_c'   =>  $dataCount['datacount']+1
                 ));
                 $this->getItemData();
-                $this->message->json_post_response(true,'add',self::$notify,$this->template->fetch('country/loop/item.tpl'));
+                $this->message->json_post_response(true,'add',$this->template->fetch('country/loop/item.tpl'),self::$notify);
             }
         }
     }

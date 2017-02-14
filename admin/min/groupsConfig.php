@@ -19,7 +19,7 @@ return array(
         '//libjs/vendor/jquery.validate.1.13.0.min.js',
         '//libjs/vendor/additional-methods.1.13.0.min.js',
         '//'.PATHADMIN.'/template/js/vendor/bootstrap.min.js',
-        '//'.PATHADMIN.'/template/js/vendor/holder.min.js',
+        '//libjs/vendor/holder.min.js',
         '//'.PATHADMIN.'/template/js/vendor/bootstrap2-toggle.min.js'
     ),
 	'jimagine' =>   array(

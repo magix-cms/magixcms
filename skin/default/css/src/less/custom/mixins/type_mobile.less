@@ -1,0 +1,92 @@
+@charset "utf-8";
+/*
+ * Custom rules for text
+ */
+/*---------------------------*\
+----- Font weight classes -----
+\*---------------------------*/
+.semiBold {
+    font-weight: 600;
+}
+
+.extraBold {
+    font-weight: 800;
+}
+
+
+/*------------------*\
+----- Paragraphe -----
+\*------------------*/
+p {
+    .normalize-link(@main-color, same, underline, 600);
+}
+
+
+/*----------------------*\
+----- Citation style -----
+\*----------------------*/
+blockquote {
+    border-left: none;
+    padding-left: 66px;
+    position: relative;
+	span.quote{
+		position: absolute;
+		top: -10px;
+		left: 0;
+		&:before {
+			.quote;
+			content: "“";
+			color: #ccc;
+			font-size: 100px;
+			line-height: 1;
+		}
+	}
+	p {
+		font-style: italic;
+		.text-justify;
+	}
+	footer {
+		.quote;
+		text-align: right;
+		font-size: 17px;
+		font-weight: lighter;
+		color: #959595;
+		&:before {
+			content: "— ";
+		}
+		&:after {
+			content: " —";
+		}
+	}
+}
+
+
+/*--------------*\
+----- Listes -----
+\*--------------*/
+.link-bar {
+	text-align: center;
+	.list-unstyled;
+	.list-inline;
+	.normalize-link(@main-color);
+
+	li {
+		border-right: 1px solid #959595;
+
+		a {
+			padding: 5px;
+		}
+
+		&:last-child {
+			border-right: none;
+		}
+	}
+}
+
+/*-----------------------*\
+----- Text font sizes -----
+\*-----------------------*/
+// --- justify content
+.text-justify {
+	.text-justify;
+}

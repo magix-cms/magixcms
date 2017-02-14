@@ -64,6 +64,13 @@ class frontend_model_config extends frontend_db_config{
 				$this->template->assign($key['setting_id'],$key['setting_value']);
             }
         }
+
+		$detect = new Mobile_Detect;
+		$mobile = false;
+		if( $detect->isMobile() && !$detect->isTablet() ){
+			$mobile = true;
+		}
+		$this->template->assign('mobileBrowser', $mobile);
     }
 }
 ?>

@@ -1,0 +1,15 @@
+Style (Less)
+
+(file:skin/*/css/fancybox//*||file:skin/*/css/font-awesome/less//*||file:skin/*/css/bootstrap/less//*||file:skin/*/css/src/less/custom/critical/*||file:skin/*/css/src/less/custom/theme/*||file:skin/*/css/src/less/custom/mixins//*||file:skin/*/css/src/less/plugins//*||file:skin/*/css/src/less/compiler.less||file:skin/*/css/src/less/style.less)&&!file:skin/bootstrap//*
+
+Mobile (Less)
+
+(file:skin/*/css/fancybox//*||file:skin/*/css/font-awesome/less//*||file:skin/*/css/bootstrap/less//*||file:skin/*/css/src/less/custom/critical/mobile//*||file:skin/*/css/src/less/custom/theme/mobile//*||file:skin/*/css/src/less/custom/mixins//*||file:skin/*/css/src/less/plugins//*||file:skin/*/css/src/less/compiler.less||file:skin/*/css/src/less/mobile.less)&&!file:skin/bootstrap//*
+
+Script
+
+file:skin/*/js/src/*.js
+
+Vendors
+
+file:skin/*/js/vendor/src/*.js

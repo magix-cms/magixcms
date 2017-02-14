@@ -27,23 +27,23 @@ ainsi qu'une indexation optimal dans les moteurs de recherches.
 Authors
 -------
 
- * Gerits Aurelien (Author-Developer) contact[at]aurelien-gerits[point]be - aurelien[at]magix-cms[point]com
+ * Gerits Aurelien (Author-Developer) aurelien[at]magix-cms[point]com
     * [magixcms](http://www.magix-cms.com)
-    * [CV Aurelien Gerits](http://www.aurelien-gerits.be)
     * [Github Aurelien Gerits](https://github.com/gtraxx/)
     * [MagixcjQuery](http://www.magix-cjquery.com)
 
 ## Contributors
 
  * Lesire Samuel (http://www.sire-sam.be)
- * Jean-Baptiste Demonte (http://jb.demonte.fr)
- * Salvatore (http://www.disalvo-infographiste.be)
+ * Demonte Jean-Baptiste (http://jb.demonte.fr)
+ * Disalvo Salvatore (http://www.disalvo-infographiste.be)
  
 Site officiel
 -----
 
  * http://www.magix-cms.com (site officiel)
- * http://www.magix-cms.com/fr/catalogue/ (Documentation intégrateur)
+ * http://www.magix-cms.com/fr/catalogue/ (Documentation)
+ * http://www.magix-cms.com/fr/docws/ (API)
 
 Ressources
 -----
@@ -108,7 +108,10 @@ Pour modifier un template, installez NODE.JS et LESS
 
  * https://nodejs.org
  * http://lesscss.org
+ 
+### Optionnel
 
+ * http://gulpjs.com
 
 Licence
 ------------

@@ -1,0 +1,12 @@
+/*
+ * <%= theme.name %> v<%= theme.version %> for Magix CMS v<%= theme.magixcms %>
+ *
+ * MAGIX CMS Copyright (C) 2008 - 2017 Gerits Aurelien,
+ * http://www.magix-cms.com, http://www.magix-cjquery.com, http://www.aurelien-gerits.be
+ * @author Gérits Aurélien <aurelien@magix-cms.com>
+ * @author Salvatore Di Salvo <http://www.disalvo-infographiste.be>
+ *
+ * Full source at https://github.com/magix-cms/magixcms
+ *
+ * Dual licensed under the MIT or GPL Version 3 licenses.
+ */

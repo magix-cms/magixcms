@@ -1,0 +1,112 @@
+/*--------------------------*\
+----- Back to top button -----
+\*--------------------------*/
+.toTop(@enabled) when (@enabled = 1) {
+	.toTop, .toTop.affix-top { display: none; }
+
+	.toTop.float-btn {
+		display: block;
+
+		&.align-right {
+			.pull-right;
+		}
+		&.align-left {
+			.pull-left;
+		}
+	}
+
+	@media (min-width: @screen-sm-min) {
+		.toTop, .toTop.affix-top {
+			position: fixed;
+			bottom: @btt-bottom-offset;
+			opacity: 0;
+			visibility: hidden;
+			z-index: 300;
+			display: block;
+			.auto-transition(1s);
+
+			&.affix {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			&.align-right {
+				right: @btt-right-offset;
+			}
+			&.align-left {
+				left: @btt-left-offset;
+			}
+
+			a {
+				.size(100px,40px);
+				display: block;
+				color: @light-gray;
+				margin: 0 auto;
+				.text-center;
+				.auto-transition(.35s);
+				span {
+					font-size: 4.5em;
+					position: relative;
+					top: -15px;
+				}
+				&:hover, &:focus, &:active {
+					text-decoration: none;
+					border-color: @main-color;
+					color: @main-color;
+				}
+			}
+		}
+	}
+}
+.toTop(@btt-btn);
+
+.hdFixed(@enabled) when (@enabled = 1) {
+	// --- Fixed header
+	#header-fixed {
+		display: none;
+	}
+
+	@media (min-width: @screen-md-min) {
+		#header-fixed {
+			z-index: 202;
+			position: fixed;
+			top: -200px;
+			background: @header-fixed-bg;
+			width: 100%;
+			padding: 12px 0;
+			display: block;
+			//.auto-transition(.4s);
+			.box-shadow(0 1px 2px rgba(0, 0, 0, .1));
+
+			.navbar-brand {
+				padding: 0 15px;
+				height: auto;
+
+				img {
+					float: left;
+					width: 200px;
+					height: auto;
+				}
+
+				.site-name {
+					font-size: 30px;
+					line-height: 1;
+					color: @smooth-white;
+					display: inline-block;
+					padding: 13px 0;
+					margin-left: 15px;
+				}
+			}
+
+			&.affix-top {
+				position: fixed;
+				top: -200px;
+			}
+
+			&.affix {
+				top: 0;
+			}
+		}
+	}
+}
+.hdFixed(@hdFixed);

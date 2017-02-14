@@ -1,0 +1,53 @@
+{
+  "name": "default",
+  "description": "This is the standalone gulp configuration for the default theme",
+  "version": "1.0.0",
+  "keywords": [
+    "css",
+    "less",
+    "sass",
+    "mobile-first",
+    "responsive",
+    "front-end",
+    "framework",
+    "web"
+  ],
+  "authors": [
+    "Salvatore Di Salvo"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.magix-cms.com/fr/",
+  "style": "css/style.min.css",
+  "less": "css/src/less/style.less",
+  "sass": "css/src/sass/style.scss",
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magix-cms/magixcms"
+  },
+  "bugs": {
+    "url": "https://github.com/magix-cms/magixcms/issues"
+  },
+  "engines": {
+    "node": ">=6.9.4",
+    "npm": ">=4.1.2"
+  },
+  "devDependencies": {
+    "download": "^5.0.3",
+    "fs": "*",
+    "gaze": "^1.1.2",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-header": "^1.8.8",
+    "gulp-less": "^3.3.0",
+    "gulp-load-plugins": "^1.4.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-ruby-sass": "^2.1.1",
+    "gulp-uglify": "^2.0.0",
+    "inquirer": "^3.0.1",
+    "prompt": "^1.0.0",
+    "run-sequence": "^1.2.2"
+  }
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TaskOptions>
+  <TaskOptions>
+    <option name="arguments" value="--no-color --clean-css style.less" />
+    <option name="checkSyntaxErrors" value="true" />
+    <option name="description" />
+    <option name="exitCodeBehavior" value="ERROR" />
+    <option name="fileExtension" value="less" />
+    <option name="immediateSync" value="false" />
+    <option name="name" value="Style (Less)" />
+    <option name="output" value="../../style.min.css" />
+    <option name="outputFilters">
+      <array>
+        <FilterInfo>
+          <option name="description" value="lessc error format" />
+          <option name="name" value="lessc" />
+          <option name="regExp" value="$MESSAGE$\Q in \E$FILE_PATH$\Q on line \E$LINE$\Q, column \E$COLUMN$" />
+        </FilterInfo>
+      </array>
+    </option>
+    <option name="outputFromStdout" value="true" />
+    <option name="program" value="Your less path/lessc.cmd" />
+    <option name="scopeName" value="Style" />
+    <option name="trackOnlyRoot" value="true" />
+    <option name="workingDir" value="$FileDir$" />
+    <envs />
+  </TaskOptions>
+  <TaskOptions>
+    <option name="arguments" value="--no-color --clean-css mobile.less" />
+    <option name="checkSyntaxErrors" value="true" />
+    <option name="description" />
+    <option name="exitCodeBehavior" value="ERROR" />
+    <option name="fileExtension" value="less" />
+    <option name="immediateSync" value="false" />
+    <option name="name" value="Mobile (Less)" />
+    <option name="output" value="../../mobile.min.css" />
+    <option name="outputFilters">
+      <array>
+        <FilterInfo>
+          <option name="description" value="lessc error format" />
+          <option name="name" value="lessc" />
+          <option name="regExp" value="$MESSAGE$\Q in \E$FILE_PATH$\Q on line \E$LINE$\Q, column \E$COLUMN$" />
+        </FilterInfo>
+      </array>
+    </option>
+    <option name="outputFromStdout" value="true" />
+    <option name="program" value="Your less path/lessc.cmd" />
+    <option name="scopeName" value="Mobile" />
+    <option name="trackOnlyRoot" value="true" />
+    <option name="workingDir" value="$FileDir$" />
+    <envs />
+  </TaskOptions>
+  <TaskOptions>
+    <option name="arguments" value="$FileDir$\$FileName$ --comments -o $FileNameWithoutExtension$.min.js" />
+    <option name="checkSyntaxErrors" value="true" />
+    <option name="description" />
+    <option name="exitCodeBehavior" value="ERROR" />
+    <option name="fileExtension" value="js" />
+    <option name="immediateSync" value="false" />
+    <option name="name" value="Script" />
+    <option name="output" value="$FileNameWithoutExtension$.min.js" />
+    <option name="outputFilters">
+      <array />
+    </option>
+    <option name="outputFromStdout" value="false" />
+    <option name="program" value="Your uglifyjs path/uglifyjs.cmd" />
+    <option name="scopeName" value="Script" />
+    <option name="trackOnlyRoot" value="true" />
+    <option name="workingDir" value="$FileParentDir$" />
+    <envs />
+  </TaskOptions>
+  <TaskOptions>
+    <option name="arguments" value="$FileDir$\$FileName$ --comments -o $FileNameWithoutExtension$.min.js" />
+    <option name="checkSyntaxErrors" value="true" />
+    <option name="description" />
+    <option name="exitCodeBehavior" value="ERROR" />
+    <option name="fileExtension" value="js" />
+    <option name="immediateSync" value="false" />
+    <option name="name" value="Script Vendors" />
+    <option name="output" value="$FileNameWithoutExtension$.min.js" />
+    <option name="outputFilters">
+      <array />
+    </option>
+    <option name="outputFromStdout" value="false" />
+    <option name="program" value="Your uglifyjs path/uglifyjs.cmd" />
+    <option name="scopeName" value="Script Vendors" />
+    <option name="trackOnlyRoot" value="true" />
+    <option name="workingDir" value="$FileParentDir$" />
+    <envs />
+  </TaskOptions>
+</TaskOptions>
+

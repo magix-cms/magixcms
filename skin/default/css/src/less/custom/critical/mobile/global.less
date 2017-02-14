@@ -1,0 +1,52 @@
+/*
+ * Common rules for all pages
+ */
+html {
+    position: relative;
+    min-height: 100%;
+    background: #ffffff;
+}
+
+body {
+    background-color: transparent;
+
+    @media (max-width: @screen-xs-max) {
+        margin-bottom: @footer-height;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        margin-bottom: @footer-height-sm;
+    }
+
+    @media (min-width: @screen-md-min) {
+        margin-bottom: @footer-height-md;
+    }
+
+    @media (min-width: @screen-lg-min) {
+        margin-bottom: @footer-height-lg;
+    }
+
+	> main {
+		margin-top: 15px;
+		padding-bottom: 50px;
+	}
+
+	> main ~ section {
+		padding-bottom: 50px;
+	}
+}
+
+.normalize-content;
+
+// --- Lead paragraphe
+.lead {
+    .title-font;
+}
+
+// --- All headings
+.headings ({
+	.title-font;
+});
+
+// Set selection style
+.text-select(@main-color);

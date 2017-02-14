@@ -1,0 +1,266 @@
+/*
+ * Rules for footer
+ */
+#footer {
+	background: @footer-bg;
+	color: @footer-color;
+	position: absolute;
+	bottom: 34px;
+	font-weight: lighter;
+	width: 100%;
+	@media (min-width: @screen-sm-min) {
+		bottom: 0;
+	}
+
+	// Global footer rules
+	h4 {
+		font-size: 18px;
+		margin: 0 0 20px;
+		color: #e6e6e6;
+		border-bottom: 1px solid @light-gray;
+		padding-bottom: 10px;
+		.title-font;
+		font-weight: lighter;
+	}
+
+	a {
+		color: @footer-color;
+	}
+
+	.block {
+		margin-bottom: 20px;
+	}
+
+	.contact-list-footer {
+		> li {
+			font-size: 22px;
+			color: @footer-color;
+			.only-small({ font-size: 20px; });
+
+			span {
+				width: 30px;
+				color: @footer-color;
+			}
+		}
+	}
+
+	&-blocks {
+		padding: 20px 0;
+	}
+}
+
+#block {
+	&-contact {
+		.normalize-link(@main-color);
+	}
+
+	&-last-news {
+		.news-list-last {
+			h5 {
+				color: @footer-color;
+				.semiBold;
+				line-height: 1.428;
+			}
+
+			a {
+				color: @footer-color;
+				text-decoration: none;
+				h5 {
+					color: @footer-color;
+					text-decoration: none;
+				}
+				&:hover {
+					color: @footer-color;
+					text-decoration: none;
+					p, h5 {
+						color: @footer-color;
+						text-decoration: none;
+					}
+				}
+			}
+
+			.media-footer {
+				border-bottom: 1px dotted @light-gray;
+				color: @light-gray;
+				padding-bottom: 10px;
+				p {
+					font-size: 12px;
+					margin-bottom: 5px;
+				}
+				small {
+					color: @footer-color;
+				}
+			}
+		}
+	}
+
+	// --- Block contact
+	&-contact {
+		color: @light-gray;
+		font-size: 12px;
+
+		strong/*, .mailto a*/ {
+			font-weight: 600;
+		}
+
+		h4 + p {
+			font-size: 14px;
+		}
+	}
+
+	// --- Facebook widget Page Box
+	&-facebook {
+		// Widget forced style
+		.fb-page.fb_iframe_widget, .fb-page.fb_iframe_widget > span, .fb-page.fb_iframe_widget iframe, ._li div, #u_0_0, iframe ._h7r, ._1drm {
+			width: 100% !important;
+			min-width: 100% !important;
+			max-width: 100% !important;
+			height: 100% !important;
+			min-height: 100% !important;
+			max-height: 100% !important;
+		}
+		._1drr._2ph- {
+			bottom: 200px !important;
+			z-index: 1 !important;
+		}
+	}
+
+	// --- Block links
+	&-cms {
+		li {
+			a {
+				display: block;
+				padding: 2px 0 3px;
+			}
+		}
+	}
+}
+
+ul#nav-footer.link-bar {
+	margin: 15px 0;
+	display: block;
+}
+
+#footbar {
+	display: none;
+}
+
+#colophon {
+	background-color: @toolbar-bg;
+	.footer {
+		&-colophon {
+			padding: 10px 0;
+			overflow: hidden;
+			> div {
+				text-align: center;
+			}
+
+			p {
+				margin: 0;
+			}
+
+			.footer-copyright {
+				margin-top: 5px;
+				color: #959595;
+
+				.footer-website {
+					margin: 20px 0 0 0;
+					padding-bottom: 0;
+					font-size: 28px;
+					border-bottom: none;
+					.only-small({ font-size: 22px; margin: 17px 0 3px; });
+				}
+
+				.copyright-info {
+					color: @footer-color;
+				}
+
+				a {
+					.img-responsive {
+						margin: 20px 0 15px;
+					}
+				}
+			}
+		}
+
+		&-certify {
+			margin: 15px 0;
+		}
+
+		&-creator {
+			color: #959595;
+			.normalize-link(@main-color, same, underline, lighter, "Raleway");
+
+			a {
+				font-size: 21px;
+			}
+		}
+	}
+}
+
+@media (max-width: @screen-xs-max) {
+	#footbar {
+		position: fixed;
+		bottom: 0;
+		display: block;
+		width: 100%;
+		z-index: 2;
+		padding-bottom: 0;
+
+		.wrapper {
+			background: @main-color;
+			color: @smooth-white;
+			font-weight: lighter;
+			height: 34px;
+		}
+
+		.dropup {
+			position: static;
+		}
+
+		.share-nav {
+			position: absolute;
+			width: 100%;
+			z-index: -1;
+			bottom: -16px;
+			background: @sharebar-bg;
+			display: block;
+			padding: 8px 15px;
+			height: 50px;
+			.auto-transition(.5s);
+			box-shadow: 0 0 1px rgba(0,0,0,.2) inset;
+
+			li {
+				float: left;
+				margin-right: 15px;
+			}
+		}
+
+		.dropup.open + .share-nav {
+			bottom: 34px;
+		}
+	}
+}
+
+@media (min-width: @screen-sm-min) {
+	#footer {
+		&-blocks {
+			padding: 40px 0;
+		}
+	}
+
+	#colophon {
+		.footer {
+			&-colophon {
+				> div {
+					&:first-child {
+						text-align: left;
+					}
+					&:last-child {
+						text-align: right;
+					}
+				}
+			}
+		}
+	}
+}

@@ -63,6 +63,14 @@ if (!file_exists($loaderFilename)) {
 }else{
 	require $loaderFilename;
 }
+$mobileDetect = 'lib/mobiledetect/Mobile_Detect.php';
+if (!file_exists($mobileDetect)) {
+	print "<p>Mobile Detect not found<br />Contact Support Magix CMS: support@magix-cms.com</p>";
+	exit;
+}else{
+	require $mobileDetect;
+}
+
 $config = 'app/config/config.php';
 if (!file_exists($config)) {
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
