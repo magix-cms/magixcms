@@ -1,4 +1,4 @@
-/*
+/*!
  * <%= theme.name %> v<%= theme.version %> for Magix CMS v<%= theme.magixcms %>
  *
  * MAGIX CMS Copyright (C) 2008 - 2017 Gerits Aurelien,

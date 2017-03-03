@@ -37,7 +37,7 @@
 {/strip}</head>
 <body id="{block name='body:id'}layout{/block}" itemscope itemtype="http://schema.org/{block name="webType"}WebPage{/block}" itemref="meta">
     {include file="section/brick/cookie-consent.tpl"}{* Pour menu="cat-dropdown" ou menu="mega-dropdown" il faut au minimum menuclass='mega-dropdown' *}
-    {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="dropdown" menuclass='' submenu=true gmap=false faq=false affix=false}
+    {include file="section/header.tpl" adjust="clip" toolbar=true menubar=false menu="dropdown" menuclass='' submenu=true gmap=false faq=false affix=true}
     {block name="breadcrumb"}
         {include file="section/nav/breadcrumb.tpl" adjust="clip" quickAccess=false icon=false}
     {/block}
@@ -92,7 +92,7 @@
             {script src=$smarty.capture.scriptSkin concat=$concat type="javascript" load='async'}
         {/strip}
     {/block}
-    {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300,500','Philosopher'=>'0']}{/block}
+    {block name="fonts"}{include file="section/brick/google-font.tpl" fonts=['Open Sans'=>'300,400,600,400italic','Raleway'=>'300,500']}{/block}
     {block name="styleSheet"}{/block}
 </body>
 </html>

@@ -26,15 +26,10 @@
     {if !isset($menuclass)}
         {assign var="menuclass" value=''}
     {/if}
-    {if !isset($affix)}
-        {assign var="affix" value=true}
-    {/if}
 {/strip}
-<header id="header">
-    {if $toolbar}
-        {include file="section/toolbar.tpl" adjust="clip"}
-    {/if}
-    <section id="header-menu" role="navigation" class="{if $adjust == 'fluid'}section-block container-fluid{/if}">
+<header{if !$menubar} id="header"{/if}>
+    {if $toolbar}{include file="section/toolbar.tpl" adjust="clip"}{/if}
+    <section id="header{if !$menubar}-menu{/if}" role="navigation" class="{if $adjust == 'fluid'}section-block container-fluid{/if}{if !$menubar && $affix} affix{/if}">
         {if $adjust == 'clip'}<div class="container">
             <div class="row">{/if}
                 {* Show Nav Button (xs ad sm only) *}
@@ -61,28 +56,4 @@
             {include file="section/menu/primary.tpl" id="main-menu" type=$menu cclass=$menuclass root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=true}
         {/if}
     </section>
-    {if $affix}
-    <section id="header-fixed" role="navigation" {if $adjust == 'fluid' || $menubar} class="{if $menubar}affix-menubar{/if}{if $adjust == 'fluid'} section-block container-fluid{/if}"{/if} aria-hidden="true">
-        {if $adjust == 'clip'}
-        <div class="container">
-            <div class="row">
-                {/if}
-            {if !$menubar}
-            {* Brand && Headline *}
-            <a class="navbar-brand" href="/{getlang}/" title="{#logo_link_title#|ucfirst}">
-                <img class="img-responsive" src="/skin/{template}/img/logo/{#logo_img_affix#}" alt="{#logo_img_alt#|ucfirst}" width="200" height="37"/>
-            </a>
-            {/if}
-            {if $adjust == 'clip' && !$menubar}
-                {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu cclass=$menuclass root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
-            {/if}
-                {if $adjust == 'clip'}
-            </div>
-        </div>
-        {/if}
-        {if ($adjust == 'clip' && $menubar) || $adjust == 'fluid'}
-            {include file="section/menu/primary.tpl" id="menu-fixed" type=$menu cclass=$menuclass root=$root submenu=$submenu gmap=$gmap faq=$faq justified=$menubar microData=false}
-        {/if}
-    </section>
-    {/if}
 </header>

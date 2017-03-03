@@ -91,6 +91,16 @@ class frontend_model_smarty extends Smarty{
         $this->setTemplateDir(array(
             self::setPath()."skin/".frontend_model_template::frontendTheme()->themeSelected().'/'
         ));
+        /**
+         * additionnal Path -> configs
+         */
+        if(frontend_model_template::frontendTheme()->themeSelected() !== 'default') {
+        	if(file_exists(self::setPath()."skin/".frontend_model_template::frontendTheme()->themeSelected().'/i18n/')) {
+                $this->addConfigDir([
+                    self::setPath() . "skin/" . frontend_model_template::frontendTheme()->themeSelected() . '/i18n/'
+                ]);
+            }
+		}
 		/**
 		 * path plugins
 		 * @var void

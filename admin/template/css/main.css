@@ -253,13 +253,13 @@ tbody.ui-sortable > .ui-sortable-helper{
     margin: 20px 0;
 }
 .list-picture li{
-    margin:0 0 0 5px;
+    margin-bottom: 5px;
     text-align:center;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 3px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     padding: 4px;
-    height: 120px;
+    /*height: 120px;*/
 }
 .list-picture li:hover{
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -272,7 +272,7 @@ tbody.ui-sortable > .ui-sortable-helper{
 .list-picture > li > .block-remove{
     position:absolute;
 }
-.list-picture > li > img{
+.list-picture > li > div > img{
     max-height:120px;
 }
 /*

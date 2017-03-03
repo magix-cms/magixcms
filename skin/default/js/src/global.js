@@ -71,12 +71,6 @@ function getPosition(element) {
 $(function()
 {
 	var width = $(window).width();
-	// *** In case you don't have firebug...
-    /*if (!window.console || !console.firebug) {
-        var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
-        window.console = {};
-        for (var i = 0; i < names.length; ++i) window.console[names[i]] = function() {};
-    }*/
 
 	// *** target_blank
     $('a.targetblank').click( function() {
@@ -89,48 +83,27 @@ $(function()
 	//$('[data-toggle="popover"]').popover();
 
 	// *** Auto-position of the affix header
-	var aHead = document.getElementById('header-fixed');
-	if (aHead != null) {
-		if ($('#header-fixed').hasClass('affix-menubar')) {
-			var target = getPosition(document.getElementById('main-menu'));
-		} else {
-			var target = getPosition(document.getElementById('header'));
-		}
-		$('#header-fixed').affix({
-			offset: {
-				top: target.y,
-				bottom: function () {
-					return (this.bottom = $('.footer').outerHeight(true))
-				}
-			}
-		})
-	} else {
-		if(width > 768) {
-			var target = getPosition(document.getElementById('header-menu'));
-			target = target.y;
-			var space = $('#header-menu').height();
-			var lastPos = $(window).scrollTop();
+	if(width > 768) {
+		var menu = document.getElementById('header-menu');
+		if($(menu).hasClass('affix')) {
+			var head = document.getElementById('header'),
+				space = $(menu).height(),
+				tar = getPosition(menu);
+			tar = tar.y;
 
-			/*function affixHead() {
-			 var scrollTop = $(window).scrollTop();
-			 if (scrollTop > target.y) {
-			 $('#header-menu').addClass('affix affix-top');
-			 if (document.getElementById('toolbar') != null) $('#toolbar').css('margin-bottom',space)
-			 } else {
-			 $('#header-menu').removeClass('affix affix-top');
-			 if (document.getElementById('toolbar') != null) $('#toolbar').css('margin-bottom',0)
-			 }
-			 }*/
 			function affixHead() {
-				var scrollTop = $(window).scrollTop();
-				if ((scrollTop > target && lastPos < target) || (scrollTop == lastPos && scrollTop > target)) {
-					$('#header-menu').addClass('affix affix-top').prev().css('margin-bottom',space);
+				var pos = window.pageYOffset,
+					atTop = $(menu).hasClass('affix-top');
+
+				if (pos > tar && !atTop) {
+					$(menu).addClass('affix-top');
+					$(head).css('margin-bottom',space);
 					$('body > .toTop').addClass('affix').removeClass('affix-top');
-				} else if((lastPos > target && scrollTop < target) || (scrollTop == lastPos && scrollTop < target)){
-					$('#header-menu').removeClass('affix affix-top').prev().css('margin-bottom',0);
+				} else if(pos < tar && atTop){
+					$(menu).removeClass('affix-top');
+					$(head).css('margin-bottom',0);
 					$('body > .toTop').addClass('affix-top').removeClass('affix');
 				}
-				lastPos = scrollTop;
 			}
 			$(window).scroll(affixHead);
 			affixHead();
@@ -138,10 +111,9 @@ $(function()
 	}
 
     // *** Smooth Scroll to Top
-    var speed = 1000;
     $('.toTop').click(function(e){
         e.preventDefault();
-        $('html, body').animate({ scrollTop: 0 }, speed);
+        $('html, body').animate({ scrollTop: 0 }, 1000);
         return false;
     });
 

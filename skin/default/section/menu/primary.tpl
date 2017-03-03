@@ -396,6 +396,7 @@
 {/if}
 {/strip}
 {* --- Create Menu HTML --- *}
+{if $menubar}<div id="header-menu"{if $affix} class="affix"{/if}>{/if}
 <nav{if isset($id)} id="{$id}"{/if} class="menu collapse navbar-collapse{if isset($type)} menu-{$type}{/if}{if isset($cclass)} {$cclass}{/if}{if $menubar} menubar{/if}"{if $microData} itemprop="hasPart" itemscope itemtype="http://schema.org/SiteNavigationElement"{/if}>
     {if $adjust == 'clip' && $menubar}
     <div class="container">
@@ -412,3 +413,4 @@
     </div>
     {/if}
 </nav>
+{if $menubar}</div>{/if}

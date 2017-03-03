@@ -61,49 +61,12 @@
 .toTop(@btt-btn);
 
 .hdFixed(@enabled) when (@enabled = 1) {
-	// --- Fixed header
-	#header-fixed {
-		display: none;
-	}
-
-	@media (min-width: @screen-md-min) {
-		#header-fixed {
-			z-index: 202;
-			position: fixed;
-			top: -200px;
-			background: @header-fixed-bg;
-			width: 100%;
-			padding: 12px 0;
-			display: block;
-			//.auto-transition(.4s);
-			.box-shadow(0 1px 2px rgba(0, 0, 0, .1));
-
-			.navbar-brand {
-				padding: 0 15px;
-				height: auto;
-
-				img {
-					float: left;
-					width: 200px;
-					height: auto;
-				}
-
-				.site-name {
-					font-size: 30px;
-					line-height: 1;
-					color: @smooth-white;
-					display: inline-block;
-					padding: 13px 0;
-					margin-left: 15px;
-				}
-			}
-
+	@media (min-width: @screen-sm-min) {
+		#header-menu {
 			&.affix-top {
 				position: fixed;
-				top: -200px;
-			}
-
-			&.affix {
+				z-index: 10;
+				width: 100%;
 				top: 0;
 			}
 		}

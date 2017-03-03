@@ -10,8 +10,8 @@
 @import (reference) "plugins/bootstrap-hover-effect/mixins";
 
 // Custom variables
-@import (reference) "custom/mixins/variables";
-@import (reference) "custom/mixins/colors";
+@import (reference) "mixins/variables";
+@import (reference) "mixins/colors";
 
 // Reset and dependencies
 @import "../../bootstrap/less/normalize";
@@ -30,7 +30,7 @@
 // Components
 @import "../../bootstrap/less/component-animations";
 @import "../../bootstrap/less/dropdowns";
-//@import "../../bootstrap/less/button-groups";
+@import "../../bootstrap/less/button-groups";
 @import "../../bootstrap/less/input-groups";
 @import "../../bootstrap/less/navs";
 @import "../../bootstrap/less/navbar";
@@ -40,18 +40,18 @@
 //@import "../../bootstrap/less/labels";
 //@import "../../bootstrap/less/badges";
 //@import "../../bootstrap/less/jumbotron";
-@import "../../bootstrap/less/thumbnails";
+//@import "../../bootstrap/less/thumbnails";
 @import "../../bootstrap/less/alerts";
 //@import "../../bootstrap/less/progress-bars";
-//@import "../../bootstrap/less/media";
-//@import "../../bootstrap/less/list-group";
-//@import "../../bootstrap/less/panels";
+@import "../../bootstrap/less/media";
+@import "../../bootstrap/less/list-group";
+@import "../../bootstrap/less/panels";
 @import "../../bootstrap/less/responsive-embed";
-//@import "../../bootstrap/less/wells";
+@import "../../bootstrap/less/wells";
 @import "../../bootstrap/less/close";
 
 // Components w/ JavaScript
-@import "../../bootstrap/less/modals";
+//@import "../../bootstrap/less/modals";
 @import "../../bootstrap/less/tooltip";
 //@import "../../bootstrap/less/popovers";
 @import "../../bootstrap/less/carousel";
@@ -61,48 +61,49 @@
 @import "../../bootstrap/less/responsive-utilities";
 
 // Custom Mixins
-@import (reference) "custom/mixins/media-queries";
-@import (reference) "custom/mixins/vendor-prefixes";
-//@import "custom/mixins/responsive-utilities";
-@import "custom/mixins/sizes";
-@import "custom/mixins/fonts";
-@import (reference) "custom/mixins/type-mixins";
-@import "custom/mixins/type";
-@import "custom/mixins/images";
-@import (reference) "custom/mixins/buttons-prefixes";
-@import "custom/mixins/buttons";
-@import "custom/mixins/socials";
-@import "custom/mixins/menu";
-@import "custom/mixins/forms";
-@import "custom/mixins/media";
+@import (reference) "mixins/media-queries";
+@import (reference) "mixins/vendor-prefixes";
+//@import "mixins/responsive-utilities";
+@import "mixins/sizes";
+@import "mixins/fonts";
+@import (reference) "mixins/type-mixins";
+@import "mixins/type";
+@import "mixins/images";
+@import (reference) "mixins/buttons-prefixes";
+@import "mixins/buttons";
+@import "mixins/socials";
+@import "mixins/menu";
+@import "mixins/forms";
+@import "mixins/media";
 
 // Plugins
 //@import "plugins/bootstrap-center-columns/bootstrap-center-columns";
 @import "plugins/bootstrap-hover-effect/bootstrap-hover-effect";
 @import (less) "../../fancybox/jquery.fancybox.min.css";
+
 // Theme Rules
-@import "custom/critical/global";
-@import "custom/critical/toolbar";
-@import "custom/critical/header";
-@import "custom/critical/breadcrumbs";
-@import "custom/critical/carousel";
-@import "custom/critical/navs";
-@import "custom/theme/body";
-@import "custom/theme/affix";
-@import "custom/theme/sidebar";
-@import "custom/theme/home";
-@import "custom/theme/block";
-@import "custom/theme/footer";
-@import "custom/theme/cms";
-@import "custom/theme/product";
-@import "custom/theme/news";
-@import "custom/theme/contact";
-@import "custom/theme/about";
-@import "custom/theme/share";
+@import "critical/global";
+@import "critical/toolbar";
+@import "critical/header";
+@import "critical/breadcrumbs";
+@import "critical/carousel";
+@import "critical/navs";
+@import "theme/body";
+@import "theme/affix";
+@import "theme/sidebar";
+@import "theme/home";
+@import "theme/block";
+@import "theme/footer";
+@import "theme/cms";
+@import "theme/product";
+@import "theme/news";
+@import "theme/contact";
+@import "theme/about";
+@import "theme/share";
 
 // Magix Plugins
-@import (optional) "custom/critical/slider";
-@import (optional) "custom/theme/gmap";
-@import (optional) "custom/theme/advantage";
-@import (optional) "custom/theme/faq";
-@import (optional) "custom/theme/opinion";
+@import (optional) "critical/slider";
+@import (optional) "theme/gmap";
+@import (optional) "theme/advantage";
+@import (optional) "theme/faq";
+@import (optional) "theme/opinion";

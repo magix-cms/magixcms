@@ -129,6 +129,8 @@ class frontend_model_template extends database_template{
 	 */
 	public static function configLoad($section = ''){
 		frontend_model_smarty::getInstance()->configLoad(self::pathConfigLoad(self::$ConfigFile), $section);
+		$theme = frontend_model_template::load_theme();
+		if($theme !== 'default') frontend_model_smarty::getInstance()->configLoad(self::pathConfigLoad('theme_'));
 	}
 
 	/**
