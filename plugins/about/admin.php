@@ -504,9 +504,9 @@ class plugins_about_admin extends DBabout{
 				$this->page['uri_title'] = magixcjquery_url_clean::rplMagixString($this->page['title'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 				parent::i_page($this->page);
 				$this->template->assign('pages',parent::getPages($this->getlang));
-				$this->message->json_post_response(true,'save',self::$notify,$this->template->fetch('page/loop/list.tpl'));
+				$this->message->json_post_response(true,'save',$this->template->fetch('page/loop/list.tpl'),self::$notify);
 			} else {
-				$this->message->json_post_response(false,'already_exist',self::$notify);
+				$this->message->json_post_response(false,'already_exist',null,self::$notify);
 			}
 		}
 	}
