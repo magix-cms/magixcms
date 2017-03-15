@@ -28,7 +28,7 @@
     {/if}
 {/strip}
 <header{if !$menubar} id="header"{/if}>
-    {if $toolbar}{include file="section/toolbar.tpl" adjust="clip"}{/if}
+    {if $toolbar}{include file="section/toolbar.tpl" adjust="clip" gmap=$gmap}{/if}
     <section id="header{if !$menubar}-menu{/if}" role="navigation" class="{if $adjust == 'fluid'}section-block container-fluid{/if}{if !$menubar && $affix} affix{/if}">
         {if $adjust == 'clip'}<div class="container">
             <div class="row">{/if}

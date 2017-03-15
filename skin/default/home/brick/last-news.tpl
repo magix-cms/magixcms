@@ -2,12 +2,11 @@
     {assign var="adjust" value="clip"}
 {/if}
 {widget_news_data
-	conf =[
-		'level' => 'last-news',
-		'select' => [{getlang} => 'promo'],
-		'limit' => 2
-		]
-	assign='newsData'
+    conf =[
+        'level' => 'last-news',
+        'limit' => 2
+    ]
+    assign='newsData'
 }
 <section id="last-news"{if $adjust == 'fluid'} class="section-block container-fluid"{/if}>
     {if $adjust == 'clip'}

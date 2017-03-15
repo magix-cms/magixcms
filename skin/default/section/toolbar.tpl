@@ -70,10 +70,19 @@
                     <ul class="pull-right">
                         {if $companyData.contact.adress.street}
                             <li id="address"{if $companyData.contact.fax} class="hidden-sm"{/if} itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                                <span class="fa fa-map-marker"></span>
-                                <span itemprop="streetAddress">{$companyData.contact.adress.street}</span>,
-                                <span itemprop="postalCode">{$companyData.contact.adress.postcode}</span>
-                                <span itemprop="addressLocality">{$companyData.contact.adress.city}</span>
+                                {if $gmap}
+                                    <a href="{geturl}/{getlang}/gmap/" title="{#plan_acces#}">
+                                        <span class="fa fa-map-marker"></span>
+                                        <span itemprop="streetAddress">{$companyData.contact.adress.street}</span>,
+                                        <span itemprop="postalCode">{$companyData.contact.adress.postcode}</span>
+                                        <span itemprop="addressLocality">{$companyData.contact.adress.city}</span>
+                                    </a>
+                                {else}
+                                    <span class="fa fa-map-marker"></span>
+                                    <span itemprop="streetAddress">{$companyData.contact.adress.street}</span>,
+                                    <span itemprop="postalCode">{$companyData.contact.adress.postcode}</span>
+                                    <span itemprop="addressLocality">{$companyData.contact.adress.city}</span>
+                                {/if}
                             </li>
                         {/if}
                         <li><a href="{geturl}/{getlang}/{#nav_contact_uri#}/" title="{#show_contact_form#|ucfirst}"><span class="fa fa-at"></span>{#contact_label#|ucfirst}</a></li>
