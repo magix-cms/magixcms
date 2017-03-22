@@ -1,79 +1,145 @@
-#gmap{
-    .form-search{
-        height: 71px;
-        .input-group{
+@mapH: 600px;
+@formH: 50px;
+@alertH: 50px;
+
+#gmap {
+	#header {
+		padding-bottom: 0;
+	}
+
+	h1 {
+		text-align: center;
+	}
+
+    .form-search {
+        height: @formH;
+
+        .input-group {
             height: 100%;
-            border-right: 1px solid #ccc;
+            border: none;
+			border-radius: 0;
         }
-        #getadress{
-            height: 71px;
+
+        #getadress {
+            height: @formH;
             padding: 15px;
             border-bottom: none;
+			border-top: none;
+			border-radius: 0;
         }
-        .subdirection{
-            .size(50px,71px);
-            border-right: none;
+
+        .subdirection {
+            .size(50px,@formH);
             border-bottom: none;
+            border-top: none;
+			border-radius: 0;
+			border-color: #ddd;
         }
     }
-    .map{
-        height: 650px;
+
+    .map {
+        height: @mapH;
         position: relative;
         clear: both;
         overflow: hidden;
-        border: 1px solid #ccc;
-        margin-bottom:70px;
-        >div{
+        //border: 1px solid #ccc;
+        margin-bottom: 30px;
+
+        > div:first-child {
             display: table;
             width: 100%;
             position: relative;
         }
     }
-    .gmap3{
-        height: 650px;
+
+	#gmap-address {
+		position: absolute;
+		top: 0;
+		width: 450px;
+		.auto-transition(.35s);
+
+		.alert {
+			padding: 15px;
+			background-color: @sd-color;
+			color: #f2f2f2;
+			margin-bottom: 0;
+			border-radius: 0;
+			border: none;
+			position: relative;
+
+			.btn {
+				top: 2px;
+				position: absolute;
+				right: 0;
+				color: #f2f2f2;
+			}
+
+			#hidepanel {
+				position: absolute;
+				right: -27px;
+				top: -26px;
+				padding: 15px 10px;
+				opacity: 1;
+				color: @text-color;
+				.auto-transition(.35s);
+			}
+
+			.collapsed {
+				+#hidepanel {
+					top: 1px;
+					opacity: 0;
+				}
+			}
+		}
+	}
+
+    .gmap3 {
+        height: @mapH;
         width: 100%;
-        float: left;
+        float: right;
         display: table-cell;
         transition: all .5s ease;
         border-right: 1px solid #ccc;
     }
-    .alert{
-        margin-bottom: 0;
-        border-radius: 0;
-        border-left: 1px solid #ccc;
-        border-bottom: none;
-        border-top-color: #ccc;
-        + div{
-            .no-padding;
-        }
-    }
-    #r-directions{
+
+    #r-directions {
         display: table-cell !important;
-        .size(1%,650px);
+        .size(1%,(@mapH - @formH - @alertH));
         .auto-transition(.5s);
         position: absolute;
         right: -1%;
-        &.sizedirection{
+
+        &.sizedirection {
             .no-martini;
             float: none;
             overflow: auto;
             position: relative;
-            vertical-align: middle;
-            width: 30%;
+            //vertical-align: middle;
+            width: 100%;
+			//margin-top: (@formH + @alertH);
             border: none;
-            right: 0;
-            .adp{
-                height: 650px;
+            border-right: 1px solid #ddd;
+            right: auto;
+			left: 0;
+            .adp {
+				height: (@mapH - @formH - @alertH);
+				background-color: #fff;
                 overflow: hidden;
                 position: relative;
             }
+
+			/*+ .gmap3 {
+				width: 75%;
+			}*/
         }
     }
-    .adp-directions{
+
+    .adp-directions {
         .table;
         .table-hover;
     }
-    .adp-placemark{
+
+    .adp-placemark {
         margin: 0 0 10px;
         border-left: none;
         border-right: none;
@@ -81,9 +147,11 @@
             padding: 10px 15px;
         }
     }
-    .adp-summary,.adp-legal{
+
+    .adp-summary,.adp-legal {
         padding: 0 10px 10px;
     }
+
     .map_loader {
         position:relative;
         margin-top:25%;
@@ -104,47 +172,55 @@
         z-index:1003 !important;
         z-index:1003;
     }
+
     .ui-autocomplete-loading {
         background: white url(/plugins/gmap/img/ajax-loader.gif) right center no-repeat;
     }
-    #map_adress img{
+
+    #map_adress img {
         max-width: inherit;
     }
-    .gmap-content{
+
+    .gmap-content {
         clear: both;
+		margin-bottom: 30px;
     }
 }
 @media (max-width: @screen-md-max) {
-    #gmap{
-        .map, .gmap3, #r-directions, #r-directions.sizedirection .adp{
+    #gmap {
+        .map, .gmap3, #r-directions, #r-directions.sizedirection .adp {
             height: 500px;
         }
     }
 }
 @media (max-width: @screen-sm-max) {
     #gmap {
-        .map{
+        .map {
             height: auto;
-            >div{
+
+            > div {
                 display: block;
                 width: 100%;
                 position: static;
             }
         }
-        .gmap3{
+
+        .gmap3 {
             .size(100%,350px);
             float: none;
             display: block;
         }
-        #r-directions{
+
+        #r-directions {
             height: auto;
-            &.sizedirection{
+
+            &.sizedirection {
                 display: block !important;
                 position: relative;
                 float: none;
                 margin: 0 0 20px;
                 width: 100%;
-                .adp{
+                .adp {
                     height: auto;
                 }
             }
