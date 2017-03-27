@@ -1,13 +1,13 @@
-[magixcms](http://www.magix-cms.com/)
+[Magix cms](http://www.magix-cms.com/)
 ===================================================
 
 ![logo-magix_cms](https://cloud.githubusercontent.com/assets/356674/21895994/056c52c2-d8e5-11e6-9163-f7ac06e537c1.png)
 
-###License
+### License
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-###version 
+### version 
 
 [![release](https://img.shields.io/github/release/magix-cms/magixcms.svg)](https://github.com/magix-cms/magixcms/releases/latest)
 
