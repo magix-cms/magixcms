@@ -372,7 +372,14 @@ class frontend_db_catalog
                     $order_clause = " ORDER BY p.idproduct {$sort_order}";
                 }
                 $iso = frontend_model_template::current_Language();
-                $where_clause = 'WHERE lang.iso = :iso';
+                if (isset($data['idclc']) OR isset($data['idcls'])) {
+                    $where_clause = 'WHERE ';
+                    $where_clause .= (isset($data['idclc'])) ? 'p.idclc = ' . $data['idclc'] : '';
+                    $where_clause .= (isset($data['idclc']) AND isset($data['idcls'])) ? ' AND ' : '';
+                    $where_clause .= (isset($data['idcls'])) ? 'p.idcls = ' . $data['idcls'] . ' ' : '';
+                }else{
+                    $where_clause = 'WHERE lang.iso = :iso';
+                }
                 switch($data['context']){
                     case 'last-product-cat':
                         if($data['selectmode']){
@@ -399,6 +406,7 @@ class frontend_db_catalog
                         }
                         break;
                 }
+
                 $query = "SELECT
                     p.idcatalog,p.idproduct,p.idclc, p.idcls,
                     catalog.urlcatalog, catalog.titlecatalog, catalog.idlang,catalog.price,catalog.desccatalog,
@@ -414,12 +422,18 @@ class frontend_db_catalog
                 {$where_clause}
                 {$order_clause}
                 {$limit_clause}";
-                return magixglobal_model_db::layerDB()->select(
-                    $query,
-                    array(
-                        ':iso'	=>	$data['iso']
-                    )
-                );
+                if (isset($data['iso'])) {
+                    return magixglobal_model_db::layerDB()->select(
+                        $query,
+                        array(
+                            ':iso'	=>	$data['iso']
+                        )
+                    );
+                }else{
+                    return magixglobal_model_db::layerDB()->select(
+                        $query
+                    );
+                }
             }elseif ($fetch == 'all_in') {
                 // Select all product in idclc or idcls
                 if (array_key_exists('sort_type', $data)) {

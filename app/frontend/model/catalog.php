@@ -621,6 +621,7 @@ class frontend_model_catalog extends frontend_db_catalog {
             }
 
             if ($conf['context'][2] == 'product' AND $data != null) {
+
                 foreach ($data as $k1 => $v_1)
                 {
                     // Subcategory > product
@@ -692,29 +693,62 @@ class frontend_model_catalog extends frontend_db_catalog {
                     $catId  =   null;
                     $subcatId  =   (isset($current['subcategory']['id'])) ? $current['subcategory']['id'] : null;
                 }
-                if($class && class_exists($class)){
-                    $data =  $class::fetchProduct(
-                        array(
-                            'fetch'         =>  'all_in',
-                            'idclc'         =>  $catId,
-                            'idcls'         =>  $subcatId,
-                            'sort_type'     =>  $conf['sort_type'],
-                            'sort_order'    =>  $conf['sort_order'],
-                            'limit'         =>  $conf['limit']
-                        )
-                    );
+                if(isset($custom['select']) OR $custom['exclude']){
+                    if($class && class_exists($class)) {
+                        $data = $class::fetchProduct(
+                            array(
+                                'fetch'         =>  'all',
+                                'context'       =>  $conf['context'][1],
+                                'idclc'         =>  $catId,
+                                'idcls'         =>  $subcatId,
+                                'limit'         =>  $conf['limit'],
+                                'selectmode'    =>  $conf['type'],
+                                'selectmodeid'  =>  $conf['id'],
+                                'sort_type'     =>  $conf['sort_type'],
+                                'sort_order'    =>  $conf['sort_order']
+                            )
+                        );
+                    }else{
+                        $data = parent::fetchProduct(
+                            array(
+                                'fetch'         =>  'all',
+                                'context'       =>  $conf['context'][1],
+                                'idclc'         =>  $catId,
+                                'idcls'         =>  $subcatId,
+                                'limit'         =>  $conf['limit'],
+                                'selectmode'    =>  $conf['type'],
+                                'selectmodeid'  =>  $conf['id'],
+                                'sort_type'     =>  $conf['sort_type'],
+                                'sort_order'    =>  $conf['sort_order']
+                            )
+                        );
+                    }
                 }else{
-                    $data =  parent::fetchProduct(
-                        array(
-                            'fetch'         =>  'all_in',
-                            'idclc'         =>  $catId,
-                            'idcls'         =>  $subcatId,
-                            'sort_type'     =>  $conf['sort_type'],
-                            'sort_order'    =>  $conf['sort_order'],
-                            'limit'         =>  $conf['limit']
-                        )
-                    );
+                    if($class && class_exists($class)){
+                        $data =  $class::fetchProduct(
+                            array(
+                                'fetch'         =>  'all_in',
+                                'idclc'         =>  $catId,
+                                'idcls'         =>  $subcatId,
+                                'sort_type'     =>  $conf['sort_type'],
+                                'sort_order'    =>  $conf['sort_order'],
+                                'limit'         =>  $conf['limit']
+                            )
+                        );
+                    }else{
+                        $data =  parent::fetchProduct(
+                            array(
+                                'fetch'         =>  'all_in',
+                                'idclc'         =>  $catId,
+                                'idcls'         =>  $subcatId,
+                                'sort_type'     =>  $conf['sort_type'],
+                                'sort_order'    =>  $conf['sort_order'],
+                                'limit'         =>  $conf['limit']
+                            )
+                        );
+                    }
                 }
+
             } else {
                 if(isset($custom['select']) OR $custom['exclude']){
                     if($class && class_exists($class)) {

@@ -25,7 +25,7 @@
                         {foreach $value.subdata as $subkey => $item}
                             <li{if $smarty.get.idcls == $item.id} class="active"{/if}>
                                 <a{if $smarty.get.idclc == $value.id} itemprop="relatedLink"{/if} class="list-group-item" href="{$item.url}" title="{$item.name|ucfirst}">
-                                    <span class="overflow">{$value.name|ucfirst}</span>
+                                    <span class="overflow">{$item.name|ucfirst}</span>
                                 </a>
                             </li>
                         {/foreach}
