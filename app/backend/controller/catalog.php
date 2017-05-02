@@ -1906,6 +1906,8 @@ class backend_controller_catalog extends backend_db_catalog{
                         ',"uriproduct":'.json_encode($url_product).',"iso":'.json_encode($key['iso']).'}';
                 }
                 print '['.implode(',',$json).']';
+            }else{
+                print '{}';
             }
         }else{
             print '{}';

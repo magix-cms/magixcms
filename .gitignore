@@ -24,6 +24,7 @@ plugins/docws/
 plugins/faq/
 plugins/gmap/
 plugins/hipay/
+plugins/atos/
 plugins/mailchimp/
 plugins/ogone/
 plugins/opinion/
