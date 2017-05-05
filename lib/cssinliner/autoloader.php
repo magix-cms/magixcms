@@ -9,7 +9,7 @@
 /**
  * Autoload for CSS Inliner
  */
-namespace cssinliner;
+namespace CSSInliner;
 
 class cssinliner_Autoloader
 {

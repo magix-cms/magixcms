@@ -6,7 +6,7 @@
  * @version 0.1
  *
  */
-namespace cssinliner;
+namespace CSSInliner;
 
 require_once 'autoloader.php';
 cssinliner_Autoloader::register();
