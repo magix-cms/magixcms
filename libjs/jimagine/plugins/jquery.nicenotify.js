@@ -328,39 +328,7 @@ $.nicenotify.notifier = {
                 var $id = '';
             }
             if(typeof(optsNotifier.box) !== "undefined"){
-                if(optsNotifier.box === ""){
-                    if(opts.debug == true){
-                        console.info("box is empty");
-                    }
-                    $(id_container+class_container).html(boxtext+request);
-                }else if(optsNotifier.box === 'meerkat'){
-                    if(jQuery().meerkat){
-                        $id.destroyMeerkat();
-                        $id.meerkat({
-                            background: optsNotifier.background,
-                            width: '100%',
-                            position: 'top',
-                            close: '.close-notify',
-                            animationIn: 'fade',
-                            animationOut: 'slide',
-                            animationSpeed: '750',
-                            height: '80px',
-                            opacity: '0.90',
-                            timer: optsNotifier.time,
-                            onMeerkatShow: function() {
-                                $(this).animate({opacity: 'show'}, 1000);
-                            }
-                        }).addClass('pos-top');
-                    }else{
-                        // plugin DOES NOT exist
-                        //console.log('plugin for display DOES NOT exist');
-                        log('plugin for display DOES NOT exist');
-                    }
-                    if(opts.debug == true){
-                        console.info("box is meerkat");
-                    }
-                    $(class_container).html(boxtext+request);
-                }
+                $(id_container+class_container).html(boxtext+request);
             }else{
                 if(opts.debug == true){
                     console.info("box is undefined");
