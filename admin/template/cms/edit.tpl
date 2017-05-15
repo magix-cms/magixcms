@@ -13,7 +13,19 @@
     </span>
 </div>
 {if $access.edit eq 1}
-{include file="cms/forms/edit.tpl"}
+    <ul class="nav nav-tabs clearfix">
+        <li{if !$smarty.get.tab && !$smarty.get.plugin} class="active"{/if}>
+            <a href="/admin/cms.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}">{#text#|ucfirst}</a>
+        </li>
+        {if $plugin != null}
+            {foreach $plugin as $key}
+                <li{if $smarty.get.plugin eq $key.url} class="active"{/if}>
+                    <a href="/admin/cms.php?getlang={$smarty.get.getlang}&amp;action=edit&amp;edit={$smarty.get.edit}&amp;plugin={$key.url}">{$key.name|ucfirst}</a>
+                </li>
+            {/foreach}
+        {/if}
+    </ul>
+    {include file="cms/forms/edit.tpl"}
     <div class="mc-message clearfix"></div>
 {else}
 <div class="mc-message clearfix">

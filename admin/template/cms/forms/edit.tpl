@@ -1,3 +1,6 @@
+{if $smarty.get.plugin}
+{block name="forms"}{/block}
+{else}
 <form id="forms_cms_edit" method="post" action="">
     <div class="row">
         <div class="form-group">
@@ -63,3 +66,4 @@
         <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
     </p>
 </form>
+{/if}

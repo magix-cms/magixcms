@@ -63,7 +63,7 @@ class backend_controller_cms extends backend_db_cms{
 	public $getlang,$get_page_p,$edit,$title_search,$action;
 	public $page_search,$title_p_lang,$callback;
 	public $cat_p_lang;
-	public $del_relang_p,$delpage,$move;
+	public $del_relang_p,$delpage,$move,$plugin;
 	/**
 	 * function construct class
 	 */
@@ -149,6 +149,10 @@ class backend_controller_cms extends backend_db_cms{
         // ACTION
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
+        }
+        //plugin
+        if(magixcjquery_filter_request::isGet('plugin')){
+            $this->plugin = magixcjquery_form_helpersforms::inputClean($_GET['plugin']);
         }
         //Role admin
 	}
@@ -665,6 +669,7 @@ class backend_controller_cms extends backend_db_cms{
 	 */
 	public function run(){
         $header= new magixglobal_model_header();
+        $plugin = new backend_controller_plugins();
         $create = new backend_controller_template();
         $create->addConfigFile(array(
                 'cms'
@@ -733,6 +738,7 @@ class backend_controller_cms extends backend_db_cms{
                         $this->insert_new_page_p($this->title_page);
                     }
                 }elseif($this->action == 'edit'){
+                    $create->assign('plugin',$plugin->menu_item_plugin('cms'));
                     if(isset($this->edit)){
                         if(magixcjquery_filter_request::isPost('idlang_p')){
                             $this->insert_new_rel_lang_p($this->idlang_p);
@@ -745,8 +751,15 @@ class backend_controller_cms extends backend_db_cms{
                         }elseif(magixcjquery_filter_request::isGet('json_child_lang_page')){
                             $this->json_other_language_page($this->edit);
                         }else{
-                            $this->load_edit_page($this->edit);
-                            $create->display('cms/edit.tpl');
+                            if(isset($this->plugin)){
+                                // Chargement du plugin dans les actualités (edition)
+                                $this->load_edit_page($this->edit);
+                                $param_arr = array($this->plugin,$this->getlang,$this->edit);
+                                $plugin->extend_module($this->plugin,'cms',$param_arr);
+                            }else{
+                                $this->load_edit_page($this->edit);
+                                $create->display('cms/edit.tpl');
+                            }
                         }
                     }
                 }elseif($this->action == 'move'){
