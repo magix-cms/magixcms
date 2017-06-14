@@ -84,6 +84,7 @@ error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
 <pre>
 error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
 </pre>
+#### Note: Magix CMS 2.x.x n'est pas compatible avec PHP 7 !!
 
 #### Remove bug minify with Bootstrap and Less (apache)
 ```apache
