@@ -40,7 +40,7 @@
         <div class="row">
             <div class="form-group col-xs-12">
                 <input type="submit" class="btn btn-primary" value="{#save#|ucfirst}" />
-                <input type="hidden" name="parent" value="{$parent.id}" />
+                <input type="hidden" id="parent" name="parent" value="{$parent.id}" />
             </div>
         </div>
     </fieldset>

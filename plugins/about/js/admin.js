@@ -19,14 +19,14 @@
  # but WITHOUT ANY WARRANTY; without even the implied warranty of
  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  # GNU General Public License for more details.
-
+ #
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
  #
  # -- END LICENSE BLOCK -----------------------------------
-
+ #
  # DISCLAIMER
-
+ #
  # Do not edit or add to this file if you wish to upgrade MAGIX CMS to newer
  # versions in the future. If you wish to customize MAGIX CMS for your
  # needs please refer to http://www.magix-cms.com for more information.
@@ -272,6 +272,10 @@ var MC_plugins_about = (function ($, undefined) {
                             $.nicenotify.initbox(data,{
                                 display:true
                             });
+                            $(form).hide();
+							setTimeout(function(){
+								window.location.href = '/'+baseadmin+'/plugins.php?name=about&getlang='+getlang+'&tab=page&action=getchild&parent='+$('#parent').val();
+							},2800);
                         }
                     });
                     return false;

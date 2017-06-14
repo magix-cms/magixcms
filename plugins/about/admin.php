@@ -524,7 +524,7 @@ class plugins_about_admin extends DBabout{
 					$this->page['idlang'] = $parent['idlang'];
 					$this->page['uri_title'] = magixcjquery_url_clean::rplMagixString($this->page['title'],array('dot'=>false,'ampersand'=>'strict','cspec'=>'','rspec'=>''));
 					parent::i_child($this->page);
-					$this->notify('save');
+					$this->notify('add_redirect');
 				}
 			}
 		}

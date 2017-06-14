@@ -99,7 +99,7 @@ if (file_exists($smarty)) {
     print 'Error Smarty Config';
     exit;
 }
-$cssinliner = dirname(__FILE__).'/cssinliner/_init.php';
+$cssinliner = dirname(__FILE__).'/cssinliner/init.php';
 if (file_exists($cssinliner)) {
 	require ($cssinliner);
 }else{
