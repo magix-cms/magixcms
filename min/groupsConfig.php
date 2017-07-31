@@ -17,7 +17,8 @@ return array(
     ),
     'form' => array(
         '//libjs/vendor/jquery.form.3.51.min.js',
-        '//libjs/vendor/jquery.validate.1.13.0.min.js',
+        '//libjs/vendor/jquery.validate.1.17.0.min.js',
+        '//libjs/vendor/additional-methods.1.17.0.min.js',
         '//libjs/jimagine/plugins/jquery.nicenotify.js'
     ),
     'globalize'=> array(
