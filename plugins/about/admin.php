@@ -560,9 +560,9 @@ class plugins_about_admin extends DBabout{
 			parent::up_about($this->company);
 
 		} elseif ($section == 'contact') {
-			$this->company['contact']['adress']['adress'] = $this->company['contact']['adress']['street'].', '.$this->company['contact']['adress']['postcode'].' '.$this->company['contact']['adress']['city'];
-			parent::up_contact($this->company);
 
+			parent::up_contact($this->company);
+            $this->company['contact']['adress']['adress'] = $this->company['contact']['adress']['street'].', '.$this->company['contact']['adress']['postcode'].' '.$this->company['contact']['adress']['city'];
 		} elseif ($section == 'socials') {
 			parent::up_socials($this->company);
 
