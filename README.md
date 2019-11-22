@@ -12,6 +12,7 @@
 [![release](https://img.shields.io/github/release/magix-cms/magixcms.svg)](https://github.com/magix-cms/magixcms/releases/latest)
 
 ### Cette version n'est plus maintenue et est donc déprécié!!
+Voir [magix cms 3](https://github.com/magix-cms/magixcms-3)
 
 Presentation
 ------------
